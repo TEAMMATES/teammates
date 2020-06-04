@@ -10,29 +10,19 @@
     <div class="form-group">
       <div class="input-group">
         <input type="text" class="form-control" [ngModel]="searchParams.searchKey"
-          (ngModelChange)="triggerSearchParamsChangeEvent({
-            isSearchForComments: searchParams.isSearchForComments,
-            isSearchForStudents: searchParams.isSearchForStudents,
-            searchKey: $event})"
-           (keyup.enter)="search()" placeholder="Your search keyword">
+          (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
           <div class="input-group-append">
             <button class="btn btn-primary" (click)="search()">Search</button>
           </div>
         <div class="input-group mt-md-1">
           <div class="col-md-3">
             <input type="checkbox" class="form-check-inline" id="studentsCheckbox" [ngModel]="searchParams.isSearchForStudents"
-              (ngModelChange)="triggerSearchParamsChangeEvent({
-                isSearchForComments: searchParams.isSearchForComments,
-                isSearchForStudents: $event,
-                searchKey: searchParams.searchKey})">
+              (ngModelChange)="onStudentCheckboxChange($event)">
             <label class="form-check-label" for="studentsCheckbox"><b>Students</b></label>
           </div>
           <div class="col-md-9">
             <input type="checkbox" class="form-check-inline" id="commentCheckbox" [ngModel]="searchParams.isSearchForComments"
-              (ngModelChange)="triggerSearchParamsChangeEvent({
-                isSearchForComments: $event,
-                isSearchForStudents: searchParams.isSearchForStudents,
-                searchKey: searchParams.searchKey})">
+              (ngModelChange)="onCommentCheckboxChange($event)">
             <label class="form-check-label" for="commentCheckbox"><b>Questions, responses, comments on responses</b></label>
           </div>
         </div>

@@ -40,7 +40,19 @@ export class InstructorSearchBarComponent implements OnInit {
     this.searched.emit();
   }
 
-  triggerSearchParamsChangeEvent(newSearchParams: SearchParams): void {
-    this.searchParamsChange.emit(newSearchParams);
+  triggerSearchParamsChangeEvent(field: string, data: any): void {
+    this.searchParamsChange.emit(Object.assign({}, this.searchParams, { [field]: data }));
+  }
+
+  onSearchKeyChange(newKey: string): void {
+    this.triggerSearchParamsChangeEvent('searchKey', newKey);
+  }
+
+  onStudentCheckboxChange(checkboxState: boolean): void {
+    this.triggerSearchParamsChangeEvent('isSearchForStudents', checkboxState);
+  }
+
+  onCommentCheckboxChange(checkboxState: boolean): void {
+    this.triggerSearchParamsChangeEvent('isSearchForComments', checkboxState);
   }
 }
