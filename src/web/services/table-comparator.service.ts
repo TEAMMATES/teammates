@@ -12,6 +12,27 @@ export class TableComparatorService {
   constructor() { }
 
   /**
+   * Compares two numbers naturally depending on order given.
+   */
+  compareAsNumber(order: SortOrder, numA: number, numB: number): number {
+    let result: number;
+
+    if (numA > numB) {
+      result = 1;
+    } else if (numA < numB) {
+      result = -1;
+    } else {
+      result = 0;
+    }
+
+    if (order === SortOrder.DESC) {
+      result = -result;
+    }
+
+    return result;
+  }
+
+  /**
    * Compares two strings lexicographically depending on order given.
    */
   compareLexicographically(strA: string, strB: string, order: SortOrder): number {

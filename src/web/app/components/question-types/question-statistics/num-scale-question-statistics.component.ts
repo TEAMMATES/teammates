@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
@@ -32,7 +33,6 @@ export class NumScaleQuestionStatisticsComponent
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
-  @Input()
   teamToRecipientToScoresSortBy: SortBy = SortBy.NONE;
 
   @Input()
@@ -43,7 +43,7 @@ export class NumScaleQuestionStatisticsComponent
 
   numericalScaleStatsRowModel: NumericalScaleStatsRowModel[] = [];
 
-  constructor() {
+  constructor(private tableComparatorService: TableComparatorService) {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
@@ -67,34 +67,32 @@ export class NumScaleQuestionStatisticsComponent
       ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel) => number) {
 
     return ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel): number => {
-      let result: number = 0;
+      let strA: string;
+      let strB: string;
 
       switch (by) {
         case SortBy.TEAM_NAME:
-          result = a.teamName.localeCompare(b.teamName);
+          strA = a.teamName;
+          strB = b.teamName;
           break;
         case SortBy.RECIPIENT_NAME:
-          result = a.recipientName.localeCompare(b.recipientName);
+          strA = a.recipientName;
+          strB = b.recipientName;
           break;
-        case SortBy.AVERAGE:
-          result = a.average - b.average;
-          break;
-        case SortBy.MAX:
-          result = a.max - b.max;
-          break;
-        case SortBy.MIN:
-          result = a.min - b.min;
-          break;
-        case SortBy.AVERAGE_EXCLUDE_SELF:
-          result = a.averageExceptSelf - b.averageExceptSelf;
-          break;
+        case SortBy.NUMERICAL_SCALE_AVERAGE:
+          return this.tableComparatorService.compareAsNumber(order, a.average, b.average);
+        case SortBy.NUMERICAL_SCALE_MAX:
+          return this.tableComparatorService.compareAsNumber(order, a.max, b.max);
+        case SortBy.NUMERICAL_SCALE_MIN:
+          return this.tableComparatorService.compareAsNumber(order, a.min, b.min);
+        case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
+          return this.tableComparatorService.compareAsNumber(order, a.averageExceptSelf, b.averageExceptSelf);
         default:
+          strA = '';
+          strB = '';
       }
 
-      if (order === SortOrder.DESC) {
-        result = -result;
-      }
-      return result;
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 

@@ -125,22 +125,22 @@ export enum SortBy {
     /**
      * Average score of the numerical scale question.
      */
-    AVERAGE,
+    NUMERICAL_SCALE_AVERAGE,
 
     /**
      * Maximum score of the numerical scale question.
      */
-    MAX,
+    NUMERICAL_SCALE_MAX,
 
     /**
      * Minimum score of the numerical scale question.
      */
-    MIN,
+    NUMERICAL_SCALE_MIN,
 
     /**
      * Average score (exclude self-review) of the numerical scale question.
      */
-    AVERAGE_EXCLUDE_SELF,
+    NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
 }
 
 /**
