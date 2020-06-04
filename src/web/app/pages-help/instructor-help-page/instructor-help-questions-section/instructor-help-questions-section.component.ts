@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   FeedbackMcqQuestionDetails,
-  FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -218,14 +217,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     },
   ];
 
-  readonly exampleNumericalScaleQuestionDetails: FeedbackNumericalScaleQuestionDetails = {
-    minScale: 1,
-    maxScale: 5,
-    step: 0.1,
-    questionType: FeedbackQuestionType.NUMSCALE,
-    questionText: '',
-  };
-
   readonly exampleNumericalScaleResponseOutput: ResponseOutput[] = [
     {
       responseId: '1',
@@ -357,7 +348,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     },
   ];
 
-  readonly exampleNuericalScaleQuestionTabModel: QuestionTabModel = {
+  readonly exampleNumericalScaleQuestionTabModel: QuestionTabModel = {
     question: this.exampleNumericalScaleQuestionModel,
     responses: this.exampleNumericalScaleResponseOutput,
     statistics: '',
@@ -365,8 +356,8 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     isTabExpanded: true,
   };
 
-  readonly exampleNuericalScaleQuestions: Record<string, QuestionTabModel> = {
-    question: this.exampleNuericalScaleQuestionTabModel,
+  readonly exampleNumericalScaleQuestions: Record<string, QuestionTabModel> = {
+    question: this.exampleNumericalScaleQuestionTabModel,
   };
 
   readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel> = {
