@@ -79,4 +79,5 @@ export class SessionResultPageComponent implements OnInit {
       });
     });
   }
+
 }
