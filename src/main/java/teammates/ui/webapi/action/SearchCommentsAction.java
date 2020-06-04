@@ -9,7 +9,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.output.CommentSearchResultsData;
 
 /**
- * Action: Showing the InstructorSearchPage for an instructor.
+ * Action searches for comments. Keyword hits on session, question, or response will also be returned.
  */
 public class SearchCommentsAction extends Action {
 

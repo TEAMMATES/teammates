@@ -28,8 +28,7 @@ public class CommentSearchResultData extends SessionResultsData {
                                                 FeedbackResponseCommentSearchResultBundle bundle) {
         List<QuestionOutput> output = new ArrayList<>();
         for (FeedbackQuestionAttributes question : questions) {
-            output.add(new QuestionOutput(question, null,
-                    buildResponses(bundle.responses.get(question.getId()), bundle)));
+            output.add(new QuestionOutput(question, buildResponses(bundle.responses.get(question.getId()), bundle)));
         }
         return output;
     }
@@ -38,9 +37,12 @@ public class CommentSearchResultData extends SessionResultsData {
                                                 FeedbackResponseCommentSearchResultBundle bundle) {
         List<ResponseOutput> output = new ArrayList<>();
         for (FeedbackResponseAttributes response : responses) {
-            output.add(ResponseOutput.builder().withResponseId(response.getId())
-                    .withGiver(response.giver).withGiverSection(response.giverSection)
-                    .withRecipient(response.recipient).withRecipientSection(response.recipientSection)
+            output.add(ResponseOutput.builder()
+                    .withResponseId(response.getId())
+                    .withGiver(response.giver)
+                    .withGiverSection(response.giverSection)
+                    .withRecipient(response.recipient)
+                    .withRecipientSection(response.recipientSection)
                     .withParticipantComment(getParticipantComment(bundle.comments.get(response.getId()), bundle))
                     .withInstructorComments(getInstructorComments(bundle.comments.get(response.getId()), bundle))
                     .build());
@@ -52,6 +54,9 @@ public class CommentSearchResultData extends SessionResultsData {
                                                       FeedbackResponseCommentSearchResultBundle bundle) {
         List<CommentOutput> output = new ArrayList<>();
         for (FeedbackResponseCommentAttributes comment : comments) {
+            if (comment.isCommentFromFeedbackParticipant()) {
+                continue;
+            }
             output.add(CommentOutput.builder(comment)
                     .withCommentGiver(comment.commentGiver)
                     .withLastEditorName(bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail))

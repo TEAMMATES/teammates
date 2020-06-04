@@ -337,10 +337,10 @@ public class SessionResultsData extends ApiOutput {
             this.questionStatistics = questionStatistics;
         }
 
-        protected QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics,
+        protected QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
                                  List<ResponseOutput> allResponses) {
+            this.questionStatistics = null;
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
-            this.questionStatistics = questionStatistics;
             this.allResponses.addAll(allResponses);
         }
 
