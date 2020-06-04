@@ -1,6 +1,6 @@
 package teammates.test.cases.webapi;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
@@ -35,7 +35,7 @@ public class SearchCommentsActionTest extends BaseActionTest<SearchCommentsActio
 
     @Override
     @Test
-    public void testAccessControl() {
+    protected void testAccessControl() {
         verifyAccessibleForAdmin();
         verifyOnlyInstructorsCanAccess();
     }
