@@ -9,14 +9,14 @@ import {
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseOutput,
-  SessionVisibleSetting,
   ResponseVisibleSetting,
-  FeedbackSessionSubmissionStatus,
-  FeedbackSessionPublishStatus,
-  FeedbackSession,
+  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import {
     DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
@@ -497,21 +497,21 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   readonly exampleFeedbackSession: FeedbackSession = {
-     courseId: 'CS2103T',
-     timeZone: 'UTC',
-     feedbackSessionName: 'Project Feedback 1',
-     instructions: 'Enter your feedback for projects',
-     submissionStartTimestamp: 0,
-     submissionEndTimestamp: 0,
-     gracePeriod: 0,
-     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-     submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
-     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-     isClosingEmailEnabled: true,
-     isPublishedEmailEnabled: true,
-     createdAtTimestamp: 0,
-   };
+    courseId: 'CS2103T',
+    timeZone: 'UTC',
+    feedbackSessionName: 'Project Feedback 1',
+    instructions: 'Enter your feedback for projects',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
