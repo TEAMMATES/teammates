@@ -6,19 +6,22 @@ import { TemplateSession } from '../../../../services/feedback-sessions.service'
 import {
   Course, FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackSession,
+  FeedbackQuestionType, FeedbackResponseDetails, FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   Instructor,
   InstructorPermissionRole,
   JoinState,
-  NumberOfEntitiesToGiveFeedbackToSetting,
+  NumberOfEntitiesToGiveFeedbackToSetting, QuestionOutput,
   ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
 } from '../../../../types/api-output';
-import { DEFAULT_CONTRIBUTION_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import {
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS, DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_MCQ_RESPONSE_DETAILS,
+} from '../../../../types/default-question-structs';
 import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
 import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
@@ -285,6 +288,85 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
       isTabExpanded: true,
     },
   };
+
+  readonly exampleQuestionsWithResponses: QuestionOutput[] = [{
+    feedbackQuestion: {
+      feedbackQuestionId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw',
+      questionNumber: 1,
+      questionBrief: 'How well did this team member perform?',
+      questionDescription: '',
+      questionDetails: {
+        ...DEFAULT_MCQ_QUESTION_DETAILS(),
+        questionText: 'How well did this team member perform?',
+        numOfMcqChoices: 3,
+        mcqChoices: [
+          '<p>Good</p>',
+          '<p>Normal</p>',
+          '<p>Bad</p>',
+        ],
+      } as FeedbackMcqQuestionDetails,
+      questionType: FeedbackQuestionType.MCQ,
+      giverType: FeedbackParticipantType.STUDENTS,
+      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+      showResponsesTo: [],
+      showGiverNameTo: [],
+      showRecipientNameTo: [],
+      customNumberOfEntitiesToGiveFeedbackTo: 0,
+    },
+    questionStatistics: '',
+    allResponses: [],
+    responsesToSelf: [
+      {
+        responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
+            '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+        giver: 'Benny Charles',
+        giverTeam: 'Team A',
+        giverSection: 'Section A',
+        recipient: 'You',
+        recipientTeam: 'Team A',
+        recipientSection: 'Section A',
+        responseDetails: {
+          ...DEFAULT_MCQ_RESPONSE_DETAILS(),
+          answer: '<p>Good</p>',
+        } as FeedbackMcqResponseDetails,
+        instructorComments: [],
+      },
+    ],
+    responsesFromSelf: [
+      {
+        responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
+            '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+        giver: 'You',
+        giverTeam: 'Team A',
+        giverSection: 'Section A',
+        recipient: 'You',
+        recipientSection: 'Section A',
+        recipientTeam: 'Team A',
+        responseDetails: {
+          ...DEFAULT_MCQ_RESPONSE_DETAILS(),
+          answer: '<p>Good</p>',
+        } as FeedbackMcqResponseDetails,
+        instructorComments: [],
+      },
+      {
+        responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
+            '%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
+        giver: 'You',
+        giverTeam: 'Team A',
+        giverSection: 'Section A',
+        recipient: 'Benny Charles',
+        recipientTeam: 'Team A',
+        recipientSection: 'Section A',
+        responseDetails: {
+          ...DEFAULT_MCQ_RESPONSE_DETAILS(),
+          answer: '<p>Bad</p>',
+        } as FeedbackMcqResponseDetails,
+        instructorComments: [],
+      },
+    ],
+    otherResponses: [],
+  }];
 
   @Input() isPeerEvalTipsCollapsed: boolean = false;
   isNewFeedbackSessionCollapsed: boolean = false;
