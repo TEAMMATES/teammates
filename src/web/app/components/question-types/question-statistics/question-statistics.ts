@@ -18,7 +18,7 @@ export interface Response<R extends FeedbackResponseDetails> {
   giverTeam: string;
   giverSection: string;
   recipient: string;
-  recipientEmail: string;
+  recipientEmail?: string;
   recipientTeam: string;
   recipientSection: string;
   responseDetails: R;

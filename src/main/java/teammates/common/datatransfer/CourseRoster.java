@@ -7,6 +7,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Const;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -15,12 +16,14 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class CourseRoster {
 
-    Map<String, StudentAttributes> studentListByEmail = new HashMap<>();
-    Map<String, InstructorAttributes> instructorListByEmail = new HashMap<>();
+    private final Map<String, StudentAttributes> studentListByEmail = new HashMap<>();
+    private final Map<String, InstructorAttributes> instructorListByEmail = new HashMap<>();
+    private final Map<String, List<StudentAttributes>> teamToMembersTable = new HashMap<>();
 
     public CourseRoster(List<StudentAttributes> students, List<InstructorAttributes> instructors) {
         populateStudentListByEmail(students);
         populateInstructorListByEmail(instructors);
+        buildTeamToMembersTable();
     }
 
     public List<StudentAttributes> getStudents() {
@@ -29,6 +32,10 @@ public class CourseRoster {
 
     public List<InstructorAttributes> getInstructors() {
         return new ArrayList<>(instructorListByEmail.values());
+    }
+
+    public Map<String, List<StudentAttributes>> getTeamToMembersTable() {
+        return teamToMembersTable;
     }
 
     /**
@@ -44,6 +51,13 @@ public class CourseRoster {
         return studentListByEmail.containsKey(studentEmail);
     }
 
+    /**
+     * Checks whether a team is in course.
+     */
+    public boolean isTeamInCourse(String teamName) {
+        return teamToMembersTable.containsKey(teamName);
+    }
+
     public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
         StudentAttributes student = studentListByEmail.get(studentEmail);
         return student != null && student.team.equals(targetTeamName);
@@ -53,7 +67,7 @@ public class CourseRoster {
         StudentAttributes student1 = studentListByEmail.get(studentEmail1);
         StudentAttributes student2 = studentListByEmail.get(studentEmail2);
         return student1 != null && student2 != null
-               && student1.team != null && student1.team.equals(student2.team);
+                && student1.team != null && student1.team.equals(student2.team);
     }
 
     public StudentAttributes getStudentForEmail(String email) {
@@ -102,6 +116,78 @@ public class CourseRoster {
 
         for (InstructorAttributes i : instructors) {
             instructorListByEmail.put(i.email, i);
+        }
+    }
+
+    private void buildTeamToMembersTable() {
+        // group students by team
+        for (StudentAttributes studentAttributes : getStudents()) {
+            teamToMembersTable.computeIfAbsent(studentAttributes.getTeam(), key -> new ArrayList<>())
+                    .add(studentAttributes);
+        }
+    }
+
+    /**
+     * Gets info of a participant associated with an identifier in the course.
+     *
+     * @return an object {@link ParticipantInfo} containing the name, teamName and the sectionName.
+     */
+    public ParticipantInfo getInfoForIdentifier(String identifier) {
+        String name = Const.USER_NOBODY_TEXT;
+        String teamName = Const.USER_NOBODY_TEXT;
+        String sectionName = Const.DEFAULT_SECTION;
+
+        boolean isStudent = getStudentForEmail(identifier) != null;
+        boolean isInstructor = getInstructorForEmail(identifier) != null;
+        boolean isTeam = getTeamToMembersTable().containsKey(identifier);
+        if (isStudent) {
+            StudentAttributes student = getStudentForEmail(identifier);
+
+            name = student.getName();
+            teamName = student.getTeam();
+            sectionName = student.getSection();
+        } else if (isInstructor) {
+            InstructorAttributes instructor = getInstructorForEmail(identifier);
+
+            name = instructor.getName();
+            teamName = Const.USER_TEAM_FOR_INSTRUCTOR;
+            sectionName = Const.DEFAULT_SECTION;
+        } else if (isTeam) {
+            StudentAttributes teamMember = getTeamToMembersTable().get(identifier).iterator().next();
+
+            name = identifier;
+            teamName = identifier;
+            sectionName = teamMember.getSection();
+        }
+
+        return new ParticipantInfo(name, teamName, sectionName);
+    }
+
+    /**
+     * Simple data transfer object containing the information of a participant.
+     */
+    public static class ParticipantInfo {
+
+        private final String name;
+        private final String teamName;
+        private final String sectionName;
+
+        public ParticipantInfo(String name, String teamName, String sectionName) {
+            this.name = name;
+            this.teamName = teamName;
+            this.sectionName = sectionName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getTeamName() {
+            return teamName;
+        }
+
+        public String getSectionName() {
+            return sectionName;
         }
     }
 }

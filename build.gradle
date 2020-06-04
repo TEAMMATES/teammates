@@ -153,6 +153,9 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
+    excludeClassPatterns = [
+        "teammates.ui.webapi.output.**Builder"
+    ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {

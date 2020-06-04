@@ -65,6 +65,11 @@ export class ContributionQuestionStatisticsComponent
         }
       } else {
         for (const response of this.responses) {
+          // the recipient email will always exist for contribution question when viewing by instructors
+          if (!response.recipientEmail) {
+            continue;
+          }
+
           if (!this.emailToTeamName[response.recipientEmail]) {
             this.emailToTeamName[response.recipientEmail] = response.recipientTeam;
           }

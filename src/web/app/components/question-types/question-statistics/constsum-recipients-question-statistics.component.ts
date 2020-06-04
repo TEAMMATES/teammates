@@ -48,7 +48,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
     for (const response of this.responses) {
-      const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail;
+      const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
 
       this.pointsPerOption[identifier] = this.pointsPerOption[identifier] || [];
       this.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
