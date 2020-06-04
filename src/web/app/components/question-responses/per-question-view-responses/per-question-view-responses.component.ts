@@ -49,8 +49,7 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-
-  userToEmail: Record<string, string> = {};
+  @Input() isDisplayOnly: boolean = false;
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;
@@ -76,13 +75,6 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
-      if (response.recipientEmail) {
-        this.userToEmail[response.recipient] = response.recipientEmail;
-      }
-      if (response.giverEmail) {
-        this.userToEmail[response.giver] = response.giverEmail;
-      }
-
       const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
         .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
 
