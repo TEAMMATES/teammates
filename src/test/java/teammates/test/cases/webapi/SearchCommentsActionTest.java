@@ -35,7 +35,7 @@ public class SearchCommentsActionTest extends BaseActionTest<SearchCommentsActio
 
     @Override
     @Test
-    protected void testAccessControl() {
+    public void testAccessControl() {
         verifyAccessibleForAdmin();
         verifyOnlyInstructorsCanAccess();
     }

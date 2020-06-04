@@ -138,7 +138,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Override
     @Test
-    protected void testAccessControl() {
+    public void testAccessControl() {
         verifyAccessibleForAdmin();
         verifyOnlyInstructorsCanAccess();
     }

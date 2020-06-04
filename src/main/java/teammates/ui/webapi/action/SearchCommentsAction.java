@@ -21,7 +21,7 @@ public class SearchCommentsAction extends Action {
     @Override
     public void checkSpecificAccessControl() {
         // Only instructors and admins can search for comments
-        if (!userInfo.isInstructor || !userInfo.isAdmin) {
+        if (!userInfo.isInstructor && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
         }
     }
