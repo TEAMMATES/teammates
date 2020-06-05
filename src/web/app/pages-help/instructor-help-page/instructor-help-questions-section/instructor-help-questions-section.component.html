@@ -624,7 +624,16 @@
             which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and
             the response count of that choice, total and average points for the sub-question is calculated for each recipient.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleRubricQuestionQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [(instructorCommentTableModel)]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>
@@ -742,7 +751,6 @@
               </ul>
             </div>
           </ng-template>
-          <p>EXAMPLE BOX</p>
         </div>
       </div>
       <br/>
