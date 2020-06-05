@@ -4,10 +4,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   ContributionStatistics,
-  FeedbackContributionResponseDetails,
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
+  FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
