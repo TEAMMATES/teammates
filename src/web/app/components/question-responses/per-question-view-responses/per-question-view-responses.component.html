@@ -32,18 +32,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let response of responsesToShow">
+      <tr *ngFor="let response of responsesToShow" [class.color-neutral]="response.isMissingResponse">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
         <td *ngIf="showGiver">
-          <tm-view-photo-popover [photoUrl]="userToEmail[response.giver] | formatPhotoUrl: session.courseId">
-            {{ response.giver }}
-          </tm-view-photo-popover>
+          <tm-student-name-with-photo [name]="response.giver"
+                           [email]="response.giverEmail"
+                           [courseId]="session.courseId"
+          ></tm-student-name-with-photo>
         </td>
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
         <td *ngIf="showRecipient">
-          <tm-view-photo-popover [photoUrl]="userToEmail[response.recipient] | formatPhotoUrl: session.courseId">
-            {{ response.recipient }}
-          </tm-view-photo-popover>
+          <tm-student-name-with-photo [name]="response.recipient"
+                           [email]="response.recipientEmail"
+                           [courseId]="session.courseId"
+          ></tm-student-name-with-photo>
         </td>
         <td>
           <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
@@ -53,7 +55,8 @@
         </td>
         <td>
           <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="question.feedbackQuestionId"></tm-response-moderation-button>
-          <button class="btn btn-light btn-sm" style="margin-left:5px; border: 1px solid #CCC;"
+          <button class="btn btn-light btn-sm" style="margin-left:5px; border: 1px solid #CCC;" [disabled]="isDisplayOnly"
+                  *ngIf="!response.isMissingResponse"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">
             {{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
           </button>

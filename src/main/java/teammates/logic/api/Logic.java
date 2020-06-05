@@ -1195,29 +1195,17 @@ public class Logic {
     }
 
     /**
-     * Gets the recipients of a feedback question for student.
+     * Gets the recipients of a feedback question for student or instructor.
      *
-     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForStudent(FeedbackQuestionAttributes, String, String)
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public Map<String, String> getRecipientsOfQuestionForStudent(
-            FeedbackQuestionAttributes question, String giverEmail, String giverTeam) {
+    public Map<String, String> getRecipientsOfQuestion(
+            FeedbackQuestionAttributes question,
+            @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver) {
         Assumption.assertNotNull(question);
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(giverTeam);
 
-        return feedbackQuestionsLogic.getRecipientsOfQuestionForStudent(question, giverEmail, giverTeam);
-    }
-
-    /**
-     * Gets the recipients of a feedback question for instructor.
-     *
-     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes, String)
-     */
-    public Map<String, String> getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes question, String giverEmail) {
-        Assumption.assertNotNull(question);
-        Assumption.assertNotNull(giverEmail);
-
-        return feedbackQuestionsLogic.getRecipientsOfQuestionForInstructor(question, giverEmail);
+        // we do not supply course roster here
+        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
