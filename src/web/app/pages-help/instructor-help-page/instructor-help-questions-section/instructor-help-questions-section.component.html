@@ -751,6 +751,16 @@
               </ul>
             </div>
           </ng-template>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleRankRecipientQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [(instructorCommentTableModel)]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>

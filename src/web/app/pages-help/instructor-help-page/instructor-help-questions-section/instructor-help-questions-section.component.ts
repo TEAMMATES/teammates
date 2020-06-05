@@ -3,11 +3,13 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
+  ContributionStatistics,
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
+  FeedbackRankRecipientsResponseDetails,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackSession,
@@ -734,10 +736,27 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     },
   ];
 
+  readonly exampleContributionStatistics: ContributionStatistics = {
+    results: {
+      'emma@gmail.com': {
+        claimed: 110,
+        perceived: 106,
+        claimedOthers: [],
+        perceivedOthers: [110, 110, 100],
+      },
+      'bob@gmail.com': {
+        claimed: 100,
+        perceived: 93,
+        claimedOthers: [],
+        perceivedOthers: [90, 70, 120],
+      },
+    },
+  };
+
   readonly exampleTeamContributionQuestionTabModel: QuestionTabModel = {
     question: this.exampleTeamContributionQuestionModel,
     responses: this.exampleTeamContributionResponseOutput,
-    statistics: '', // TODO: need JSON data string
+    statistics: JSON.stringify(this.exampleContributionStatistics),
     hasPopulated: true,
     isTabExpanded: true,
   };
@@ -796,7 +815,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'bob@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [0, 0],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -813,7 +832,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'bob@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [2, 2],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -830,7 +849,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'bob@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [1, 1],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -847,7 +866,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'bob@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [1, 2],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -864,7 +883,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'emma@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [0, 1],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -881,7 +900,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'emma@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [2, 3],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -898,7 +917,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'emma@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [1, 3],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -915,7 +934,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       recipientEmail: 'emma@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answer: [0, 1, 0, 0],
+        answer: [0, 1],
         questionType: FeedbackQuestionType.RUBRIC,
       } as FeedbackRubricResponseDetails,
       instructorComments: [],
@@ -923,7 +942,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   ];
 
   readonly exampleRubricQuestionQuestionTabModel: QuestionTabModel = {
-    question: this.exampleRubricQuestionQuestionModel,
+    question: this.exampleRubricQuestionModel,
     responses: this.exampleRubricQuestionResponseOutput,
     statistics: '', // TODO: need JSON data string
     hasPopulated: true,
@@ -956,6 +975,157 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleRankRecipientResponseOutput: ResponseOutput[] = [
+    {
+      isMissingResponse: false,
+      responseId: '1',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '2',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 3,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '3',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '4',
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 1,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '5',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '6',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 3,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '7',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '8',
+      giver: 'Emma',
+      giverTeam: 'Team 2',
+      giverEmail: 'emma@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      } as FeedbackRankRecipientsResponseDetails,
+      instructorComments: [],
+    },
+  ];
+
+  readonly exampleRankRecipientQuestionTabModel: QuestionTabModel = {
+    question: this.exampleRankRecipientQuestionModel,
+    responses: this.exampleRankRecipientResponseOutput,
+    statistics: '',
+    hasPopulated: true,
+    isTabExpanded: true,
+  };
+
+  readonly exampleRankRecipientQuestions: Record<string, QuestionTabModel> = {
+    question: this.exampleRankRecipientQuestionTabModel,
   };
 
   readonly exampleRankOptionQuestionModel: QuestionEditFormModel = {
