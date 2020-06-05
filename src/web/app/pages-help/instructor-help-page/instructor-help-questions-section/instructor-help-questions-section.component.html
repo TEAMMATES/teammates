@@ -232,12 +232,14 @@
             In the results view, TEAMMATES provides statistics on the average number of points each option received.
           </p>
           <tm-example-box>
-              <tm-constsum-options-question-statistics
-                [responses]="exampleDistributePointOptionResponses"
-                [question]="exampleDistributePointOptionQuestionDetail"
-                [recipientType]="exampleDistributedPointOptionModel.recipientType"
-                [isStudent]="false">
-              </tm-constsum-options-question-statistics>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleDistributePointOptionQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [(instructorCommentTableModel)]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
           </tm-example-box>
         </div>
       </div>

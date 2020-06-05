@@ -22,7 +22,6 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import {
-    DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
     DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
     DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
     DEFAULT_MCQ_QUESTION_DETAILS,
@@ -516,6 +515,18 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     createdAtTimestamp: 0,
   };
 
+  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails = {
+    numOfConstSumOptions: 2,
+    constSumOptions: ['Option A', 'Option B'],
+    distributeToRecipients: false,
+    pointsPerOption: false,
+    forceUnevenDistribution: false,
+    distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
+    points: 100,
+    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+    questionText: '',
+  };
+
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {
     feedbackQuestionId: '',
     isQuestionHasResponses: false,
@@ -524,7 +535,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     questionBrief: '',
     questionDescription: '',
     questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    questionDetails: DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(),
+    questionDetails: this.exampleDistributePointOptionQuestionDetail,
 
     isEditable: false,
     isSaving: false,
@@ -540,33 +551,147 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   };
 
-  readonly exampleDistributePointOptionResponses: Response<FeedbackConstantSumResponseDetails>[] = [
-      {
-       giver: 'Alice',
-       giverEmail: 'alice@gmail.com',
-       giverTeam: 'Team 1',
-       giverSection: '',
-       recipient: 'Bob',
-       recipientEmail: 'bob@gmail.com',
-       recipientTeam: 'Team 2',
-       recipientSection: '',
-       responseDetails: {
-         answers: ['Option A'],
-         questionType: FeedbackQuestionType.CONSTSUM,
-       },
-      }
+  readonly exampleDistributePointOptionResponseOutput: ResponseOutput[] = [
+    {
+      responseId: '1',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [2, 8],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '2',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [3, 7],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '3',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [5, 5],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '4',
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [5, 5],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '5',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [9, 1],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '6',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [6, 4],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '7',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [4, 6],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
+    {
+      responseId: '8',
+      giver: 'Emma',
+      giverTeam: 'Team 2',
+      giverEmail: 'emma@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answers: [7, 3],
+        questionType: FeedbackQuestionType.CONSTSUM,
+      } as FeedbackConstantSumResponseDetails,
+      instructorComments: [],
+    },
   ];
 
-  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails = {
-    numOfConstSumOptions: 2,
-    constSumOptions: ['Option A', 'Option B'],
-    distributeToRecipients: false,
-    pointsPerOption: false,
-    forceUnevenDistribution: false,
-    distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
-    points: 100,
-    questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-    questionText: '',
+  readonly exampleDistributePointOptionQuestionTabModel: QuestionTabModel = {
+    question: this.exampleDistributedPointOptionModel,
+    responses: this.exampleDistributePointOptionResponseOutput,
+    statistics: '',
+    hasPopulated: true,
+    isTabExpanded: true,
+  };
+
+  readonly exampleDistributePointOptionQuestions: Record<string, QuestionTabModel> = {
+    question: this.exampleDistributePointOptionQuestionTabModel,
   };
 
   readonly exampleDistributedPointRecipientModel: QuestionEditFormModel = {
