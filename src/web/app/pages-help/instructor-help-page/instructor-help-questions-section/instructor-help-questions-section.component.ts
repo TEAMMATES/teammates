@@ -3,6 +3,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
+  FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
@@ -592,6 +593,157 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleTeamContributionResponseOutput: ResponseOutput[] = [
+    {
+      isMissingResponse: false,
+      responseId: '1',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 90,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '2',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 70,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '3',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 120,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '4',
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 100,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '5',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 110,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '6',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 110,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '7',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 100,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '8',
+      giver: 'Emma',
+      giverTeam: 'Team 2',
+      giverEmail: 'emma@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 110,
+        questionType: FeedbackQuestionType.CONTRIB,
+      } as FeedbackContributionResponseDetails,
+      instructorComments: [],
+    },
+  ];
+
+  readonly exampleTeamContributionQuestionTabModel: QuestionTabModel = {
+    question: this.exampleTeamContributionQuestionModel,
+    responses: this.exampleTeamContributionResponseOutput,
+    statistics: '', // TODO: need JSON data string
+    hasPopulated: true,
+    isTabExpanded: true,
+  };
+
+  readonly exampleTeamContributionQuestions: Record<string, QuestionTabModel> = {
+    question: this.exampleTeamContributionQuestionTabModel,
   };
 
   readonly exampleRubricQuestionModel: QuestionEditFormModel = {
