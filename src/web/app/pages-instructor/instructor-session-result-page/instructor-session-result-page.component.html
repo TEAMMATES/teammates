@@ -105,14 +105,14 @@
       <label class="control-label">
         Additional settings:
       </label>
-      <div ngbTooltip="Group results in the current view by team">
-        <input type="checkbox" [(ngModel)]="groupByTeam" [disabled]="viewType === 'QUESTION'"> Group by Teams
+      <div>
+        <label class="form-check-label" ngbTooltip="Group results in the current view by team"><input type="checkbox" class="form-check-input" [(ngModel)]="groupByTeam" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
       </div>
-      <div ngbTooltip="Show statistics">
-        <input type="checkbox" [(ngModel)]="showStatistics"> Show Statistics
+      <div>
+        <label class="form-check-label"  ngbTooltip="Show statistics"><input type="checkbox" class="form-check-input" [(ngModel)]="showStatistics"> Show Statistics</label>
       </div>
-      <div ngbTooltip="Indicate missing responses">
-        <input type="checkbox" [(ngModel)]="indicateMissingResponses"> Indicate Missing Responses
+      <div>
+        <label class="form-check-label" ngbTooltip="Indicate missing responses"><input type="checkbox" class="form-check-input" [(ngModel)]="indicateMissingResponses"> Indicate Missing Responses</label>
       </div>
     </div>
   </div>
