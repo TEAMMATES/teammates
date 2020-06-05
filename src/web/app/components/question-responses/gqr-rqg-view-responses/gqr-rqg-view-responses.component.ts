@@ -58,6 +58,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
+  teamTabIsShown: Record<string, boolean> = {};
 
   responsesToShow: Record<string, QuestionTab[]> = {};
 
@@ -80,6 +81,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     this.userToEmail = {};
     this.userToRelatedEmail = {};
     this.userExpanded = {};
+    this.teamTabIsShown = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (!this.indicateMissingResponses && response.isMissingResponse) {
@@ -140,6 +142,15 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
           const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
             .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+
+          // Once there is at least one response from someone in the team, show the team tab
+          if (this.isGqr) {
+            this.teamTabIsShown[response.giverTeam] =
+                this.teamTabIsShown[response.giverTeam] || shouldDisplayBasedOnSection;
+          } else {
+            this.teamTabIsShown[response.recipientTeam] =
+                this.teamTabIsShown[response.recipientTeam] || shouldDisplayBasedOnSection;
+          }
 
           if (!shouldDisplayBasedOnSection) {
             return false;
