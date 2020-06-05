@@ -4,7 +4,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.SearchCommentsAction;
+import teammates.ui.webapi.output.CommentSearchResultsData;
 
 /**
  * SUT:{@link SearchCommentsAction}.
@@ -30,13 +32,56 @@ public class SearchCommentsActionTest extends BaseActionTest<SearchCommentsActio
 
     @Override
     protected void testExecute() {
-        // TODO
+        // See test cases below
+    }
+
+    @Test
+    protected void execute_notEnoughParameters_shouldFail() {
+        loginAsInstructor("idOfInstructor1OfCourse1");
+        verifyHttpParameterFailure();
+    }
+
+    @Test
+    protected void execute_searchNoMatch_shouldBeEmpty() {
+        loginAsInstructor("idOfInstructor1OfCourse1");
+        String[] searchParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "123",
+        };
+        SearchCommentsAction action = getAction(searchParams);
+        JsonResult result = getJsonResult(action);
+        CommentSearchResultsData data = (CommentSearchResultsData) result.getOutput();
+        assertEquals(0, data.getSearchResults().size());
+    }
+
+    @Test
+    protected void execute_searchHitComment_shouldSucceed() {
+        loginAsInstructor("idOfInstructor1OfCourse1");
+        String[] searchParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY,
+                typicalBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1").commentText,
+        };
+        SearchCommentsAction action = getAction(searchParams);
+        JsonResult result = getJsonResult(action);
+        CommentSearchResultsData data = (CommentSearchResultsData) result.getOutput();
+        assertEquals(1, data.getSearchResults().size());
+    }
+
+    @Test
+    protected void execute_searchHitResponse_shouldSucceed() {
+        loginAsInstructor("idOfInstructor1OfCourse1");
+        String[] searchParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY,
+                typicalBundle.feedbackResponses.get("response1ForQ1S1C1").responseDetails.getAnswerString(),
+        };
+        SearchCommentsAction action = getAction(searchParams);
+        JsonResult result = getJsonResult(action);
+        CommentSearchResultsData data = (CommentSearchResultsData) result.getOutput();
+        assertEquals(1, data.getSearchResults().size());
     }
 
     @Override
     @Test
     protected void testAccessControl() {
-        verifyAccessibleForAdmin();
         verifyOnlyInstructorsCanAccess();
     }
 }
