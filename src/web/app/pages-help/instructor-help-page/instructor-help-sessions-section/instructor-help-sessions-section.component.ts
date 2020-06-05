@@ -260,6 +260,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
                 questionType: FeedbackQuestionType.MCQ,
               } as FeedbackMcqResponseDetails,
               instructorComments: [],
+              isMissingResponse: false,
             },
             {
               responseId: 'feedbackQuestionId%bob@example.com%danny@example.com',
@@ -278,6 +279,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
                 questionType: FeedbackQuestionType.MCQ,
               } as FeedbackMcqResponseDetails,
               instructorComments: [],
+              isMissingResponse: false,
             },
           ],
           responsesToSelf: [],
@@ -332,6 +334,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
           answer: '<p>Good</p>',
         } as FeedbackMcqResponseDetails,
         instructorComments: [],
+        isMissingResponse: false,
       },
     ],
     responsesFromSelf: [
@@ -349,6 +352,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
           answer: '<p>Good</p>',
         } as FeedbackMcqResponseDetails,
         instructorComments: [],
+        isMissingResponse: false,
       },
       {
         responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
@@ -364,6 +368,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
           answer: '<p>Bad</p>',
         } as FeedbackMcqResponseDetails,
         instructorComments: [],
+        isMissingResponse: false,
       },
     ],
     otherResponses: [],
