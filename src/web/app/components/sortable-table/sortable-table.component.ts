@@ -13,7 +13,7 @@ export interface ColumnData {
 
 /**
  * Displays a sortable table, sorting by clicking on the header
- * Optional sorting function to be inputted provided for each column
+ * Optional sortBy option provided for each column
  * Columns and rows provided must be aligned
  */
 @Component({
