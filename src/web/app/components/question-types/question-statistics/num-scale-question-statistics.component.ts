@@ -1,10 +1,21 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { QuestionStatistics } from './question-statistics';
+
+interface NumericalScaleStatsRowModel {
+  teamName: string;
+  recipientName: string;
+  average: number;
+  max: number;
+  min: number;
+  averageExceptSelf: number;
+}
 
 /**
  * Statistics for numerical scale questions.
@@ -18,9 +29,19 @@ export class NumScaleQuestionStatisticsComponent
     extends QuestionStatistics<FeedbackNumericalScaleQuestionDetails, FeedbackNumericalScaleResponseDetails>
     implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
+
+  teamToRecipientToScoresSortBy: SortBy = SortBy.NONE;
+  teamToRecipientToScoresSortOrder: SortOrder = SortOrder.ASC;
+
+  // data
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
 
-  constructor() {
+  numericalScaleStatsRowModel: NumericalScaleStatsRowModel[] = [];
+
+  constructor(private tableComparatorService: TableComparatorService) {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
@@ -30,6 +51,55 @@ export class NumScaleQuestionStatisticsComponent
 
   ngOnChanges(): void {
     this.calculateStatistics();
+  }
+
+  sortNumericalScaleStatsRowModel(by: SortBy): void {
+    this.teamToRecipientToScoresSortBy = by;
+    this.teamToRecipientToScoresSortOrder =
+      (this.teamToRecipientToScoresSortOrder === SortOrder.DESC) ? SortOrder.ASC : SortOrder.DESC;
+
+    this.numericalScaleStatsRowModel.sort(this.sortStatsRowBy(by, this.teamToRecipientToScoresSortOrder));
+  }
+
+  sortStatsRowBy(by: SortBy, order: SortOrder):
+      ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel) => number) {
+
+    return ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel): number => {
+      let strA: string;
+      let strB: string;
+
+      switch (by) {
+        case SortBy.TEAM_NAME:
+          strA = a.teamName;
+          strB = b.teamName;
+          break;
+        case SortBy.RECIPIENT_NAME:
+          strA = a.recipientName;
+          strB = b.recipientName;
+          break;
+        case SortBy.NUMERICAL_SCALE_AVERAGE:
+          strA = String(a.average);
+          strB = String(b.average);
+          break;
+        case SortBy.NUMERICAL_SCALE_MAX:
+          strA = String(a.max);
+          strB = String(b.max);
+          break;
+        case SortBy.NUMERICAL_SCALE_MIN:
+          strA = String(a.min);
+          strB = String(b.min);
+          break;
+        case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
+          strA = String(a.averageExceptSelf);
+          strB = String(b.averageExceptSelf);
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    });
   }
 
   private calculateStatistics(): void {
@@ -64,6 +134,14 @@ export class NumScaleQuestionStatisticsComponent
         } else {
           stats.averageExcludingSelf = 0;
         }
+        // copy the data to a sortable structure
+        this.numericalScaleStatsRowModel.push({
+          teamName: team, recipientName: recipient,
+          average: stats.average,
+          max: stats.max,
+          min: stats.min,
+          averageExceptSelf: stats.averageExcludingSelf,
+        });
       }
     }
   }

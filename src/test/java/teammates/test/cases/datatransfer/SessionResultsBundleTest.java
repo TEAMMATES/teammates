@@ -23,7 +23,7 @@ import teammates.test.cases.BaseTestCase;
 public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
-    public void testGetResponseCommentsMap() {
+    public void testGetQuestionResponseMap() {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
@@ -35,7 +35,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -55,6 +55,39 @@ public class SessionResultsBundleTest extends BaseTestCase {
     }
 
     @Test
+    public void testGetQuestionMissingResponseMap() {
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
+
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
+
+        List<String> expectedMissingResponses = new ArrayList<>();
+        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1S1C1").toString());
+        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response2ForQ1S1C1").toString());
+
+        SessionResultsBundle bundle =
+                new SessionResultsBundle(session,
+                        responseBundle.feedbackQuestions, new ArrayList<>(),
+                        new ArrayList<>(responseBundle.feedbackResponses.values()),
+                        new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new CourseRoster(new ArrayList<>(responseBundle.students.values()),
+                                new ArrayList<>(responseBundle.instructors.values())));
+
+        ______TS("Test question having missing responses");
+        FeedbackQuestionAttributes fqa = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        List<FeedbackResponseAttributes> missingResponses = bundle.getQuestionMissingResponseMap().get(fqa.getId());
+        assertEquals(2, missingResponses.size());
+        List<String> missingResponsesString = new ArrayList<>();
+        missingResponsesString.add(missingResponses.get(0).toString());
+        missingResponsesString.add(missingResponses.get(1).toString());
+        assertEquals(expectedMissingResponses, missingResponsesString);
+
+        ______TS("Test question having no missing responses");
+        fqa = responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
+        missingResponses = bundle.getQuestionMissingResponseMap().get(fqa.getId());
+        assertEquals(0, missingResponses.size());
+    }
+
+    @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
@@ -70,7 +103,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        responseVisibilityTable, new HashMap<>(), new HashMap<>(),
+                        new ArrayList<>(), responseVisibilityTable, new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -94,7 +127,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new HashMap<>(), new HashMap<>(), commentVisibilityTable,
+                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), commentVisibilityTable,
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 

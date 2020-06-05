@@ -9,7 +9,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
@@ -25,7 +25,7 @@ interface QuestionTab {
   templateUrl: './gqr-rqg-view-responses.component.html',
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
 })
-export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
+export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
@@ -82,6 +82,10 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
     this.userExpanded = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
+        if (!this.indicateMissingResponses && response.isMissingResponse) {
+          // filter out missing responses
+          continue;
+        }
         if (response.giverEmail) {
           this.userToEmail[response.giver] = response.giverEmail;
         }
@@ -123,6 +127,10 @@ export class GqrRqgViewResponsesComponent extends ResponsesInstructorCommentsBas
       for (const question of this.responses) {
         const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
+          if (!this.indicateMissingResponses && response.isMissingResponse) {
+            // filter out missing responses
+            return false;
+          }
           if (this.isGqr && user !== response.giver) {
             return false;
           }
