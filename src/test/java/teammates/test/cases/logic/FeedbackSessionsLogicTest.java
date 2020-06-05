@@ -1892,6 +1892,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // there won't be question generated for student
         assertEquals(0, bundle.getQuestionsMap().size());
         assertEquals(0, bundle.getQuestionResponseMap().size());
+        assertEquals(0, bundle.getQuestionMissingResponseMap().size());
 
         // one response visible
         question = getQuestionFromDatastore("qn3InSession1InCourse1");
@@ -1902,6 +1903,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(1, responseForQuestion.size());
+        assertEquals(1, bundle.getQuestionMissingResponseMap().size());
+        assertEquals(0, bundle.getQuestionMissingResponseMap().entrySet().iterator().next().getValue().size());
     }
 
     @Test
@@ -1928,10 +1931,18 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 : bundle.getQuestionResponseMap().entrySet()) {
             totalResponse += entry.getValue().size();
         }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
         assertEquals(11, totalResponse);
+        // student should not see missing responses
+        assertEquals(0, totalMissingResponse);
         // student cannot see q6 because there is no viewable response
         assertEquals(7, bundle.getQuestionsMap().size());
         assertEquals(7, bundle.getQuestionResponseMap().size());
+        assertEquals(7, bundle.getQuestionMissingResponseMap().size());
 
         // Test the generated response visibilityTable for userNames.
         String mapString = tableToString(bundle.getResponseVisibilityTable());
@@ -1949,7 +1960,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 getResponseId("qn8.resp1", responseBundle) + "={true,true}",
                 getResponseId("qn8.resp2", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(11, bundle.getResponseVisibilityTable().size());
+        assertEquals(totalResponse, bundle.getResponseVisibilityTable().size());
 
         // no entry in comment visibility table
         mapString = tableToString(bundle.getCommentVisibilityTable());
@@ -1999,10 +2010,17 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 : bundle.getQuestionResponseMap().entrySet()) {
             totalResponse += entry.getValue().size();
         }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
         assertEquals(10, totalResponse);
+        assertEquals(48, totalMissingResponse);
         // Instructor should still see all questions
         assertEquals(8, bundle.getQuestionsMap().size());
         assertEquals(8, bundle.getQuestionResponseMap().size());
+        assertEquals(8, bundle.getQuestionMissingResponseMap().size());
 
         // Test the generated response visibilityTable for userNames.
         String mapString = tableToString(bundle.getResponseVisibilityTable());
@@ -2019,7 +2037,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 getResponseId("qn5.resp1", responseBundle) + "={false,true}",
                 getResponseId("qn6.resp1", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(10, bundle.getResponseVisibilityTable().size());
+        assertEquals(totalResponse + totalMissingResponse, bundle.getResponseVisibilityTable().size());
 
         // no entry in comment visibility table
         mapString = tableToString(bundle.getCommentVisibilityTable());
@@ -2047,10 +2065,17 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 : bundle.getQuestionResponseMap().entrySet()) {
             totalResponse += entry.getValue().size();
         }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
         assertEquals(7, totalResponse);
+        assertEquals(36, totalMissingResponse);
         // Instructor should still see all questions
         assertEquals(8, bundle.getQuestionsMap().size());
         assertEquals(8, bundle.getQuestionResponseMap().size());
+        assertEquals(8, bundle.getQuestionMissingResponseMap().size());
 
         // Test the generated response visibilityTable for userNames.
         String mapString = tableToString(bundle.getResponseVisibilityTable());
@@ -2061,7 +2086,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 getResponseId("qn2.resp3", responseBundle) + "={false,false}",
                 getResponseId("qn2.resp1", responseBundle) + "={false,false}");
         AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(7, bundle.getResponseVisibilityTable().size());
+        assertEquals(totalResponse + totalMissingResponse, bundle.getResponseVisibilityTable().size());
 
         // no entry in comment visibility table
         mapString = tableToString(bundle.getCommentVisibilityTable());

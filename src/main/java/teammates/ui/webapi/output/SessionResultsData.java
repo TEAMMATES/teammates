@@ -28,9 +28,9 @@ public class SessionResultsData extends ApiOutput {
 
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
-    private final List<QuestionOutput> questions = new ArrayList<>();
+    protected final List<QuestionOutput> questions = new ArrayList<>();
 
-    private SessionResultsData() {
+    protected SessionResultsData() {
         // use factory method instead
     }
 
@@ -48,8 +48,13 @@ public class SessionResultsData extends ApiOutput {
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, null, bundle));
-            List<ResponseOutput> allResponses = buildResponsesForInstructor(responses, bundle);
+            // put normal responses
+            List<ResponseOutput> allResponses = buildResponsesForInstructor(responses, bundle, false);
             qnOutput.allResponses.addAll(allResponses);
+
+            // put missing responses
+            List<FeedbackResponseAttributes> missingResponses = bundle.getQuestionMissingResponseMap().get(questionId);
+            qnOutput.allResponses.addAll(buildResponsesForInstructor(missingResponses, bundle, true));
 
             sessionResultsData.questions.add(qnOutput);
         });
@@ -158,18 +163,18 @@ public class SessionResultsData extends ApiOutput {
     }
 
     private static List<ResponseOutput> buildResponsesForInstructor(
-            List<FeedbackResponseAttributes> responses, SessionResultsBundle bundle) {
+            List<FeedbackResponseAttributes> responses, SessionResultsBundle bundle, boolean areMissingResponses) {
         List<ResponseOutput> output = new ArrayList<>();
 
         for (FeedbackResponseAttributes response : responses) {
-            output.add(buildSingleResponseForInstructor(response, bundle));
+            output.add(buildSingleResponseForInstructor(response, bundle, areMissingResponses));
         }
 
         return output;
     }
 
     private static ResponseOutput buildSingleResponseForInstructor(
-            FeedbackResponseAttributes response, SessionResultsBundle bundle) {
+            FeedbackResponseAttributes response, SessionResultsBundle bundle, boolean isMissingResponse) {
         // process giver
         String giverEmail = null;
         String relatedGiverEmail = null;
@@ -210,6 +215,7 @@ public class SessionResultsData extends ApiOutput {
         Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
         return ResponseOutput.builder()
+                .withIsMissingResponse(isMissingResponse)
                 .withResponseId(response.getId())
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
@@ -337,6 +343,13 @@ public class SessionResultsData extends ApiOutput {
             this.questionStatistics = questionStatistics;
         }
 
+        protected QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
+                                 List<ResponseOutput> allResponses) {
+            this.questionStatistics = null;
+            this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
+            this.allResponses.addAll(allResponses);
+        }
+
         public FeedbackQuestionData getFeedbackQuestion() {
             return feedbackQuestion;
         }
@@ -367,6 +380,8 @@ public class SessionResultsData extends ApiOutput {
      * API output format for question responses.
      */
     public static class ResponseOutput {
+
+        private boolean isMissingResponse;
 
         // TODO: security risk: responseId can expose giver and recipient email
         private String responseId;
@@ -403,6 +418,10 @@ public class SessionResultsData extends ApiOutput {
          */
         public static Builder builder() {
             return new Builder();
+        }
+
+        public boolean isMissingResponse() {
+            return isMissingResponse;
         }
 
         public String getResponseId() {
@@ -469,6 +488,11 @@ public class SessionResultsData extends ApiOutput {
             }
 
             //CHECKSTYLE.OFF:MissingJavadocMethod
+            public Builder withIsMissingResponse(boolean isMissingResponse) {
+                responseOutput.isMissingResponse = isMissingResponse;
+                return this;
+            }
+
             public Builder withResponseId(String responseId) {
                 responseOutput.responseId = responseId;
                 return this;

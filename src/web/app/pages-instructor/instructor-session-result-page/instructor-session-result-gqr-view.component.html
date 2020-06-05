@@ -9,6 +9,7 @@
     </div>
     <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
       <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="section" [sectionType]="sectionType"
+                                 [indicateMissingResponses]="indicateMissingResponses"
                                  [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="true" [session]="session"
                                  [instructorCommentTableModel]="instructorCommentTableModel" [isExpandAll]="isExpandAll"
                                  (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
