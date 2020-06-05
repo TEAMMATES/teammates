@@ -15,6 +15,7 @@
     ></tm-single-statistics>
     <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
                                     [indicateMissingResponses]="true" [question]="question.question"
+                                    [isDisplayOnly]="isDisplayOnly"
                                     [instructorCommentTableModel]="instructorCommentTableModel"
                                     (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
                                     (updateCommentEvent)="triggerUpdateCommentEvent($event)"

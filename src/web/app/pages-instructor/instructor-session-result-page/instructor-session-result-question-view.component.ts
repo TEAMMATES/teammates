@@ -19,6 +19,7 @@ export class InstructorSessionResultQuestionViewComponent
   loadQuestion: EventEmitter<string> = new EventEmitter();
 
   @Input() questions: Record<string, QuestionTabModel> = {};
+  @Input() isDisplayOnly: boolean = false;
 
   questionsOrder: QuestionTabModel[] = [];
 

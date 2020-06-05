@@ -173,7 +173,16 @@
             Statistics for numerical scale questions are also provided for instructors.<br>
             TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleNumericalScaleQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [(instructorCommentTableModel)]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>
