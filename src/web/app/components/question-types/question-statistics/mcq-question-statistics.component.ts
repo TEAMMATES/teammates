@@ -1,8 +1,7 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { SortOrder } from '../../../../types/sort-properties';
+import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
@@ -24,10 +23,10 @@ export class McqQuestionStatisticsComponent
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
-  columnsData: ColumnData<any>[] = [];
+  columnsData: ColumnData[] = [];
   rowsData: any[][] = [];
 
-  constructor(private tableComparatorService: TableComparatorService) {
+  constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
   }
 
@@ -132,21 +131,13 @@ export class McqQuestionStatisticsComponent
     }
   }
 
-  private sortChoices = (item1: string, item2: string): number => {
-    return this.tableComparatorService.compareLexicographically(item1, item2, SortOrder.ASC);
-  }
-
-  private sortNumbers(item1: number, item2: number): number {
-    return item1 - item2;
-  }
-
   private getTableData(): void {
     this.columnsData = [
-      { header: 'Choice', sortBy: this.sortChoices },
-      { header: 'Weight', sortBy: this.sortNumbers },
-      { header: 'Response Count', sortBy: this.sortNumbers },
-      { header: 'Percentage (%)', sortBy: this.sortNumbers },
-      { header: 'Weighted Percentage (%)', sortBy: this.sortNumbers },
+      { header: 'Choice', sortBy: SortBy.MCQ_Choice },
+      { header: 'Weight', sortBy: SortBy.MCQ_Weight },
+      { header: 'Response Count', sortBy: SortBy.MCQ_Response_Count },
+      { header: 'Percentage (%)', sortBy: SortBy.MCQ_Percentage },
+      { header: 'Weighted Percentage (%)', sortBy: SortBy.MCQ_Weighted_Percentage },
     ];
 
     this.rowsData = Object.keys(this.answerFrequency).map((key: string) => {

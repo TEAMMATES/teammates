@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SortOrder } from '../../../types/sort-properties';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 
 /**
  * Column data for sortable table
  */
-export interface ColumnData<T> {
+export interface ColumnData {
   header: string;
   headerToolTip?: string;
-  sortBy?(item1: T, item2: T): number; // Don't provide this field if you don't want this column to be sortable
+  sortBy?: SortBy; // Don't provide this field if you don't want this column to be sortable
 }
 
 /**
@@ -23,7 +24,7 @@ export interface ColumnData<T> {
 export class SortableTableComponent implements OnInit {
 
   @Input()
-  columns: ColumnData<any>[] = [];
+  columns: ColumnData[] = [];
 
   @Input()
   rows: any[][] = [];
@@ -35,7 +36,7 @@ export class SortableTableComponent implements OnInit {
   // enum
   SortOrder: typeof SortOrder = SortOrder;
 
-  constructor() { }
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.tableRows = this.rows;
@@ -61,18 +62,18 @@ export class SortableTableComponent implements OnInit {
       return;
     }
     const columnIndex: number = this.columns.findIndex(
-        (column: ColumnData<any>) => column.header === this.columnToSortBy);
+        (column: ColumnData) => column.header === this.columnToSortBy);
     if (columnIndex < 0) {
       return;
     }
-    const sortFn: ((item1: any, item2: any) => number) | undefined = this.columns[columnIndex].sortBy;
-    if (!sortFn) {
+    const sortBy: SortBy | undefined = this.columns[columnIndex].sortBy;
+    if (!sortBy) {
       return;
     }
 
     this.tableRows.sort((row1: any[], row2: any[]) =>
-        sortFn(this.sortOrder === SortOrder.ASC ? row1[columnIndex] : row2[columnIndex],
-            this.sortOrder === SortOrder.ASC ? row2[columnIndex] : row1[columnIndex]));
+        this.tableComparatorService.compare(
+            sortBy, this.sortOrder, String(row1[columnIndex]), String(row2[columnIndex])));
   }
 
 }
