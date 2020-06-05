@@ -1,6 +1,7 @@
 package teammates.test.cases.datatransfer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +104,26 @@ public class CourseRosterTest extends BaseTestCase {
         CourseRoster roster = new CourseRoster(students, createInstructorList("Jess", "ins1@email.com"));
         Map<String, String> emailToNameTableActual = roster.getEmailToNameTableFromRoster();
         assertEquals(emailToNameTableExpected, emailToNameTableActual);
+    }
+
+    @Test
+    public void testBuildTeamToMembersTable_emptyStudentList_shouldReturnsEmptyMap() {
+        Map<String, List<StudentAttributes>> teamToMembersTable =
+                CourseRoster.buildTeamToMembersTable(Collections.emptyList());
+        assertEquals(0, teamToMembersTable.size());
+    }
+
+    @Test
+    public void testBuildTeamToMembersTable_typicalStudentList_shouldBuildMap() {
+        List<StudentAttributes> students = createStudentList(
+                "team 1", "s1@gmail.com",
+                "team 1", "s2@gmail.com",
+                "team 2", "s3@gmail.com");
+        Map<String, List<StudentAttributes>> teamToMembersTable = CourseRoster.buildTeamToMembersTable(students);
+        assertEquals(2, teamToMembersTable.size());
+        assertEquals(2, teamToMembersTable.get("team 1").size());
+        assertEquals(1, teamToMembersTable.get("team 2").size());
+        assertEquals("s3@gmail.com", teamToMembersTable.get("team 2").iterator().next().getEmail());
     }
 
     @Test

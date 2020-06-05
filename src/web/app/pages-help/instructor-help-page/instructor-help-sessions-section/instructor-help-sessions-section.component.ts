@@ -80,6 +80,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   };
 
   readonly exampleResponse: ResponseOutput = {
+    isMissingResponse: false,
     responseId: '',
     giver: 'Alice',
     giverTeam: 'Team A',

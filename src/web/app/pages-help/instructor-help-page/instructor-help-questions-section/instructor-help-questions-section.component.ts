@@ -4,12 +4,19 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import {
   FeedbackMcqQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  ResponseOutput,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import {
     DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
@@ -22,12 +29,20 @@ import {
     DEFAULT_RUBRIC_QUESTION_DETAILS,
     DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
+import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
+import { Response } from '../../../components/question-types/question-statistics/question-statistics';
+import {
+    QuestionTabModel,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import {
+    InstructorSessionResultSectionType,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -40,6 +55,8 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
+  // enum
+  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
 
   readonly exampleEssayQuestionModel: QuestionEditFormModel = {
@@ -88,6 +105,420 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  };
+
+  readonly exampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] = [
+    {
+      giver: 'Alice',
+      giverEmail: 'alice@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverEmail: 'charles@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'David',
+      giverEmail: 'david@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Bob',
+      giverEmail: 'bob@gmail.com',
+      giverTeam: 'Team 2',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientEmail: 'bob@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Alice',
+      giverEmail: 'alice@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Charles',
+      giverEmail: 'charles@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 3,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'David',
+      giverEmail: 'david@gmail.com',
+      giverTeam: 'Team 1',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+    {
+      giver: 'Emma',
+      giverEmail: 'emma@gmail.com',
+      giverTeam: 'Team 2',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientEmail: 'emma@gmail.com',
+      recipientTeam: 'Team 2',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      },
+    },
+  ];
+
+  readonly exampleNumericalScaleResponseOutput: ResponseOutput[] = [
+    {
+      isMissingResponse: false,
+      responseId: '1',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '2',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '3',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 2,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '4',
+      giver: 'Bob',
+      giverTeam: 'Team 2',
+      giverEmail: 'bob@gmail.com',
+      giverSection: '',
+      recipient: 'Bob',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'bob@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '5',
+      giver: 'Alice',
+      giverTeam: 'Team 1',
+      giverEmail: 'alice@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '6',
+      giver: 'Charles',
+      giverTeam: 'Team 1',
+      giverEmail: 'charles@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 3,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '7',
+      giver: 'David',
+      giverTeam: 'Team 1',
+      giverEmail: 'david@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 4,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+    {
+      isMissingResponse: false,
+      responseId: '8',
+      giver: 'Emma',
+      giverTeam: 'Team 2',
+      giverEmail: 'emma@gmail.com',
+      giverSection: '',
+      recipient: 'Emma',
+      recipientTeam: 'Team 2',
+      recipientEmail: 'emma@gmail.com',
+      recipientSection: '',
+      responseDetails: {
+        answer: 5,
+        questionType: FeedbackQuestionType.NUMSCALE,
+      } as FeedbackNumericalScaleResponseDetails,
+      instructorComments: [],
+    },
+  ];
+
+  readonly exampleNumericalScaleQuestionTabModel: QuestionTabModel = {
+    question: this.exampleNumericalScaleQuestionModel,
+    responses: this.exampleNumericalScaleResponseOutput,
+    statistics: '',
+    hasPopulated: true,
+    isTabExpanded: true,
+  };
+
+  readonly exampleNumericalScaleQuestions: Record<string, QuestionTabModel> = {
+    question: this.exampleNumericalScaleQuestionTabModel,
+  };
+
+  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel> = {
+    1: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    2: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    3: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    4: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    5: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    6: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    7: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+    8: {
+      commentRows: [],
+      newCommentRow: {
+        commentEditFormModel: {
+          commentText: '',
+
+          isUsingCustomVisibilities: false,
+          showCommentTo: [],
+          showGiverNameTo: [],
+        },
+        isEditing: false,
+      },
+
+      isAddingNewComment: false,
+      isReadOnly: true,
+    },
+  };
+
+  readonly exampleFeedbackSession: FeedbackSession = {
+    courseId: 'CS2103T',
+    timeZone: 'UTC',
+    feedbackSessionName: 'Project Feedback 1',
+    instructions: 'Enter your feedback for projects',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
   };
 
   readonly exampleDistributedPointOptionModel: QuestionEditFormModel = {

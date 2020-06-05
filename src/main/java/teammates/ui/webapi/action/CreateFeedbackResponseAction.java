@@ -50,15 +50,12 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForStudent(
-                            feedbackQuestion, studentAttributes.getEmail(), studentAttributes.getTeam());
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForInstructor(feedbackQuestion, instructorAttributes.getEmail());
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
