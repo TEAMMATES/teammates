@@ -19,7 +19,8 @@ public class SessionResultsBundle {
 
     private final FeedbackSessionAttributes feedbackSession;
     private final Map<String, FeedbackQuestionAttributes> questionsMap;
-    private Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
+    private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
+    private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
     private final Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap;
     private final Map<String, boolean[]> responseVisibilityTable;
     private final Map<Long, boolean[]> commentVisibilityTable;
@@ -28,6 +29,7 @@ public class SessionResultsBundle {
     public SessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                 Map<String, FeedbackQuestionAttributes> questionsMap,
                                 List<FeedbackResponseAttributes> responses,
+                                List<FeedbackResponseAttributes> missingResponses,
                                 Map<String, boolean[]> responseVisibilityTable,
                                 Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap,
                                 Map<Long, boolean[]> commentVisibilityTable,
@@ -39,21 +41,24 @@ public class SessionResultsBundle {
         this.responseVisibilityTable = responseVisibilityTable;
         this.commentVisibilityTable = commentVisibilityTable;
         this.roster = roster;
-        buildQuestionToResponseMap(responses);
+        this.questionResponseMap = buildQuestionToResponseMap(responses);
+        this.questionMissingResponseMap = buildQuestionToResponseMap(missingResponses);
     }
 
-    private void buildQuestionToResponseMap(List<FeedbackResponseAttributes> responses) {
+    private Map<String, List<FeedbackResponseAttributes>> buildQuestionToResponseMap(
+            List<FeedbackResponseAttributes> responses) {
         // build question to response map
-        questionResponseMap = new LinkedHashMap<>();
+        Map<String, List<FeedbackResponseAttributes>> questionToResponseMap = new LinkedHashMap<>();
         List<FeedbackQuestionAttributes> questions = new ArrayList<>(questionsMap.values());
         for (FeedbackQuestionAttributes question : questions) {
-            questionResponseMap.put(question.getId(), new ArrayList<>());
+            questionToResponseMap.put(question.getId(), new ArrayList<>());
         }
         for (FeedbackResponseAttributes response : responses) {
             FeedbackQuestionAttributes question = questionsMap.get(response.getFeedbackQuestionId());
-            List<FeedbackResponseAttributes> responsesForQuestion = questionResponseMap.get(question.getId());
+            List<FeedbackResponseAttributes> responsesForQuestion = questionToResponseMap.get(question.getId());
             responsesForQuestion.add(response);
         }
+        return questionToResponseMap;
     }
 
     /**
@@ -115,6 +120,10 @@ public class SessionResultsBundle {
 
     public Map<String, List<FeedbackResponseAttributes>> getQuestionResponseMap() {
         return questionResponseMap;
+    }
+
+    public Map<String, List<FeedbackResponseAttributes>> getQuestionMissingResponseMap() {
+        return questionMissingResponseMap;
     }
 
     private static String getEncryptedName(String name) {

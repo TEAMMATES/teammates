@@ -71,7 +71,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals("giver", fra.getGiver());
         assertEquals("recipient", fra.getRecipient());
 
-        assertNull(fra.getId());
+        assertEquals("1%giver%recipient", fra.getId());
         assertNull(fra.getCourseId());
         assertNull(fra.getFeedbackSessionName());
         assertEquals(Const.DEFAULT_SECTION, fra.getGiverSection());
