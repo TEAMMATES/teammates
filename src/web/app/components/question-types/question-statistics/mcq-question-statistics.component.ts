@@ -1,6 +1,9 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortOrder } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -21,16 +24,21 @@ export class McqQuestionStatisticsComponent
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
-  constructor() {
+  columnsData: ColumnData<any>[] = [];
+  rowsData: any[][] = [];
+
+  constructor(private tableComparatorService: TableComparatorService) {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -124,4 +132,31 @@ export class McqQuestionStatisticsComponent
     }
   }
 
+  private sortChoices = (item1: string, item2: string): number => {
+    return this.tableComparatorService.compareLexicographically(item1, item2, SortOrder.ASC);
+  }
+
+  private sortNumbers(item1: number, item2: number): number {
+    return item1 - item2;
+  }
+
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Choice', sortBy: this.sortChoices },
+      { header: 'Weight', sortBy: this.sortNumbers },
+      { header: 'Response Count', sortBy: this.sortNumbers },
+      { header: 'Percentage (%)', sortBy: this.sortNumbers },
+      { header: 'Weighted Percentage (%)', sortBy: this.sortNumbers },
+    ];
+
+    this.rowsData = Object.keys(this.answerFrequency).map((key: string) => {
+      return [
+        key,
+        this.weightPerOption[key] || '-',
+        this.answerFrequency[key],
+        this.percentagePerOption[key],
+        this.weightedPercentagePerOption[key] || '-',
+      ];
+    });
+  }
 }
