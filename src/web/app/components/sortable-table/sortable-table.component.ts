@@ -23,6 +23,9 @@ export interface ColumnData {
 })
 export class SortableTableComponent implements OnInit {
 
+  // enum
+  SortOrder: typeof SortOrder = SortOrder;
+
   @Input()
   columns: ColumnData[] = [];
 
@@ -32,9 +35,6 @@ export class SortableTableComponent implements OnInit {
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
   tableRows: any[][] = [];
-
-  // enum
-  SortOrder: typeof SortOrder = SortOrder;
 
   constructor(private tableComparatorService: TableComparatorService) { }
 

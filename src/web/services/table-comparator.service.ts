@@ -46,15 +46,15 @@ export class TableComparatorService {
       case SortBy.NUMERICAL_SCALE_MAX:
       case SortBy.NUMERICAL_SCALE_MIN:
       case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
-      case SortBy.MCQ_Weight:
-      case SortBy.MCQ_Response_Count:
-      case SortBy.MCQ_Percentage:
-      case SortBy.MCQ_Weighted_Percentage:
+      case SortBy.MCQ_WEIGHT:
+      case SortBy.MCQ_RESPONSE_COUNT:
+      case SortBy.MCQ_PERCENTAGE:
+      case SortBy.MCQ_WEIGHTED_PERCENTAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
         return this.compareNaturally(strA, strB, order);
-      case SortBy.MCQ_Choice:
+      case SortBy.MCQ_CHOICE:
       case SortBy.STUDENT_NAME:
       case SortBy.EMAIL:
       case SortBy.STUDENT_GENDER:

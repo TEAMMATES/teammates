@@ -133,11 +133,11 @@ export class McqQuestionStatisticsComponent
 
   private getTableData(): void {
     this.columnsData = [
-      { header: 'Choice', sortBy: SortBy.MCQ_Choice },
-      { header: 'Weight', sortBy: SortBy.MCQ_Weight },
-      { header: 'Response Count', sortBy: SortBy.MCQ_Response_Count },
-      { header: 'Percentage (%)', sortBy: SortBy.MCQ_Percentage },
-      { header: 'Weighted Percentage (%)', sortBy: SortBy.MCQ_Weighted_Percentage },
+      { header: 'Choice', sortBy: SortBy.MCQ_CHOICE },
+      { header: 'Weight', sortBy: SortBy.MCQ_WEIGHT },
+      { header: 'Response Count', sortBy: SortBy.MCQ_RESPONSE_COUNT },
+      { header: 'Percentage (%)', sortBy: SortBy.MCQ_PERCENTAGE },
+      { header: 'Weighted Percentage (%)', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE },
     ];
 
     this.rowsData = Object.keys(this.answerFrequency).map((key: string) => {

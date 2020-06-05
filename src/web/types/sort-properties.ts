@@ -145,27 +145,27 @@ export enum SortBy {
     /**
      * Option text
      */
-    MCQ_Choice,
+    MCQ_CHOICE,
 
     /**
      * Weight assigned to the option
      */
-    MCQ_Weight,
+    MCQ_WEIGHT,
 
     /**
      * Number of selection of that option
      */
-    MCQ_Response_Count,
+    MCQ_RESPONSE_COUNT,
 
     /**
      * Percentage of selection of that option
      */
-    MCQ_Percentage,
+    MCQ_PERCENTAGE,
 
     /**
      * Weighted percentage of selection of that option
      */
-    MCQ_Weighted_Percentage,
+    MCQ_WEIGHTED_PERCENTAGE,
 }
 
 /**
