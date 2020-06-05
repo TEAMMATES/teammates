@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackNumericalScaleQuestionDetails,
@@ -34,8 +34,6 @@ export class NumScaleQuestionStatisticsComponent
   SortOrder: typeof SortOrder = SortOrder;
 
   teamToRecipientToScoresSortBy: SortBy = SortBy.NONE;
-
-  @Input()
   teamToRecipientToScoresSortOrder: SortOrder = SortOrder.ASC;
 
   // data
@@ -80,13 +78,21 @@ export class NumScaleQuestionStatisticsComponent
           strB = b.recipientName;
           break;
         case SortBy.NUMERICAL_SCALE_AVERAGE:
-          return this.tableComparatorService.compareAsNumber(order, a.average, b.average);
+          strA = String(a.average);
+          strB = String(b.average);
+          break;
         case SortBy.NUMERICAL_SCALE_MAX:
-          return this.tableComparatorService.compareAsNumber(order, a.max, b.max);
+          strA = String(a.max);
+          strB = String(b.max);
+          break;
         case SortBy.NUMERICAL_SCALE_MIN:
-          return this.tableComparatorService.compareAsNumber(order, a.min, b.min);
+          strA = String(a.min);
+          strB = String(b.min);
+          break;
         case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
-          return this.tableComparatorService.compareAsNumber(order, a.averageExceptSelf, b.averageExceptSelf);
+          strA = String(a.averageExceptSelf);
+          strB = String(b.averageExceptSelf);
+          break;
         default:
           strA = '';
           strB = '';
