@@ -41,9 +41,11 @@ public class CommentSearchResultData extends SessionResultsData {
         for (FeedbackResponseAttributes response : responses) {
             output.add(ResponseOutput.builder()
                     .withResponseId(response.getId())
-                    .withGiver(response.giver)
+                    .withGiver(bundle.responseGiverTable.get(response.giver))
+                    .withGiverEmail(response.giver)
                     .withGiverSection(response.giverSection)
-                    .withRecipient(response.recipient)
+                    .withRecipient(bundle.responseRecipientTable.get(response.recipient))
+                    .withRecipientEmail(response.recipient)
                     .withRecipientSection(response.recipientSection)
                     .withResponseDetails(response.responseDetails)
                     .withParticipantComment(getParticipantComment(bundle.comments.get(response.getId()), bundle))
@@ -62,7 +64,9 @@ public class CommentSearchResultData extends SessionResultsData {
             }
             output.add(CommentOutput.builder(comment)
                     .withCommentGiver(comment.commentGiver)
+                    .withCommentGiverName(bundle.commentGiverTable.get(comment.getId().toString()))
                     .withLastEditorName(bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail))
+                    .withLastEditorEmail(comment.lastEditorEmail)
                     .build());
         }
         return output;
@@ -78,7 +82,9 @@ public class CommentSearchResultData extends SessionResultsData {
             if (comment.isCommentFromFeedbackParticipant()) {
                 return CommentOutput.builder(comment)
                         .withCommentGiver(comment.commentGiver)
+                        .withCommentGiverName(bundle.commentGiverTable.get(comment.getId().toString()))
                         .withLastEditorName(bundle.commentGiverEmailToNameTable.get(comment.lastEditorEmail))
+                        .withLastEditorEmail(comment.lastEditorEmail)
                         .build();
             }
         }
