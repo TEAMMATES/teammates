@@ -631,9 +631,6 @@ public final class Const {
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
-        public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
-
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
@@ -756,7 +753,6 @@ public final class Const {
         public static final String INSTRUCTORS = "/instructors";
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
-        public static final String SEARCH_INSTRUCTORS = "/search/instructors";
         public static final String RESULT = "/result";
         public static final String RESULT_CSV = "/result/csv";
         public static final String STUDENTS = "/students";
@@ -769,6 +765,8 @@ public final class Const {
         public static final String SESSION_STATS = "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
         public static final String SESSIONS = "/sessions";
+        public static final String SEARCH_COMMENTS = "/search/comments";
+        public static final String SEARCH_INSTRUCTORS = "/search/instructors";
         public static final String SEARCH_STUDENTS = "/search/students";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
@@ -789,7 +787,6 @@ public final class Const {
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSE_LINKS_REGENERATION = "/student/courselinks/regeneration";
         public static final String STUDENTS_CSV = "/students/csv";
-        public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
     }
 
     @Deprecated
