@@ -8,9 +8,9 @@ import {
 import { CommentTableModel } from '../comment-box/comment-table/comment-table.component';
 
 /**
- * Abstract component for view type with instructor comments feature.
+ * Abstract component for instructor related views.
  */
-export abstract class ResponsesInstructorCommentsBase {
+export abstract class InstructorResponsesViewBase {
   @Input() question: FeedbackQuestion = {
     feedbackQuestionId: '',
     questionNumber: 1,

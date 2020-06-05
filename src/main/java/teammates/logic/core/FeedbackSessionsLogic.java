@@ -32,6 +32,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
@@ -1599,7 +1600,15 @@ public final class FeedbackSessionsLogic {
             addCommentVisibilityToTable(commentVisibilityTable, frc, relatedResponse, userEmail, roster);
         }
 
-        return new SessionResultsBundle(session, relatedQuestionsMap, new ArrayList<>(relatedResponsesMap.values()),
+        List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
+        List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
+        if (role == UserRole.INSTRUCTOR) {
+            missingResponses = buildMissingResponses(
+                    instructor, responseVisibilityTable, session,
+                    relatedQuestionsMap, existingResponses, roster, section);
+        }
+
+        return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
                 responseVisibilityTable, relatedCommentsMap, commentVisibilityTable, roster);
     }
 
@@ -1621,6 +1630,92 @@ public final class FeedbackSessionsLogic {
         boolean[] commentVisibility = new boolean[1];
         commentVisibility[Const.VISIBILITY_TABLE_GIVER] = frcLogic.isNameVisibleToUser(frc, response, userEmail, roster);
         commentVisibilityTable.put(frc.getId(), commentVisibility);
+    }
+
+    /**
+     * Builds viewable missing responses for the session for instructor.
+     *
+     * @param instructor the instructor
+     * @param responseVisibilityTable the visibility table which will be updated with the visibility of missing responses
+     * @param feedbackSession the feedback sessions
+     * @param relatedQuestionsMap the relevant questions
+     * @param existingResponses existing responses
+     * @param courseRoster the course roster
+     * @param section if not null, will only build missing responses for the section
+     * @return a list of missing responses for the session.
+     */
+    private List<FeedbackResponseAttributes> buildMissingResponses(
+            InstructorAttributes instructor,
+            Map<String, boolean[]> responseVisibilityTable,
+            FeedbackSessionAttributes feedbackSession, Map<String, FeedbackQuestionAttributes> relatedQuestionsMap,
+            List<FeedbackResponseAttributes> existingResponses, CourseRoster courseRoster, @Nullable String section) {
+
+        // first get all possible giver recipient pairs
+        Map<String, Map<String, Set<String>>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(feedbackSession, relatedQuestionsMap.values(), courseRoster);
+
+        // remove the existing responses in those pairs
+        for (FeedbackResponseAttributes existingResponse : existingResponses) {
+            Map<String, Set<String>> currGiverRecipientMap =
+                    completeGiverRecipientMap.get(existingResponse.getFeedbackQuestionId());
+            if (!currGiverRecipientMap.containsKey(existingResponse.getGiver())) {
+                continue;
+            }
+            currGiverRecipientMap.get(existingResponse.getGiver()).remove(existingResponse.getRecipient());
+        }
+
+        List<FeedbackResponseAttributes> missingResponses = new ArrayList<>();
+        // build dummy responses
+        for (Map.Entry<String, Map<String, Set<String>>> currGiverRecipientMapEntry
+                : completeGiverRecipientMap.entrySet()) {
+            FeedbackQuestionAttributes correspondingQuestion =
+                    relatedQuestionsMap.get(currGiverRecipientMapEntry.getKey());
+            String questionId = correspondingQuestion.getId();
+
+            for (Map.Entry<String, Set<String>> giverRecipientEntry
+                    : currGiverRecipientMapEntry.getValue().entrySet()) {
+                // giver
+                String giverIdentifier = giverRecipientEntry.getKey();
+                CourseRoster.ParticipantInfo giverInfo = courseRoster.getInfoForIdentifier(giverIdentifier);
+
+                for (String recipientIdentifier : giverRecipientEntry.getValue()) {
+                    // recipient
+                    CourseRoster.ParticipantInfo recipientInfo = courseRoster.getInfoForIdentifier(recipientIdentifier);
+
+                    // skip responses not in current section
+                    if (section != null
+                            && !giverInfo.getSectionName().equals(section)
+                                    && !recipientInfo.getSectionName().equals(section)) {
+                        continue;
+                    }
+
+                    FeedbackResponseAttributes missingResponse =
+                            FeedbackResponseAttributes.builder(questionId, giverIdentifier, recipientIdentifier)
+                                    .withCourseId(feedbackSession.getCourseId())
+                                    .withFeedbackSessionName(feedbackSession.getFeedbackSessionName())
+                                    .withGiverSection(giverInfo.getSectionName())
+                                    .withRecipientSection(recipientInfo.getSectionName())
+                                    .withResponseDetails(new FeedbackTextResponseDetails(
+                                                    Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE))
+                                    .build();
+
+                    // check visibility of the missing response
+                    boolean isVisibleResponse = isResponseVisibleForUser(
+                            instructor.getEmail(), UserRole.INSTRUCTOR, null, Collections.emptySet(),
+                            missingResponse, correspondingQuestion, instructor);
+                    if (!isVisibleResponse) {
+                        continue;
+                    }
+
+                    // generate giver/recipient name visibility table
+                    addResponseVisibilityToTable(responseVisibilityTable, correspondingQuestion,
+                            missingResponse, instructor.getEmail(), UserRole.INSTRUCTOR, courseRoster);
+                    missingResponses.add(missingResponse);
+                }
+            }
+        }
+
+        return missingResponses;
     }
 
     /* Get the feedback results for user in a section iterated by questions */

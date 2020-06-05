@@ -121,6 +121,26 @@ export enum SortBy {
      * Name of the recipient of the feedback response.
      */
     RECIPIENT_NAME,
+
+    /**
+     * Average score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE,
+
+    /**
+     * Maximum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MAX,
+
+    /**
+     * Minimum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MIN,
+
+    /**
+     * Average score (exclude self-review) of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
 }
 
 /**

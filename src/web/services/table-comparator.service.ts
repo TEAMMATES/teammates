@@ -42,6 +42,10 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
+      case SortBy.NUMERICAL_SCALE_AVERAGE:
+      case SortBy.NUMERICAL_SCALE_MAX:
+      case SortBy.NUMERICAL_SCALE_MIN:
+      case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
