@@ -39,11 +39,11 @@ export class SortableTableComponent implements OnInit {
   constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
-    this.tableRows = this.rows;
+    this.tableRows = this.rows.slice(); // Shallow clone to avoid reordering original array
   }
 
   ngOnChanges(): void {
-    this.tableRows = this.rows;
+    this.tableRows = this.rows.slice(); // Shallow clone to avoid reordering original array
     this.sortRows();
   }
 
