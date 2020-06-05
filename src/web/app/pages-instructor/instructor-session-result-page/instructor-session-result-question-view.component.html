@@ -14,7 +14,7 @@
                           [recipientType]="question.question.recipientType"
     ></tm-single-statistics>
     <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
-                                    [indicateMissingResponses]="true" [question]="question.question"
+                                    [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
                                     [isDisplayOnly]="isDisplayOnly"
                                     [instructorCommentTableModel]="instructorCommentTableModel"
                                     (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"

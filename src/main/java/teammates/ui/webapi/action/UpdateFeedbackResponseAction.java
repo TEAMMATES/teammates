@@ -51,15 +51,14 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForStudent(
-                            feedbackQuestion, studentAttributes.getEmail(), studentAttributes.getTeam());
+                    logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForInstructor(feedbackQuestion, instructorAttributes.getEmail());
+                    logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             break;
         case INSTRUCTOR_RESULT:
         case STUDENT_RESULT:

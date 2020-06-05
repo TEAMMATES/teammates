@@ -224,6 +224,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
   readonly exampleNumericalScaleResponseOutput: ResponseOutput[] = [
     {
+      isMissingResponse: false,
       responseId: '1',
       giver: 'Alice',
       giverTeam: 'Team 1',
@@ -240,6 +241,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '2',
       giver: 'Charles',
       giverTeam: 'Team 1',
@@ -256,6 +258,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '3',
       giver: 'David',
       giverTeam: 'Team 1',
@@ -272,6 +275,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '4',
       giver: 'Bob',
       giverTeam: 'Team 2',
@@ -288,6 +292,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '5',
       giver: 'Alice',
       giverTeam: 'Team 1',
@@ -304,6 +309,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '6',
       giver: 'Charles',
       giverTeam: 'Team 1',
@@ -320,6 +326,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '7',
       giver: 'David',
       giverTeam: 'Team 1',
@@ -336,6 +343,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       instructorComments: [],
     },
     {
+      isMissingResponse: false,
       responseId: '8',
       giver: 'Emma',
       giverTeam: 'Team 2',

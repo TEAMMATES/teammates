@@ -6,7 +6,7 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
-import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
@@ -16,7 +16,7 @@ import { ResponsesInstructorCommentsBase } from '../responses-instructor-comment
   templateUrl: './grouped-responses.component.html',
   styleUrls: ['./grouped-responses.component.scss'],
 })
-export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit {
+export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
 
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
