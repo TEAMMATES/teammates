@@ -7,7 +7,9 @@
       <span ngbTooltip="Format: Response percentage (Response count) [Weight of option], e.g. 50% (2) [1.0]" class="fa fa-info-circle"></span>
     </div>
     <div class="col-sm-8" style="text-align: right;">
-      <input type="checkbox" [(ngModel)]="excludeSelf"> <span ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
+      <label class="form-check-label">
+        <input type="checkbox" [(ngModel)]="excludeSelf" class="form-check-input"> <span ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
+      </label>
     </div>
   </div>
   <div class="row">

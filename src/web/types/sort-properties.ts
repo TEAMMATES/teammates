@@ -141,6 +141,31 @@ export enum SortBy {
      * Average score (exclude self-review) of the numerical scale question.
      */
     NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
+
+    /**
+     * Option text
+     */
+    MCQ_CHOICE,
+
+    /**
+     * Weight assigned to the option
+     */
+    MCQ_WEIGHT,
+
+    /**
+     * Number of selection of that option
+     */
+    MCQ_RESPONSE_COUNT,
+
+    /**
+     * Percentage of selection of that option
+     */
+    MCQ_PERCENTAGE,
+
+    /**
+     * Weighted percentage of selection of that option
+     */
+    MCQ_WEIGHTED_PERCENTAGE,
 }
 
 /**
