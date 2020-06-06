@@ -41,10 +41,10 @@ public class CommentSearchResultData extends SessionResultsData {
         for (FeedbackResponseAttributes response : responses) {
             output.add(ResponseOutput.builder()
                     .withResponseId(response.getId())
-                    .withGiver(bundle.responseGiverTable.get(response.giver))
+                    .withGiver(bundle.responseGiverTable.get(response.getId()))
                     .withGiverEmail(response.giver)
                     .withGiverSection(response.giverSection)
-                    .withRecipient(bundle.responseRecipientTable.get(response.recipient))
+                    .withRecipient(bundle.responseRecipientTable.get(response.getId()))
                     .withRecipientEmail(response.recipient)
                     .withRecipientSection(response.recipientSection)
                     .withResponseDetails(response.responseDetails)
