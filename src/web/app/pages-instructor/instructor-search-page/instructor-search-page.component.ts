@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+
 import { LoadingBarService } from '../../../services/loading-bar.service';
-import {
-  InstructorSearchResult,
-  SearchService,
-} from '../../../services/search.service';
+import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListSectionData } from '../student-list/student-list-section-data';
+import { SearchCommentsTable } from './comment-result-table/comment-result-table.component';
+import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
 
 /**
  * Data object for communication with the child student result component
@@ -27,8 +28,14 @@ export interface SearchStudentsTable {
   styleUrls: ['./instructor-search-page.component.scss'],
 })
 export class InstructorSearchPageComponent implements OnInit {
-  searchKey: string = '';
+
+  searchParams: SearchParams = {
+    searchKey: '',
+    isSearchForStudents: true,
+    isSearchForComments: false,
+  };
   studentTables: SearchStudentsTable[] = [];
+  commentTables: SearchCommentsTable[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -40,10 +47,10 @@ export class InstructorSearchPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams.studentSearchkey) {
-        this.searchKey = queryParams.studentSearchkey;
+        this.searchParams.searchKey = queryParams.studentSearchkey;
       }
-      if (this.searchKey) {
-        this.search(this.searchKey);
+      if (this.searchParams.searchKey) {
+        this.search();
       }
     });
   }
@@ -51,24 +58,30 @@ export class InstructorSearchPageComponent implements OnInit {
   /**
    * Searches for students and questions/responses/comments matching the search query.
    */
-  search(searchKey: string): void {
+  search(): void {
     this.loadingBarService.showLoadingBar();
-    this.searchService
-      .searchInstructor(searchKey)
-      .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
-      .subscribe(
-        (resp: InstructorSearchResult) => {
-          this.studentTables = resp.searchStudentsTables;
+    forkJoin(
+        this.searchParams.isSearchForComments
+            ? this.searchService.searchComment(this.searchParams.searchKey)
+            : of([]),
+        this.searchParams.isSearchForStudents
+            ? this.searchService.searchInstructor(this.searchParams.searchKey)
+            : of([]))
+        .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
+        .subscribe((resp: [InstructorSearchResult, InstructorSearchResult]) => {
+          this.commentTables = resp[0].searchCommentsTables;
+          this.studentTables = resp[1].searchStudentsTables;
           const hasStudents: boolean = !!(
-            this.studentTables && this.studentTables.length
+              this.studentTables && this.studentTables.length
           );
-          if (!hasStudents) {
+          const hasComments: boolean = !!(
+              this.commentTables && this.commentTables.length
+          );
+          if (!hasStudents && !hasComments) {
             this.statusMessageService.showWarningMessage('No results found.');
           }
-        },
-        (resp: ErrorMessageOutput) => {
+        }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
-        },
-      );
+        });
   }
 }

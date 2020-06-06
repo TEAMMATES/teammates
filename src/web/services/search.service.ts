@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map, mergeMap } from 'rxjs/operators';
-import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
+import {
+  SearchCommentsTable,
+} from '../app/pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
+import {
+  SearchStudentsTable,
+} from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
+  CommentSearchResult,
   CommentSearchResults,
   Course,
   FeedbackSessions,
@@ -48,6 +54,16 @@ export class SearchService {
         ]),
       ),
       map((res: [SearchStudentsTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
+    );
+  }
+
+  /**
+   * Search session, response, comments on response with {@code searchKey} and
+   * parses the results
+   */
+  searchComment(searchKey: string): Observable<InstructorSearchResult> {
+    return this.searchComments(searchKey).pipe(
+      map((commentsRes: CommentSearchResults) => this.getSearchCommentsTable(commentsRes)),
     );
   }
 
@@ -138,6 +154,17 @@ export class SearchService {
     return coursesWithSections;
   }
 
+  private getSearchCommentsTable(searchResults: CommentSearchResults): InstructorSearchResult {
+    const searchResult: CommentSearchResult[] = searchResults.searchResults;
+    return {
+      searchStudentsTables: [],
+      searchCommentsTables: searchResult.map((res: CommentSearchResult) => ({
+        feedbackSession: res.feedbackSession,
+        questions: res.questions,
+      })),
+    };
+  }
+
   getPrivileges(
     coursesWithSections: SearchStudentsTable[],
   ): Observable<InstructorPrivilege[]> {
@@ -180,6 +207,7 @@ export class SearchService {
 
     return {
       searchStudentsTables: coursesWithSections,
+      searchCommentsTables: [],
     };
   }
 
@@ -442,6 +470,7 @@ export class SearchService {
  */
 export interface InstructorSearchResult {
   searchStudentsTables: SearchStudentsTable[];
+  searchCommentsTables: SearchCommentsTable[];
 }
 
 /**
