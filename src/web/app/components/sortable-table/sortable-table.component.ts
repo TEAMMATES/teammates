@@ -8,7 +8,7 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 export interface ColumnData {
   header: string;
   headerToolTip?: string;
-  sortBy?: SortBy; // Don't provide this field if you don't want this column to be sortable
+  sortBy?: SortBy; // optional if the column is not sortable
 }
 
 /**
