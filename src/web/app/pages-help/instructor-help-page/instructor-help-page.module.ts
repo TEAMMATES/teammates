@@ -11,9 +11,13 @@ import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import {
     CommentBoxModule,
 } from '../../components/comment-box/comment-box.module';
+import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
+import { StudentViewResponsesModule,
+} from '../../components/question-responses/student-view-responses/student-view-responses.module';
 import {
     QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
+import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import {
   SessionEditFormModule,
 } from '../../components/session-edit-form/session-edit-form.module';
@@ -74,6 +78,10 @@ import {
     QuestionEditFormModule,
     QuestionSubmissionFormModule,
     SessionsRecycleBinTableModule,
+    InstructorSessionResultPageModule,
+    QuestionTextWithInfoModule,
+    SingleStatisticsModule,
+    StudentViewResponsesModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
