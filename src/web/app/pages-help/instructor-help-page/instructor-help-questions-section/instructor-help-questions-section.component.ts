@@ -1109,7 +1109,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   readonly exampleRubricQuestionQuestionTabModel: QuestionTabModel = {
     question: this.exampleRubricQuestionModel,
     responses: this.exampleRubricQuestionResponseOutput,
-    statistics: '', // TODO: need JSON data string
+    statistics: '',
     hasPopulated: true,
     isTabExpanded: true,
   };
