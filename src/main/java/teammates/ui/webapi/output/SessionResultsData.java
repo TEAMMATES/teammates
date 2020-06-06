@@ -28,9 +28,9 @@ public class SessionResultsData extends ApiOutput {
 
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
-    private final List<QuestionOutput> questions = new ArrayList<>();
+    protected final List<QuestionOutput> questions = new ArrayList<>();
 
-    private SessionResultsData() {
+    protected SessionResultsData() {
         // use factory method instead
     }
 
@@ -341,6 +341,13 @@ public class SessionResultsData extends ApiOutput {
         QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
+        }
+
+        protected QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
+                                 List<ResponseOutput> allResponses) {
+            this.questionStatistics = null;
+            this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
+            this.allResponses.addAll(allResponses);
         }
 
         public FeedbackQuestionData getFeedbackQuestion() {
