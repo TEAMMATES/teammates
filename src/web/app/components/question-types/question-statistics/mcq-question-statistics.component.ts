@@ -1,6 +1,8 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -21,16 +23,21 @@ export class McqQuestionStatisticsComponent
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] = [];
+
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -124,4 +131,23 @@ export class McqQuestionStatisticsComponent
     }
   }
 
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Choice', sortBy: SortBy.MCQ_CHOICE },
+      { header: 'Weight', sortBy: SortBy.MCQ_WEIGHT },
+      { header: 'Response Count', sortBy: SortBy.MCQ_RESPONSE_COUNT },
+      { header: 'Percentage (%)', sortBy: SortBy.MCQ_PERCENTAGE },
+      { header: 'Weighted Percentage (%)', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE },
+    ];
+
+    this.rowsData = Object.keys(this.answerFrequency).map((key: string) => {
+      return [
+        key,
+        this.weightPerOption[key] || '-',
+        this.answerFrequency[key],
+        this.percentagePerOption[key],
+        this.weightedPercentagePerOption[key] || '-',
+      ];
+    });
+  }
 }

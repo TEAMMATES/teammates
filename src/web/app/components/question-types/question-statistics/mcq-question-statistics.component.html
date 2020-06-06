@@ -8,26 +8,9 @@
   </div>
   <div class="row">
     <div class="col-sm-12 table-responsive">
-      <table class="table table-bordered table-striped margin-0">
-        <thead>
-          <tr>
-            <td>Choice</td>
-            <td>Weight</td>
-            <td>Response Count</td>
-            <td>Percentage (%)</td>
-            <td>Weighted Percentage (%)</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let answer of answerFrequency | keyvalue">
-            <td>{{ answer.key }}</td>
-            <td>{{ weightPerOption[answer.key] || '-' }}</td>
-            <td>{{ answer.value }}</td>
-            <td>{{ percentagePerOption[answer.key] }}</td>
-            <td>{{ weightedPercentagePerOption[answer.key] || '-' }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <tm-sortable-table [columns]="columnsData"
+                         [rows]="rowsData"
+      ></tm-sortable-table>
     </div>
     <div class="col-sm-12 table-responsive" *ngIf="question.hasAssignedWeights" style="margin-top: 20px;">
       <strong class="text-color-gray">
