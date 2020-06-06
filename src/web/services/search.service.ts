@@ -57,6 +57,10 @@ export class SearchService {
     );
   }
 
+  /**
+   * Search session, response, comments on response with {@code searchKey} and
+   * parses the results
+   */
   searchComment(searchKey: string): Observable<InstructorSearchResult> {
     return this.searchComments(searchKey).pipe(
       map((commentsRes: CommentSearchResults) => this.getSearchCommentsTable(commentsRes)),
