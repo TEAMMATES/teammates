@@ -11,6 +11,7 @@ branches:
   only:
     - master
     - release
+    - csv-migration
 
 skip_commits:
   files:
