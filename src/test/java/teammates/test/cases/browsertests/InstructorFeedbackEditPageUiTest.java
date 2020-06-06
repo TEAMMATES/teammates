@@ -21,7 +21,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.Priority;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
@@ -33,7 +32,7 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
+public class InstructorFeedbackEditPageUiTest extends BaseLegacyUiTestCase {
     private InstructorFeedbackEditPage feedbackEditPage;
     private String instructorId;
     private String courseId;
@@ -147,7 +146,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
 
-        feedbackEditPage.editFeedbackSession(editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
+        feedbackEditPage.editFeedbackSession(getStartTimeLocal(editedSession), getEndTimeLocal(editedSession),
                 editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
@@ -245,12 +244,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                 "3", feedbackEditPage.getFeedbackSessionEndTimeValue());
 
         savedSession = getFeedbackSessionWithRetry(dstSession.getCourseId(), dstSession.getFeedbackSessionName());
-        assertEquals("Saved end time should be 3am", 3, savedSession.getEndTimeLocal().getHour());
+        assertEquals("Saved end time should be 3am", 3, getEndTimeLocal(savedSession).getHour());
 
         ______TS("test end time earlier than start time");
         feedbackEditPage = getFeedbackEditPage();
         editedSession.setInstructions("Made some changes");
-        feedbackEditPage.editFeedbackSession(editedSession.getEndTimeLocal(), editedSession.getStartTimeLocal(),
+        feedbackEditPage.editFeedbackSession(getEndTimeLocal(editedSession), getStartTimeLocal(editedSession),
                                         editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";

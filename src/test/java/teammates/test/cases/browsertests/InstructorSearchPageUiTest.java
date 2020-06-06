@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.FileHelper;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -21,7 +20,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.
  */
-public class InstructorSearchPageUiTest extends BaseE2ETestCase {
+public class InstructorSearchPageUiTest extends BaseLegacyUiTestCase {
     private InstructorSearchPage searchPage;
 
     @Override

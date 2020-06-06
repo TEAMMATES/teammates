@@ -571,7 +571,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertTrue(course3OfInstructor.isCourseDeleted());
 
         coursesLogic.restoreCourseFromRecycleBin(course3OfInstructor.getId());
-        course3OfInstructor.resetDeletedAt();
+        course3OfInstructor.deletedAt = null;
 
         // Ensure the course and related entities still exist in datastore
         verifyPresentInDatastore(course3OfInstructor);

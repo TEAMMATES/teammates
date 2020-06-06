@@ -57,7 +57,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         // closed and unpublished
         session2InCourse3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-19));
         session2InCourse3.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));
-        session2InCourse3.resetDeletedTime();
+        session2InCourse3.setDeletedTime(null);
         dataBundle.feedbackSessions.put("session2InCourse3", session2InCourse3);
 
         // opened and published.
@@ -615,10 +615,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
-        LocalDateTime localStart = session.getStartTimeLocal();
-        LocalDateTime localEnd = session.getEndTimeLocal();
-        LocalDateTime localSessionVisibleFrom = session.getSessionVisibleFromTimeLocal();
-        LocalDateTime localResultsVisibleFrom = session.getResultsVisibleFromTimeLocal();
+        ZoneId oldTimeZone = session.getTimeZone();
+        LocalDateTime localStart = TimeHelper.convertInstantToLocalDateTime(session.getStartTime(), oldTimeZone);
+        LocalDateTime localEnd = TimeHelper.convertInstantToLocalDateTime(session.getEndTime(), oldTimeZone);
+        LocalDateTime localSessionVisibleFrom =
+                TimeHelper.convertInstantToLocalDateTime(session.getSessionVisibleFromTime(), oldTimeZone);
+        LocalDateTime localResultsVisibleFrom = TimeHelper.convertInstantToLocalDateTime(
+                session.getResultsVisibleFromTime(), oldTimeZone);
         session.setTimeZone(newTimeZone);
         session.setStartTime(TimeHelper.convertLocalDateTimeToInstant(localStart, newTimeZone));
         session.setEndTime(TimeHelper.convertLocalDateTimeToInstant(localEnd, newTimeZone));

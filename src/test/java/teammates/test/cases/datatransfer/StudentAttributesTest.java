@@ -376,69 +376,18 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
     }
 
     @Test
-    public void testIsEnrollInfoSameAs() {
-        StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());
-        StudentAttributes other = StudentAttributes.valueOf(generateTypicalStudentObject());
-
-        ______TS("Typical case: Same enroll info");
-        assertTrue(student.isEnrollInfoSameAs(other));
-
-        ______TS("Typical case: Compare to null");
-        assertFalse(student.isEnrollInfoSameAs(null));
-
-        ______TS("Typical case: Different in email");
-        other.email = "other@email.com";
-        assertFalse(student.isEnrollInfoSameAs(other));
-
-        ______TS("Typical case: Different in name");
-        other = StudentAttributes.valueOf(generateTypicalStudentObject());
-        other.name = "otherName";
-        assertFalse(student.isEnrollInfoSameAs(other));
-
-        ______TS("Typical case: Different in course id");
-        other = StudentAttributes.valueOf(generateTypicalStudentObject());
-        other.course = "otherCourse";
-        assertFalse(student.isEnrollInfoSameAs(other));
-
-        ______TS("Typical case: Different in comment");
-        other = StudentAttributes.valueOf(generateTypicalStudentObject());
-        other.comments = "otherComments";
-        assertFalse(student.isEnrollInfoSameAs(other));
-
-        ______TS("Typical case: Different in team");
-        other = StudentAttributes.valueOf(generateTypicalStudentObject());
-        other.team = "otherTeam";
-        assertFalse(student.isEnrollInfoSameAs(other));
-
-        ______TS("Typical case: Different in section");
-        other = StudentAttributes.valueOf(generateStudentWithoutSectionObject());
-        assertFalse(student.isEnrollInfoSameAs(other));
-    }
-
-    @Test
-    public void testSortByNameAndThenByEmail() {
-        List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
-        StudentAttributes.sortByNameAndThenByEmail(sortedList);
-        List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
-        assertEquals(sortedList.get(0).toEnrollmentString(), unsortedList.get(0).toEnrollmentString());
-        assertEquals(sortedList.get(1).toEnrollmentString(), unsortedList.get(3).toEnrollmentString());
-        assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList.get(2).toEnrollmentString());
-        assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList.get(1).toEnrollmentString());
-    }
-
-    @Test
     public void testSortByTeam() {
         List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
         StudentAttributes.sortByTeamName(sortedList);
         List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
-        assertEquals(sortedList.get(0).toEnrollmentString(),
-                     unsortedList.get(2).toEnrollmentString());
-        assertEquals(sortedList.get(1).toEnrollmentString(),
-                     unsortedList.get(0).toEnrollmentString());
-        assertEquals(sortedList.get(2).toEnrollmentString(),
-                     unsortedList.get(1).toEnrollmentString());
-        assertEquals(sortedList.get(3).toEnrollmentString(),
-                     unsortedList.get(3).toEnrollmentString());
+        assertEquals(sortedList.get(0).toString(),
+                     unsortedList.get(2).toString());
+        assertEquals(sortedList.get(1).toString(),
+                     unsortedList.get(0).toString());
+        assertEquals(sortedList.get(2).toString(),
+                     unsortedList.get(1).toString());
+        assertEquals(sortedList.get(3).toString(),
+                     unsortedList.get(3).toString());
     }
 
     @Test
@@ -446,14 +395,14 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
         List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
         StudentAttributes.sortBySectionName(sortedList);
         List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
-        assertEquals(sortedList.get(0).toEnrollmentString(),
-                     unsortedList.get(3).toEnrollmentString());
-        assertEquals(sortedList.get(1).toEnrollmentString(),
-                     unsortedList.get(0).toEnrollmentString());
-        assertEquals(sortedList.get(2).toEnrollmentString(),
-                     unsortedList.get(1).toEnrollmentString());
-        assertEquals(sortedList.get(3).toEnrollmentString(),
-                     unsortedList.get(2).toEnrollmentString());
+        assertEquals(sortedList.get(0).toString(),
+                     unsortedList.get(3).toString());
+        assertEquals(sortedList.get(1).toString(),
+                     unsortedList.get(0).toString());
+        assertEquals(sortedList.get(2).toString(),
+                     unsortedList.get(1).toString());
+        assertEquals(sortedList.get(3).toString(),
+                     unsortedList.get(2).toString());
     }
 
     @Test
@@ -490,19 +439,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
 
         assertEquals("Student:name 1[email@email.com]" + System.lineSeparator(), sd.toString());
         assertEquals("    Student:name 1[email@email.com]" + System.lineSeparator(), sd.toString(4));
-    }
-
-    @Test
-    public void testToEnrollmentString() {
-        StudentAttributes sd = StudentAttributes
-                .builder("course1", "email@email.com")
-                .withName("name 1")
-                .withSectionName("sect 1")
-                .withComment("comment 1")
-                .withTeamName("team 1")
-                .build();
-
-        assertEquals("sect 1|team 1|name 1|email@email.com|comment 1", sd.toEnrollmentString());
     }
 
     @Test
@@ -573,10 +509,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
 
     private CourseStudent generateTypicalStudentObject() {
         return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
-    }
-
-    private CourseStudent generateStudentWithoutSectionObject() {
-        return new CourseStudent("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", null);
     }
 
     private List<StudentAttributes> generateTypicalStudentAttributesList() {

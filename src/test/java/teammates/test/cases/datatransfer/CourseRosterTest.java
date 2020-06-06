@@ -2,7 +2,6 @@ package teammates.test.cases.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,31 +78,6 @@ public class CourseRosterTest extends BaseTestCase {
         assertEquals(roster.getInstructorForEmail("ins2@email.com").email, "ins2@email.com");
         assertEquals(roster.getInstructorForEmail("ins2@email.com").name, "Jean");
 
-    }
-
-    @Test
-    public void testGetEmailToNameTableFromRoster() {
-        Map<String, String> emailToNameTableExpected = new HashMap<>();
-
-        emailToNameTableExpected.put("ins1@email.com", "Jess");
-        emailToNameTableExpected.put("s1@gmail.com", "student 1");
-        emailToNameTableExpected.put("s2@gmail.com", "student 2");
-
-        List<StudentAttributes> students = new ArrayList<>();
-        StudentAttributes student1 = StudentAttributes
-                .builder("", "s1@gmail.com")
-                .withName("student 1")
-                .build();
-        StudentAttributes student2 = StudentAttributes
-                .builder("", "s2@gmail.com")
-                .withName("student 2")
-                .build();
-        students.add(student1);
-        students.add(student2);
-
-        CourseRoster roster = new CourseRoster(students, createInstructorList("Jess", "ins1@email.com"));
-        Map<String, String> emailToNameTableActual = roster.getEmailToNameTableFromRoster();
-        assertEquals(emailToNameTableExpected, emailToNameTableActual);
     }
 
     @Test

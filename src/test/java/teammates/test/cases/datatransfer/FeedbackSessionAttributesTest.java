@@ -3,10 +3,8 @@ package teammates.test.cases.datatransfer;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -23,59 +21,6 @@ import teammates.test.driver.TimeHelperExtension;
  * SUT: {@link FeedbackSessionAttributes}.
  */
 public class FeedbackSessionAttributesTest extends BaseTestCase {
-
-    @Test
-    public void testSort() {
-        List<FeedbackSessionAttributes> testList = new ArrayList<>();
-        List<FeedbackSessionAttributes> expected = new ArrayList<>();
-
-        Instant time1 = TimeHelper.parseInstant("2014-01-01 12:00 AM +0000");
-        Instant time2 = TimeHelper.parseInstant("2014-02-01 12:00 AM +0000");
-        Instant time3 = TimeHelper.parseInstant("2014-03-01 12:00 AM +0000");
-
-        FeedbackSessionAttributes s1 =
-                FeedbackSessionAttributes.builder("Session 1", "")
-                        .withStartTime(time1)
-                        .withEndTime(time2)
-                        .build();
-        FeedbackSessionAttributes s2 =
-                FeedbackSessionAttributes.builder("Session 2", "")
-                        .withStartTime(time2)
-                        .withEndTime(time3)
-                        .build();
-        FeedbackSessionAttributes s3 =
-                FeedbackSessionAttributes.builder("Session 3", "")
-                        .withStartTime(time1)
-                        .withEndTime(time2)
-                        .build();
-        FeedbackSessionAttributes s4 =
-                FeedbackSessionAttributes.builder("Session 4", "")
-                        .withStartTime(time1)
-                        .withEndTime(time3)
-                        .build();
-        FeedbackSessionAttributes s5 =
-                FeedbackSessionAttributes.builder("Session 5", "")
-                        .withStartTime(time2)
-                        .withEndTime(time3)
-                        .build();
-
-        testList.add(s1);
-        testList.add(s2);
-        testList.add(s3);
-        testList.add(s4);
-        testList.add(s5);
-
-        expected.add(s2);
-        expected.add(s5);
-        expected.add(s4);
-        expected.add(s1);
-        expected.add(s3);
-
-        testList.sort(FeedbackSessionAttributes.DESCENDING_ORDER);
-        for (int i = 0; i < testList.size(); i++) {
-            assertEquals(expected.get(i), testList.get(i));
-        }
-    }
 
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValues() {

@@ -957,7 +957,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(feedbackSession.isSessionDeleted());
 
         fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        feedbackSession.resetDeletedTime();
+        feedbackSession.setDeletedTime(null);
 
         verifyPresentInDatastore(feedbackSession);
         assertFalse(feedbackSession.isSessionDeleted());

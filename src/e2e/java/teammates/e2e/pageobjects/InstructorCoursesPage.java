@@ -15,6 +15,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.util.TimeHelper;
 
 /**
  * Represents the "Courses" page for Instructors.
@@ -78,7 +79,8 @@ public class InstructorCoursesPage extends AppPage {
     public void verifyActiveCourseStatistics(CourseAttributes course, String numSections, String numTeams,
                                              String numStudents, String numUnregistered) {
         showStatistics(course.getId());
-        String[] courseDetail = { course.getId(), course.getName(), course.getCreatedAtDateString(),
+        String[] courseDetail = { course.getId(), course.getName(),
+                TimeHelper.formatDateForInstructorPages(course.getCreatedAt(), course.getTimeZone()),
                 numSections, numTeams, numStudents, numUnregistered };
         verifyTableRowValues(getActiveTableRow(course.getId()), courseDetail);
     }

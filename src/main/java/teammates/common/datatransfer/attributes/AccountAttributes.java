@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 
 /**
@@ -80,10 +79,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         return email;
     }
 
-    public String getTruncatedGoogleId() {
-        return StringHelper.truncateLongId(googleId);
-    }
-
     public String getInstitute() {
         return institute;
     }
@@ -150,10 +145,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
-    }
-
-    public boolean isUserRegistered() {
-        return googleId != null && !googleId.isEmpty();
     }
 
     /**
