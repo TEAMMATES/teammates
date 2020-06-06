@@ -24,7 +24,7 @@ public abstract class BaseFeedbackQuestionUiTest extends BaseLegacyUiTestCase {
     protected InstructorFeedbackEditPage getFeedbackEditPage(String instructorId, String courseId,
             String feedbackSessionName) {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE).withUserId(instructorId)
-                .withCourseId(courseId).withSessionName(feedbackSessionName).withEnableSessionEditDetails(true);
+                .withCourseId(courseId).withSessionName(feedbackSessionName); // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 }

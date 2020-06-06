@@ -23,6 +23,7 @@ import teammates.e2e.util.Priority;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -245,7 +246,7 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseLegacyUiTestCase {
         BackDoor.editCourse(course);
 
         String dstSessionName = "DST Session";
-        LocalDateTime gapStart = TimeHelper.parseDateTimeFromSessionsForm("Fri, 30 Dec, 2011", "7", "0");
+        LocalDateTime gapStart = TimeHelperExtension.parseDateTimeFromSessionsForm("Fri, 30 Dec, 2011", "7", "0");
 
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
         feedbackPage.addFeedbackSession(
@@ -1066,8 +1067,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseLegacyUiTestCase {
         String templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "22", "00"),
-                TimeHelper.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
+                TimeHelperExtension.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "22", "00"),
+                TimeHelperExtension.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 
@@ -1083,8 +1084,8 @@ public class InstructorFeedbackSessionsPageUiTest extends BaseLegacyUiTestCase {
         templateSessionName = "!Invalid name";
         feedbackPage.addFeedbackSession(
                 templateSessionName, newSession.getCourseId(),
-                TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "10", "00"),
-                TimeHelper.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
+                TimeHelperExtension.parseDateTimeFromSessionsForm("Sun, 01 Apr, 2035", "10", "00"),
+                TimeHelperExtension.parseDateTimeFromSessionsForm("Mon, 30 Apr, 2035", "22", "00"),
                 null, null,
                 newSession.getInstructions(), newSession.getGracePeriodMinutes());
 

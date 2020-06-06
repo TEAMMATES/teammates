@@ -34,7 +34,7 @@ public class AdminAccountDetailsPageUiTest extends BaseLegacyUiTestCase {
         ______TS("content: typical page");
 
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId("AAMgtUiT.instr2")
+                // .withInstructorId("AAMgtUiT.instr2")
                 .withUserId(TestProperties.TEST_ADMIN_ACCOUNT);
         detailsPage = loginAdminToPageOld(detailsPageUrl, AdminAccountDetailsPage.class);
 

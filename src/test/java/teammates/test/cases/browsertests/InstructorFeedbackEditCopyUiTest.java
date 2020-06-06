@@ -100,8 +100,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseLegacyUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                              .withUserId(instructorId)
                                              .withCourseId(courseId)
-                                             .withSessionName(feedbackSessionName)
-                                             .withEnableSessionEditDetails(true);
+                                             .withSessionName(feedbackSessionName);
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

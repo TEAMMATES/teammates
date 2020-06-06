@@ -23,6 +23,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.e2e.util.Priority;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -226,8 +227,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseLegacyUiTestCase {
         feedbackEditPage = getFeedbackEditPageOfSessionIndDstCourse();
         FeedbackSessionAttributes dstSession = testData.feedbackSessions.get("dstSession");
 
-        LocalDateTime overlapStartTime = TimeHelper.parseDateTimeFromSessionsForm("Sun, 05 Apr, 2015", "2", "0");
-        LocalDateTime gapEndTime = TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Oct, 2017", "2", "0");
+        LocalDateTime overlapStartTime = TimeHelperExtension.parseDateTimeFromSessionsForm("Sun, 05 Apr, 2015", "2", "0");
+        LocalDateTime gapEndTime = TimeHelperExtension.parseDateTimeFromSessionsForm("Sun, 01 Oct, 2017", "2", "0");
 
         feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime,
                 dstSession.getInstructions(), dstSession.getGracePeriodMinutes());
@@ -1217,8 +1218,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseLegacyUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
-                                    .withSessionName(feedbackSessionName)
-                                    .withEnableSessionEditDetails(true);
+                                    .withSessionName(feedbackSessionName);
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1230,8 +1231,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseLegacyUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
-                                    .withSessionName(sessionWithoutQuestions)
-                                    .withEnableSessionEditDetails(true);
+                                    .withSessionName(sessionWithoutQuestions);
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1239,8 +1240,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseLegacyUiTestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withUserId(testData.instructors.get("instructorOfDstCourse").googleId)
                 .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
-                .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())
-                .withEnableSessionEditDetails(true);
+                .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName());
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 

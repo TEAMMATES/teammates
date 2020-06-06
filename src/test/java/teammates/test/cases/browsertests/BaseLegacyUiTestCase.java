@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * Base class for all legacy UI tests.
@@ -18,19 +18,19 @@ public abstract class BaseLegacyUiTestCase extends BaseE2ETestCase {
     }
 
     protected LocalDateTime getStartTimeLocal(FeedbackSessionAttributes fs) {
-        return TimeHelper.convertInstantToLocalDateTime(fs.getStartTime(), fs.getTimeZone());
+        return TimeHelperExtension.convertInstantToLocalDateTime(fs.getStartTime(), fs.getTimeZone());
     }
 
     protected LocalDateTime getEndTimeLocal(FeedbackSessionAttributes fs) {
-        return TimeHelper.convertInstantToLocalDateTime(fs.getEndTime(), fs.getTimeZone());
+        return TimeHelperExtension.convertInstantToLocalDateTime(fs.getEndTime(), fs.getTimeZone());
     }
 
     protected LocalDateTime getSessionVisibleFromTimeLocal(FeedbackSessionAttributes fs) {
-        return TimeHelper.convertInstantToLocalDateTime(fs.getSessionVisibleFromTime(), fs.getTimeZone());
+        return TimeHelperExtension.convertInstantToLocalDateTime(fs.getSessionVisibleFromTime(), fs.getTimeZone());
     }
 
     protected LocalDateTime getResultsVisibleFromTimeLocal(FeedbackSessionAttributes fs) {
-        return TimeHelper.convertInstantToLocalDateTime(fs.getResultsVisibleFromTime(), fs.getTimeZone());
+        return TimeHelperExtension.convertInstantToLocalDateTime(fs.getResultsVisibleFromTime(), fs.getTimeZone());
     }
 
 }

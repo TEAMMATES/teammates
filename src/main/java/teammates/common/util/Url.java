@@ -105,10 +105,6 @@ public class Url {
         return url + (url.contains("?") ? "&" : "?") + key + "=" + SanitizationHelper.sanitizeForUri(value);
     }
 
-    public static String trimTrailingSlash(String url) {
-        return url.trim().replaceAll("/(?=$)", "");
-    }
-
     @Override
     public String toString() {
         return relativeUrl + query;

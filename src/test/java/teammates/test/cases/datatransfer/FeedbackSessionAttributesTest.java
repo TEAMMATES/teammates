@@ -217,10 +217,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
     public void testBuilder_withTypicalData_shouldBuildCorrectly() {
 
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
-        Instant startTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
-        Instant endTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
+        Instant startTime = TimeHelper.parseInstant("2016-05-09 10:00 AM +0800");
+        Instant endTime = TimeHelper.parseInstant("2017-05-09 10:00 AM +0800");
 
         FeedbackSessionAttributes fsa = FeedbackSessionAttributes
                 .builder("sessionName", "courseId")
@@ -514,10 +512,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
 
     private FeedbackSessionAttributes generateTypicalFeedbackSessionAttributesObject() {
         ZoneId timeZone = ZoneId.of("Asia/Singapore");
-        Instant startTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.parseDateTimeFromSessionsForm("Mon, 09 May, 2016", "10", "0"), timeZone);
-        Instant endTime = TimeHelper.convertLocalDateTimeToInstant(
-                TimeHelper.parseDateTimeFromSessionsForm("Tue, 09 May, 2017", "10", "0"), timeZone);
+        Instant startTime = TimeHelper.parseInstant("2016-05-09 10:00 AM +0800");
+        Instant endTime = TimeHelper.parseInstant("2017-05-09 10:00 AM +0800");
 
         return FeedbackSessionAttributes
                 .builder("sessionName", "courseId")

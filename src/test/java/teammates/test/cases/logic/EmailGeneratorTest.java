@@ -31,6 +31,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.EmailChecker;
+import teammates.test.driver.TimeHelperExtension;
 
 /**
  * SUT: {@link EmailGenerator}.
@@ -614,19 +615,23 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
     }
 
+    private static Instant convertLocalDateTimeToInstant(LocalDateTime localDateTime, ZoneId timeZone) {
+        return localDateTime == null ? null : localDateTime.atZone(timeZone).toInstant();
+    }
+
     private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
         ZoneId oldTimeZone = session.getTimeZone();
-        LocalDateTime localStart = TimeHelper.convertInstantToLocalDateTime(session.getStartTime(), oldTimeZone);
-        LocalDateTime localEnd = TimeHelper.convertInstantToLocalDateTime(session.getEndTime(), oldTimeZone);
+        LocalDateTime localStart = TimeHelperExtension.convertInstantToLocalDateTime(session.getStartTime(), oldTimeZone);
+        LocalDateTime localEnd = TimeHelperExtension.convertInstantToLocalDateTime(session.getEndTime(), oldTimeZone);
         LocalDateTime localSessionVisibleFrom =
-                TimeHelper.convertInstantToLocalDateTime(session.getSessionVisibleFromTime(), oldTimeZone);
-        LocalDateTime localResultsVisibleFrom = TimeHelper.convertInstantToLocalDateTime(
+                TimeHelperExtension.convertInstantToLocalDateTime(session.getSessionVisibleFromTime(), oldTimeZone);
+        LocalDateTime localResultsVisibleFrom = TimeHelperExtension.convertInstantToLocalDateTime(
                 session.getResultsVisibleFromTime(), oldTimeZone);
         session.setTimeZone(newTimeZone);
-        session.setStartTime(TimeHelper.convertLocalDateTimeToInstant(localStart, newTimeZone));
-        session.setEndTime(TimeHelper.convertLocalDateTimeToInstant(localEnd, newTimeZone));
-        session.setSessionVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZone));
-        session.setResultsVisibleFromTime(TimeHelper.convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZone));
+        session.setStartTime(convertLocalDateTimeToInstant(localStart, newTimeZone));
+        session.setEndTime(convertLocalDateTimeToInstant(localEnd, newTimeZone));
+        session.setSessionVisibleFromTime(convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZone));
+        session.setResultsVisibleFromTime(convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZone));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

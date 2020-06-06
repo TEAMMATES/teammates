@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -49,13 +48,6 @@ public final class StringHelper {
     }
 
     /**
-     * Returns true if the given string is empty or consists of only whitespace.
-     */
-    public static boolean isWhiteSpace(String string) {
-        return string.trim().isEmpty();
-    }
-
-    /**
      * Checks whether the input string matches the regex.
      * @param input The string to be matched
      * @param regex The regex  used for the matching
@@ -74,20 +66,6 @@ public final class StringHelper {
     }
 
     /**
-     * Checks whether the {@code inputString} is longer than a specified length
-     * if so returns the truncated name appended by ellipsis,
-     * otherwise returns the original input. <br>
-     * E.g., "12345678" truncated to length 6 returns "123..."
-     */
-    public static String truncate(String inputString, int truncateLength) {
-        if (inputString.length() <= truncateLength) {
-            return inputString;
-        }
-
-        return inputString.substring(0, truncateLength - 3) + "...";
-    }
-
-    /**
      * Trims head of the String if it is longer than specified Length.
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
      * @param maximumStringLength - maximum required length of the string
@@ -99,27 +77,6 @@ public final class StringHelper {
             return inputString;
         }
         return inputString.substring(inputStringLength - maximumStringLength);
-    }
-
-    /**
-     * Checks whether the {@code longId} is longer than the length specified
-     * in {@link Const.SystemParams},
-     * if so returns the truncated longId appended by ellipsis,
-     * otherwise returns the original longId.
-     */
-    public static String truncateLongId(String longId) {
-        return truncate(longId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
-    }
-
-    /**
-     * Substitutes the middle third of the given string with dots
-     * and returns the "obscured" string.
-     */
-    public static String obscure(String inputString) {
-        Assumption.assertNotNull(inputString);
-        String frontPart = inputString.substring(0, inputString.length() / 3);
-        String endPart = inputString.substring(2 * inputString.length() / 3);
-        return frontPart + ".." + endPart;
     }
 
     /**
@@ -355,18 +312,6 @@ public final class StringHelper {
     }
 
     /**
-     * Counts the number of empty strings passed as the argument. Null is
-     * considered an empty string, while whitespace is not.
-     *
-     * @return number of empty strings passed
-     */
-    public static int countEmptyStrings(String... strings) {
-        return Math.toIntExact(Arrays.stream(strings)
-                .filter(s -> isEmpty(s))
-                .count());
-    }
-
-    /**
      * Converts null input to empty string. Non-null inputs will be left as is.
      * This method is for displaying purpose.
      *
@@ -374,71 +319,6 @@ public final class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return str == null ? "" : str;
-    }
-
-    /**
-     * Removes the outermost enclosing square brackets surrounding a string.
-     *
-     * @return the string without the outermost enclosing square brackets
-     *         if the given string is enclosed by square brackets <br>
-     *         the string itself if the given string is not enclosed by square brackets <br>
-     *         null if the given string is null
-     */
-    public static String removeEnclosingSquareBrackets(String str) {
-        if (str == null) {
-            return null;
-        }
-
-        Pattern p = Pattern.compile("^\\[(.*)]$");
-        Matcher m = p.matcher(str);
-        return m.find() ? m.group(1) : str;
-    }
-
-    /**
-     * Returns a String array after removing white spaces leading and
-     * trailing any string in the input array.
-     */
-    public static String[] trim(String[] stringsToTrim) {
-        return Arrays.stream(stringsToTrim)
-                .map(s -> s.trim())
-                .toArray(size -> new String[size]);
-    }
-
-    /**
-     * Returns a String array after converting them to lower case.
-     */
-    public static String[] toLowerCase(String[] stringsToConvertToLowerCase) {
-        return Arrays.stream(stringsToConvertToLowerCase)
-                .map(s -> s.toLowerCase())
-                .toArray(size -> new String[size]);
-    }
-
-    /**
-     * Returns text with all non-ASCII characters removed.
-     */
-    public static String removeNonAscii(String text) {
-        return text.replaceAll("[^\\x00-\\x7F]", "");
-    }
-
-    /**
-     * Returns a new String composed of copies of the String elements joined together
-     * with a copy of the specified delimiter.
-     */
-    public static String join(String delimiter, List<Integer> elements) {
-        return String.join(delimiter, toStringArray(elements));
-    }
-
-    /**
-     * Converts list of integer to array of strings.
-     */
-    private static String[] toStringArray(List<Integer> elements) {
-        if (elements == null) {
-            throw new IllegalArgumentException("Provided arguments cannot be null");
-        }
-
-        return elements.stream()
-                .map(s -> String.valueOf(s))
-                .toArray(size -> new String[size]);
     }
 
     /**
