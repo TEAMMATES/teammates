@@ -109,13 +109,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 .toString();
     }
 
-    public String getPublicProfilePictureUrl() {
-        return Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withStudentEmail(StringHelper.encrypt(email))
-                .withCourseId(StringHelper.encrypt(course))
-                .toString();
-    }
-
     public String getName() {
         return name;
     }

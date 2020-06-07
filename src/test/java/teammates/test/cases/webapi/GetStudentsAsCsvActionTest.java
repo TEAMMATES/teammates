@@ -32,7 +32,7 @@ public class GetStudentsAsCsvActionTest extends
         String instructorId = typicalBundle.instructors.get("instructor1OfCourse1").googleId;
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
 
-        gaeSimulation.loginAsInstructor(instructorId);
+        loginAsInstructor(instructorId);
 
         ______TS("Invalid params");
         String[] submissionParams = {};
