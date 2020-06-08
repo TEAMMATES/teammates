@@ -16,14 +16,39 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
  */
 public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
 
-    public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<>();
-    public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<>();
-    public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<>();
+    /**
+     * Session name to FeedbackSessionAttributes map.
+     */
     public Map<String, FeedbackSessionAttributes> sessions = new HashMap<>();
-    public Map<String, String> commentGiverTable = new HashMap<>();
+    /**
+     * Session name to FeedbackQuestionAttributes map.
+     */
+    public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<>();
+    /**
+     * Question id to FeedbackResponseAttributes map.
+     */
+    public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<>();
+    /**
+     * Response id to FeedbackResponseCommentAttributes map.
+     */
+    public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<>();
+    /**
+     * Response id to response giver name.
+     */
     public Map<String, String> responseGiverTable = new HashMap<>();
+    /**
+     * Response id to response recipient name.
+     */
     public Map<String, String> responseRecipientTable = new HashMap<>();
-    public Set<String> instructorEmails = new HashSet<>();
+    /**
+     * Comment id to comment giver name.
+     */
+    public Map<String, String> commentGiverTable = new HashMap<>();
+    /**
+     * Comment giver email to comment giver name.
+     */
     public Map<String, String> commentGiverEmailToNameTable = new HashMap<>();
+
+    public Set<String> instructorEmails = new HashSet<>();
 
 }

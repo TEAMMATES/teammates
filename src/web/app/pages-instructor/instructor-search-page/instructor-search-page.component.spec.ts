@@ -1,19 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
-import { InstructorSearchPageComponent, SearchStudentsTable } from './instructor-search-page.component';
-
-@Component({ selector: 'tm-instructor-search-bar', template: '' })
-class InstructorSearchBarStubComponent {
-  @Input() searchKey: string = '';
-}
-@Component({ selector: 'tm-student-result-table', template: '' })
-class StudentResultTableStubComponent {
-  @Input() studentTables: SearchStudentsTable[] = [];
-}
+import { InstructorSearchPageComponent } from './instructor-search-page.component';
+import { InstructorSearchPageModule } from './instructor-search-page.module';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -21,15 +13,11 @@ describe('InstructorSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorSearchPageComponent,
-        InstructorSearchBarStubComponent,
-        StudentResultTableStubComponent,
-      ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
         MatSnackBarModule,
+        InstructorSearchPageModule,
       ],
     })
     .compileComponents();
@@ -50,7 +38,7 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should snap with a search key', () => {
-    component.searchKey = 'TEST';
+    component.searchParams.searchKey = 'TEST';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

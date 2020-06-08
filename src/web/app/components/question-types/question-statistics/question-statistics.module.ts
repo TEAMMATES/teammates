@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
 import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics.component';
@@ -47,6 +48,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     CommonModule,
     FormsModule,
     NgbModule,
+    SortableTableModule,
   ],
 })
 export class QuestionStatisticsModule { }

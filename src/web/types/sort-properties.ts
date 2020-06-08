@@ -121,6 +121,51 @@ export enum SortBy {
      * Name of the recipient of the feedback response.
      */
     RECIPIENT_NAME,
+
+    /**
+     * Average score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE,
+
+    /**
+     * Maximum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MAX,
+
+    /**
+     * Minimum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MIN,
+
+    /**
+     * Average score (exclude self-review) of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
+
+    /**
+     * Option text
+     */
+    MCQ_CHOICE,
+
+    /**
+     * Weight assigned to the option
+     */
+    MCQ_WEIGHT,
+
+    /**
+     * Number of selection of that option
+     */
+    MCQ_RESPONSE_COUNT,
+
+    /**
+     * Percentage of selection of that option
+     */
+    MCQ_PERCENTAGE,
+
+    /**
+     * Weighted percentage of selection of that option
+     */
+    MCQ_WEIGHTED_PERCENTAGE,
 }
 
 /**

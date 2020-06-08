@@ -333,7 +333,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
-        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
 
@@ -384,7 +384,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
-        gaeSimulation.loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.googleId);
         verifyCannotAccess(submissionParams);
     }
 
