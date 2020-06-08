@@ -376,7 +376,7 @@
                     </select>
                   </div>
                 </div>
-                <div ngbTooltip="Choose the way responses for the selected section is viewed" *ngIf="section">
+                <div ngbTooltip="Choose the way responses for the selected section is viewed">
                   <label class="control-label">
                     If showing only a section:
                   </label>
@@ -609,7 +609,9 @@
           <p>
             Assuming the relevant data exists, the results for a search with the keyword <code>good</code> would look something similar to this:
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-comment-result-table [commentTables]="exampleCommentSearchResult"></tm-comment-result-table>
+          </tm-example-box>
         </div>
       </div>
       <br/>
