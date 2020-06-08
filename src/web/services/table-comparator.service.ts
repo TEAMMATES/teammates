@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { SortBy, SortOrder } from '../types/sort-properties';
+import {Injectable} from '@angular/core';
+import {SortBy, SortOrder} from '../types/sort-properties';
 
 /**
  * Handles comparison logic between sortable table elements
@@ -42,6 +42,7 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
+      case SortBy.RUBRIC_CHOICE:
       case SortBy.RANK_RECIPIENTS_TEAM:
       case SortBy.RANK_RECIPIENTS_RECIPIENT:
       case SortBy.RANK_OPTIONS_OVERALL_RANK:

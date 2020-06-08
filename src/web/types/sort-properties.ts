@@ -201,6 +201,11 @@ export enum SortBy {
      * Recipient's overall rank excluding self
      */
     RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
+
+    /**
+     * Frequency of choice
+     */
+    RUBRIC_CHOICE,
 }
 
 /**
