@@ -8,22 +8,9 @@
   </div>
   <div class="row">
     <div class="col-sm-12 table-responsive">
-      <table class="table table-bordered table-striped margin-0">
-        <thead>
-        <tr>
-          <td>Option</td>
-          <td>Ranks Received</td>
-          <td>Overall Rank</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let option of ranksReceivedPerOption | keyvalue">
-          <td>{{ option.key }}</td>
-          <td>{{ option.value.join(', ') }}</td>
-          <td>{{ rankPerOption[option.key] }}</td>
-        </tr>
-        </tbody>
-      </table>
+      <tm-sortable-table [rows]="rowsData"
+                         [columns]="columnsData"
+      ></tm-sortable-table>
     </div>
   </div>
 </div>
