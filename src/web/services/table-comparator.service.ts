@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {SortBy, SortOrder} from '../types/sort-properties';
+import { Injectable } from '@angular/core';
+import { SortBy, SortOrder } from '../types/sort-properties';
 
 /**
  * Handles comparison logic between sortable table elements

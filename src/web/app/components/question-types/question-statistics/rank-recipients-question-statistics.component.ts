@@ -5,9 +5,9 @@ import {
   FeedbackRankRecipientsResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
-import {SortBy} from "../../../../types/sort-properties";
-import {ColumnData} from "../../sortable-table/sortable-table.component";
 
 /**
  * Statistics for rank recipients questions.
@@ -125,7 +125,7 @@ export class RankRecipientsQuestionStatisticsComponent
       { header: 'Ranks Received' },
       { header: 'Self Rank', sortBy: SortBy.RANK_RECIPIENTS_SELF_RANK },
       { header: 'Overall Rank', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK },
-      { header: 'Overall Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF},
+      { header: 'Overall Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF },
     ];
 
     this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {

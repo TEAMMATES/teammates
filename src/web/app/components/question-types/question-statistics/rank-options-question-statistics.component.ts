@@ -4,9 +4,9 @@ import {
   FeedbackRankOptionsResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
-import {ColumnData} from "../../sortable-table/sortable-table.component";
-import {SortBy} from "../../../../types/sort-properties";
 
 /**
  * Statistics for rank options questions.
