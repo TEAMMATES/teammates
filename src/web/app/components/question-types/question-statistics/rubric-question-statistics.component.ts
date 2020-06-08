@@ -125,16 +125,17 @@ export class RubricQuestionStatisticsComponent
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
     ];
 
-    this.rowsData = this.subQuestions.map((subQuestion: string, i: number) => {
+    this.rowsData = this.subQuestions.map((subQuestion: string, questionIndex: number) => {
       return [
         subQuestion,
-        ...this.choices.map((_: string, j: number) => {
+        ...this.choices.map((_: string, choiceIndex: number) => {
           if (this.excludeSelf) {
-            return `${ this.percentagesExcludeSelf[i][j] }% (${ this.answersExcludeSelf[i][j] }) \
-            ${ this.hasWeights ? `[${ this.weights[i][j] }]` : '' }`;
+            return `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \
+            (${ this.answersExcludeSelf[questionIndex][choiceIndex] }) \
+            ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }`;
           }
-          return `${ this.percentages[i][j] }% (${ this.answers[i][j] }) \
-          ${ this.hasWeights ? `[${ this.weights[i][j] }]` : '' }`;
+          return `${ this.percentages[questionIndex][choiceIndex] }% (${ this.answers[questionIndex][choiceIndex] }) \
+          ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }`;
         }),
       ];
     });
