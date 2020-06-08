@@ -22,7 +22,7 @@ export class InstructorSessionResultQuestionViewComponent
   @Input() isDisplayOnly: boolean = false;
 
   questionsOrder: QuestionTabModel[] = [];
-  values = ''
+
   constructor() {
     super(InstructorSessionResultViewType.QUESTION);
   }
@@ -43,13 +43,12 @@ export class InstructorSessionResultQuestionViewComponent
   }
 
   // Method expanding box after click on text
-  expandBoxByTextClick(event: any) {
+  expandBoxByTextClick(event: any): void {
 
     if (event.currentTarget === event.target) {
-      this.toggleAndLoadTab.emit()
-    }
-    else {
-      event.stopPropagation()
+      this.toggleAndLoadTab.emit();
+    } else {
+      event.stopPropagation();
     }
   }
 }

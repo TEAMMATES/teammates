@@ -4,12 +4,8 @@
 
 // The clickable parts of the boxes should change the cursor to a pointer
 
-tm-question-text-with-info {
+.tm-question-text-with-info {
   cursor: pointer;
-}
-
-tm-view-photo-popover {
-  cursor: default;
 }
 
 .card-header {
