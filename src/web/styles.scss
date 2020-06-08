@@ -10,19 +10,6 @@ body {
   font-size: 15px;
 }
 
-// The clickable parts of the boxes should change the cursor to a pointer
-tm-question-text-with-info {
-  cursor: pointer;
-}
-
-tm-view-photo-popover {
-  cursor: default;
-}
-
-.card-header {
-  cursor: pointer;
-}
-
 // make snackbar over the modal
 .cdk-overlay-container {
   z-index: 1100;
