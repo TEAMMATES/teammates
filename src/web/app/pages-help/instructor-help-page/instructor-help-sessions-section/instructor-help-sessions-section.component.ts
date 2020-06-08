@@ -4,7 +4,8 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
-  Course, FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
+  CommentVisibilityType,
+  Course, FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType, FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -31,6 +32,9 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import {
+  SearchCommentsTable,
+} from '../../../pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
 import { SectionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 import { InstructorSessionResultSectionType,
@@ -109,6 +113,32 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     recipientSection: 'Section B',
     responseDetails: DEFAULT_CONTRIBUTION_RESPONSE_DETAILS(),
     instructorComments: [],
+  };
+
+  readonly exampleResponseWithComment: ResponseOutput = {
+    isMissingResponse: false,
+    responseId: '1',
+    giver: 'Alice',
+    giverTeam: 'Team A',
+    giverSection: 'Section A',
+    recipient: 'Bob',
+    recipientTeam: 'Team B',
+    recipientSection: 'Section B',
+    responseDetails: {
+      answer: 110,
+      questionType: FeedbackQuestionType.CONTRIB,
+    } as FeedbackContributionResponseDetails,
+    instructorComments: [{
+      commentGiver: 'Instructor',
+      lastEditorEmail: '',
+      feedbackResponseCommentId: 1,
+      commentText: 'Good to know!',
+      createdAt: 1,
+      lastEditedAt: 1,
+      isVisibilityFollowingFeedbackQuestion: true,
+      showGiverNameTo: [CommentVisibilityType.GIVER],
+      showCommentTo: [CommentVisibilityType.GIVER],
+    }],
   };
 
   readonly exampleCourseCandidates: Course[] = [
@@ -318,7 +348,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
       customNumberOfEntitiesToGiveFeedbackTo: 0,
     },
     questionStatistics: '',
-    allResponses: [],
+    allResponses: [this.exampleResponseWithComment],
     responsesToSelf: [
       {
         responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
@@ -372,6 +402,11 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
       },
     ],
     otherResponses: [],
+  }];
+
+  readonly exampleCommentSearchResult: SearchCommentsTable[] = [{
+    feedbackSession: this.exampleFeedbackSession,
+    questions: this.exampleQuestionsWithResponses,
   }];
 
   @Input() isPeerEvalTipsCollapsed: boolean = false;
