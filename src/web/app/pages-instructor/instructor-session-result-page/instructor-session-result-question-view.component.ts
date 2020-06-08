@@ -22,7 +22,7 @@ export class InstructorSessionResultQuestionViewComponent
   @Input() isDisplayOnly: boolean = false;
 
   questionsOrder: QuestionTabModel[] = [];
-
+  values = ''
   constructor() {
     super(InstructorSessionResultViewType.QUESTION);
   }
@@ -40,5 +40,16 @@ export class InstructorSessionResultQuestionViewComponent
         .sort((val1: QuestionTabModel, val2: QuestionTabModel) => {
           return val1.question.questionNumber - (val2.question.questionNumber);
         });
+  }
+
+  // Method expanding box after click on text
+  expandBoxByTextClick(event: any) {
+
+    if (event.currentTarget === event.target) {
+      this.toggleAndLoadTab.emit()
+    }
+    else {
+      event.stopPropagation()
+    }
   }
 }
