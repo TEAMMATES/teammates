@@ -119,7 +119,7 @@ export class RubricQuestionStatisticsComponent
     return percentages;
   }
 
-  private getTableData(): void {
+  getTableData(): void {
     this.columnsData = [
         { header: '' },
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
