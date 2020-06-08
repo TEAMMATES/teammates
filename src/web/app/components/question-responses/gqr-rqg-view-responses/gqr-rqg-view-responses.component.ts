@@ -58,7 +58,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
-  teamTabIsShown: Record<string, boolean> = {};
 
   responsesToShow: Record<string, QuestionTab[]> = {};
 
@@ -81,7 +80,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     this.userToEmail = {};
     this.userToRelatedEmail = {};
     this.userExpanded = {};
-    this.teamTabIsShown = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (!this.indicateMissingResponses && response.isMissingResponse) {
@@ -143,16 +141,13 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
             .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
 
-          // Once there is at least one response from someone in the team, show the team tab
-          if (this.isGqr) {
-            this.teamTabIsShown[response.giverTeam] =
-                this.teamTabIsShown[response.giverTeam] || shouldDisplayBasedOnSection;
-          } else {
-            this.teamTabIsShown[response.recipientTeam] =
-                this.teamTabIsShown[response.recipientTeam] || shouldDisplayBasedOnSection;
-          }
-
           if (!shouldDisplayBasedOnSection) {
+            const team: string = this.isGqr ? response.giverTeam : response.recipientTeam;
+            const userToRemove: string = this.isGqr ? response.giver : response.recipient;
+            this.teamsToUsers[team] = this.teamsToUsers[team].filter((eachUser: string) => eachUser !== userToRemove);
+
+            // filters out user for when responses are not grouped by team
+            delete this.userExpanded[userToRemove];
             return false;
           }
 
@@ -166,6 +161,13 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             isTabExpanded: this.isExpandAll,
           });
         }
+      }
+    }
+
+    // Remove team if no users from team are to be displayed
+    for (const team of Object.keys(this.teamsToUsers)) {
+      if (!this.teamsToUsers[team].length) {
+        delete this.teamsToUsers[team];
       }
     }
   }
