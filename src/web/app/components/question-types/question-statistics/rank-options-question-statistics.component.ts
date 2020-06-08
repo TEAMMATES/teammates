@@ -5,6 +5,8 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionStatistics } from './question-statistics';
+import {ColumnData} from "../../sortable-table/sortable-table.component";
+import {SortBy} from "../../../../types/sort-properties";
 
 /**
  * Statistics for rank options questions.
@@ -20,6 +22,8 @@ export class RankOptionsQuestionStatisticsComponent
 
   ranksReceivedPerOption: Record<string, number[]> = {};
   rankPerOption: Record<string, number> = {};
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] = [];
 
   constructor() {
     super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
@@ -27,10 +31,12 @@ export class RankOptionsQuestionStatisticsComponent
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -79,6 +85,22 @@ export class RankOptionsQuestionStatisticsComponent
         this.rankPerOption[option] = i + 1;
       }
     }
+  }
+
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Option', sortBy: SortBy.RANK_OPTIONS_OPTION },
+      { header: 'Ranks Received' },
+      { header: 'Overall Rank', sortBy: SortBy.RANK_OPTIONS_OVERALL_RANK },
+    ];
+
+    this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
+      return [
+        key,
+        this.ranksReceivedPerOption[key].join(', '),
+        this.rankPerOption[key],
+      ];
+    });
   }
 
 }

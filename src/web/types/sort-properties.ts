@@ -166,6 +166,16 @@ export enum SortBy {
      * Weighted percentage of selection of that option
      */
     MCQ_WEIGHTED_PERCENTAGE,
+
+    /**
+     * Option to rank
+     */
+    RANK_OPTIONS_OPTION,
+
+    /**
+     * Overall ranking of the option
+     */
+    RANK_OPTIONS_OVERALL_RANK,
 }
 
 /**
