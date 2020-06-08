@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { RubricQuestionStatisticsComponent } from './rubric-question-statistics.component';
 
 describe('RubricQuestionStatisticsComponent', () => {
@@ -10,7 +11,7 @@ describe('RubricQuestionStatisticsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [RubricQuestionStatisticsComponent],
-      imports: [FormsModule],
+      imports: [FormsModule, SortableTableModule],
     })
     .compileComponents();
   }));
