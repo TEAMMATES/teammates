@@ -176,6 +176,31 @@ export enum SortBy {
      * Overall ranking of the option
      */
     RANK_OPTIONS_OVERALL_RANK,
+
+    /**
+     * Giver's / Recipients's team
+     */
+    RANK_RECIPIENTS_TEAM,
+
+    /**
+     * Recipient's name
+     */
+    RANK_RECIPIENTS_RECIPIENT,
+
+    /**
+     * Recipient's self rank
+     */
+    RANK_RECIPIENTS_SELF_RANK,
+
+    /**
+     * Recipient's overall rank
+     */
+    RANK_RECIPIENTS_OVERALL_RANK,
+
+    /**
+     * Recipient's overall rank excluding self
+     */
+    RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
 }
 
 /**

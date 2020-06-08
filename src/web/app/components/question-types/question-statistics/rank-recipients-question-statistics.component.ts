@@ -6,6 +6,8 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionStatistics } from './question-statistics';
+import {SortBy} from "../../../../types/sort-properties";
+import {ColumnData} from "../../sortable-table/sortable-table.component";
 
 /**
  * Statistics for rank recipients questions.
@@ -25,6 +27,8 @@ export class RankRecipientsQuestionStatisticsComponent
   selfRankPerOption: Record<string, number> = {};
   rankPerOption: Record<string, number> = {};
   rankPerOptionExcludeSelf: Record<string, number> = {};
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] = [];
 
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
@@ -32,10 +36,12 @@ export class RankRecipientsQuestionStatisticsComponent
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -110,6 +116,28 @@ export class RankRecipientsQuestionStatisticsComponent
     }
 
     return rankPerOption;
+  }
+
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Team', sortBy: SortBy.RANK_RECIPIENTS_TEAM },
+      { header: 'Recipient', sortBy: SortBy.RANK_RECIPIENTS_RECIPIENT },
+      { header: 'Ranks Received' },
+      { header: 'Self Rank', sortBy: SortBy.RANK_RECIPIENTS_SELF_RANK },
+      { header: 'Overall Rank', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK },
+      { header: 'Overall Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF},
+    ];
+
+    this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
+      return [
+        this.emailToTeamName[key],
+        this.emailToName[key],
+        this.ranksReceivedPerOption[key].join(', '),
+        this.selfRankPerOption[key] || '-',
+        this.rankPerOption[key],
+        this.rankPerOptionExcludeSelf[key] || '-',
+      ];
+    });
   }
 
 }
