@@ -92,33 +92,39 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
         }
-        if (this.isGqr) {
-          this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
-          if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
-            this.teamsToUsers[response.giverTeam].push(response.giver);
-            this.teamExpanded[response.giverTeam] = this.isExpandAll;
-          }
-          if (response.relatedGiverEmail) {
-            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
-          }
-          this.userExpanded[response.giver] = this.isExpandAll;
-        } else {
-          if (!response.recipientTeam) {
-            // Recipient is team
-            this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
-            if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
-              this.teamsToUsers[response.recipient].push(response.recipient);
-              this.teamExpanded[response.recipient] = this.isExpandAll;
+
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (shouldDisplayBasedOnSection) {
+          if (this.isGqr) {
+            this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
+            if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
+              this.teamsToUsers[response.giverTeam].push(response.giver);
+              this.teamExpanded[response.giverTeam] = this.isExpandAll;
+            }
+            if (response.relatedGiverEmail) {
+              this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
+            }
+
+            this.userExpanded[response.giver] = this.isExpandAll;
+          } else {
+            if (!response.recipientTeam) {
+              // Recipient is team
+              this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
+              if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
+                this.teamsToUsers[response.recipient].push(response.recipient);
+                this.teamExpanded[response.recipient] = this.isExpandAll;
+              }
+              this.userExpanded[response.recipient] = this.isExpandAll;
+              continue;
+            }
+            this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
+            if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
+              this.teamsToUsers[response.recipientTeam].push(response.recipient);
+              this.teamExpanded[response.recipientTeam] = this.isExpandAll;
             }
             this.userExpanded[response.recipient] = this.isExpandAll;
-            continue;
           }
-          this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
-          if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
-            this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.teamExpanded[response.recipientTeam] = this.isExpandAll;
-          }
-          this.userExpanded[response.recipient] = this.isExpandAll;
         }
       }
     }
@@ -142,12 +148,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
 
           if (!shouldDisplayBasedOnSection) {
-            const team: string = this.isGqr ? response.giverTeam : response.recipientTeam;
-            const userToRemove: string = this.isGqr ? response.giver : response.recipient;
-            this.teamsToUsers[team] = this.teamsToUsers[team].filter((eachUser: string) => eachUser !== userToRemove);
-
-            // filters out user for when responses are not grouped by team
-            delete this.userExpanded[userToRemove];
             return false;
           }
 
@@ -161,13 +161,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             isTabExpanded: this.isExpandAll,
           });
         }
-      }
-    }
-
-    // Remove team if no users from team are to be displayed
-    for (const team of Object.keys(this.teamsToUsers)) {
-      if (!this.teamsToUsers[team].length) {
-        delete this.teamsToUsers[team];
       }
     }
   }
