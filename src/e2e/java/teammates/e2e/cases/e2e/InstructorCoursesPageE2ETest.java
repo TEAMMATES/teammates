@@ -2,11 +2,13 @@ package teammates.e2e.cases.e2e;
 
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.HashSet;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -61,7 +63,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyDeletedCoursesDetails(deletedCourses);
 
         ______TS("verify statistics");
-        coursesPage.verifyActiveCourseStatistics(courses[0], "1", "3", "3", "1");
+        verifyActiveCourseStatistics(coursesPage, courses[0]);
 
         ______TS("verify cannot modify without permissions");
         coursesPage.verifyNotModifiable(courses[0].getId());
@@ -174,7 +176,34 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumDeletedCourses(0);
         verifyAbsentInDatastore(courses[1]);
         verifyAbsentInDatastore(courses[2]);
+    }
 
+  private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, CourseAttributes course) {
+        int numSections = 0;
+        int numTeams = 0;
+        int numStudents = 0;
+        int numUnregistered = 0;
+        HashSet<String> sections = new HashSet<>();
+        HashSet<String> teams = new HashSet<>();
+
+        for (StudentAttributes student : testData.students.values()) {
+            if (student.course.equals(course.getId())) {
+                if (!sections.contains(student.section)) {
+                    sections.add(student.section);
+                    numSections++;
+                }
+                if (!teams.contains(student.team)) {
+                    teams.add(student.team);
+                    numTeams++;
+                }
+                if (student.googleId.equals("")) {
+                    numUnregistered++;
+                }
+                numStudents++;
+            }
+        }
+        coursesPage.verifyActiveCourseStatistics(course, Integer.toString(numSections), Integer.toString(numTeams),
+                Integer.toString(numStudents), Integer.toString(numUnregistered));
     }
 
     private void verifyCourseArchivedInDatastore(String instructorId, CourseAttributes course) {
@@ -188,5 +217,4 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         ThreadHelper.waitFor(500);
         assertNull(getArchivedCourse(instructorId, course.getId()));
     }
-
 }
