@@ -3,6 +3,7 @@ package teammates.e2e.cases.e2e;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -178,13 +179,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatastore(courses[2]);
     }
 
-  private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, CourseAttributes course) {
+    private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, CourseAttributes course) {
         int numSections = 0;
         int numTeams = 0;
         int numStudents = 0;
         int numUnregistered = 0;
-        HashSet<String> sections = new HashSet<>();
-        HashSet<String> teams = new HashSet<>();
+        Set<String> sections = new HashSet<>();
+        Set<String> teams = new HashSet<>();
 
         for (StudentAttributes student : testData.students.values()) {
             if (student.course.equals(course.getId())) {
@@ -196,7 +197,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                     teams.add(student.team);
                     numTeams++;
                 }
-                if (student.googleId.equals("")) {
+                if (student.googleId.isEmpty()) {
                     numUnregistered++;
                 }
                 numStudents++;
@@ -207,14 +208,24 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     }
 
     private void verifyCourseArchivedInDatastore(String instructorId, CourseAttributes course) {
-        // wait a short period for backend to update
-        ThreadHelper.waitFor(500);
-        assertEquals(getArchivedCourse(instructorId, course.getId()), course);
+        int retryLimit = 5;
+        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
+        while (actual == null && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            actual = getArchivedCourse(instructorId, course.getId());
+        }
+        assertEquals(actual, course);
     }
 
     private void verifyCourseNotArchivedInDatastore(String instructorId, CourseAttributes course) {
-        // wait a short period for backend to update
-        ThreadHelper.waitFor(500);
-        assertNull(getArchivedCourse(instructorId, course.getId()));
+        int retryLimit = 5;
+        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
+        while (actual != null && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            actual = getArchivedCourse(instructorId, course.getId());
+        }
+        assertNull(actual);
     }
 }
