@@ -269,7 +269,7 @@ public class InstructorCoursesPage extends AppPage {
         String[][] courseDetails = new String[courses.length][4];
         for (int i = 0; i < courses.length; i++) {
             String[] courseDetail = {courses[i].getId(), courses[i].getName(),
-                    courses[i].getCreatedAtDateString(), courses[i].getDeletedAtDateString() };
+                    getDateString(courses[i].getCreatedAt()), getDateString(courses[i].getDeletedAt()) };
             courseDetails[i] = courseDetail;
         }
         return courseDetails;
