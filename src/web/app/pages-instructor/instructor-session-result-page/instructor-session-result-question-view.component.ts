@@ -42,13 +42,13 @@ export class InstructorSessionResultQuestionViewComponent
         });
   }
 
-  // Method expanding box after click on text
+  // Method expanding box after click on text or description
   expandBoxByTextClick(event: any): void {
 
-    if (event.currentTarget === event.target) {
-      this.toggleAndLoadTab.emit();
-    } else {
+    if (event.target.tagName === 'A') {
       event.stopPropagation();
+    } else {
+      this.toggleAndLoadTab.emit();
     }
   }
 }
