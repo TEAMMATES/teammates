@@ -74,12 +74,12 @@
                 {
                   "replace": "src/web/environments/environment.ts",
                   "with": "src/web/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/web/index.html",
-                  "with": "src/web/index.prod.html"
                 }
               ],
+              "index": {
+                "input": "src/web/index.prod.html",
+                "output": "index.html",
+              },
               "assets": [
                 "src/web/assets/",
                 {
