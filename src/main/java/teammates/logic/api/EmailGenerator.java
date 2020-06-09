@@ -405,7 +405,7 @@ public class EmailGenerator {
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
 
-        String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();

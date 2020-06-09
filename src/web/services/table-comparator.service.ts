@@ -42,10 +42,27 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
+      case SortBy.RUBRIC_CHOICE:
+      case SortBy.RANK_RECIPIENTS_TEAM:
+      case SortBy.RANK_RECIPIENTS_RECIPIENT:
+      case SortBy.RANK_OPTIONS_OVERALL_RANK:
+      case SortBy.NUMERICAL_SCALE_AVERAGE:
+      case SortBy.NUMERICAL_SCALE_MAX:
+      case SortBy.NUMERICAL_SCALE_MIN:
+      case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
+      case SortBy.MCQ_WEIGHT:
+      case SortBy.MCQ_RESPONSE_COUNT:
+      case SortBy.MCQ_PERCENTAGE:
+      case SortBy.MCQ_WEIGHTED_PERCENTAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
         return this.compareNaturally(strA, strB, order);
+      case SortBy.RANK_RECIPIENTS_SELF_RANK:
+      case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
+      case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
+      case SortBy.RANK_OPTIONS_OPTION:
+      case SortBy.MCQ_CHOICE:
       case SortBy.STUDENT_NAME:
       case SortBy.EMAIL:
       case SortBy.STUDENT_GENDER:

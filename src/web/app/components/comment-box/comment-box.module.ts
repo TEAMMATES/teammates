@@ -9,14 +9,15 @@ import { CommentEditFormComponent } from './comment-edit-form/comment-edit-form.
 import { CommentRowComponent } from './comment-row/comment-row.component';
 import { CommentTableModalComponent } from './comment-table-modal/comment-table-modal.component';
 import { CommentTableComponent } from './comment-table/comment-table.component';
+import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import {
   CommentVisibilityControlNamePipe,
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
+import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
 import {
   ConfirmDeleteCommentModalComponent,
 } from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
-import { ParticipantCommentToCommandRowModelPipePipe } from './participant-comment-to-command-row-model-pipe.pipe';
 
 /**
  * Module for comments table
@@ -32,7 +33,8 @@ import { ParticipantCommentToCommandRowModelPipePipe } from './participant-comme
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
     CommentVisibilityTypesJointNamePipe,
-    ParticipantCommentToCommandRowModelPipePipe,
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
   ],
   imports: [
     TeammatesCommonModule,
@@ -43,13 +45,18 @@ import { ParticipantCommentToCommandRowModelPipePipe } from './participant-comme
     FormsModule,
   ],
   exports: [
+    CommentEditFormComponent,
     CommentRowComponent,
     CommentTableComponent,
     CommentTableModalComponent,
-    ParticipantCommentToCommandRowModelPipePipe,
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
   ],
   entryComponents: [
     ConfirmDeleteCommentModalComponent,
+  ],
+  providers: [
+    CommentToCommentRowModelPipe,
   ],
 })
 export class CommentBoxModule { }

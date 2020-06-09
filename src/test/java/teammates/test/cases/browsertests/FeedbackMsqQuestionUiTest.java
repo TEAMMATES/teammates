@@ -943,7 +943,7 @@ public class FeedbackMsqQuestionUiTest extends BaseFeedbackQuestionUiTest {
         DataBundle msqWeightsTestData = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
         removeAndRestoreDataBundle(msqWeightsTestData);
         // Create the Action URI for 'MCQ Weights Session' to show the result page.
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId("FSQTT.idOfInstructor1OfCourse1")
                 .withCourseId("FSQTT.idOfTypicalCourse1")
                 .withSessionName(msqWeightsTestData.feedbackSessions.get("msqSession").getFeedbackSessionName())

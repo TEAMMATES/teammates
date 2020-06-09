@@ -4,9 +4,9 @@ import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -35,32 +35,15 @@ public abstract class FeedbackQuestionDetails {
 
     public abstract String getQuestionTypeDisplayName();
 
-    @Deprecated
-    public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-            int totalNumRecipients, FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
-
-    @Deprecated
-    public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
-                                boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                                int totalNumRecipients, StudentAttributes student);
-
-    @Deprecated
-    public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
-
-    @Deprecated
-    public abstract String getNewQuestionSpecificEditFormHtml();
-
-    @Deprecated
-    public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
-                                                           FeedbackQuestionAttributes question,
-                                                           String studentEmail,
-                                                           FeedbackSessionResultsBundle bundle,
-                                                           String view);
-
-    public abstract String getQuestionResultStatisticsJson(
-            List<FeedbackResponseAttributes> responses, FeedbackQuestionAttributes question,
-            String userEmail, FeedbackSessionResultsBundle bundle, boolean isStudent);
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public String getQuestionResultStatisticsJson(
+            FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
+        // Statistics are calculated in the front-end as it is dependent on the responses being filtered.
+        // The only exception is contribution question, where there is only one statistics for the entire question.
+        // It is also necessary to calculate contribution question statistics here
+        // to be displayed in student result page as students are not supposed to be able to see the exact responses.
+        return "";
+    }
 
     public abstract String getQuestionResultStatisticsCsv(List<FeedbackResponseAttributes> responses,
                                                           FeedbackQuestionAttributes question,
@@ -139,13 +122,6 @@ public abstract class FeedbackQuestionDetails {
      * @return List of strings containing instructions.
      */
     public abstract List<String> getInstructions();
-
-    /**
-     * Returns a HTML option for selecting question type.
-     * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
-     */
-    @Deprecated
-    public abstract String getQuestionTypeChoiceOption();
 
     /**
      * Individual responses are shown by default.

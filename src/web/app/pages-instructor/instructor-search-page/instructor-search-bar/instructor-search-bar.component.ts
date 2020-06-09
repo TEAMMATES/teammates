@@ -1,6 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 /**
+ * Parameters inputted by user to be used in search
+ */
+export interface SearchParams {
+  searchKey: string;
+  isSearchForStudents: boolean;
+  isSearchForComments: boolean;
+}
+
+/**
  * Search bar on instructor search page
  */
 @Component({
@@ -9,8 +18,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./instructor-search-bar.component.scss'],
 })
 export class InstructorSearchBarComponent implements OnInit {
-  @Input() searchKey: string = '';
-  @Output() searched: EventEmitter<string> = new EventEmitter<string>();
+
+  @Input() searchParams: SearchParams = {
+    searchKey: '',
+    isSearchForStudents: true,
+    isSearchForComments: false,
+  };
+
+  @Output() searched: EventEmitter<any> = new EventEmitter();
+
+  @Output() searchParamsChange: EventEmitter<SearchParams> = new EventEmitter();
 
   constructor() {}
 
@@ -20,6 +37,22 @@ export class InstructorSearchBarComponent implements OnInit {
    * send the search data to parent for processing
    */
   search(): void {
-    this.searched.emit(this.searchKey);
+    this.searched.emit();
+  }
+
+  triggerSearchParamsChangeEvent(field: string, data: any): void {
+    this.searchParamsChange.emit(Object.assign({}, this.searchParams, { [field]: data }));
+  }
+
+  onSearchKeyChange(newKey: string): void {
+    this.triggerSearchParamsChangeEvent('searchKey', newKey);
+  }
+
+  onStudentCheckboxChange(checkboxState: boolean): void {
+    this.triggerSearchParamsChangeEvent('isSearchForStudents', checkboxState);
+  }
+
+  onCommentCheckboxChange(checkboxState: boolean): void {
+    this.triggerSearchParamsChangeEvent('isSearchForComments', checkboxState);
   }
 }

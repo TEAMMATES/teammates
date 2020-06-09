@@ -7,6 +7,12 @@ import { HttpRequestService } from '../../../../services/http-request.service';
 import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
 import { QuestionSubmissionFormModule,
 } from '../../../components/question-submission-form/question-submission-form.module';
+import {
+    QuestionStatisticsModule,
+} from '../../../components/question-types/question-statistics/question-statistics.module';
+import {
+    InstructorSessionResultPageModule,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section.component';
 
@@ -24,8 +30,10 @@ describe('InstructorHelpQuestionsSectionComponent', () => {
     };
     TestBed.configureTestingModule({
       declarations: [InstructorHelpQuestionsSectionComponent, ExampleBoxComponent],
-      imports: [NgbModule, RouterTestingModule, NgxPageScrollCoreModule, QuestionEditFormModule, MatSnackBarModule,
-        QuestionSubmissionFormModule],
+      imports: [
+        InstructorSessionResultPageModule, NgbModule, RouterTestingModule, NgxPageScrollCoreModule,
+        QuestionEditFormModule, QuestionStatisticsModule, MatSnackBarModule, QuestionSubmissionFormModule,
+      ],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
