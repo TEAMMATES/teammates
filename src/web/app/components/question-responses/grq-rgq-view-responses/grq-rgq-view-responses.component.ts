@@ -89,6 +89,13 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
         }
+
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
         if (this.isGrq) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || '';
