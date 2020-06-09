@@ -41,14 +41,4 @@ export class InstructorSessionResultQuestionViewComponent
           return val1.question.questionNumber - (val2.question.questionNumber);
         });
   }
-
-  // Method expanding box after click on text or description
-  expandBoxByTextClick(event: any): void {
-
-    if (event.target.tagName === 'A') {
-      event.stopPropagation();
-    } else {
-      this.toggleAndLoadTab.emit();
-    }
-  }
 }
