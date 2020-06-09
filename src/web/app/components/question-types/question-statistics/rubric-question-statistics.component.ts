@@ -5,6 +5,8 @@ import {
   FeedbackRubricResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -30,16 +32,21 @@ export class RubricQuestionStatisticsComponent
   answersExcludeSelf: number[][] = [];
   percentagesExcludeSelf: number[][] = [];
 
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] = [];
+
   constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -110,6 +117,28 @@ export class RubricQuestionStatisticsComponent
     }
 
     return percentages;
+  }
+
+  getTableData(): void {
+    this.columnsData = [
+        { header: '' },
+      ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
+    ];
+
+    this.rowsData = this.subQuestions.map((subQuestion: string, questionIndex: number) => {
+      return [
+        subQuestion,
+        ...this.choices.map((_: string, choiceIndex: number) => {
+          if (this.excludeSelf) {
+            return `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \
+            (${ this.answersExcludeSelf[questionIndex][choiceIndex] }) \
+            ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }`;
+          }
+          return `${ this.percentages[questionIndex][choiceIndex] }% (${ this.answers[questionIndex][choiceIndex] }) \
+          ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }`;
+        }),
+      ];
+    });
   }
 
 }
