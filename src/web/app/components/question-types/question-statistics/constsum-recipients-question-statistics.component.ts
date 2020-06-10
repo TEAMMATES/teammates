@@ -5,9 +5,9 @@ import {
   FeedbackParticipantType,
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { QuestionStatistics } from './question-statistics';
-import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { QuestionStatistics } from './question-statistics';
 
 /**
  * Statistics for constsum recipients questions.
@@ -80,7 +80,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient', sortBy: SortBy.RECIPIENT_NAME },
-      { header: 'Points Received', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
+      { header: 'Points Received' },
       { header: 'Total Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
       { header: 'Average Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
     ];

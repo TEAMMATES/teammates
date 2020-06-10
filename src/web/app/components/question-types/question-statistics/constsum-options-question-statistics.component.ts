@@ -1,6 +1,8 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -19,16 +21,21 @@ export class ConstsumOptionsQuestionStatisticsComponent
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
 
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] = [];
+
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -56,4 +63,19 @@ export class ConstsumOptionsQuestionStatisticsComponent
     }
   }
 
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Option', sortBy: SortBy.CONSTSUM_OPTIONS_OPTION },
+      { header: 'Points Received' },
+      { header: 'Total Points', sortBy: SortBy.CONSTSUM_OPTIONS_POINTS },
+      { header: 'Average Points', sortBy: SortBy.CONSTSUM_OPTIONS_POINTS },
+    ];
+
+    this.rowsData = Object.keys(this.pointsPerOption).map((option: string) => [
+      option,
+      this.pointsPerOption[option].join(', '),
+      this.totalPointsPerOption[option],
+      this.averagePointsPerOption[option],
+    ]);
+  }
 }

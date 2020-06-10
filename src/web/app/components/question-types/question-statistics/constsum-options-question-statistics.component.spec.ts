@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 
 describe('ConstsumOptionsQuestionStatisticsComponent', () => {
@@ -9,6 +10,7 @@ describe('ConstsumOptionsQuestionStatisticsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ConstsumOptionsQuestionStatisticsComponent],
+      imports: [SortableTableModule],
     })
     .compileComponents();
   }));
