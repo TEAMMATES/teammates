@@ -6,6 +6,8 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionStatistics } from './question-statistics';
+import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { SortBy } from '../../../../types/sort-properties';
 
 /**
  * Statistics for constsum recipients questions.
@@ -25,16 +27,21 @@ export class ConstsumRecipientsQuestionStatisticsComponent
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
 
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] = [];
+
   constructor() {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -69,4 +76,21 @@ export class ConstsumRecipientsQuestionStatisticsComponent
     }
   }
 
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Recipient', sortBy: SortBy.RECIPIENT_NAME },
+      { header: 'Points Received', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
+      { header: 'Total Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
+      { header: 'Average Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
+    ];
+
+    this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
+      this.emailToTeamName[recipient],
+      this.emailToName[recipient],
+      this.pointsPerOption[recipient].join(', '),
+      this.totalPointsPerOption[recipient],
+      this.averagePointsPerOption[recipient],
+    ]);
+  }
 }
