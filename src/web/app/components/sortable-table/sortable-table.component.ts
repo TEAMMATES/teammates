@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Type } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
@@ -9,6 +9,16 @@ export interface ColumnData {
   header: string;
   headerToolTip?: string;
   sortBy?: SortBy; // optional if the column is not sortable
+  component?: Type<any>; // Must use in conjunction with CustomTableCellData in rows
+}
+
+/**
+ * Data provided for custom component used in table cell
+ * Must use in conjunction with component in ColumnData
+ */
+export interface CustomTableCellData {
+  value?: any; // Optional value used for sorting with sortBy provided in ColumnData
+  inputData?: Record<string, any>; // @Input values for customized component specified in ColumnData
 }
 
 /**
@@ -29,12 +39,14 @@ export class SortableTableComponent implements OnInit {
   @Input()
   columns: ColumnData[] = [];
 
+  // Default to use supplied value for both sorting and displaying
+  // Use CustomTableCellData if value used for sorting is different from displaying
   @Input()
-  rows: any[][] = [];
+  rows: any[][] | CustomTableCellData[][] = [];
 
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
-  tableRows: any[][] = [];
+  tableRows: any[][] | CustomTableCellData[][] = [];
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
@@ -71,9 +83,20 @@ export class SortableTableComponent implements OnInit {
       return;
     }
 
-    this.tableRows.sort((row1: any[], row2: any[]) =>
-        this.tableComparatorService.compare(
-            sortBy, this.sortOrder, String(row1[columnIndex]), String(row2[columnIndex])));
+    this.tableRows.sort((row1: any[], row2: any[]) => {
+      let row1Value: any;
+      let row2Value: any;
+      if (this.columns[columnIndex].component) {
+        row1Value = row1[columnIndex].value;
+        row2Value = row2[columnIndex].value;
+      } else {
+        row1Value = row1[columnIndex];
+        row2Value = row2[columnIndex];
+      }
+
+      return this.tableComparatorService.compare(
+          sortBy, this.sortOrder, String(row1Value), String(row2Value));
+    });
   }
 
 }

@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped margin-0">
   <thead>
     <tr>
-      <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="onClickHeader(column.header)">
+      <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)">
         <span [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
         <span *ngIf="column.sortBy && columnToSortBy !== column.header"><i class="fas fa-sort"></i></span>
         <span *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
@@ -10,8 +10,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of tableRows">
-      <td *ngFor="let item of row">{{ item }}</td>
+    <tr *ngFor="let row of tableRows;">
+      <td *ngFor="let item of row; index as i">
+        <ng-container *ngIf="!columns[i].component">{{ item }}</ng-container>
+        <ndc-dynamic *ngIf="columns[i].component" [ngComponentOutlet]="columns[i].component" [ndcDynamicInputs]="item.data"></ndc-dynamic>
+      </td>
     </tr>
   </tbody>
 </table>
