@@ -5,9 +5,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
-import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics.component';
-import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
-import { ContributionComponent } from './contribution.component';
+import { ContributionQuestionStatisticsComponent,
+} from './contribution-question-statistics/contribution-question-statistics.component';
+import { ContributionQuestionStatisticsModule,
+} from './contribution-question-statistics/contribution-question-statistics.module';
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';
@@ -31,11 +32,8 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     RankRecipientsQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
-    ContributionComponent,
-    ContributionRatingsListComponent,
   ],
   exports: [
-    ContributionQuestionStatisticsComponent,
     TextQuestionStatisticsComponent,
     McqQuestionStatisticsComponent,
     MsqQuestionStatisticsComponent,
@@ -45,12 +43,14 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     RankRecipientsQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
+    ContributionQuestionStatisticsComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     NgbModule,
     SortableTableModule,
+    ContributionQuestionStatisticsModule,
   ],
 })
 export class QuestionStatisticsModule { }

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
+import { ContributionComponent } from './contribution.component';
 
 describe('ContributionRatingsListComponent', () => {
   let component: ContributionRatingsListComponent;
@@ -8,7 +9,7 @@ describe('ContributionRatingsListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContributionRatingsListComponent ]
+      declarations: [ContributionRatingsListComponent, ContributionComponent],
     })
     .compileComponents();
   }));

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+/**
+ * Display array of ratings in a line
+ */
 @Component({
   selector: 'tm-contribution-ratings-list',
   templateUrl: './contribution-ratings-list.component.html',
