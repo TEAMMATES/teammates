@@ -7,6 +7,10 @@ import {
   FeedbackContributionResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData, CustomTableCellData } from '../../sortable-table/sortable-table.component';
+import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
+import { ContributionComponent } from './contribution.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -30,16 +34,21 @@ export class ContributionQuestionStatisticsComponent
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntry;
 
+  columnsData: ColumnData[] = [];
+  rowsData: any[][] | CustomTableCellData[][] = [];
+
   constructor(private modalService: NgbModal) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.parseStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.parseStatistics();
+    this.getTableData();
   }
 
   parseStatistics(): void {
@@ -92,6 +101,33 @@ export class ContributionQuestionStatisticsComponent
         }
       }
     }
+  }
+
+  private getTableData(): void {
+    if (!this.questionOverallStatistics) {
+      return;
+    }
+    const statistics: ContributionStatistics = this.questionOverallStatistics;
+
+    this.columnsData = [
+      { header: 'Team', sortBy: SortBy.CONTRIBUTION_TEAM },
+      { header: 'Recipient', sortBy: SortBy.CONTRIBUTION_RECIPIENT },
+      { header: 'CC', sortBy: SortBy.CONTRIBUTION_VALUE, component: ContributionComponent },
+      { header: 'PC', sortBy: SortBy.CONTRIBUTION_VALUE, component: ContributionComponent },
+      { header: 'Diff', sortBy: SortBy.CONTRIBUTION_VALUE, component: ContributionComponent },
+      { header: 'Ratings Received', component: ContributionRatingsListComponent },
+    ];
+
+    this.rowsData = Object.keys(this.emailToName).map((email: string) => {
+      return [
+        this.emailToTeamName[email],
+        this.emailToName[email],
+        { value: statistics.results[email].claimed, data: { value: statistics.results[email].claimed } },
+        { value: statistics.results[email].perceived, data: { value: statistics.results[email].perceived } },
+        { value: this.emailToDiff[email], data: { value: this.emailToDiff[email], diffOnly: true } },
+        { data: { ratingsList: statistics.results[email].perceivedOthers } },
+      ];
+    });
   }
 
   /**

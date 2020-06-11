@@ -6,6 +6,7 @@ import { SortableTableModule } from '../../sortable-table/sortable-table.module'
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
 import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics.component';
+import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
@@ -31,6 +32,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
     ContributionComponent,
+    ContributionRatingsListComponent,
   ],
   exports: [
     ContributionQuestionStatisticsComponent,

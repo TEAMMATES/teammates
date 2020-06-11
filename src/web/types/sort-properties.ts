@@ -222,6 +222,20 @@ export enum SortBy {
      */
     CONSTSUM_RECIPIENTS_POINTS,
 
+    /**
+     * Team for contribution measurement
+     */
+    CONTRIBUTION_TEAM,
+
+    /**
+     * Contribution recipient's name
+     */
+    CONTRIBUTION_RECIPIENT,
+
+    /**
+     * Amount of contribution measured in numbers
+     */
+    CONTRIBUTION_VALUE,
 }
 
 /**
