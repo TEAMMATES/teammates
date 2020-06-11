@@ -11,9 +11,3 @@
   display: flex;
   flex-wrap: nowrap;
 }
-// since the component styles only apply to the HTML in the component's own template,
-// by applying ::ng-deep 
-:host::ng-deep  h3 {
-    font-size: 17px;
-}
-
