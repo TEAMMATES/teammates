@@ -62,7 +62,7 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  @ViewChild('courseForm', { static: false }) form!: FormGroup;
+  @ViewChild('courseForm') form!: FormGroup;
 
   // enum
   EditMode: typeof EditMode = EditMode;

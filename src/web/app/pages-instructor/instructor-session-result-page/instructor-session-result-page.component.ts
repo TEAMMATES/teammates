@@ -106,7 +106,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
-  @ViewChild(InstructorSessionNoResponsePanelComponent, { static: false }) noResponsePanel?:
+  @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:
     InstructorSessionNoResponsePanelComponent;
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
