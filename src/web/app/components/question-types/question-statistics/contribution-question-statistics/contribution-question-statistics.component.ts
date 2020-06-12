@@ -35,7 +35,7 @@ export class ContributionQuestionStatisticsComponent
   questionStatisticsForStudent?: ContributionStatisticsEntry;
 
   columnsData: ColumnData[] = [];
-  rowsData: any[][] | CustomTableCellData[][] = [];
+  rowsData: CustomTableCellData[][] = [];
 
   constructor(private modalService: NgbModal) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
@@ -112,25 +112,44 @@ export class ContributionQuestionStatisticsComponent
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.CONTRIBUTION_TEAM },
       { header: 'Recipient', sortBy: SortBy.CONTRIBUTION_RECIPIENT },
-      { header: 'CC', sortBy: SortBy.CONTRIBUTION_VALUE, component: ContributionComponent,
+      { header: 'CC', sortBy: SortBy.CONTRIBUTION_VALUE,
         headerToolTip: "Claimed Contribution: This is the student's own estimation of his/her contributions" },
-      { header: 'PC', sortBy: SortBy.CONTRIBUTION_VALUE, component: ContributionComponent,
+      { header: 'PC', sortBy: SortBy.CONTRIBUTION_VALUE,
         headerToolTip: 'Perceived Contribution: This is the average of what other team members think' +
             ' this student contributed' },
-      { header: 'Diff', sortBy: SortBy.CONTRIBUTION_VALUE, component: ContributionComponent,
+      { header: 'Diff', sortBy: SortBy.CONTRIBUTION_VALUE,
         headerToolTip: 'Perceived Contribution - Claimed Contribution' },
-      { header: 'Ratings Received', component: ContributionRatingsListComponent,
-        headerToolTip: 'The list of points that this student received from others' },
+      { header: 'Ratings Received', headerToolTip: 'The list of points that this student received from others' },
     ];
 
     this.rowsData = Object.keys(this.emailToName).map((email: string) => {
       return [
-        this.emailToTeamName[email],
-        this.emailToName[email],
-        { value: statistics.results[email].claimed, data: { value: statistics.results[email].claimed } },
-        { value: statistics.results[email].perceived, data: { value: statistics.results[email].perceived } },
-        { value: this.emailToDiff[email], data: { value: this.emailToDiff[email], diffOnly: true } },
-        { data: { ratingsList: statistics.results[email].perceivedOthers } },
+        { value: this.emailToTeamName[email] },
+        { value: this.emailToName[email] },
+        { value: statistics.results[email].claimed,
+          customComponent: {
+            component: ContributionComponent,
+            componentData: { value: statistics.results[email].claimed } },
+        },
+        { value: statistics.results[email].perceived,
+          customComponent: {
+            component: ContributionComponent,
+            componentData: { value: statistics.results[email].perceived },
+          },
+        },
+        {
+          value: this.emailToDiff[email],
+          customComponent: {
+            component: ContributionComponent,
+            componentData: { value: this.emailToDiff[email], diffOnly: true },
+          },
+        },
+        {
+          customComponent: {
+            component: ContributionRatingsListComponent,
+            componentData: { ratingsList: statistics.results[email].perceivedOthers },
+          },
+        },
       ];
     });
   }

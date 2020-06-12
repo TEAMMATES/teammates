@@ -11,9 +11,13 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of tableRows;">
-      <td *ngFor="let item of row; index as i">
-        <ng-container *ngIf="!columns[i].component">{{ item }}</ng-container>
-        <ndc-dynamic *ngIf="columns[i].component" [ngComponentOutlet]="columns[i].component" [ndcDynamicInputs]="item.data"></ndc-dynamic>
+      <td *ngFor="let item of row">
+        <ndc-dynamic *ngIf="item.customComponent"
+                     [ngComponentOutlet]="item.customComponent.component"
+                     [ndcDynamicInputs]="item.customComponent.componentData"
+        ></ndc-dynamic>
+        <ng-container *ngIf="!item.customComponent && item.displayValue">{{ item.displayValue }}</ng-container>
+        <ng-container *ngIf="!item.customComponent && !item.displayValue">{{ item.value }}</ng-container>
       </td>
     </tr>
   </tbody>

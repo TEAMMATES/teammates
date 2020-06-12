@@ -9,16 +9,22 @@ export interface ColumnData {
   header: string;
   headerToolTip?: string;
   sortBy?: SortBy; // optional if the column is not sortable
-  component?: Type<any>; // Must use in conjunction with CustomTableCellData in rows
 }
 
 /**
- * Data provided for custom component used in table cell
- * Must use in conjunction with component in ColumnData
+ * Data provided for each table cell
+ * Priority of display
+ * 1. customComponent
+ * 2. displayValue
+ * 3. value
  */
 export interface CustomTableCellData {
   value?: any; // Optional value used for sorting with sortBy provided in ColumnData
-  inputData?: Record<string, any>; // @Input values for customized component specified in ColumnData
+  displayValue?: string; // Raw string to be display in the cell
+  customComponent?: {
+    component: Type<any>;
+    componentData: Record<string, any>; // @Input values for component
+  };
 }
 
 /**
@@ -42,11 +48,11 @@ export class SortableTableComponent implements OnInit {
   // Default to use supplied value for both sorting and displaying
   // Use CustomTableCellData if value used for sorting is different from displaying
   @Input()
-  rows: any[][] | CustomTableCellData[][] = [];
+  rows: CustomTableCellData[][] = [];
 
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
-  tableRows: any[][] | CustomTableCellData[][] = [];
+  tableRows: CustomTableCellData[][] = [];
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
@@ -84,18 +90,8 @@ export class SortableTableComponent implements OnInit {
     }
 
     this.tableRows.sort((row1: any[], row2: any[]) => {
-      let row1Value: any;
-      let row2Value: any;
-      if (this.columns[columnIndex].component) {
-        row1Value = row1[columnIndex].value;
-        row2Value = row2[columnIndex].value;
-      } else {
-        row1Value = row1[columnIndex];
-        row2Value = row2[columnIndex];
-      }
-
       return this.tableComparatorService.compare(
-          sortBy, this.sortOrder, String(row1Value), String(row2Value));
+          sortBy, this.sortOrder, String(row1[columnIndex].value), String(row2[columnIndex].value));
     });
   }
 
