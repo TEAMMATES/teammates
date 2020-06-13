@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, CustomTableCellData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -24,7 +24,7 @@ export class McqQuestionStatisticsComponent
   perRecipientResponses: Record<string, any> = {};
 
   columnsData: ColumnData[] = [];
-  rowsData: CustomTableCellData[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());

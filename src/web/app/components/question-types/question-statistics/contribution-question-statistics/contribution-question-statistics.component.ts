@@ -8,7 +8,7 @@ import {
 } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
-import { ColumnData, CustomTableCellData } from '../../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from '../question-statistics';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
@@ -35,7 +35,7 @@ export class ContributionQuestionStatisticsComponent
   questionStatisticsForStudent?: ContributionStatisticsEntry;
 
   columnsData: ColumnData[] = [];
-  rowsData: CustomTableCellData[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor(private modalService: NgbModal) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());

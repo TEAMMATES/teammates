@@ -6,7 +6,7 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, CustomTableCellData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -28,7 +28,7 @@ export class RankRecipientsQuestionStatisticsComponent
   rankPerOption: Record<string, number> = {};
   rankPerOptionExcludeSelf: Record<string, number> = {};
   columnsData: ColumnData[] = [];
-  rowsData: CustomTableCellData[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());

@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, CustomTableCellData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -22,7 +22,7 @@ export class ConstsumOptionsQuestionStatisticsComponent
   averagePointsPerOption: Record<string, number> = {};
 
   columnsData: ColumnData[] = [];
-  rowsData: CustomTableCellData[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());

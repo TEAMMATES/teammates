@@ -18,7 +18,7 @@ export interface ColumnData {
  * 2. displayValue
  * 3. value
  */
-export interface CustomTableCellData {
+export interface SortableTableCellData {
   value?: any; // Optional value used for sorting with sortBy provided in ColumnData
   displayValue?: string; // Raw string to be display in the cell
   customComponent?: {
@@ -45,14 +45,12 @@ export class SortableTableComponent implements OnInit {
   @Input()
   columns: ColumnData[] = [];
 
-  // Default to use supplied value for both sorting and displaying
-  // Use CustomTableCellData if value used for sorting is different from displaying
   @Input()
-  rows: CustomTableCellData[][] = [];
+  rows: SortableTableCellData[][] = [];
 
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
-  tableRows: CustomTableCellData[][] = [];
+  tableRows: SortableTableCellData[][] = [];
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
