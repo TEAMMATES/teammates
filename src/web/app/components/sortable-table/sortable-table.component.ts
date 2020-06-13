@@ -31,6 +31,7 @@ export interface SortableTableCellData {
  * Displays a sortable table, sorting by clicking on the header
  * Optional sortBy option provided for each column
  * Columns and rows provided must be aligned
+ * Remember to register new dynamic components using the withComponents method under sortable-table-module
  */
 @Component({
   selector: 'tm-sortable-table',
