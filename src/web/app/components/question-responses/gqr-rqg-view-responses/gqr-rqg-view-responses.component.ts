@@ -89,17 +89,24 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           // filter out missing responses
           continue;
         }
+
+        if (this.section) {
+          if (this.isGqr && response.giverSection !== this.section
+              || !this.isGqr && response.recipientSection !== this.section) {
+            continue;
+          }
+        }
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
         if (response.giverEmail) {
           this.userToEmail[response.giver] = response.giverEmail;
         }
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
-        }
-
-        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
-        if (!shouldDisplayBasedOnSection) {
-          continue;
         }
 
         if (this.isGqr) {
