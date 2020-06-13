@@ -5,22 +5,12 @@
   box-shadow: 0 0 0 0;
 }
 
-.col-sm-3 {
-  text-align: center;
-}
-
-.col-sm-6 {
-  text-align: center;
-}
-
-$breakpoint-tablet: 577px;
-
-@media (min-width: $breakpoint-tablet) {
-  .col-sm-3 {
+@media (min-width: 768px) {
+  .col-md-3 {
     text-align: right;
   }
 
-  .col-sm-6 {
+  .col-md-6 {
     text-align: left;
   }
 }
