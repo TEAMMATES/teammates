@@ -15,8 +15,6 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
 public class ArchitectureTest {
 
     @Deprecated
-    private static final String LEGACY_UI_CONTROLLER_PACKAGE = "teammates.ui.controller";
-    @Deprecated
     private static final String LEGACY_PAGEOBJECT_PACKAGE = "teammates.test.pageobjects";
     @Deprecated
     private static final String LEGACY_BROWSERTESTS_PACKAGE = "teammates.test.cases.browsertests";
@@ -116,8 +114,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_commonShouldNotTouchUi() {
         noClasses().that().resideInAPackage(includeSubpackages(COMMON_PACKAGE))
-                // TODO fix this violation
-                .and().haveSimpleNameNotEndingWith("QuestionDetails")
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .check(forClasses(COMMON_PACKAGE, UI_PACKAGE));
     }
@@ -127,7 +123,6 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_UI_CONTROLLER_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_API_PACKAGE))
                 .check(forClasses(UI_PACKAGE, LOGIC_PACKAGE));
 
@@ -505,7 +500,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("MockPart")
                 .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_UI_CONTROLLER_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
                 .check(ALL_CLASSES);
     }
@@ -518,8 +512,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("CsvChecker")
                 .and().doNotHaveSimpleName("EmailChecker")
                 .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
-                // TODO remove the next after migration
-                .and().doNotHaveSimpleName("GaeSimulation")
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
                 .check(ALL_CLASSES);
     }

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -10,7 +11,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 /**
  * Component to display list of responses for one question.
@@ -20,7 +21,7 @@ import { ResponsesInstructorCommentsBase } from '../responses-instructor-comment
   templateUrl: './per-question-view-responses.component.html',
   styleUrls: ['./per-question-view-responses.component.scss'],
 })
-export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit, OnChanges {
+export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -48,8 +49,7 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-
-  userToEmail: Record<string, string> = {};
+  @Input() isDisplayOnly: boolean = false;
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;
@@ -59,6 +59,7 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
 
   constructor(private tableComparatorService: TableComparatorService,
               private questionsService: FeedbackQuestionsService,
+              private feedbackResponsesService: FeedbackResponsesService,
               private modalService: NgbModal) {
     super();
   }
@@ -74,35 +75,18 @@ export class PerQuestionViewResponsesComponent extends ResponsesInstructorCommen
   private filterResponses(): void {
     const responsesToShow: ResponseOutput[] = [];
     for (const response of this.responses) {
-      if (response.recipientEmail) {
-        this.userToEmail[response.recipient] = response.recipientEmail;
+      if (!this.indicateMissingResponses && response.isMissingResponse) {
+        // filter out missing responses
+        continue;
       }
-      if (response.giverEmail) {
-        this.userToEmail[response.giver] = response.giverEmail;
+
+      const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+        .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+
+      if (!shouldDisplayBasedOnSection) {
+        continue;
       }
-      if (this.section) {
-        let shouldDisplayBasedOnSection: boolean = true;
-        switch (this.sectionType) {
-          case InstructorSessionResultSectionType.EITHER:
-            shouldDisplayBasedOnSection =
-                response.giverSection === this.section || response.recipientSection === this.section;
-            break;
-          case InstructorSessionResultSectionType.GIVER:
-            shouldDisplayBasedOnSection = response.giverSection === this.section;
-            break;
-          case InstructorSessionResultSectionType.EVALUEE:
-            shouldDisplayBasedOnSection = response.recipientSection === this.section;
-            break;
-          case InstructorSessionResultSectionType.BOTH:
-            shouldDisplayBasedOnSection =
-                response.giverSection === this.section && response.recipientSection === this.section;
-            break;
-          default:
-        }
-        if (!shouldDisplayBasedOnSection) {
-          continue;
-        }
-      }
+
       responsesToShow.push(response);
     }
     this.responsesToShow = responsesToShow;

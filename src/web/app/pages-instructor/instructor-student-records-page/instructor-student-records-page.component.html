@@ -12,6 +12,7 @@
     <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"
                                [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
+                               (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
     ></tm-grq-rgq-view-responses>
     <div *ngIf="session.responsesReceivedByStudent.length === 0">
       No feedback responses for {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
@@ -20,6 +21,7 @@
     <tm-grq-rgq-view-responses *ngIf="session.responsesGivenByStudent.length > 0"
                                [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
+                               (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
     ></tm-grq-rgq-view-responses>
     <div *ngIf="session.responsesGivenByStudent.length === 0">
       No feedback responses from {{studentProfile.name}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.

@@ -127,7 +127,7 @@ describe('FeedbackSessionsService', () => {
       intent: Intent.FULL_DETAIL,
     };
 
-    service.getFeedbackSessionsResult({
+    service.getFeedbackSessionResults({
       courseId: paramMap.courseid,
       feedbackSessionName: paramMap.fsname,
       intent: Intent.FULL_DETAIL,

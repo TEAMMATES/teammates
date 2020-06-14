@@ -24,6 +24,7 @@ import {
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 
+  @Input() isDisplayOnly: boolean = false;
   @Input() allStudents: Student[] = [];
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';

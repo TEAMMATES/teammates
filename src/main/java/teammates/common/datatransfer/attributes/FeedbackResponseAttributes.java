@@ -49,6 +49,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
         this.giverSection = Const.DEFAULT_SECTION;
         this.recipientSection = Const.DEFAULT_SECTION;
+        this.feedbackResponseId = FeedbackResponse.generateId(feedbackQuestionId, giver, recipient);
     }
 
     public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {

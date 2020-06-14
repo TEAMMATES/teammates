@@ -121,6 +121,107 @@ export enum SortBy {
      * Name of the recipient of the feedback response.
      */
     RECIPIENT_NAME,
+
+    /**
+     * Average score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE,
+
+    /**
+     * Maximum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MAX,
+
+    /**
+     * Minimum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MIN,
+
+    /**
+     * Average score (exclude self-review) of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
+
+    /**
+     * Option text
+     */
+    MCQ_CHOICE,
+
+    /**
+     * Weight assigned to the option
+     */
+    MCQ_WEIGHT,
+
+    /**
+     * Number of selection of that option
+     */
+    MCQ_RESPONSE_COUNT,
+
+    /**
+     * Percentage of selection of that option
+     */
+    MCQ_PERCENTAGE,
+
+    /**
+     * Weighted percentage of selection of that option
+     */
+    MCQ_WEIGHTED_PERCENTAGE,
+
+    /**
+     * Option to rank
+     */
+    RANK_OPTIONS_OPTION,
+
+    /**
+     * Overall ranking of the option
+     */
+    RANK_OPTIONS_OVERALL_RANK,
+
+    /**
+     * Giver's / Recipients's team
+     */
+    RANK_RECIPIENTS_TEAM,
+
+    /**
+     * Recipient's name
+     */
+    RANK_RECIPIENTS_RECIPIENT,
+
+    /**
+     * Recipient's self rank
+     */
+    RANK_RECIPIENTS_SELF_RANK,
+
+    /**
+     * Recipient's overall rank
+     */
+    RANK_RECIPIENTS_OVERALL_RANK,
+
+    /**
+     * Recipient's overall rank excluding self
+     */
+    RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
+
+    /**
+     * Frequency of choice
+     */
+    RUBRIC_CHOICE,
+
+    /**
+     * Option to constsum options
+     */
+    CONSTSUM_OPTIONS_OPTION,
+
+    /**
+     * Option's recieved/total/average points
+     */
+    CONSTSUM_OPTIONS_POINTS,
+
+    /**
+     * Recipient's received/total/average points
+     */
+    CONSTSUM_RECIPIENTS_POINTS,
+
 }
 
 /**

@@ -31,9 +31,11 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded">
     <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      <tm-view-photo-popover [photoUrl]="userToEmail[userInfo] | formatPhotoUrl: session.courseId">
-        {{ isGqr ? 'From' : 'To' }}: {{ userInfo }}
-      </tm-view-photo-popover>
+      {{ isGqr ? 'From' : 'To' }}:
+      <tm-student-name-with-photo [name]="userInfo"
+                       [email]="userToEmail[userInfo]"
+                       [courseId]="session.courseId"
+      ></tm-student-name-with-photo>
       <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
         [{{ userToEmail[userInfo] }}]
       </a>
@@ -55,6 +57,12 @@
           </div>
         </div>
         <div class="card-body" *ngIf="question.isTabExpanded">
+          <tm-single-statistics [responses]="question.questionOutput.allResponses"
+                                [question]="question.questionOutput.feedbackQuestion.questionDetails"
+                                [statistics]="question.questionOutput.questionStatistics"
+                                [recipientType]="question.questionOutput.feedbackQuestion.recipientType"
+                                [displayContributionStats]="false"
+          ></tm-single-statistics>
           <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
                                           [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
                                           [instructorCommentTableModel]="instructorCommentTableModel"

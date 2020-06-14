@@ -39,6 +39,7 @@ export class StudentViewResponsesComponent implements OnInit {
   };
   @Input() responses: ResponseOutput[] = [];
   @Input() isSelfResponses: boolean = false;
+  @Input() timezone: string = 'UTC';
 
   recipient: string = '';
 

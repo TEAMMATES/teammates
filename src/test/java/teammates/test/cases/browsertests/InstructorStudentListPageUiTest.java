@@ -181,7 +181,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         StudentAttributes student2 = testData.students.get("Student3Course3");
         viewPage.clickShowPhoto(student2.course, student2.name);
-        String photoUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+        String photoUrl = createUrl(Const.ResourceURIs.STUDENT_PROFILE_PICTURE)
                                         .withStudentEmail(StringHelper.encrypt(student2.email))
                                         .withCourseId(StringHelper.encrypt(student2.course))
                                         .withUserId(instructorId)
