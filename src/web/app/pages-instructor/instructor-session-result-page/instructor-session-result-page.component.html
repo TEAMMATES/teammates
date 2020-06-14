@@ -109,7 +109,7 @@
         <label class="form-check-label" ngbTooltip="Group results in the current view by team"><input type="checkbox" [(ngModel)]="groupByTeam" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
       </div>
       <div>
-        <label class="form-check-label"  ngbTooltip="Show statistics"><input type="checkbox" [(ngModel)]="showStatistics"> Show Statistics</label>
+        <label class="form-check-label" ngbTooltip="Show statistics"><input type="checkbox" [(ngModel)]="showStatistics" [disabled]="viewType === 'GRQ' || viewType === 'RGQ'"> Show Statistics</label>
       </div>
       <div>
         <label class="form-check-label" ngbTooltip="Indicate missing responses"><input type="checkbox" [(ngModel)]="indicateMissingResponses"> Indicate Missing Responses</label>
