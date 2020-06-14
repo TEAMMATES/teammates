@@ -60,6 +60,7 @@ export class NumScaleQuestionStatisticsComponent
 
   private calculateStatistics(): void {
     this.teamToRecipientToScores = {};
+    this.numericalScaleStatsRowModel = [];
 
     for (const response of this.responses) {
       const { giver }: { giver: string } = response;

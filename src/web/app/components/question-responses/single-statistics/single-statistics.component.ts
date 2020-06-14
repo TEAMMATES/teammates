@@ -1,10 +1,14 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
   ResponseOutput,
 } from '../../../../types/api-output';
+import {
+  InstructorSessionResultSectionType,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 
 /**
  * The component that will map a generic response statistics to its specialized view component.
@@ -25,16 +29,33 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   @Input() isStudent: boolean = false;
   @Input() statistics: string = '';
   @Input() displayContributionStats: boolean = true;
+  @Input() section: string = '';
+  @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
+  responsesToUse: ResponseOutput[] = [];
 
-  constructor() { }
+  constructor(private feedbackResponsesService: FeedbackResponsesService) { }
 
   ngOnInit(): void {
+    this.filterResponses();
   }
 
   ngOnChanges(): void {
+    this.filterResponses();
+  }
+
+  private filterResponses(): void {
+    this.responsesToUse = this.responses.filter((response: ResponseOutput) => {
+      if (response.isMissingResponse) {
+        // Missing response is meaningless for statistics
+        return false;
+      }
+
+      return this.feedbackResponsesService
+          .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+    });
   }
 
 }
