@@ -166,6 +166,62 @@ export enum SortBy {
      * Weighted percentage of selection of that option
      */
     MCQ_WEIGHTED_PERCENTAGE,
+
+    /**
+     * Option to rank
+     */
+    RANK_OPTIONS_OPTION,
+
+    /**
+     * Overall ranking of the option
+     */
+    RANK_OPTIONS_OVERALL_RANK,
+
+    /**
+     * Giver's / Recipients's team
+     */
+    RANK_RECIPIENTS_TEAM,
+
+    /**
+     * Recipient's name
+     */
+    RANK_RECIPIENTS_RECIPIENT,
+
+    /**
+     * Recipient's self rank
+     */
+    RANK_RECIPIENTS_SELF_RANK,
+
+    /**
+     * Recipient's overall rank
+     */
+    RANK_RECIPIENTS_OVERALL_RANK,
+
+    /**
+     * Recipient's overall rank excluding self
+     */
+    RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
+
+    /**
+     * Frequency of choice
+     */
+    RUBRIC_CHOICE,
+
+    /**
+     * Option to constsum options
+     */
+    CONSTSUM_OPTIONS_OPTION,
+
+    /**
+     * Option's recieved/total/average points
+     */
+    CONSTSUM_OPTIONS_POINTS,
+
+    /**
+     * Recipient's received/total/average points
+     */
+    CONSTSUM_RECIPIENTS_POINTS,
+
 }
 
 /**

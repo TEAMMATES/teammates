@@ -92,6 +92,13 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
         }
+
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
         if (this.isGqr) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
@@ -101,6 +108,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           if (response.relatedGiverEmail) {
             this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
           }
+
           this.userExpanded[response.giver] = this.isExpandAll;
         } else {
           if (!response.recipientTeam) {

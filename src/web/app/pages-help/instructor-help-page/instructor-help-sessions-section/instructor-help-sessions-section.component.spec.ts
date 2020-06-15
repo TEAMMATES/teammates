@@ -19,6 +19,9 @@ import { SessionEditFormModule } from '../../../components/session-edit-form/ses
 import {
   SessionsRecycleBinTableModule,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+import {
+  InstructorSearchPageModule,
+} from '../../../pages-instructor/instructor-search-page/instructor-search-page.module';
 import { InstructorSessionResultPageModule,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
@@ -35,7 +38,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule,
         RouterTestingModule, NgxPageScrollCoreModule,
         SessionEditFormModule, MatSnackBarModule, SessionsRecycleBinTableModule,
-        InstructorSessionResultPageModule, QuestionTextWithInfoModule,
+        InstructorSearchPageModule, InstructorSessionResultPageModule, QuestionTextWithInfoModule,
         SingleStatisticsModule, StudentViewResponsesModule],
     })
     .compileComponents();
