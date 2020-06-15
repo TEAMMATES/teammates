@@ -1,0 +1,138 @@
+{
+  "accounts": {
+    "instructor": {
+      "googleId": "ICAddE2ETest.instructor",
+      "name": "Teammates Demo Instr",
+      "isInstructor": true,
+      "email": "ICAddE2ETest.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute"
+    }
+  },
+  "courses": {
+    "CS1101": {
+      "createdAt": "2012-04-02T12:00:00Z",
+      "id": "ICAddE2ETest.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    },
+    "CS2104": {
+      "createdAt": "2013-04-02T12:00:00Z",
+      "id": "ICAddE2ETest.CS2104",
+      "name": "Programming Language Concept",
+      "timeZone": "UTC"
+    },
+    "CS2105": {
+      "createdAt": "2014-04-02T12:00:00Z",
+      "deletedAt": "2014-04-12T12:00:00Z",
+      "id": "ICAddE2ETest.CS2105",
+      "name": "Computer Networks",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructorCS1101": {
+      "googleId": "ICAddE2ETest.instructor",
+      "courseId": "ICAddE2ETest.CS1101",
+      "name": "Teammates Demo Instr",
+      "email": "ICAddE2ETest.instructor@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": false,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorCS2104": {
+      "googleId": "ICAddE2ETest.instructor",
+      "courseId": "ICAddE2ETest.CS2104",
+      "name": "Teammates Demo Instr",
+      "email": "ICAddE2ETest.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "isArchived": true,
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorCS2105": {
+      "googleId": "ICAddE2ETest.instructor",
+      "courseId": "ICAddE2ETest.CS2105",
+      "name": "Teammates Demo Inst",
+      "email": "ICAddE2ETest.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCS1101": {
+    "googleId": "ICAddE2ETest.student1",
+    "email": "ICAddE2ETest.student1@gmail.tmt",
+    "course": "ICAddE2ETest.CS1101",
+    "name": "student1",
+    "comments": "",
+    "team": "Team 1",
+    "section": "Section 1"
+  },
+    "student2InCS1101": {
+      "googleId": "ICAddE2ETest.student2",
+      "email": "ICAddE2ETest.student2@gmail.tmt",
+      "course": "ICAddE2ETest.CS1101",
+      "name": "student2",
+      "comments": "",
+      "team": "Team 2",
+      "section": "Section 1"
+    },
+    "UnauthenticatedStudentInCS1101": {
+      "googleId": "",
+      "email": "ICAddE2ETest.student3@gmail.tmt",
+      "course": "ICAddE2ETest.CS1101",
+      "name": "student3",
+      "comments": "",
+      "team": "Team 3",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

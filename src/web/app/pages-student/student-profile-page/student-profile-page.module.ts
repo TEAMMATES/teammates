@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { GenderFormatPipe } from './student-profile-gender.pipe';
@@ -31,6 +32,7 @@ import {
     RouterModule,
     TeammatesCommonModule,
     ImageCropperModule,
+    NgbTooltipModule,
   ],
 })
 export class StudentProfilePageModule { }

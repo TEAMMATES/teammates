@@ -426,7 +426,11 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     1
                   </td>
                   <td>
-                    1@1.com
+                    <a
+                      href="mailto:1@1.com"
+                    >
+                      1@1.com
+                    </a>
                   </td>
                 </tr>
               </tbody>
@@ -606,7 +610,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             />
           </div>
           <div
-            class="col-md-10 col-sm-9 col-8"
+            class="col-md-10 col-9"
           >
             <table
               class="table table-striped"
@@ -631,9 +635,11 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                     Email
                   </td>
                   <td>
-                    <span>
+                    <a
+                      href="mailto:iam2@hello.com"
+                    >
                       iam2@hello.com
-                    </span>
+                    </a>
                   </td>
                 </tr>
                 <tr>

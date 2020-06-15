@@ -43,7 +43,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           class="row profile-pic-row"
         >
           <div
-            class="col-3 cursor-pointer"
+            class="col-md-12 cursor-pointer"
           >
             <button
               class="btn btn-primary upload-edit-photo"
@@ -148,7 +148,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Male
               </label>
@@ -165,7 +165,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Female
               </label>
@@ -182,7 +182,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Not Specified
               </label>
@@ -290,7 +290,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
           class="row profile-pic-row"
         >
           <div
-            class="col-3 cursor-pointer"
+            class="col-md-12 cursor-pointer"
           >
             <button
               class="btn btn-primary upload-edit-photo"
@@ -407,7 +407,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Male
               </label>
@@ -424,7 +424,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Female
               </label>
@@ -441,7 +441,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Not Specified
               </label>
