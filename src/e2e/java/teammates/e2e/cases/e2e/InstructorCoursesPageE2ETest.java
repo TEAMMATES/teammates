@@ -22,8 +22,8 @@ import teammates.e2e.util.BackDoor;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSES_PAGE}.
  */
 public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
-    CourseAttributes[] courses = new CourseAttributes[3];
-    CourseAttributes newCourse;
+    private CourseAttributes[] courses = new CourseAttributes[3];
+    private CourseAttributes newCourse;
 
     @Override
     protected void prepareTestData() {
@@ -71,8 +71,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("add new course");
         CourseAttributes[] activeCoursesWithNewCourse = { newCourse, courses[0] };
-        String[] expectedLinks = { "/web/instructor/courses/enroll?courseid=" + newCourse.getId(),
-                "/web/instructor/courses/edit?courseid=" + newCourse.getId() };
+        String[] expectedLinks = { Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + "?courseid=" + newCourse.getId(),
+                Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?courseid=" + newCourse.getId() };
         coursesPage.addCourse(newCourse);
 
         coursesPage.verifyStatusMessageWithLinks("The course has been added. "
@@ -188,20 +188,21 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Set<String> teams = new HashSet<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if (student.course.equals(course.getId())) {
-                if (!sections.contains(student.section)) {
-                    sections.add(student.section);
-                    numSections++;
-                }
-                if (!teams.contains(student.team)) {
-                    teams.add(student.team);
-                    numTeams++;
-                }
-                if (student.googleId.isEmpty()) {
-                    numUnregistered++;
-                }
-                numStudents++;
+            if (!student.course.equals(course.getId())) {
+                continue;
             }
+            if (!sections.contains(student.section)) {
+                sections.add(student.section);
+                numSections++;
+            }
+            if (!teams.contains(student.team)) {
+                teams.add(student.team);
+                numTeams++;
+            }
+            if (student.googleId.isEmpty()) {
+                numUnregistered++;
+            }
+            numStudents++;
         }
         coursesPage.verifyActiveCourseStatistics(course, Integer.toString(numSections), Integer.toString(numTeams),
                 Integer.toString(numStudents), Integer.toString(numUnregistered));
