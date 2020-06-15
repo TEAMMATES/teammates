@@ -64,7 +64,8 @@ export class AdminPageComponent implements OnInit {
       }
       this.isFetchingAuthDetails = false;
     }, () => {
-      // TODO
+      this.navigationService.navigateWithErrorMessage(this.router, '/web',
+          'You are not authorized to view the page.');
     });
   }
 
