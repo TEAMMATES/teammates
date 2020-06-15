@@ -52,47 +52,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 table-responsive">
-      <table class="table table-bordered table-striped margin-0">
-        <thead>
-        <tr>
-          <td>Team</td>
-          <td>Recipient</td>
-          <td>
-            <span ngbTooltip="Claimed Contribution: This is the student's own estimation of his/her contributions">CC</span>
-          </td>
-          <td>
-            <span ngbTooltip="Perceived Contribution: This is the average of what other team members think this student contributed">PC</span>
-          </td>
-          <td>
-            <span ngbTooltip="Perceived Contribution - Claimed Contribution">Diff</span>
-          </td>
-          <td>
-            <span ngbTooltip="The list of points that this student received from others">Ratings Received</span>
-          </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let email of emailToName | keyvalue">
-          <td>{{ emailToTeamName[email.key] }}</td>
-          <td>{{ email.value }}</td>
-          <td>
-            <tm-contribution [value]="questionOverallStatistics.results[email.key].claimed"></tm-contribution>
-          </td>
-          <td>
-            <tm-contribution [value]="questionOverallStatistics.results[email.key].perceived"></tm-contribution>
-          </td>
-          <td>
-            <tm-contribution [value]="emailToDiff[email.key]" [diffOnly]="true"></tm-contribution>
-          </td>
-          <td>
-            <span *ngFor="let other of questionOverallStatistics.results[email.key].perceivedOthers; let i = index;">
-              <span *ngIf="i !== 0">,</span>
-              <tm-contribution [value]="other"></tm-contribution>
-            </span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
     </div>
   </div>
 </div>

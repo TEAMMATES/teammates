@@ -6,7 +6,7 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -33,7 +33,7 @@ export class RubricQuestionStatisticsComponent
   percentagesExcludeSelf: number[][] = [];
 
   columnsData: ColumnData[] = [];
-  rowsData: any[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
@@ -127,15 +127,16 @@ export class RubricQuestionStatisticsComponent
 
     this.rowsData = this.subQuestions.map((subQuestion: string, questionIndex: number) => {
       return [
-        subQuestion,
+        { value: subQuestion },
         ...this.choices.map((_: string, choiceIndex: number) => {
           if (this.excludeSelf) {
-            return `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \
+            return { value: `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \
             (${ this.answersExcludeSelf[questionIndex][choiceIndex] }) \
-            ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }`;
+            ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
           }
-          return `${ this.percentages[questionIndex][choiceIndex] }% (${ this.answers[questionIndex][choiceIndex] }) \
-          ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }`;
+          return { value: `${ this.percentages[questionIndex][choiceIndex] }% \
+              (${ this.answers[questionIndex][choiceIndex] }) \
+              ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
         }),
       ];
     });

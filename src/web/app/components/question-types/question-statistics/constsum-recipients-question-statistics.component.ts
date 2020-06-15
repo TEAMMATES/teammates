@@ -6,7 +6,7 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -28,7 +28,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent
   averagePointsPerOption: Record<string, number> = {};
 
   columnsData: ColumnData[] = [];
-  rowsData: any[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
@@ -86,11 +86,11 @@ export class ConstsumRecipientsQuestionStatisticsComponent
     ];
 
     this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
-      this.emailToTeamName[recipient],
-      this.emailToName[recipient],
-      this.pointsPerOption[recipient].join(', '),
-      this.totalPointsPerOption[recipient],
-      this.averagePointsPerOption[recipient],
+      { value: this.emailToTeamName[recipient] },
+      { value: this.emailToName[recipient] },
+      { value: this.pointsPerOption[recipient].join(', ') },
+      { value: this.totalPointsPerOption[recipient] },
+      { value: this.averagePointsPerOption[recipient] },
     ]);
   }
 }
