@@ -89,7 +89,15 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
 
       responsesToShow.push(response);
     }
-    this.responsesToShow = responsesToShow;
+
+    const hasRealResponse: boolean =
+        responsesToShow.some((response: ResponseOutput) => !response.isMissingResponse);
+    if (hasRealResponse) {
+      this.responsesToShow = responsesToShow;
+    } else {
+      // If there is no real response, it is not necessary to show any of the missing responses
+      this.responsesToShow = [];
+    }
   }
 
   sortResponses(by: SortBy): void {
