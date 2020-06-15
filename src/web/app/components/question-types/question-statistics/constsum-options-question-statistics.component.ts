@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -22,7 +22,7 @@ export class ConstsumOptionsQuestionStatisticsComponent
   averagePointsPerOption: Record<string, number> = {};
 
   columnsData: ColumnData[] = [];
-  rowsData: any[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
@@ -72,10 +72,10 @@ export class ConstsumOptionsQuestionStatisticsComponent
     ];
 
     this.rowsData = Object.keys(this.pointsPerOption).map((option: string) => [
-      option,
-      this.pointsPerOption[option].join(', '),
-      this.totalPointsPerOption[option],
-      this.averagePointsPerOption[option],
+      { value: option },
+      { value: this.pointsPerOption[option].join(', ') },
+      { value: this.totalPointsPerOption[option] },
+      { value: this.averagePointsPerOption[option] },
     ]);
   }
 }

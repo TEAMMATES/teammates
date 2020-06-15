@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Type } from '@angular/core';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 
@@ -12,9 +12,26 @@ export interface ColumnData {
 }
 
 /**
+ * Data provided for each table cell
+ * Priority of display
+ * 1. customComponent
+ * 2. displayValue
+ * 3. value
+ */
+export interface SortableTableCellData {
+  value?: any; // Optional value used for sorting with sortBy provided in ColumnData
+  displayValue?: string; // Raw string to be display in the cell
+  customComponent?: {
+    component: Type<any>;
+    componentData: Record<string, any>; // @Input values for component
+  };
+}
+
+/**
  * Displays a sortable table, sorting by clicking on the header
  * Optional sortBy option provided for each column
  * Columns and rows provided must be aligned
+ * Remember to register new dynamic components using the withComponents method under sortable-table-module
  */
 @Component({
   selector: 'tm-sortable-table',
@@ -30,11 +47,11 @@ export class SortableTableComponent implements OnInit {
   columns: ColumnData[] = [];
 
   @Input()
-  rows: any[][] = [];
+  rows: SortableTableCellData[][] = [];
 
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
-  tableRows: any[][] = [];
+  tableRows: SortableTableCellData[][] = [];
 
   constructor(private tableComparatorService: TableComparatorService) { }
 
@@ -71,9 +88,10 @@ export class SortableTableComponent implements OnInit {
       return;
     }
 
-    this.tableRows.sort((row1: any[], row2: any[]) =>
-        this.tableComparatorService.compare(
-            sortBy, this.sortOrder, String(row1[columnIndex]), String(row2[columnIndex])));
+    this.tableRows.sort((row1: any[], row2: any[]) => {
+      return this.tableComparatorService.compare(
+          sortBy, this.sortOrder, String(row1[columnIndex].value), String(row2[columnIndex].value));
+    });
   }
 
 }

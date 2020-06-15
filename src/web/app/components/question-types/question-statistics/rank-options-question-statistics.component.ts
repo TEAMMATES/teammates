@@ -5,7 +5,7 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -23,7 +23,7 @@ export class RankOptionsQuestionStatisticsComponent
   ranksReceivedPerOption: Record<string, number[]> = {};
   rankPerOption: Record<string, number> = {};
   columnsData: ColumnData[] = [];
-  rowsData: any[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
@@ -96,9 +96,9 @@ export class RankOptionsQuestionStatisticsComponent
 
     this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
       return [
-        key,
-        this.ranksReceivedPerOption[key].join(', '),
-        this.rankPerOption[key],
+        { value: key },
+        { value: this.ranksReceivedPerOption[key].join(', ') },
+        { value: this.rankPerOption[key] },
       ];
     });
   }

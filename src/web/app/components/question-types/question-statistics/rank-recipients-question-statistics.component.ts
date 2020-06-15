@@ -6,7 +6,7 @@ import {
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData } from '../../sortable-table/sortable-table.component';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -28,7 +28,7 @@ export class RankRecipientsQuestionStatisticsComponent
   rankPerOption: Record<string, number> = {};
   rankPerOptionExcludeSelf: Record<string, number> = {};
   columnsData: ColumnData[] = [];
-  rowsData: any[][] = [];
+  rowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
@@ -130,12 +130,12 @@ export class RankRecipientsQuestionStatisticsComponent
 
     this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
       return [
-        this.emailToTeamName[key],
-        this.emailToName[key],
-        this.ranksReceivedPerOption[key].join(', '),
-        this.selfRankPerOption[key] || '-',
-        this.rankPerOption[key],
-        this.rankPerOptionExcludeSelf[key] || '-',
+        { value: this.emailToTeamName[key] },
+        { value: this.emailToName[key] },
+        { value: this.ranksReceivedPerOption[key].join(', ') },
+        { value: this.selfRankPerOption[key] || '-' },
+        { value: this.rankPerOption[key] },
+        { value: this.rankPerOptionExcludeSelf[key] || '-' },
       ];
     });
   }
