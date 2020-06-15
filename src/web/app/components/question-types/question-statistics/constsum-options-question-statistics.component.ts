@@ -1,9 +1,10 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
-import { QuestionStatistics } from './question-statistics';
+import {
+  ConstsumOptionsQuestionStatisticsCalculation,
+} from './question-statistics-calculation/constsum-options-question-statistics-calculation';
 
 /**
  * Statistics for constsum options questions.
@@ -14,12 +15,8 @@ import { QuestionStatistics } from './question-statistics';
   styleUrls: ['./constsum-options-question-statistics.component.scss'],
 })
 export class ConstsumOptionsQuestionStatisticsComponent
-    extends QuestionStatistics<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails>
+    extends ConstsumOptionsQuestionStatisticsCalculation
     implements OnInit, OnChanges {
-
-  pointsPerOption: Record<string, number[]> = {};
-  totalPointsPerOption: Record<string, number> = {};
-  averagePointsPerOption: Record<string, number> = {};
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
@@ -36,31 +33,6 @@ export class ConstsumOptionsQuestionStatisticsComponent
   ngOnChanges(): void {
     this.calculateStatistics();
     this.getTableData();
-  }
-
-  private calculateStatistics(): void {
-    this.pointsPerOption = {};
-    this.totalPointsPerOption = {};
-    this.averagePointsPerOption = {};
-
-    const options: string[] = this.question.constSumOptions;
-    for (const option of options) {
-      this.pointsPerOption[option] = [];
-    }
-    for (const response of this.responses) {
-      const answers: number[] = response.responseDetails.answers;
-      for (let i: number = 0; i < options.length; i += 1) {
-        const option: string = options[i];
-        const answer: number = answers[i];
-        this.pointsPerOption[option].push(answer);
-      }
-    }
-    for (const option of Object.keys(this.pointsPerOption)) {
-      const answers: number[] = this.pointsPerOption[option];
-      const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
-      this.totalPointsPerOption[option] = sum;
-      this.averagePointsPerOption[option] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
-    }
   }
 
   private getTableData(): void {

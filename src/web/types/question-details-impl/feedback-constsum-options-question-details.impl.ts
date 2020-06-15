@@ -1,7 +1,10 @@
+// tslint:disable-next-line:max-line-length
+import { ConstsumOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-options-question-statistics-calculation';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
-  FeedbackQuestionType, QuestionOutput,
+  FeedbackQuestionType,
+  QuestionOutput,
 } from '../api-output';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
 
@@ -36,9 +39,30 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     return ['Feedback', ...this.constSumOptions];
   }
 
-  getQuestionCsvStats(_: QuestionOutput): string[][] {
-    // TODO
-    return [];
+  getQuestionCsvStats(question: QuestionOutput): string[][] {
+    const statsRows: string[][] = [];
+
+    const statsCalculation: ConstsumOptionsQuestionStatisticsCalculation =
+        new ConstsumOptionsQuestionStatisticsCalculation(this);
+    this.populateQuestionStatistics(statsCalculation, question);
+    if (statsCalculation.responses.length === 0) {
+      // skip stats for no response
+      return [];
+    }
+    statsCalculation.calculateStatistics();
+
+    statsRows.push(['Option', 'Points Received', 'Total Points', 'Average Points']);
+
+    Object.keys(statsCalculation.pointsPerOption).sort().forEach((option: string) => {
+      statsRows.push([
+        option,
+        statsCalculation.pointsPerOption[option].join(', '),
+        String(statsCalculation.totalPointsPerOption[option]),
+        String(statsCalculation.averagePointsPerOption[option]),
+      ]);
+    });
+
+    return statsRows;
   }
 
 }
