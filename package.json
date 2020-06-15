@@ -37,6 +37,7 @@
     "file-saver": "^2.0.2",
     "handsontable": "^7.3.0",
     "moment-timezone": "^0.5.27",
+    "ng-dynamic-component": "^5.0.6",
     "ngx-captcha": "^7.0.0",
     "ngx-clipboard": "^12.3.0",
     "ngx-image-cropper": "^1.5.1",
