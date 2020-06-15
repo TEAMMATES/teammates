@@ -9,6 +9,7 @@ import { StudentProfilePageComponent } from './student-profile-page.component';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * Module for student profile page.
@@ -31,6 +32,7 @@ import {
     RouterModule,
     TeammatesCommonModule,
     ImageCropperModule,
+    NgbTooltipModule,
   ],
 })
 export class StudentProfilePageModule { }
