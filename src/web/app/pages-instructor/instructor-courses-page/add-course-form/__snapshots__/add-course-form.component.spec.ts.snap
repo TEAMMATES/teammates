@@ -48,6 +48,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="new-course-id"
             maxlength="40"
             ng-reflect-maxlength="40"
             ng-reflect-model=""
@@ -71,6 +72,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="new-course-name"
             maxlength="64"
             ng-reflect-maxlength="64"
             ng-reflect-model=""
@@ -97,6 +99,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
+              id="new-time-zone"
               ng-reflect-model="UTC"
               ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
@@ -131,6 +134,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         >
           <button
             class="btn btn-primary"
+            id="btn-save-course"
           >
             Add Course
           </button>
@@ -189,6 +193,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="new-course-id"
             maxlength="40"
             ng-reflect-maxlength="40"
             ng-reflect-model=""
@@ -212,6 +217,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="new-course-name"
             maxlength="64"
             ng-reflect-maxlength="64"
             ng-reflect-model=""
@@ -238,6 +244,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
+              id="new-time-zone"
               ng-reflect-model="UTC"
               ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
@@ -272,6 +279,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         >
           <button
             class="btn btn-primary"
+            id="btn-save-course"
           >
             Add Course
           </button>
