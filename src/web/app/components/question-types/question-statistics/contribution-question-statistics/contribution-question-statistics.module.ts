@@ -5,7 +5,7 @@ import { ContributionRatingsListComponent } from './contribution-ratings-list.co
 import { ContributionComponent } from './contribution.component';
 
 /**
- * Module for displaying data in a sortable table
+ * Module for contribution question statistics
  */
 @NgModule({
   declarations: [ContributionComponent, ContributionRatingsListComponent],
