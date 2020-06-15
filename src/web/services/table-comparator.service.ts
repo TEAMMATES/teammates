@@ -42,6 +42,8 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
+      case SortBy.CONSTSUM_OPTIONS_POINTS:
+      case SortBy.CONSTSUM_RECIPIENTS_POINTS:
       case SortBy.RUBRIC_CHOICE:
       case SortBy.RANK_RECIPIENTS_TEAM:
       case SortBy.RANK_RECIPIENTS_RECIPIENT:
@@ -58,6 +60,7 @@ export class TableComparatorService {
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
         return this.compareNaturally(strA, strB, order);
+      case SortBy.CONSTSUM_OPTIONS_OPTION:
       case SortBy.RANK_RECIPIENTS_SELF_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:

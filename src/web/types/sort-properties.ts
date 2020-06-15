@@ -206,6 +206,22 @@ export enum SortBy {
      * Frequency of choice
      */
     RUBRIC_CHOICE,
+
+    /**
+     * Option to constsum options
+     */
+    CONSTSUM_OPTIONS_OPTION,
+
+    /**
+     * Option's recieved/total/average points
+     */
+    CONSTSUM_OPTIONS_POINTS,
+
+    /**
+     * Recipient's received/total/average points
+     */
+    CONSTSUM_RECIPIENTS_POINTS,
+
 }
 
 /**
