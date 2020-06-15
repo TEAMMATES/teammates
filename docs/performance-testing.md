@@ -21,6 +21,8 @@ If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_
 
 First, open the terminal and navigate to the root of project folder. Start the backend server, i.e. `./gradlew appengineRun`, before running the performance tests.
 
+For more details about how to set up and run your local server, please refer to [Developer Guide](https://github.com/TEAMMATES/teammates/blob/master/docs/development.md).
+
 ### Using Gradle
 
 In a new terminal, navigate to the root of project folder and run the following command:
