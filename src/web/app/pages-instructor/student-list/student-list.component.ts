@@ -2,7 +2,7 @@ import {
   Component,
   DoCheck,
   EventEmitter,
-  Input,
+  Input, IterableChangeRecord, IterableChanges,
   IterableDiffer,
   IterableDiffers,
   OnInit,
@@ -88,9 +88,10 @@ export class StudentListComponent implements OnInit, DoCheck {
   ngDoCheck(): void {
     // Check for changes in section list
     if (this.sectionDataDiffer) {
-      const sectionChanges = this.sectionDataDiffer.diff(this.sections);
+      const sectionChanges: IterableChanges<StudentListSectionData> | null =
+          this.sectionDataDiffer.diff(this.sections);
       if (sectionChanges) {
-        sectionChanges.forEachAddedItem(addedItem => {
+        sectionChanges.forEachAddedItem((addedItem: IterableChangeRecord<StudentListSectionData>) => {
           this.sectionNameToStudentDataDiffer[addedItem.item.sectionName] =
               this.differs.find(addedItem.item.students).create();
         });
@@ -103,12 +104,14 @@ export class StudentListComponent implements OnInit, DoCheck {
 
     // Check for changes in student lists of each section
     for (const section of this.sections) {
-      const studentDataDiffer = this.sectionNameToStudentDataDiffer[section.sectionName];
+      const studentDataDiffer: IterableDiffer<StudentListStudentData> | null =
+          this.sectionNameToStudentDataDiffer[section.sectionName];
       if (!studentDataDiffer) {
         continue;
       }
 
-      const studentChanges = studentDataDiffer.diff(section.students);
+      const studentChanges: IterableChanges<StudentListStudentData> | null =
+          studentDataDiffer.diff(section.students);
       if (!studentChanges) {
         continue;
       }

@@ -334,11 +334,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           section.students = section.students.filter(
             (student: StudentListStudentData) => student.email !== studentEmail);
 
-          section.students.forEach(student => teams.add(student.team));
+          section.students.forEach((student: StudentListStudentData) => teams.add(student.team));
         });
 
-      this.sections = this.sections.filter(section => section.students.length);
-      this.courseDetails.stats.studentsTotal--;
+      this.sections = this.sections.filter((section: StudentListSectionData) => section.students.length);
+      this.courseDetails.stats.studentsTotal -= 1;
       this.courseDetails.stats.teamsTotal = teams.size;
       this.courseDetails.stats.sectionsTotal = this.sections.length;
     }, (resp: ErrorMessageOutput) => {
