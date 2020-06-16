@@ -168,6 +168,56 @@ export enum SortBy {
     MCQ_WEIGHTED_PERCENTAGE,
 
     /**
+     * Option text
+     */
+    MSQ_CHOICE,
+
+    /**
+     * Weight assigned to the option
+     */
+    MSQ_WEIGHT,
+
+    /**
+     * Number of selection of that option
+     */
+    MSQ_RESPONSE_COUNT,
+
+    /**
+     * Percentage of selection of that option
+     */
+    MSQ_PERCENTAGE,
+
+    /**
+     * Weighted percentage of selection of that option
+     */
+    MSQ_WEIGHTED_PERCENTAGE,
+
+    /**
+     * Recipient's Team
+     */
+    MSQ_TEAM,
+
+    /**
+     * Recipient's Name
+     */
+    MSQ_RECIPIENT_NAME,
+
+    /**
+     * Number of times option chosen
+     */
+    MSQ_NUMBER_SELECTED,
+
+    /**
+     * Sum of weight of options
+     */
+    MSQ_TOTAL,
+
+    /**
+     * Average of weights
+     */
+    MSQ_AVERAGE,
+
+    /**
      * Option to rank
      */
     RANK_OPTIONS_OPTION,
