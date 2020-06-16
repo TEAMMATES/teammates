@@ -117,7 +117,7 @@
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
       </div>
       <div ngbDropdown class="margin-top-15px">
-        <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
+        <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
           <span *ngIf="!model.isUsingOtherFeedbackPath">
             {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
           </span>
