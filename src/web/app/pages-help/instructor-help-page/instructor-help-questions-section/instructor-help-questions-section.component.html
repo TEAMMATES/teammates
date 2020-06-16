@@ -40,7 +40,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="single-answer-mcq">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="single-answer-mcq">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isMCQSingleAnsCollapsed = !isMCQSingleAnsCollapsed" [attr.aria-expanded]="!isMCQSingleAnsCollapsed">
         Multiple Choice (Single Answer) Questions
@@ -107,7 +107,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isMCQMultipleAnsCollapsed = !isMCQMultipleAnsCollapsed" [attr.aria-expanded]="!isMCQMultipleAnsCollapsed">
         Multiple Choice (Multiple Answers) Questions
@@ -132,7 +132,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isNumericalScaleCollapsed = !isNumericalScaleCollapsed" [attr.aria-expanded]="!isNumericalScaleCollapsed">
         Numerical Scale Questions
@@ -191,7 +191,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isPointsOptionsCollapsed = !isPointsOptionsCollapsed" [attr.aria-expanded]="!isPointsOptionsCollapsed">
         Distribute Points (Among Options) Questions
@@ -249,7 +249,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isPointsRecipientsCollapsed = !isPointsRecipientsCollapsed" [attr.aria-expanded]="!isPointsRecipientsCollapsed">
         Distribute Points (Among Recipients) Questions
@@ -292,7 +292,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isContributionQsCollapsed = !isContributionQsCollapsed" [attr.aria-expanded]="!isContributionQsCollapsed">
         Team Contribution Questions
@@ -552,7 +552,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isRubricQsCollapsed = !isRubricQsCollapsed" [attr.aria-expanded]="!isRubricQsCollapsed">
         Rubric Questions
@@ -651,7 +651,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isRankOptionsCollapsed = !isRankOptionsCollapsed" [attr.aria-expanded]="!isRankOptionsCollapsed">
         Rank (Options) Questions
