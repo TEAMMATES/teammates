@@ -1,11 +1,11 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 interface NumericalScaleStatsRowModel {
@@ -41,65 +41,21 @@ export class NumScaleQuestionStatisticsComponent
 
   numericalScaleStatsRowModel: NumericalScaleStatsRowModel[] = [];
 
-  constructor(private tableComparatorService: TableComparatorService) {
+  columnsData: ColumnData[] = [];
+  rowsData: SortableTableCellData[][] = [];
+
+  constructor() {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
-  }
-
-  sortNumericalScaleStatsRowModel(by: SortBy): void {
-    this.teamToRecipientToScoresSortBy = by;
-    this.teamToRecipientToScoresSortOrder =
-      (this.teamToRecipientToScoresSortOrder === SortOrder.DESC) ? SortOrder.ASC : SortOrder.DESC;
-
-    this.numericalScaleStatsRowModel.sort(this.sortStatsRowBy(by, this.teamToRecipientToScoresSortOrder));
-  }
-
-  sortStatsRowBy(by: SortBy, order: SortOrder):
-      ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel) => number) {
-
-    return ((a: NumericalScaleStatsRowModel, b: NumericalScaleStatsRowModel): number => {
-      let strA: string;
-      let strB: string;
-
-      switch (by) {
-        case SortBy.TEAM_NAME:
-          strA = a.teamName;
-          strB = b.teamName;
-          break;
-        case SortBy.RECIPIENT_NAME:
-          strA = a.recipientName;
-          strB = b.recipientName;
-          break;
-        case SortBy.NUMERICAL_SCALE_AVERAGE:
-          strA = String(a.average);
-          strB = String(b.average);
-          break;
-        case SortBy.NUMERICAL_SCALE_MAX:
-          strA = String(a.max);
-          strB = String(b.max);
-          break;
-        case SortBy.NUMERICAL_SCALE_MIN:
-          strA = String(a.min);
-          strB = String(b.min);
-          break;
-        case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
-          strA = String(a.averageExceptSelf);
-          strB = String(b.averageExceptSelf);
-          break;
-        default:
-          strA = '';
-          strB = '';
-      }
-
-      return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -144,6 +100,29 @@ export class NumScaleQuestionStatisticsComponent
         });
       }
     }
+  }
+
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Team', sortBy: SortBy.MCQ_CHOICE },
+      { header: 'Recipient', sortBy: SortBy.MCQ_WEIGHT },
+      { header: 'Average', sortBy: SortBy.MCQ_RESPONSE_COUNT, headerToolTip: 'Average of the visible responses' },
+      { header: 'Max', sortBy: SortBy.MCQ_PERCENTAGE, headerToolTip: 'Maximum of the visible responses' },
+      { header: 'Min', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE, headerToolTip: 'Minimum of the visible responses' },
+      { header: 'Average excluding self response', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE,
+        headerToolTip: 'Average of the visible responses excluding recipient\'s own response to himself/herself'},
+    ];
+
+    this.rowsData = Object.values(this.numericalScaleStatsRowModel).map((statsRow: NumericalScaleStatsRowModel) => {
+      return [
+        { value: statsRow.teamName },
+        { value: statsRow.recipientName },
+        { value: statsRow.average },
+        { value: statsRow.max },
+        { value: statsRow.min },
+        { value: statsRow.averageExceptSelf },
+      ];
+    });
   }
 
 }
