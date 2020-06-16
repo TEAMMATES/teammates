@@ -125,10 +125,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }, () => {
       this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
         this.existingStudents = resp.students;
-        const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
-        this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+        if (!this.isExistingStudentsPanelCollapsed) {
+          const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+          this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+        }
+        this.isExistingStudentsPresent = true;
       });
-      this.isExistingStudentsPresent = true;
     });
   }
 
