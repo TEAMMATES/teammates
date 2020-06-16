@@ -396,6 +396,15 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td
 
 Question 2,Rank the areas of improvement you think your team should make progress in.
 
+Summary Statistics
+Option,Ranks Received,Overall Rank
+Friendliness of teammates,,
+Quality of progress reports,\\"2, 3\\",4
+Quality of work,\\"2, 3, 1, 4, 1\\",3
+Teamwork and communication,\\"1, 1, 4, 1\\",1
+Time management,\\"1, 2, 3, 2\\",2
+
+
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
 \\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Quality of work,Quality of progress reports,Time management,Teamwork and communication,
 \\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of progress reports,Quality of work,
