@@ -328,11 +328,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe(() => {
       this.statusMessageService
           .showSuccessMessage(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
+      const teams: Set<string> = new Set();
       this.sections.forEach(
         (section: StudentListSectionData) => {
           section.students = section.students.filter(
             (student: StudentListStudentData) => student.email !== studentEmail);
+
+          section.students.forEach(student => teams.add(student.team));
         });
+
+      this.sections = this.sections.filter(section => section.students.length);
+      this.courseDetails.stats.studentsTotal--;
+      this.courseDetails.stats.teamsTotal = teams.size;
+      this.courseDetails.stats.sectionsTotal = this.sections.length;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
