@@ -57,6 +57,9 @@ export class TableComparatorService {
       case SortBy.MCQ_RESPONSE_COUNT:
       case SortBy.MCQ_PERCENTAGE:
       case SortBy.MCQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MCQ_NUMBER_SELECTED:
+      case SortBy.MCQ_TOTAL:
+      case SortBy.MCQ_AVERAGE:
       case SortBy.MSQ_WEIGHT:
       case SortBy.MSQ_RESPONSE_COUNT:
       case SortBy.MSQ_PERCENTAGE:
@@ -76,6 +79,8 @@ export class TableComparatorService {
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
       case SortBy.RANK_OPTIONS_OPTION:
       case SortBy.MCQ_CHOICE:
+      case SortBy.MCQ_TEAM:
+      case SortBy.MCQ_RECIPIENT_NAME:
       case SortBy.MSQ_CHOICE:
       case SortBy.MSQ_TEAM:
       case SortBy.MSQ_RECIPIENT_NAME:
