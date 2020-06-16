@@ -1,14 +1,16 @@
+// tslint:disable-next-line:max-line-length
+import { McqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-question-statistics-calculation';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
-import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
+import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
 
 /**
  * Concrete implementation of {@link FeedbackMcqQuestionDetails}.
  */
-export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
+export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuestionDetails
     implements FeedbackMcqQuestionDetails {
 
   hasAssignedWeights: boolean = false;
@@ -33,9 +35,20 @@ export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackQuestionDeta
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvStats(_: QuestionOutput): string[][] {
-    // TODO
-    return [];
+  getQuestionCsvStats(question: QuestionOutput): string[][] {
+    const statsRows: string[][] = [];
+
+    const statsCalculation: McqQuestionStatisticsCalculation = new McqQuestionStatisticsCalculation(this);
+    this.populateQuestionStatistics(statsCalculation, question);
+    if (statsCalculation.responses.length === 0) {
+      // skip stats for no response
+      return [];
+    }
+    statsCalculation.calculateStatistics();
+
+    statsRows.push(...this.getQuestionCsvStatsFrom(statsCalculation, statsCalculation.question.hasAssignedWeights));
+
+    return statsRows;
   }
 
 }
