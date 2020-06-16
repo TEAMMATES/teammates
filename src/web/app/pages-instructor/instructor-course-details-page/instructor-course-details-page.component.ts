@@ -85,6 +85,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the course's details based on the given course ID.
    */
   loadCourseDetails(courseid: string): void {
+    this.sections = [];
     this.loadCourseName(courseid);
     this.loadInstructors(courseid);
     this.loadStudents(courseid);

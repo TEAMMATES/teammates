@@ -1,5 +1,12 @@
 import {
-  Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output,
+  Component,
+  DoCheck,
+  EventEmitter,
+  Input,
+  IterableDiffer,
+  IterableDiffers,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -62,7 +69,8 @@ export class StudentListComponent implements OnInit, DoCheck {
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState =  JoinState;
 
-  private readonly _differ: IterableDiffer<any>;
+  private sectionNameToStudentDataDiffer: Record<string, IterableDiffer<StudentListStudentData>> = {};
+  private readonly sectionDataDiffer: IterableDiffer<StudentListSectionData>;
 
   constructor(private router: Router,
               private statusMessageService: StatusMessageService,
@@ -71,18 +79,42 @@ export class StudentListComponent implements OnInit, DoCheck {
               private tableComparatorService: TableComparatorService,
               private ngbModal: NgbModal,
               private differs: IterableDiffers) {
-    this._differ = this.differs.find(this.sections).create();
+    this.sectionDataDiffer = this.differs.find(this.sections).create();
   }
 
   ngOnInit(): void {
   }
 
   ngDoCheck(): void {
-    if (this._differ) {
-      const changes: any = this._differ.diff(this.sections);
-      if (changes) {
-        this.students = this.mapStudentsFromSectionData(this.sections);
+    // Check for changes in section list
+    if (this.sectionDataDiffer) {
+      const sectionChanges = this.sectionDataDiffer.diff(this.sections);
+      if (sectionChanges) {
+        sectionChanges.forEachAddedItem(addedItem => {
+          this.sectionNameToStudentDataDiffer[addedItem.item.sectionName] =
+              this.differs.find(addedItem.item.students).create();
+        });
+        sectionChanges.forEachRemovedItem(() => {
+          this.students = this.mapStudentsFromSectionData(this.sections);
+          return;
+        });
       }
+    }
+
+    // Check for changes in student lists of each section
+    for (const section of this.sections) {
+      const studentDataDiffer = this.sectionNameToStudentDataDiffer[section.sectionName];
+      if (!studentDataDiffer) {
+        continue;
+      }
+
+      const studentChanges = studentDataDiffer.diff(section.students);
+      if (!studentChanges) {
+        continue;
+      }
+
+      this.students = this.mapStudentsFromSectionData(this.sections);
+      break;
     }
   }
 
