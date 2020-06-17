@@ -5,6 +5,8 @@ import { AdminSearchPageComponent } from './admin-search-page.component';
 import {
   RegenerateLinksConfirmModalComponent,
 } from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
+import { ResetGoogleIdConfirmModalComponent,
+} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Module for admin search page.
@@ -13,6 +15,7 @@ import {
   declarations: [
     AdminSearchPageComponent,
     RegenerateLinksConfirmModalComponent,
+    ResetGoogleIdConfirmModalComponent,
   ],
   exports: [
     AdminSearchPageComponent,
@@ -23,6 +26,7 @@ import {
   ],
   entryComponents: [
     RegenerateLinksConfirmModalComponent,
+    ResetGoogleIdConfirmModalComponent,
   ],
 })
 export class AdminSearchPageModule { }
