@@ -55,7 +55,7 @@
     <div class="col-md-6">
       <div ngbTooltip="View results in different formats">
         <label class="control-label">
-          View:
+          <b>View:</b>
         </label>
         <div>
           <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
@@ -67,9 +67,9 @@
           </select>
         </div>
       </div>
-      <div ngbTooltip="View results by sections">
+      <div ngbTooltip="View results by sections" style="margin-top: 10px;">
         <label class="control-label">
-          Section:
+          <b>Section:</b>
         </label>
         <div>
           <select class="form-control" [(ngModel)]="section">
@@ -101,9 +101,9 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" style="margin-top: 10px;">
       <label class="control-label">
-        Additional settings:
+        <b>Additional settings:</b>
       </label>
       <div>
         <label class="form-check-label" ngbTooltip="Group results in the current view by team"><input type="checkbox" [(ngModel)]="groupByTeam" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
