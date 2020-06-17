@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
-import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
+import {
+  SearchStudentsListRowTable,
+} from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 
 /**
@@ -35,73 +37,65 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     sectionName: 'Section A',
     joinState: JoinState.JOINED,
   };
-  readonly exampleSingleStudentResultTables: SearchStudentsTable[] = [{
+  readonly exampleSingleStudentResultTables: SearchStudentsListRowTable[] = [{
     courseId: 'Course name appears here',
-    sections: [{
+    students: [{
       sectionName: 'Section A',
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
-      students: [{
-        name: 'Alice Betsy',
-        email: 'alice@email.com',
-        status: JoinState.JOINED,
-        team: 'Team A',
-      }],
+      name: 'Alice Betsy',
+      email: 'alice@email.com',
+      status: JoinState.JOINED,
+      team: 'Team A',
     }],
   }];
-  readonly exampleMultipleStudentResultTables: SearchStudentsTable[] = [{
+  readonly exampleMultipleStudentResultTables: SearchStudentsListRowTable[] = [{
     courseId: 'Course name appears here',
-    sections: [
+    students: [
       {
         sectionName: 'Section A',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
-        students: [
-          {
-            name: 'Alice Betsy',
-            email: 'alice@email.com',
-            status: JoinState.JOINED,
-            team: 'Team A',
-          },
-          {
-            name: 'Jean Grey',
-            email: 'jean@email.com',
-            status: JoinState.JOINED,
-            team: 'Team A',
-          },
-        ],
+        name: 'Alice Betsy',
+        email: 'alice@email.com',
+        status: JoinState.JOINED,
+        team: 'Team A',
+      },
+      {
+        sectionName: 'Section A',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+        name: 'Jean Grey',
+        email: 'jean@email.com',
+        status: JoinState.JOINED,
+        team: 'Team A',
       },
       {
         sectionName: 'Section B',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
-        students: [
-          {
-            name: 'Oliver Gates',
-            email: 'oliver@email.com',
-            status: JoinState.JOINED,
-            team: 'Team B',
-          },
-          {
-            name: 'Thora Parker',
-            email: 'thora@email.com',
-            status: JoinState.JOINED,
-            team: 'Team B',
-          },
-        ],
+        name: 'Oliver Gates',
+        email: 'oliver@email.com',
+        status: JoinState.JOINED,
+        team: 'Team B',
+      },
+      {
+        sectionName: 'Section B',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+        name: 'Thora Parker',
+        email: 'thora@email.com',
+        status: JoinState.JOINED,
+        team: 'Team B',
       },
       {
         sectionName: 'Section C',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
-        students: [
-          {
-            name: 'Jack Wayne',
-            email: 'jack@email.com',
-            status: JoinState.JOINED,
-            team: 'Team C',
-          },
-        ],
+        name: 'Jack Wayne',
+        email: 'jack@email.com',
+        status: JoinState.JOINED,
+        team: 'Team C',
       },
     ],
   }];

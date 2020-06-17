@@ -1,10 +1,7 @@
 import {
   Component,
-  DoCheck,
   EventEmitter,
-  Input, IterableChangeRecord, IterableChanges,
-  IterableDiffer,
-  IterableDiffers,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -18,16 +15,11 @@ import { JoinState, MessageOutput } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
-import {
-  StudentListSectionData,
-  StudentListStudentData,
-} from './student-list-section-data';
 
 /**
- * Flattened data which contains details about a student and their section.
- * The data is flattened to allow sorting of the table.
+ * Model of row of student data containing details about a student and their section.
  */
-interface FlatStudentListData {
+export interface StudentListRowModel {
   name: string;
   email: string;
   status: JoinState;
@@ -46,21 +38,16 @@ interface FlatStudentListData {
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-export class StudentListComponent implements OnInit, DoCheck {
+export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
-
-  // The input sections data from parent.
-  @Input() sections: StudentListSectionData[] = [];
+  @Input() students: StudentListRowModel[] = [];
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
 
-  // The flattened students list derived from the sections list.
-  // The sections data is flattened to allow sorting of the list.
-  students: FlatStudentListData[] = [];
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
 
@@ -69,92 +56,29 @@ export class StudentListComponent implements OnInit, DoCheck {
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState =  JoinState;
 
-  private sectionNameToStudentDataDiffer: Record<string, IterableDiffer<StudentListStudentData>> = {};
-  private readonly sectionDataDiffer: IterableDiffer<StudentListSectionData>;
-
   constructor(private router: Router,
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
               private tableComparatorService: TableComparatorService,
-              private ngbModal: NgbModal,
-              private differs: IterableDiffers) {
-    this.sectionDataDiffer = this.differs.find(this.sections).create();
+              private ngbModal: NgbModal) {
   }
 
   ngOnInit(): void {
-  }
-
-  ngDoCheck(): void {
-    // Check for changes in section list
-    if (this.sectionDataDiffer) {
-      const sectionChanges: IterableChanges<StudentListSectionData> | null =
-          this.sectionDataDiffer.diff(this.sections);
-      if (sectionChanges) {
-        sectionChanges.forEachAddedItem((addedItem: IterableChangeRecord<StudentListSectionData>) => {
-          this.sectionNameToStudentDataDiffer[addedItem.item.sectionName] =
-              this.differs.find(addedItem.item.students).create();
-        });
-        sectionChanges.forEachRemovedItem(() => {
-          this.students = this.mapStudentsFromSectionData(this.sections);
-          return;
-        });
-      }
-    }
-
-    // Check for changes in student lists of each section
-    for (const section of this.sections) {
-      const studentDataDiffer: IterableDiffer<StudentListStudentData> | null =
-          this.sectionNameToStudentDataDiffer[section.sectionName];
-      if (!studentDataDiffer) {
-        continue;
-      }
-
-      const studentChanges: IterableChanges<StudentListStudentData> | null =
-          studentDataDiffer.diff(section.students);
-      if (!studentChanges) {
-        continue;
-      }
-
-      this.students = this.mapStudentsFromSectionData(this.sections);
-      break;
-    }
-  }
-
-  /**
-   * Flatten section data.
-   */
-  mapStudentsFromSectionData(sections: StudentListSectionData[]): FlatStudentListData[] {
-    const students: FlatStudentListData[] = [];
-    sections.forEach((section: StudentListSectionData) =>
-        section.students.forEach((student: StudentListStudentData) =>
-            students.push({
-              name: student.name,
-              email: student.email,
-              status: student.status,
-              team: student.team,
-              photoUrl: student.photoUrl,
-              sectionName: section.sectionName,
-              isAllowedToModifyStudent: section.isAllowedToModifyStudent,
-              isAllowedToViewStudentInSection: section.isAllowedToViewStudentInSection,
-            }),
-        ),
-    );
-    return students;
   }
 
   /**
    * Returns whether this course are divided into sections
    */
   hasSection(): boolean {
-    return (this.students.some((student: FlatStudentListData) =>
+    return (this.students.some((student: StudentListRowModel) =>
         student.sectionName !== 'None'));
   }
 
   /**
    * Function to be passed to ngFor, so that students in the list is tracked by email
    */
-  trackByFn(_index: number, item: FlatStudentListData): any {
+  trackByFn(_index: number, item: StudentListRowModel): any {
     return item.email;
   }
 
@@ -206,10 +130,10 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: FlatStudentListData , b: FlatStudentListData) => number) {
+      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
 
-    return (a: FlatStudentListData, b: FlatStudentListData): number => {
+    return (a: StudentListRowModel, b: StudentListRowModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {

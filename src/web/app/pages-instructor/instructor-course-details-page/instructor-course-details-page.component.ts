@@ -6,6 +6,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { CourseStatistics, StatisticsCalculatorService } from '../../../services/statistics-calculator.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -19,17 +20,11 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
-
-interface CourseStats {
-  sectionsTotal: number;
-  teamsTotal: number;
-  studentsTotal: number;
-}
+import { StudentListRowModel } from '../student-list/student-list.component';
 
 interface CourseDetailsBundle {
   course: Course;
-  stats: CourseStats;
+  stats: CourseStatistics;
 }
 
 interface StudentIndexedData {
@@ -55,13 +50,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       deletionTimestamp: 0,
     },
     stats: {
-      sectionsTotal: 0,
-      teamsTotal: 0,
-      studentsTotal: 0,
+      numOfSections: 0,
+      numOfTeams: 0,
+      numOfStudents: 0,
     },
   };
   instructors: Instructor[] = [];
-  sections: StudentListSectionData[] = [];
+  students: StudentListRowModel[] = [];
   courseStudentListAsCsv: string = '';
 
   loading: boolean = false;
@@ -73,7 +68,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private courseService: CourseService,
               private ngbModal: NgbModal, private navigationService: NavigationService,
               private studentService: StudentService,
-              private instructorService: InstructorService) { }
+              private instructorService: InstructorService,
+              private statisticsCalculatorService: StatisticsCalculatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -85,7 +81,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the course's details based on the given course ID.
    */
   loadCourseDetails(courseid: string): void {
-    this.sections = [];
+    this.students = [];
     this.loadCourseName(courseid);
     this.loadInstructors(courseid);
     this.loadStudents(courseid);
@@ -125,25 +121,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         return acc;
       }, {});
 
-      const teams: Set<string> = new Set();
-      students.students.forEach((student: Student) => teams.add(student.teamName));
-
-      this.courseDetails.stats = {
-        sectionsTotal: Object.keys(sections).length,
-        teamsTotal: teams.size,
-        studentsTotal: students.students.length,
-      };
-
       Object.keys(sections).forEach((key: string) => {
         const studentsInSection: Student[] = sections[key];
 
-        const data: StudentListStudentData[] = [];
+        const data: StudentListRowModel[] = [];
         studentsInSection.forEach((student: Student) => {
-          const studentData: StudentListStudentData = {
+          const studentData: StudentListRowModel = {
             name: student.name,
             status: student.joinState,
             email: student.email,
             team: student.teamName,
+            sectionName: key,
+            isAllowedToViewStudentInSection: false,
+            isAllowedToModifyStudent: false,
           };
           data.push(studentData);
         });
@@ -158,19 +148,18 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  private loadPrivilege(courseid: string, sectionName: string, students: StudentListStudentData[]): void {
+  private loadPrivilege(courseid: string, sectionName: string, students: StudentListRowModel[]): void {
     this.instructorService.loadInstructorPrivilege({
       sectionName,
       courseId: courseid,
     }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      const sectionData: StudentListSectionData = {
-        sectionName,
-        students,
-        isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
-        isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
-      };
+      students.forEach((student: StudentListRowModel) => {
+        student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+        student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+      });
 
-      this.sections.push(sectionData);
+      this.students.push(...students);
+      this.courseDetails.stats = this.statisticsCalculatorService.calculateCourseStatistics(this.students);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -196,7 +185,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   deleteAllStudentsFromCourse(courseId: string): void {
     this.studentService.deleteAllStudentsFromCourse({ courseId })
       .subscribe((resp: MessageOutput) => {
-        this.loadCourseDetails(courseId);
+        this.students = [];
+        this.courseDetails.stats = this.statisticsCalculatorService.calculateCourseStatistics(this.students);
         this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
@@ -328,19 +318,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe(() => {
       this.statusMessageService
           .showSuccessMessage(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
-      const teams: Set<string> = new Set();
-      this.sections.forEach(
-        (section: StudentListSectionData) => {
-          section.students = section.students.filter(
-            (student: StudentListStudentData) => student.email !== studentEmail);
-
-          section.students.forEach((student: StudentListStudentData) => teams.add(student.team));
-        });
-
-      this.sections = this.sections.filter((section: StudentListSectionData) => section.students.length);
-      this.courseDetails.stats.studentsTotal -= 1;
-      this.courseDetails.stats.teamsTotal = teams.size;
-      this.courseDetails.stats.sectionsTotal = this.sections.length;
+      this.students = this.students.filter((student: StudentListRowModel) => student.email !== studentEmail);
+      this.courseDetails.stats = this.statisticsCalculatorService.calculateCourseStatistics(this.students);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
