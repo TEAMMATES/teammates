@@ -5,6 +5,7 @@
 .action-btn {
   margin-bottom: 15px;
   width: 100%;
+  white-space: nowrap;
 }
 
 .expand-btn {
@@ -15,4 +16,8 @@
   .action-btn {
     display: none;
   }
+}
+
+.action-btn-group {
+  max-width: 600px;
 }
