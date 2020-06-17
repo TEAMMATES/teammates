@@ -40,6 +40,9 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   </div><div
     class="course-section"
   >
+    <h3>
+      Active courses
+    </h3>
     <div
       class="table-responsive"
     >
@@ -583,6 +586,9 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   </div><div
     class="course-section"
   >
+    <h3>
+      Active courses
+    </h3>
     <div
       class="table-responsive"
     >
@@ -1134,6 +1140,9 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   </div><div
     class="course-section"
   >
+    <h3>
+      Active courses
+    </h3>
     <div
       class="table-responsive"
     >
@@ -1270,6 +1279,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   </div><div
     class="course-section"
   >
+    <h3>
+      Active courses
+    </h3>
     <div
       class="table-responsive"
     >

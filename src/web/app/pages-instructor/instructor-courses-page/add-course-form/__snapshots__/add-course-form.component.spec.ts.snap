@@ -44,7 +44,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           Course ID:
         </label>
         <div
-          class="col-sm-3"
+          class="col-sm-6"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -68,7 +68,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           Course Name:
         </label>
         <div
-          class="col-sm-9"
+          class="col-sm-6"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -92,7 +92,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           Time Zone:
         </label>
         <div
-          class="col-sm-9"
+          class="col-sm-6"
         >
           <div
             class="input-group"
@@ -116,6 +116,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             </select>
             <span
               class="input-group-btn"
+              style="margin-left: 5px;"
             >
               <button
                 class="btn btn-primary"
@@ -189,7 +190,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           Course ID:
         </label>
         <div
-          class="col-sm-3"
+          class="col-sm-6"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -213,7 +214,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           Course Name:
         </label>
         <div
-          class="col-sm-9"
+          class="col-sm-6"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
@@ -237,7 +238,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
           Time Zone:
         </label>
         <div
-          class="col-sm-9"
+          class="col-sm-6"
         >
           <div
             class="input-group"
@@ -261,6 +262,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             </select>
             <span
               class="input-group-btn"
+              style="margin-left: 5px;"
             >
               <button
                 class="btn btn-primary"
