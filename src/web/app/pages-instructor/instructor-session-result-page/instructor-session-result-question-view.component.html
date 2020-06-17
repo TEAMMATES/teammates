@@ -7,12 +7,15 @@
     </div>
   </div>
   <div class="card-body" *ngIf="question.isTabExpanded">
+    <div class="stats-table">
     <tm-single-statistics *ngIf="showStatistics"
                           [question]="question.question.questionDetails"
                           [statistics]="question.statistics"
                           [responses]="question.responses"
                           [recipientType]="question.question.recipientType"
     ></tm-single-statistics>
+    </div>
+    <div class="stats-table">
     <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
                                     [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
                                     [isDisplayOnly]="isDisplayOnly"
@@ -21,5 +24,6 @@
                                     (updateCommentEvent)="triggerUpdateCommentEvent($event)"
                                     (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
                                     (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-per-question-view-responses>
+  </div>
   </div>
 </div>
