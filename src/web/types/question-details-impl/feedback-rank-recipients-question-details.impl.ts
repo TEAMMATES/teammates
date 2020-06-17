@@ -1,3 +1,5 @@
+// tslint:disable-next-line:max-line-length
+import { RankRecipientsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
 import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails, QuestionOutput,
@@ -25,9 +27,40 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
     this.questionText = apiOutput.questionText;
   }
 
-  getQuestionCsvStats(_: QuestionOutput): string[][] {
-    // TODO
-    return [];
+  getQuestionCsvStats(question: QuestionOutput): string[][] {
+    const statsRows: string[][] = [];
+
+    const statsCalculation: RankRecipientsQuestionStatisticsCalculation
+        = new RankRecipientsQuestionStatisticsCalculation(this);
+    this.populateQuestionStatistics(statsCalculation, question);
+    if (statsCalculation.responses.length === 0) {
+      // skip stats for no response
+      return [];
+    }
+    statsCalculation.calculateStatistics();
+
+    statsRows.push([
+      'Team',
+      'Recipient',
+      'Ranks Received',
+      'Self Rank',
+      'Overall Rank',
+      'Overall Rank Excluding Self',
+    ]);
+
+    Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((recipient: string) => {
+      statsRows.push([
+        statsCalculation.emailToTeamName[recipient],
+        statsCalculation.emailToName[recipient],
+        statsCalculation.ranksReceivedPerOption[recipient].join(', '),
+        statsCalculation.selfRankPerOption[recipient] ? String(statsCalculation.selfRankPerOption[recipient]) : '-',
+        statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : '-',
+        statsCalculation.rankPerOptionExcludeSelf[recipient] ?
+            String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : '-',
+      ]);
+    });
+
+    return statsRows;
   }
 
 }
