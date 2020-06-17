@@ -8,60 +8,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <table class="table table-bordered striped margin-0">
-        <thead>
-        <tr>
-          <th class="sortable-header" (click)="sortNumericalScaleStatsRowModel(SortBy.TEAM_NAME)">
-              Team
-              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.TEAM_NAME && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.TEAM_NAME && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortNumericalScaleStatsRowModel(SortBy.RECIPIENT_NAME)">
-              Recipient
-              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.RECIPIENT_NAME"><i class="fas fa-sort"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.RECIPIENT_NAME && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.RECIPIENT_NAME && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortNumericalScaleStatsRowModel(SortBy.NUMERICAL_SCALE_AVERAGE)">
-              <span ngbTooltip="Average of the visible responses">Average </span>
-              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.NUMERICAL_SCALE_AVERAGE"><i class="fas fa-sort"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_AVERAGE && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_AVERAGE && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortNumericalScaleStatsRowModel(SortBy.NUMERICAL_SCALE_MAX)">
-              <span ngbTooltip="Maximum of the visible responses">Max </span>
-              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.NUMERICAL_SCALE_MAX"><i class="fas fa-sort"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_MAX && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_MAX && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortNumericalScaleStatsRowModel(SortBy.NUMERICAL_SCALE_MIN)">
-              <span ngbTooltip="Minimum of the visible responses">Min </span>
-              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.NUMERICAL_SCALE_MIN"><i class="fas fa-sort"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_MIN && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_MIN && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortNumericalScaleStatsRowModel(SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF)">
-              <span ngbTooltip="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response </span>
-              <span *ngIf="teamToRecipientToScoresSortBy !== SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF"><i class="fas fa-sort"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF && teamToRecipientToScoresSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="teamToRecipientToScoresSortBy === SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF && teamToRecipientToScoresSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-container>
-          <tr *ngFor="let statsRow of numericalScaleStatsRowModel">
-            <td>{{ statsRow.teamName }}</td>
-            <td>{{ statsRow.recipientName }}</td>
-            <td>{{ statsRow.average }}</td>
-            <td>{{ statsRow.max }}</td>
-            <td>{{ statsRow.min }}</td>
-            <td>{{ statsRow.averageExceptSelf }}</td>
-          </tr>
-        </ng-container>
-        </tbody>
-      </table>
+      <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
     </div>
   </div>
 </div>
