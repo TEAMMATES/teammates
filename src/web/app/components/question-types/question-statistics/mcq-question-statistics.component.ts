@@ -158,11 +158,11 @@ export class McqQuestionStatisticsComponent
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
           header: `${key} [${this.weightPerOption[key]}]`,
-          sortBy: SortBy.MCQ_NUMBER_SELECTED,
+          sortBy: SortBy.MCQ_OPTION_SELECTED_TIMES,
         };
       }),
-      { header: 'Total', sortBy: SortBy.MCQ_TOTAL },
-      { header: 'Average', sortBy: SortBy.MCQ_AVERAGE },
+      { header: 'Total', sortBy: SortBy.MCQ_WEIGHT_TOTAL },
+      { header: 'Average', sortBy: SortBy.MCQ_WEIGHT_AVERAGE },
     ];
 
     this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {

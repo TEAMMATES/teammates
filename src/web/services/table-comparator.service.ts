@@ -57,16 +57,16 @@ export class TableComparatorService {
       case SortBy.MCQ_RESPONSE_COUNT:
       case SortBy.MCQ_PERCENTAGE:
       case SortBy.MCQ_WEIGHTED_PERCENTAGE:
-      case SortBy.MCQ_NUMBER_SELECTED:
-      case SortBy.MCQ_TOTAL:
-      case SortBy.MCQ_AVERAGE:
+      case SortBy.MCQ_OPTION_SELECTED_TIMES:
+      case SortBy.MCQ_WEIGHT_TOTAL:
+      case SortBy.MCQ_WEIGHT_AVERAGE:
       case SortBy.MSQ_WEIGHT:
       case SortBy.MSQ_RESPONSE_COUNT:
       case SortBy.MSQ_PERCENTAGE:
       case SortBy.MSQ_WEIGHTED_PERCENTAGE:
-      case SortBy.MSQ_NUMBER_SELECTED:
-      case SortBy.MSQ_TOTAL:
-      case SortBy.MSQ_AVERAGE:
+      case SortBy.MSQ_OPTION_SELECTED_TIMES:
+      case SortBy.MSQ_WEIGHT_TOTAL:
+      case SortBy.MSQ_WEIGHT_AVERAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:

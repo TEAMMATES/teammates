@@ -180,17 +180,17 @@ export enum SortBy {
     /**
      * Number of times option chosen
      */
-    MCQ_NUMBER_SELECTED,
+    MCQ_OPTION_SELECTED_TIMES,
 
     /**
      * Sum of weight of options
      */
-    MCQ_TOTAL,
+    MCQ_WEIGHT_TOTAL,
 
     /**
      * Average of weights
      */
-    MCQ_AVERAGE,
+    MCQ_WEIGHT_AVERAGE,
 
     /**
      * Option text
@@ -230,17 +230,17 @@ export enum SortBy {
     /**
      * Number of times option chosen
      */
-    MSQ_NUMBER_SELECTED,
+    MSQ_OPTION_SELECTED_TIMES,
 
     /**
      * Sum of weight of options
      */
-    MSQ_TOTAL,
+    MSQ_WEIGHT_TOTAL,
 
     /**
      * Average of weights
      */
-    MSQ_AVERAGE,
+    MSQ_WEIGHT_AVERAGE,
 
     /**
      * Option to rank

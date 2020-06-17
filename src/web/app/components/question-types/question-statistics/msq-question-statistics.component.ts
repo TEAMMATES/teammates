@@ -178,11 +178,11 @@ export class MsqQuestionStatisticsComponent
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
           header: `${key} [${this.weightPerOption[key]}]`,
-          sortBy: SortBy.MSQ_NUMBER_SELECTED,
+          sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
-      { header: 'Total', sortBy: SortBy.MSQ_TOTAL },
-      { header: 'Average', sortBy: SortBy.MSQ_AVERAGE },
+      { header: 'Total', sortBy: SortBy.MSQ_WEIGHT_TOTAL },
+      { header: 'Average', sortBy: SortBy.MSQ_WEIGHT_AVERAGE },
     ];
 
     this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {
