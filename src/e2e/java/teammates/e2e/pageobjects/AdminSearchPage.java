@@ -51,6 +51,9 @@ public class AdminSearchPage extends AppPage {
     @FindBy(tagName = "tm-regenerate-links-confirm-modal")
     private WebElement regenerateLinksModal;
 
+    @FindBy(tagName = "tm-reset-google-id-confirm-modal")
+    private WebElement resetGoogleIdModal;
+
     public AdminSearchPage(Browser browser) {
         super(browser);
     }
@@ -150,6 +153,9 @@ public class AdminSearchPage extends AppPage {
         WebElement studentRow = getStudentRow(student);
         studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
         waitForPageToLoad();
+
+        resetGoogleIdModal.findElement(By.className("btn-warning")).click();
+        waitForPageToLoad();
     }
 
     public WebElement getInstructorRow(InstructorAttributes instructor) {
@@ -193,6 +199,9 @@ public class AdminSearchPage extends AppPage {
     public void resetInstructorGoogleId(InstructorAttributes instructor) {
         WebElement instructorRow = getInstructorRow(instructor);
         instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
+        waitForPageToLoad();
+
+        resetGoogleIdModal.findElement(By.className("btn-warning")).click();
         waitForPageToLoad();
     }
 
