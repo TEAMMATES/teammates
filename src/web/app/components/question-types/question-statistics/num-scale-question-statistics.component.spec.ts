@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';
 
 describe('NumScaleQuestionStatisticsComponent', () => {
@@ -9,6 +10,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [NumScaleQuestionStatisticsComponent],
+      imports: [SortableTableModule],
     })
     .compileComponents();
   }));
