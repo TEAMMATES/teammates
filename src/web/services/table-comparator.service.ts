@@ -67,6 +67,8 @@ export class TableComparatorService {
       case SortBy.MSQ_OPTION_SELECTED_TIMES:
       case SortBy.MSQ_WEIGHT_TOTAL:
       case SortBy.MSQ_WEIGHT_AVERAGE:
+      case SortBy.RUBRIC_TOTAL_CHOSEN_WEIGHT:
+      case SortBy.RUBRIC_WEIGHT_AVERAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
