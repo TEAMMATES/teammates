@@ -36,7 +36,17 @@
       <tbody>
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
-            <td>{{ instructor.courseId }}</td> <!-- TODO: tooltip course name -->
+            <td>
+              {{ instructor.courseId }}
+              <br/>
+              <div class="col-sm-1">
+                <button *ngIf="!instructor.showLinks"
+                        class="btn"><i class="fas fa-chevron-circle-down"
+                                       style="color: blue;"></i></button>
+                <button *ngIf="instructor.showLinks"
+                        class="btn"><i class="fas fa-chevron-circle-up" style="color: blue;"></i></button>
+              </div>
+            </td> <!-- TODO: tooltip course name -->
             <td>{{ instructor.name }}</td>
             <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
               {{ instructor.googleId }}</a></td>

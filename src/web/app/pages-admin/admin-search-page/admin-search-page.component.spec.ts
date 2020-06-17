@@ -247,6 +247,15 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(of('Success'));
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
       (args: string): void => {
@@ -274,6 +283,15 @@ describe('AdminSearchPageComponent', () => {
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(throwError({
       error: {
@@ -316,6 +334,15 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetStudentAccount').and.returnValue(of('success'));
 
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
@@ -352,6 +379,15 @@ describe('AdminSearchPageComponent', () => {
     };
     component.students = [studentResult];
     fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(accountService, 'resetStudentAccount').and.returnValue(throwError({
       error: {
