@@ -1,22 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { StudentListRowModel } from '../student-list/student-list.component';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
-
-@Component({ selector: 'tm-student-list', template: '' })
-class StudentListStubComponent {
-  @Input() courseId: string = '';
-  @Input() useGrayHeading: boolean = true;
-  @Input() sections: Object[] = [];
-  @Input() enableRemindButton: boolean = true;
-}
-@Component({ selector: 'tm-ajax-preload', template: '' })
-class AjaxPreloadComponent {}
+import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 
 const course: Course = {
   courseId: 'CS101',
@@ -39,17 +30,13 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorCourseDetailsPageComponent,
-        StudentListStubComponent,
-        AjaxPreloadComponent,
-      ],
       imports: [
         HttpClientTestingModule,
         TeammatesCommonModule,
         RouterTestingModule,
         ClipboardModule,
         MatSnackBarModule,
+        InstructorCourseDetailsPageModule,
       ],
     })
     .compileComponents();
@@ -117,13 +104,16 @@ describe('InstructorCourseDetailsPageComponent', () => {
       course,
       stats,
     };
-    const studentListSectionData: any = {
+    const studentListRowModel: StudentListRowModel = {
       sectionName: 'Tutorial Group 1',
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
-      students: [student],
+      name: student.name,
+      email: student.email,
+      status: student.status,
+      team: student.team,
     };
-    component.sections = [studentListSectionData];
+    component.students = [studentListRowModel];
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
     component.isAjaxSuccess = false;

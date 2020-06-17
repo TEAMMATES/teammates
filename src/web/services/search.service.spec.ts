@@ -3,7 +3,9 @@ import { MatSnackBarModule } from '@angular/material';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
+import {
+  SearchStudentsTable,
+} from '../app/pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {

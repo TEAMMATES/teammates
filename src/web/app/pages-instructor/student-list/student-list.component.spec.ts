@@ -47,48 +47,40 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data', () => {
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.JOINED,
         sectionName: '1',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
-        students: [
-          {
-            name: 'Alice Betsy',
-            team: 'Team 1',
-            email: 'alice.b.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Benny Charles',
-            team: 'Team 1',
-            email: 'benny.c.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Danny Engrid',
-            team: 'Team 1',
-            email: 'danny.e.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Emma Farrell',
-            team: 'Team 1',
-            email: 'emma.f.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-        ],
-        sectionName: 'Tutorial Group 1',
+        name: 'Benny Charles',
+        team: 'Team 1',
+        email: 'benny.c.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Alice Betsy',
+        team: 'Team 1',
+        email: 'alice.b.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Danny Engrid',
+        team: 'Team 1',
+        email: 'danny.e.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
@@ -99,50 +91,43 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data when not allowed to modify student for a specific section', () => {
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.JOINED,
         sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: false,
+      },
+      {
+        name: 'Benny Charles',
+        team: 'Team 1',
+        email: 'benny.c.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: false,
+      },
+      {
+        name: 'Alice Betsy',
+        team: 'Team 1',
+        email: 'alice.b.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
+
       {
-        students: [
-          {
-            name: 'Alice Betsy',
-            team: 'Team 1',
-            email: 'alice.b.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Benny Charles',
-            team: 'Team 1',
-            email: 'benny.c.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Danny Engrid',
-            team: 'Team 1',
-            email: 'danny.e.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Emma Farrell',
-            team: 'Team 1',
-            email: 'emma.f.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-        ],
-        sectionName: 'Tutorial Group 1',
+        name: 'Danny Engrid',
+        team: 'Team 1',
+        email: 'danny.e.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
         isAllowedToViewStudentInSection: true,
-        isAllowedToModifyStudent: false,
+        isAllowedToModifyStudent: true,
       },
     ];
 
@@ -151,48 +136,40 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with enable remind button set to true and two students yet to join', () => {
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.NOT_JOINED,
         sectionName: '1',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
-        students: [
-          {
-            name: 'Alice Betsy',
-            team: 'Team 1',
-            email: 'alice.b.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Benny Charles',
-            team: 'Team 1',
-            email: 'benny.c.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Danny Engrid',
-            team: 'Team 1',
-            email: 'danny.e.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Emma Farrell',
-            team: 'Team 1',
-            email: 'emma.f.tmms@gmail.tmt',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
-        sectionName: 'Tutorial Group 1',
+        name: 'Benny Charles',
+        team: 'Team 1',
+        email: 'benny.c.tmms@gmail.tmt',
+        status: JoinState.NOT_JOINED,
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Alice Betsy',
+        team: 'Team 1',
+        email: 'alice.b.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Danny Engrid',
+        team: 'Team 1',
+        email: 'danny.e.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
@@ -206,50 +183,42 @@ describe('StudentListComponent', () => {
 
   it('should snap with enable remind button set to true, one student yet to join when not allowed to modify' +
       ' student', () => {
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.NOT_JOINED,
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: false,
+      },
+      {
+        name: 'Benny Charles',
+        team: 'Team 1',
+        email: 'benny.c.tmms@gmail.tmt',
+        status: JoinState.JOINED,
         sectionName: '1',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
-        students: [
-          {
-            name: 'Alice Betsy',
-            team: 'Team 1',
-            email: 'alice.b.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Benny Charles',
-            team: 'Team 1',
-            email: 'benny.c.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Danny Engrid',
-            team: 'Team 1',
-            email: 'danny.e.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Emma Farrell',
-            team: 'Team 1',
-            email: 'emma.f.tmms@gmail.tmt',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
-        sectionName: 'Tutorial Group 1',
+        name: 'Alice Betsy',
+        team: 'Team 1',
+        email: 'alice.b.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
         isAllowedToViewStudentInSection: true,
-        isAllowedToModifyStudent: false,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Danny Engrid',
+        team: 'Team 1',
+        email: 'danny.e.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
       },
     ];
 
@@ -260,48 +229,40 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data and some students to hide', () => {
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.JOINED,
         sectionName: '1',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
       {
-        students: [
-          {
-            name: 'Alice Betsy',
-            team: 'Team 1',
-            email: 'alice.b.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Benny Charles',
-            team: 'Team 1',
-            email: 'benny.c.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Danny Engrid',
-            team: 'Team 1',
-            email: 'danny.e.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-          {
-            name: 'Emma Farrell',
-            team: 'Team 1',
-            email: 'emma.f.tmms@gmail.tmt',
-            status: JoinState.JOINED,
-          },
-        ],
-        sectionName: 'Tutorial Group 1',
+        name: 'Benny Charles',
+        team: 'Team 1',
+        email: 'benny.c.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '1',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Alice Betsy',
+        team: 'Team 1',
+        email: 'alice.b.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
+        isAllowedToViewStudentInSection: true,
+        isAllowedToModifyStudent: true,
+      },
+      {
+        name: 'Danny Engrid',
+        team: 'Team 1',
+        email: 'danny.e.tmms@gmail.tmt',
+        status: JoinState.JOINED,
+        sectionName: '2',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
       },
@@ -317,16 +278,12 @@ describe('StudentListComponent', () => {
   });
 
   it('should snap with some student list data with no sections', () => {
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.JOINED,
         sectionName: 'None',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,
@@ -339,16 +296,12 @@ describe('StudentListComponent', () => {
 
   it('should display "Send Invite" button when a student has not joined the course', () => {
     component.enableRemindButton = true;
-    component.sections = [
+    component.students = [
       {
-        students: [
-          {
-            name: 'tester',
-            team: '1',
-            email: 'tester@tester.com',
-            status: JoinState.NOT_JOINED,
-          },
-        ],
+        name: 'tester',
+        team: '1',
+        email: 'tester@tester.com',
+        status: JoinState.NOT_JOINED,
         sectionName: '1',
         isAllowedToViewStudentInSection: true,
         isAllowedToModifyStudent: true,

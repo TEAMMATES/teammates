@@ -44,44 +44,48 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should snap with a student table', () => {
-    component.studentTables = [
+    component.studentsListRowTables = [
       {
-        courseId: 'test.tes-demo',
-        sections: [
+        courseId: 'test-exa.demo',
+        students: [
           {
-            sectionName: 'Tutorial Group 1',
+            name: 'tester',
+            team: '1',
+            email: 'tester@tester.com',
+            status: JoinState.JOINED,
+            sectionName: '1',
             isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
-            students: [
-              {
-                name: 'Alice Betsy',
-                email: 'alice.b.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Benny Charles',
-                email: 'benny.c.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Danny Engrid',
-                email: 'danny.e.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Emma Farrell',
-                email: 'emma.f.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-            ],
+          },
+          {
+            name: 'Benny Charles',
+            team: 'Team 1',
+            email: 'benny.c.tmms@gmail.tmt',
+            status: JoinState.JOINED,
+            sectionName: '1',
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
+          },
+          {
+            name: 'Alice Betsy',
+            team: 'Team 1',
+            email: 'alice.b.tmms@gmail.tmt',
+            status: JoinState.JOINED,
+            sectionName: '2',
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
+          },
+          {
+            name: 'Danny Engrid',
+            team: 'Team 1',
+            email: 'danny.e.tmms@gmail.tmt',
+            status: JoinState.JOINED,
+            sectionName: '2',
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
           },
         ],
-      },
-    ];
+      }];
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
