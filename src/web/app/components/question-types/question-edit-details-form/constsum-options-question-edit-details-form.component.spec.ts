@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
@@ -16,6 +17,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       imports: [
         FormsModule,
         MatSnackBarModule,
+        DragDropModule,
       ],
       declarations: [
         ConstsumOptionsQuestionEditDetailsFormComponent,

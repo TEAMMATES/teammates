@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MsqFieldComponent } from './msq-field/msq-field.component';
@@ -16,6 +17,7 @@ describe('MsqQuestionEditDetailsFormComponent', () => {
         WeightFieldComponent],
       imports: [
         FormsModule,
+        DragDropModule,
       ],
     })
     .compileComponents();

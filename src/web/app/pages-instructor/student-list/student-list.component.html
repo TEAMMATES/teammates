@@ -96,7 +96,7 @@
           at the opening time of each session. Send a join request to {{student.email}} anyway?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn modal-btn-cancel btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+          <button type="button" class="btn modal-btn-cancel " (click)="modal.dismiss()">No, cancel the operation</button>
           <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
         </div>
       </ng-template>
