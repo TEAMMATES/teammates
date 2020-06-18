@@ -8,53 +8,13 @@
   </div>
   <div class="row">
     <div class="col-sm-12 table-responsive">
-      <table class="table table-bordered table-striped margin-0">
-        <thead>
-          <tr>
-            <td>Choice</td>
-            <td>Weight</td>
-            <td>Response Count</td>
-            <td>Percentage (%)</td>
-            <td>Weighted Percentage (%)</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let answer of answerFrequency | keyvalue">
-            <td>{{ answer.key }}</td>
-            <td>{{ weightPerOption[answer.key] || '-' }}</td>
-            <td>{{ answer.value }}</td>
-            <td>{{ percentagePerOption[answer.key] }}</td>
-            <td>{{ weightedPercentagePerOption[answer.key] || '-' }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData"></tm-sortable-table>
     </div>
     <div class="col-sm-12 table-responsive" *ngIf="question.hasAssignedWeights" style="margin-top: 20px;">
       <strong class="text-color-gray">
         Per Recipient Statistics
       </strong>
-      <table class="table table-striped table-bordered margin-0">
-        <thead>
-          <tr>
-            <th>Team</th>
-            <th>Recipient Name</th>
-            <th *ngFor="let answer of weightPerOption | keyvalue">{{ answer.key }} [{{ answer.value }}]</th>
-            <th>Total</th>
-            <th>Average</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let recipientResponse of perRecipientResponses | keyvalue">
-            <td>{{ recipientResponse.value.recipientTeam }}</td>
-            <td>{{ recipientResponse.value.recipient }}</td>
-            <td *ngFor="let answer of weightPerOption | keyvalue">
-              {{ recipientResponse.value.responses[answer.key] }}
-            </td>
-            <td>{{ recipientResponse.value.total }}</td>
-            <td>{{ recipientResponse.value.average }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <tm-sortable-table [rows]="perRecipientRowsData" [columns]="perRecipientColumnsData"></tm-sortable-table>
     </div>
   </div>
 </div>
