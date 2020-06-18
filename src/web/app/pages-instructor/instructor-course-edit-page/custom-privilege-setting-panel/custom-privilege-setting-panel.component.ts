@@ -78,9 +78,10 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
    * Checks whether there is section level permission for all sections.
    */
   get hasSectionLevelPermissionForAllSections(): boolean {
-    return this.permission.sectionLevel
-        .map((sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length)
-        .reduce((prev: number, curr: number) => prev + curr, 0) === this.allSections.length;
+    return this.permission.sectionLevel.length >= this.allSections.length
+        || this.permission.sectionLevel
+            .map((section: InstructorSectionLevelPermission) => section.sectionNames.length)
+            .reduce((prev: number, curr: number) => prev + curr, 0) >= this.allSections.length;
   }
 
   /**
