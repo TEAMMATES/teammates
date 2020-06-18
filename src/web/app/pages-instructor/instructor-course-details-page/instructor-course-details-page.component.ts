@@ -79,7 +79,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the course's details based on the given course ID.
    */
   loadCourseDetails(courseid: string): void {
-    this.students = [];
     this.loadCourseName(courseid);
     this.loadInstructors(courseid);
     this.loadStudents(courseid);
@@ -113,14 +112,17 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   private loadStudents(courseid: string): void {
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
+      this.students = [];
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
         const term: string = x.sectionName;
         (acc[term] = acc[term] || []).push(x);
         return acc;
       }, {});
 
+      const studentsInCourse: Student[] = [];
       Object.keys(sections).forEach((key: string) => {
         const studentsInSection: Student[] = sections[key];
+        studentsInCourse.push(...studentsInSection);
 
         const data: StudentListRowModel[] = [];
         studentsInSection.forEach((student: Student) => {
@@ -138,6 +140,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
         this.loadPrivilege(courseid, key, data);
       });
+      this.courseDetails.stats = this.courseService.calculateCourseStatistics(studentsInCourse);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -152,12 +155,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       courseId: courseid,
     }).subscribe((instructorPrivilege: InstructorPrivilege) => {
       students.forEach((student: StudentListRowModel) => {
-        student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-        student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+        if (student.sectionName === sectionName) {
+          student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+          student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+        }
       });
 
       this.students.push(...students);
-      this.courseDetails.stats = this.statisticsCalculatorService.calculateCourseStatistics(this.students);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -183,8 +187,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   deleteAllStudentsFromCourse(courseId: string): void {
     this.studentService.deleteAllStudentsFromCourse({ courseId })
       .subscribe((resp: MessageOutput) => {
-        this.students = [];
-        this.courseDetails.stats = this.statisticsCalculatorService.calculateCourseStatistics(this.students);
+        this.loadStudents(this.courseDetails.course.courseId);
         this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
@@ -316,8 +319,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe(() => {
       this.statusMessageService
           .showSuccessMessage(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
-      this.students = this.students.filter((student: StudentListRowModel) => student.email !== studentEmail);
-      this.courseDetails.stats = this.statisticsCalculatorService.calculateCourseStatistics(this.students);
+      this.loadStudents(this.courseDetails.course.courseId);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

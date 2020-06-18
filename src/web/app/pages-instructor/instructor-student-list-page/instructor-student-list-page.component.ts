@@ -89,14 +89,17 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadStudents(courseTab: CourseTab): void {
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
         .subscribe((students: Students) => {
+          courseTab.studentList = [];
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
             const term: string = x.sectionName;
             (acc[term] = acc[term] || []).push(x);
             return acc;
           }, {});
 
+          const studentsInCourse: Student[] = [];
           Object.keys(sections).forEach((key: string) => {
             const studentsInSection: Student[] = sections[key];
+            studentsInCourse.push(...studentsInSection);
 
             const studentList: StudentListRowModel[] = [];
             studentsInSection.forEach((student: Student) => {
@@ -114,6 +117,8 @@ export class InstructorStudentListPageComponent implements OnInit {
 
             this.loadPrivilege(courseTab, key, studentList);
           });
+
+          courseTab.stats = this.courseService.calculateCourseStatistics(studentsInCourse);
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -124,13 +129,13 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.instructorService.loadInstructorPrivilege({ sectionName, courseId: courseTab.course.courseId })
         .subscribe((instructorPrivilege: InstructorPrivilege) => {
           students.forEach((student: StudentListRowModel) => {
-            student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-            student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+            if (student.sectionName === sectionName) {
+              student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+              student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+            }
           });
 
           courseTab.studentList.push(...students);
-          courseTab.stats =
-              this.statisticsCalculatorService.calculateCourseStatistics(courseTab.studentList);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
@@ -143,10 +148,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe(() => {
       this.statusMessageService
           .showSuccessMessage(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
-      courseTab.studentList =
-          courseTab.studentList.filter((student: StudentListRowModel) => student.email !== studentEmail);
-      courseTab.stats =
-          this.statisticsCalculatorService.calculateCourseStatistics(courseTab.studentList);
+      this.loadStudents(courseTab);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
