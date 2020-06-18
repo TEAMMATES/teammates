@@ -7,7 +7,7 @@ import {
 import {
   SearchStudentsTable,
 } from '../app/pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
-import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
+import { StudentListSectionData } from '../app/components/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   CommentSearchResult,

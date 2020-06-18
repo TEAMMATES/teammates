@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { CourseService } from '../../../services/course.service';
+import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
-import { CourseStatistics, StatisticsCalculatorService } from '../../../services/statistics-calculator.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListRowModel } from '../student-list/student-list.component';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
 
 interface StudentIndexedData {
   [key: string]: Student[];
@@ -38,8 +37,7 @@ export class InstructorStudentListPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
-              private loadingBarService: LoadingBarService,
-              private statisticsCalculatorService: StatisticsCalculatorService) {
+              private loadingBarService: LoadingBarService) {
   }
 
   ngOnInit(): void {

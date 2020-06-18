@@ -3,10 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { ClipboardService } from 'ngx-clipboard';
-import { CourseService } from '../../../services/course.service';
+import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
-import { CourseStatistics, StatisticsCalculatorService } from '../../../services/statistics-calculator.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -20,7 +19,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListRowModel } from '../student-list/student-list.component';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
 
 interface CourseDetailsBundle {
   course: Course;
@@ -68,8 +67,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private courseService: CourseService,
               private ngbModal: NgbModal, private navigationService: NavigationService,
               private studentService: StudentService,
-              private instructorService: InstructorService,
-              private statisticsCalculatorService: StatisticsCalculatorService) { }
+              private instructorService: InstructorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
