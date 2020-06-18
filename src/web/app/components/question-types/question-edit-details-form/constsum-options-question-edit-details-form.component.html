@@ -2,9 +2,9 @@
   <br>
   <div class="col-sm-6">
     <div class="row">
-      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)">
+      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div *ngFor="let option of model.constSumOptions; let i = index;
-        trackBy: trackConstsumOption" cdkDrag>
+        trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
           <br>
           <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
                                  [isEditable]="isEditable"
