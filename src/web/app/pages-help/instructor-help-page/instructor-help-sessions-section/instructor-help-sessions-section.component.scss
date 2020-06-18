@@ -34,3 +34,9 @@
 .instr-help-qn-last {
   padding-bottom: 5px;
 }
+
+@media (max-width:700px){
+  button{
+    text-align:left;
+  }
+}
