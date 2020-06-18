@@ -61,5 +61,9 @@
 }
 
 .table-responsive {
-  overflow: visible;
+  overflow: auto;
+}
+
+.d-inline-block {
+  position: inherit;
 }
