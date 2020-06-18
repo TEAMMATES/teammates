@@ -1,6 +1,6 @@
 <div class="row">
   <br>
-  <div class="col-sm-12 margin-bottom-7px">
+  <div class="col-sm-12">
     <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
@@ -22,7 +22,7 @@
         trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y">
           <br>
           <div class="col-sm-1" cdkDragHandle>
-            <span class="btn btn-default input-group-addon">&#8597; </span>
+            <span class="btn input-group-addon">&#8597; </span>
           </div>
           <div [ngClass]="(model.hasAssignedWeights)?'col-sm-8':'col-sm-10'">
             <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
@@ -64,14 +64,14 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+  <div class="col-sm-6 col-lg-5 col-lg-offset-1">
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox"  [disabled]="!isEditable"
              [ngModel]="isGeneratedOptionsEnabled"
              (ngModelChange)="triggerGeneratedOptionsChange($event)">
       <b>Or, generate options from the list of all</b>
     </label>
-    <select class="form-control width-auto inline" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
+    <select class="form-control" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option }}</option>
     </select>

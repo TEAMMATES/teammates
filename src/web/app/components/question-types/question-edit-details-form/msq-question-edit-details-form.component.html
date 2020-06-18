@@ -20,7 +20,7 @@
         <div class="row margin-top-22px" *ngFor="let num of model.msqChoices; let i = index; trackBy: trackMsqOption" cdkDrag cdkDragLockAxis="y">
           <br>
           <div class="col-sm-1" cdkDragHandle>
-            <span class="btn btn-default input-group-addon">&#8597; </span>
+            <span class="btn input-group-addon">&#8597; </span>
           </div>
           <div [ngClass]="model.hasAssignedWeights ? 'col-sm-8' : 'col-sm-10'">
             <tm-msq-field (elementDeleted)="onMsqOptionDeleted($event)"
@@ -62,14 +62,14 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+  <div class="col-sm-6 col-lg-5 col-lg-offset-1">
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isGeneratedOptionsEnabled"
              (ngModelChange)="triggerGeneratedOptionsChange($event)">
       <b>Or, generate options from the list of all</b>
     </label>
-    <select class="form-control width-auto inline" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
+    <select class="form-control" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option }}</option>
     </select>
@@ -80,7 +80,7 @@
              (ngModelChange)="triggerMaxSelectableOptionsChange($event)">
       <b>Maximum number of options a respondent is allowed to select</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxSelectableChoicesEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMaxSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMaxSelectableOption"
            (ngModelChange)="triggerModelChange('maxSelectableChoices', $event)"
            [min]="isMinSelectableChoicesEnabled ? model.minSelectableChoices : 2"
@@ -92,7 +92,7 @@
              (ngModelChange)="triggerMinSelectableOptionsChange($event)">
       <b>Minimum number of options a respondent is allowed to select</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMinSelectableOption"
            (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="2" [max]="maxMinSelectableValue">
   </div>
