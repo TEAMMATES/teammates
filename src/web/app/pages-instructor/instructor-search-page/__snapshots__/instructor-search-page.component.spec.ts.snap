@@ -97,6 +97,16 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
                   </b>
                 </label>
               </div>
+              <div
+                class="invalid-field mt-md-1"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                   Please select at least one search type. 
+              </div>
             </div>
           </div>
         </div>
@@ -160,6 +170,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
             >
               <button
                 class="btn btn-primary"
+                disabled=""
               >
                 Search
               </button>
@@ -202,6 +213,16 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     Questions, responses, comments on responses
                   </b>
                 </label>
+              </div>
+              <div
+                class="invalid-field mt-md-1"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                   Please select at least one search type. 
               </div>
             </div>
           </div>
@@ -793,6 +814,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
             >
               <button
                 class="btn btn-primary"
+                disabled=""
               >
                 Search
               </button>
@@ -835,6 +857,16 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
                     Questions, responses, comments on responses
                   </b>
                 </label>
+              </div>
+              <div
+                class="invalid-field mt-md-1"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                   Please select at least one search type. 
               </div>
             </div>
           </div>

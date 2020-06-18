@@ -37,6 +37,9 @@ export class InstructorSearchBarComponent implements OnInit {
    * send the search data to parent for processing
    */
   search(): void {
+    if (!(this.searchParams.isSearchForComments ||
+        this.searchParams.isSearchForStudents) ||
+        this.searchParams.searchKey === '') { return; }
     this.searched.emit();
   }
 
