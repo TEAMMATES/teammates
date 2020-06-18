@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
+  FeedbackParticipantType,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, ResponseOutput,
   ResponseVisibleSetting,
@@ -58,6 +59,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
+  userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, QuestionTab[]> = {};
 
@@ -80,6 +82,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     this.userToEmail = {};
     this.userToRelatedEmail = {};
     this.userExpanded = {};
+    this.userIsInstructor = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
         if (!this.indicateMissingResponses && response.isMissingResponse) {
@@ -110,6 +113,8 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           }
 
           this.userExpanded[response.giver] = this.isExpandAll;
+          this.userIsInstructor[response.giver] =
+              question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team

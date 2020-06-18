@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
+  FeedbackParticipantType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, QuestionOutput, ResponseOutput,
@@ -54,6 +55,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
+  userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
 
@@ -108,6 +110,8 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
+          this.userIsInstructor[response.giver] =
+              question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
         } else {
           this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || '';
           this.userExpanded[response.recipient] = this.isExpandAll;
