@@ -108,7 +108,7 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         feedbackResponse.giverSection = giverSection;
         feedbackResponse.recipient = updateRequest.getRecipientIdentifier();
         feedbackResponse.recipientSection =
-                getRecipientSection(feedbackQuestion.getCourseId(),
+                getRecipientSection(feedbackQuestion.getCourseId(), feedbackQuestion.getGiverType(),
                         feedbackQuestion.getRecipientType(), updateRequest.getRecipientIdentifier());
         feedbackResponse.responseDetails = updateRequest.getResponseDetails();
 
