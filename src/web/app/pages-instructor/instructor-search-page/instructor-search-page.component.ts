@@ -6,9 +6,12 @@ import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListSectionData, StudentListStudentData } from '../../components/student-list/student-list-section-data';
+import {
+  StudentListSectionData,
+  StudentListStudentData,
+} from '../../components/student-list/student-list-section-data';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchCommentsTable } from './comment-result-table/comment-result-table.component';
 import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
 import { SearchStudentsListRowTable, SearchStudentsTable } from './student-result-table/student-result-table.component';

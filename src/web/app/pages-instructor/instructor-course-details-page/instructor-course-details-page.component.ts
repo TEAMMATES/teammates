@@ -18,8 +18,8 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseDetailsBundle {
   course: Course;

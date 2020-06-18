@@ -4,8 +4,8 @@ import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
 import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
-import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 

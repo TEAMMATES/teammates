@@ -14,7 +14,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
-  statisticsCalculatorService={[Function StatisticsCalculatorService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
@@ -186,7 +185,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
-  statisticsCalculatorService={[Function StatisticsCalculatorService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
@@ -603,7 +601,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
-  statisticsCalculatorService={[Function StatisticsCalculatorService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}

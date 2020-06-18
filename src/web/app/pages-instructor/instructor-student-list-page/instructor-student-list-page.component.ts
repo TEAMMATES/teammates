@@ -6,8 +6,8 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentIndexedData {
   [key: string]: Student[];

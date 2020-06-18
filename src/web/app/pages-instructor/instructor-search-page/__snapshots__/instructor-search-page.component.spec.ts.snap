@@ -355,10 +355,10 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </td>
                       
                       <td>
-                        1
+                        Tutorial Group 1
                       </td>
                       <td>
-                        1
+                        Team 1
                       </td>
                       <td>
                         tester
@@ -455,7 +455,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </td>
                       
                       <td>
-                        1
+                        Tutorial Group 1
                       </td>
                       <td>
                         Team 1
@@ -555,7 +555,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </td>
                       
                       <td>
-                        2
+                        Tutorial Group 1
                       </td>
                       <td>
                         Team 1
@@ -655,7 +655,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       </td>
                       
                       <td>
-                        2
+                        Tutorial Group 1
                       </td>
                       <td>
                         Team 1

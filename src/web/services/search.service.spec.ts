@@ -3,10 +3,10 @@ import { MatSnackBarModule } from '@angular/material';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import { StudentListSectionData } from '../app/components/student-list/student-list-section-data';
 import {
   SearchStudentsTable,
 } from '../app/pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
-import { StudentListSectionData } from '../app/components/student-list/student-list-section-data';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   Course,
