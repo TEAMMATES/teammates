@@ -23,8 +23,10 @@ export class McqQuestionStatisticsComponent
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
-  columnsData: ColumnData[] = [];
-  rowsData: SortableTableCellData[][] = [];
+  summaryColumnsData: ColumnData[] = [];
+  summaryRowsData: SortableTableCellData[][] = [];
+  perRecipientColumnsData: ColumnData[] = [];
+  perRecipientRowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
@@ -132,7 +134,7 @@ export class McqQuestionStatisticsComponent
   }
 
   private getTableData(): void {
-    this.columnsData = [
+    this.summaryColumnsData = [
       { header: 'Choice', sortBy: SortBy.MCQ_CHOICE },
       { header: 'Weight', sortBy: SortBy.MCQ_WEIGHT },
       { header: 'Response Count', sortBy: SortBy.MCQ_RESPONSE_COUNT },
@@ -140,13 +142,40 @@ export class McqQuestionStatisticsComponent
       { header: 'Weighted Percentage (%)', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE },
     ];
 
-    this.rowsData = Object.keys(this.answerFrequency).map((key: string) => {
+    this.summaryRowsData = Object.keys(this.answerFrequency).map((key: string) => {
       return [
         { value: key },
         { value: this.weightPerOption[key] || '-' },
         { value: this.answerFrequency[key] },
         { value: this.percentagePerOption[key] },
         { value: this.weightedPercentagePerOption[key] || '-' },
+      ];
+    });
+
+    this.perRecipientColumnsData = [
+      { header: 'Team', sortBy: SortBy.MCQ_TEAM },
+      { header: 'Recipient Name', sortBy: SortBy.MCQ_RECIPIENT_NAME },
+      ...Object.keys(this.weightPerOption).map((key: string) => {
+        return {
+          header: `${key} [${this.weightPerOption[key]}]`,
+          sortBy: SortBy.MCQ_OPTION_SELECTED_TIMES,
+        };
+      }),
+      { header: 'Total', sortBy: SortBy.MCQ_WEIGHT_TOTAL },
+      { header: 'Average', sortBy: SortBy.MCQ_WEIGHT_AVERAGE },
+    ];
+
+    this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {
+      return [
+        { value: this.perRecipientResponses[key].recipientTeam },
+        { value: this.perRecipientResponses[key].recipient },
+        ...Object.keys(this.weightPerOption).map((option: string) => {
+          return {
+            value: this.perRecipientResponses[key].responses[option],
+          };
+        }),
+        { value: this.perRecipientResponses[key].total },
+        { value: this.perRecipientResponses[key].average },
       ];
     });
   }
