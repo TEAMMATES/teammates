@@ -37,16 +37,17 @@
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
             <td>
-              {{ instructor.courseId }}
-              <br/>
+              <span [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
+              <br>
               <div class="col-sm-1">
-                <button *ngIf="!instructor.showLinks"
-                        class="btn"><i class="fas fa-chevron-circle-down"
-                                       style="color: blue;"></i></button>
-                <button *ngIf="instructor.showLinks"
-                        class="btn"><i class="fas fa-chevron-circle-up" style="color: blue;"></i></button>
+                <button *ngIf="!instructor.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                </button>
+                <button *ngIf="instructor.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                </button>
               </div>
-            </td> <!-- TODO: tooltip course name -->
+            </td>
             <td>{{ instructor.name }}</td>
             <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
               {{ instructor.googleId }}</a></td>
@@ -57,7 +58,7 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a id="reset-instructor-id-{{i}}" href="javascript:" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
+              <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
@@ -107,16 +108,18 @@
         <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
-              {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
-              <br/>
+              <span [ngbTooltip]="student.courseName">{{ student.courseId }}</span>
+              [{{ student.section }}] ({{ student.team }})
+              <br>
               <div class="col-sm-1">
-                <button *ngIf="!student.showLinks"
-                        class="btn"><i class="fas fa-chevron-circle-down"
-                                                   style="color: blue;"></i></button>
-                <button *ngIf="student.showLinks"
-                        class="btn"><i class="fas fa-chevron-circle-up" style="color: blue;"></i></button>
+                <button *ngIf="!student.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                </button>
+                <button *ngIf="student.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                </button>
               </div>
-            </td> <!-- TODO: tooltip course name -->
+            </td>
             <td>{{ student.name }}</td>
             <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId"
                    (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
@@ -129,7 +132,7 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a id="reset-student-id-{{i}}" href="javascript:" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
+              <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>

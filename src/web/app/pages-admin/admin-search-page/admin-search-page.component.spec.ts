@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { InstructorAccountSearchResult,
@@ -27,6 +27,7 @@ describe('AdminSearchPageComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         MatSnackBarModule,
+        NgbTooltipModule,
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 import {
   RegenerateLinksConfirmModalComponent,
@@ -24,6 +25,7 @@ import {
   imports: [
     CommonModule,
     FormsModule,
+    NgbTooltipModule,
   ],
   entryComponents: [
     RegenerateLinksConfirmModalComponent,
