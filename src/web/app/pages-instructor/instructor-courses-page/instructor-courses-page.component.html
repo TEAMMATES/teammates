@@ -10,7 +10,14 @@
   ></tm-add-course-form>
 </div>
 
-<div class="course-section">
+<ng-template #addCourseAlert>
+  <div class="alert alert-warning margin-top-30px" role="alert">
+    You do not seem to have any active courses. Use the button above to create a new course.
+  </div>
+</ng-template>
+
+<div class="course-section" *ngIf="activeCourses.length; else addCourseAlert;">
+  <h3>Active courses</h3>
   <div class="table-responsive">
     <table id="active-courses-table" class="table table-striped table-bordered margin-0">
       <thead>

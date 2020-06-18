@@ -55,7 +55,7 @@
     <div class="col-md-6">
       <div ngbTooltip="View results in different formats">
         <label class="control-label">
-          View:
+          <b>View:</b>
         </label>
         <div>
           <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
@@ -68,8 +68,8 @@
         </div>
       </div>
       <div ngbTooltip="View results by sections">
-        <label class="control-label">
-          Section:
+        <label class="control-label mt-md-1">
+          <b>Section:</b>
         </label>
         <div>
           <select class="form-control" [(ngModel)]="section">
