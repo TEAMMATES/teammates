@@ -7,6 +7,7 @@ import { ErrorReportModule } from './components/error-report/error-report.module
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { StatusMessageModule } from './components/status-message/status-message.module';
+import { ToastsModule } from './components/toasts/toasts.module';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
@@ -92,6 +93,7 @@ const routes: Routes = [
     SessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
+    ToastsModule,
   ],
   declarations: [
     PageComponent,
