@@ -11,36 +11,34 @@
       </label>
     </div>
     <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
-         class="form-check form-check-inline padding-left-260px align-center">Weights&#8595;
+         class="form-check form-check-inline padding-left-300px align-center">Weights&#8595;
     </div>
   </div>
   <br>
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
-      <div>
-        <div cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-          <div class="row margin-bottom-7px"  *ngFor="let num of model.mcqChoices; let i = index;
-          trackBy: trackMcqOption" cdkDrag>
-            <br>
-            <div class="col-sm-1" cdkDragHandle>
-              <span class="btn btn-default input-group-addon" style="margin-top: 22px">&#8597; </span>
-            </div>
-            <div [ngClass]="(model.hasAssignedWeights)?'col-sm-8':'col-sm-10'">
-              <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
-                            (mcqText)="onMcqOptionEntered($event, i)"
-                            [index]="i"
-                            [isEditable]="isEditable"
-                            [numberOfMcqChoices]="model.numOfMcqChoices"
-                            [text]="model.mcqChoices[i]"></tm-mcq-field>
-            </div>
-            <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
-              <tm-weight-field [isEditable]="isEditable"
-                               [weight]="model.mcqWeights[i]"
-                               (weightEntered)="onMcqWeightEntered($event, i)"></tm-weight-field>
-            </div>
-          </div>
+      <div cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+        <div class="row margin-top-22px" *ngFor="let num of model.mcqChoices; let i = index;
+        trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y">
           <br>
+          <div class="col-sm-1" cdkDragHandle>
+            <span class="btn btn-default input-group-addon">&#8597; </span>
+          </div>
+          <div [ngClass]="(model.hasAssignedWeights)?'col-sm-8':'col-sm-10'">
+            <tm-mcq-field (elementDeleted)="onMcqOptionDeleted($event)"
+                          (mcqText)="onMcqOptionEntered($event, i)"
+                          [index]="i"
+                          [isEditable]="isEditable"
+                          [numberOfMcqChoices]="model.numOfMcqChoices"
+                          [text]="model.mcqChoices[i]"></tm-mcq-field>
+          </div>
+          <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
+            <tm-weight-field [isEditable]="isEditable"
+                             [weight]="model.mcqWeights[i]"
+                             (weightEntered)="onMcqWeightEntered($event, i)"></tm-weight-field>
+          </div>
         </div>
+        <br>
       </div>
       <div class="row">
         <div class="col-sm-6">

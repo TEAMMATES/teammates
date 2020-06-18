@@ -2,9 +2,9 @@
   <br>
   <div class="col-sm-6">
     <div class="row">
-      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)">
+      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div class="margin-bottom-7px"  *ngFor="let num of model.options; let i = index;
-        trackBy: trackRankOption" cdkDrag>
+        trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
           <br>
           <tm-rank-options-field (elementDeleted)="onRankOptionDeleted($event)"
                                  [isEditable]="isEditable"

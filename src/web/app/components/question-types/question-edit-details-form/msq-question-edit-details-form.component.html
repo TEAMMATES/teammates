@@ -1,6 +1,6 @@
 <div class="row">
   <br>
-  <div class="col-sm-12 margin-bottom-7px">
+  <div class="col-sm-12">
     <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
@@ -10,17 +10,19 @@
       </label>
     </div>
     <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
-         class="form-check form-check-inline padding-left-260px align-center">Weights&#8595;
+         class="form-check form-check-inline padding-left-300px align-center">Weights&#8595;
     </div>
   </div>
   <br>
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
-      <div class="row">
-        <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)">
-          <div class="margin-bottom-7px"  *ngFor="let num of model.msqChoices; let i = index;
-          trackBy: trackMsqOption" cdkDrag>
-            <br>
+      <div cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+        <div class="row margin-top-22px" *ngFor="let num of model.msqChoices; let i = index; trackBy: trackMsqOption" cdkDrag cdkDragLockAxis="y">
+          <br>
+          <div class="col-sm-1" cdkDragHandle>
+            <span class="btn btn-default input-group-addon">&#8597; </span>
+          </div>
+          <div [ngClass]="model.hasAssignedWeights ? 'col-sm-8' : 'col-sm-10'">
             <tm-msq-field (elementDeleted)="onMsqOptionDeleted($event)"
                           (msqText)="onMsqOptionEntered($event, i)"
                           [index]="i"
@@ -28,14 +30,13 @@
                           [numberOfMsqChoices]="model.msqChoices.length"
                           [text]="model.msqChoices[i].trim()"></tm-msq-field>
           </div>
-          <br>
+          <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
+            <tm-weight-field [isEditable]="isEditable"
+                             [weight]="model.msqWeights[i]"
+                             (weightEntered)="onMsqWeightEntered($event, i)"></tm-weight-field>
+          </div>
         </div>
-        <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
-          <tm-weight-field *ngFor="let num of model.msqWeights; let i = index; trackBy: trackMsqWeight"
-                           [isEditable]="isEditable"
-                           [weight]="model.msqWeights[i]"
-                           (weightEntered)="onMsqWeightEntered($event, i)"></tm-weight-field>
-        </div>
+        <br>
       </div>
       <div class="row">
         <div class="col-sm-6">
