@@ -142,10 +142,10 @@ export class SessionResultPageComponent implements OnInit {
             (a: QuestionOutput, b: QuestionOutput) =>
                 a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
