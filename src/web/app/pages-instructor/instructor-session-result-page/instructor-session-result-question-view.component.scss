@@ -7,3 +7,13 @@
 .card-header {
   cursor: pointer;
 }
+
+.card-body {
+  width: inherit;
+  display: inline-block;
+  overflow-x: auto;
+}
+
+.stats-table {
+  min-width: 800px;
+}
