@@ -11,7 +11,7 @@ import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { JoinState, MessageOutput } from '../../../types/api-output';
+import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
@@ -20,12 +20,8 @@ import { JoinStatePipe } from './join-state.pipe';
  * Model of row of student data containing details about a student and their section.
  */
 export interface StudentListRowModel {
-  name: string;
-  email: string;
-  status: JoinState;
-  team: string;
+  student: Student;
   photoUrl?: string;
-  sectionName: string;
   isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
 }
@@ -71,15 +67,15 @@ export class StudentListComponent implements OnInit {
    * Returns whether this course are divided into sections
    */
   hasSection(): boolean {
-    return (this.students.some((student: StudentListRowModel) =>
-        student.sectionName !== 'None'));
+    return (this.students.some((studentModel: StudentListRowModel) =>
+        studentModel.student.sectionName !== 'None'));
   }
 
   /**
    * Function to be passed to ngFor, so that students in the list is tracked by email
    */
   trackByFn(_index: number, item: StudentListRowModel): any {
-    return item.email;
+    return item.student.email;
   }
 
   /**
@@ -138,24 +134,24 @@ export class StudentListComponent implements OnInit {
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.sectionName;
-          strB = b.sectionName;
+          strA = a.student.sectionName;
+          strB = b.student.sectionName;
           break;
         case SortBy.STUDENT_NAME:
-          strA = a.name;
-          strB = b.name;
+          strA = a.student.name;
+          strB = b.student.name;
           break;
         case SortBy.TEAM_NAME:
-          strA = a.team;
-          strB = b.team;
+          strA = a.student.teamName;
+          strB = b.student.teamName;
           break;
         case SortBy.EMAIL:
-          strA = a.email;
-          strB = b.email;
+          strA = a.student.email;
+          strB = b.student.email;
           break;
         case SortBy.JOIN_STATUS:
-          strA = joinStatePipe.transform(a.status);
-          strB = joinStatePipe.transform(b.status);
+          strA = joinStatePipe.transform(a.student.joinState);
+          strB = joinStatePipe.transform(b.student.joinState);
           break;
         default:
           strA = '';

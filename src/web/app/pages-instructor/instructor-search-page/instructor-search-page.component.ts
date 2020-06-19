@@ -92,12 +92,15 @@ export class InstructorSearchPageComponent implements OnInit {
       course.sections.forEach((section: StudentListSectionData) => {
         section.students.forEach((student: StudentListStudentData) => {
           studentsList.push({
-            name: student.name,
-            email: student.email,
-            status: student.status,
-            team: student.team,
+            student: {
+              courseId: course.courseId,
+              name: student.name,
+              email: student.email,
+              teamName: student.team,
+              sectionName: section.sectionName,
+              joinState: student.status,
+            },
             photoUrl: student.photoUrl,
-            sectionName: section.sectionName,
             isAllowedToModifyStudent: section.isAllowedToModifyStudent,
             isAllowedToViewStudentInSection: section.isAllowedToViewStudentInSection,
           });

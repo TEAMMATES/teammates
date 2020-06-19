@@ -112,35 +112,26 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   private loadStudents(courseid: string): void {
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
-      this.students = [];
+      this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
         const term: string = x.sectionName;
         (acc[term] = acc[term] || []).push(x);
         return acc;
       }, {});
 
-      const studentsInCourse: Student[] = [];
       Object.keys(sections).forEach((key: string) => {
         const studentsInSection: Student[] = sections[key];
-        studentsInCourse.push(...studentsInSection);
-
-        const data: StudentListRowModel[] = [];
-        studentsInSection.forEach((student: Student) => {
-          const studentData: StudentListRowModel = {
-            name: student.name,
-            status: student.joinState,
-            email: student.email,
-            team: student.teamName,
-            sectionName: key,
+        const data: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
+          return {
+            student: studentInSection,
             isAllowedToViewStudentInSection: false,
             isAllowedToModifyStudent: false,
           };
-          data.push(studentData);
         });
 
         this.loadPrivilege(courseid, key, data);
       });
-      this.courseDetails.stats = this.courseService.calculateCourseStatistics(studentsInCourse);
+      this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
@@ -154,10 +145,10 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       sectionName,
       courseId: courseid,
     }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      students.forEach((student: StudentListRowModel) => {
-        if (student.sectionName === sectionName) {
-          student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-          student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+      students.forEach((studentModel: StudentListRowModel) => {
+        if (studentModel.student.sectionName === sectionName) {
+          studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+          studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
         }
       });
 
@@ -187,7 +178,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   deleteAllStudentsFromCourse(courseId: string): void {
     this.studentService.deleteAllStudentsFromCourse({ courseId })
       .subscribe((resp: MessageOutput) => {
-        this.loadStudents(this.courseDetails.course.courseId);
+        // Reset list of students and course stats
+        this.students = [];
+        this.courseDetails.stats = {
+          numOfStudents: 0,
+          numOfSections: 0,
+          numOfTeams: 0,
+        };
         this.statusMessageService.showSuccessMessage(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
@@ -313,13 +310,18 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
-   * Removes the student from course.
+   * Removes the student from course and update the course statistics
    */
   removeStudentFromCourse(studentEmail: string): void {
     this.courseService.removeStudentFromCourse(this.courseDetails.course.courseId, studentEmail).subscribe(() => {
+      this.students =
+          this.students.filter((studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
+
+      const students: Student[] = this.students.map((studentModel: StudentListRowModel) => studentModel.student);
+      this.courseDetails.stats = this.courseService.calculateCourseStatistics(students);
+
       this.statusMessageService
           .showSuccessMessage(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
-      this.loadStudents(this.courseDetails.course.courseId);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });

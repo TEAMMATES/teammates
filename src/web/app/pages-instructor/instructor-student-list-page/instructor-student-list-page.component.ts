@@ -89,36 +89,27 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadStudents(courseTab: CourseTab): void {
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
         .subscribe((students: Students) => {
-          courseTab.studentList = [];
+          courseTab.studentList = []; // Reset the list of students for the course
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
             const term: string = x.sectionName;
             (acc[term] = acc[term] || []).push(x);
             return acc;
           }, {});
 
-          const studentsInCourse: Student[] = [];
           Object.keys(sections).forEach((key: string) => {
             const studentsInSection: Student[] = sections[key];
-            studentsInCourse.push(...studentsInSection);
-
-            const studentList: StudentListRowModel[] = [];
-            studentsInSection.forEach((student: Student) => {
-              const studentData: StudentListRowModel = {
-                name: student.name,
-                status: student.joinState,
-                email: student.email,
-                team: student.teamName,
-                sectionName: key,
+            const studentList: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
+              return {
+                student: studentInSection,
                 isAllowedToModifyStudent: false,
                 isAllowedToViewStudentInSection: false,
               };
-              studentList.push(studentData);
             });
 
             this.loadPrivilege(courseTab, key, studentList);
           });
 
-          courseTab.stats = this.courseService.calculateCourseStatistics(studentsInCourse);
+          courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }
 
@@ -128,10 +119,10 @@ export class InstructorStudentListPageComponent implements OnInit {
   loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListRowModel[]): void {
     this.instructorService.loadInstructorPrivilege({ sectionName, courseId: courseTab.course.courseId })
         .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          students.forEach((student: StudentListRowModel) => {
-            if (student.sectionName === sectionName) {
-              student.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-              student.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+          students.forEach((studentModel: StudentListRowModel) => {
+            if (studentModel.student.sectionName === sectionName) {
+              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
             }
           });
 
@@ -142,13 +133,20 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Removes the student from course.
+   * Removes the student from course and update the course statistics.
    */
   removeStudentFromCourse(courseTab: CourseTab, studentEmail: string): void {
     this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe(() => {
+      courseTab.studentList =
+          courseTab.studentList.filter(
+              (studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
+
+      const students: Student[] =
+          courseTab.studentList.map((studentModel: StudentListRowModel) => studentModel.student);
+      courseTab.stats = this.courseService.calculateCourseStatistics(students);
+
       this.statusMessageService
           .showSuccessMessage(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
-      this.loadStudents(courseTab);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
