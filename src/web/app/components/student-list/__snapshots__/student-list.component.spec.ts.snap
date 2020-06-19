@@ -266,6 +266,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -279,6 +282,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -317,6 +323,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -380,6 +389,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -393,6 +405,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -431,6 +446,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -494,6 +512,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -507,6 +528,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -534,6 +558,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -597,6 +624,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -610,6 +640,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -637,6 +670,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -814,6 +850,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -827,6 +866,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="You do not have the permission"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -866,6 +908,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -929,6 +974,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -942,6 +990,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -969,6 +1020,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1032,6 +1086,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1045,6 +1102,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1072,6 +1132,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1135,6 +1198,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1148,6 +1214,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1175,6 +1244,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1352,6 +1424,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1365,6 +1440,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1389,6 +1467,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1452,6 +1533,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1465,6 +1549,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1489,6 +1576,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1552,6 +1642,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1565,6 +1658,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1589,6 +1685,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1652,6 +1751,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1665,6 +1767,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1689,6 +1794,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1867,6 +1975,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1880,6 +1991,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -1904,6 +2018,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -1967,6 +2084,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -1980,6 +2100,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2004,6 +2127,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2068,6 +2194,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2081,6 +2210,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2105,6 +2237,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2168,6 +2303,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2181,6 +2319,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2205,6 +2346,9 @@ exports[`StudentListComponent should snap with some student list data and some s
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2382,6 +2526,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2395,6 +2542,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="You do not have the permission"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2419,6 +2569,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2482,6 +2635,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2495,6 +2651,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="You do not have the permission"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2519,6 +2678,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2582,6 +2744,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2595,6 +2760,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2619,6 +2787,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2682,6 +2853,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2695,6 +2869,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2719,6 +2896,9 @@ exports[`StudentListComponent should snap with some student list data when not a
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
@@ -2880,6 +3060,9 @@ exports[`StudentListComponent should snap with some student list data with no se
               ng-reflect-ngb-tooltip="View the details of the studen"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                View
             </a>
@@ -2893,6 +3076,9 @@ exports[`StudentListComponent should snap with some student list data with no se
               ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                Edit
             </a>
@@ -2917,6 +3103,9 @@ exports[`StudentListComponent should snap with some student list data with no se
               ng-reflect-ngb-tooltip="View all data about this stude"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/students/recor"
+              ng-reflect-target="_blank"
+              rel="noopener noreferrer"
+              target="_blank"
             >
                All Records
             </a>
