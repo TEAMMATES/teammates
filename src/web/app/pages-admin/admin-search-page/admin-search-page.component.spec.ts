@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { InstructorAccountSearchResult,
@@ -27,6 +27,7 @@ describe('AdminSearchPageComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         MatSnackBarModule,
+        NgbTooltipModule,
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
@@ -247,6 +248,15 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(of('Success'));
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
       (args: string): void => {
@@ -274,6 +284,15 @@ describe('AdminSearchPageComponent', () => {
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(throwError({
       error: {
@@ -316,6 +335,15 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetStudentAccount').and.returnValue(of('success'));
 
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
@@ -352,6 +380,15 @@ describe('AdminSearchPageComponent', () => {
     };
     component.students = [studentResult];
     fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(accountService, 'resetStudentAccount').and.returnValue(throwError({
       error: {
