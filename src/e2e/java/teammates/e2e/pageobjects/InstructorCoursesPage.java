@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -127,26 +126,14 @@ public class InstructorCoursesPage extends AppPage {
         assertEquals(expectedNum, getDeletedCourseCount());
     }
 
-    public void verifyStatusMessageWithLinks(String expected, String[] expectedLinks) {
-        WebElement statusMessage = browser.driver.findElement(By.className("mat-snack-bar-container"));
-        assertEquals(expected, statusMessage.getText());
-
-        List<WebElement> actualLinks = statusMessage.findElements(By.tagName("a"));
-        for (int i = 0; i < expectedLinks.length; i++) {
-            assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
-        }
-    }
-
     public void addCourse(CourseAttributes newCourse) {
         click(addCourseButton);
 
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
         selectNewTimeZone(newCourse.getTimeZone().toString());
-        waitForPageToLoad();
 
         click(submitButton);
-        waitForElementPresence(By.className("mat-snack-bar-container"));
     }
 
     public void showStatistics(String courseId) {
@@ -230,17 +217,14 @@ public class InstructorCoursesPage extends AppPage {
 
     public void sortByCourseName() {
         click(sortByCourseNameIcon);
-        waitForPageToLoad();
     }
 
     public void sortByCourseId() {
         click(sortByCourseIdIcon);
-        waitForPageToLoad();
     }
 
     public void sortByCreationDate() {
         click(sortByCreationDateIcon);
-        waitForPageToLoad();
     }
 
     private WebElement getActiveTableRow(String courseId) {
