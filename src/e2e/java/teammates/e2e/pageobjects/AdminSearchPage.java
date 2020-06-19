@@ -9,6 +9,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 
+import java.util.List;
+
 /**
  * Represents the admin home page of the website.
  */
@@ -108,10 +110,15 @@ public class AdminSearchPage extends AppPage {
     public WebElement getStudentRow(StudentAttributes student) {
         String details = String.format("%s [%s] (%s)", student.course,
                 student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
-        String xpath = String
-                .format("//table[@id='search-table-student']/tbody/tr[td[%d][contains(text(),'%s')] and td[%d]='%s']",
-                STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
-        return browser.driver.findElement(By.xpath(xpath));
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-student tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (columns.get(STUDENT_COL_DETAILS - 1).getAttribute("innerHTML").contains(details)
+                    && columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML").contains(student.name)) {
+                return row;
+            }
+        }
+        return null;
     }
 
     public String getStudentDetails(WebElement studentRow) {
@@ -160,8 +167,8 @@ public class AdminSearchPage extends AppPage {
     }
 
     public WebElement getInstructorRow(InstructorAttributes instructor) {
-        String xpath = String.format("//table[@id='search-table-instructor']/tbody/tr[td[%d][contains(text(),'%s')] "
-                        + "and td[%d]='%s']",
+        String xpath = String.format(
+                "//table[@id='search-table-instructor']/tbody/tr[td[%d][span[text()='%s']] and td[%d]='%s']",
                 INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.name);
         return browser.driver.findElement(By.xpath(xpath));
     }

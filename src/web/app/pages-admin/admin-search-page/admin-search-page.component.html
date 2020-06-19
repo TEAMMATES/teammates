@@ -108,8 +108,9 @@
         <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
-              <span [ngbTooltip]="student.courseName">{{ student.courseId }}</span>
-              [{{ student.section }}] ({{ student.team }})
+              <span [ngbTooltip]="student.courseName">
+                {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
+              </span>
               <br>
               <div class="col-sm-1">
                 <button *ngIf="!student.showLinks" class="btn">
