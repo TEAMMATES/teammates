@@ -41,10 +41,14 @@
   <div class="card margin-bottom-15px" *ngFor="let courseTabModel of courseTabModels; let idx = index">
     <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(courseTabModel);">
       <div class="row">
-        <div class="col-6">
+        <div class="course-header col-md-6">
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
         </div>
-        <div class="col-sm-6">
+        <div class="btn-toolbar col-md-6">
+            <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
+                <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
+                <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
+            </div>
           <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
             <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
@@ -98,9 +102,6 @@
                 </ng-container>
               </div>
             </span>
-
-            <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
-            <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
           </div>
         </div>
       </div>

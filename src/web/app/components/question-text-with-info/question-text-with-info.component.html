@@ -1,4 +1,4 @@
-Question {{ questionNumber }}: {{ questionDetails.questionText }}
+<b>Question {{ questionNumber }}:</b> {{ questionDetails.questionText }}
 <a (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
   [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
 </a>

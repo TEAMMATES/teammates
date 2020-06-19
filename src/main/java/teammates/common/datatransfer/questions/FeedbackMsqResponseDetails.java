@@ -71,14 +71,29 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
+        // if other is not chosen while other field is not empty trigger this error
+        if (isOtherEnabled && !isOther && !getOtherFieldContent().isEmpty()) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+        }
+
+        List<String> validChoices = new ArrayList<>(msqChoices);
+        if (isOtherEnabled && isOther) {
+            // other field content becomes a valid choice if other is enabled
+            validChoices.add(getOtherFieldContent());
+        }
         // if selected answers are not a part of the Msq option list trigger this error
-        boolean isAnswersPartOfChoices = msqChoices.containsAll(answers);
+        boolean isAnswersPartOfChoices = validChoices.containsAll(answers);
         if (!isAnswersPartOfChoices && !isNoneOfTheAboveOptionEnabled) {
             errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
         // if other option is selected but no text is provided trigger this error
         if (isOther && getOtherFieldContent().trim().equals("")) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+        }
+
+        // if other option is selected but not in the answer list trigger this error
+        if (isOther && !answers.contains(otherFieldContent)) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
         }
 
@@ -117,4 +132,15 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return otherFieldContent;
     }
 
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public void setOther(boolean other) {
+        isOther = other;
+    }
+
+    public void setOtherFieldContent(String otherFieldContent) {
+        this.otherFieldContent = otherFieldContent;
+    }
 }
