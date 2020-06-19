@@ -6,18 +6,15 @@ import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import {
+  StudentListSectionData,
+  StudentListStudentData,
+} from '../../components/student-list/student-list-section-data';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListSectionData } from '../student-list/student-list-section-data';
 import { SearchCommentsTable } from './comment-result-table/comment-result-table.component';
 import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
-
-/**
- * Data object for communication with the child student result component
- */
-export interface SearchStudentsTable {
-  courseId: string;
-  sections: StudentListSectionData[];
-}
+import { SearchStudentsListRowTable, SearchStudentsTable } from './student-result-table/student-result-table.component';
 
 /**
  * Instructor search page.
@@ -34,7 +31,7 @@ export class InstructorSearchPageComponent implements OnInit {
     isSearchForStudents: true,
     isSearchForComments: false,
   };
-  studentTables: SearchStudentsTable[] = [];
+  studentsListRowTables: SearchStudentsListRowTable[] = [];
   commentTables: SearchCommentsTable[] = [];
 
   constructor(
@@ -73,18 +70,50 @@ export class InstructorSearchPageComponent implements OnInit {
         .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
         .subscribe((resp: [InstructorSearchResult, InstructorSearchResult]) => {
           this.commentTables = resp[0].searchCommentsTables;
-          this.studentTables = resp[1].searchStudentsTables;
+          const searchStudentsTable: SearchStudentsTable[] = resp[1].searchStudentsTables;
           const hasStudents: boolean = !!(
-              this.studentTables && this.studentTables.length
+              searchStudentsTable && searchStudentsTable.length
           );
           const hasComments: boolean = !!(
               this.commentTables && this.commentTables.length
           );
+
+          if (hasStudents) {
+            this.studentsListRowTables = this.flattenStudentTable(searchStudentsTable);
+          }
           if (!hasStudents && !hasComments) {
             this.statusMessageService.showWarningMessage('No results found.');
           }
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
+  }
+
+  private flattenStudentTable(searchStudentsTable: SearchStudentsTable[]): SearchStudentsListRowTable[] {
+    return searchStudentsTable.map((course: SearchStudentsTable) => {
+      const studentsList: StudentListRowModel[] = [];
+      course.sections.forEach((section: StudentListSectionData) => {
+        section.students.forEach((student: StudentListStudentData) => {
+          studentsList.push({
+            student: {
+              courseId: course.courseId,
+              name: student.name,
+              email: student.email,
+              teamName: student.team,
+              sectionName: section.sectionName,
+              joinState: student.status,
+            },
+            photoUrl: student.photoUrl,
+            isAllowedToModifyStudent: section.isAllowedToModifyStudent,
+            isAllowedToViewStudentInSection: section.isAllowedToViewStudentInSection,
+          });
+        });
+      });
+
+      return {
+        courseId: course.courseId,
+        students: studentsList,
+      };
+    });
   }
 }

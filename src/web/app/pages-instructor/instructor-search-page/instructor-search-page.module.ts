@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentBoxModule } from '../../components/comment-box/comment-box.module';
 import { SingleResponseModule } from '../../components/question-responses/single-response/single-response.module';
-import { StudentListModule } from '../student-list/student-list.module';
+import { StudentListModule } from '../../components/student-list/student-list.module';
 import { CommentResultTableComponent } from './comment-result-table/comment-result-table.component';
 import { InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
