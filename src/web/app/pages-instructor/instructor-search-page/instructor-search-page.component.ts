@@ -56,9 +56,10 @@ export class InstructorSearchPageComponent implements OnInit {
    * Searches for students and questions/responses/comments matching the search query.
    */
   search(): void {
-    if (!(this.searchParams.isSearchForComments ||
-        this.searchParams.isSearchForStudents) ||
-        this.searchParams.searchKey === '') { return; }
+    if (!(this.searchParams.isSearchForComments || this.searchParams.isSearchForStudents)
+        || this.searchParams.searchKey === '') {
+      return;
+    }
     this.loadingBarService.showLoadingBar();
     forkJoin(
         this.searchParams.isSearchForComments
