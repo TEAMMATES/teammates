@@ -9,6 +9,11 @@ export const CONTRIBUTION_POINT_NOT_SUBMITTED: number = -999;
 export const CONTRIBUTION_POINT_NOT_SURE: number = -101;
 
 /**
+ * Special answer of a MSQ question indicating 'None of the above'.
+ */
+export const MSQ_ANSWER_NONE_OF_THE_ABOVE: string = '';
+
+/**
  * Special answer of a contribution question response for 'Equal Share' answer.
  */
 export const CONTRIBUTION_POINT_EQUAL_SHARE: number = 100;
