@@ -14,7 +14,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-constsum-options-question-edit-details-form',
   templateUrl: './constsum-options-question-edit-details-form.component.html',
-  styleUrls: ['./constsum-options-question-edit-details-form.component.scss'],
+  styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails> {
