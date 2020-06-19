@@ -1,5 +1,7 @@
 package teammates.e2e.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -8,8 +10,6 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-
-import java.util.List;
 
 /**
  * Represents the admin home page of the website.
