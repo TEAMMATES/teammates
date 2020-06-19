@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
-import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
+import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
@@ -17,11 +17,13 @@ const course: Course = {
   deletionTimestamp: 0,
 };
 
-const student: any = {
+const testStudent: Student = {
   name: 'Jamie',
   email: 'jamie@gmail.com',
-  status: 'Yet to join',
-  team: 'Team 1',
+  joinState: JoinState.NOT_JOINED,
+  teamName: 'Team 1',
+  sectionName: 'Tutorial Group 1',
+  courseId: 'CS101',
 };
 
 describe('InstructorCourseDetailsPageComponent', () => {
@@ -105,13 +107,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
       stats,
     };
     const studentListRowModel: StudentListRowModel = {
-      sectionName: 'Tutorial Group 1',
+      student: testStudent,
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
-      name: student.name,
-      email: student.email,
-      status: student.status,
-      team: student.team,
     };
     component.students = [studentListRowModel];
     component.courseDetails = courseDetails;

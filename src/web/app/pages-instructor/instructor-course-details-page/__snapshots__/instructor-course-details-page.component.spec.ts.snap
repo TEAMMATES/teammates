@@ -509,7 +509,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   <td
                     class="align-center"
                   >
-                    Unknown
+                    Yet to Join
                   </td>
                   <td>
                     jamie@gmail.com
@@ -544,6 +544,17 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                        Edit
                     </a>
                     
+                    
+                    
+                    
+                    
+                    
+                    <button
+                      class="btn btn-light btn-sm mr-2"
+                      ng-reflect-ngb-tooltip="Email an invitation to the stu"
+                    >
+                      Send Invite
+                    </button>
                     
                     
                     
