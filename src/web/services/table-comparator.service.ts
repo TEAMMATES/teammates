@@ -57,6 +57,16 @@ export class TableComparatorService {
       case SortBy.MCQ_RESPONSE_COUNT:
       case SortBy.MCQ_PERCENTAGE:
       case SortBy.MCQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MCQ_OPTION_SELECTED_TIMES:
+      case SortBy.MCQ_WEIGHT_TOTAL:
+      case SortBy.MCQ_WEIGHT_AVERAGE:
+      case SortBy.MSQ_WEIGHT:
+      case SortBy.MSQ_RESPONSE_COUNT:
+      case SortBy.MSQ_PERCENTAGE:
+      case SortBy.MSQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MSQ_OPTION_SELECTED_TIMES:
+      case SortBy.MSQ_WEIGHT_TOTAL:
+      case SortBy.MSQ_WEIGHT_AVERAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
@@ -69,6 +79,11 @@ export class TableComparatorService {
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
       case SortBy.RANK_OPTIONS_OPTION:
       case SortBy.MCQ_CHOICE:
+      case SortBy.MCQ_TEAM:
+      case SortBy.MCQ_RECIPIENT_NAME:
+      case SortBy.MSQ_CHOICE:
+      case SortBy.MSQ_TEAM:
+      case SortBy.MSQ_RECIPIENT_NAME:
       case SortBy.STUDENT_NAME:
       case SortBy.EMAIL:
       case SortBy.STUDENT_GENDER:

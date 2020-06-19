@@ -14,7 +14,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-msq-question-edit-details-form',
   templateUrl: './msq-question-edit-details-form.component.html',
-  styleUrls: ['./msq-question-edit-details-form.component.scss'],
+  styleUrls: ['./msq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {

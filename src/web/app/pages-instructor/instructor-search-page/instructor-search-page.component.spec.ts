@@ -44,44 +44,60 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should snap with a student table', () => {
-    component.studentTables = [
+    component.studentsListRowTables = [
       {
-        courseId: 'test.tes-demo',
-        sections: [
+        courseId: 'test-exa.demo',
+        students: [
           {
-            sectionName: 'Tutorial Group 1',
+            student: {
+              name: 'tester',
+              teamName: 'Team 1',
+              email: 'tester@tester.com',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
             isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
-            students: [
-              {
-                name: 'Alice Betsy',
-                email: 'alice.b.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Benny Charles',
-                email: 'benny.c.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Danny Engrid',
-                email: 'danny.e.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Emma Farrell',
-                email: 'emma.f.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-            ],
+          },
+          {
+            student: {
+              name: 'Benny Charles',
+              teamName: 'Team 1',
+              email: 'benny.c.tmms@gmail.tmt',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
+          },
+          {
+            student: {
+              name: 'Alice Betsy',
+              teamName: 'Team 1',
+              email: 'alice.b.tmms@gmail.tmt',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
+          },
+          {
+            student: {
+              name: 'Danny Engrid',
+              teamName: 'Team 1',
+              email: 'danny.e.tmms@gmail.tmt',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
           },
         ],
-      },
-    ];
+      }];
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

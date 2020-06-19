@@ -122,11 +122,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showErrorMessage(resp.error.message);
+    }, () => {
+      this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
+        this.existingStudents = resp.students;
+        if (!this.isExistingStudentsPanelCollapsed) {
+          const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+          this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+        }
+        this.isExistingStudentsPresent = true;
+      });
     });
-    this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
-      this.existingStudents = resp.students;
-    });
-    this.isExistingStudentsPresent = true;
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
