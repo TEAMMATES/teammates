@@ -40,15 +40,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let student of students; trackBy: trackByFn" [hidden]="isStudentToHide(student.email)"s>
+    <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
       <td class="align-center">
-        <tm-view-photo-popover [photoUrl]="student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
+        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
       </td>
-      <td *ngIf="hasSection()">{{student.sectionName}}</td>
-      <td>{{student.team}}</td>
-      <td>{{student.name}}</td>
-      <td class="align-center">{{student.status | joinState}}</td>
-      <td>{{student.email}}</td>
+      <td *ngIf="hasSection()">{{studentModel.student.sectionName}}</td>
+      <td>{{studentModel.student.teamName}}</td>
+      <td>{{studentModel.student.name}}</td>
+      <td class="align-center">{{studentModel.student.joinState | joinState}}</td>
+      <td>{{studentModel.student.email}}</td>
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
                      let-routerLink="routerLink" let-queryParams="queryParams">
@@ -60,29 +60,29 @@
             {{name}}</a>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
-        isEnabled: student.isAllowedToViewStudentInSection,
+        isEnabled: studentModel.isAllowedToViewStudentInSection,
         tooltip: 'View the details of the student',
         name: 'View',
         routerLink: '/web/instructor/courses/student/details',
-        queryParams: {courseid: courseId, studentemail: student.email}
+        queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
         <ng-container *ngTemplateOutlet="actionButton; context: {
-        isEnabled: student.isAllowedToModifyStudent,
+        isEnabled: studentModel.isAllowedToModifyStudent,
         tooltip: 'Use this to edit the details of this student. To edit multiple students'
           + ' in one go, you can use the enroll page: '
           + 'Simply enroll students using the updated data and existing data will be updated accordingly',
         name: 'Edit',
         routerLink: '/web/instructor/courses/student/edit',
-        queryParams: {courseid: courseId, studentemail: student.email}
+        queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
-        <ng-container *ngIf="student.status === JoinState.NOT_JOINED">
-          <button class="btn btn-light btn-sm mr-2" *ngIf="student.isAllowedToModifyStudent"
+        <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
+          <button class="btn btn-light btn-sm mr-2" *ngIf="studentModel.isAllowedToModifyStudent"
             [ngbTooltip]="'Email an invitation to the student requesting him/her to join the course using his/her'
             + ' Google Account. Note: Students can use TEAMMATES without \'joining\','
             + ' but a joined student can access extra features e.g. set up a user profile'"
              (click)="openModal(remindModal)">Send Invite</button>
-          <button class="btn btn-light btn-sm mr-2 disabled mouse-hover-only" *ngIf="!student.isAllowedToModifyStudent"
+          <button class="btn btn-light btn-sm mr-2 disabled mouse-hover-only" *ngIf="!studentModel.isAllowedToModifyStudent"
             ngbTooltip="'You do not have the permissions to access this feature'">Send Invite</button>
         </ng-container>
       </ng-container>
@@ -93,16 +93,16 @@
         </div>
         <div class="modal-body">
           Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students
-          at the opening time of each session. Send a join request to {{student.email}} anyway?
+          at the opening time of each session. Send a join request to {{studentModel.student.email}} anyway?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn modal-btn-cancel " (click)="modal.dismiss()">No, cancel the operation</button>
-          <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(student.email); modal.dismiss()">Yes</button>
+          <button type="button" class="btn modal-btn-ok btn-danger" (click)="remindStudentFromCourse(studentModel.student.email); modal.dismiss()">Yes</button>
         </div>
       </ng-template>
       <button class="btn btn-light btn-sm mr-2"
-        [ngClass]="{'disabled mouse-hover-only': !student.isAllowedToModifyStudent}"
-        [ngbTooltip]="student.isAllowedToModifyStudent
+        [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent}"
+        [ngbTooltip]="studentModel.isAllowedToModifyStudent
           ? 'Delete the student and the corresponding submissions from the course'
           : 'You do not have the permissions to access this feature'"
         (click)="openModal(deleteModal)">Delete</button>
@@ -113,13 +113,13 @@
         </div>
         <div class="modal-body">
           <p class="font-weight-bold">Are you sure you want to remove
-            <span class="text-primary">"{{student.name}}"</span> from the course
+            <span class="text-primary">"{{studentModel.student.name}}"</span> from the course
             <span class="text-primary">"{{courseId}}"</span>?
           </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
-          <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(student.email); modal.dismiss()">Yes</button>
+          <button type="button" ngbAutofocus class="btn btn-danger" (click)="removeStudentFromCourse(studentModel.student.email); modal.dismiss()">Yes</button>
         </div>
       </ng-template>
       <ng-container *ngTemplateOutlet="actionButton; context: {
@@ -127,7 +127,7 @@
         tooltip: 'View all data about this student',
         name: 'All Records',
         routerLink: '/web/instructor/students/records',
-        queryParams: {courseid: courseId, studentemail: student.email}
+        queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
       </td>
     </tr>

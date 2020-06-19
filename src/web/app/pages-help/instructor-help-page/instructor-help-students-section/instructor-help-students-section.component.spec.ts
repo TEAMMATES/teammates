@@ -4,7 +4,9 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
-import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
+import {
+  SearchStudentsTable,
+} from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section.component';
 
 @Component({ selector: 'tm-example-box', template: '' })

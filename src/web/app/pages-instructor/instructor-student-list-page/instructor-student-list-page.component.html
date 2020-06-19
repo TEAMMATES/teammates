@@ -60,10 +60,10 @@
           </button>
           <br/><br/>
           <tm-student-list
-          [courseId]="courseTab.course.courseId"
-          [sections]="courseTab.studentListSectionDataList" [useGrayHeading]="false"
-          [enableRemindButton]="true"
-          (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+              [courseId]="courseTab.course.courseId"
+              [students]="courseTab.studentList" [useGrayHeading]="false"
+              [enableRemindButton]="true"
+              (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
           </tm-student-list>
         </ng-container>
       </div>

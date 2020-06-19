@@ -1,5 +1,9 @@
 import {
-  Component, DoCheck, EventEmitter, Input, IterableDiffer, IterableDiffers, OnInit, Output,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,26 +11,17 @@ import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { JoinState, MessageOutput } from '../../../types/api-output';
+import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { JoinStatePipe } from './join-state.pipe';
-import {
-  StudentListSectionData,
-  StudentListStudentData,
-} from './student-list-section-data';
 
 /**
- * Flattened data which contains details about a student and their section.
- * The data is flattened to allow sorting of the table.
+ * Model of row of student data containing details about a student and their section.
  */
-interface FlatStudentListData {
-  name: string;
-  email: string;
-  status: JoinState;
-  team: string;
+export interface StudentListRowModel {
+  student: Student;
   photoUrl?: string;
-  sectionName: string;
   isAllowedToViewStudentInSection: boolean;
   isAllowedToModifyStudent: boolean;
 }
@@ -39,21 +34,16 @@ interface FlatStudentListData {
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-export class StudentListComponent implements OnInit, DoCheck {
+export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
-
-  // The input sections data from parent.
-  @Input() sections: StudentListSectionData[] = [];
+  @Input() students: StudentListRowModel[] = [];
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
 
-  // The flattened students list derived from the sections list.
-  // The sections data is flattened to allow sorting of the list.
-  students: FlatStudentListData[] = [];
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
 
@@ -62,65 +52,30 @@ export class StudentListComponent implements OnInit, DoCheck {
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState =  JoinState;
 
-  private readonly _differ: IterableDiffer<any>;
-
   constructor(private router: Router,
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
               private tableComparatorService: TableComparatorService,
-              private ngbModal: NgbModal,
-              private differs: IterableDiffers) {
-    this._differ = this.differs.find(this.sections).create();
+              private ngbModal: NgbModal) {
   }
 
   ngOnInit(): void {
-  }
-
-  ngDoCheck(): void {
-    if (this._differ) {
-      const changes: any = this._differ.diff(this.sections);
-      if (changes) {
-        this.students = this.mapStudentsFromSectionData(this.sections);
-      }
-    }
-  }
-
-  /**
-   * Flatten section data.
-   */
-  mapStudentsFromSectionData(sections: StudentListSectionData[]): FlatStudentListData[] {
-    const students: FlatStudentListData[] = [];
-    sections.forEach((section: StudentListSectionData) =>
-        section.students.forEach((student: StudentListStudentData) =>
-            students.push({
-              name: student.name,
-              email: student.email,
-              status: student.status,
-              team: student.team,
-              photoUrl: student.photoUrl,
-              sectionName: section.sectionName,
-              isAllowedToModifyStudent: section.isAllowedToModifyStudent,
-              isAllowedToViewStudentInSection: section.isAllowedToViewStudentInSection,
-            }),
-        ),
-    );
-    return students;
   }
 
   /**
    * Returns whether this course are divided into sections
    */
   hasSection(): boolean {
-    return (this.students.some((student: FlatStudentListData) =>
-        student.sectionName !== 'None'));
+    return (this.students.some((studentModel: StudentListRowModel) =>
+        studentModel.student.sectionName !== 'None'));
   }
 
   /**
    * Function to be passed to ngFor, so that students in the list is tracked by email
    */
-  trackByFn(_index: number, item: FlatStudentListData): any {
-    return item.email;
+  trackByFn(_index: number, item: StudentListRowModel): any {
+    return item.student.email;
   }
 
   /**
@@ -171,32 +126,32 @@ export class StudentListComponent implements OnInit, DoCheck {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: FlatStudentListData , b: FlatStudentListData) => number) {
+      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
 
-    return (a: FlatStudentListData, b: FlatStudentListData): number => {
+    return (a: StudentListRowModel, b: StudentListRowModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
         case SortBy.SECTION_NAME:
-          strA = a.sectionName;
-          strB = b.sectionName;
+          strA = a.student.sectionName;
+          strB = b.student.sectionName;
           break;
         case SortBy.STUDENT_NAME:
-          strA = a.name;
-          strB = b.name;
+          strA = a.student.name;
+          strB = b.student.name;
           break;
         case SortBy.TEAM_NAME:
-          strA = a.team;
-          strB = b.team;
+          strA = a.student.teamName;
+          strB = b.student.teamName;
           break;
         case SortBy.EMAIL:
-          strA = a.email;
-          strB = b.email;
+          strA = a.student.email;
+          strB = b.student.email;
           break;
         case SortBy.JOIN_STATUS:
-          strA = joinStatePipe.transform(a.status);
-          strB = joinStatePipe.transform(b.status);
+          strA = joinStatePipe.transform(a.student.joinState);
+          strB = joinStatePipe.transform(b.student.joinState);
           break;
         default:
           strA = '';

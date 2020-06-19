@@ -5,10 +5,8 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -16,7 +14,6 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -109,10 +106,8 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -120,7 +115,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -243,10 +237,10 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </td>
           
           <td>
-            1
+            Tutorial Group 1
           </td>
           <td>
-            1
+            Team 1
           </td>
           <td>
             tester
@@ -363,6 +357,120 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             Team 1
           </td>
           <td>
+            Benny Charles
+          </td>
+          <td
+            class="align-center"
+          >
+            Yet to Join
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View the details of the studen"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-ngb-tooltip="Email an invitation to the stu"
+            >
+              Send Invite
+            </button>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
+            >
+              Delete
+            </button>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View all data about this stude"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/students/recor"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
+            >
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
             Alice Betsy
           </td>
           <td
@@ -460,110 +568,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </td>
           
           <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Benny Charles
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            benny.c.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
+            Tutorial Group 2
           </td>
           <td>
             Team 1
@@ -627,120 +632,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Emma Farrell
-          </td>
-          <td
-            class="align-center"
-          >
-            Yet to Join
-          </td>
-          <td>
-            emma.f.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-ngb-tooltip="Email an invitation to the stu"
-            >
-              Send Invite
-            </button>
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -763,10 +654,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -774,7 +663,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -897,10 +785,10 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           </td>
           
           <td>
-            1
+            Tutorial Group 1
           </td>
           <td>
-            1
+            Team 1
           </td>
           <td>
             tester
@@ -932,431 +820,8 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             <a
-              class="btn btn-light btn-sm mr-2"
+              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-ngb-tooltip="Email an invitation to the stu"
-            >
-              Send Invite
-            </button>
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Alice Betsy
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            alice.b.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Benny Charles
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            benny.c.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Danny Engrid
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            danny.e.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Emma Farrell
-          </td>
-          <td
-            class="align-center"
-          >
-            Yet to Join
-          </td>
-          <td>
-            emma.f.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="You do not have the permission"
@@ -1395,7 +860,316 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <a
               class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View all data about this stude"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/students/recor"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
+            >
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View the details of the studen"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
+            >
+              Delete
+            </button>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View all data about this stude"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/students/recor"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
+            >
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View the details of the studen"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
+            >
+              Delete
+            </button>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View all data about this stude"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/students/recor"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
+            >
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Danny Engrid
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            danny.e.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View the details of the studen"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
+            >
+              Delete
+            </button>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -1418,10 +1192,8 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -1429,7 +1201,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -1552,10 +1323,10 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </td>
           
           <td>
-            1
+            Tutorial Group 1
           </td>
           <td>
-            1
+            Team 1
           </td>
           <td>
             tester
@@ -1613,106 +1384,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Alice Betsy
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            alice.b.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -1852,7 +1523,107 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </td>
           
           <td>
-            Tutorial Group 1
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View the details of the studen"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               Edit
+            </a>
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
+            >
+              Delete
+            </button>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View all data about this stude"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/students/recor"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
+            >
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
           </td>
           <td>
             Team 1
@@ -1913,106 +1684,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Emma Farrell
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            emma.f.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -2035,10 +1706,8 @@ exports[`StudentListComponent should snap with some student list data and some s
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -2046,7 +1715,6 @@ exports[`StudentListComponent should snap with some student list data and some s
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -2170,10 +1838,10 @@ exports[`StudentListComponent should snap with some student list data and some s
           </td>
           
           <td>
-            1
+            Tutorial Group 1
           </td>
           <td>
-            1
+            Team 1
           </td>
           <td>
             tester
@@ -2181,7 +1849,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td
             class="align-center"
           >
-            Yet to Join
+            Joined
           </td>
           <td>
             tester@tester.com
@@ -2231,107 +1899,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          hidden=""
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Alice Betsy
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            alice.b.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -2444,6 +2011,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           </td>
         </tr>
         <tr
+          hidden=""
           s=""
         >
           <td
@@ -2471,7 +2039,107 @@ exports[`StudentListComponent should snap with some student list data and some s
           </td>
           
           <td>
-            Tutorial Group 1
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View the details of the studen"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/courses/studen"
+            >
+               Edit
+            </a>
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
+            >
+              Delete
+            </button>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="View all data about this stude"
+              ng-reflect-query-params="[object Object]"
+              ng-reflect-router-link="/web/instructor/students/recor"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover
+              ng-reflect-is-view-photo-link-in-popover="false"
+              ng-reflect-photo-url="http://localhost:8080/webapi/s"
+            >
+              
+              
+              
+              <a
+                href="/"
+                ng-reflect-query-params-handling="preserve"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
           </td>
           <td>
             Team 1
@@ -2532,106 +2200,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Emma Farrell
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            emma.f.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -2654,10 +2222,8 @@ exports[`StudentListComponent should snap with some student list data when not a
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -2665,7 +2231,6 @@ exports[`StudentListComponent should snap with some student list data when not a
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -2788,10 +2353,10 @@ exports[`StudentListComponent should snap with some student list data when not a
           </td>
           
           <td>
-            1
+            Tutorial Group 1
           </td>
           <td>
-            1
+            Team 1
           </td>
           <td>
             tester
@@ -2823,11 +2388,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              class="btn btn-light btn-sm mr-2"
+              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Use this to edit the details o"
+              ng-reflect-ngb-tooltip="You do not have the permission"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
             >
@@ -2837,10 +2402,10 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <button
-              class="btn btn-light btn-sm mr-2"
+              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="Delete the student and the cor"
+              ng-reflect-ngb-tooltip="You do not have the permission"
             >
               Delete
             </button>
@@ -2849,106 +2414,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View all data about this stude"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/students/recor"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover
-              ng-reflect-is-view-photo-link-in-popover="false"
-              ng-reflect-photo-url="http://localhost:8080/webapi/s"
-            >
-              
-              
-              
-              <a
-                href="/"
-                ng-reflect-query-params-handling="preserve"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Alice Betsy
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            alice.b.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="View the details of the studen"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-              ng-reflect-query-params="[object Object]"
-              ng-reflect-router-link="/web/instructor/courses/studen"
-            >
-               Edit
-            </a>
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              ng-reflect-klass="btn btn-light btn-sm mr-2"
-              ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
-            >
-              Delete
-            </button>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -3088,13 +2553,13 @@ exports[`StudentListComponent should snap with some student list data when not a
           </td>
           
           <td>
-            Tutorial Group 1
+            Tutorial Group 2
           </td>
           <td>
             Team 1
           </td>
           <td>
-            Danny Engrid
+            Alice Betsy
           </td>
           <td
             class="align-center"
@@ -3102,7 +2567,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             Joined
           </td>
           <td>
-            danny.e.tmms@gmail.tmt
+            alice.b.tmms@gmail.tmt
           </td>
           <td
             class="no-print align-center"
@@ -3111,7 +2576,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <a
               class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View the details of the studen"
@@ -3123,11 +2588,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
             >
@@ -3137,10 +2602,10 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
+              class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
             >
               Delete
             </button>
@@ -3148,7 +2613,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <a
               class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -3188,13 +2653,13 @@ exports[`StudentListComponent should snap with some student list data when not a
           </td>
           
           <td>
-            Tutorial Group 1
+            Tutorial Group 2
           </td>
           <td>
             Team 1
           </td>
           <td>
-            Emma Farrell
+            Danny Engrid
           </td>
           <td
             class="align-center"
@@ -3202,7 +2667,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             Joined
           </td>
           <td>
-            emma.f.tmms@gmail.tmt
+            danny.e.tmms@gmail.tmt
           </td>
           <td
             class="no-print align-center"
@@ -3211,7 +2676,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <a
               class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=emma.f.tmms@gmail.tmt"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View the details of the studen"
@@ -3223,11 +2688,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=emma.f.tmms@gmail.tmt"
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
+              ng-reflect-ngb-tooltip="Use this to edit the details o"
               ng-reflect-query-params="[object Object]"
               ng-reflect-router-link="/web/instructor/courses/studen"
             >
@@ -3237,10 +2702,10 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
             <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
+              class="btn btn-light btn-sm mr-2"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
-              ng-reflect-ngb-tooltip="You do not have the permission"
+              ng-reflect-ngb-tooltip="Delete the student and the cor"
             >
               Delete
             </button>
@@ -3248,7 +2713,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <a
               class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=emma.f.tmms@gmail.tmt"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
               ng-reflect-klass="btn btn-light btn-sm mr-2"
               ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="View all data about this stude"
@@ -3271,10 +2736,8 @@ exports[`StudentListComponent should snap with some student list data with no se
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
@@ -3282,7 +2745,6 @@ exports[`StudentListComponent should snap with some student list data with no se
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
@@ -3392,7 +2854,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           </td>
           
           <td>
-            1
+            Team 1
           </td>
           <td>
             tester
@@ -3400,7 +2862,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td
             class="align-center"
           >
-            Yet to Join
+            Joined
           </td>
           <td>
             tester@tester.com
@@ -3472,10 +2934,8 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   JoinState={[Function Object]}
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  _differ={[Function DefaultIterableDiffer]}
   courseId=""
   courseService={[Function CourseService]}
-  differs={[Function IterableDiffers]}
   enableRemindButton="false"
   isHideTableHead={[Function Boolean]}
   listOfStudentsToHide={[Function Array]}
@@ -3483,7 +2943,6 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
-  sections={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
