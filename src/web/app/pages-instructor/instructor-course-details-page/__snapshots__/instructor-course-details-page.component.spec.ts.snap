@@ -527,6 +527,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       ng-reflect-ngb-tooltip="View the details of the studen"
                       ng-reflect-query-params="[object Object]"
                       ng-reflect-router-link="/web/instructor/courses/studen"
+                      ng-reflect-target="_blank"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                        View
                     </a>
@@ -540,6 +543,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       ng-reflect-ngb-tooltip="Use this to edit the details o"
                       ng-reflect-query-params="[object Object]"
                       ng-reflect-router-link="/web/instructor/courses/studen"
+                      ng-reflect-target="_blank"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                        Edit
                     </a>
@@ -578,6 +584,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                       ng-reflect-ngb-tooltip="View all data about this stude"
                       ng-reflect-query-params="[object Object]"
                       ng-reflect-router-link="/web/instructor/students/recor"
+                      ng-reflect-target="_blank"
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                        All Records
                     </a>
