@@ -144,6 +144,11 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         this.courseService.getCourseSectionNames(queryParams.courseid)
             .subscribe((courseSectionNames: CourseSectionNames) => {
               for (const sectionName of courseSectionNames.sectionNames) {
+                this.sectionsModel.None = {
+                  questions: [],
+                  hasPopulated: false,
+                  isTabExpanded: false,
+                };
                 this.sectionsModel[sectionName] = {
                   questions: [],
                   hasPopulated: false,

@@ -191,12 +191,23 @@ public class SessionResultsData extends ApiOutput {
         }
         String giverName = getGiverNameOfResponse(response, bundle);
         String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
+        String giverSection = response.getGiverSection();
+        FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
+        if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
+            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            giverSection = Const.DEFAULT_SECTION;
+        }
 
         // process recipient
         String recipientEmail = null;
         String recipientName = getRecipientNameOfResponse(response, bundle);
         String recipientTeam =
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+        String recipientSection = response.getRecipientSection();
+        if (question.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+            recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            recipientSection = Const.DEFAULT_SECTION;
+        }
         if (bundle.isResponseRecipientVisible(response)) {
             recipientEmail = response.getRecipient();
 
@@ -221,11 +232,11 @@ public class SessionResultsData extends ApiOutput {
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
                 .withRelatedGiverEmail(relatedGiverEmail)
-                .withGiverSection(response.getGiverSection())
+                .withGiverSection(giverSection)
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
-                .withRecipientSection(response.getRecipientSection())
+                .withRecipientSection(recipientSection)
                 .withResponseDetails(response.getResponseDetails())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
