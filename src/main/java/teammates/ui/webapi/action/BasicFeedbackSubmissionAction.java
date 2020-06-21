@@ -152,10 +152,24 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
      * Gets the section of a recipient.
      */
     protected String getRecipientSection(
-            String courseId, FeedbackParticipantType recipientType, String recipientIdentifier) {
+            String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            String recipientIdentifier) {
         switch (recipientType) {
-        case INSTRUCTORS:
         case SELF:
+            switch (giverType) {
+            case INSTRUCTORS:
+            case SELF:
+                return Const.DEFAULT_SECTION;
+            case TEAMS:
+                return logic.getSectionForTeam(courseId, recipientIdentifier);
+            case STUDENTS:
+                StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
+                return student == null ? Const.DEFAULT_SECTION : student.section;
+            default:
+                Assumption.fail("Invalid giver type " + giverType + " for recipient type " + recipientType);
+                return null;
+            }
+        case INSTRUCTORS:
         case NONE:
             return Const.DEFAULT_SECTION;
         case TEAMS:
