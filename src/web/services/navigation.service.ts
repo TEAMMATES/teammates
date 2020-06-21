@@ -63,7 +63,12 @@ export class NavigationService {
    * Opens a new browser window.
    */
   openNewWindow(urlStr: string, params: Record<string, string> = {}): void {
-    const url: URL = new URL(`${urlStr}${this.encodeParams(params)}`);
+    let url: URL;
+    if (urlStr.startsWith('/')) {
+      url = new URL(`${window.location.origin}${urlStr}${this.encodeParams(params)}`);
+    } else {
+      url = new URL(`${urlStr}${this.encodeParams(params)}`);
+    }
     if (this.masqueradeModeService.isInMasqueradingMode()) {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
     }
