@@ -83,17 +83,8 @@
         </label>
         <div>
           <select class="form-control" [(ngModel)]="sectionType">
-            <option [ngValue]="InstructorSessionResultSectionType.EITHER">
-              Show response if either the giver or evaluee is in the selected section
-            </option>
-            <option [ngValue]="InstructorSessionResultSectionType.GIVER">
-              Show response if the giver is in the selected section
-            </option>
-            <option [ngValue]="InstructorSessionResultSectionType.EVALUEE">
-              Show response if the evaluee is in the selected section
-            </option>
-            <option [ngValue]="InstructorSessionResultSectionType.BOTH">
-              Show response only if both are in the selected section
+            <option *ngFor="let sectionType of InstructorSessionResultSectionType | enumToArray" [ngValue]="sectionType">
+              {{ sectionType | sectionTypeDescription }}
             </option>
           </select>
         </div>

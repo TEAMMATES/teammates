@@ -88,7 +88,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         testGetCourseDetails();
         testGetTeamsForCourse();
         testGetCoursesForStudentAccount();
-        testGetCourseDetailsListForStudent();
         testGetCourseSummariesForInstructor();
         testGetCoursesSummaryWithoutStatsForInstructor();
         testGetCourseStudentListAsCsv();
@@ -583,40 +582,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("null parameter");
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCoursesForStudentAccount(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-    }
-
-    private void testGetCourseDetailsListForStudent() throws Exception {
-
-        ______TS("student having multiple evaluations in multiple courses");
-
-        CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
-
-        // This student is in both course 1 and 2
-        StudentAttributes studentInBothCourses = dataBundle.students
-                .get("student2InCourse1");
-
-        // Get course details for student
-        List<CourseDetailsBundle> courseList = coursesLogic
-                .getCourseDetailsListForStudent(studentInBothCourses.googleId);
-
-        // Verify number of courses received
-        assertEquals(2, courseList.size());
-
-        CourseDetailsBundle actualCourse1 = courseList.get(0);
-        assertEquals(expectedCourse1.getId(), actualCourse1.course.getId());
-        assertEquals(expectedCourse1.getName(), actualCourse1.course.getName());
-
-        // student with no courses is not applicable
-        ______TS("non-existent student");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> coursesLogic.getCourseDetailsListForStudent("non-existent-student"));
-        AssertHelper.assertContains("does not exist", ednee.getMessage());
-
-        ______TS("null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourseDetailsListForStudent(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
