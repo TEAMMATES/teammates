@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
  * API output format for a comment search result.
  */
 public class CommentSearchResultData extends SessionResultsData {
-    private final FeedbackSessionData feedbackSession;
 
     public CommentSearchResultData(FeedbackSessionAttributes session,
                                    FeedbackResponseCommentSearchResultBundle bundle) {
