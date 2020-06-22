@@ -15,7 +15,7 @@
         <label class="col-lg-4 control-label"><b>Session:</b></label>
         <div class="col-lg-8">
           <p class="form-control-static">{{ session.feedbackSessionName }}</p>
-          <!-- TODO session edit link -->
+          <a routerLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName }"><i class="fas fa-edit"></i></a>
         </div>
       </div>
     </div>
