@@ -10,6 +10,11 @@ body {
   font-size: 15px;
 }
 
+// make snackbar over the modal
+.cdk-overlay-container {
+  z-index: 1100;
+}
+
 .snackbar {
   max-width: 100% !important;
   margin-top: 60px !important;
@@ -119,4 +124,15 @@ body {
   .no-print {
     display: none;
   }
+}
+
+// make tinyMCE over the modal
+.tox-tinymce {
+  z-index: 1051;
+}
+
+// cursor not-allowed for input disabled attribute and tinyMCE's disabled
+[disabled],
+.editor.editor-disabled {
+  cursor: not-allowed;
 }

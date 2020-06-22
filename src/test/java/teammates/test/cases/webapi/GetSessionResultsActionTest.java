@@ -5,13 +5,14 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetSessionResultsAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.SessionResultsData;
@@ -53,35 +54,19 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         SessionResultsData output = (SessionResultsData) r.getOutput();
-        SessionResultsData expectedResults =
-                new SessionResultsData(logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
-                accessibleFeedbackSession.getFeedbackSessionName(),
-                accessibleFeedbackSession.getCourseId(),
-                instructorAttributes.getEmail(),
-                1,
-                Const.FeedbackSessionResults.QUESTION_SORT_TYPE
-        ), instructorAttributes);
+
+        SessionResultsData expectedResults = SessionResultsData.initForInstructor(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                        accessibleFeedbackSession.getCourseId(),
+                        instructorAttributes.getEmail(),
+                        UserRole.INSTRUCTOR, null, null));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
-        ______TS("fail: instructor accesses results of non-existent feedback session");
-
-        String nonexistentFeedbackSession = "nonexistentFeedbackSession";
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, nonexistentFeedbackSession,
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
-        };
-
-        a = getAction(submissionParams);
-        GetSessionResultsAction finalA = a;
-
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(finalA));
+        ______TS("typical: student accesses results of his/her course");
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(studentAttributes.getGoogleId());
-
-        ______TS("typical: student accesses results of his/her course");
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
@@ -95,27 +80,14 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (SessionResultsData) r.getOutput();
-        expectedResults =
-                new SessionResultsData(logic.getFeedbackSessionResultsForStudent(
-                        accessibleFeedbackSession.getFeedbackSessionName(),
+        expectedResults = SessionResultsData.initForStudent(
+                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
-                        studentAttributes.getEmail()
-                ), studentAttributes);
+                        studentAttributes.getEmail(),
+                        UserRole.STUDENT, null, null),
+                studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
-
-        ______TS("fail: student accesses results of non-existent feedback session");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, nonexistentFeedbackSession,
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
-        };
-
-        a = getAction(submissionParams);
-        GetSessionResultsAction finalAction = a;
-
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(finalAction));
 
     }
 
@@ -188,9 +160,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     private boolean isQuestionOutputEqual(SessionResultsData.QuestionOutput self,
                                           SessionResultsData.QuestionOutput other) {
-        if (!self.getQuestionId().equals(other.getQuestionId())
-                || self.getQuestionNumber() != other.getQuestionNumber()
-                || !self.getQuestionDetails().equals(other.getQuestionDetails())
+        if (!JsonUtils.toJson(self.getFeedbackQuestion()).equals(JsonUtils.toJson(self.getFeedbackQuestion()))
                 || !self.getQuestionStatistics().equals(other.getQuestionStatistics())) {
             return false;
         }

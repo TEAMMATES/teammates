@@ -2,9 +2,9 @@
   <br>
   <div class="col-sm-6">
     <div class="row">
-      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)">
-        <div class="margin-bottom-7px"  *ngFor="let num of model.options; let i = index;
-        trackBy: trackRankOption" cdkDrag>
+      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+        <div *ngFor="let num of model.options; let i = index;
+        trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
           <br>
           <tm-rank-options-field (elementDeleted)="onRankOptionDeleted($event)"
                                  [isEditable]="isEditable"
@@ -39,7 +39,7 @@
              (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
       <b>Minimum number of options a respondent must rank</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMinOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
     <br>
@@ -49,7 +49,7 @@
              (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
       <b>Maximum number of options a respondent can rank</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMaxOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1" max="{{model.options.length}}">
   </div>

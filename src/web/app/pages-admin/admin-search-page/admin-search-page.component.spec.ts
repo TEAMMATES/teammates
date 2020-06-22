@@ -2,11 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { InstructorAccountSearchResult,
   SearchService, StudentAccountSearchResult } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 
 describe('AdminSearchPageComponent', () => {
@@ -14,7 +16,9 @@ describe('AdminSearchPageComponent', () => {
   let fixture: ComponentFixture<AdminSearchPageComponent>;
   let accountService: AccountService;
   let searchService: SearchService;
+  let studentService: StudentService;
   let statusMessageService: StatusMessageService;
+  let modalService: NgbModal;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,8 +27,9 @@ describe('AdminSearchPageComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         MatSnackBarModule,
+        NgbTooltipModule,
       ],
-      providers: [AccountService, SearchService, StatusMessageService],
+      providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
     .compileComponents();
   }));
@@ -34,7 +39,9 @@ describe('AdminSearchPageComponent', () => {
     component = fixture.componentInstance;
     accountService = TestBed.get(AccountService);
     searchService = TestBed.get(SearchService);
+    studentService = TestBed.get(StudentService);
     statusMessageService = TestBed.get(StatusMessageService);
+    modalService = TestBed.get(NgbModal);
     fixture.detectChanges();
   });
 
@@ -241,6 +248,15 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(of('Success'));
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
       (args: string): void => {
@@ -268,6 +284,15 @@ describe('AdminSearchPageComponent', () => {
     };
     component.instructors = [instructorResult];
     fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
 
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(throwError({
       error: {
@@ -310,6 +335,15 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetStudentAccount').and.returnValue(of('success'));
 
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
@@ -347,6 +381,15 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetStudentAccount').and.returnValue(throwError({
       error: {
         message: 'This is the error message.',
@@ -363,4 +406,109 @@ describe('AdminSearchPageComponent', () => {
 
     expect(spyStatusMessageService).toBeCalled();
   });
+
+  it('should show success message and update all keys if successfully regenerated student registration key', () => {
+    const studentResult: StudentAccountSearchResult = {
+      name: 'name',
+      email: 'email',
+      googleId: 'googleId',
+      courseId: 'courseId',
+      courseName: 'courseName',
+      institute: 'institute',
+      courseJoinLink: 'courseJoinLink?key=oldKey',
+      homePageLink: 'homePageLink',
+      manageAccountLink: 'manageAccountLink',
+      showLinks: false,
+
+      section: 'section',
+      team: 'team',
+      comments: 'comments',
+      recordsPageLink: 'recordsPageLink',
+      openSessions: { ['index']: 'openSession?key=oldKey' },
+      notOpenSessions: { ['index']: 'notOpenSession?key=oldKey' },
+      publishedSessions: { ['index']: 'publishedSession?key=oldKey' },
+    };
+    component.students = [studentResult];
+    fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
+    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(of({
+      message: 'success',
+      newRegistrationKey: 'newKey',
+    }));
+
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
+        (args: string): void => {
+          expect(args).toEqual('success');
+        });
+
+    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    regenerateButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+
+    expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
+    expect(studentResult.openSessions.index).toEqual('openSession?key=newKey');
+    expect(studentResult.notOpenSessions.index).toEqual('notOpenSession?key=newKey');
+    expect(studentResult.publishedSessions.index).toEqual('publishedSession?key=newKey');
+  });
+
+  it('should show error message if fail to regenerate registration key for student in a course', () => {
+    const studentResult: StudentAccountSearchResult = {
+      name: 'name',
+      email: 'email',
+      googleId: 'googleId',
+      courseId: 'courseId',
+      courseName: 'courseName',
+      institute: 'institute',
+      courseJoinLink: 'courseJoinLink?key=oldKey',
+      homePageLink: 'homePageLink',
+      manageAccountLink: 'manageAccountLink',
+      showLinks: false,
+
+      section: 'section',
+      team: 'team',
+      comments: 'comments',
+      recordsPageLink: 'recordsPageLink',
+      openSessions: { ['index']: 'openSession?key=oldKey' },
+      notOpenSessions: { ['index']: 'notOpenSession?key=oldKey' },
+      publishedSessions: { ['index']: 'publishedSession?key=oldKey' },
+    };
+    component.students = [studentResult];
+    fixture.detectChanges();
+
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
+    spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorMessage').and.callFake(
+        (args: string): void => {
+          expect(args).toEqual('This is the error message.');
+        });
+
+    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
+    regenerateButton.click();
+
+    expect(spyStatusMessageService).toBeCalled();
+  });
+
 });

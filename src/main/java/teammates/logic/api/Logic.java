@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
@@ -17,8 +20,10 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetail;
 import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -33,6 +38,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.ExceedingRangeException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -851,6 +857,23 @@ public class Logic {
     }
 
     /**
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
+     * @return the student attributes with the new registration key.
+     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, RegenerateStudentException {
+
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
+
+        return studentsLogic.regenerateStudentRegistrationKey(courseId, email);
+    }
+
+    /**
      * Resets the associated googleId of an instructor.
      */
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
@@ -1172,29 +1195,17 @@ public class Logic {
     }
 
     /**
-     * Gets the recipients of a feedback question for student.
+     * Gets the recipients of a feedback question for student or instructor.
      *
-     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForStudent(FeedbackQuestionAttributes, String, String)
+     * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public Map<String, String> getRecipientsOfQuestionForStudent(
-            FeedbackQuestionAttributes question, String giverEmail, String giverTeam) {
+    public Map<String, String> getRecipientsOfQuestion(
+            FeedbackQuestionAttributes question,
+            @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver) {
         Assumption.assertNotNull(question);
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(giverTeam);
 
-        return feedbackQuestionsLogic.getRecipientsOfQuestionForStudent(question, giverEmail, giverTeam);
-    }
-
-    /**
-     * Gets the recipients of a feedback question for instructor.
-     *
-     * @see FeedbackQuestionsLogic#getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes, String)
-     */
-    public Map<String, String> getRecipientsOfQuestionForInstructor(FeedbackQuestionAttributes question, String giverEmail) {
-        Assumption.assertNotNull(question);
-        Assumption.assertNotNull(giverEmail);
-
-        return feedbackQuestionsLogic.getRecipientsOfQuestionForInstructor(question, giverEmail);
+        // we do not supply course roster here
+        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
@@ -1659,6 +1670,23 @@ public class Logic {
     }
 
     /**
+     * Gets the session result for a feedback session.
+     *
+     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String)
+     */
+    public SessionResultsBundle getSessionResultsForUser(
+            String feedbackSessionName, String courseId, String userEmail, UserRole role,
+            @Nullable String questionId, @Nullable String section) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(userEmail);
+        Assumption.assertNotNull(role);
+
+        return feedbackSessionsLogic.getSessionResultsForUser(
+                feedbackSessionName, courseId, userEmail, role, questionId, section);
+    }
+
+    /**
      * Gets a question+response bundle for questions with responses that
      * is visible to the instructor for a feedback session from a given question number
      * This will not retrieve the list of comments for this question
@@ -2030,6 +2058,12 @@ public class Logic {
      */
     public void putDocuments(DataBundle dataBundle) {
         dataBundleLogic.putDocuments(dataBundle);
+    }
+
+    public int getNumOfGeneratedChoicesForParticipantType(String courseId, FeedbackParticipantType generateOptionsFor) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(generateOptionsFor);
+        return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
 }

@@ -39,7 +39,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
-            // TODO implement this when necessary
+            gateKeeper.verifyLoggedInUserPrivileges();
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -49,22 +49,26 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
     @Override
     public ActionResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+
+        InstructorAttributes instructorAttributes;
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
-
-            if (instructorAttributes == null) {
-                return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
-            }
-
-            return new JsonResult(new InstructorData(instructorAttributes));
+            instructorAttributes = getInstructorOfCourseFromRequest(courseId);
+            break;
         case FULL_DETAIL:
-            // TODO implement this when necessary
-            return null;
+            instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
+
+        if (instructorAttributes == null) {
+            return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
+        }
+
+        return new JsonResult(new InstructorData(instructorAttributes));
     }
 
 }

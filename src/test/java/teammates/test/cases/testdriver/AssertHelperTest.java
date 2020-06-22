@@ -4,8 +4,6 @@ import org.testng.annotations.Test;
 
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.FileHelper;
-import teammates.test.driver.TestProperties;
 
 /**
  * SUT: {@link AssertHelper}.
@@ -23,23 +21,13 @@ public class AssertHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testAssertContainsRegex() throws Exception {
+    public void testAssertContainsRegex() {
 
         AssertHelper.assertContainsRegex("404 Page Not Found",
                 "Error: 404 Page Not Found. Check the URL.");
         AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
                 "404 Page Not Found",
                 "Error: 404 Page Not Found. Check the URL.");
-
-        String pageStr = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER
-                + "/commonAssertRegexTestPage.html");
-
-        String inputStr = FileHelper.readFile(TestProperties.TEST_PAGES_FOLDER
-                + "/commonAssertRegexTestPart.html");
-
-        AssertHelper.assertContainsRegex(inputStr, pageStr);
-        AssertHelper.assertContainsRegex("Fails on checking assert contains regex",
-                inputStr, pageStr);
 
         AssertHelper.assertContainsRegex(
                 "<div>{*}</div><p>!@#$%^&*(){}_+[]</p>",

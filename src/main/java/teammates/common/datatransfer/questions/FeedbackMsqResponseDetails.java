@@ -1,13 +1,10 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -21,34 +18,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         this.answers = new ArrayList<>();
         isOther = false;
         otherFieldContent = "";
-    }
-
-    @Override
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                       FeedbackQuestionDetails questionDetails, String[] answer) {
-        this.answers = Arrays.asList(answer);
-    }
-
-    public void extractResponseDetails(FeedbackQuestionType questionType,
-                                    FeedbackQuestionDetails questionDetails, String[] answer,
-                                    Map<String, String[]> requestParameters, int questionIndx,
-                                    int responseIndx) {
-
-        // "1" if other is selected, "0" if other is not selected, null if other is disabled by the instructor
-        String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
-                                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER
-                                        + "-" + questionIndx + "-" + responseIndx);
-
-        if ("1".equals(isOtherOptionAnswer)) {
-            isOther = true;
-            try {
-                otherFieldContent = answer[answer.length - 1];
-            } catch (IndexOutOfBoundsException e) {
-                otherFieldContent = "";
-            }
-        }
-
-        extractResponseDetails(questionType, questionDetails, answer);
     }
 
     public boolean contains(String candidateAnswer) {
@@ -69,9 +38,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
 
-        if (isAnswerBlank()) {
-            csvBuilder.append("");
-        } else {
+        if (!isAnswerBlank()) {
             for (String choice : msqDetails.getMsqChoices()) {
                 csvBuilder.append(',');
                 if (this.contains(choice)) {
@@ -104,14 +71,29 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
+        // if other is not chosen while other field is not empty trigger this error
+        if (isOtherEnabled && !isOther && !getOtherFieldContent().isEmpty()) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+        }
+
+        List<String> validChoices = new ArrayList<>(msqChoices);
+        if (isOtherEnabled && isOther) {
+            // other field content becomes a valid choice if other is enabled
+            validChoices.add(getOtherFieldContent());
+        }
         // if selected answers are not a part of the Msq option list trigger this error
-        boolean isAnswersPartOfChoices = msqChoices.containsAll(answers);
+        boolean isAnswersPartOfChoices = validChoices.containsAll(answers);
         if (!isAnswersPartOfChoices && !isNoneOfTheAboveOptionEnabled) {
             errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
         // if other option is selected but no text is provided trigger this error
         if (isOther && getOtherFieldContent().trim().equals("")) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+        }
+
+        // if other option is selected but not in the answer list trigger this error
+        if (isOther && !answers.contains(otherFieldContent)) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
         }
 
@@ -138,7 +120,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return errors;
     }
 
-    protected boolean isAnswerBlank() {
+    private boolean isAnswerBlank() {
         return answers.size() == 1 && answers.get(0).isEmpty();
     }
 
@@ -150,4 +132,15 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return otherFieldContent;
     }
 
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public void setOther(boolean other) {
+        isOther = other;
+    }
+
+    public void setOtherFieldContent(String otherFieldContent) {
+        this.otherFieldContent = otherFieldContent;
+    }
 }

@@ -83,6 +83,17 @@ export class StudentService {
   }
 
   /**
+   * Regenerates the links for a student in a course.
+   */
+  regenerateStudentCourseLinks(courseId: string, studentEmail: string): Observable<any> {
+    const paramsMap: Record<string, string> = {
+      courseid: courseId,
+      studentemail: studentEmail,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramsMap);
+  }
+
+  /**
    * Enroll a list of students to a course by calling API.
    * Students who are enrolled successfully will be returned.
    */

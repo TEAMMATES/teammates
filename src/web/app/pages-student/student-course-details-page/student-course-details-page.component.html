@@ -62,7 +62,9 @@
             <tbody>
             <tr *ngFor="let instructorDetail of instructorDetails">
               <td>{{instructorDetail.name}}</td>
-              <td>{{instructorDetail.email}}</td>
+              <td>
+                <a href="mailto:{{instructorDetail.email}}">{{instructorDetail.email}}</a>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -116,6 +118,19 @@
   </div>
 </div>
 
+<div class="card bg-light mb-4">
+  <div class="card-body">
+    <h5 class="d-inline"><strong> Sort By: </strong></h5>
+    <div class="btn-group" data-toggle="buttons">
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_NAME)" (click)="sortTeammatesBy(SortBy.STUDENT_NAME)">Name</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.EMAIL)" (click)="sortTeammatesBy(SortBy.EMAIL)">Email</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
+    </div>
+  </div>
+</div>
+
 <div class="section" *ngIf="teammateProfiles.length">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Team Profiles</h4>
@@ -127,7 +142,7 @@
           <img src="{{teammateProfile.photoUrl}}"
                class="profile-pic float-left" (error)="setDefaultPic(teammateProfile)">
         </div>
-        <div class="col-md-10 col-sm-9 col-8">
+        <div class="col-md-10 col-9">
           <table class="table table-striped">
             <tbody>
             <tr>
@@ -141,7 +156,7 @@
             <tr>
               <td class="font-weight-bold">Email</td>
               <td>
-                <span>{{teammateProfile.studentProfile.email}}</span>
+                <a href="mailto:{{teammateProfile.studentProfile.email}}">{{teammateProfile.studentProfile.email}}</a>
               </td>
             </tr>
             <tr>

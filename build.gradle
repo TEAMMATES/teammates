@@ -85,7 +85,6 @@ dependencies {
     testCompile("com.google.appengine:appengine-remote-api:${appengineVersion}")
     testCompile("com.google.appengine:appengine-testing:${appengineVersion}")
     testCompile("com.tngtech.archunit:archunit:0.11.0")
-    testCompile("org.httpunit:httpunit:1.7.3")
     testCompile("org.seleniumhq.selenium:selenium-java:3.141.59")
     testCompile(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
@@ -153,6 +152,9 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
+    excludeClassPatterns = [
+        "teammates.ui.webapi.output.**Builder"
+    ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {

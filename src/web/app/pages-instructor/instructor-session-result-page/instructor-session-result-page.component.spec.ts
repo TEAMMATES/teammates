@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -13,6 +15,9 @@ import {
 import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
+import {
+  SingleStatisticsModule,
+} from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
@@ -47,6 +52,11 @@ describe('InstructorSessionResultPageComponent', () => {
         GrqRgqViewResponsesModule,
         PerQuestionViewResponsesModule,
         MatSnackBarModule,
+        SingleStatisticsModule,
+      ],
+      providers: [
+        CommentsToCommentTableModelPipe,
+        CommentToCommentRowModelPipe,
       ],
     })
     .compileComponents();

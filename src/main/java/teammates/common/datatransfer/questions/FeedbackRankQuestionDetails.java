@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
 
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
@@ -23,42 +21,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         maxOptionsToBeRanked = NO_VALUE;
     }
 
-    public FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
-        super(questionType, questionText);
-        minOptionsToBeRanked = NO_VALUE;
-        maxOptionsToBeRanked = NO_VALUE;
-    }
-
-    @Override
-    public boolean extractQuestionDetails(Map<String, String[]> requestParameters,
-                                          FeedbackQuestionType questionType) {
-
-        String areDuplicatesAllowedString =
-                HttpRequestHelper.getValueFromParamMap(
-                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RANKISDUPLICATESALLOWED);
-        boolean areDuplicatesAllowed = "on".equals(areDuplicatesAllowedString);
-
-        this.areDuplicatesAllowed = areDuplicatesAllowed;
-
-        return true;
-    }
-
     @Override
     public abstract String getQuestionTypeDisplayName();
-
-    @Override
-    public abstract String getQuestionWithExistingResponseSubmissionFormHtml(
-                        boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId,
-                        int totalNumRecipients,
-                        FeedbackResponseDetails existingResponseDetails, StudentAttributes student);
-
-    @Override
-    public abstract String getQuestionWithoutExistingResponseSubmissionFormHtml(
-            boolean sessionIsOpen, int qnIdx, int responseIdx, String courseId, int totalNumRecipients,
-            StudentAttributes student);
-
-    @Override
-    public abstract String getQuestionSpecificEditFormHtml(int questionNumber);
 
     /**
      * Updates the mapping of ranks for the option optionReceivingPoints.
@@ -70,37 +34,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
                    .add(rankReceived);
     }
 
-    /**
-     * Returns the list of points as as string to display.
-     */
-    protected String getListOfRanksReceivedAsString(List<Integer> ranksReceived) {
-        ranksReceived.sort(null);
-        StringBuilder pointsReceived = new StringBuilder();
-
-        if (ranksReceived.size() > 10) {
-            for (int i = 0; i < 5; i++) {
-                pointsReceived.append(ranksReceived.get(i)).append(" , ");
-            }
-
-            pointsReceived.append("...");
-
-            for (int i = ranksReceived.size() - 5; i < ranksReceived.size(); i++) {
-                pointsReceived.append(" , ").append(ranksReceived.get(i));
-            }
-        } else {
-            for (int i = 0; i < ranksReceived.size(); i++) {
-                pointsReceived.append(ranksReceived.get(i));
-
-                if (i != ranksReceived.size() - 1) {
-                    pointsReceived.append(" , ");
-                }
-            }
-        }
-
-        return pointsReceived.toString();
-    }
-
-    protected double computeAverage(List<Integer> values) {
+    private double computeAverage(List<Integer> values) {
         double total = 0;
         for (double value : values) {
             total = total + value;

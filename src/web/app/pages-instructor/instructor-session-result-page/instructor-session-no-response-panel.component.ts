@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import {
   FeedbackSession, FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -6,6 +7,12 @@ import {
   SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
+import {
+  SendRemindersToStudentModalComponent,
+} from '../../components/sessions-table/send-reminders-to-student-modal/send-reminders-to-student-modal.component';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
 
 /**
  * Instructor sessions results page No Response Panel.
@@ -17,6 +24,8 @@ import {
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 
+  @Input() isDisplayOnly: boolean = false;
+  @Input() allStudents: Student[] = [];
   @Input() noResponseStudents: Student[] = [];
   @Input() section: string = '';
   @Input() session: FeedbackSession = {
@@ -38,7 +47,11 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   isTabExpanded: boolean = false;
 
   noResponseStudentsInSection: Student[] = [];
-  constructor() { }
+
+  @Output() studentsToRemindEvent: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
+
+  constructor(
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.filterStudentsBySection();
@@ -55,6 +68,34 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     } else {
       this.noResponseStudentsInSection = this.noResponseStudents;
     }
+  }
+
+  openSendReminderModal(event: any): void {
+    event.stopPropagation();
+
+    const courseId: string = this.session.courseId;
+    const feedbackSessionName: string = this.session.feedbackSessionName;
+
+    const nonResponseStudentEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
+    const nonResponseStudentEmailSet: Set<string> = new Set(nonResponseStudentEmails);
+
+    const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
+    modalRef.componentInstance.courseId = courseId;
+    modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
+    modalRef.componentInstance.studentListInfoTableRowModels
+      = this.allStudents.map((student: Student) => ({
+        email: student.email,
+        name: student.name,
+        teamName: student.teamName,
+        sectionName: student.sectionName,
+
+        hasSubmittedSession: !nonResponseStudentEmailSet.has(student.email),
+        isSelected: nonResponseStudentEmailSet.has(student.email),
+      } as StudentListInfoTableRowModel));
+
+    modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
+      this.studentsToRemindEvent.emit(studentsToRemind);
+    }, () => {});
   }
 
   /**

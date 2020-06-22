@@ -3,13 +3,16 @@ package teammates.e2e.pageobjects;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -27,6 +30,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
+import teammates.common.util.retry.MaximumRetriesExceededException;
+import teammates.common.util.retry.RetryManager;
+import teammates.common.util.retry.RetryableTask;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
@@ -59,6 +65,9 @@ public abstract class AppPage {
     /** Browser instance the page is loaded into. */
     protected Browser browser;
 
+    /** Use for retrying due to transient UI issues. */
+    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
+
     /** Firefox change handler for handling when `change` events are not fired in Firefox. */
     private final FirefoxChangeHandler firefoxChangeHandler;
 
@@ -73,8 +82,6 @@ public abstract class AppPage {
     public AppPage(Browser browser) {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
-
-        waitForPageToLoad();
 
         boolean isCorrectPageType = containsExpectedPageContents();
 
@@ -246,7 +253,9 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        return browser.driver.findElement(By.tagName("h1")).getText();
+        By headerTag = By.tagName("h1");
+        waitForElementPresence(headerTag);
+        return browser.driver.findElement(headerTag).getText();
     }
 
     public void click(By by) {
@@ -364,6 +373,17 @@ public abstract class AppPage {
     }
 
     /**
+     * 'uncheck' the check box, if it is not already 'unchecked'.
+     * No action taken if it is already 'unchecked'.
+     */
+    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
+        waitForElementVisibility(checkBox);
+        if (checkBox.isSelected()) {
+            click(checkBox);
+        }
+    }
+
+    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
@@ -383,6 +403,28 @@ public abstract class AppPage {
     }
 
     /**
+     * Asserts that all values in the body of the given table are equal to the expectedTableBodyValues.
+     */
+    protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableBodyValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
+            verifyTableRowValues(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);
+        }
+    }
+
+    /**
+     * Asserts that all values in the given table row are equal to the expectedRowValues.
+     */
+    protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        assertTrue(expectedRowValues.length <= cells.size());
+        for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
+            assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+        }
+    }
+
+    /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
      * @return the resulting page.
@@ -390,7 +432,6 @@ public abstract class AppPage {
     public AppPage clickAndConfirm(WebElement elementToClick) {
         click(elementToClick);
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
         return this;
     }
 
@@ -511,10 +552,26 @@ public abstract class AppPage {
      * Asserts message in snackbar is equal to the expected message.
      */
     public void verifyStatusMessage(String expectedMessage) {
-        // wait for short period to ensure previous status message is replaced
-        ThreadHelper.waitFor(100);
-        WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
-        assertEquals(expectedMessage, statusMessage.getText());
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+                @Override
+                public void run() {
+                    WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+                    assertEquals(expectedMessage, statusMessage.getText());
+                }
+            }, WebDriverException.class, AssertionError.class);
+        } catch (MaximumRetriesExceededException e) {
+            WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
+            assertEquals(expectedMessage, statusMessage.getText());
+        }
+    }
+
+    /**
+     * Set browser window to x width and y height.
+     */
+    protected void setWindowSize(int x, int y) {
+        Dimension d = new Dimension(x, y);
+        browser.driver.manage().window().setSize(d);
     }
 
     /**

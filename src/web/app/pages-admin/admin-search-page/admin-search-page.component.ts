@@ -1,9 +1,22 @@
 import { Component } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
-import { AdminSearchResult, InstructorAccountSearchResult, SearchService,
-  StudentAccountSearchResult } from '../../../services/search.service';
+import {
+  AdminSearchResult,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
+} from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { RegenerateStudentCourseLinks } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {
+  RegenerateLinksConfirmModalComponent,
+} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
+import {
+  ResetGoogleIdConfirmModalComponent,
+} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Admin search page.
@@ -21,7 +34,9 @@ export class AdminSearchPageComponent {
 
   constructor(
     private statusMessageService: StatusMessageService,
+    private modalService: NgbModal,
     private accountService: AccountService,
+    private studentService: StudentService,
     private searchService: SearchService,
   ) {}
 
@@ -35,6 +50,8 @@ export class AdminSearchPageComponent {
 
       if (!hasStudents && !hasInstructors) {
         this.statusMessageService.showWarningMessage('No results found.');
+        this.instructors = [];
+        this.students = [];
       } else {
         this.instructors = resp.instructors;
         this.students = resp.students;
@@ -90,13 +107,18 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
+    const modalRef: NgbModalRef = this.modalService.open(ResetGoogleIdConfirmModalComponent);
+    modalRef.componentInstance.name = instructor.name;
+    modalRef.componentInstance.course = instructor.courseId;
 
-    this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
-      this.search();
-      this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    modalRef.result.then(() => {
+      this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
+        this.search();
+        this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -107,12 +129,64 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
-      student.googleId = '';
-      this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    const modalRef: NgbModalRef = this.modalService.open(ResetGoogleIdConfirmModalComponent);
+    modalRef.componentInstance.name = student.name;
+    modalRef.componentInstance.course = student.courseId;
+
+    modalRef.result.then(() => {
+      this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
+        student.googleId = '';
+        this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
+    }, () => {});
+  }
+
+  /**
+   * Regenerates the student's course join and feedback session links.
+   */
+  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
+    const modalRef: NgbModalRef = this.modalService.open(RegenerateLinksConfirmModalComponent);
+    modalRef.componentInstance.studentName = student.name;
+    modalRef.componentInstance.regenerateLinksCourseId = student.courseId;
+
+    modalRef.result.then(() => {
+      this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
+        .subscribe((resp: RegenerateStudentCourseLinks) => {
+          this.statusMessageService.showSuccessMessage(resp.message);
+          this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
+        }, (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorMessage(response.error.message);
+        });
+    }, () => {});
+  }
+
+  /**
+   * Updates the student's displayed course join and feedback session links with the value of the newKey.
+   */
+  private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
+    const updateSessions: Function = (sessions: { [index: string]: string }): void => {
+      Object.keys(sessions).forEach((key: string): void => {
+        sessions[key] = this.getUpdatedUrl(sessions[key], newKey);
+      });
+    };
+
+    student.courseJoinLink = this.getUpdatedUrl(student.courseJoinLink, newKey);
+
+    updateSessions(student.openSessions);
+    updateSessions(student.notOpenSessions);
+    updateSessions(student.publishedSessions);
+  }
+
+  /**
+   * Returns the URL after replacing the value of the `key` parameter with that of the new key.
+   */
+  private getUpdatedUrl(link: string, newVal: string): string {
+    const param: string = 'key';
+    const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
+
+    return link.replace(regex, `$1${newVal}`);
   }
 
 }

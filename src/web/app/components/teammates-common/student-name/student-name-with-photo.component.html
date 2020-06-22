@@ -1,0 +1,6 @@
+<tm-view-photo-popover *ngIf="email; else noPhoto" [photoUrl]="email | formatPhotoUrl: courseId">
+  {{ name }}
+</tm-view-photo-popover>
+<ng-template #noPhoto>
+  {{ name }}
+</ng-template>

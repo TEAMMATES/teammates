@@ -457,6 +457,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       originalComment: comment,
       commentEditFormModel: {
         commentText: comment.commentText,
+        // the participant comment shall not use custom visibilities
+        isUsingCustomVisibilities: false,
+        showCommentTo: [],
+        showGiverNameTo: [],
       },
       timezone: this.feedbackSessionTimezone,
       isEditing: false,
@@ -649,6 +653,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       // create new comment
       return this.commentService.createComment({
         commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
+        // we ignore the fields in comment edit model as participant comment
+        // will follow visibilities from question by design
         showCommentTo: [],
         showGiverNameTo: [],
       }, recipientSubmissionFormModel.responseId, this.intent, {
@@ -679,6 +685,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     // update comment
     return this.commentService.updateComment({
       commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
+      // we ignore the fields in comment edit model as participant comment
+      // will follow visibilities from question by design
       showCommentTo: [],
       showGiverNameTo: [],
     }, recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
@@ -727,6 +735,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
     this.commentService.updateComment({
       commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
+      // we ignore the fields in comment edit model as participant comment
+      // will follow visibilities from question by design
       showCommentTo: [],
       showGiverNameTo: [],
     }, recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {

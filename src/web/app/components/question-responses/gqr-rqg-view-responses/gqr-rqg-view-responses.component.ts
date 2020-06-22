@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
+  FeedbackParticipantType,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, ResponseOutput,
   ResponseVisibleSetting,
@@ -8,6 +10,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 interface QuestionTab {
   questionOutput: QuestionOutput;
@@ -23,7 +26,7 @@ interface QuestionTab {
   templateUrl: './gqr-rqg-view-responses.component.html',
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
 })
-export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
+export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
   @Input() section: string = '';
@@ -51,13 +54,19 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
   @Input() isGqr: boolean = true;
 
   teamsToUsers: Record<string, string[]> = {};
+  userToEmail: Record<string, string> = {};
+  userToRelatedEmail: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
+  userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, QuestionTab[]> = {};
+  teamsToQuestions: Record<string, QuestionOutput[]> = {};
 
-  constructor() { }
+  constructor(private feedbackResponsesService: FeedbackResponsesService) {
+    super();
+  }
 
   ngOnInit(): void {
     this.filterResponses();
@@ -69,35 +78,69 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
 
   private filterResponses(): void {
     this.responsesToShow = {};
+    this.teamsToQuestions = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
+    this.userToEmail = {};
+    this.userToRelatedEmail = {};
     this.userExpanded = {};
+    this.userIsInstructor = {};
     for (const question of this.responses) {
       for (const response of question.allResponses) {
+        if (!this.indicateMissingResponses && response.isMissingResponse) {
+          // filter out missing responses
+          continue;
+        }
+
+        if (this.section) {
+          if (this.isGqr && response.giverSection !== this.section
+              || !this.isGqr && response.recipientSection !== this.section) {
+            continue;
+          }
+        }
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
+        if (response.giverEmail) {
+          this.userToEmail[response.giver] = response.giverEmail;
+        }
+        if (response.recipientEmail) {
+          this.userToEmail[response.recipient] = response.recipientEmail;
+        }
+
         if (this.isGqr) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
-            this.teamExpanded[response.giverTeam] = false;
+            this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          this.userExpanded[response.giver] = false;
+          if (response.relatedGiverEmail) {
+            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
+          }
+
+          this.userExpanded[response.giver] = this.isExpandAll;
+          this.userIsInstructor[response.giver] =
+              question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
             if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
               this.teamsToUsers[response.recipient].push(response.recipient);
-              this.teamExpanded[response.recipient] = false;
+              this.teamExpanded[response.recipient] = this.isExpandAll;
             }
-            this.userExpanded[response.recipient] = false;
+            this.userExpanded[response.recipient] = this.isExpandAll;
             continue;
           }
           this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
           if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
-            this.teamExpanded[response.recipientTeam] = false;
+            this.teamExpanded[response.recipientTeam] = this.isExpandAll;
           }
-          this.userExpanded[response.recipient] = false;
+          this.userExpanded[response.recipient] = this.isExpandAll;
         }
       }
     }
@@ -106,6 +149,10 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
       for (const question of this.responses) {
         const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
+          if (!this.indicateMissingResponses && response.isMissingResponse) {
+            // filter out missing responses
+            return false;
+          }
           if (this.isGqr && user !== response.giver) {
             return false;
           }
@@ -113,38 +160,54 @@ export class GqrRqgViewResponsesComponent implements OnInit, OnChanges {
             return false;
           }
 
-          let shouldDisplayBasedOnSection: boolean = true;
-          if (this.section) {
-            switch (this.sectionType) {
-              case InstructorSessionResultSectionType.EITHER:
-                shouldDisplayBasedOnSection =
-                    response.giverSection === this.section || response.recipientSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.GIVER:
-                shouldDisplayBasedOnSection = response.giverSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.EVALUEE:
-                shouldDisplayBasedOnSection = response.recipientSection === this.section;
-                break;
-              case InstructorSessionResultSectionType.BOTH:
-                shouldDisplayBasedOnSection =
-                    response.giverSection === this.section && response.recipientSection === this.section;
-                break;
-              default:
-            }
-          }
+          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+
           if (!shouldDisplayBasedOnSection) {
             return false;
           }
 
           return true;
         });
+
         if (questionCopy.allResponses.length) {
           this.responsesToShow[user] = this.responsesToShow[user] || [];
           this.responsesToShow[user].push({
             questionOutput: questionCopy,
-            isTabExpanded: false,
+            isTabExpanded: this.isExpandAll,
           });
+        }
+      }
+    }
+
+    for (const team of Object.keys(this.teamExpanded)) {
+      for (const question of this.responses) {
+        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
+          if (response.isMissingResponse) {
+            // Missing response is meaningless for team statistics
+            return false;
+          }
+          if (this.isGqr && team !== response.giverTeam) {
+            return false;
+          }
+          if (!this.isGqr && team !== response.recipientTeam) {
+            return false;
+          }
+
+          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+              .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+
+          if (!shouldDisplayBasedOnSection) {
+            return false;
+          }
+
+          return true;
+        });
+
+        if (questionCopy.allResponses.length) {
+          this.teamsToQuestions[team] = this.teamsToQuestions[team] || [];
+          this.teamsToQuestions[team].push(questionCopy);
         }
       }
     }

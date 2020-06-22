@@ -6,27 +6,41 @@ import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  CourseSectionNames, FeedbackQuestion,
+  CourseSectionNames,
+  FeedbackQuestion,
   FeedbackQuestions,
-  FeedbackSession, FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, FeedbackSessionSubmittedGiverSet, QuestionOutput, ResponseOutput,
-  ResponseVisibleSetting, SessionResults,
-  SessionVisibleSetting,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmittedGiverSet,
+  Instructor,
+  QuestionOutput,
+  ResponseOutput,
+  SessionResults,
   Student,
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import {
   ConfirmPublishingSessionModalComponent,
 } from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
+import {
+    ConfirmUnpublishingSessionModalComponent,
 // tslint:disable-next-line:max-line-length
-import { ConfirmUnpublishingSessionModalComponent } from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
+} from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
+import {
+  StudentListInfoTableRowModel,
+} from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { InstructorCommentsComponent } from '../instructor-comments.component';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
@@ -47,8 +61,7 @@ export interface SectionTabModel {
 export interface QuestionTabModel {
   question: FeedbackQuestion;
   responses: ResponseOutput[];
-  statistics: any; // TODO will define types later
-
+  statistics: string; // TODO will define types later
   hasPopulated: boolean;
   isTabExpanded: boolean;
 }
@@ -61,30 +74,15 @@ export interface QuestionTabModel {
   templateUrl: './instructor-session-result-page.component.html',
   styleUrls: ['./instructor-session-result-page.component.scss'],
 })
-export class InstructorSessionResultPageComponent implements OnInit {
+export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
 
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
-  session: FeedbackSession = {
-    courseId: '',
-    timeZone: '',
-    feedbackSessionName: '',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
+
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
@@ -102,6 +100,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
 
+  allStudentsInCourse: Student[] = [];
+
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
@@ -112,9 +112,16 @@ export class InstructorSessionResultPageComponent implements OnInit {
               private feedbackQuestionsService: FeedbackQuestionsService,
               private courseService: CourseService,
               private studentService: StudentService,
+              private instructorService: InstructorService,
               private route: ActivatedRoute,
-      private timezoneService: TimezoneService, private statusMessageService: StatusMessageService,
-      private modalService: NgbModal, private router: Router) {
+              private timezoneService: TimezoneService,
+              private modalService: NgbModal,
+              private router: Router,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe) {
+    super(commentToCommentRowModel, commentService, statusMessageService);
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -137,6 +144,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.courseService.getCourseSectionNames(queryParams.courseid)
             .subscribe((courseSectionNames: CourseSectionNames) => {
               for (const sectionName of courseSectionNames.sectionNames) {
+                this.sectionsModel.None = {
+                  questions: [],
+                  hasPopulated: false,
+                  isTabExpanded: false,
+                };
                 this.sectionsModel[sectionName] = {
                   questions: [],
                   hasPopulated: false,
@@ -158,7 +170,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
             this.questionsModel[question.feedbackQuestionId] = {
               question,
               responses: [],
-              statistics: undefined,
+              statistics: '',
               hasPopulated: false,
               isTabExpanded: false,
             };
@@ -168,35 +180,46 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
 
-        // load no response students
+        // load all students in course
         this.studentService.getStudentsFromCourse({
           courseId: queryParams.courseid,
         }).subscribe((allStudents: Students) => {
-          const students: Student[] = allStudents.students;
+          this.allStudentsInCourse = allStudents.students;
 
+          // load no response students
           this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
             courseId: queryParams.courseid,
             feedbackSessionName: queryParams.fsname,
-          })
-              .subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
-                // TODO team is missing
-                this.noResponseStudents = students.filter((student: Student) =>
-                                            !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
-              }, (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorMessage(resp.error.message);
-              });
+          }).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+            // TODO team is missing
+            this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
+                                        !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorMessage(resp.error.message);
+          });
 
           this.isNoResponsePanelLoaded = true;
+
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorMessage(resp.error.message);
         });
 
+        // load current instructor name
+        this.instructorService.getInstructor({
+          courseId: queryParams.courseid,
+          intent: Intent.FULL_DETAIL,
+        }).subscribe((instructor: Instructor) => {
+          this.currInstructorName = instructor.name;
+        });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorMessage(resp.error.message);
       });
     });
   }
 
+  /**
+   * Toggles the question tab in per question view.
+   */
   toggleQuestionTab(questionId: string): void {
     this.questionsModel[questionId].isTabExpanded = !this.questionsModel[questionId].isTabExpanded;
     if (this.questionsModel[questionId].isTabExpanded) {
@@ -212,7 +235,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionsResult({
+    this.feedbackSessionsService.getFeedbackSessionResults({
       questionId,
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
@@ -224,12 +247,17 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.questionsModel[questionId].responses = responses.allResponses;
         this.questionsModel[questionId].statistics = responses.questionStatistics;
         this.questionsModel[questionId].hasPopulated = true;
+
+        this.preprocessComments(responses.allResponses);
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
     });
   }
 
+  /**
+   * Toggles the section tab in per section view.
+   */
   toggleSectionTab(sectionName: string): void {
     this.sectionsModel[sectionName].isTabExpanded = !this.sectionsModel[sectionName].isTabExpanded;
     if (this.sectionsModel[sectionName].isTabExpanded) {
@@ -245,7 +273,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionsResult({
+    this.feedbackSessionsService.getFeedbackSessionResults({
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
@@ -254,8 +282,31 @@ export class InstructorSessionResultPageComponent implements OnInit {
     .subscribe((resp: SessionResults) => {
       this.sectionsModel[sectionName].questions = resp.questions;
       this.sectionsModel[sectionName].hasPopulated = true;
+
+      // sort questions by question number
+      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+          a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+      resp.questions.forEach((question: QuestionOutput) => {
+        this.preprocessComments(question.allResponses);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorMessage(resp.error.message);
+    });
+  }
+
+  /**
+   * Preprocesses the comments from instructor.
+   *
+   * <p>The instructor comment will be moved to map {@code instructorCommentTableModel}. The original
+   * instructor comments associated with the response will be deleted.
+   */
+  preprocessComments(responses: ResponseOutput[]): void {
+    responses.forEach((response: ResponseOutput) => {
+      this.instructorCommentTableModel[response.responseId] =
+          this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
+
+      // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
+      response.instructorComments = [];
     });
   }
 
@@ -365,8 +416,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
     if (this.viewType === InstructorSessionResultViewType.QUESTION) {
       for (const questionId of Object.keys(this.questionsModel)) {
-        this.questionsModel[questionId].isTabExpanded = true;
-        this.loadQuestionTab(questionId);
+        this.questionsModel[questionId].isTabExpanded = false;
       }
       return;
     }
@@ -374,6 +424,23 @@ export class InstructorSessionResultPageComponent implements OnInit {
     for (const sectionName of Object.keys(this.sectionsModel)) {
       this.sectionsModel[sectionName].isTabExpanded = false;
     }
+  }
+
+  /**
+   * Handles the sending of reminders to students.
+   */
+  sendReminderToStudents(studentsToRemindData: StudentListInfoTableRowModel[]): void {
+    this.feedbackSessionsService
+      .remindFeedbackSessionSubmissionForStudent(this.session.courseId, this.session.feedbackSessionName, {
+        usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
+      }).subscribe(() => {
+        this.statusMessageService.showSuccessMessage(
+          'Reminder e-mails have been sent out to those students and instructors. '
+          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorMessage(resp.error.message);
+      });
   }
 
   /**

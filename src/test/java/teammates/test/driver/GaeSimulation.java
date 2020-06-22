@@ -1,18 +1,13 @@
 package teammates.test.driver;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -23,16 +18,11 @@ import com.google.appengine.tools.development.testing.LocalSearchServiceTestConf
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
-import com.meterware.httpunit.PostMethodWebRequest;
-import com.meterware.httpunit.WebRequest;
-import com.meterware.servletunit.InvocationContext;
-import com.meterware.servletunit.ServletRunner;
-import com.meterware.servletunit.ServletUnitClient;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
+import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.GateKeeper;
 import teammates.ui.automated.AutomatedAction;
 import teammates.ui.automated.AutomatedActionFactory;
@@ -56,9 +46,6 @@ public class GaeSimulation {
 
     private static GateKeeper gateKeeper = new GateKeeper();
     private static GaeSimulation instance = new GaeSimulation();
-
-    /** This is used only to generate an HttpServletRequest for given parameters. */
-    private ServletUnitClient sc;
 
     private LocalServiceTestHelper helper;
 
@@ -91,8 +78,6 @@ public class GaeSimulation {
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();
-
-            sc = new ServletRunner().newClient();
         }
     }
 
@@ -128,76 +113,6 @@ public class GaeSimulation {
     public void logoutUser() {
         helper.setEnvIsLoggedIn(false);
         helper.setEnvIsAdmin(false);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as an unregistered user
-     * (without any right).
-     */
-    @Deprecated
-    public void loginAsUnregistered(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertFalse(user.isStudent);
-        assertFalse(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as an instructor
-     * (without admin rights or student rights).
-     */
-    @Deprecated
-    public void loginAsInstructor(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertFalse(user.isStudent);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as a student
-     * (without admin rights or instructor rights).
-     */
-    @Deprecated
-    public void loginAsStudent(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertTrue(user.isStudent);
-        assertFalse(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as a student-instructor
-     * (without admin rights).
-     */
-    @Deprecated
-    public void loginAsStudentInstructor(String userId) {
-        loginUser(userId);
-        UserInfo user = gateKeeper.getCurrentUser();
-        assertTrue(user.isStudent);
-        assertTrue(user.isInstructor);
-        assertFalse(user.isAdmin);
-    }
-
-    /**
-     * Returns an {@link teammates.ui.controller.Action} object that matches the parameters given.
-     *
-     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
-     */
-    public teammates.ui.controller.Action getLegacyActionObject(String uri, String... parameters) {
-        InvocationContext ic = invokeWebRequest(uri, parameters);
-        HttpServletRequest req = ic.getRequest();
-        try {
-            teammates.ui.controller.Action action = new teammates.ui.controller.ActionFactory().getAction(req);
-            action.setTaskQueuer(new MockTaskQueuer());
-            action.setEmailSender(new MockEmailSender());
-            return action;
-        } catch (ActionMappingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -237,6 +152,7 @@ public class GaeSimulation {
             Action action = new ActionFactory().getAction(req, method);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
+            action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
@@ -276,35 +192,6 @@ public class GaeSimulation {
         } catch (Exception e) {
             //TODO: eliminate this exception
             System.out.println("Ignoring exception during teardown...");
-        }
-    }
-
-    @Deprecated
-    private InvocationContext invokeWebRequest(String uri, String... parameters) {
-        // This is not testing servlet, so any HTTP method suffices
-        WebRequest request = new PostMethodWebRequest(SIMULATION_BASE_URL + uri);
-
-        // TODO remove this portion once front-end migration is finished
-        // Reason: CSRF protection is not part of action tests
-        if (Const.SystemParams.PAGES_REQUIRING_ORIGIN_VALIDATION.contains(uri)) {
-            request.setHeaderField("referer", SIMULATION_BASE_URL);
-
-            String sessionId = sc.getSession(true).getId();
-            String token = StringHelper.encrypt(sessionId);
-            request.setParameter(Const.ParamsNames.SESSION_TOKEN, token);
-        }
-
-        Map<String, List<String>> paramMultiMap = new HashMap<>();
-        for (int i = 0; i < parameters.length; i = i + 2) {
-            paramMultiMap.computeIfAbsent(parameters[i], k -> new ArrayList<>()).add(parameters[i + 1]);
-        }
-
-        paramMultiMap.forEach((key, values) -> request.setParameter(key, values.toArray(new String[0])));
-
-        try {
-            return sc.newInvocation(request);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 

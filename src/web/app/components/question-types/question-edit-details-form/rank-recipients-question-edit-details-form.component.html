@@ -13,7 +13,7 @@
              (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
       <b>Minimum number of options a respondent must rank</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMinOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
     <br>
@@ -23,7 +23,7 @@
              (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
       <b>Maximum number of options a respondent can rank</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
            [ngModel]="displayValueForMaxOptionsToBeRanked"
            (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1">
   </div>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+
 import { QuestionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
@@ -18,6 +19,7 @@ export class InstructorSessionResultQuestionViewComponent
   loadQuestion: EventEmitter<string> = new EventEmitter();
 
   @Input() questions: Record<string, QuestionTabModel> = {};
+  @Input() isDisplayOnly: boolean = false;
 
   questionsOrder: QuestionTabModel[] = [];
 
