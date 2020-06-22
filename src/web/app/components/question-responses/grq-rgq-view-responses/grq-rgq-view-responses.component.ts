@@ -58,6 +58,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
   userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
+  userHasRealResponses: Record<string, boolean> = {};
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
@@ -73,6 +74,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   private filterResponses(): void {
     this.responsesToShow = {};
+    this.userHasRealResponses = {};
     this.teamsToUsers = {};
     this.usersToTeams = {};
     this.userToEmail = {};
@@ -85,17 +87,24 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
           // filter out missing responses
           continue;
         }
+
+        if (this.section) {
+          if (this.isGrq && response.giverSection !== this.section
+              || !this.isGrq && response.recipientSection !== this.section) {
+            continue;
+          }
+        }
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
         if (response.giverEmail) {
           this.userToEmail[response.giver] = response.giverEmail;
         }
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
-        }
-
-        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
-        if (!shouldDisplayBasedOnSection) {
-          continue;
         }
 
         if (this.isGrq) {
@@ -135,6 +144,8 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
     }
 
     for (const user of Object.keys(this.userExpanded)) {
+      this.userHasRealResponses[user] = false;
+
       for (const question of this.responses) {
         const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
@@ -171,6 +182,11 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             this.responsesToShow[user] = this.responsesToShow[user] || {};
             this.responsesToShow[user][other] = this.responsesToShow[user][other] || [];
             this.responsesToShow[user][other].push(questionCopy2);
+
+            if (!this.userHasRealResponses[user]) {
+              this.userHasRealResponses[user] =
+                  questionCopy2.allResponses.some((response: ResponseOutput) => !response.isMissingResponse);
+            }
           }
         }
       }

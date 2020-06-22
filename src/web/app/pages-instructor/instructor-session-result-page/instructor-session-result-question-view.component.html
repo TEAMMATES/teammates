@@ -13,6 +13,7 @@
                             [statistics]="question.statistics"
                             [responses]="question.responses"
                             [recipientType]="question.question.recipientType"
+                            [section]="section" [sectionType]="sectionType"
       ></tm-single-statistics>
     </div>
     <div class="stats-table">
@@ -25,6 +26,6 @@
                                       (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
                                       (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
       ></tm-per-question-view-responses>
-  </div>
+    </div>
   </div>
 </div>
