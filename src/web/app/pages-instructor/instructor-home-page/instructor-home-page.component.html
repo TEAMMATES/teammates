@@ -143,7 +143,7 @@
       </div>
     </ng-template>
 
-    <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
+    <div class="card-body padding-0" [ngbCollapse]="courseTabModel.isTabExpanded">
       <tm-sessions-table
           [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
           [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"

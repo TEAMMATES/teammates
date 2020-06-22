@@ -136,3 +136,32 @@ body {
 .editor.editor-disabled {
   cursor: not-allowed;
 }
+
+@keyframes myExpand {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    max-height: 800px;
+  }
+}
+
+.collapse {
+  transition: .35s ease-in-out;
+  opacity: 0;
+  visibility: collapse;
+  max-height: 0;
+  display: block !important;
+  overflow: hidden;
+
+  &.show {
+    opacity: 1;
+    max-height: 99999999px;
+    overflow: visible;
+    visibility: visible;
+    animation: myExpand .35s ease-in-out;
+  }
+}
