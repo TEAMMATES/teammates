@@ -58,6 +58,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
   isAddNewCourseFormExpanded: boolean = false;
+  isArchivedCourseExpanded: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,

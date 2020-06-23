@@ -22,6 +22,12 @@
   background-color: #E5E5E6;
 }
 
+.archive-course-header {
+  cursor: pointer;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
 .text-color-black {
   color: #000;
 }
@@ -41,6 +47,14 @@
 }
 
 .recycle-bin-table {
+  margin-bottom: 0;
+}
+
+.archive-body {
+  padding: 0;
+}
+
+.archive-table {
   margin-bottom: 0;
 }
 

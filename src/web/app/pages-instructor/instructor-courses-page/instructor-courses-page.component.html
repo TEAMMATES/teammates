@@ -154,17 +154,29 @@
   <h2 class="text-muted">
     <span class="fa fa-file-archive"></span> Archived Courses
   </h2>
-  <div class="table-responsive">
-    <table id="archived-courses-table" class="table table-striped table-bordered margin-0">
-      <thead>
-        <tr class="bg-info text-white">
-          <th>Course ID</th>
-          <th>Course Name</th>
-          <th>Creation Date</th>
-          <th class="text-center">Action(s)</th>
-        </tr>
-      </thead>
-      <tbody>
+  <div class="card top-padded">
+    <div class="card-header archive-course-header bg-info" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
+      <div class="row text-white align-items-center">
+        <div class="col-6">
+          <b>Archive</b>
+        </div>
+        <div class="col-6 text-right">
+          <i class="fas fa-chevron-down" *ngIf="!isArchivedCourseExpanded"></i>
+          <i class="fas fa-chevron-up" *ngIf="isArchivedCourseExpanded"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded">
+      <table id="archived-courses-table" class="table table-striped table-bordered archive-table">
+        <thead>
+          <tr class="background-color-medium-gray text-color-gray">
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Creation Date</th>
+            <th class="text-center">Action(s)</th>
+          </tr>
+        </thead>
+        <tbody>
         <tr *ngFor="let course of archivedCourses; let i = index">
           <td id="archived-course-id-{{ i }}">{{course.course.courseId}}</td>
           <td>{{course.course.courseName}}</td>
@@ -184,8 +196,9 @@
             </button>
           </td>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
