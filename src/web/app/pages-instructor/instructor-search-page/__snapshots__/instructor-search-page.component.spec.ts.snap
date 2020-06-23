@@ -258,6 +258,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
             <tm-student-list
               ng-reflect-course-id="test-exa.demo"
               ng-reflect-enable-remind-button="false"
+              ng-reflect-is-action-buttons-enabled="true"
               ng-reflect-students="[object Object],[object Object"
               ng-reflect-use-gray-heading="true"
             >

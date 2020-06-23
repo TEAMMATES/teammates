@@ -6,16 +6,19 @@ import moment from 'moment-timezone';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
+  AuthInfo,
   ConfirmationResponse,
   ConfirmationResult,
   FeedbackParticipantType,
@@ -27,6 +30,7 @@ import {
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  RegkeyValidity,
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
@@ -107,6 +111,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
 
+  private backendUrl: string = environment.backendUrl;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private statusMessageService: StatusMessageService,
@@ -119,6 +125,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private modalService: NgbModal,
               private pageScrollService: PageScrollService,
               private authService: AuthService,
+              private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
@@ -143,13 +150,47 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.isSubmissionFormsDisabled = true;
       }
 
-      if (this.regKey) {
-        // public page using regKey, fetch CSRF token
-        this.authService.getAuthUser().subscribe(() => {}, () => {});
-      }
+      const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+      this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
+        if (this.regKey && !isPreviewOrModeration) {
+          this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
+            if (resp.isValid) {
+              if (auth.user) {
+                // The logged in user matches the registration key; redirect to the logged in URL
 
-      this.loadPersonName();
-      this.loadFeedbackSession();
+                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
+                    { courseid: this.courseId, fsname: this.feedbackSessionName });
+              } else {
+                // There is no logged in user for valid, unused registration key; load information based on the key
+
+                this.loadPersonName();
+                this.loadFeedbackSession();
+              }
+            } else if (!auth.user) {
+              // If there is no logged in user for a valid, used registration key, redirect to login page
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            } else {
+              this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                  'You are not authorized to view this page.');
+            }
+          }, () => {
+            this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                'You are not authorized to view this page.');
+          });
+        } else if (auth.user) {
+          // Load information based on logged in user
+          // This will also cover moderation/preview cases
+          this.loadPersonName();
+          this.loadFeedbackSession();
+        } else {
+          this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+              'You are not authorized to view this page.');
+        }
+      }, () => {
+        this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+            'You are not authorized to view this page.');
+      });
     });
   }
 

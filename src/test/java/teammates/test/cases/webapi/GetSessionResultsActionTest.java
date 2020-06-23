@@ -95,9 +95,6 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     protected void testAccessControl() {
         String[] submissionParams;
 
-        ______TS("accessible for admin");
-        verifyAccessibleForAdmin();
-
         ______TS("accessible for authenticated instructor");
         FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         submissionParams = new String[] {
