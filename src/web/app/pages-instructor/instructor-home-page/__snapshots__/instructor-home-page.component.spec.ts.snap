@@ -216,8 +216,8 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       
       
       <div
-        class="card-body padding-0 collapse"
-        ng-reflect-collapsed="true"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -543,8 +543,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       
       
       <div
-        class="card-body padding-0 collapse"
-        ng-reflect-collapsed="true"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -1098,8 +1098,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       
       
       <div
-        class="card-body padding-0 collapse"
-        ng-reflect-collapsed="true"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -1844,8 +1844,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       
       
       <div
-        class="card-body padding-0 collapse show"
-        ng-reflect-collapsed="false"
+        class="card-body padding-0 collapse"
+        ng-reflect-collapsed="true"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -2171,8 +2171,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       
       
       <div
-        class="card-body padding-0 collapse"
-        ng-reflect-collapsed="true"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -2498,8 +2498,8 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       
       
       <div
-        class="card-body padding-0 collapse"
-        ng-reflect-collapsed="true"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
