@@ -24,6 +24,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     private FeedbackSessionAttributes secondSessionInCourse1;
     private FeedbackSessionAttributes firstSessionInCourse2;
     private StudentAttributes student1InCourse1;
+    private StudentAttributes student3InCourse1;
     private InstructorAttributes instructor1OfCourse1;
     private InstructorAttributes instructor1OfCourse2;
 
@@ -35,6 +36,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         secondSessionInCourse1 = testData.feedbackSessions.get("session2InCourse1");
         firstSessionInCourse2 = testData.feedbackSessions.get("session1InCourse2");
         student1InCourse1 = testData.students.get("student1InCourse1");
+        student3InCourse1 = testData.students.get("student3InCourse1");
         instructor1OfCourse1 = testData.instructors.get("instructor1OfCourse1");
         instructor1OfCourse2 = testData.instructors.get("instructor1OfCourse2");
     }
@@ -191,13 +193,25 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
         verifyAccessibleForStudentsOfTheSameCourse(studentSubmissionParams);
 
-        ______TS("Unregistered student access with correct regKey, should be accessible");
-        StudentAttributes unloggedStudent =
-                logic.getStudentForGoogleId(student1InCourse1.getCourse(), student1InCourse1.googleId);
+        ______TS("Not logged in user access with correct unused regKey, should be accessible");
+        logic.resetStudentGoogleId(student3InCourse1.email, student3InCourse1.getCourse());
+        StudentAttributes unregisteredStudent =
+                logic.getStudentForEmail(student3InCourse1.getCourse(), student3InCourse1.email);
         String[] unregisteredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        StringHelper.encrypt(unloggedStudent.getKey()), "", "");
+                        StringHelper.encrypt(unregisteredStudent.getKey()), "", "");
         verifyAccessibleWithoutLogin(unregisteredStudentSubmissionParams);
+
+        ______TS("Access with correct but used regKey, should not be accessible by anyone");
+        StudentAttributes registeredStudent =
+                logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.email);
+        String[] registeredStudentSubmissionParams =
+                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
+                        StringHelper.encrypt(registeredStudent.getKey()), "", "");
+        verifyCannotAccess(registeredStudentSubmissionParams);
+
+        gaeSimulation.logoutUser();
+        verifyCannotAccess(registeredStudentSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -243,6 +257,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         secondSessionInCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
         firstSessionInCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        student3InCourse1 = typicalBundle.students.get("student3InCourse1");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
     }

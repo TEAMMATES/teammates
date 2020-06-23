@@ -15,6 +15,7 @@ public enum ResourceEndpoints {
     EXCEPTION(ResourceURIs.EXCEPTION),
     ERROR_REPORT(ResourceURIs.ERROR_REPORT),
     AUTH(ResourceURIs.AUTH),
+    AUTH_REGKEY(ResourceURIs.AUTH_REGKEY),
     ACCOUNT(ResourceURIs.ACCOUNT),
     ACCOUNT_RESET(ResourceURIs.ACCOUNT_RESET),
     ACCOUNT_DOWNGRADE(ResourceURIs.ACCOUNT_DOWNGRADE),
