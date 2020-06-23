@@ -379,6 +379,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
     >
       <div
         class="card-header archive-course-header bg-info"
+        id="archived-table-heading"
       >
         <div
           class="row text-white align-items-center"
@@ -421,7 +422,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="card bg-light top-padded"
       >
         <div
-          class="card-header bg-secondary recycle-bin-header"
+          class="card-header recycle-bin-header"
           id="deleted-table-heading"
         >
           <div
@@ -851,6 +852,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
     >
       <div
         class="card-header archive-course-header bg-info"
+        id="archived-table-heading"
       >
         <div
           class="row text-white align-items-center"
@@ -893,7 +895,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="card bg-light top-padded"
       >
         <div
-          class="card-header bg-secondary recycle-bin-header"
+          class="card-header recycle-bin-header"
           id="deleted-table-heading"
         >
           <div
