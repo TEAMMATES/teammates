@@ -40,6 +40,7 @@ export class StudentListComponent implements OnInit {
   @Input() listOfStudentsToHide: string[] = [];
   @Input() isHideTableHead: boolean = false;
   @Input() enableRemindButton: boolean = false;
+  @Input() isActionButtonsEnabled: boolean = true;
   @Input() students: StudentListRowModel[] = [];
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
