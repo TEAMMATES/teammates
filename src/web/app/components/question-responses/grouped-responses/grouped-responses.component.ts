@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  QuestionOutput,
+  QuestionOutput, ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
@@ -42,11 +42,15 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     createdAtTimestamp: 0,
   };
 
+  hasRealResponses: boolean = false;
+
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+    this.hasRealResponses = this.responses.some((question: QuestionOutput) =>
+        question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse));
   }
 
   get teamInfo(): Record<string, string> {

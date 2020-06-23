@@ -320,6 +320,7 @@ export class FeedbackSessionsService {
     intent: Intent
     questionId?: string,
     groupBySection?: string,
+    key?: string,
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -333,6 +334,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.groupBySection) {
       paramMap.frgroupbysection = queryParams.groupBySection;
+    }
+
+    if (queryParams.key) {
+      paramMap.key = queryParams.key;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.RESULT, paramMap);

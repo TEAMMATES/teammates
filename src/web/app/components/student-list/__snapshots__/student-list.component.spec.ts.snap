@@ -8,6 +8,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -109,6 +110,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -293,15 +295,14 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="Email an invitation to the stu"
             >
               Send Invite
             </button>
-            
-            
             
             
             
@@ -416,15 +417,14 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
               ng-reflect-ngb-tooltip="Email an invitation to the stu"
             >
               Send Invite
             </button>
-            
-            
             
             
             
@@ -693,6 +693,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton={[Function Boolean]}
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -877,16 +878,14 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              ng-reflect-ngb-tooltip="'You do not have the permissio"
-              ngbtooltip="'You do not have the permissions to access this feature'"
+              ng-reflect-klass="btn btn-light btn-sm mr-2"
+              ng-reflect-ng-class="[object Object]"
+              ng-reflect-ngb-tooltip="You do not have the permission"
             >
               Send Invite
             </button>
-            
             
             
             
@@ -1267,6 +1266,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -1817,6 +1817,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -2369,6 +2370,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -2919,6 +2921,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
@@ -3126,6 +3129,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   courseId=""
   courseService={[Function CourseService]}
   enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
   isHideTableHead={[Function Boolean]}
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}

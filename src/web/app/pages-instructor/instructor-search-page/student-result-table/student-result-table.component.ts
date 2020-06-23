@@ -29,6 +29,7 @@ export interface SearchStudentsListRowTable {
 export class StudentResultTableComponent implements OnInit {
 
   @Input() studentTables: SearchStudentsListRowTable[] = [];
+  @Input() isActionButtonsEnabled: boolean = true;
 
   constructor() { }
 
