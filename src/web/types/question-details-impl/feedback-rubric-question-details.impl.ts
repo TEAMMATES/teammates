@@ -115,4 +115,12 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
 
     return statsRows;
   }
+
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }

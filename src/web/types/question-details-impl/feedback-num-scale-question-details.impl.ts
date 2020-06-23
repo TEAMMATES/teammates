@@ -83,4 +83,11 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
 
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }

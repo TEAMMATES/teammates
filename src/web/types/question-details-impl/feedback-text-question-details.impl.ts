@@ -25,4 +25,11 @@ export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDet
     return [];
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }
