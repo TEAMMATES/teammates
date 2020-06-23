@@ -184,9 +184,9 @@ public class SessionResultsData extends ApiOutput {
 
             if (bundle.getRoster().isTeamInCourse(giverEmail)) {
                 // remove recipient email as it is a team name
-                giverEmail = null;
                 relatedGiverEmail =
                         bundle.getRoster().getTeamToMembersTable().get(giverEmail).iterator().next().getEmail();
+                giverEmail = null;
             }
         }
         String giverName = getGiverNameOfResponse(response, bundle);

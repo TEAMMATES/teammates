@@ -62,6 +62,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
   userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, QuestionTab[]> = {};
+  teamsToQuestions: Record<string, QuestionOutput[]> = {};
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
@@ -77,6 +78,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   private filterResponses(): void {
     this.responsesToShow = {};
+    this.teamsToQuestions = {};
     this.teamsToUsers = {};
     this.teamExpanded = {};
     this.userToEmail = {};
@@ -89,17 +91,24 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           // filter out missing responses
           continue;
         }
+
+        if (this.section) {
+          if (this.isGqr && response.giverSection !== this.section
+              || !this.isGqr && response.recipientSection !== this.section) {
+            continue;
+          }
+        }
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
         if (response.giverEmail) {
           this.userToEmail[response.giver] = response.giverEmail;
         }
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
-        }
-
-        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
-        if (!shouldDisplayBasedOnSection) {
-          continue;
         }
 
         if (this.isGqr) {
@@ -167,6 +176,38 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             questionOutput: questionCopy,
             isTabExpanded: this.isExpandAll,
           });
+        }
+      }
+    }
+
+    for (const team of Object.keys(this.teamExpanded)) {
+      for (const question of this.responses) {
+        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
+          if (response.isMissingResponse) {
+            // Missing response is meaningless for team statistics
+            return false;
+          }
+          if (this.isGqr && team !== response.giverTeam) {
+            return false;
+          }
+          if (!this.isGqr && team !== response.recipientTeam) {
+            return false;
+          }
+
+          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+              .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+
+          if (!shouldDisplayBasedOnSection) {
+            return false;
+          }
+
+          return true;
+        });
+
+        if (questionCopy.allResponses.length) {
+          this.teamsToQuestions[team] = this.teamsToQuestions[team] || [];
+          this.teamsToQuestions[team].push(questionCopy);
         }
       }
     }
