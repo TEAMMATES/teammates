@@ -14,6 +14,9 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 export class NumScaleQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
 
+  // enum
+  Math: typeof Math = Math;
+
   constructor() {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
