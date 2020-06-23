@@ -231,7 +231,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.navigationService.navigateWithSuccessMessage(this.router,
               '/web/instructor/sessions/edit',
               'The feedback session has been copied. Please modify settings/questions as necessary.',
-              { courseid: this.courseId, fsname: createdSession.feedbackSessionName });
+              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
       }, () => {});
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });

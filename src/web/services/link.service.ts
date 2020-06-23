@@ -112,7 +112,7 @@ export class LinkService {
   /**
    * Generates submit url for a feedback session.
    */
-  generateSubmitUrl(student: Student, fsName: string): string {
+  generateSubmitUrl(student: Student, fsname: string): string {
     const { frontendUrl }: { frontendUrl: string } = environment;
     const { courseId: courseid, key = '', email: studentemail }: Student = student;
     const params: {
@@ -121,7 +121,7 @@ export class LinkService {
       courseid,
       key,
       studentemail,
-      fsName,
+      fsname,
     };
 
     this.filterEmptyParams(params);
@@ -132,7 +132,7 @@ export class LinkService {
   /**
    * Generates a result url for a feedback session.
    */
-  generateResultUrl(student: Student, fsName: string): string {
+  generateResultUrl(student: Student, fsname: string): string {
     const { frontendUrl }: { frontendUrl: string } = environment;
     const { courseId: courseid, key = '', email: studentemail }: Student = student;
     const params: {
@@ -141,7 +141,7 @@ export class LinkService {
       courseid,
       key,
       studentemail,
-      fsName,
+      fsname,
     };
 
     this.filterEmptyParams(params);

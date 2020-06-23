@@ -32,17 +32,26 @@ public class GetAuthInfoAction extends Action {
     @Override
     public ActionResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
+        String nextUrl = getRequestParamValue("nextUrl");
         if (frontendUrl == null) {
             frontendUrl = "";
         }
 
         AuthInfo output;
         if (userInfo == null) {
-            output = new AuthInfo(
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
-                    gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
-            );
+            if (nextUrl == null) {
+                output = new AuthInfo(
+                        gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
+                        gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                        gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
+                );
+            } else {
+                output = new AuthInfo(
+                        gateKeeper.getLoginUrl(frontendUrl + nextUrl),
+                        gateKeeper.getLoginUrl(frontendUrl + nextUrl),
+                        gateKeeper.getLoginUrl(frontendUrl + nextUrl)
+                );
+            }
         } else {
             String googleId = userInfo.getId();
             AccountAttributes accountInfo = logic.getAccount(googleId);
