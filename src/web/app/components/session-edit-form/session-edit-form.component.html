@@ -59,7 +59,7 @@
     <div class="card border-primary margin-top-20px">
       <div class="card-body">
         <div class="row text-center">
-          <div class="col-md-2 text-md-right font-bold" [ngClass]="formMode === SessionEditFormMode.ADD ? 'col-form-label': ''">
+          <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             Course ID
           </div>
           <div class="col-md-4 text-md-left">
@@ -73,10 +73,10 @@
             </div>
             <div *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
           </div>
-          <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0" [ngClass]="formMode === SessionEditFormMode.ADD ? 'col-form-label': ''">
+          <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             Time Zone
           </div>
-          <div class="col-md-4 text-md-left" [ngClass]="formMode === SessionEditFormMode.ADD ? 'col-form-label': ''" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
+          <div class="col-md-4 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
             {{ model.timeZone }}
           </div>
         </div>
