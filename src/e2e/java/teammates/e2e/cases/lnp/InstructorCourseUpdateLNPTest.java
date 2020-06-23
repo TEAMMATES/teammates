@@ -23,9 +23,11 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
+import teammates.ui.webapi.request.CourseUpdateRequest;
 
 /**
  * L&P Test Case for course update cascade API.
@@ -42,13 +44,13 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
     private static final String COURSE_TIME_ZONE = "UTC";
 
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
-    private static final int NUM_FEEDBACK_SESSIONS = 100;
+    private static final int NUM_FEEDBACK_SESSIONS = 500;
 
     private static final String UPDATE_COURSE_NAME = "updatedCourse";
     private static final String UPDATE_COURSE_TIME_ZONE = "GMT";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 1;
+    private static final double MEAN_RESP_TIME_LIMIT = 10;
 
     @Override
     protected LNPTestData getTestData() {
@@ -121,9 +123,7 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                     headers.add("fsname_" + i);
                 }
 
-                headers.add("updateName");
-                headers.add("timeZone");
-                headers.add("timeStamp");
+                headers.add("updateData");
 
                 return headers;
             }
@@ -144,9 +144,12 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                         csvRow.add(FEEDBACK_SESSION_NAME + " " + i);
                     }
 
-                    csvRow.add(UPDATE_COURSE_NAME);
-                    csvRow.add(UPDATE_COURSE_TIME_ZONE);
-                    csvRow.add(Instant.now().toString());
+                    CourseUpdateRequest courseUpdateRequest = new CourseUpdateRequest();
+                    courseUpdateRequest.setCourseName(UPDATE_COURSE_NAME);
+                    courseUpdateRequest.setTimeZone(UPDATE_COURSE_TIME_ZONE);
+
+                    String updateData = sanitizeForCsv(JsonUtils.toJson(courseUpdateRequest));
+                    csvRow.add(updateData);
 
                     csvData.add(csvRow);
                 });
@@ -165,6 +168,10 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
         return headers;
     }
 
+    private String getTestEndpoint() {
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE + "?courseid=${courseId}";
+    }
+
     @Override
     protected ListedHashTree getLnpTestPlan() {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
@@ -180,16 +187,9 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                 .add(JMeterElements.csrfExtractor("csrfToken"));
 
         // Add HTTP sampler for test endpoint
-        String getEditPath = "webapi/course?courseid=${courseId}";
-
-        String body = "{\"id\": \"${courseId}\","
-                + "\"name\": \"${updateName}\","
-                + "\"createdAt\": \"${timeStamp}\","
-                + "\"timeZone\": \"${timeZone}\" }";
-
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
-        threadGroup.add(headerManager);
-        threadGroup.add(JMeterElements.httpSampler(getEditPath, PUT, body));
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${updateData}"))
+                .add(headerManager);
 
         return testPlan;
     }
@@ -211,12 +211,6 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
 
     @Test
     public void runLnpTest() throws IOException {
-        try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            System.out.println("Error while executing LnP Test.");
-            System.out.println(e.toString());
-        }
         runJmeter(false);
         displayLnpResults();
     }
