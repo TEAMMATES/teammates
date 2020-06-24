@@ -7,7 +7,7 @@ import { Course } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
- * The actual component
+ * Instructor add new course form
  */
 @Component({
   selector: 'tm-add-course-form',

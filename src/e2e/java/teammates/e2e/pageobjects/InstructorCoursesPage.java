@@ -58,6 +58,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "deleted-table-heading")
     private WebElement deleteTableHeading;
 
+    @FindBy(id = "archived-table-heading")
+    private WebElement archiveTableHeading;
+
     public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
@@ -82,6 +85,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     public void verifyArchivedCoursesDetails(CourseAttributes[] courses) {
+        showArchiveTable();
         String[][] courseDetails = getCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as archive courses are not sorted
@@ -187,6 +191,12 @@ public class InstructorCoursesPage extends AppPage {
     public void showDeleteTable() {
         if (!isElementVisible(By.id("deleted-course-id-0"))) {
             click(deleteTableHeading);
+        }
+    }
+
+    public void showArchiveTable() {
+        if (!isElementVisible(By.id("archived-course-id-0"))) {
+            click(archiveTableHeading);
         }
     }
 
