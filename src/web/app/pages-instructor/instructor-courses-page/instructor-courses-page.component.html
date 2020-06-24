@@ -98,7 +98,8 @@
               <button id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
                 ngbTooltip="Enroll student into the course"
                 routerLink="/web/instructor/courses/enroll"
-                [queryParams]="{courseid: course.course.courseId}">
+                [queryParams]="{courseid: course.course.courseId}"
+                queryParamsHandling="merge">
                 Enroll
               </button>
               <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">

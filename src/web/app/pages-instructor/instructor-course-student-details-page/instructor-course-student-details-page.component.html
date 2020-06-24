@@ -1,5 +1,11 @@
 <ng-container *ngIf="student">
   <h1>{{student?.name}}</h1>
+  <button class="btn btn-primary"
+          ngbTooltip="Enroll student into your course"
+          routerLink="/web/instructor/courses"
+          [queryParams]="{studentemail:student?.email, studentname:student?.name}">
+      Enroll this student to my course
+  </button>
   <tm-student-profile [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
   <tm-course-related-info [student]="student"></tm-course-related-info>
   <tm-more-info [studentName]="student?.name" [moreInfoText]="studentProfile?.moreInfo"></tm-more-info>

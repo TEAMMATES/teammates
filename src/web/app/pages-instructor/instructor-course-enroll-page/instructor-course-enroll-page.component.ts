@@ -67,6 +67,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isExistingStudentsPresent: boolean = true;
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
+  newStudentInfo: string[][] = [
+      ['', '', '', '', ''],
+  ];
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -77,6 +80,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.getCourseEnrollPageData(queryParams.courseid);
+      this.newStudentInfo[0][2] = queryParams.studentname;
+      this.newStudentInfo[0][3] = queryParams.studentemail;
     });
   }
 
