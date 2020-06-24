@@ -61,4 +61,11 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
     return statsRows;
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }

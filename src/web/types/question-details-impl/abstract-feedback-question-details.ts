@@ -29,6 +29,16 @@ export abstract class AbstractFeedbackQuestionDetails {
   }
 
   /**
+   * Check if a feedback participant can comment on responses to the question
+   */
+  abstract isParticipantCommentsOnResponsesAllowed(): boolean;
+
+  /**
+   * Checks if an instructor can comment on responses to the question
+   */
+  abstract isInstructorCommentsOnResponsesAllowed(): boolean;
+
+  /**
    * Gets question stats in CSV.
    */
   abstract getQuestionCsvStats(question: QuestionOutput): string[][];

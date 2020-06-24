@@ -97,11 +97,25 @@ export class SessionResultCsvService {
     const header: string[] = ['Team', "Giver's Full Name", "Giver's Last Name", "Giver's Email", "Recipient's Team",
       "Recipient's Full Name", "Recipient's Last Name", "Recipient's Email",
       ...this.getQuestionSpecificHeaders(question.feedbackQuestion)];
+
+    const isParticipantCommentsOnResponsesAllowed: boolean =
+        this.getIsParticipantCommentsOnResponsesAllowed(question.feedbackQuestion);
+    if (isParticipantCommentsOnResponsesAllowed) {
+      header.push("Giver's Comments");
+    }
+
+    const isInstructorCommentsOnResponsesAllowed: boolean =
+        this.getIsInstructorCommentsOnResponsesAllowed(question.feedbackQuestion);
+    if (isInstructorCommentsOnResponsesAllowed) {
+      const maxNumOfInstructorComments: number = question.allResponses
+          .map((response: ResponseOutput) => response.instructorComments.length)
+          .reduce((prev: number, cur: number) => Math.max(prev, cur), 0);
+      for (let i: number = 0; i < maxNumOfInstructorComments; i += 1) {
+        header.push('Comment From', 'Comment');
+      }
+    }
+
     csvRows.push(header);
-
-    // TODO add participant comment header
-
-    // TODO add instructor comments header
 
     // sort the responses by giver then recipient
     question.allResponses.sort((responseA: ResponseOutput, responseB: ResponseOutput): number => {
@@ -131,9 +145,18 @@ export class SessionResultCsvService {
         const currRow: string[] = [giverTeamName, giverName, giverLastName, giverEmail,
           recipientTeamName, recipientName, recipientLastName, recipientEmail, ...responseAnswer];
 
-        // TODO add participant comment
+        if (isParticipantCommentsOnResponsesAllowed) {
+          const participantComment: string = response.participantComment ? response.participantComment.commentText : '';
+          currRow.push(participantComment);
+        }
 
-        // TODO add instructor comments
+        if (isInstructorCommentsOnResponsesAllowed) {
+          for (const commentOutput of response.instructorComments) {
+            const instructorName: string = commentOutput.commentGiverName ? commentOutput.commentGiverName : '';
+            const instructorComment: string = commentOutput.commentText;
+            currRow.push(instructorName, instructorComment);
+          }
+        }
 
         csvRows.push(currRow);
       }
@@ -178,6 +201,24 @@ export class SessionResultCsvService {
     return FeedbackQuestionDetailsFactory
         .fromApiOutput(question.questionDetails)
         .getQuestionCsvHeaders();
+  }
+
+  /**
+   * Gets whether a feedback participant can comment on the question
+   */
+  private getIsParticipantCommentsOnResponsesAllowed(question: FeedbackQuestion): boolean {
+    return FeedbackQuestionDetailsFactory
+        .fromApiOutput(question.questionDetails)
+        .isParticipantCommentsOnResponsesAllowed();
+  }
+
+  /**
+   * Gets whether an instructor can comment on the question
+   */
+  private getIsInstructorCommentsOnResponsesAllowed(question: FeedbackQuestion): boolean {
+    return FeedbackQuestionDetailsFactory
+        .fromApiOutput(question.questionDetails)
+        .isInstructorCommentsOnResponsesAllowed();
   }
 
   /**
