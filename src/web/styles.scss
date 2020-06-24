@@ -137,7 +137,7 @@ body {
   cursor: not-allowed;
 }
 
-@keyframes myExpand {
+@keyframes expandTab {
   from {
     opacity: 0;
     max-height: 0;
@@ -162,6 +162,6 @@ body {
     max-height: 99999999px;
     overflow: visible;
     visibility: visible;
-    animation: myExpand .35s ease-in-out;
+    animation: expandTab .35s ease-in-out;
   }
 }
