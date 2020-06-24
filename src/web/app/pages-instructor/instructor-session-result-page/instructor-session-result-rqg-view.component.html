@@ -7,16 +7,18 @@
         <i class="fas fa-chevron-up" *ngIf="sectionInfo.value.isTabExpanded"></i>
       </div>
     </div>
-    <div class="card-body" *ngIf="sectionInfo.value.isTabExpanded">
-      <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="sectionInfo.key" [sectionType]="sectionType"
-                                 [indicateMissingResponses]="indicateMissingResponses"
-                                 [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false" [session]="session"
-                                 [instructorCommentTableModel]="instructorCommentTableModel" [isExpandAll]="isExpandAll"
-                                 (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
-                                 (updateCommentEvent)="triggerUpdateCommentEvent($event)"
-                                 (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
-                                 (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                                 style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
+    <div [ngbCollapse]="!sectionInfo.value.isTabExpanded">
+      <div class="card-body">
+        <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="sectionInfo.key" [sectionType]="sectionType"
+                                   [indicateMissingResponses]="indicateMissingResponses"
+                                   [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="false" [session]="session"
+                                   [instructorCommentTableModel]="instructorCommentTableModel" [isExpandAll]="isExpandAll"
+                                   (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"
+                                   (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                                   (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                                   (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                                   style="margin-bottom: 20px;"></tm-gqr-rqg-view-responses>
+      </div>
     </div>
   </div>
 </div>
