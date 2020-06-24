@@ -5,7 +5,7 @@
   <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+  <div class="navbar-collapse" [ngStyle]="{display: isCollapsed ? 'none' : 'block'}">
     <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>

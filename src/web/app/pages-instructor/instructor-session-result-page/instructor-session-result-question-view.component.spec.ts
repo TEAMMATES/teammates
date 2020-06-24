@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
@@ -20,6 +21,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         PerQuestionViewResponsesModule,
         QuestionTextWithInfoModule,
         SingleStatisticsModule,
+        NgbModule,
       ],
     })
     .compileComponents();
