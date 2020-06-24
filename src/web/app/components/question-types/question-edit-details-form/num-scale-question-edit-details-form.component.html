@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-4" ngbTooltip="Minimum acceptable response value">
     Minimum value:
-    <input type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" min="0" [step]="1">
+    <input type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1">
   </div>
   <div class="col-sm-4" ngbTooltip="Value to be increased/decreased each step">
     Increment:
