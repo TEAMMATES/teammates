@@ -24,7 +24,16 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with populated 
 >
   <h1>
     firstName
-  </h1><tm-student-profile
+  </h1><button
+    class="btn btn-primary"
+    ng-reflect-query-params="[object Object]"
+    ng-reflect-router-link="/web/instructor/courses"
+    ngbtooltip="Enroll student into your course"
+    routerlink="/web/instructor/courses"
+    tabindex="0"
+  >
+     Enroll this student to my course 
+  </button><tm-student-profile
     ng-reflect-photo-url="http://localhost:8080/webapi/s"
     ng-reflect-student-profile="[object Object]"
   /><tm-course-related-info

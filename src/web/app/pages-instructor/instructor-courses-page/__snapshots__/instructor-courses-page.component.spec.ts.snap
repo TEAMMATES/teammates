@@ -171,8 +171,10 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 id="btn-enroll-0"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
                 ng-reflect-query-params="[object Object]"
+                ng-reflect-query-params-handling="merge"
                 ng-reflect-router-link="/web/instructor/courses/enroll"
                 ngbtooltip="Enroll student into the course"
+                queryparamshandling="merge"
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
@@ -644,8 +646,10 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 id="btn-enroll-0"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
                 ng-reflect-query-params="[object Object]"
+                ng-reflect-query-params-handling="merge"
                 ng-reflect-router-link="/web/instructor/courses/enroll"
                 ngbtooltip="Enroll student into the course"
+                queryparamshandling="merge"
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
