@@ -149,13 +149,29 @@ body {
   }
 }
 
+@keyframes collapseTab {
+  from {
+    opacity: 1;
+    max-height: 800px;
+    overflow: visible;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    visibility: collapse;
+  }
+}
+
 .collapse {
-  transition: .35s ease-in-out;
-  opacity: 0;
-  visibility: collapse;
-  max-height: 0;
   display: block !important;
+  opacity: 0;
+  max-height: 0;
+  visibility: collapse;
   overflow: hidden;
+  animation: collapseTab .35s ease-in-out;
 
   &.show {
     opacity: 1;
