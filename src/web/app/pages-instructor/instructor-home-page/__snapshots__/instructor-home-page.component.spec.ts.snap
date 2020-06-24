@@ -12,6 +12,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -88,6 +89,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -253,6 +255,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -830,6 +833,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -1554,6 +1558,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -1881,6 +1886,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -2208,6 +2214,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}

@@ -35,6 +35,9 @@ export class CommentTableComponent implements OnInit {
   questionShowResponsesTo: FeedbackVisibilityType[] = [];
 
   @Input()
+  displayAddCommentButton: boolean = false;
+
+  @Input()
   model: CommentTableModel = {
     commentRows: [],
     newCommentRow: {

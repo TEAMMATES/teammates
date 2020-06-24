@@ -66,6 +66,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   courseTabModels: CourseTabModel[] = [];
 
   hasCoursesLoaded: boolean = false;
+  isNewUser: boolean = false;
 
   constructor(router: Router,
               statusMessageService: StatusMessageService,
@@ -181,6 +182,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           this.courseTabModels.push(model);
           this.updateCourseInstructorPrivilege(model);
         });
+        this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
         this.sortCoursesBy(this.instructorCoursesSortBy);
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
   }

@@ -292,7 +292,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="team-contribution-questions">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isContributionQsCollapsed = !isContributionQsCollapsed" [attr.aria-expanded]="!isContributionQsCollapsed">
         Team Contribution Questions

@@ -82,6 +82,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
+  formattedResultVisibleFromTime: string = '';
 
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
@@ -139,6 +140,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
             moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        if (this.session.resultVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime =
+              moment(this.session.resultVisibleFromTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        }
 
         // load section tabs
         this.courseService.getCourseSectionNames(queryParams.courseid)
