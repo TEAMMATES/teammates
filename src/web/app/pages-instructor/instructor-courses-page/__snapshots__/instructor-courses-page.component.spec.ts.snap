@@ -1193,8 +1193,10 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 id="btn-enroll-0"
                 ng-reflect-ngb-tooltip="Enroll student into the course"
                 ng-reflect-query-params="[object Object]"
+                ng-reflect-query-params-handling="merge"
                 ng-reflect-router-link="/web/instructor/courses/enroll"
                 ngbtooltip="Enroll student into the course"
+                queryparamshandling="merge"
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
               >
