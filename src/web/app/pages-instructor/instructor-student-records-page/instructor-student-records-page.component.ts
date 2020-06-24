@@ -86,7 +86,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         this.currInstructorName = instructor.name;
       });
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -100,7 +100,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     this.studentProfileService.getStudentProfile(this.studentEmail, this.courseId).subscribe((resp: StudentProfile) => {
       this.studentProfile = resp;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -144,7 +144,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           });
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         }, (errorMessageOutput: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(errorMessageOutput.error.message);
+          this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
         });
   }
 

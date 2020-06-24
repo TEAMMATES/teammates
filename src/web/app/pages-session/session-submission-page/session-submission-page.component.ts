@@ -296,7 +296,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       if (resp.status === 404) {
         this.modalService.open(FeedbackSessionDeletedModalComponent);
       }
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -339,7 +339,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.questionSubmissionForms.push(model);
         this.loadFeedbackQuestionRecipientsForQuestion(model);
       });
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -384,7 +384,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       } else {
         this.loadFeedbackResponses(model);
       }
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -457,7 +457,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
       // load comments
       this.loadParticipantComment(model);
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -486,7 +486,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     forkJoin(loadCommentRequests).subscribe(() => {
       // comment loading success
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -550,7 +550,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     recipientSubmissionFormModel.commentByGiver = undefined;
                   }),
                   catchError((error: any) => {
-                    this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                    this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
                     failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
                     return of(error);
                   }),
@@ -576,7 +576,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       }),
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
-                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
                         failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
                         return of(error);
                       }),
@@ -602,7 +602,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       }),
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
-                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
                         failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
                         return of(error);
                       }),
@@ -620,14 +620,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     forkJoin(savingRequests).pipe(
         switchMap(() => {
           if (failToSaveQuestions.size === 0) {
-            this.statusMessageService.showSuccessMessage('All responses submitted successfully!');
+            this.statusMessageService.showSuccessToast('All responses submitted successfully!');
           } else {
-            this.statusMessageService.showErrorMessage('Some responses are not saved successfully');
+            this.statusMessageService.showErrorToast('Some responses are not saved successfully');
           }
 
           if (notYetAnsweredQuestions.size !== 0) {
             // TODO use showInfoMessage
-            this.statusMessageService.showSuccessMessage(
+            this.statusMessageService.showSuccessToast(
                 `Note that some questions are yet to be answered. They are:
                 ${ Array.from(notYetAnsweredQuestions.values()) }.`);
           }
@@ -655,17 +655,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         case ConfirmationResult.SUCCESS:
           break;
         case ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND:
-          this.statusMessageService.showErrorMessage(
+          this.statusMessageService.showErrorToast(
               `Submission confirmation email failed to send: ${response.message}`);
           break;
         default:
-          this.statusMessageService.showErrorMessage(`Unknown result ${response.result}`);
+          this.statusMessageService.showErrorToast(`Unknown result ${response.result}`);
       }
       hasSubmissionConfirmationError = false;
       this.shouldSendConfirmationEmail = false;
     }, (resp: ErrorMessageOutput) => {
       hasSubmissionConfirmationError = true;
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -757,9 +757,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           moderatedperson: this.moderatedPerson,
         }).subscribe(() => {
           recipientSubmissionFormModel.commentByGiver = undefined;
-          this.statusMessageService.showSuccessMessage('Your comment has been deleted!');
+          this.statusMessageService.showSuccessToast('Your comment has been deleted!');
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -786,9 +786,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }).subscribe(
         (comment: FeedbackResponseComment) => {
           recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
-          this.statusMessageService.showSuccessMessage('Your comment has been saved!');
+          this.statusMessageService.showSuccessToast('Your comment has been saved!');
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 }

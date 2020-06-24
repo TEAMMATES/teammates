@@ -49,7 +49,7 @@ export class AdminSearchPageComponent {
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 
       if (!hasStudents && !hasInstructors) {
-        this.statusMessageService.showWarningMessage('No results found.');
+        this.statusMessageService.showWarningToast('No results found.');
         this.instructors = [];
         this.students = [];
       } else {
@@ -59,7 +59,7 @@ export class AdminSearchPageComponent {
         this.hideAllStudentsLinks();
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -114,9 +114,9 @@ export class AdminSearchPageComponent {
     modalRef.result.then(() => {
       this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
         this.search();
-        this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
+        this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -136,9 +136,9 @@ export class AdminSearchPageComponent {
     modalRef.result.then(() => {
       this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
         student.googleId = '';
-        this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
+        this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -154,10 +154,10 @@ export class AdminSearchPageComponent {
     modalRef.result.then(() => {
       this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
         .subscribe((resp: RegenerateStudentCourseLinks) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
+          this.statusMessageService.showSuccessToast(resp.message);
           this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
         }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(response.error.message);
+          this.statusMessageService.showErrorToast(response.error.message);
         });
     }, () => {});
   }

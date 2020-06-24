@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { InstructorStudentListPageComponent } from './instructor-student-list-page.component';
 import { InstructorStudentListPageModule } from './instructor-student-list-page.module';
@@ -16,7 +15,6 @@ describe('InstructorStudentListPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         FormsModule,
-        MatSnackBarModule,
         InstructorStudentListPageModule,
       ],
     })

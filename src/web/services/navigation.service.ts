@@ -37,7 +37,7 @@ export class NavigationService {
    */
   navigateWithErrorMessage(router: Router, url: string, message: string): void {
     router.navigateByUrl(url).then(() => {
-      this.statusMessageService.showErrorMessage(message);
+      this.statusMessageService.showErrorToast(message);
     });
   }
 
@@ -46,7 +46,7 @@ export class NavigationService {
    */
   navigateWithSuccessMessage(router: Router, url: string, message: string, params: Record<string, string> = {}): void {
     this.navigateByURLWithParamEncoding(router, url, params).then(() => {
-      this.statusMessageService.showSuccessMessage(message);
+      this.statusMessageService.showSuccessToast(message);
     });
   }
 
@@ -55,7 +55,7 @@ export class NavigationService {
    */
   navigateWithSuccessMessagePreservingParams(router: Router, url: string, message: string): void {
     router.navigate([url], { queryParamsHandling: 'preserve' }).then(() => {
-      this.statusMessageService.showSuccessMessage(message);
+      this.statusMessageService.showSuccessToast(message);
     });
   }
 

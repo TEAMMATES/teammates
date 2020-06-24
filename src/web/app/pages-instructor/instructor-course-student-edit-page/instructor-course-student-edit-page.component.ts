@@ -79,7 +79,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       this.student = student;
       this.initEditForm();
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -176,10 +176,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         this.router.navigate(['/web/instructor/courses/details'], {
           queryParams: { courseid: this.courseId },
         }).then(() => {
-          this.statusMessageService.showSuccessMessage(resp.message);
+          this.statusMessageService.showSuccessToast(resp.message);
         });
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 }
