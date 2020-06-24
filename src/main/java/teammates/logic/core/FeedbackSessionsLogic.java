@@ -1651,13 +1651,20 @@ public final class FeedbackSessionsLogic {
             List<FeedbackResponseAttributes> existingResponses, CourseRoster courseRoster, @Nullable String section) {
 
         // first get all possible giver recipient pairs
-        Map<String, Map<String, Set<String>>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(feedbackSession, relatedQuestionsMap.values(), courseRoster);
+        Map<String, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
+        for (FeedbackQuestionAttributes feedbackQuestion : relatedQuestionsMap.values()) {
+            if (feedbackQuestion.getQuestionDetails().shouldGenerateMissingResponses(feedbackQuestion)) {
+                questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(),
+                        fqLogic.buildCompleteGiverRecipientMap(feedbackSession, feedbackQuestion, courseRoster));
+            } else {
+                questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(), new HashMap<>());
+            }
+        }
 
         // remove the existing responses in those pairs
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
             Map<String, Set<String>> currGiverRecipientMap =
-                    completeGiverRecipientMap.get(existingResponse.getFeedbackQuestionId());
+                    questionCompleteGiverRecipientMap.get(existingResponse.getFeedbackQuestionId());
             if (!currGiverRecipientMap.containsKey(existingResponse.getGiver())) {
                 continue;
             }
@@ -1667,7 +1674,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> missingResponses = new ArrayList<>();
         // build dummy responses
         for (Map.Entry<String, Map<String, Set<String>>> currGiverRecipientMapEntry
-                : completeGiverRecipientMap.entrySet()) {
+                : questionCompleteGiverRecipientMap.entrySet()) {
             FeedbackQuestionAttributes correspondingQuestion =
                     relatedQuestionsMap.get(currGiverRecipientMapEntry.getKey());
             String questionId = correspondingQuestion.getId();
