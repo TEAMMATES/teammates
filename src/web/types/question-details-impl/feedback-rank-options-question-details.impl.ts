@@ -59,4 +59,11 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
     return statsRows;
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }

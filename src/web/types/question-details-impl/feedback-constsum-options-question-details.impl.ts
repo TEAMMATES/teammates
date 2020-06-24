@@ -65,4 +65,11 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     return statsRows;
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }
