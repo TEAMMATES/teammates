@@ -111,4 +111,11 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
     return String(point);
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return false;
+  }
 }

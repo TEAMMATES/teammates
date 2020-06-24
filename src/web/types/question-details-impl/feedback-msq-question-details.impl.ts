@@ -57,4 +57,11 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
     return statsRows;
   }
 
+  isParticipantCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
+
+  isInstructorCommentsOnResponsesAllowed(): boolean {
+    return true;
+  }
 }
