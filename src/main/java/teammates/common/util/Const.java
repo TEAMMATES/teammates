@@ -663,6 +663,7 @@ public final class Const {
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
+        public static final String AUTH_REGKEY = "/auth/regkey";
         public static final String ACCOUNT = "/account";
         public static final String ACCOUNT_RESET = "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";

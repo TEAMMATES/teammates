@@ -554,15 +554,14 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     
                     
-                    
                     <button
                       class="btn btn-light btn-sm mr-2"
+                      ng-reflect-klass="btn btn-light btn-sm mr-2"
+                      ng-reflect-ng-class="[object Object]"
                       ng-reflect-ngb-tooltip="Email an invitation to the stu"
                     >
                       Send Invite
                     </button>
-                    
-                    
                     
                     
                     
