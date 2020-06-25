@@ -41,6 +41,7 @@ interface SessionTab {
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 
   courseId: string = '';
+  studentName: string = '';
   studentEmail: string = '';
   studentSection: string = '';
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
@@ -95,6 +96,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   loadStudentRecords(): void {
     this.studentService.getStudent(this.courseId, this.studentEmail).subscribe((resp: Student) => {
+      this.studentName = resp.name;
       this.studentSection = resp.sectionName;
     });
     this.studentProfileService.getStudentProfile(this.studentEmail, this.courseId).subscribe((resp: StudentProfile) => {
@@ -123,7 +125,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           giverQuestions.forEach((questions: QuestionOutput) => {
             questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
-                responses.giver === this.studentProfile.name && responses.giverEmail === this.studentEmail);
+                responses.giverEmail === this.studentEmail);
           });
           const responsesGivenByStudent: QuestionOutput[] =
               giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
@@ -131,7 +133,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           recipientQuestions.forEach((questions: QuestionOutput) => {
             questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
-                responses.recipient === this.studentProfile.name && responses.recipientEmail === this.studentEmail);
+                responses.recipientEmail === this.studentEmail);
           });
           const responsesReceivedByStudent: QuestionOutput[] =
               recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
