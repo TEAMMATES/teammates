@@ -124,16 +124,16 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           giverQuestions.forEach((questions: QuestionOutput) => {
-            questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
-                responses.giverEmail === this.studentEmail);
+            questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+                !response.isMissingResponse && response.giverEmail === this.studentEmail);
           });
           const responsesGivenByStudent: QuestionOutput[] =
               giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
 
           const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           recipientQuestions.forEach((questions: QuestionOutput) => {
-            questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
-                responses.recipientEmail === this.studentEmail);
+            questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+                !response.isMissingResponse && response.recipientEmail === this.studentEmail);
           });
           const responsesReceivedByStudent: QuestionOutput[] =
               recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
