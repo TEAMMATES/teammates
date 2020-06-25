@@ -1,18 +1,18 @@
 <div class="card" xmlns="http://www.w3.org/1999/html">
   <div class="card-header text-white question-header">
     <div class="row align-items-center">
-      <div class="col-5">
-        <strong>Question <span *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
-        <select class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable">
+      <div id="question-type" class="col-5">
+        <strong>Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
+        <select id="question-number-dropdown" class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable">
           <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
         </select>
         {{ model.questionType | questionTypeName }}
       </div>
       <div class="col-7 text-right" *ngIf="!isDisplayOnly">
         <div *ngIf="formMode === QuestionEditFormMode.EDIT">
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)"
+          <button id="btn-edit-question" type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)"
                   ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal)" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
+          <button id="btn-save-question" type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal)" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
                   ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal)"><i class="fas fa-ban"></i> Discard</button>
           <ng-template #discardModal let-modal>
@@ -27,10 +27,10 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-              <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
+              <button type="button" class="btn btn-warning modal-btn-ok" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
-          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal)"><i class="fas fa-trash"></i> Delete</button>
+          <button id="btn-delete-question" type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal)"><i class="fas fa-trash"></i> Delete</button>
           <ng-template #deleteModal let-modal>
             <div class="modal-header bg-danger">
               <h5 class="modal-title"><i class="fas fa-times-circle"></i> Warning: Deleted question cannot be recovered</h5>
@@ -43,10 +43,10 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-              <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
+              <button type="button" class="btn btn-danger modal-btn-ok" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
-          <button type="button" class="btn btn-primary btn-sm"
+          <button id="btn-duplicate-question" type="button" class="btn btn-primary btn-sm"
                   (click)="duplicateCurrentQuestionHandler()"
                   ngbTooltip="Make a copy of the existing question and add to the current feedback session." container="body"><i class="far fa-copy"></i> Duplicate</button>
         </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-              <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
+              <button type="button" class="btn btn-warning modal-btn-ok" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
         </div>
@@ -81,7 +81,7 @@
               <div class="question-basic-info">Question</div>
             </div>
             <div class="col-md-10">
-              <textarea class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
+              <textarea id="question-brief" class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
                         placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
                         ngbTooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
               ></textarea>
@@ -92,7 +92,7 @@
               <div class="question-basic-info">[Optional]<br/>Description</div>
             </div>
             <div class="col-md-10">
-              <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable"
+              <tm-rich-text-editor id="question-description" [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable"
                                    placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
                                    ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>
             </div>
@@ -117,13 +117,13 @@
         <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
       </div>
       <div ngbDropdown class="margin-top-15px">
-        <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
+        <button id="btn-feedback-path" class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
           <span *ngIf="!model.isUsingOtherFeedbackPath">
             {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
           </span>
           <span *ngIf="model.isUsingOtherFeedbackPath">Custom feedback path</span>
         </button>
-        <ul ngbDropdownMenu>
+        <ul id="feedback-path-dropdown" ngbDropdownMenu>
           <li class="dropdown-header">Common feedback path combinations</li>
           <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
             <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
@@ -148,7 +148,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <select class="form-control" [ngModel]="model.giverType" (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
+              <select id="giver-type" class="form-control" [ngModel]="model.giverType" (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
                 <option *ngFor="let path of this.allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
               </select>
             </div>
@@ -162,7 +162,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <select class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
+              <select id="receiver-type" class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
                 <option *ngFor="let recipientType of this.allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
               </select>
             </div>
@@ -178,19 +178,19 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">
-                <input type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                <input id="custom-recipients" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
                        (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
                        [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
                        [disabled]="!model.isEditable">
               </div>
             </div>
-            <input type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+            <input id="custom-recipients-number" type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
           </div>
         </div>
         <div class="col-2">
           <div class="form-check">
             <label class="form-check-label">
-              <input class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
+              <input id="unlimited-recipients" class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
                      [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting" (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
                      [value]="NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED"
                      [disabled]="!model.isEditable">
@@ -209,13 +209,13 @@
         <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
       </div>
       <div ngbDropdown class="margin-top-15px">
-        <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
+        <button id="btn-question-visibility" class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
           <span *ngIf="!model.isUsingOtherVisibilitySetting">
             {{ model.commonVisibilitySettingName }}
           </span>
           <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
         </button>
-        <ul ngbDropdownMenu>
+        <ul id="question-visibility-dropdown" ngbDropdownMenu>
           <li class="dropdown-header">Common visibility options</li>
           <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
               (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
@@ -230,7 +230,7 @@
             <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="custom-visibility-table">
           <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
             <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
               <td [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body"> {{ visibilityType | visibilityTypeName }}</td>

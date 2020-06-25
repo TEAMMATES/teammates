@@ -26,6 +26,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
@@ -394,6 +395,22 @@ public abstract class AppPage {
     }
 
     /**
+     * Returns the text of the option selected in the dropdown.
+     */
+    protected String getSelectedDropdownOptionText(WebElement dropdown) {
+        Select select = new Select(dropdown);
+        return select.getFirstSelectedOption().getText();
+    }
+
+    /**
+     * Selects option in dropdown based on visible text.
+     */
+    protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
+    }
+
+    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
@@ -597,6 +614,20 @@ public abstract class AppPage {
     protected void setWindowSize(int x, int y) {
         Dimension d = new Dimension(x, y);
         browser.driver.manage().window().setSize(d);
+    }
+
+    /**
+     * Switches to the new browser window just opened.
+     */
+    protected void switchToNewWindow() {
+        browser.switchToNewWindow();
+    }
+
+    /**
+     * Closes current window and switches back to parent window.
+     */
+    public void closeCurrentWindowAndSwitchToParentWindow() {
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     /**
