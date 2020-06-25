@@ -82,6 +82,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
+  formattedResultVisibleFromTime: string = '';
 
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
@@ -139,6 +140,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
             moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        if (this.session.resultVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime =
+              moment(this.session.resultVisibleFromTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        }
 
         // load section tabs
         this.courseService.getCourseSectionNames(queryParams.courseid)
@@ -157,7 +162,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               }
               this.isSectionsLoaded = true;
             }, (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorMessage(resp.error.message);
+              this.statusMessageService.showErrorToast(resp.error.message);
             });
 
         // load question tabs
@@ -177,7 +182,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           }
           this.isQuestionsLoaded = true;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
 
         // load all students in course
@@ -195,13 +200,13 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
                                         !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
           }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
 
           this.isNoResponsePanelLoaded = true;
 
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
 
         // load current instructor name
@@ -212,7 +217,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           this.currInstructorName = instructor.name;
         });
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     });
   }
@@ -251,7 +256,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         this.preprocessComments(responses.allResponses);
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -290,7 +295,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         this.preprocessComments(question.allResponses);
       });
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -332,7 +337,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       response.subscribe(() => {
         this.router.navigateByUrl('/web/instructor/sessions');
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -365,7 +370,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       blob = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -434,12 +439,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       .remindFeedbackSessionSubmissionForStudent(this.session.courseId, this.session.feedbackSessionName, {
         usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
       }).subscribe(() => {
-        this.statusMessageService.showSuccessMessage(
+        this.statusMessageService.showSuccessToast(
           'Reminder e-mails have been sent out to those students and instructors. '
           + 'Please allow up to 1 hour for all the notification emails to be sent out.');
 
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 

@@ -161,6 +161,14 @@ public abstract class FeedbackQuestionDetails {
             && question.recipientType != FeedbackParticipantType.TEAMS;
     }
 
+    /**
+     * Checks whether missing responses should be generated.
+     */
+    public boolean shouldGenerateMissingResponses(FeedbackQuestionAttributes question) {
+        // generate combinations against all students are meaningless
+        return question.getRecipientType() != FeedbackParticipantType.STUDENTS;
+    }
+
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
                                          FeedbackSessionResultsBundle bundle,
                                          FeedbackQuestionAttributes question) {

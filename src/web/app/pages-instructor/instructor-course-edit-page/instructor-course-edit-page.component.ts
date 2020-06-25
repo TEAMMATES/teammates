@@ -185,7 +185,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -199,14 +199,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }).subscribe((resp: InstructorPrivilege) => {
       this.currInstructorCoursePrivilege = resp;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     // login credential
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -218,7 +218,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -234,12 +234,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
     }).subscribe((resp: Course) => {
-      this.statusMessageService.showSuccessMessage('The course has been edited.');
+      this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
     Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
@@ -273,7 +273,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -329,7 +329,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }).subscribe((resp: InstructorPrivilege) => {
       modalRef.componentInstance.instructorPrivilege = resp;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -369,10 +369,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
 
-      this.statusMessageService.showSuccessMessage(`The instructor ${resp.name} has been updated.`);
+      this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
 
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     panelDetail.editPanel.isEditing = false;
@@ -398,10 +398,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
                   this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
         } else {
           this.instructorDetailPanels.splice(index, 1);
-          this.statusMessageService.showSuccessMessage('Instructor is successfully deleted.');
+          this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
         }
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -418,9 +418,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.courseService
           .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
           .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessMessage(resp.message);
+            this.statusMessageService.showSuccessToast(resp.message);
           }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
     }, () => {});
   }
@@ -448,7 +448,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
           this.instructorDetailPanels.push(newDetailPanels);
-          this.statusMessageService.showSuccessMessage(`"The instructor ${resp.name} has been added successfully.
+          this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
           An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
 
           this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
@@ -481,7 +481,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             isEditing: true,
           };
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -613,7 +613,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
       panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -700,7 +700,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

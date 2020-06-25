@@ -7,7 +7,7 @@ import { Course } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 /**
- * The actual component
+ * Instructor add new course form
  */
 @Component({
   selector: 'tm-add-course-form',
@@ -59,7 +59,7 @@ export class AddCourseFormComponent implements OnInit {
       return;
     }
     if (!this.newCourseId || !this.newCourseName) {
-      this.statusMessageService.showErrorMessage(
+      this.statusMessageService.showErrorToast(
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
@@ -70,9 +70,9 @@ export class AddCourseFormComponent implements OnInit {
     }).subscribe((course: Course) => {
       this.courseAdded.emit();
       this.course = course;
-      this.statusMessageService.showSuccessMessageTemplate(this.newCourseMessageTemplate);
+      this.statusMessageService.showSuccessToastTemplate(this.newCourseMessageTemplate);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.newCourseId = '';
     this.newCourseName = '';

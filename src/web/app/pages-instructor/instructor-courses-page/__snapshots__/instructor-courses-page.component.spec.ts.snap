@@ -12,6 +12,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   courseStats={[Function Object]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -374,108 +375,34 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
        Archived Courses 
     </h2>
     <div
-      class="table-responsive"
+      class="card top-padded"
     >
-      <table
-        class="table table-striped table-bordered margin-0"
-        id="archived-courses-table"
+      <div
+        class="card-header archive-course-header bg-info"
+        id="archived-table-heading"
       >
-        <thead>
-          <tr
-            class="bg-info text-white"
+        <div
+          class="row text-white align-items-center"
+        >
+          <div
+            class="col-6"
           >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td
-              id="archived-course-id-0"
-            >
-              CS2104
-            </td>
-            <td>
-              Can modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-unarchive-0"
-              >
-                 Unarchive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-soft-delete-archived-0"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            <td
-              id="archived-course-id-1"
-            >
-              CS2106
-            </td>
-            <td>
-              Cannot modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-unarchive-1"
-              >
-                 Unarchive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <b>
+              Archive
+            </b>
+          </div>
+          <div
+            class="col-6 text-right"
+          >
+            
+            <i
+              class="fas fa-chevron-down"
+            />
+            
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div><div
     class="row course-section margin-top-30px"
@@ -495,7 +422,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="card bg-light top-padded"
       >
         <div
-          class="card-header bg-secondary recycle-bin-header"
+          class="card-header recycle-bin-header"
           id="deleted-table-heading"
         >
           <div
@@ -558,6 +485,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   courseStats={[Function Object]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -920,108 +848,34 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
        Archived Courses 
     </h2>
     <div
-      class="table-responsive"
+      class="card top-padded"
     >
-      <table
-        class="table table-striped table-bordered margin-0"
-        id="archived-courses-table"
+      <div
+        class="card-header archive-course-header bg-info"
+        id="archived-table-heading"
       >
-        <thead>
-          <tr
-            class="bg-info text-white"
+        <div
+          class="row text-white align-items-center"
+        >
+          <div
+            class="col-6"
           >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td
-              id="archived-course-id-0"
-            >
-              CS2104
-            </td>
-            <td>
-              Can modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-unarchive-0"
-              >
-                 Unarchive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-soft-delete-archived-0"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            <td
-              id="archived-course-id-1"
-            >
-              CS2106
-            </td>
-            <td>
-              Cannot modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-unarchive-1"
-              >
-                 Unarchive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <b>
+              Archive
+            </b>
+          </div>
+          <div
+            class="col-6 text-right"
+          >
+            
+            <i
+              class="fas fa-chevron-down"
+            />
+            
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div><div
     class="row course-section margin-top-30px"
@@ -1041,7 +895,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="card bg-light top-padded"
       >
         <div
-          class="card-header bg-secondary recycle-bin-header"
+          class="card-header recycle-bin-header"
           id="deleted-table-heading"
         >
           <div
@@ -1112,6 +966,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   courseStats={[Function Object]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -1158,6 +1013,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   courseStats={[Function Object]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}

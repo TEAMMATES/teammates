@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
-  FeedbackParticipantType,
+  FeedbackParticipantType, FeedbackQuestionType,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, ResponseOutput,
   ResponseVisibleSetting,
@@ -182,6 +182,11 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
     for (const team of Object.keys(this.teamExpanded)) {
       for (const question of this.responses) {
+        if (question.feedbackQuestion.questionType === FeedbackQuestionType.CONTRIB
+            || question.feedbackQuestion.questionType === FeedbackQuestionType.TEXT) {
+          // Should not display anything for contribution and text questions
+          continue;
+        }
         const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (response.isMissingResponse) {

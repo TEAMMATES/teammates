@@ -144,7 +144,7 @@ export class AdminSessionsPageComponent implements OnInit {
             this.institutionPanelsStatus[institution] = true;
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -166,7 +166,7 @@ export class AdminSessionsPageComponent implements OnInit {
             sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 

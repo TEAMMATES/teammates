@@ -12,6 +12,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -88,6 +89,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -215,9 +217,9 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       
       
       
-      
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -253,6 +255,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -542,9 +545,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       
       
       
-      
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -830,6 +833,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -1097,9 +1101,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       
       
       
-      
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -1554,6 +1558,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -1843,7 +1848,27 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       
       
       
-      
+      <div
+        class="card-body padding-0 collapse"
+        ng-reflect-collapsed="true"
+      >
+        <tm-sessions-table
+          ng-reflect-columns-to-show="1,2"
+          ng-reflect-course-candidates="[object Object]"
+          ng-reflect-header-color-scheme="1"
+          ng-reflect-sessions-table-row-models=""
+          ng-reflect-sessions-table-row-models-sort-by="0"
+          ng-reflect-sessions-table-row-models-sort-order="1"
+        >
+          
+          <div
+            class="no-session-message"
+          >
+             There are no feedback sessions in this course. 
+          </div>
+          
+        </tm-sessions-table>
+      </div>
     </div>
   </div>
 </tm-instructor-home-page>
@@ -1861,6 +1886,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -2150,9 +2176,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       
       
       
-      
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"
@@ -2188,6 +2214,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isNewUser="false"
   loadingBarService={[Function LoadingBarService]}
   modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
@@ -2477,9 +2504,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       
       
       
-      
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 collapse show"
+        ng-reflect-collapsed="false"
       >
         <tm-sessions-table
           ng-reflect-columns-to-show="1,2"

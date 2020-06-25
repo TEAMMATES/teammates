@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatProgressBarModule } from '@angular/material';
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderBarComponent } from './loader-bar.component';
 
 /**
@@ -9,7 +9,7 @@ import { LoaderBarComponent } from './loader-bar.component';
 @NgModule({
   declarations: [LoaderBarComponent],
   imports: [
-    MatProgressBarModule,
+    NgbProgressbarModule,
     CommonModule,
   ],
   exports: [
