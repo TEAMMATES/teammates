@@ -109,7 +109,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
-        return null; // BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
+        return BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }
 
     @Override
@@ -140,7 +140,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        return null; // BackDoor.getFeedbackSession(courseId, feedbackSessionName);
+        return BackDoor.getFeedbackSession(courseId, feedbackSessionName);
     }
 
     @Override
@@ -157,6 +157,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
                 return getFeedbackSession(courseId, feedbackSessionName);
             }
         });
+    }
+
+    protected FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        return BackDoor.getSoftDeletedSession(feedbackSessionName, instructorId);
     }
 
     protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
