@@ -20,6 +20,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
+  studentTeam=""
 >
   <h1>
     's Records
@@ -60,6 +61,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
+  studentTeam=""
 >
   <h1>
     Not John Doe's Records

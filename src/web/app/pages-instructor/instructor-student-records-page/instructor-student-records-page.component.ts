@@ -43,6 +43,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   courseId: string = '';
   studentName: string = '';
   studentEmail: string = '';
+  studentTeam: string = '';
   studentSection: string = '';
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
@@ -97,6 +98,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   loadStudentRecords(): void {
     this.studentService.getStudent(this.courseId, this.studentEmail).subscribe((resp: Student) => {
       this.studentName = resp.name;
+      this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
     });
     this.studentProfileService.getStudentProfile(this.studentEmail, this.courseId).subscribe((resp: StudentProfile) => {
@@ -142,7 +144,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             feedbackSession,
             responsesGivenByStudent,
             responsesReceivedByStudent,
-            isCollapsed: responsesGivenByStudent.length === 0 && responsesReceivedByStudent.length === 0,
+            isCollapsed: false,
           });
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         }, (errorMessageOutput: ErrorMessageOutput) => {

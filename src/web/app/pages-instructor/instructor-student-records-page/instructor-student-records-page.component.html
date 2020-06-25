@@ -16,7 +16,7 @@
                                (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
     ></tm-grq-rgq-view-responses>
     <div *ngIf="session.responsesReceivedByStudent.length === 0">
-      No feedback responses for {{studentName}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+      No feedback responses for {{studentName}} ({{studentTeam}}) found.
     </div>
     <br/>
     <tm-grq-rgq-view-responses *ngIf="session.responsesGivenByStudent.length > 0"
@@ -26,7 +26,7 @@
                                (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
     ></tm-grq-rgq-view-responses>
     <div *ngIf="session.responsesGivenByStudent.length === 0">
-      No feedback responses from {{studentName}} ({{studentSection}}) in {{session.feedbackSession.feedbackSessionName}} found.
+      No feedback responses from {{studentName}} ({{studentTeam}}) found.
     </div>
   </div>
 </div>
