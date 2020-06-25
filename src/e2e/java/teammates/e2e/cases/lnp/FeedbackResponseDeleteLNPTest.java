@@ -42,8 +42,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
-    private static final int NUMBER_OF_FEEDBACK_RESPONSE_COMMENTS = NUMBER_OF_USER_ACCOUNTS;
+    private static final int NUMBER_OF_FEEDBACK_RESPONSE_COMMENTS = 100;
 
     private static final String QUESTION_ID = "QuestionTest";
     private static final String QUESTION_TEXT = "Test Question";
@@ -118,16 +117,15 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                 Map<String, StudentAttributes> students = new LinkedHashMap<>();
                 StudentAttributes studentAttribute;
 
-                for (int i = 1; i <= 1; i++) {
-                    studentAttribute = StudentAttributes.builder(COURSE_ID, STUDENT_EMAIL + i + STUDENT_EMAIL_SUFFIX)
-                            .withGoogleId(STUDENT_ID + "." + i)
-                            .withName(STUDENT_NAME + i)
-                            .withComment("This student's name is " + STUDENT_NAME + i)
-                            .withSectionName(GIVER_SECTION_NAME)
-                            .withTeamName(TEAM_NAME)
-                            .build();
-                    students.put(STUDENT_NAME + i, studentAttribute);
-                }
+                studentAttribute = StudentAttributes.builder(COURSE_ID, STUDENT_EMAIL + STUDENT_EMAIL_SUFFIX)
+                        .withGoogleId(STUDENT_ID)
+                        .withName(STUDENT_NAME)
+                        .withComment("This student's name is " + STUDENT_NAME)
+                        .withSectionName(GIVER_SECTION_NAME)
+                        .withTeamName(TEAM_NAME)
+                        .build();
+
+                students.put(STUDENT_NAME, studentAttribute);
 
                 return students;
             }
@@ -192,8 +190,8 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
 
                 feedbackResponses.put(responseText,
                         FeedbackResponseAttributes.builder(FEEDBACK_RESPONSE_ID,
-                            STUDENT_EMAIL + "1" + STUDENT_EMAIL_SUFFIX,
-                            STUDENT_EMAIL + "1" + STUDENT_EMAIL_SUFFIX)
+                            STUDENT_EMAIL + STUDENT_EMAIL_SUFFIX,
+                            STUDENT_EMAIL + STUDENT_EMAIL_SUFFIX)
                             .withCourseId(COURSE_ID)
                             .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
                             .withGiverSection(GIVER_SECTION_NAME)
@@ -224,7 +222,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                                 .withFeedbackQuestionId(QUESTION_ID)
                                 .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
                                 .withCommentText(responseCommentText)
-                                .withCommentGiver(STUDENT_ID + ".1")
+                                .withCommentGiver(STUDENT_ID)
                                 .withCommentGiverType(FeedbackParticipantType.STUDENTS)
                                 .withCommentFromFeedbackParticipant(true)
                                 .withVisibilityFollowingFeedbackQuestion(true)
@@ -284,8 +282,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.RESPONSE
-            + "?responseid=${frname}" + "&intent=STUDENT_SUBMISSION";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.RESPONSE + "?responseid=${frname}";
     }
 
     @Override
@@ -299,8 +296,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
         threadGroup.add(JMeterElements.defaultSampler());
 
         threadGroup.add(JMeterElements.onceOnlyController())
-                .add(JMeterElements.loginSampler())
-                .add(JMeterElements.csrfExtractor("csrfToken"));
+                .add(JMeterElements.loginSampler());
 
         // Add HTTP sampler for test endpoint
         threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), DELETE, null));
