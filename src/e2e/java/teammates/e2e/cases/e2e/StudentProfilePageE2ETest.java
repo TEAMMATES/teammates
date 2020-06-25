@@ -47,9 +47,9 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
+        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
     }
 }

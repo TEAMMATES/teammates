@@ -10,30 +10,32 @@
       </div>
       <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
         <div class="card-body">
-          <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
-          <hr>
-          <div class="card top-padded" *ngFor="let question of teamsToQuestions[teamInfo.key]">
-            <div class="card-header bg-info text-white">
-              <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
-                                          [questionDetails]="question.feedbackQuestion.questionDetails"
-                                          (click)="$event.stopPropagation()"></tm-question-text-with-info>
+          <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
+            <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
+            <hr>
+            <div class="card top-padded" *ngFor="let question of teamsToQuestions[teamInfo.key]">
+              <div class="card-header bg-info text-white">
+                <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
+                                            [questionDetails]="question.feedbackQuestion.questionDetails"
+                                            (click)="$event.stopPropagation()"></tm-question-text-with-info>
+              </div>
+              <div class="card-body">
+                <tm-single-statistics [responses]="question.allResponses"
+                                      [question]="question.feedbackQuestion.questionDetails"
+                                      [statistics]="question.questionStatistics"
+                                      [recipientType]="question.feedbackQuestion.recipientType"
+                                      [displayContributionStats]="false"
+                ></tm-single-statistics>
+              </div>
             </div>
-            <div class="card-body">
-              <tm-single-statistics [responses]="question.allResponses"
-                                    [question]="question.feedbackQuestion.questionDetails"
-                                    [statistics]="question.questionStatistics"
-                                    [recipientType]="question.feedbackQuestion.recipientType"
-                                    [displayContributionStats]="false"
-              ></tm-single-statistics>
+            <h3>{{ teamInfo.key }} Detailed Responses</h3>
+            <hr>
+            <div *ngFor="let userInfo of teamInfo.value">
+              <ng-container
+                  [ngTemplateOutlet]="userTab"
+                  [ngTemplateOutletContext]="{userInfo:userInfo}">
+              </ng-container>
             </div>
-          </div>
-          <h3>{{ teamInfo.key }} Detailed Responses</h3>
-          <hr>
-          <div *ngFor="let userInfo of teamInfo.value">
-            <ng-container
-                [ngTemplateOutlet]="userTab"
-                [ngTemplateOutletContext]="{userInfo:userInfo}">
-            </ng-container>
           </div>
         </div>
       </div>

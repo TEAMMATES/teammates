@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
 import { OptionRichTextEditorModule } from '../option-rich-text-editor/option-rich-text-editor.module';
 import { McqFieldComponent } from './mcq-field.component';
 
@@ -14,7 +13,6 @@ describe('McqFieldComponent', () => {
       declarations: [McqFieldComponent],
       imports: [
         FormsModule,
-        MatSnackBarModule,
         OptionRichTextEditorModule,
       ],
     })

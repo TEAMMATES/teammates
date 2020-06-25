@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
@@ -50,6 +51,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     FormsModule,
     NgbModule,
     SortableTableModule,
+    RouterModule,
     ContributionQuestionStatisticsModule,
   ],
 })

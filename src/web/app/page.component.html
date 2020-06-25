@@ -43,6 +43,7 @@
 </nav>
 <tm-loader-bar></tm-loader-bar>
 <tm-loading-spinner *ngIf="isFetchingAuthDetails"></tm-loading-spinner>
+<tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <div *ngIf="!isFetchingAuthDetails" id="main-content" class="container main-content">
   <div *ngIf="isUnsupportedBrowser">
     <div class="alert alert-danger" role="alert">

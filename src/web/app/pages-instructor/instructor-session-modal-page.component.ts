@@ -74,12 +74,12 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
         this.feedbackSessionsService.remindResultsLinkToStudents(courseId, feedbackSessionName, {
           usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
         }).subscribe(() => {
-          this.statusMessageService.showSuccessMessage(
+          this.statusMessageService.showSuccessToast(
               'Session published notification emails have been resent to those students and instructors. '
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       }, () => {});
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -116,12 +116,12 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                 this.feedbackSessionsService.remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
                   usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
                 }).subscribe(() => {
-                  this.statusMessageService.showSuccessMessage(
+                  this.statusMessageService.showSuccessToast(
                       'Reminder e-mails have been sent out to those students and instructors. '
                       + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-                }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+                }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
               }, () => {});
 
-            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 }

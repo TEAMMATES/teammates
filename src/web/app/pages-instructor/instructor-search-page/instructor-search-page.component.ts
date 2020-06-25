@@ -83,10 +83,10 @@ export class InstructorSearchPageComponent implements OnInit {
             this.studentsListRowTables = this.flattenStudentTable(searchStudentsTable);
           }
           if (!hasStudents && !hasComments) {
-            this.statusMessageService.showWarningMessage('No results found.');
+            this.statusMessageService.showWarningToast('No results found.');
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 

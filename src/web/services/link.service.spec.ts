@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 
 import { Instructor, InstructorPermissionRole, JoinState, Student } from '../types/api-output';
 import { LinkService } from './link.service';
@@ -8,9 +7,6 @@ describe('Link Service', () => {
   let service: LinkService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [MatSnackBarModule],
-    });
     service = TestBed.get(LinkService);
   });
 

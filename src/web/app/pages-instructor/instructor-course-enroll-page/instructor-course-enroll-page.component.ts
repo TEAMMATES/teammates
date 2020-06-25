@@ -120,13 +120,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       const enrolledStudents: Student[] = resp.students;
       this.showEnrollResults = true;
       this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showSuccessMessage('Enrollment successful. Summary given below.');
+      this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
       this.enrollResultPanelList =
           this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
               studentsEnrollRequest.studentEnrollRequests);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     }, () => {
       this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
         this.existingStudents = resp.students;
@@ -219,7 +219,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           'unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and percentage sign"%". ' +
           '"Email" should contain some text followed by one \'@\' sign followed by some more text. ' +
           '"Team" should not have same format of email to avoid mis-interpretation. ';
-      this.statusMessageService.showErrorMessage(`Some students failed to be enrolled, see the summary below.
+      this.statusMessageService.showErrorToast(`Some students failed to be enrolled, see the summary below.
        ${generalEnrollErrorMessage}`);
     }
     return panels;
@@ -318,7 +318,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
           }
         }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
     });
@@ -359,7 +359,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.coursePresent = true;
       this.courseid = courseid;
       if (resp.hasResponses) {
-        this.statusMessageService.showWarningMessageModal('Existing feedback responses',
+        this.statusMessageService.showWarningModal('Existing feedback responses',
         'There are existing feedback responses for this course.',
         'Modifying records of enrolled students will result in some existing responses '
             + 'from those modified students to be deleted. You may wish to download the data '
@@ -367,7 +367,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       }
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
