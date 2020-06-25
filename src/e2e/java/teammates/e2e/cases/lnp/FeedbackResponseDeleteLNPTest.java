@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jmeter.protocol.http.control.HeaderManager;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
@@ -70,7 +71,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
     private static final String RECEIVER_SECTION_NAME = "Section 1";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 10;
+    private static final double MEAN_RESP_TIME_LIMIT = 20;
 
     @Override
     protected LNPTestData getTestData() {
@@ -281,8 +282,20 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
         };
     }
 
+    private Map<String, String> getRequestHeaders() {
+        Map<String, String> headers = new LinkedHashMap<>();
+
+        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put("Content-Type", "application/json");
+        headers.put("Access-Control-Allow-Origin", "*");
+        headers.put("Access-Control-Allow-Methods", "DELETE");
+
+        return headers;
+    }
+
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.RESPONSE + "?responseid=${frname}";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.RESPONSE
+            + "?responseid=${frname}" + "&intent=INSTRUCTOR_RESULT";
     }
 
     @Override
@@ -296,9 +309,12 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
         threadGroup.add(JMeterElements.defaultSampler());
 
         threadGroup.add(JMeterElements.onceOnlyController())
-                .add(JMeterElements.loginSampler());
+                .add(JMeterElements.loginSampler())
+                .add(JMeterElements.csrfExtractor("csrfToken"));
 
         // Add HTTP sampler for test endpoint
+        HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
+        threadGroup.add(headerManager);
         threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), DELETE, null));
 
         return testPlan;
