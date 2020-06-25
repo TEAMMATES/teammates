@@ -62,7 +62,6 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
 
     private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
     private static final String FEEDBACK_RESPONSE_COMMENT_ID = "TestComment";
-    //private static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "This is a test comment";
 
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
