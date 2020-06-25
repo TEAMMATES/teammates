@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.jmeter.protocol.http.control.HeaderManager;
 import org.apache.jorphan.collections.HashTree;
 import org.apache.jorphan.collections.ListedHashTree;
 import org.testng.annotations.AfterClass;
@@ -43,21 +42,16 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
     private static final int NUMBER_OF_FEEDBACK_RESPONSE_COMMENTS = NUMBER_OF_USER_ACCOUNTS;
 
     private static final String QUESTION_ID = "QuestionTest";
     private static final String QUESTION_TEXT = "Test Question";
 
-    private static final int SIZE_OF_TEAM = 4;
-    private static final int SIZE_OF_SECTION = 100;
-
     private static final String STUDENT_ID = "LnPStudent.tmms";
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "studentEmail";
     private static final String STUDENT_EMAIL_SUFFIX = "@gmail.tmt";
-
-    private static final String INSTITUTE_NAME = "TEAMMATES Test Institute 3";
 
     private static final String INSTRUCTOR_NAME = "LnPInstructor";
     private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
@@ -68,33 +62,23 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
 
     private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
     private static final String FEEDBACK_RESPONSE_COMMENT_ID = "TestComment";
-    private static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "This is a test comment";
+    //private static final String FEEDBACK_RESPONSE_COMMENT_TEXT = "This is a test comment";
 
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
+    private static final String TEAM_NAME = "Team 1";
     private static final String GIVER_SECTION_NAME = "Section 1";
-    private static final String RECEIVER_SECTION_NAME = "Section 2";
+    private static final String RECEIVER_SECTION_NAME = "Section 1";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 1;
+    private static final double MEAN_RESP_TIME_LIMIT = 10;
 
     @Override
     protected LNPTestData getTestData() {
         return new LNPTestData() {
             @Override
             protected Map<String, AccountAttributes> generateAccounts() {
-                Map<String, AccountAttributes> accounts = new LinkedHashMap<>();
-
-                for (int i = 1; i <= NUMBER_OF_USER_ACCOUNTS; i++) {
-                    accounts.put(STUDENT_NAME + i, AccountAttributes.builder(STUDENT_ID + "." + i)
-                            .withEmail(STUDENT_EMAIL + i + STUDENT_EMAIL_SUFFIX)
-                            .withName(STUDENT_NAME + i)
-                            .withIsInstructor(false)
-                            .withInstitute(INSTITUTE_NAME)
-                            .build()
-                    );
-                }
-                return accounts;
+                return new HashMap<>();
             }
 
             @Override
@@ -134,13 +118,13 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                 Map<String, StudentAttributes> students = new LinkedHashMap<>();
                 StudentAttributes studentAttribute;
 
-                for (int i = 1; i <= NUMBER_OF_USER_ACCOUNTS; i++) {
+                for (int i = 1; i <= 1; i++) {
                     studentAttribute = StudentAttributes.builder(COURSE_ID, STUDENT_EMAIL + i + STUDENT_EMAIL_SUFFIX)
                             .withGoogleId(STUDENT_ID + "." + i)
                             .withName(STUDENT_NAME + i)
                             .withComment("This student's name is " + STUDENT_NAME + i)
-                            .withSectionName("Section " + (i / SIZE_OF_SECTION))
-                            .withTeamName("Team " + (i / SIZE_OF_TEAM))
+                            .withSectionName(GIVER_SECTION_NAME)
+                            .withTeamName(TEAM_NAME)
                             .build();
                     students.put(STUDENT_NAME + i, studentAttribute);
                 }
@@ -212,8 +196,8 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                             STUDENT_EMAIL + "1" + STUDENT_EMAIL_SUFFIX)
                             .withCourseId(COURSE_ID)
                             .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                            .withGiverSection("Section 1")
-                            .withRecipientSection("Section 1")
+                            .withGiverSection(GIVER_SECTION_NAME)
+                            .withRecipientSection(RECEIVER_SECTION_NAME)
                             .withResponseDetails(details)
                             .build());
 
@@ -236,11 +220,11 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                     feedbackResponseComments.put(responseCommentText,
                             FeedbackResponseCommentAttributes.builder()
                                 .withCourseId(COURSE_ID)
+                                .withFeedbackResponseId(FEEDBACK_RESPONSE_ID)
                                 .withFeedbackQuestionId(QUESTION_ID)
-                                .withFeedbackResponseId(FEEDBACK_RESPONSE_ID + i)
                                 .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                                .withCommentText(FEEDBACK_RESPONSE_COMMENT_TEXT)
-                                .withCommentGiver(STUDENT_NAME + i)
+                                .withCommentText(responseCommentText)
+                                .withCommentGiver(STUDENT_ID + ".1")
                                 .withCommentGiverType(FeedbackParticipantType.STUDENTS)
                                 .withCommentFromFeedbackParticipant(true)
                                 .withVisibilityFollowingFeedbackQuestion(true)
@@ -284,6 +268,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                     csvRow.add("no");
                     csvRow.add(COURSE_ID);
                     csvRow.add(FEEDBACK_SESSION_NAME);
+                    csvRow.add(QUESTION_ID);
                     csvRow.add(FEEDBACK_RESPONSE_ID);
 
                     for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSE_COMMENTS; i++) {
@@ -298,17 +283,9 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
         };
     }
 
-    private Map<String, String> getRequestHeaders() {
-        Map<String, String> headers = new HashMap<>();
-
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
-        headers.put("Content-Type", "application/json");
-
-        return headers;
-    }
-
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.RESPONSE + "?responseid=${frname}";
+        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.RESPONSE
+            + "?responseid=${frname}" + "&intent=STUDENT_SUBMISSION";
     }
 
     @Override
@@ -326,9 +303,7 @@ public class FeedbackResponseDeleteLNPTest extends BaseLNPTestCase {
                 .add(JMeterElements.csrfExtractor("csrfToken"));
 
         // Add HTTP sampler for test endpoint
-        HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
-        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), DELETE, ""))
-                .add(headerManager);
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), DELETE, null));
 
         return testPlan;
     }
