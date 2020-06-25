@@ -11,6 +11,12 @@ body {
 
 .btn {
   font-size: inherit;
+  box-shadow: 0 0 1px rgba(34, 25, 25, .4);
+
+  &.btn-link,
+  &[disabled] {
+    box-shadow: none;
+  }
 }
 
 .color-orange {
