@@ -3,11 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
-import {
-  InstructorHelpGettingStartedComponent,
-} from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
-import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
-import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
 
 const routes: Routes = [
   {
@@ -48,11 +43,16 @@ const routes: Routes = [
       },
       {
         path: 'instructor',
-        component: InstructorHelpPageComponent,
+        loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-page.module')
+            .then((m: any) => m.InstructorHelpPageModule),
+        data: {
+          instructorGettingStartedPath: '/web/front/help/getting-started',
+        },
       },
       {
         path: 'getting-started',
-        component: InstructorHelpGettingStartedComponent,
+        loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-getting-started-page.module')
+            .then((m: any) => m.InstructorHelpGettingStartedPageModule),
         data: {
           instructorHelpPath: '/web/front/help/instructor',
         },
@@ -83,7 +83,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PageNotFoundModule,
-    InstructorHelpPageModule,
     RouterModule.forChild(routes),
   ],
 })

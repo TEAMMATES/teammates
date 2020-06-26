@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import {
@@ -17,6 +17,13 @@ import {
   ResendInvitationEmailModalComponent,
 } from './resend-invitation-email-modal/resend-invitation-email-modal.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorCourseEditPageComponent,
+  },
+];
 
 /**
  * Module for instructor course edit page component.
@@ -37,7 +44,7 @@ import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/v
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+    RouterModule.forChild(routes),
     NgbModule,
     TeammatesCommonModule,
   ],

@@ -15,6 +15,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
+  instructorGettingStartedPath: string = '';
   searchTerm: String = '';
   key: String = '';
   isEditDetailsCollapsed: boolean = false;
@@ -22,7 +23,15 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('helpPage') bodyRef ?: ElementRef;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+    let r: ActivatedRoute = this.route;
+    while (r.firstChild) {
+      r = r.firstChild;
+    }
+    r.data.subscribe((resp: any) => {
+      this.instructorGettingStartedPath = resp.instructorGettingStartedPath;
+    });
+  }
 
   ngOnInit(): void {
   }

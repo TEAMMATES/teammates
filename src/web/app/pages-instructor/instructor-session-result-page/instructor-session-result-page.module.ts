@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
+import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -25,6 +27,13 @@ import { InstructorSessionResultQuestionViewComponent } from './instructor-sessi
 import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
 import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
 import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorSessionResultPageComponent,
+  },
+];
 
 /**
  * Module for instructor sessions result page.
@@ -50,13 +59,17 @@ import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
     CommonModule,
     FormsModule,
     NgbModule,
-    RouterModule,
+    RouterModule.forChild(routes),
     TeammatesCommonModule,
     QuestionTextWithInfoModule,
     PerQuestionViewResponsesModule,
     GqrRqgViewResponsesModule,
     GrqRgqViewResponsesModule,
     SingleStatisticsModule,
+  ],
+  providers: [
+    CommentToCommentRowModelPipe,
+    CommentsToCommentTableModelPipe,
   ],
 })
 export class InstructorSessionResultPageModule { }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
@@ -12,6 +13,13 @@ import {
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorSessionEditPageComponent,
+  },
+];
 
 /**
  * Module for instructor session edit page.
@@ -26,6 +34,7 @@ import { TemplateQuestionModalComponent } from './template-question-modal/templa
     SessionEditFormModule,
     QuestionEditFormModule,
     CopySessionModalModule,
+    RouterModule.forChild(routes),
   ],
   entryComponents: [
     TemplateQuestionModalComponent,
