@@ -18,13 +18,6 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
         answer = Const.POINTS_NOT_SUBMITTED;
     }
 
-    /**
-     * Gets answer in integer form.
-     */
-    public int getAnswer() {
-        return answer;
-    }
-
     @Override
     public String getAnswerString() {
         return Integer.toString(answer);
@@ -51,5 +44,13 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
             errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
         }
         return errors;
+    }
+
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
     }
 }

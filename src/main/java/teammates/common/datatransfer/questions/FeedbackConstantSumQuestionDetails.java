@@ -28,34 +28,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
     }
 
-    public void setNumOfConstSumOptions(int numOfConstSumOptions) {
-        this.numOfConstSumOptions = numOfConstSumOptions;
-    }
-
-    public void setConstSumOptions(List<String> constSumOptions) {
-        this.constSumOptions = constSumOptions;
-    }
-
-    public void setDistributeToRecipients(boolean distributeToRecipients) {
-        this.distributeToRecipients = distributeToRecipients;
-    }
-
-    public void setPointsPerOption(boolean pointsPerOption) {
-        this.pointsPerOption = pointsPerOption;
-    }
-
-    public void setForceUnevenDistribution(boolean forceUnevenDistribution) {
-        this.forceUnevenDistribution = forceUnevenDistribution;
-    }
-
-    public void setDistributePointsFor(String distributePointsFor) {
-        this.distributePointsFor = distributePointsFor;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
     @Override
     public boolean shouldChangesRequireResponseDeletion(
             FeedbackQuestionDetails newDetails) {
@@ -120,27 +92,55 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return numOfConstSumOptions;
     }
 
+    public void setNumOfConstSumOptions(int numOfConstSumOptions) {
+        this.numOfConstSumOptions = numOfConstSumOptions;
+    }
+
     public List<String> getConstSumOptions() {
         return constSumOptions;
     }
 
-    public String getDistributePointsFor() {
-        return distributePointsFor;
-    }
-
-    public boolean isForceUnevenDistribution() {
-        return forceUnevenDistribution;
+    public void setConstSumOptions(List<String> constSumOptions) {
+        this.constSumOptions = constSumOptions;
     }
 
     public boolean isDistributeToRecipients() {
         return distributeToRecipients;
     }
 
+    public void setDistributeToRecipients(boolean distributeToRecipients) {
+        this.distributeToRecipients = distributeToRecipients;
+    }
+
     public boolean isPointsPerOption() {
         return pointsPerOption;
     }
 
+    public void setPointsPerOption(boolean pointsPerOption) {
+        this.pointsPerOption = pointsPerOption;
+    }
+
+    public boolean isForceUnevenDistribution() {
+        return forceUnevenDistribution;
+    }
+
+    public void setForceUnevenDistribution(boolean forceUnevenDistribution) {
+        this.forceUnevenDistribution = forceUnevenDistribution;
+    }
+
+    public String getDistributePointsFor() {
+        return distributePointsFor;
+    }
+
+    public void setDistributePointsFor(String distributePointsFor) {
+        this.distributePointsFor = distributePointsFor;
+    }
+
     public int getPoints() {
         return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

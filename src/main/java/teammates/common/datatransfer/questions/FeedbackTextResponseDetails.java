@@ -9,7 +9,7 @@ import teammates.common.util.SanitizationHelper;
 public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
 
     //For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
-    public String answer;
+    private String answer;
 
     public FeedbackTextResponseDetails() {
         super(FeedbackQuestionType.TEXT);
@@ -30,5 +30,13 @@ public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         // no need to do validation
         return new ArrayList<>();
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 }

@@ -71,29 +71,6 @@ public abstract class FeedbackQuestionDetails {
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
-    public String getJsonString() {
-        Assumption.assertNotNull(questionType);
-        return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
-    }
-
-    public FeedbackQuestionDetails getDeepCopy() {
-        Assumption.assertNotNull(questionType);
-        String serializedDetails = getJsonString();
-        return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
-    }
-
-    public FeedbackQuestionType getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public String getQuestionText() {
-        return questionText;
-    }
-
     public boolean isInstructorCommentsOnResponsesAllowed() {
         return true;
     }
@@ -121,7 +98,30 @@ public abstract class FeedbackQuestionDetails {
         return this.getJsonString().hashCode();
     }
 
+    public String getJsonString() {
+        Assumption.assertNotNull(questionType);
+        return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
+    }
+
+    public FeedbackQuestionDetails getDeepCopy() {
+        Assumption.assertNotNull(questionType);
+        String serializedDetails = getJsonString();
+        return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
+    }
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
     public void setQuestionType(FeedbackQuestionType questionType) {
         this.questionType = questionType;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 }

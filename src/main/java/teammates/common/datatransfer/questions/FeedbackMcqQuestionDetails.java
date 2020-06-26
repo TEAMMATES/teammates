@@ -29,62 +29,6 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = FeedbackParticipantType.NONE;
     }
 
-    public int getNumOfMcqChoices() {
-        return numOfMcqChoices;
-    }
-
-    public void setNumOfMcqChoices(int numOfMcqChoices) {
-        this.numOfMcqChoices = numOfMcqChoices;
-    }
-
-    public List<String> getMcqChoices() {
-        return mcqChoices;
-    }
-
-    public boolean hasAssignedWeights() {
-        return hasAssignedWeights;
-    }
-
-    public void setHasAssignedWeights(boolean hasAssignedWeights) {
-        this.hasAssignedWeights = hasAssignedWeights;
-    }
-
-    public List<Double> getMcqWeights() {
-        return new ArrayList<>(mcqWeights);
-    }
-
-    public void setMcqWeights(List<Double> mcqWeights) {
-        this.mcqWeights = mcqWeights;
-    }
-
-    public double getMcqOtherWeight() {
-        return mcqOtherWeight;
-    }
-
-    public void setMcqOtherWeight(double mcqOtherWeight) {
-        this.mcqOtherWeight = mcqOtherWeight;
-    }
-
-    public FeedbackParticipantType getGenerateOptionsFor() {
-        return generateOptionsFor;
-    }
-
-    public void setGenerateOptionsFor(FeedbackParticipantType generateOptionsFor) {
-        this.generateOptionsFor = generateOptionsFor;
-    }
-
-    public void setMcqChoices(List<String> mcqChoices) {
-        this.mcqChoices = mcqChoices;
-    }
-
-    public boolean getOtherEnabled() {
-        return otherEnabled;
-    }
-
-    public void setOtherEnabled(boolean otherEnabled) {
-        this.otherEnabled = otherEnabled;
-    }
-
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
@@ -173,4 +117,59 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
+    public boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
+    public List<Double> getMcqWeights() {
+        return mcqWeights;
+    }
+
+    public void setMcqWeights(List<Double> mcqWeights) {
+        this.mcqWeights = mcqWeights;
+    }
+
+    public double getMcqOtherWeight() {
+        return mcqOtherWeight;
+    }
+
+    public void setMcqOtherWeight(double mcqOtherWeight) {
+        this.mcqOtherWeight = mcqOtherWeight;
+    }
+
+    public int getNumOfMcqChoices() {
+        return numOfMcqChoices;
+    }
+
+    public void setNumOfMcqChoices(int numOfMcqChoices) {
+        this.numOfMcqChoices = numOfMcqChoices;
+    }
+
+    public List<String> getMcqChoices() {
+        return mcqChoices;
+    }
+
+    public void setMcqChoices(List<String> mcqChoices) {
+        this.mcqChoices = mcqChoices;
+    }
+
+    public boolean isOtherEnabled() {
+        return otherEnabled;
+    }
+
+    public void setOtherEnabled(boolean otherEnabled) {
+        this.otherEnabled = otherEnabled;
+    }
+
+    public FeedbackParticipantType getGenerateOptionsFor() {
+        return generateOptionsFor;
+    }
+
+    public void setGenerateOptionsFor(FeedbackParticipantType generateOptionsFor) {
+        this.generateOptionsFor = generateOptionsFor;
+    }
 }

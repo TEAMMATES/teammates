@@ -15,17 +15,18 @@ import teammates.common.util.JsonUtils;
  * question type.
  */
 public abstract class FeedbackResponseDetails {
-    public FeedbackQuestionType questionType;
+    private FeedbackQuestionType questionType;
 
     public FeedbackResponseDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }
 
-    public void setQuestionType(FeedbackQuestionType questionType) {
-        this.questionType = questionType;
-    }
-
     public abstract String getAnswerString();
+
+    /**
+     * Validates the response details.
+     */
+    public abstract List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion);
 
     public String getJsonString() {
         Assumption.assertNotNull(questionType);
@@ -46,8 +47,11 @@ public abstract class FeedbackResponseDetails {
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
     }
 
-    /**
-     * Validates the response details.
-     */
-    public abstract List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion);
+    public void setQuestionType(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
 }

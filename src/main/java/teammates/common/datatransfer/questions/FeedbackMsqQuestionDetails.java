@@ -31,18 +31,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqOtherWeight = 0;
     }
 
-    public List<Double> getMsqWeights() {
-        return msqWeights;
-    }
-
-    public double getMsqOtherWeight() {
-        return msqOtherWeight;
-    }
-
-    public boolean getOtherEnabled() {
-        return otherEnabled;
-    }
-
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
@@ -185,6 +173,42 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return msqChoices;
     }
 
+    public void setMsqChoices(List<String> msqChoices) {
+        this.msqChoices = msqChoices;
+    }
+
+    public boolean isOtherEnabled() {
+        return otherEnabled;
+    }
+
+    public void setOtherEnabled(boolean otherEnabled) {
+        this.otherEnabled = otherEnabled;
+    }
+
+    public boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
+    public List<Double> getMsqWeights() {
+        return msqWeights;
+    }
+
+    public void setMsqWeights(List<Double> msqWeights) {
+        this.msqWeights = msqWeights;
+    }
+
+    public double getMsqOtherWeight() {
+        return msqOtherWeight;
+    }
+
+    public void setMsqOtherWeight(double msqOtherWeight) {
+        this.msqOtherWeight = msqOtherWeight;
+    }
+
     public FeedbackParticipantType getGenerateOptionsFor() {
         return generateOptionsFor;
     }
@@ -193,55 +217,27 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = generateOptionsFor;
     }
 
-    public void setMsqChoices(List<String> msqChoices) {
-        this.msqChoices = msqChoices;
-    }
-
-    public boolean hasAssignedWeights() {
-        return hasAssignedWeights;
-    }
-
-    /**
-     * Returns maximum selectable choices for this MSQ question.
-     * @return Integer.MIN_VALUE if not set by instructor.
-     */
     public int getMaxSelectableChoices() {
         return maxSelectableChoices;
-    }
-
-    /**
-     * Returns minimum selectable choices for this MSQ question.
-     */
-    public int getMinSelectableChoices() {
-        return minSelectableChoices;
-    }
-
-    public void setOtherEnabled(boolean otherEnabled) {
-        this.otherEnabled = otherEnabled;
-    }
-
-    public void setHasAssignedWeights(boolean hasAssignedWeights) {
-        this.hasAssignedWeights = hasAssignedWeights;
-    }
-
-    public void setMsqWeights(List<Double> msqWeights) {
-        this.msqWeights = msqWeights;
-    }
-
-    public void setMsqOtherWeight(double msqOtherWeight) {
-        this.msqOtherWeight = msqOtherWeight;
     }
 
     public void setMaxSelectableChoices(int maxSelectableChoices) {
         this.maxSelectableChoices = maxSelectableChoices;
     }
 
+    public int getMinSelectableChoices() {
+        return minSelectableChoices;
+    }
+
     public void setMinSelectableChoices(int minSelectableChoices) {
         this.minSelectableChoices = minSelectableChoices;
+    }
+
+    public int getNumOfGeneratedMsqChoices() {
+        return numOfGeneratedMsqChoices;
     }
 
     public void setNumOfGeneratedMsqChoices(int numOfGeneratedMsqChoices) {
         this.numOfGeneratedMsqChoices = numOfGeneratedMsqChoices;
     }
-
 }

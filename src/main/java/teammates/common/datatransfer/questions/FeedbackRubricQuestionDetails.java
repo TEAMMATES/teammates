@@ -28,10 +28,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.rubricWeightsForEachCell = new ArrayList<>();
     }
 
-    public List<String> getRubricChoices() {
-        return rubricChoices;
-    }
-
     /**
      * Checks if the dimensions of rubricDescription is valid according
      * to numOfRubricSubQuestions and numOfRubricChoices.
@@ -137,10 +133,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    public boolean hasAssignedWeights() {
-        return hasAssignedWeights;
-    }
-
     /**
      * Returns a list of rubric weights if the weights are assigned,
      * otherwise returns an empty list.
@@ -153,12 +145,36 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return new ArrayList<>();
     }
 
+    public boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
+    public List<List<Double>> getRubricWeightsForEachCell() {
+        return rubricWeightsForEachCell;
+    }
+
+    public void setRubricWeightsForEachCell(List<List<Double>> rubricWeightsForEachCell) {
+        this.rubricWeightsForEachCell = rubricWeightsForEachCell;
+    }
+
     public int getNumOfRubricChoices() {
         return numOfRubricChoices;
     }
 
     public void setNumOfRubricChoices(int numOfRubricChoices) {
         this.numOfRubricChoices = numOfRubricChoices;
+    }
+
+    public List<String> getRubricChoices() {
+        return rubricChoices;
+    }
+
+    public void setRubricChoices(List<String> rubricChoices) {
+        this.rubricChoices = rubricChoices;
     }
 
     public int getNumOfRubricSubQuestions() {
@@ -169,28 +185,19 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.numOfRubricSubQuestions = numOfRubricSubQuestions;
     }
 
-    public void setHasAssignedWeights(boolean hasAssignedWeights) {
-        this.hasAssignedWeights = hasAssignedWeights;
-    }
-
-    public void setRubricWeightsForEachCell(List<List<Double>> rubricWeightsForEachCell) {
-        this.rubricWeightsForEachCell = rubricWeightsForEachCell;
-    }
-
-    public void setRubricChoices(List<String> rubricChoices) {
-        this.rubricChoices = rubricChoices;
+    public List<String> getRubricSubQuestions() {
+        return rubricSubQuestions;
     }
 
     public void setRubricSubQuestions(List<String> rubricSubQuestions) {
         this.rubricSubQuestions = rubricSubQuestions;
     }
 
+    public List<List<String>> getRubricDescriptions() {
+        return rubricDescriptions;
+    }
+
     public void setRubricDescriptions(List<List<String>> rubricDescriptions) {
         this.rubricDescriptions = rubricDescriptions;
     }
-
-    public List<String> getRubricSubQuestions() {
-        return rubricSubQuestions;
-    }
-
 }

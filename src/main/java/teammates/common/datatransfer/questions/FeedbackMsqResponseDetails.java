@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
 public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
-    public List<String> answers; // answers contain the "other" answer, if any
+    private List<String> answers; // answers contain the "other" answer, if any
     private boolean isOther;
     private String otherFieldContent; //content of other field if "other" is selected as the answer
 
@@ -19,17 +19,9 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         otherFieldContent = "";
     }
 
-    public boolean contains(String candidateAnswer) {
-        return answers.contains(candidateAnswer);
-    }
-
     @Override
     public String getAnswerString() {
         return StringHelper.toString(answers, ", ");
-    }
-
-    public List<String> getAnswerStrings() {
-        return answers;
     }
 
     @Override
@@ -40,7 +32,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         List<String> msqChoices = msqQuestionDetails.getMsqChoices();
         int maxSelectableChoices = msqQuestionDetails.getMaxSelectableChoices();
         int minSelectableChoices = msqQuestionDetails.getMinSelectableChoices();
-        boolean isOtherEnabled = msqQuestionDetails.getOtherEnabled();
+        boolean isOtherEnabled = msqQuestionDetails.isOtherEnabled();
 
         // number of Msq options selected including other option
         int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
@@ -106,16 +98,24 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return isOther;
     }
 
-    public String getOtherFieldContent() {
-        return otherFieldContent;
+    public List<String> getAnswers() {
+        return answers;
     }
 
     public void setAnswers(List<String> answers) {
         this.answers = answers;
     }
 
+    public boolean isOther() {
+        return isOther;
+    }
+
     public void setOther(boolean other) {
         isOther = other;
+    }
+
+    public String getOtherFieldContent() {
+        return otherFieldContent;
     }
 
     public void setOtherFieldContent(String otherFieldContent) {

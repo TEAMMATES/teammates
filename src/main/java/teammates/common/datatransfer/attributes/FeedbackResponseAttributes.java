@@ -88,7 +88,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackQuestionType getFeedbackQuestionType() {
-        return responseDetails.questionType;
+        return responseDetails.getQuestionType();
     }
 
     public String getId() {

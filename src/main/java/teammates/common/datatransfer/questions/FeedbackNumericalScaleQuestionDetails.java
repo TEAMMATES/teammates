@@ -71,4 +71,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         return step;
     }
 
+    public void setStep(double step) {
+        this.step = step;
+    }
 }

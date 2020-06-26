@@ -6,7 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
 public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseDetails {
-    public int answer;
+    private int answer;
 
     public FeedbackRankRecipientsResponseDetails() {
         super(FeedbackQuestionType.RANK_RECIPIENTS);
@@ -22,4 +22,11 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
         return new ArrayList<>();
     }
 
+    public int getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(int answer) {
+        this.answer = answer;
+    }
 }

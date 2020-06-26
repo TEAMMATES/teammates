@@ -33,14 +33,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = true;
     }
 
-    public boolean isNotSureAllowed() {
-        return isNotSureAllowed;
-    }
-
-    public void setNotSureAllowed(boolean notSureAllowed) {
-        isNotSureAllowed = notSureAllowed;
-    }
-
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
@@ -299,6 +291,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return false;
     }
 
+    public boolean isNotSureAllowed() {
+        return isNotSureAllowed;
+    }
+
+    public void setNotSureAllowed(boolean notSureAllowed) {
+        isNotSureAllowed = notSureAllowed;
+    }
+
     public static class ContributionStatistics {
         public final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
 
@@ -320,5 +320,4 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             this.perceivedOthers = perceivedOthers;
         }
     }
-
 }

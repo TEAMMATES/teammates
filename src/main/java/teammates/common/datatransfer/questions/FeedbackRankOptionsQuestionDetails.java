@@ -22,7 +22,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
             "Empty Rank Options are not allowed";
 
-    List<String> options;
+    private List<String> options;
 
     public FeedbackRankOptionsQuestionDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
@@ -91,5 +91,13 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         return "";
+    }
+
+    public List<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<String> options) {
+        this.options = options;
     }
 }

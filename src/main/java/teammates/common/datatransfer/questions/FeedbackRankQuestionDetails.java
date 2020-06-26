@@ -13,8 +13,27 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         maxOptionsToBeRanked = NO_VALUE;
     }
 
-    public boolean isAreDuplicatesAllowed() {
+    public int getMinOptionsToBeRanked() {
+        return minOptionsToBeRanked;
+    }
+
+    public void setMinOptionsToBeRanked(int minOptionsToBeRanked) {
+        this.minOptionsToBeRanked = minOptionsToBeRanked;
+    }
+
+    public int getMaxOptionsToBeRanked() {
+        return maxOptionsToBeRanked;
+    }
+
+    public void setMaxOptionsToBeRanked(int maxOptionsToBeRanked) {
+        this.maxOptionsToBeRanked = maxOptionsToBeRanked;
+    }
+
+    public boolean areDuplicatesAllowed() {
         return areDuplicatesAllowed;
     }
 
+    public void setAreDuplicatesAllowed(boolean areDuplicatesAllowed) {
+        this.areDuplicatesAllowed = areDuplicatesAllowed;
+    }
 }

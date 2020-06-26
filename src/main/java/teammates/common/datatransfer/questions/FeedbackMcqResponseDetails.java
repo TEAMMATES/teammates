@@ -26,10 +26,6 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
         return answer;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
     @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         List<String> errors = new ArrayList<>();
@@ -49,12 +45,27 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
         return errors;
     }
 
-    public Boolean isOtherOptionAnswer() {
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public boolean isOther() {
         return isOther;
+    }
+
+    public void setOther(boolean other) {
+        isOther = other;
     }
 
     public String getOtherFieldContent() {
         return otherFieldContent;
     }
 
+    public void setOtherFieldContent(String otherFieldContent) {
+        this.otherFieldContent = otherFieldContent;
+    }
 }

@@ -31,10 +31,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         return filteredAnswers;
     }
 
-    public List<Integer> getAnswerList() {
-        return new ArrayList<>(answers);
-    }
-
     @Override
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
@@ -46,11 +42,11 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         List<String> errors = new ArrayList<>();
         FeedbackRankQuestionDetails rankQuestionDetails = (FeedbackRankQuestionDetails) correspondingQuestion
                 .getQuestionDetails();
-        boolean areDuplicatesAllowed = rankQuestionDetails.isAreDuplicatesAllowed();
+        boolean areDuplicatesAllowed = rankQuestionDetails.areDuplicatesAllowed();
         int minOptionsToBeRanked = rankQuestionDetails.minOptionsToBeRanked;
         int maxOptionsToBeRanked = rankQuestionDetails.maxOptionsToBeRanked;
         List<String> options = ((FeedbackRankOptionsQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).options;
+                .getQuestionDetails()).getOptions();
 
         boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
         boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
@@ -79,4 +75,11 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
         return errors;
     }
 
+    public List<Integer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Integer> answers) {
+        this.answers = answers;
+    }
 }
