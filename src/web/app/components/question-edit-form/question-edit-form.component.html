@@ -12,8 +12,8 @@
         <div *ngIf="formMode === QuestionEditFormMode.EDIT">
           <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)"
                   ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal)" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
+          <button type="button" class="btn btn-success btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal)" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
+          <button type="button" class="btn btn-secondary btn-sm" *ngIf="model.isEditable"
                   ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal)"><i class="fas fa-ban"></i> Discard</button>
           <ng-template #discardModal let-modal>
             <div class="modal-header bg-warning">
@@ -30,7 +30,7 @@
               <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
-          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal)"><i class="fas fa-trash"></i> Delete</button>
+          <button type="button" class="btn btn-danger btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal)"><i class="fas fa-trash"></i> Delete</button>
           <ng-template #deleteModal let-modal>
             <div class="modal-header bg-danger">
               <h5 class="modal-title"><i class="fas fa-times-circle"></i> Warning: Deleted question cannot be recovered</h5>
@@ -46,7 +46,7 @@
               <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
             </div>
           </ng-template>
-          <button type="button" class="btn btn-primary btn-sm"
+          <button type="button" class="btn btn-info btn-sm"
                   (click)="duplicateCurrentQuestionHandler()"
                   ngbTooltip="Make a copy of the existing question and add to the current feedback session." container="body"><i class="far fa-copy"></i> Duplicate</button>
         </div>
@@ -259,7 +259,7 @@
     </div>
     <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
       <div class="col-12 text-right">
-        <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler(saveModal)">
+        <button class="btn btn-success" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler(saveModal)">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
           <span *ngIf="formMode === QuestionEditFormMode.EDIT">Save Changes</span>
           <span *ngIf="formMode === QuestionEditFormMode.ADD">Save Questions</span>
