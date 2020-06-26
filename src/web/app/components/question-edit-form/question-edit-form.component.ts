@@ -172,7 +172,8 @@ export class QuestionEditFormComponent implements OnInit {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: keyof QuestionEditFormModel,
+                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
     this.formModelChange.emit({
       ...this.model,
       [field]: data,
@@ -182,7 +183,7 @@ export class QuestionEditFormComponent implements OnInit {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChangeBatch(obj: {[key: string]: any}): void {
+  triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
     this.formModelChange.emit({
       ...this.model,
       ...obj,
