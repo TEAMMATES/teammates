@@ -41,7 +41,9 @@ interface SessionTab {
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 
   courseId: string = '';
+  studentName: string = '';
   studentEmail: string = '';
+  studentTeam: string = '';
   studentSection: string = '';
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
@@ -95,6 +97,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   loadStudentRecords(): void {
     this.studentService.getStudent(this.courseId, this.studentEmail).subscribe((resp: Student) => {
+      this.studentName = resp.name;
+      this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
     });
     this.studentProfileService.getStudentProfile(this.studentEmail, this.courseId).subscribe((resp: StudentProfile) => {
@@ -122,16 +126,16 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
         ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           giverQuestions.forEach((questions: QuestionOutput) => {
-            questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
-                responses.giver === this.studentProfile.name && responses.giverEmail === this.studentEmail);
+            questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+                !response.isMissingResponse && response.giverEmail === this.studentEmail);
           });
           const responsesGivenByStudent: QuestionOutput[] =
               giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
 
           const recipientQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
           recipientQuestions.forEach((questions: QuestionOutput) => {
-            questions.allResponses = questions.allResponses.filter((responses: ResponseOutput) =>
-                responses.recipient === this.studentProfile.name && responses.recipientEmail === this.studentEmail);
+            questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
+                !response.isMissingResponse && response.recipientEmail === this.studentEmail);
           });
           const responsesReceivedByStudent: QuestionOutput[] =
               recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
@@ -140,7 +144,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             feedbackSession,
             responsesGivenByStudent,
             responsesReceivedByStudent,
-            isCollapsed: responsesGivenByStudent.length === 0 && responsesReceivedByStudent.length === 0,
+            isCollapsed: false,
           });
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         }, (errorMessageOutput: ErrorMessageOutput) => {

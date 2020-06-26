@@ -80,6 +80,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
       moreInfo: '',
     };
 
+    component.studentName = 'Not John Doe';
     component.studentProfile = studentProfile;
     component.courseId = 'su1337';
     fixture.detectChanges();
