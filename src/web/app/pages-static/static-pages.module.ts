@@ -8,8 +8,6 @@ import {
 } from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
 import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
 import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
-import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
-import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
 
 const routes: Routes = [
   {
@@ -45,7 +43,8 @@ const routes: Routes = [
     children: [
       {
         path: 'student',
-        component: StudentHelpPageComponent,
+        loadChildren: () => import('../pages-help/student-help-page/student-help-page.module')
+            .then((m: any) => m.StudentHelpPageModule),
       },
       {
         path: 'instructor',
@@ -84,7 +83,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PageNotFoundModule,
-    StudentHelpPageModule,
     InstructorHelpPageModule,
     RouterModule.forChild(routes),
   ],

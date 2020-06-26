@@ -19,12 +19,9 @@ import { ToastModule } from './components/toast/toast.module';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
-import { SessionResultPageComponent } from './pages-session/session-result-page/session-result-page.component';
-import { SessionSubmissionPageComponent } from './pages-session/session-submission-page/session-submission-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
-import { UserJoinPageComponent } from './user-join-page.component';
 
 const routes: Routes = [
   {
@@ -38,12 +35,7 @@ const routes: Routes = [
       {
         path: 'join',
         component: PublicPageComponent,
-        children: [
-          {
-            path: '',
-            component: UserJoinPageComponent,
-          },
-        ],
+        loadChildren: () => import('./user-join-page.module').then((m: any) => m.UserJoinPageModule),
       },
       {
         path: 'sessions',
@@ -51,11 +43,13 @@ const routes: Routes = [
         children: [
           {
             path: 'result',
-            component: SessionResultPageComponent,
+            loadChildren: () => import('./pages-session/session-result-page/session-result-page.module')
+                .then((m: any) => m.SessionResultPageModule),
           },
           {
             path: 'submission',
-            component: SessionSubmissionPageComponent,
+            loadChildren: () => import('./pages-session/session-submission-page/session-submission-page.module')
+                .then((m: any) => m.SessionSubmissionPageModule),
             data: {
               pageTitle: 'Submit Feedback',
               intent: Intent.STUDENT_SUBMISSION,
@@ -102,7 +96,6 @@ const routes: Routes = [
     PageComponent,
     ClickOutsideDirective,
     PublicPageComponent,
-    UserJoinPageComponent,
     StaticPageComponent,
     StudentPageComponent,
     InstructorPageComponent,
