@@ -2,19 +2,25 @@
 
 exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
 <tm-instructor-student-records-page
+  commentService={[Function FeedbackResponseCommentService]}
+  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
+  instructorService={[Function InstructorService]}
   photoUrl={[Function String]}
   route={[Function Object]}
+  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
+  studentName=""
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
+  studentTeam=""
 >
   <h1>
     's Records
@@ -37,22 +43,28 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
 
 exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
 <tm-instructor-student-records-page
+  commentService={[Function FeedbackResponseCommentService]}
+  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
+  instructorService={[Function InstructorService]}
   photoUrl={[Function String]}
   route={[Function Object]}
+  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
+  studentName={[Function String]}
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
+  studentTeam=""
 >
   <h1>
-    John Doe's Records
+    Not John Doe's Records
     <small
       class="text-muted"
     >
@@ -63,7 +75,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
     ng-reflect-student-profile="[object Object]"
   /><tm-more-info
     ng-reflect-more-info-text=""
-    ng-reflect-student-name="John Doe"
+    ng-reflect-student-name="Not John Doe"
   /><h2>
     Records in feedback sessions
   </h2>

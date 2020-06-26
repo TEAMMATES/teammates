@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal.component';
 
@@ -18,7 +17,7 @@ describe('UploadEditProfilePictureModalComponent', () => {
       imports: [
         HttpClientTestingModule,
         ImageCropperModule,
-        MatSnackBarModule,
+        NgbTooltipModule,
       ],
       providers: [
         NgbActiveModal,

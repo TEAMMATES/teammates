@@ -9,7 +9,7 @@ import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE},
  *      specifically for feedback response comments.
  */
 public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseE2ETestCase {
@@ -236,7 +236,7 @@ public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseE2ET
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
-        AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId(testData.instructors.get(instructorName).googleId)
                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

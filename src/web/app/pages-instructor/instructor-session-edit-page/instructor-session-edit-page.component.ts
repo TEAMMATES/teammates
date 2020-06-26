@@ -202,7 +202,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     });
   }
@@ -231,10 +231,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.navigationService.navigateWithSuccessMessage(this.router,
               '/web/instructor/sessions/edit',
               'The feedback session has been copied. Please modify settings/questions as necessary.',
-              { courseid: this.courseId, fsname: createdSession.feedbackSessionName });
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       }, () => {});
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -368,9 +368,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     ).subscribe((feedbackSession: FeedbackSession) => {
       this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
 
-      this.statusMessageService.showSuccessMessage('The feedback session has been updated.');
+      this.statusMessageService.showSuccessToast('The feedback session has been updated.');
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -390,7 +390,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     return this.timezoneService.getResolvedTimestamp(localDateTime, timeZone, fieldName).pipe(
         tap((result: TimeResolvingResult) => {
           if (result.message.length !== 0) {
-            this.statusMessageService.showWarningMessage(result.message);
+            this.statusMessageService.showWarningToast(result.message);
           }
         }),
         map((result: TimeResolvingResult) => result.timestamp));
@@ -404,7 +404,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
           'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -424,7 +424,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.loadResponseStatusForQuestion(addedQuestionEditFormModel);
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
           });
-        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -475,7 +475,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId)
         .subscribe((resp: HasResponses) => {
           model.isQuestionHasResponses = resp.hasResponses;
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -523,8 +523,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.normalizeQuestionNumberInQuestionForms();
           }
 
-          this.statusMessageService.showSuccessMessage('The changes to the question have been updated.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The changes to the question have been updated.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -591,8 +591,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         .subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
-          this.statusMessageService.showSuccessMessage('The question has been duplicated below.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The question has been duplicated below.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -607,8 +607,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.questionEditFormModels.splice(index, 1);
           this.normalizeQuestionNumberInQuestionForms();
 
-          this.statusMessageService.showSuccessMessage('The question has been deleted.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The question has been deleted.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -642,11 +642,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       ).subscribe((newQuestion: FeedbackQuestion) => {
         this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
         this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); }, () => {
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
         if (questions.length === 1) {
-          this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
+          this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
         } else {
-          this.statusMessageService.showSuccessMessage('The questions have been added to this feedback session.');
+          this.statusMessageService.showSuccessToast('The questions have been added to this feedback session.');
         }
       });
     });
@@ -686,6 +686,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: true,
       isSaving: false,
     };
+
+    this.scrollToNewEditForm();
   }
 
   /**
@@ -725,8 +727,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.normalizeQuestionNumberInQuestionForms();
           this.isAddingQuestionPanelExpanded = false;
 
-          this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -758,7 +760,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }),
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); }, () => {
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
       const ref: NgbModalRef = this.modalService.open(CopyQuestionsFromOtherSessionsModalComponent);
       ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
 
@@ -787,8 +789,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         ).subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
-          this.statusMessageService.showSuccessMessage('The question has been added to this feedback session.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       }, () => {});
     });
   }
@@ -836,7 +838,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (this.studentsOfCourse.length >= 1) {
             this.emailOfStudentToPreview = this.studentsOfCourse[0].email;
           }
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -862,7 +864,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (this.instructorsCanBePreviewedAs.length >= 1) {
             this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
           }
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -884,5 +886,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   private deepCopy<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  private scrollToNewEditForm(): void {
+    setTimeout(() => {
+      const allEditForms: NodeListOf<Element> = document.querySelectorAll('tm-question-edit-form');
+      const newEditForm: Element = allEditForms[allEditForms.length - 1];
+      const yOffset: number = -70; // Need offset because of the navBar
+      const y: number = newEditForm.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }, 0);
   }
 }

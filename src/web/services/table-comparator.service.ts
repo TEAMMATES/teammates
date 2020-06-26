@@ -42,10 +42,48 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
+      case SortBy.CONSTSUM_OPTIONS_POINTS:
+      case SortBy.CONSTSUM_RECIPIENTS_POINTS:
+      case SortBy.CONTRIBUTION_VALUE:
+      case SortBy.RUBRIC_CHOICE:
+      case SortBy.RANK_RECIPIENTS_TEAM:
+      case SortBy.RANK_RECIPIENTS_RECIPIENT:
+      case SortBy.RANK_OPTIONS_OVERALL_RANK:
+      case SortBy.NUMERICAL_SCALE_AVERAGE:
+      case SortBy.NUMERICAL_SCALE_MAX:
+      case SortBy.NUMERICAL_SCALE_MIN:
+      case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
+      case SortBy.MCQ_WEIGHT:
+      case SortBy.MCQ_RESPONSE_COUNT:
+      case SortBy.MCQ_PERCENTAGE:
+      case SortBy.MCQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MCQ_OPTION_SELECTED_TIMES:
+      case SortBy.MCQ_WEIGHT_TOTAL:
+      case SortBy.MCQ_WEIGHT_AVERAGE:
+      case SortBy.MSQ_WEIGHT:
+      case SortBy.MSQ_RESPONSE_COUNT:
+      case SortBy.MSQ_PERCENTAGE:
+      case SortBy.MSQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MSQ_OPTION_SELECTED_TIMES:
+      case SortBy.MSQ_WEIGHT_TOTAL:
+      case SortBy.MSQ_WEIGHT_AVERAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
         return this.compareNaturally(strA, strB, order);
+      case SortBy.CONSTSUM_OPTIONS_OPTION:
+      case SortBy.CONTRIBUTION_TEAM:
+      case SortBy.CONTRIBUTION_RECIPIENT:
+      case SortBy.RANK_RECIPIENTS_SELF_RANK:
+      case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
+      case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
+      case SortBy.RANK_OPTIONS_OPTION:
+      case SortBy.MCQ_CHOICE:
+      case SortBy.MCQ_TEAM:
+      case SortBy.MCQ_RECIPIENT_NAME:
+      case SortBy.MSQ_CHOICE:
+      case SortBy.MSQ_TEAM:
+      case SortBy.MSQ_RECIPIENT_NAME:
       case SortBy.STUDENT_NAME:
       case SortBy.EMAIL:
       case SortBy.STUDENT_GENDER:

@@ -5,6 +5,8 @@ import {
   FeedbackParticipantType,
 } from '../../../../types/api-output';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SortBy } from '../../../../types/sort-properties';
+import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
 import { QuestionStatistics } from './question-statistics';
 
 /**
@@ -25,16 +27,21 @@ export class ConstsumRecipientsQuestionStatisticsComponent
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
 
+  columnsData: ColumnData[] = [];
+  rowsData: SortableTableCellData[][] = [];
+
   constructor() {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   ngOnChanges(): void {
     this.calculateStatistics();
+    this.getTableData();
   }
 
   private calculateStatistics(): void {
@@ -48,7 +55,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
     for (const response of this.responses) {
-      const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail;
+      const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
 
       this.pointsPerOption[identifier] = this.pointsPerOption[identifier] || [];
       this.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
@@ -69,4 +76,21 @@ export class ConstsumRecipientsQuestionStatisticsComponent
     }
   }
 
+  private getTableData(): void {
+    this.columnsData = [
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Recipient', sortBy: SortBy.RECIPIENT_NAME },
+      { header: 'Points Received' },
+      { header: 'Total Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
+      { header: 'Average Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
+    ];
+
+    this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
+      { value: this.emailToTeamName[recipient] },
+      { value: this.emailToName[recipient] },
+      { value: this.pointsPerOption[recipient].join(', ') },
+      { value: this.totalPointsPerOption[recipient] },
+      { value: this.averagePointsPerOption[recipient] },
+    ]);
+  }
 }

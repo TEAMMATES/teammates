@@ -5,7 +5,7 @@
   <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+  <div class="navbar-collapse" [ngStyle]="{display: isCollapsed ? 'none' : 'block'}">
     <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
@@ -43,6 +43,7 @@
 </nav>
 <tm-loader-bar></tm-loader-bar>
 <tm-loading-spinner *ngIf="isFetchingAuthDetails"></tm-loading-spinner>
+<tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <div *ngIf="!isFetchingAuthDetails" id="main-content" class="container main-content">
   <div *ngIf="isUnsupportedBrowser">
     <div class="alert alert-danger" role="alert">
@@ -114,17 +115,17 @@
 <div>
   <footer>
     <div class="container footer">
-      <div class="row">
-        <div class="col-sm-4 col-md-4 text-left">
+      <div class="row text-center">
+        <div class="col-sm-4 text-md-left">
           <i class="fas fa-bolt"></i><a routerLink="/web/front/home"> TEAMMATES</a> V{{ version }}
         </div>
-        <div class="col-sm-4 col-md-4 text-center">
+        <div class="col-sm-4 text-md-center">
           <span *ngIf="institute"><i class="fas fa-university"></i> for {{ institute }}</span>
         </div>
-        <div class="col-sm-4 col-md-4 text-right">
+        <div class="col-sm-4 text-md-right">
           <i class="far fa-comments"></i> Send <a routerLink="/web/front/contact" target="_blank">Feedback</a>
         </div>
-        <div class="col-sm-12 text-center">
+        <div class="col-sm-12">
           Sponsored by School of Computing, National University of Singapore. (<a routerLink="/web/front/contact">Become a sponsor</a>)
         </div>
       </div>

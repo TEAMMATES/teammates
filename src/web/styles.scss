@@ -3,39 +3,10 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~handsontable/dist/handsontable.full.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
-}
-
-.snackbar {
-  max-width: 100% !important;
-  margin-top: 60px !important;
-}
-
-.snackbar-danger {
-  background-color: var(--danger);
-  color: var(--light);
-
-  a {
-    color: #000;
-  }
-}
-
-.snackbar-success {
-  background-color: var(--success);
-  color: var(--light);
-
-  a {
-    color: #000;
-  }
-}
-
-.snackbar-warning {
-  background-color: var(--warning);
-  color: var(--dark);
 }
 
 .btn {
@@ -124,4 +95,55 @@ body {
 // make tinyMCE over the modal
 .tox-tinymce {
   z-index: 1051;
+}
+
+// cursor not-allowed for input disabled attribute and tinyMCE's disabled
+[disabled],
+.editor.editor-disabled {
+  cursor: not-allowed;
+}
+
+@keyframes expandTab {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    max-height: 800px;
+  }
+}
+
+@keyframes collapseTab {
+  from {
+    opacity: 1;
+    max-height: 800px;
+    overflow: visible;
+    visibility: visible;
+  }
+
+  to {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    visibility: collapse;
+  }
+}
+
+.collapse {
+  display: block !important;
+  opacity: 0;
+  max-height: 0;
+  visibility: collapse;
+  overflow: hidden;
+  animation: collapseTab .35s ease-in-out;
+
+  &.show {
+    opacity: 1;
+    max-height: 99999999px;
+    overflow: visible;
+    visibility: visible;
+    animation: expandTab .35s ease-in-out;
+  }
 }

@@ -4,7 +4,12 @@
     <div *ngFor="let course of studentTables" class="card border border-light-blue mb-3">
       <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{course.courseId}}]</div>
       <div class="card-body p-0">
-        <tm-student-list [courseId]="course.courseId" [sections]="course.sections" [useGrayHeading]="true" [enableRemindButton]="false">
+        <tm-student-list
+          [courseId]="course.courseId"
+          [students]="course.students"
+          [useGrayHeading]="true"
+          [enableRemindButton]="false"
+          [isActionButtonsEnabled]="isActionButtonsEnabled">
         </tm-student-list>
       </div>
     </div>

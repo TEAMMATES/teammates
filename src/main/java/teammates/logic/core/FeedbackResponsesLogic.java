@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -86,8 +88,16 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
 
+    /**
+     * Gets all responses given to/from a section in a feedback session in a course.
+     *
+     * @param feedbackSessionName the name if the session
+     * @param courseId the course ID of the session
+     * @param section if null, will retrieve all responses in the session
+     * @return a list of responses
+     */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, String section) {
+            String feedbackSessionName, String courseId, @Nullable String section) {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
@@ -166,8 +176,15 @@ public final class FeedbackResponsesLogic {
         return frDb.areThereResponsesForQuestion(feedbackQuestionId);
     }
 
+    /**
+     * Gets all responses given to/from a section for a question.
+     *
+     * @param feedbackQuestionId the ID of the question
+     * @param section if null, will retrieve all responses for the question
+     * @return a list of responses
+     */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, String section, SectionDetail sectionDetail) {
+            String feedbackQuestionId, @Nullable String section, @Deprecated SectionDetail sectionDetail) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }

@@ -16,23 +16,17 @@ import {
   CourseSectionNames,
   FeedbackQuestion,
   FeedbackQuestions,
-  FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
   Instructor,
   QuestionOutput,
   ResponseOutput,
-  ResponseVisibleSetting,
   SessionResults,
-  SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
-import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
-import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import {
@@ -46,6 +40,7 @@ import {
   StudentListInfoTableRowModel,
 } from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { InstructorCommentsComponent } from '../instructor-comments.component';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
@@ -79,31 +74,15 @@ export interface QuestionTabModel {
   templateUrl: './instructor-session-result-page.component.html',
   styleUrls: ['./instructor-session-result-page.component.scss'],
 })
-export class InstructorSessionResultPageComponent implements OnInit {
+export class InstructorSessionResultPageComponent extends InstructorCommentsComponent implements OnInit {
 
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
-  session: FeedbackSession = {
-    courseId: '',
-    timeZone: '',
-    feedbackSessionName: '',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
-  currInstructorName?: string;
+  formattedResultVisibleFromTime: string = '';
 
   viewType: string = InstructorSessionResultViewType.QUESTION;
   section: string = '';
@@ -118,10 +97,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
   isSectionsLoaded: boolean = false;
   questionsModel: Record<string, QuestionTabModel> = {};
   isQuestionsLoaded: boolean = false;
-
-  // this is a separate model for instructor comments
-  // from responseID to comment table model
-  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
@@ -139,12 +114,15 @@ export class InstructorSessionResultPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private instructorService: InstructorService,
-              private commentService: FeedbackResponseCommentService,
               private route: ActivatedRoute,
-      private timezoneService: TimezoneService, private statusMessageService: StatusMessageService,
-      private modalService: NgbModal, private router: Router,
-      private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-      private commentToCommentRowModel: CommentToCommentRowModelPipe) {
+              private timezoneService: TimezoneService,
+              private modalService: NgbModal,
+              private router: Router,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe) {
+    super(commentToCommentRowModel, commentService, statusMessageService);
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -162,11 +140,20 @@ export class InstructorSessionResultPageComponent implements OnInit {
             moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
         this.formattedSessionClosingTime =
             moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        if (this.session.resultVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime =
+              moment(this.session.resultVisibleFromTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        }
 
         // load section tabs
         this.courseService.getCourseSectionNames(queryParams.courseid)
             .subscribe((courseSectionNames: CourseSectionNames) => {
               for (const sectionName of courseSectionNames.sectionNames) {
+                this.sectionsModel.None = {
+                  questions: [],
+                  hasPopulated: false,
+                  isTabExpanded: false,
+                };
                 this.sectionsModel[sectionName] = {
                   questions: [],
                   hasPopulated: false,
@@ -175,7 +162,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               }
               this.isSectionsLoaded = true;
             }, (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorMessage(resp.error.message);
+              this.statusMessageService.showErrorToast(resp.error.message);
             });
 
         // load question tabs
@@ -195,7 +182,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           }
           this.isQuestionsLoaded = true;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
 
         // load all students in course
@@ -213,13 +200,13 @@ export class InstructorSessionResultPageComponent implements OnInit {
             this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
                                         !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
           }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
 
           this.isNoResponsePanelLoaded = true;
 
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
 
         // load current instructor name
@@ -230,7 +217,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.currInstructorName = instructor.name;
         });
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     });
   }
@@ -253,7 +240,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionsResult({
+    this.feedbackSessionsService.getFeedbackSessionResults({
       questionId,
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
@@ -269,7 +256,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         this.preprocessComments(responses.allResponses);
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -291,7 +278,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionsResult({
+    this.feedbackSessionsService.getFeedbackSessionResults({
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
@@ -301,11 +288,14 @@ export class InstructorSessionResultPageComponent implements OnInit {
       this.sectionsModel[sectionName].questions = resp.questions;
       this.sectionsModel[sectionName].hasPopulated = true;
 
+      // sort questions by question number
+      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+          a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
       resp.questions.forEach((question: QuestionOutput) => {
         this.preprocessComments(question.allResponses);
       });
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -347,7 +337,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       response.subscribe(() => {
         this.router.navigateByUrl('/web/instructor/sessions');
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -380,7 +370,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       blob = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -449,12 +439,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
       .remindFeedbackSessionSubmissionForStudent(this.session.courseId, this.session.feedbackSessionName, {
         usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
       }).subscribe(() => {
-        this.statusMessageService.showSuccessMessage(
+        this.statusMessageService.showSuccessToast(
           'Reminder e-mails have been sent out to those students and instructors. '
           + 'Please allow up to 1 hour for all the notification emails to be sent out.');
 
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
@@ -469,90 +459,5 @@ export class InstructorSessionResultPageComponent implements OnInit {
     this.viewType = newViewType;
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
-  }
-
-  /**
-   * Deletes an instructor comment.
-   */
-  deleteComment(data: { responseId: string, index: number}): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
-    const commentToDelete: FeedbackResponseComment =
-        // tslint:disable-next-line:no-non-null-assertion
-        this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
-
-    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
-        .subscribe(() => {
-          commentTableModel.commentRows.splice(data.index, 1);
-          this.instructorCommentTableModel[data.responseId] = {
-            ...commentTableModel,
-          };
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Updates an instructor comment.
-   */
-  updateComment(data: { responseId: string, index: number}): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
-    const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
-    // tslint:disable-next-line:no-non-null-assertion
-    const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
-
-    this.commentService.updateComment({
-      commentText: commentRowToUpdate.commentEditFormModel.commentText,
-      showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
-      showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
-    }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
-        .subscribe((commentResponse: FeedbackResponseComment) => {
-          commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform({
-            ...commentResponse,
-            commentGiverName: commentRowToUpdate.commentGiverName,
-            // the current instructor will become the last editor
-            lastEditorName: this.currInstructorName,
-          }, this.session.timeZone);
-          this.instructorCommentTableModel[data.responseId] = {
-            ...commentTableModel,
-          };
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
-  }
-
-  /**
-   * Saves an instructor comment.
-   */
-  saveNewComment(responseId: string): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
-    const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
-
-    this.commentService.createComment({
-      commentText: commentRowToAdd.commentEditFormModel.commentText,
-      showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
-      showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
-    }, responseId, Intent.INSTRUCTOR_RESULT).subscribe((commentResponse: FeedbackResponseComment) => {
-      commentTableModel.commentRows.push(this.commentToCommentRowModel.transform({
-        ...commentResponse,
-        // the giver and editor name will be the current login instructor
-        commentGiverName: this.currInstructorName,
-        lastEditorName: this.currInstructorName,
-      }, this.session.timeZone));
-      this.instructorCommentTableModel[responseId] = {
-        ...commentTableModel,
-        newCommentRow: {
-          commentEditFormModel: {
-            commentText: '',
-            isUsingCustomVisibilities: false,
-            showCommentTo: [],
-            showGiverNameTo: [],
-          },
-          isEditing: false,
-        },
-        isAddingNewComment: false,
-      };
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
   }
 }

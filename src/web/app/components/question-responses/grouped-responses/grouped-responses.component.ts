@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  QuestionOutput,
+  QuestionOutput, ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
-import { ResponsesInstructorCommentsBase } from '../responses-instructor-comments-base';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
+import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 /**
  * A list of responses grouped in GRQ/RGQ mode.
@@ -16,7 +17,7 @@ import { ResponsesInstructorCommentsBase } from '../responses-instructor-comment
   templateUrl: './grouped-responses.component.html',
   styleUrls: ['./grouped-responses.component.scss'],
 })
-export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase implements OnInit {
+export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
 
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
@@ -42,11 +43,15 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
     createdAtTimestamp: 0,
   };
 
+  hasRealResponses: boolean = false;
+
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+    this.hasRealResponses = this.responses.some((question: QuestionOutput) =>
+        question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse));
   }
 
   get teamInfo(): Record<string, string> {
@@ -56,4 +61,11 @@ export class GroupedResponsesComponent extends ResponsesInstructorCommentsBase i
     team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
   }
+
+  toggleAddComment(responseId: string): void {
+    const commentTable: CommentTableModel = this.instructorCommentTableModel[responseId];
+    commentTable.isAddingNewComment = !commentTable.isAddingNewComment;
+    this.triggerModelChangeForSingleResponse(responseId, commentTable);
+  }
+
 }

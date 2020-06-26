@@ -1,22 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
-import { Course, Instructor, InstructorPermissionRole, JoinState } from '../../../types/api-output';
+import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
-
-@Component({ selector: 'tm-student-list', template: '' })
-class StudentListStubComponent {
-  @Input() courseId: string = '';
-  @Input() useGrayHeading: boolean = true;
-  @Input() sections: Object[] = [];
-  @Input() enableRemindButton: boolean = true;
-}
-@Component({ selector: 'tm-ajax-preload', template: '' })
-class AjaxPreloadComponent {}
+import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 
 const course: Course = {
   courseId: 'CS101',
@@ -26,11 +16,13 @@ const course: Course = {
   deletionTimestamp: 0,
 };
 
-const student: any = {
+const testStudent: Student = {
   name: 'Jamie',
   email: 'jamie@gmail.com',
-  status: 'Yet to join',
-  team: 'Team 1',
+  joinState: JoinState.NOT_JOINED,
+  teamName: 'Team 1',
+  sectionName: 'Tutorial Group 1',
+  courseId: 'CS101',
 };
 
 describe('InstructorCourseDetailsPageComponent', () => {
@@ -39,17 +31,12 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorCourseDetailsPageComponent,
-        StudentListStubComponent,
-        AjaxPreloadComponent,
-      ],
       imports: [
         HttpClientTestingModule,
         TeammatesCommonModule,
         RouterTestingModule,
         ClipboardModule,
-        MatSnackBarModule,
+        InstructorCourseDetailsPageModule,
       ],
     })
     .compileComponents();
@@ -117,13 +104,12 @@ describe('InstructorCourseDetailsPageComponent', () => {
       course,
       stats,
     };
-    const studentListSectionData: any = {
-      sectionName: 'Tutorial Group 1',
+    const studentListRowModel: StudentListRowModel = {
+      student: testStudent,
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
-      students: [student],
     };
-    component.sections = [studentListSectionData];
+    component.students = [studentListRowModel];
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
     component.isAjaxSuccess = false;

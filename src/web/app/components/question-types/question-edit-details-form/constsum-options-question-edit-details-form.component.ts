@@ -14,7 +14,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-constsum-options-question-edit-details-form',
   templateUrl: './constsum-options-question-edit-details-form.component.html',
-  styleUrls: ['./constsum-options-question-edit-details-form.component.scss'],
+  styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails> {
@@ -66,7 +66,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
    */
   onConstsumOptionDeleted(event: number): void {
     if (this.model.constSumOptions.length <= 2) {
-      this.statusMessageService.showErrorMessage('There must be at least one option.');
+      this.statusMessageService.showErrorToast('There must be at least one option.');
       return;
     }
 

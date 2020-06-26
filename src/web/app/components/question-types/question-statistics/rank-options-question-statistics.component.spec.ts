@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { RankOptionsQuestionStatisticsComponent } from './rank-options-question-statistics.component';
 
 describe('RankOptionsQuestionStatisticsComponent', () => {
@@ -9,6 +10,7 @@ describe('RankOptionsQuestionStatisticsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [RankOptionsQuestionStatisticsComponent],
+      imports: [SortableTableModule],
     })
     .compileComponents();
   }));

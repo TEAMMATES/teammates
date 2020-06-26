@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ClipboardModule } from 'ngx-clipboard';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
+import { StudentListModule } from '../../components/student-list/student-list.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
-import { StudentListModule } from '../student-list/student-list.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 
 /**

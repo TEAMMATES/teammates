@@ -74,12 +74,12 @@
                 {
                   "replace": "src/web/environments/environment.ts",
                   "with": "src/web/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/web/index.html",
-                  "with": "src/web/index.prod.html"
                 }
               ],
+              "index": {
+                "input": "src/web/index.prod.html",
+                "output": "index.html",
+              },
               "assets": [
                 "src/web/assets/",
                 {
@@ -97,7 +97,7 @@
                 "src/web/pulse.html",
                 "src/web/robots.txt",
                 "src/web/sitemap.xml",
-                "src/web/manifest.json"
+                "src/web/manifest.webmanifest"
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -109,6 +109,7 @@
               "vendorChunk": true,
               "buildOptimizer": true,
               "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",

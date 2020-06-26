@@ -87,6 +87,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return getCourse(course.getId());
     }
 
+    protected CourseAttributes getArchivedCourse(String instructorId, String courseId) {
+        return BackDoor.getArchivedCourse(instructorId, courseId);
+    }
+
     protected CourseAttributes getCourseWithRetry(String courseId) throws MaximumRetriesExceededException {
         return getPersistenceRetryManager().runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
             @Override

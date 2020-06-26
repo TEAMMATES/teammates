@@ -97,6 +97,7 @@ public abstract class Action {
     private void initAuthInfo() {
         if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
+            userInfo = new UserInfo(getRequestParamValue(Const.ParamsNames.USER_ID));
             return;
         }
 

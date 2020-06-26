@@ -8,30 +8,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
-      <table class="table table-bordered striped margin-0">
-        <thead>
-        <tr>
-          <td>Team</td>
-          <td>Recipient</td>
-          <td><span ngbTooltip="Average of the visible responses">Average</span></td>
-          <td><span ngbTooltip="Maximum of the visible responses">Max</span></td>
-          <td><span ngbTooltip="Minimum of the visible responses">Min</span></td>
-          <td><span ngbTooltip="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response</span></td>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-container *ngFor="let team of teamToRecipientToScores | keyvalue">
-          <tr *ngFor="let recipient of team.value | keyvalue">
-            <td>{{ team.key }}</td>
-            <td>{{ recipient.key }}</td>
-            <td>{{ recipient.value.average }}</td>
-            <td>{{ recipient.value.max }}</td>
-            <td>{{ recipient.value.min }}</td>
-            <td>{{ recipient.value.averageExcludingSelf }}</td>
-          </tr>
-        </ng-container>
-        </tbody>
-      </table>
+      <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
     </div>
   </div>
 </div>

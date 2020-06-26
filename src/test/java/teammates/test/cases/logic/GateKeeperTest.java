@@ -24,7 +24,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
     @Test
     public void testGetLogoutUrl() {
-        gaeSimulation.loginAsUnregistered("any.user");
+        gaeSimulation.loginUser("any.user");
         assertEquals("/_ah/logout?continue=www.def.com", gateKeeper.getLogoutUrl("www.def.com"));
     }
 
@@ -57,7 +57,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
         ______TS("unregistered");
 
-        gaeSimulation.loginAsUnregistered("unknown");
+        gaeSimulation.loginUser("unknown");
 
         user = gateKeeper.getCurrentUser();
         assertEquals("unknown", user.id);
