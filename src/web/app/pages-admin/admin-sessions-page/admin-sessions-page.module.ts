@@ -1,8 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminSessionsPageComponent } from './admin-sessions-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: AdminSessionsPageComponent,
+  },
+];
 
 /**
  * Module for admin sessions page.
@@ -18,6 +26,7 @@ import { AdminSessionsPageComponent } from './admin-sessions-page.component';
     CommonModule,
     FormsModule,
     NgbModule,
+    RouterModule.forChild(routes),
   ],
 })
 export class AdminSessionsPageModule { }
