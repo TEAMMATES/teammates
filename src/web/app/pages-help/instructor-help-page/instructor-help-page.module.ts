@@ -24,7 +24,12 @@ import {
 import {
   SessionsRecycleBinTableModule,
 } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
-import { ExampleBoxComponent } from './example-box/example-box.component';
+import {
+  InstructorCourseStudentEditFormModule,
+} from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-form.module';
+import { InstructorSearchComponentsModule } from '../../pages-instructor/instructor-search-page/instructor-search-components.module';
+import { InstructorSessionResultViewModule } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
+import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
@@ -55,16 +60,19 @@ const routes: Routes = [
     FormsModule,
     NgbModule,
     RouterModule.forChild(routes),
+    ExampleBoxModule,
     StudentProfileModule,
     QuestionEditFormModule,
     ReactiveFormsModule,
     SessionEditFormModule,
-    QuestionEditFormModule,
     QuestionSubmissionFormModule,
     SessionsRecycleBinTableModule,
     QuestionTextWithInfoModule,
     SingleStatisticsModule,
     StudentViewResponsesModule,
+    InstructorSessionResultViewModule,
+    InstructorSearchComponentsModule,
+    InstructorCourseStudentEditFormModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
@@ -72,7 +80,6 @@ const routes: Routes = [
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpCoursesSectionComponent,
-    ExampleBoxComponent,
   ],
   exports: [
     InstructorHelpPageComponent,

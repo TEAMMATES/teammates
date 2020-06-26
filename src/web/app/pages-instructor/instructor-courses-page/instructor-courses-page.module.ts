@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddCourseFormComponent } from './add-course-form/add-course-form.component';
+import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import {
   CoursePermanentDeletionConfirmModalComponent,
 } from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
@@ -24,14 +24,12 @@ const routes: Routes = [
  */
 @NgModule({
   declarations: [
-    AddCourseFormComponent,
     InstructorCoursesPageComponent,
     CourseSoftDeletionConfirmModalComponent,
     CoursePermanentDeletionConfirmModalComponent,
   ],
   exports: [
     InstructorCoursesPageComponent,
-    AddCourseFormComponent,
   ],
   imports: [
     CommonModule,
@@ -39,6 +37,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes),
     NgbModule,
+    AddCourseFormModule,
   ],
   entryComponents: [
     CourseSoftDeletionConfirmModalComponent,
