@@ -124,7 +124,7 @@
         <div>
           <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
         </div>
-        <div ngbDropdown class="margin-top-15px">
+        <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px" autoClose="outside">
           <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
             <span *ngIf="!model.isUsingOtherFeedbackPath">
               {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
@@ -139,12 +139,12 @@
                 {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
                 <ul ngbDropdownMenu>
                   <li class="dropdown-item" *ngFor="let recipient of path.value"
-                      (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
+                      (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">{{ recipient | recipientTypeDescription }}</li>
                 </ul>
               </div>
             </li>
             <li class="dropdown-divider"></li>
-            <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true)">Custom feedback path...</li>
+            <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true); mainMenu.close()">Custom feedback path...</li>
           </ul>
         </div>
         <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
