@@ -76,6 +76,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -100,6 +101,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -550,6 +552,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -725,6 +728,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -749,6 +753,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
@@ -955,6 +960,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1130,6 +1136,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1305,6 +1312,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1336,6 +1344,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1367,6 +1376,7 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,

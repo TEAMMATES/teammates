@@ -1,6 +1,12 @@
 <tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 
+<div class="offset-md-10">
+  <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
+    {{isAllCollapsed ? "Expand" : "Collapse" }} All
+  </button>
+</div>
+
 <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" class="margin-top-30px">
   <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
                          [numOfQuestions]="questionEditFormModels.length"

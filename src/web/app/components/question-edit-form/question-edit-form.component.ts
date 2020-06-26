@@ -125,6 +125,7 @@ export class QuestionEditFormComponent implements OnInit {
     isUsingOtherVisibilitySetting: false,
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
   };
 
   @Output()

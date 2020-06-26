@@ -53,6 +53,7 @@ export class TemplateQuestionModalComponent implements OnInit {
 
             isEditable: false,
             isSaving: false,
+            isCollapsed: false,
           },
         }));
   }

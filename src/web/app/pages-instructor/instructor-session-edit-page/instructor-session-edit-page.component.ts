@@ -147,6 +147,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isEditable: true,
     isSaving: false,
+    isCollapsed: false,
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
@@ -157,6 +158,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // instructors which can be previewed as
   instructorsCanBePreviewedAs: Instructor[] = [];
   emailOfInstructorToPreview: string = '';
+
+  get isAllCollapsed(): boolean {
+    return this.questionEditFormModels.some((model: QuestionEditFormModel) => {
+      return model.isCollapsed;
+    });
+  }
 
   constructor(router: Router,
               instructorService: InstructorService,
@@ -465,6 +472,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isEditable: false,
       isSaving: false,
+      isCollapsed: false,
     };
   }
 
@@ -685,6 +693,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isEditable: true,
       isSaving: false,
+      isCollapsed: false,
     };
 
     this.scrollToNewEditForm();
@@ -882,6 +891,18 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.navigationService.openNewWindow(
       `${environment.frontendUrl}/web/instructor/sessions/submission`,
       { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfInstructorToPreview });
+  }
+
+  expandAll(): void {
+    this.questionEditFormModels.forEach(((model: QuestionEditFormModel): void => {
+      model.isCollapsed = false;
+    }));
+  }
+
+  collapseAll(): void {
+    this.questionEditFormModels.forEach(((model: QuestionEditFormModel): void => {
+      model.isCollapsed = true;
+    }));
   }
 
   private deepCopy<T>(obj: T): T {
