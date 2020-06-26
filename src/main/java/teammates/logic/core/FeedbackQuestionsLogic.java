@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +16,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.TeamDetailsBundle;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -133,30 +131,6 @@ public final class FeedbackQuestionsLogic {
         }
 
         return true;
-    }
-
-    /**
-     *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy.
-     */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) {
-
-        List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<>();
-        List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
-        for (CourseAttributes course : courses) {
-            List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.getId());
-            for (FeedbackSessionAttributes session : sessions) {
-                List<FeedbackQuestionAttributes> questions =
-                        getFeedbackQuestionsForSession(session.getFeedbackSessionName(), course.getId());
-                copiableQuestions.addAll(questions);
-            }
-        }
-
-        copiableQuestions.sort(Comparator.comparing((FeedbackQuestionAttributes question) -> question.courseId)
-                .thenComparing(question -> question.feedbackSessionName)
-                .thenComparing(question -> question.getQuestionDetails().getQuestionTypeDisplayName())
-                .thenComparing(question -> question.getQuestionDetails().getQuestionText()));
-
-        return copiableQuestions;
     }
 
     /**

@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
     private List<Integer> answers;
@@ -43,30 +39,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
     public String getAnswerString() {
         String listString = getFilteredSortedAnswerList().toString(); //[1, 2, 3] format
         return listString.substring(1, listString.length() - 1); //remove []
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        FeedbackRankOptionsQuestionDetails rankQuestion = (FeedbackRankOptionsQuestionDetails) questionDetails;
-
-        SortedMap<Integer, List<String>> orderedOptions = generateMapOfRanksToOptions(rankQuestion);
-
-        StringBuilder csvBuilder = new StringBuilder();
-
-        for (int rank = 1; rank <= rankQuestion.options.size(); rank++) {
-            if (!orderedOptions.containsKey(rank)) {
-                csvBuilder.append(',');
-                continue;
-            }
-            List<String> optionsWithGivenRank = orderedOptions.get(rank);
-
-            String optionsInCsv = SanitizationHelper.sanitizeForCsv(StringHelper.toString(optionsWithGivenRank, ", "));
-
-            csvBuilder.append(optionsInCsv).append(',');
-        }
-
-        csvBuilder.deleteCharAt(csvBuilder.length() - 1); // remove last comma
-        return csvBuilder.toString();
     }
 
     @Override
@@ -105,18 +77,6 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDeta
             errors.add("Invalid rank assigned.");
         }
         return errors;
-    }
-
-    private SortedMap<Integer, List<String>> generateMapOfRanksToOptions(
-                                    FeedbackRankOptionsQuestionDetails rankQuestion) {
-        SortedMap<Integer, List<String>> orderedOptions = new TreeMap<>();
-        for (int i = 0; i < answers.size(); i++) {
-            String option = rankQuestion.options.get(i);
-            Integer answer = answers.get(i);
-            orderedOptions.computeIfAbsent(answer, key -> new ArrayList<>())
-                          .add(option);
-        }
-        return orderedOptions;
     }
 
 }

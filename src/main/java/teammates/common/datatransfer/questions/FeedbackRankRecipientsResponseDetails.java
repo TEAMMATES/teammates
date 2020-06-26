@@ -18,11 +18,6 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseD
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return Integer.toString(answer);
-    }
-
-    @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         return new ArrayList<>();
     }

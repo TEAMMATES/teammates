@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 
 public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     private String answer;
@@ -29,11 +28,6 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
 
     public void setAnswer(String answer) {
         this.answer = answer;
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return SanitizationHelper.sanitizeForCsv(getAnswerString());
     }
 
     @Override

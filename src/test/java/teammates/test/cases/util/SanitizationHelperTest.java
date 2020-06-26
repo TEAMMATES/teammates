@@ -259,40 +259,6 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testSanitizeForCsv() {
-        sanitizeCsv_receivesUnsanitized_returnsSanitized();
-    }
-
-    private void sanitizeCsv_receivesUnsanitized_returnsSanitized() {
-        String unsanitized = "aaa , bb\"b, c\"\"cc";
-        String expected = "\"aaa , bb\"\"b, c\"\"\"\"cc\"";
-        String sanitized = SanitizationHelper.sanitizeForCsv(unsanitized);
-        assertEquals(expected, sanitized);
-    }
-
-    @Test
-    public void testSanitizeListForCsv() {
-        sanitizeCsvList_receivesEmptyList_returnsEmptyList();
-        sanitizeCsvList_receivesUnsanitized_returnsSanitized();
-    }
-
-    private void sanitizeCsvList_receivesEmptyList_returnsEmptyList() {
-        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeListForCsv(new ArrayList<>()));
-    }
-
-    private void sanitizeCsvList_receivesUnsanitized_returnsSanitized() {
-        List<String> unsanitized = new ArrayList<>();
-        unsanitized.add("aaa , bb\"b, c\"\"cc");
-        unsanitized.add("aaa , bb\"b, c\"\"cc");
-
-        List<String> expected = new ArrayList<>();
-        expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
-        expected.add("\"aaa , bb\"\"b, c\"\"\"\"cc\"");
-
-        assertEquals(expected, SanitizationHelper.sanitizeListForCsv(unsanitized));
-    }
-
-    @Test
     public void testSanitizeStringForXPath() {
         String text = "";
         String expected = "''";

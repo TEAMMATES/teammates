@@ -2,9 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
@@ -46,19 +44,6 @@ public abstract class FeedbackResponseDetails {
         }
         String serializedResponseDetails = getJsonString();
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
-    }
-
-    public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
-
-    /**
-     * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
-     *
-     * <p>default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails).
-     * override in child class if necessary.
-     */
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                               FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getAnswerCsv(question.getQuestionDetails());
     }
 
     /**

@@ -24,11 +24,6 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return answer.toString();
-    }
-
-    @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         List<String> errors = new ArrayList<>();
 

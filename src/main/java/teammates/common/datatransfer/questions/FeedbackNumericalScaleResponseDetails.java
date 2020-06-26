@@ -28,11 +28,6 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return getAnswerString();
-    }
-
-    @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
 
         List<String> errors = new ArrayList<>();

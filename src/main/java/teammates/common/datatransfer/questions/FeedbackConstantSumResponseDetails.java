@@ -30,20 +30,6 @@ public class FeedbackConstantSumResponseDetails extends
     }
 
     @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        StringBuilder csvBuilder = new StringBuilder();
-
-        for (Integer answer : answers) {
-            if (!((FeedbackConstantSumQuestionDetails) questionDetails).isDistributeToRecipients()) {
-                csvBuilder.append(',');
-            }
-            csvBuilder.append(answer);
-        }
-
-        return csvBuilder.toString();
-    }
-
-    @Override
     public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
         FeedbackConstantSumQuestionDetails questionDetails =
                 (FeedbackConstantSumQuestionDetails) correspondingQuestion.getQuestionDetails();

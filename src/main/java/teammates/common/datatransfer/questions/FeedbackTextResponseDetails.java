@@ -3,8 +3,6 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.SanitizationHelper;
 
@@ -26,11 +24,6 @@ public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerString() {
         return SanitizationHelper.sanitizeForRichText(answer);
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return SanitizationHelper.sanitizeForCsv(Jsoup.parse(answer).text());
     }
 
     @Override

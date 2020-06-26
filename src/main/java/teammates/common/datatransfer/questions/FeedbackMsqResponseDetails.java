@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
@@ -31,23 +30,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     public List<String> getAnswerStrings() {
         return answers;
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
-        StringBuilder csvBuilder = new StringBuilder();
-
-        if (!isAnswerBlank()) {
-            for (String choice : msqDetails.getMsqChoices()) {
-                csvBuilder.append(',');
-                if (this.contains(choice)) {
-                    csvBuilder.append(SanitizationHelper.sanitizeForCsv(choice));
-                }
-            }
-        }
-
-        return csvBuilder.toString();
     }
 
     @Override
@@ -118,10 +100,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             }
         }
         return errors;
-    }
-
-    private boolean isAnswerBlank() {
-        return answers.size() == 1 && answers.get(0).isEmpty();
     }
 
     public Boolean isOtherOptionAnswer() {

@@ -54,11 +54,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
         testRemindAllAction();
     }
 
-    @Test
-    public void testBackEndActions() {
-        testDownloadAction();
-    }
-
     private void testContent() throws Exception {
 
         ______TS("Typical case: large session with no sections");
@@ -630,45 +625,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
         resultsPage.clickCollapseExpandButtonAndWaitForPanelsToExpand();
         assertTrue(resultsPage.indicateMissingResponsesCheckbox.isSelected());
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
-    }
-
-    private void testDownloadAction() {
-
-        ______TS("Typical case: download report");
-
-        AppUrl reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
-                                                  .withUserId("CFResultsUiT.instr")
-                                                  .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session");
-
-        resultsPage.verifyDownloadLink(reportUrl);
-
-        ______TS("Typical case: download report for one question");
-
-        reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
-                                                  .withUserId("CFResultsUiT.instr")
-                                                  .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session")
-                                                  .withQuestionNumber("2");
-
-        resultsPage.verifyDownloadLink(reportUrl);
-
-        ______TS("Typical case: download report unsuccessfully");
-
-        reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
-                                              .withUserId("CFResultsUiT.instr");
-        browser.driver.get(reportUrl.toAbsoluteString());
-        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
-        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
-        // Get an error page due to missing parameters in URL
-        // If admin is an instructor, expected url is InstructorHomePage
-        //                 otherwise, expected url is unauthorised.jsp
-        // assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
-        //            afterReportDownloadUrl.contains(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-        //            || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
-
-        // return to the previous page
-        loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
     }
 
     @Test
