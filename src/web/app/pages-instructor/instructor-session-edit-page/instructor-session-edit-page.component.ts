@@ -148,6 +148,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isEditable: true,
     isSaving: false,
     isCollapsed: false,
+    isChanged: false,
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
@@ -454,7 +455,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       questionBrief: feedbackQuestion.questionBrief,
       questionDescription: feedbackQuestion.questionDescription,
 
-      isQuestionHasResponses: false, // TODO use API to determine
+      isQuestionHasResponses: false,
 
       questionType: feedbackQuestion.questionType,
       questionDetails: this.deepCopy(feedbackQuestion.questionDetails),
@@ -473,6 +474,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: false,
       isSaving: false,
       isCollapsed: false,
+      isChanged: false,
     };
   }
 
@@ -522,6 +524,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         .subscribe((updatedQuestion: FeedbackQuestion) => {
           this.questionEditFormModels[index] = this.getQuestionEditFormModel(updatedQuestion);
           this.feedbackQuestionModels.set(updatedQuestion.feedbackQuestionId, updatedQuestion);
+          this.loadResponseStatusForQuestion(this.questionEditFormModels[index]);
 
           // shift question if needed
           if (originalQuestionNumber !== updatedQuestion.questionNumber) {
@@ -694,6 +697,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: true,
       isSaving: false,
       isCollapsed: false,
+      isChanged: false,
     };
 
     this.scrollToNewEditForm();

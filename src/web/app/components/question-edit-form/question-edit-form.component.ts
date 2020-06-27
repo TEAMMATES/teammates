@@ -11,6 +11,8 @@ import {
 import { VisibilityControl } from '../../../types/visibility-control';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
+const CLEAN_PROPERTIES: Set<string> = new Set<string>(['isEditable', 'isCollapsed', 'isChanged']);
+
 /**
  * The question edit form component.
  */
@@ -126,6 +128,7 @@ export class QuestionEditFormComponent implements OnInit {
     isEditable: false,
     isSaving: false,
     isCollapsed: false,
+    isChanged: false,
   };
 
   @Output()
@@ -177,6 +180,7 @@ export class QuestionEditFormComponent implements OnInit {
     this.formModelChange.emit({
       ...this.model,
       [field]: data,
+      ...(!this.model.isChanged && !CLEAN_PROPERTIES.has(field) && { isChanged: true }),
     });
   }
 
@@ -187,6 +191,8 @@ export class QuestionEditFormComponent implements OnInit {
     this.formModelChange.emit({
       ...this.model,
       ...obj,
+      ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
+          && { isChanged: true }),
     });
   }
 
@@ -261,14 +267,22 @@ export class QuestionEditFormComponent implements OnInit {
    * Handle event to discard changes users made.
    */
   discardChangesHandler(modal: any): void {
+    if (!this.model.isChanged) {
+      this.discardChanges();
+      return;
+    }
     this.modalService.open(modal).result.then(() => {
-      if (this.formMode === QuestionEditFormMode.EDIT) {
-        this.discardExistingQuestionChangesEvent.emit();
-      }
-      if (this.formMode === QuestionEditFormMode.ADD) {
-        this.discardNewQuestionEvent.emit();
-      }
+      this.discardChanges();
     }, () => {});
+  }
+
+  private discardChanges(): void {
+    if (this.formMode === QuestionEditFormMode.EDIT) {
+      this.discardExistingQuestionChangesEvent.emit();
+    }
+    if (this.formMode === QuestionEditFormMode.ADD) {
+      this.discardNewQuestionEvent.emit();
+    }
   }
 
   /**
@@ -277,12 +291,12 @@ export class QuestionEditFormComponent implements OnInit {
   saveQuestionHandler(modal: any): void {
     if (this.formMode === QuestionEditFormMode.EDIT) {
       // alert user that editing question may result in deletion of responses
-      if (this.model.isQuestionHasResponses) {
+      if (!this.model.isQuestionHasResponses || !this.model.isChanged) {
+        this.saveExistingQuestionEvent.emit();
+      } else {
         this.modalService.open(modal).result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      } else {
-        this.saveExistingQuestionEvent.emit();
       }
     }
     if (this.formMode === QuestionEditFormMode.ADD) {
