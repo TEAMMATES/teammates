@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { MessageOutput, Student, Students } from '../types/api-output';
+import { Course, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
+import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
+import { StringHelper } from './string-helper';
 
 /**
  * Handles student related logic provision.
@@ -129,10 +132,34 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    const paramsMap: Record<string, string> = {
+    return this.httpRequestService.get(ResourceEndpoints.COURSE, {
       courseid: queryParams.courseId,
-    };
-    const responseType: string = 'text';
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
+      entitytype: 'instructor',
+    }).pipe(mergeMap((course: Course) => {
+      return this.httpRequestService.get(ResourceEndpoints.STUDENTS, {
+        courseid: queryParams.courseId,
+      }).pipe(map((students: Students) => {
+        return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
+      }));
+    }));
+  }
+
+  processStudentsToCsv(courseId: string, courseName: string, students: Student[]): string {
+    const csvRows: string[][] = [];
+    csvRows.push(['Course ID:', StringHelper.removeExtraSpace(courseId)]);
+    csvRows.push(['Course Name:', StringHelper.removeExtraSpace(courseName)]);
+    csvRows.push([]);
+    csvRows.push(['Section', 'Team', 'Full Name', 'Last Name', 'Status', 'Email']);
+    students.forEach((student: Student) => {
+      csvRows.push([
+        student.sectionName ? StringHelper.removeExtraSpace(student.sectionName) : '',
+        student.teamName ? StringHelper.removeExtraSpace(student.teamName) : '',
+        StringHelper.removeExtraSpace(student.name),
+        student.lastName ? StringHelper.removeExtraSpace(student.lastName) : '',
+        StringHelper.removeExtraSpace(student.joinState),
+        StringHelper.removeExtraSpace(student.email),
+      ]);
+    });
+    return CsvHelper.convertCsvContentsToCsvString(csvRows);
   }
 }
