@@ -11,7 +11,6 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
@@ -79,12 +78,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               tableComparatorService: TableComparatorService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
-              private timezoneService: TimezoneService,
               private loadingBarService: LoadingBarService) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
-    // need timezone data for moment()
-    this.timezoneService.getTzVersion();
   }
 
   ngOnInit(): void {
