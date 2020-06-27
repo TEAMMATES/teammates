@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentService should show course student list with section 1`] = `
+"Course ID:,listWithSection
+Course Name:,List With Section
+
+Section,Team,Full Name,Last Name,Status,Email
+Section A,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
+Section A,Team 2,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+`;
+
+exports[`StudentService should show course student list with special team name 1`] = `
+"Course ID:,listWithSpecialTeamName
+Course Name:,List With Special Team Name
+
+Section,Team,Full Name,Last Name,Status,Email
+Section A,N/A,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
+Section A,-Nil-,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+`;
+
+exports[`StudentService should show course student list with student last name 1`] = `
+"Course ID:,listWithLastName
+Course Name:,List With Last Name
+
+Section,Team,Full Name,Last Name,Status,Email
+Section A,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
+Section A,Team 2,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+`;
+
+exports[`StudentService should show course student list with unregistered student 1`] = `
+"Course ID:,listWithUnregistered
+Course Name:,List With Unregistered Student
+
+Section,Team,Full Name,Last Name,Status,Email
+Section A,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
+Section A,Team 2,student2OfTypicalCourse,,NOT_JOINED,student2OfTypicalCourse@typicalCourse.com"
+`;
+
+exports[`StudentService should show course student list without section 1`] = `
+"Course ID:,listWithoutSection
+Course Name:,List Without Section
+
+Section,Team,Full Name,Last Name,Status,Email
+,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
+,Team 2,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+`;
