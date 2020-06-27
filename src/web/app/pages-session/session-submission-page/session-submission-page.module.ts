@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import {
   QuestionSubmissionFormModule,
@@ -39,7 +39,7 @@ const routes: Routes = [
     TeammatesCommonModule,
     CommonModule,
     FormsModule,
-    NgbModule,
+    NgbTooltipModule,
     QuestionSubmissionFormModule,
     RouterModule.forChild(routes),
   ],

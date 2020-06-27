@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../ajax-preload/ajax-preload.module';
 import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal.module';
@@ -46,7 +46,8 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     AjaxLoadingModule,
     AjaxPreloadModule,
     TeammatesCommonModule,
-    NgbModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
     FormsModule,
     CopySessionModalModule,
   ],

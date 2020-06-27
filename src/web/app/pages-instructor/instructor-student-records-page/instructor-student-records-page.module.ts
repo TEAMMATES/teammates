@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import {
@@ -30,7 +30,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     StudentProfileModule,
-    NgbModule,
+    NgbCollapseModule,
     GrqRgqViewResponsesModule,
     RouterModule.forChild(routes),
   ],

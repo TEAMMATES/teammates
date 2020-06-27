@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
@@ -29,7 +29,9 @@ const routes: Routes = [
     AjaxLoadingModule,
     CommonModule,
     FormsModule,
-    NgbModule,
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
     TeammatesCommonModule,
     SessionEditFormModule,
     QuestionEditFormModule,

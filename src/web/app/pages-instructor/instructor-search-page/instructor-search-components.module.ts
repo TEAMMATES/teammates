@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentBoxModule } from '../../components/comment-box/comment-box.module';
 import { SingleResponseModule } from '../../components/question-responses/single-response/single-response.module';
 import { StudentListModule } from '../../components/student-list/student-list.module';
@@ -27,7 +26,6 @@ import { StudentResultTableComponent } from './student-result-table/student-resu
     CommonModule,
     StudentListModule,
     FormsModule,
-    NgbModule,
     CommentBoxModule,
     SingleResponseModule,
   ],

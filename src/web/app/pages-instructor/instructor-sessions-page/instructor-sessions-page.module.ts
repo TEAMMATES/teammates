@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { RouterModule, Routes } from '@angular/router';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
@@ -36,7 +35,6 @@ const routes: Routes = [
     CommonModule,
     SessionEditFormModule,
     TeammatesCommonModule,
-    NgbModule,
     FormsModule,
     SessionsTableModule,
     SessionsRecycleBinTableModule,

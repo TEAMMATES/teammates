@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -36,7 +36,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    NgbModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
     AddCourseFormModule,
   ],
   entryComponents: [

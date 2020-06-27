@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { GqrRqgViewResponsesModule } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -40,7 +40,8 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
   imports: [
     CommonModule,
     FormsModule,
-    NgbModule,
+    NgbCollapseModule,
+    NgbTooltipModule,
     RouterModule,
     QuestionTextWithInfoModule,
     PerQuestionViewResponsesModule,

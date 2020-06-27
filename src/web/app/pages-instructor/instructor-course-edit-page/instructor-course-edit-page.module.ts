@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import {
   CustomPrivilegeSettingPanelComponent,
@@ -45,7 +45,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    NgbModule,
+    NgbTooltipModule,
     TeammatesCommonModule,
   ],
   entryComponents: [

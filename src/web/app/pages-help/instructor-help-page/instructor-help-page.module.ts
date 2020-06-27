@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import { StudentProfileModule } from '../../pages-instructor/student-profile/student-profile.module';
 
@@ -58,7 +58,8 @@ const routes: Routes = [
     CommentBoxModule,
     CommonModule,
     FormsModule,
-    NgbModule,
+    NgbCollapseModule,
+    NgbTooltipModule,
     RouterModule.forChild(routes),
     ExampleBoxModule,
     StudentProfileModule,
