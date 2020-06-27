@@ -22,7 +22,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
@@ -99,7 +98,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
@@ -265,7 +263,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
@@ -843,7 +840,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
@@ -1568,7 +1564,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
@@ -1896,7 +1891,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
@@ -2224,7 +2218,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
 >
   <h1>
     Home
