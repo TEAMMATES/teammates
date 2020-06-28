@@ -23,7 +23,7 @@
     "@angular/forms": "~8.2.14",
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
-    "@angular/pwa": "~0.803.22",
+    "@angular/pwa": "~0.901.7",
     "@angular/router": "~8.2.14",
     "@angular/service-worker": "~8.2.14",
     "@fortawesome/fontawesome-free": "^5.12.0",
