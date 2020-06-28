@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentService should generate course student list with section as csv 1`] = `
+"Course ID,studentListWithSection
+Course Name,Student List With Section
+
+Section,Team,Full Name,Last Name,Status,Email
+Section A,N/A,student1OfNoTeam,withLastName,Joined,student1OfNoTeam@test.com
+Section A,Team 1,student1OfTeam1,with' apostrophe,Joined,student1OfTeam1@test.com
+Section A,Team 1,student2OfTeam1,withLastName,Joined,student2OfTeam1@test.com
+Section A,Team 2,student1OfTeam2,with Last Name,Joined,student1OfTeam2@test.com
+Section B,Team 1,student1OfTeam1,OfSectionB,Joined,student1OfTeam1@test.com
+Section B,Team 2,student1OfTeam2,OfSectionB,Yet to Join,student1OfTeam2OfSectionB@test.com"
+`;
+
+exports[`StudentService should generate course student list without section as csv 1`] = `
+"Course ID,studentListWithoutSection
+Course Name,Student List Without Section
+
+Team,Full Name,Last Name,Status,Email
+N/A,student1OfNoTeam,withLastName,Joined,student1OfNoTeam@test.com
+Team 1,student1OfTeam1,with' apostrophe,Joined,student1OfTeam1@test.com
+Team 1,student2OfTeam1,withLastName,Joined,student2OfTeam1@test.com
+Team 2,student1OfTeam2,Last Name,Joined,student1OfTeam2@test.com
+Team 3,student1OfTeam3,withLastName,Joined,student1OfTeam3@test.com
+Team 3,student2OfTeam3,withLastName,Yet to Join,student2OfTeam3@test.com"
+`;
