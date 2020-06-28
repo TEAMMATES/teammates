@@ -12,6 +12,9 @@ import { ContributionComponent } from './contribution.component';
   imports: [
     NgbModule, CommonModule,
   ],
+  entryComponents: [
+    ContributionComponent, ContributionRatingsListComponent,
+  ],
   exports: [
     ContributionComponent, ContributionRatingsListComponent,
   ],

@@ -14,7 +14,7 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
   imageChangedEvent: any = '';
   formData?: FormData;
 
-  @ViewChild(ImageCropperComponent, { static: false }) imageCropper!: ImageCropperComponent;
+  @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
   @Input() image!: Blob | null;
 

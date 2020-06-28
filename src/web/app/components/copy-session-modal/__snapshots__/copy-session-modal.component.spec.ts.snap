@@ -54,8 +54,6 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-session-name"
             maxlength="38"
-            ng-reflect-maxlength="38"
-            ng-reflect-model=""
             type="text"
           />
           <span>
@@ -140,8 +138,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-session-name"
             maxlength="38"
-            ng-reflect-maxlength="38"
-            ng-reflect-model="Test session"
             type="text"
           />
           <span>
@@ -155,9 +151,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           <input
             class="form-check-input ng-untouched ng-pristine ng-valid"
             name="copySessionChooseCourse"
-            ng-reflect-model=""
-            ng-reflect-name="copySessionChooseCourse"
-            ng-reflect-value="Test01"
             type="radio"
           />
           <label
@@ -166,7 +159,6 @@ exports[`CopySessionModalComponent should snap with some session and courses can
              [
             <span
               class="text-danger"
-              ng-reflect-ng-class="[object Object]"
             >
               Test01
             </span>
@@ -185,18 +177,13 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           <input
             class="form-check-input ng-untouched ng-pristine ng-valid"
             name="copySessionChooseCourse"
-            ng-reflect-model=""
-            ng-reflect-name="copySessionChooseCourse"
-            ng-reflect-value="Test02"
             type="radio"
           />
           <label
             class="form-check-label"
           >
              [
-            <span
-              ng-reflect-ng-class="[object Object]"
-            >
+            <span>
               Test02
             </span>
             ] : Sample Course 202 

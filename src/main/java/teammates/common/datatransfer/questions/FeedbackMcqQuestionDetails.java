@@ -138,8 +138,8 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         // If weights are assigned, add the 'Per Recipient Statistics' to the CSV string.
         if (hasAssignedWeights) {
             csv.append(System.lineSeparator())
-                .append("Per Recipient Statistics").append(System.lineSeparator())
-                .append(mcqStats.getPerRecipientResponseStatsCsv(responses, bundle));
+                    .append("Per Recipient Statistics").append(System.lineSeparator())
+                    .append(mcqStats.getPerRecipientResponseStatsCsv(responses, bundle));
         }
         return csv.toString();
     }
