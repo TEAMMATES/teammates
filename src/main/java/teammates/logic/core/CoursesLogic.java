@@ -27,7 +27,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.CoursesDb;
 
@@ -662,49 +661,6 @@ public final class CoursesLogic {
         }
 
         return courseSummaryList;
-    }
-
-    /**
-     * Returns a CSV for the details (name, email, status) of all students belonging to a given course.
-     */
-    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
-
-        Map<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
-        CourseDetailsBundle course = courses.get(courseId);
-        boolean hasSection = hasIndicatedSections(courseId);
-
-        StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + System.lineSeparator()
-                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName())
-                      + System.lineSeparator() + System.lineSeparator() + System.lineSeparator();
-        export.append(courseInfo);
-
-        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + System.lineSeparator();
-        export.append(header);
-
-        for (SectionDetailsBundle section : course.sections) {
-            for (TeamDetailsBundle team : section.teams) {
-                for (StudentAttributes student : team.students) {
-                    String studentStatus = null;
-                    if (student.googleId == null || student.googleId.isEmpty()) {
-                        studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-                    } else {
-                        studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
-                    }
-
-                    if (hasSection) {
-                        export.append(SanitizationHelper.sanitizeForCsv(section.name)).append(',');
-                    }
-
-                    export.append(SanitizationHelper.sanitizeForCsv(team.name) + ','
-                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
-                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
-                            + SanitizationHelper.sanitizeForCsv(studentStatus) + ','
-                            + SanitizationHelper.sanitizeForCsv(student.email) + System.lineSeparator());
-                }
-            }
-        }
-        return export.toString();
     }
 
     public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
