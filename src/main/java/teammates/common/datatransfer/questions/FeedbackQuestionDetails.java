@@ -71,10 +71,16 @@ public abstract class FeedbackQuestionDetails {
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
+    /**
+     * Checks whether instructor comments are allowed for the question.
+     */
     public boolean isInstructorCommentsOnResponsesAllowed() {
         return true;
     }
 
+    /**
+     * Checks whether participant comments are allowed for the question.
+     */
     public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
 
     @Override
