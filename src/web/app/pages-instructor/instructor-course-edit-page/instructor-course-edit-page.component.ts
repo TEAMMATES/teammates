@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import moment from 'moment-timezone';
-
 import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatAll, tap } from 'rxjs/operators';
@@ -174,7 +172,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Replaces the timezone value with the detected timezone.
    */
   detectTimezone(): void {
-    this.course.timeZone = moment.tz.guess();
+    this.course.timeZone = this.timezoneService.guessTimezone();
   }
 
   /**
