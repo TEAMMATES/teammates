@@ -12,7 +12,7 @@
         "courseId": "studentListWithoutSection",
         "email": "student1OfTeam1@test.com",
         "name": "student1OfTeam1",
-        "lastName": "with apostrophe' here",
+        "lastName": "with' apostrophe",
         "joinState": "JOINED",
         "teamName": "Team 1",
         "sectionName": "None"
@@ -21,6 +21,7 @@
         "courseId": "studentListWithoutSection",
         "email": "student2OfTeam1@test.com",
         "name": "student2OfTeam1",
+        "lastName": "withLastName",
         "joinState": "JOINED",
         "teamName": "Team 1",
         "sectionName": "None"
@@ -29,7 +30,7 @@
         "courseId": "studentListWithoutSection",
         "email": "student1OfTeam2@test.com",
         "name": "student1OfTeam2",
-        "lastName": "lastName",
+        "lastName": "Last Name",
         "joinState": "JOINED",
         "teamName": "Team 2",
         "sectionName": "None"
@@ -38,6 +39,7 @@
         "courseId": "studentListWithoutSection",
         "email": "student1OfNoTeam@test.com",
         "name": "student1OfNoTeam",
+        "lastName": "withLastName",
         "joinState": "JOINED",
         "teamName": "N/A",
         "sectionName": "None"
@@ -46,7 +48,7 @@
         "courseId": "studentListWithoutSection",
         "email": "student1OfTeam3@test.com",
         "name": "student1OfTeam3",
-        "lastName": "Special Name",
+        "lastName": "withLastName",
         "joinState": "JOINED",
         "teamName": "Team 3",
         "sectionName": "None"
@@ -55,6 +57,7 @@
         "courseId": "studentListWithoutSection",
         "email": "student2OfTeam3@test.com",
         "name": "student2OfTeam3",
+        "lastName": "withLastName",
         "joinState": "NOT_JOINED",
         "teamName": "Team 3",
         "sectionName": "None"
