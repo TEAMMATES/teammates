@@ -6,9 +6,9 @@ import { ResourceEndpoints } from '../types/api-endpoints';
 import { Course, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
+import { CourseService } from './course.service';
 import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
-import { StringHelper } from './string-helper';
 import { TableComparatorService } from './table-comparator.service';
 
 /**
@@ -20,7 +20,8 @@ import { TableComparatorService } from './table-comparator.service';
 export class StudentService {
 
   constructor(private httpRequestService: HttpRequestService,
-              private tableComparatorService: TableComparatorService) {
+              private tableComparatorService: TableComparatorService,
+              private courseService: CourseService) {
   }
 
   /**
@@ -136,13 +137,8 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    return this.httpRequestService.get(ResourceEndpoints.COURSE, {
-      courseid: queryParams.courseId,
-      entitytype: 'instructor',
-    }).pipe(mergeMap((course: Course) => {
-      return this.httpRequestService.get(ResourceEndpoints.STUDENTS, {
-        courseid: queryParams.courseId,
-      }).pipe(map((students: Students) => {
+    return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(mergeMap((course: Course) => {
+      return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(map((students: Students) => {
         return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
       }));
     }));
@@ -150,12 +146,13 @@ export class StudentService {
 
   processStudentsToCsv(courseId: string, courseName: string, students: Student[]): string {
     const csvRows: string[][] = [];
-    csvRows.push(['Course ID:', StringHelper.removeExtraSpace(courseId)]);
-    csvRows.push(['Course Name:', StringHelper.removeExtraSpace(courseName)]);
+    csvRows.push(['Course ID', courseId]);
+    csvRows.push(['Course Name', courseName]);
     csvRows.push([]);
-    const hasSection: boolean = students.filter((student: Student) =>
-        student.sectionName !== 'None' && student.sectionName !== '').length > 0;
-    csvRows.push([hasSection ? 'Section' : '', 'Team', 'Full Name', 'Last Name', 'Status', 'Email']);
+    const hasSection: boolean =
+        students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
+    const headers: string[] = ['Team', 'Full Name', 'Last Name', 'Status', 'Email'];
+    csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
     students.sort((a: Student, b: Student) => {
       return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
           || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
@@ -163,14 +160,14 @@ export class StudentService {
     });
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {
-      csvRows.push([
-        hasSection ? student.sectionName : '',
+      const studentRow: string[] = [
         student.teamName ? student.teamName : '',
         student.name,
         student.lastName ? student.lastName : '',
         joinStatePipe.transform(student.joinState),
         student.email,
-      ]);
+      ];
+      csvRows.push(hasSection ? [student.sectionName].concat(studentRow) : studentRow);
     });
     return CsvHelper.convertCsvContentsToCsvString(csvRows);
   }

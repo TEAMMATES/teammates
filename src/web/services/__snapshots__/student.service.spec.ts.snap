@@ -1,46 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StudentService should show course student list with section 1`] = `
-"Course ID:,listWithSection
-Course Name:,List With Section
+exports[`StudentService should generate course student list with section as csv 1`] = `
+"Course ID,studentListWithSection
+Course Name,Student List With Section
 
 Section,Team,Full Name,Last Name,Status,Email
-Section A,Team 1,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com
-Section A,Team 2,student2OfTypicalCourse,,Joined,student2OfTypicalCourse@typicalCourse.com"
+Section A,N/A,student1OfNoTeam,,Joined,student1OfNoTeam@test.com
+Section A,Team 1,student1OfTeam1,with apostrophe' here,Joined,student1OfTeam1@test.com
+Section A,Team 1,student2OfTeam1,,Joined,student2OfTeam1@test.com
+Section A,Team 2,student1OfTeam2,lastName,Joined,student1OfTeam2@test.com
+Section B,Team 1,student1OfTeam1OfSectionB,,Joined,student1OfTeam1OfSectionB@test.com
+Section B,Team 2,student1OfTeam2OfSectionB,,Yet to Join,student1OfTeam2OfSectionB@test.com"
 `;
 
-exports[`StudentService should show course student list with special team name 1`] = `
-"Course ID:,listWithSpecialTeamName
-Course Name:,List With Special Team Name
+exports[`StudentService should generate course student list without section as csv 1`] = `
+"Course ID,studentListWithoutSection
+Course Name,Student List Without Section
 
-Section,Team,Full Name,Last Name,Status,Email
-Section A,-Nil-,student2OfTypicalCourse,,Joined,student2OfTypicalCourse@typicalCourse.com
-Section A,N/A,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com"
-`;
-
-exports[`StudentService should show course student list with student last name 1`] = `
-"Course ID:,listWithLastName
-Course Name:,List With Last Name
-
-Section,Team,Full Name,Last Name,Status,Email
-Section A,Team 1,student1OfTypicalCourse, of The Last Name,Joined,student1OfTypicalCourse@typicalCourse.com
-Section A,Team 2,student2OfTypicalCourse,with apostrophe' here,Joined,student2OfTypicalCourse@typicalCourse.com"
-`;
-
-exports[`StudentService should show course student list with unregistered student 1`] = `
-"Course ID:,listWithUnregistered
-Course Name:,List With Unregistered Student
-
-Section,Team,Full Name,Last Name,Status,Email
-Section A,Team 1,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com
-Section A,Team 2,student2OfTypicalCourse,,Yet to Join,student2OfTypicalCourse@typicalCourse.com"
-`;
-
-exports[`StudentService should show course student list without section 1`] = `
-"Course ID:,listWithoutSection
-Course Name:,List Without Section
-
-,Team,Full Name,Last Name,Status,Email
-,Team 1,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com
-,Team 2,student2OfTypicalCourse,,Joined,student2OfTypicalCourse@typicalCourse.com"
+Team,Full Name,Last Name,Status,Email
+N/A,student1OfNoTeam,,Joined,student1OfNoTeam@test.com
+Team 1,student1OfTeam1,with apostrophe' here,Joined,student1OfTeam1@test.com
+Team 1,student2OfTeam1,,Joined,student2OfTeam1@test.com
+Team 2,student1OfTeam2,lastName,Joined,student1OfTeam2@test.com
+Team 3,student1OfTeam3,Special Name,Joined,student1OfTeam3@test.com
+Team 3,student2OfTeam3,,Yet to Join,student2OfTeam3@test.com"
 `;

@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { JoinState, Student } from '../types/api-output';
+import { Course, Students } from '../types/api-output';
 import { StudentUpdateRequest } from '../types/api-request';
+import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
-import Spy = jasmine.Spy;
+import DoneCallback = jest.DoneCallback;
 
 const defaultStudentUpdateRequest: StudentUpdateRequest = {
   name: 'John Doe',
@@ -18,8 +19,22 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
   isSessionSummarySendEmail: true,
 };
 
+const studentCsvListTester:
+    (courseId: string, service: StudentService, spyCourseService: any, done: DoneCallback) => void =
+    (courseId: string, service: StudentService, spyCourseService: any, done: DoneCallback): void => {
+      const course: Course = require(`./test-data/${courseId}`).course;
+      const students: Students = require(`./test-data/${courseId}`).students;
+      spyOn(spyCourseService, 'getCourseAsInstructor').and.returnValue(of(course));
+      spyOn(service, 'getStudentsFromCourse').and.returnValue(of(students));
+      service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => {
+        expect(csvResult).toMatchSnapshot();
+        done();
+      });
+    };
+
 describe('StudentService', () => {
   let spyHttpRequestService: any;
+  let spyCourseService: any;
   let service: StudentService;
 
   beforeEach(() => {
@@ -27,10 +42,11 @@ describe('StudentService', () => {
       imports: [
         HttpClientTestingModule,
       ],
-      providers: [HttpRequestService],
+      providers: [HttpRequestService, CourseService],
     });
     service = TestBed.get(StudentService);
     spyHttpRequestService = TestBed.get(HttpRequestService);
+    spyCourseService = TestBed.get(CourseService);
   });
 
   it('should be created', () => {
@@ -81,143 +97,11 @@ describe('StudentService', () => {
         .toHaveBeenCalledWith(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramMap);
   });
 
-  it('should execute GET on course & students endpoints when generating student csv list', () => {
-    const courseId: string = 'CS3281';
-    const httpSpy: Spy = spyOn(spyHttpRequestService, 'get').and.returnValue(of(''));
-    const studentList: Observable<string> = service.loadStudentListAsCsv({ courseId });
-    expect(httpSpy).toBeCalledWith(ResourceEndpoints.COURSE, {
-      courseid: courseId,
-      entitytype: 'instructor',
-    });
-    studentList.subscribe(() => expect(httpSpy).toBeCalledWith(ResourceEndpoints.STUDENTS, {
-      courseid: courseId,
-    }));
+  it('should generate course student list with section as csv', (done: DoneCallback) => {
+    studentCsvListTester('studentCsvListWithSection', service, spyCourseService, done);
   });
 
-  it('should show course student list with section', () => {
-    const courseId: string = 'listWithSection';
-    const courseName: string = 'List With Section';
-    const students: Student[] =
-      [
-        {
-          courseId,
-          email: 'student1OfTypicalCourse@typicalCourse.com',
-          name: 'student1OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: 'Team 1',
-          sectionName: 'Section A',
-        },
-        {
-          courseId,
-          email: 'student2OfTypicalCourse@typicalCourse.com',
-          name: 'student2OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: 'Team 2',
-          sectionName: 'Section A',
-        },
-      ];
-    expect(service.processStudentsToCsv(courseId, courseName, students)).toMatchSnapshot();
-  });
-
-  it('should show course student list without section', () => {
-    const courseId: string = 'listWithoutSection';
-    const courseName: string = 'List Without Section';
-    const students: Student[] =
-      [
-        {
-          courseId,
-          email: 'student1OfTypicalCourse@typicalCourse.com',
-          name: 'student1OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: 'Team 1',
-          sectionName: 'None',
-        },
-        {
-          courseId,
-          email: 'student2OfTypicalCourse@typicalCourse.com',
-          name: 'student2OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: 'Team 2',
-          sectionName: 'None',
-        },
-      ];
-    expect(service.processStudentsToCsv(courseId, courseName, students)).toMatchSnapshot();
-  });
-
-  it('should show course student list with special team name', () => {
-    const courseId: string = 'listWithSpecialTeamName';
-    const courseName: string = 'List With Special Team Name';
-    const students: Student[] =
-      [
-        {
-          courseId,
-          email: 'student1OfTypicalCourse@typicalCourse.com',
-          name: 'student1OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: 'N/A',
-          sectionName: 'Section A',
-        },
-        {
-          courseId,
-          email: 'student2OfTypicalCourse@typicalCourse.com',
-          name: 'student2OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: '-Nil-',
-          sectionName: 'Section A',
-        },
-      ];
-    expect(service.processStudentsToCsv(courseId, courseName, students)).toMatchSnapshot();
-  });
-
-  it('should show course student list with student last name', () => {
-    const courseId: string = 'listWithLastName';
-    const courseName: string = 'List With Last Name';
-    const students: Student[] =
-      [
-        {
-          courseId,
-          email: 'student1OfTypicalCourse@typicalCourse.com',
-          name: 'student1OfTypicalCourse',
-          lastName: ' of The Last Name',
-          joinState: JoinState.JOINED,
-          teamName: 'Team 1',
-          sectionName: 'Section A',
-        },
-        {
-          courseId,
-          email: 'student2OfTypicalCourse@typicalCourse.com',
-          name: 'student2OfTypicalCourse',
-          lastName: "with apostrophe' here",
-          joinState: JoinState.JOINED,
-          teamName: 'Team 2',
-          sectionName: 'Section A',
-        },
-      ];
-    expect(service.processStudentsToCsv(courseId, courseName, students)).toMatchSnapshot();
-  });
-
-  it('should show course student list with unregistered student', () => {
-    const courseId: string = 'listWithUnregistered';
-    const courseName: string = 'List With Unregistered Student';
-    const students: Student[] =
-      [
-        {
-          courseId,
-          email: 'student1OfTypicalCourse@typicalCourse.com',
-          name: 'student1OfTypicalCourse',
-          joinState: JoinState.JOINED,
-          teamName: 'Team 1',
-          sectionName: 'Section A',
-        },
-        {
-          courseId,
-          email: 'student2OfTypicalCourse@typicalCourse.com',
-          name: 'student2OfTypicalCourse',
-          joinState: JoinState.NOT_JOINED,
-          teamName: 'Team 2',
-          sectionName: 'Section A',
-        },
-      ];
-    expect(service.processStudentsToCsv(courseId, courseName, students)).toMatchSnapshot();
+  it('should generate course student list without section as csv', (done: DoneCallback) => {
+    studentCsvListTester('studentCsvListWithoutSection', service, spyCourseService, done);
   });
 });
