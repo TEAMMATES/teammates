@@ -5,8 +5,8 @@ exports[`StudentService should show course student list with section 1`] = `
 Course Name:,List With Section
 
 Section,Team,Full Name,Last Name,Status,Email
-Section A,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
-Section A,Team 2,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+Section A,Team 1,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com
+Section A,Team 2,student2OfTypicalCourse,,Joined,student2OfTypicalCourse@typicalCourse.com"
 `;
 
 exports[`StudentService should show course student list with special team name 1`] = `
@@ -14,8 +14,8 @@ exports[`StudentService should show course student list with special team name 1
 Course Name:,List With Special Team Name
 
 Section,Team,Full Name,Last Name,Status,Email
-Section A,N/A,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
-Section A,-Nil-,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+Section A,-Nil-,student2OfTypicalCourse,,Joined,student2OfTypicalCourse@typicalCourse.com
+Section A,N/A,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com"
 `;
 
 exports[`StudentService should show course student list with student last name 1`] = `
@@ -23,8 +23,8 @@ exports[`StudentService should show course student list with student last name 1
 Course Name:,List With Last Name
 
 Section,Team,Full Name,Last Name,Status,Email
-Section A,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
-Section A,Team 2,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+Section A,Team 1,student1OfTypicalCourse, of The Last Name,Joined,student1OfTypicalCourse@typicalCourse.com
+Section A,Team 2,student2OfTypicalCourse,with apostrophe' here,Joined,student2OfTypicalCourse@typicalCourse.com"
 `;
 
 exports[`StudentService should show course student list with unregistered student 1`] = `
@@ -32,15 +32,15 @@ exports[`StudentService should show course student list with unregistered studen
 Course Name:,List With Unregistered Student
 
 Section,Team,Full Name,Last Name,Status,Email
-Section A,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
-Section A,Team 2,student2OfTypicalCourse,,NOT_JOINED,student2OfTypicalCourse@typicalCourse.com"
+Section A,Team 1,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com
+Section A,Team 2,student2OfTypicalCourse,,Yet to Join,student2OfTypicalCourse@typicalCourse.com"
 `;
 
 exports[`StudentService should show course student list without section 1`] = `
 "Course ID:,listWithoutSection
 Course Name:,List Without Section
 
-Section,Team,Full Name,Last Name,Status,Email
-,Team 1,student1OfTypicalCourse,,JOINED,student1OfTypicalCourse@typicalCourse.com
-,Team 2,student2OfTypicalCourse,,JOINED,student2OfTypicalCourse@typicalCourse.com"
+,Team,Full Name,Last Name,Status,Email
+,Team 1,student1OfTypicalCourse,,Joined,student1OfTypicalCourse@typicalCourse.com
+,Team 2,student2OfTypicalCourse,,Joined,student2OfTypicalCourse@typicalCourse.com"
 `;
