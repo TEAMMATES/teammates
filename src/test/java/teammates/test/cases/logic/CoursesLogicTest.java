@@ -35,7 +35,6 @@ import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.CsvChecker;
 
 /**
  * SUT: {@link CoursesLogic}.
@@ -90,7 +89,6 @@ public class CoursesLogicTest extends BaseLogicTest {
         testGetCoursesForStudentAccount();
         testGetCourseSummariesForInstructor();
         testGetCoursesSummaryWithoutStatsForInstructor();
-        testGetCourseStudentListAsCsv();
         testHasIndicatedSections();
         testCreateCourse();
         testCreateCourseAndInstructor();
@@ -648,61 +646,6 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         AssertionError ae = assertThrows(AssertionError.class,
                 () -> coursesLogic.getCoursesSummaryWithoutStatsForInstructor(null, false));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-    }
-
-    private void testGetCourseStudentListAsCsv() throws Exception {
-
-        ______TS("Typical case: course with section");
-
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
-
-        String csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-
-        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithSection.csv");
-
-        ______TS("Typical case: course without sections");
-
-        InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
-
-        instructorId = instructor1OfCourse2.googleId;
-        courseId = instructor1OfCourse2.courseId;
-
-        csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithoutSections.csv");
-
-        ______TS("Typical case: course with unregistered student");
-
-        InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
-
-        instructorId = instructor5.googleId;
-        courseId = instructor5.courseId;
-
-        csvString = coursesLogic.getCourseStudentListAsCsv(courseId, instructorId);
-        CsvChecker.verifyCsvContent(csvString, "/courseStudentListWithUnregisteredStudent.csv");
-
-        String finalCourseId = courseId;
-        String finalInstructorId = instructorId;
-
-        ______TS("Failure case: non existent instructor");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> coursesLogic.getCourseStudentListAsCsv(finalCourseId, "non-existent-instructor"));
-        AssertHelper.assertContains("does not exist", ednee.getMessage());
-
-        ______TS("Failure case: non existent course in the list of courses of the instructor");
-
-        ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> coursesLogic.getCourseStudentListAsCsv("non-existent-course", finalInstructorId));
-        AssertHelper.assertContains("does not exist", ednee.getMessage());
-
-        ______TS("Failure case: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.getCourseStudentListAsCsv(finalCourseId, null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
