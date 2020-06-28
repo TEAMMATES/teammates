@@ -41,7 +41,7 @@
     "ngx-clipboard": "^12.3.0",
     "ngx-image-cropper": "^1.5.1",
     "ngx-page-scroll-core": "^7.0.0",
-    "rxjs": "~6.4.0",
+    "rxjs": "~6.5.5",
     "tinymce": "^5.1.5",
     "topojson": "^3.0.2",
     "tslib": "^1.10.0",
