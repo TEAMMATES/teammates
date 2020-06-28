@@ -18,7 +18,7 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('newCourseMessageTemplate', { static: false }) newCourseMessageTemplate!: TemplateRef<any>;
+  @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
   timezone: string = '';

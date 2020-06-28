@@ -159,7 +159,7 @@ describe('SearchService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(SearchService);
+    service = TestBed.inject(SearchService);
     coursesWithSections = service.getCoursesWithSections(mockStudents);
   });
 

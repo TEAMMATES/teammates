@@ -68,20 +68,20 @@ export class SearchService {
   }
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
-    return forkJoin(
+    return forkJoin([
       this.searchStudents(searchKey),
       this.searchInstructors(searchKey),
-    ).pipe(
+    ]).pipe(
       map((value: [Students, Instructors]): [Student[], Instructor[]] =>
         [value[0].students, value[1].instructors],
       ),
       flatMap((value: [Student[], Instructor[]]) => {
         const [students, instructors]: [Student[], Instructor[]] = value;
-        return forkJoin(
+        return forkJoin([
           of(students),
           of(instructors),
           this.getDistinctFields(students, instructors),
-        );
+        ]);
       }),
       map((value: [Student[], Instructor[], DistinctFields]) => {
         return {
@@ -363,24 +363,24 @@ export class SearchService {
       ...instructors.map((instructor: Instructor) => instructor.courseId),
     ]));
     if (distinctCourseIds.length === 0) {
-      return forkJoin(of({}), of({}), of({}), of({}));
+      return forkJoin([of({}), of({}), of({}), of({})]);
     }
-    return forkJoin(
+    return forkJoin([
       this.getDistinctInstructors(distinctCourseIds),
       this.getDistinctCourses(distinctCourseIds),
       this.getDistinctFeedbackSessions(distinctCourseIds),
-    ).pipe(
+    ]).pipe(
       flatMap((value: [
         DistinctInstructorsMap,
         DistinctCoursesMap,
         DistinctFeedbackSessionsMap],
       ) => {
-        return forkJoin(
+        return forkJoin([
           of(value[0]),
           of(value[1]),
           of(value[2]),
           this.getDistinctInstructorPrivileges(value[0]),
-        );
+        ]);
       }),
     );
   }
@@ -405,7 +405,7 @@ export class SearchService {
   ): Observable<DistinctInstructorPrivilegesMap> {
     const distinctCourseIds: string[] = Object.keys(distinctInstructorsMap);
     const instructorsArray: Instructors[] = Object.values(distinctInstructorsMap);
-    return forkJoin(
+    return forkJoin([
       of(distinctCourseIds),
       forkJoin(instructorsArray.map((instructors: Instructors) => {
         return forkJoin(
@@ -419,7 +419,7 @@ export class SearchService {
           ),
         );
       })),
-    ).pipe(
+    ]).pipe(
       map(
         (value: [string[], InstructorPrivilege[][]]) => {
           const distinctInstructorPrivilegesMap: DistinctInstructorPrivilegesMap = {};

@@ -29,13 +29,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
     >
        - su1337
     </small>
-  </h1><tm-student-profile
-    ng-reflect-photo-url="http://localhost:8080/webapi/s"
-    ng-reflect-student-profile="[object Object]"
-  /><tm-more-info
-    ng-reflect-more-info-text=""
-    ng-reflect-student-name=""
-  /><h2>
+  </h1><tm-student-profile /><tm-more-info /><h2>
     Records in feedback sessions
   </h2>
 </tm-instructor-student-records-page>
@@ -70,13 +64,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
     >
        - su1337
     </small>
-  </h1><tm-student-profile
-    ng-reflect-photo-url="http://localhost:8080/webapi/s"
-    ng-reflect-student-profile="[object Object]"
-  /><tm-more-info
-    ng-reflect-more-info-text=""
-    ng-reflect-student-name="Not John Doe"
-  /><h2>
+  </h1><tm-student-profile /><tm-more-info /><h2>
     Records in feedback sessions
   </h2>
 </tm-instructor-student-records-page>
