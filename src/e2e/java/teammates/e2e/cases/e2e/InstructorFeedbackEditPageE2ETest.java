@@ -96,9 +96,8 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");
         feedbackEditPage.verifyQuestionDetails(1, questionToCopy);
         feedbackEditPage.verifyQuestionDetails(2, templateQuestion);
-        ThreadHelper.waitFor(2000);
-        verifyPresentInDatastore(questionToCopy);
-        verifyPresentInDatastore(templateQuestion);
+        verifyReorder(questionToCopy);
+        verifyReorder(templateQuestion);
 
         ______TS("edit question");
         FeedbackQuestionAttributes editedQuestion = getTemplateQuestion();
@@ -128,7 +127,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyNumQuestions(2);
         feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
         // verify qn 1 has been replaced in datastore by qn 2
-        verifyPresentInDatastore(templateQuestion);
+        verifyReorder(templateQuestion);
 
         ______TS("preview session as student");
         FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(
@@ -160,6 +159,17 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 + "You can restore it from the deleted sessions table below.");
         assertNotNull(getSoftDeletedSession(copiedSessionName,
                 instructor.googleId));
+    }
+
+    private void verifyReorder(FeedbackQuestionAttributes question) {
+        int retryLimit = 5;
+        FeedbackQuestionAttributes actual = getFeedbackQuestion(question);
+        while (!actual.equals(question) && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            actual = getFeedbackQuestion(question);
+        }
+        assertEquals(question, actual);
     }
 
     private FeedbackQuestionAttributes getTemplateQuestion() {
