@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { Course, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
+import { SortBy, SortOrder } from '../types/sort-properties';
 import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
 import { StringHelper } from './string-helper';
+import { TableComparatorService } from './table-comparator.service';
 
 /**
  * Handles student related logic provision.
@@ -16,7 +19,8 @@ import { StringHelper } from './string-helper';
 })
 export class StudentService {
 
-  constructor(private httpRequestService: HttpRequestService) {
+  constructor(private httpRequestService: HttpRequestService,
+              private tableComparatorService: TableComparatorService) {
   }
 
   /**
@@ -149,15 +153,23 @@ export class StudentService {
     csvRows.push(['Course ID:', StringHelper.removeExtraSpace(courseId)]);
     csvRows.push(['Course Name:', StringHelper.removeExtraSpace(courseName)]);
     csvRows.push([]);
-    csvRows.push(['Section', 'Team', 'Full Name', 'Last Name', 'Status', 'Email']);
+    const hasSection: boolean = students.filter((student: Student) =>
+        student.sectionName !== 'None' && student.sectionName !== '').length > 0;
+    csvRows.push([hasSection ? 'Section' : '', 'Team', 'Full Name', 'Last Name', 'Status', 'Email']);
+    students.sort((a: Student, b: Student) => {
+      return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
+          || this.tableComparatorService.compare(SortBy.STUDENT_NAME, SortOrder.ASC, a.name, b.name);
+    });
+    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {
       csvRows.push([
-        student.sectionName ? StringHelper.removeExtraSpace(student.sectionName) : '',
-        student.teamName ? StringHelper.removeExtraSpace(student.teamName) : '',
-        StringHelper.removeExtraSpace(student.name),
-        student.lastName ? StringHelper.removeExtraSpace(student.lastName) : '',
-        StringHelper.removeExtraSpace(student.joinState),
-        StringHelper.removeExtraSpace(student.email),
+        hasSection ? student.sectionName : '',
+        student.teamName ? student.teamName : '',
+        student.name,
+        student.lastName ? student.lastName : '',
+        joinStatePipe.transform(student.joinState),
+        student.email,
       ]);
     });
     return CsvHelper.convertCsvContentsToCsvString(csvRows);
