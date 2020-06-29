@@ -290,13 +290,13 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
         threadGroup.add(JMeterElements.defaultSampler());
 
         threadGroup.add(JMeterElements.onceOnlyController())
-            .add(JMeterElements.loginSampler())
-            .add(JMeterElements.csrfExtractor("csrfToken"));
+                .add(JMeterElements.loginSampler())
+                .add(JMeterElements.csrfExtractor("csrfToken"));
 
         // Add HTTP sampler for test endpoint
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
         threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${updateData}"))
-            .add(headerManager);
+                .add(headerManager);
 
         return testPlan;
     }
