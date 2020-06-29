@@ -24,6 +24,25 @@ describe('getTextFromHtml', () => {
   });
 });
 
+describe('convertImageToLinkInHtml', () => {
+  it('should return empty string if empty string is passed', () => {
+    expect(StringHelper.convertImageToLinkInHtml('')).toEqual('');
+  });
+
+  it('should return empty string if no img tags are present', () => {
+    expect(StringHelper.convertImageToLinkInHtml('<h1>header one</h1>')).toEqual('');
+  });
+
+  it('should return image links in img tags', () => {
+    expect(StringHelper.convertImageToLinkInHtml('<img src="http://www.example.com/test.jpg">Bob</img>'))
+        .toEqual(' Images Link: http://www.example.com/test.jpg ');
+  });
+
+  it('should return empty string for malformed img tags', () => {
+    expect(StringHelper.convertImageToLinkInHtml('Bob</img>')).toEqual('');
+  });
+});
+
 describe('removeExtraSpace', () => {
   it('should return empty string for empty string', () => {
     expect(StringHelper.removeExtraSpace('')).toEqual('');
