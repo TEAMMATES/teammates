@@ -96,7 +96,7 @@ public class RestoreCourseActionTest
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
 
-        verifyOnlyInstructorsCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, submissionParams);
     }
 }

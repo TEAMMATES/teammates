@@ -4,6 +4,8 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteStudentsAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -57,15 +59,15 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Override
     @Test
-    protected void testAccessControl() {
+    protected void testAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
         };
 
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 
 }

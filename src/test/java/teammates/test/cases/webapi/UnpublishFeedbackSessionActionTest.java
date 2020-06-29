@@ -14,7 +14,7 @@ import teammates.ui.webapi.output.MessageOutput;
 /**
  * SUT: {@link UnpublishFeedbackSessionAction}.
  */
-public class UnublishFeedbackSessionActionTest extends BaseActionTest<UnpublishFeedbackSessionAction> {
+public class UnpublishFeedbackSessionActionTest extends BaseActionTest<UnpublishFeedbackSessionAction> {
 
     @Override
     protected String getActionUri() {
@@ -106,18 +106,14 @@ public class UnublishFeedbackSessionActionTest extends BaseActionTest<UnpublishF
 
         verifyCannotAccess(nonExistParams);
 
-        ______TS("inaccessible without ModifySessionPrivilege");
+        ______TS("accessible only for instructor with ModifySessionPrivilege");
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
-        verifyInaccessibleWithoutModifySessionPrivilege(params);
-
-        ______TS("only instructors of the same course can access");
-
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
     }
-
 }
