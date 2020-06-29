@@ -15,6 +15,28 @@ export class StringHelper {
   }
 
   /**
+   * Converts img tags in html to absolute links
+   */
+  static convertImageToLinkInHtml(html: string): string {
+    const domParser: DOMParser = new DOMParser();
+    const document: Document = domParser.parseFromString(html, 'text/html');
+    const imgElements: HTMLCollectionOf<HTMLImageElement> = document.getElementsByTagName('img');
+    if (!imgElements.length) {
+      return '';
+    }
+
+    let imgLinks: string = ' Images Link: ';
+    for (let i: number = 0; i < imgElements.length; i += 1) {
+      const img: HTMLImageElement | null = imgElements.item(i);
+      if (!img) {
+        continue;
+      }
+      imgLinks += `${img.src} `;
+    }
+    return imgLinks;
+  }
+
+  /**
    * Trims the string and reduces consecutive white spaces to only one space.
    * Example: " a   a  " --> "a a".
    * @return processed string, returns null if parameter is null
