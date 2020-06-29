@@ -189,8 +189,8 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
-        verifyInaccessibleWithoutModifySessionPrivilege(params);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
     }
 
 }
