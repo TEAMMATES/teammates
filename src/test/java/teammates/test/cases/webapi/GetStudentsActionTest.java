@@ -158,14 +158,14 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(studentAttributes.googleId);
 
-        // try to access his own team
+        ______TS("Acccess students' own team should pass");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, studentAttributes.getCourse(),
                 Const.ParamsNames.TEAM_NAME, studentAttributes.getTeam(),
         };
         verifyCanAccess(submissionParams);
 
-        // try to access other team
+        ______TS("Acccess other team should fail");
         StudentAttributes otherStudent = typicalBundle.students.get("student5InCourse1");
         assertEquals(otherStudent.getCourse(), studentAttributes.getCourse());
         assertNotEquals(otherStudent.getTeam(), studentAttributes.getTeam());
