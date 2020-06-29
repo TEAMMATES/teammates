@@ -20,7 +20,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   isEditDetailsCollapsed: boolean = false;
   isPeerEvalTipsCollapsed: boolean = false;
 
-  @ViewChild('helpPage', { static: false }) bodyRef ?: ElementRef;
+  @ViewChild('helpPage') bodyRef ?: ElementRef;
 
   constructor(private route: ActivatedRoute) { }
 

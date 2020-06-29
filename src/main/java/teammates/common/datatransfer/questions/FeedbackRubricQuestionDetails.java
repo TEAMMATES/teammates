@@ -188,9 +188,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
         if (hasAssignedWeights) {
             csv.append(System.lineSeparator())
-                .append("Per Recipient Statistics").append(System.lineSeparator())
-                .append(getPerRecipientStatisticsHeader())
-                .append(getPerRecipientStatisticsCsv(responses, bundle));
+                    .append("Per Recipient Statistics").append(System.lineSeparator())
+                    .append(getPerRecipientStatisticsHeader())
+                    .append(getPerRecipientStatisticsCsv(responses, bundle));
         }
 
         return csv.toString();
@@ -207,7 +207,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
                 String recipientName = bundle.getNameForEmail(recipient);
                 return new RubricRecipientStatistics(recipient, recipientName, recipientTeam);
             })
-                .addResponseToRecipientStats(response);
+                    .addResponseToRecipientStats(response);
         }
 
         List<Map.Entry<String, RubricRecipientStatistics>> recipientStatsList =

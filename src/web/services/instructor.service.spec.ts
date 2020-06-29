@@ -59,7 +59,7 @@ describe('InstructorService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(InstructorService);
+    service = TestBed.inject(InstructorService);
   });
 
   it('should be created', () => {

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-endpoints';
@@ -19,6 +18,7 @@ import {
   FeedbackSessionUpdateRequest, Intent,
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
+import { TimezoneService } from './timezone.service';
 
 /**
  * A template session.
@@ -36,14 +36,15 @@ export interface TemplateSession {
 })
 export class FeedbackSessionsService {
 
-  constructor(private httpRequestService: HttpRequestService) {
+  constructor(private httpRequestService: HttpRequestService,
+              private timezoneService: TimezoneService) {
   }
 
   /**
    * Gets template sessions.
    */
   getTemplateSessions(): TemplateSession[] {
-    return templateSessions;
+    return templateSessions as any;
   }
 
   /**
@@ -399,8 +400,10 @@ export class FeedbackSessionsService {
    */
   generateNameFragment(feedbackSession: FeedbackSession): string {
     const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM yyyy, hh:mm A Z';
-    const startTime: string = moment(feedbackSession.submissionStartTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO);
-    const endTime: string = moment(feedbackSession.submissionEndTimestamp).format(DATE_FORMAT_WITH_ZONE_INFO);
+    const startTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    const endTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
     return `${feedbackSession.feedbackSessionName} ${startTime}-${endTime}`;
   }
 }

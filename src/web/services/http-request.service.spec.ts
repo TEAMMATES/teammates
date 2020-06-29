@@ -25,7 +25,7 @@ describe('HttpRequestService', () => {
         { provide: HttpClient, useValue: spyHttpClient },
       ],
     });
-    service = TestBed.get(HttpRequestService);
+    service = TestBed.inject(HttpRequestService);
   });
 
   it('should be created', () => {

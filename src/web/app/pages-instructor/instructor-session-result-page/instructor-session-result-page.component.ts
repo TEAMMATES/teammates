@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -106,7 +105,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
-  @ViewChild(InstructorSessionNoResponsePanelComponent, { static: false }) noResponsePanel?:
+  @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:
     InstructorSessionNoResponsePanelComponent;
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
@@ -136,13 +135,13 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       }).subscribe((feedbackSession: FeedbackSession) => {
         const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
         this.session = feedbackSession;
-        this.formattedSessionOpeningTime =
-            moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-        this.formattedSessionClosingTime =
-            moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+        this.formattedSessionOpeningTime = this.timezoneService
+            .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+        this.formattedSessionClosingTime = this.timezoneService
+            .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
         if (this.session.resultVisibleFromTimestamp) {
-          this.formattedResultVisibleFromTime =
-              moment(this.session.resultVisibleFromTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+          this.formattedResultVisibleFromTime = this.timezoneService
+              .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
         }
 
         // load section tabs

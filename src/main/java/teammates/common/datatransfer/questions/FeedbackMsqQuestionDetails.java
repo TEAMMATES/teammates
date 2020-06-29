@@ -128,8 +128,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             // Add per recipient stats to csv string
             csv.append(System.lineSeparator())
-                .append("Per Recipient Statistics").append(System.lineSeparator())
-                .append(perRecipientStatsCsv);
+                    .append("Per Recipient Statistics").append(System.lineSeparator())
+                    .append(perRecipientStatsCsv);
         }
         return csv.toString();
     }

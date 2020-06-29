@@ -49,7 +49,7 @@ export class AdminSessionsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
+    this.timezone = this.timezoneService.guessTimezone();
 
     const now: any = moment();
     this.startDate = {
@@ -102,7 +102,7 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   private getMomentInstant(year: number, month: number, day: number, hour: number, minute: number): any {
-    const inst: any = moment.tz(this.timezone);
+    const inst: any = this.timezoneService.getMomentInstance(null, this.timezone);
     inst.set('year', year);
     inst.set('month', month);
     inst.set('date', day);
