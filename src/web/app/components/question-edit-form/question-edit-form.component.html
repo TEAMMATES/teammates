@@ -270,8 +270,8 @@
       <div class="col-12 text-right">
         <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler(saveModal)">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
-          <span *ngIf="formMode === QuestionEditFormMode.EDIT">Save Changes</span>
-          <span *ngIf="formMode === QuestionEditFormMode.ADD">Save Questions</span>
+          <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>
+          <span *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i> Save Questions</span>
         </button>
       </div>
     </div>
