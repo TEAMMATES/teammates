@@ -56,7 +56,10 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getStudentForEmail(courseId, previewAsPerson);
         } else {
-            return getUnregisteredStudent().orElseGet(() -> logic.getStudentForGoogleId(courseId, userInfo.getId()));
+            return getUnregisteredStudent().orElseGet(() -> {
+                gateKeeper.verifyLoggedInUserPrivileges();
+                return logic.getStudentForGoogleId(courseId, userInfo.getId());
+            });
         }
     }
 
@@ -73,11 +76,13 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     student.getSection(),
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -107,9 +112,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
-            if (userInfo == null) {
-                throw new UnauthorizedAccessException("Instructor must login to access");
-            }
+            gateKeeper.verifyLoggedInUserPrivileges();
             return logic.getInstructorForGoogleId(courseId, userInfo.getId());
         }
     }
@@ -122,14 +125,12 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        } else {
+        if (StringHelper.isEmpty(moderatedPerson) && StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
+        } else {
+            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
     }
 
