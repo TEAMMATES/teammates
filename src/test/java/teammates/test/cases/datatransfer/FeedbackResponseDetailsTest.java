@@ -15,7 +15,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
     public void testGetDeepCopy() {
         FeedbackTextResponseDetails frd = new FeedbackTextResponseDetails("original");
         FeedbackResponseDetails frdDeep = frd.getDeepCopy();
-        frd.answer = "updated";
+        frd.setAnswer("updated");
 
         assertEquals("updated", frd.getAnswerString());
         assertEquals("original", frdDeep.getAnswerString());

@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -344,122 +343,6 @@ public final class StringHelper {
         IntStream.range(0, b.length)
                 .forEach(i -> b[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16));
         return b;
-    }
-
-    /**
-     * Converts a csv string to a html table string for displaying.
-     * @return html table string
-     */
-    public static String csvToHtmlTable(String str) {
-        String[] lines = handleNewLine(str).split(System.lineSeparator());
-
-        StringBuilder result = new StringBuilder();
-
-        for (String line : lines) {
-
-            List<String> rowData = getTableData(line);
-
-            if (checkIfEmptyRow(rowData)) {
-                continue;
-            }
-
-            result.append("<tr>");
-            for (String td : rowData) {
-                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
-            }
-            result.append("</tr>");
-        }
-
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
-                             result.toString());
-    }
-
-    private static String handleNewLine(String str) {
-
-        StringBuilder buffer = new StringBuilder();
-        char[] chars = str.toCharArray();
-
-        boolean isInQuote = false;
-
-        for (char c : chars) {
-            if (c == '"') {
-                isInQuote = !isInQuote;
-            }
-
-            if (c == '\n' && isInQuote) {
-                buffer.append("<br>");
-            } else {
-                buffer.append(c);
-            }
-        }
-
-        return buffer.toString();
-    }
-
-    private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<>();
-
-        boolean inquote = false;
-        StringBuilder buffer = new StringBuilder();
-        char[] chars = str.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '"') {
-                if (i + 1 < chars.length && chars[i + 1] == '"') {
-                    i++; // NOPMD loop variable deliberately increased
-                } else {
-                    inquote = !inquote;
-                    continue;
-                }
-            }
-
-            if (chars[i] == ',') {
-                if (inquote) {
-                    buffer.append(chars[i]);
-                } else {
-                    data.add(buffer.toString());
-                    buffer.delete(0, buffer.length());
-                }
-            } else {
-                buffer.append(chars[i]);
-            }
-
-        }
-
-        data.add(buffer.toString().trim());
-
-        return data;
-    }
-
-    private static boolean checkIfEmptyRow(List<String> rowData) {
-        return rowData.stream()
-                .allMatch(r -> r.isEmpty());
-    }
-
-    /**
-     * From: http://stackoverflow.com/questions/11969840/how-to-convert-a-base-10-number-to-alphabetic-like-ordered-list-in-html
-     * Converts an integer to alphabetical form (base26)
-     * 1 - a
-     * 2 - b
-     * ...
-     * 26 - z
-     * 27 - aa
-     * 28 - ab
-     * ...
-     *
-     * @param n - number to convert
-     */
-    public static String integerToLowerCaseAlphabeticalIndex(int n) {
-        StringBuilder result = new StringBuilder();
-        int n0 = n;
-        while (n0 > 0) {
-            n0--; // 1 => a, not 0 => a
-            int remainder = n0 % 26;
-            char digit = (char) (remainder + 97);
-            result.append(digit);
-            n0 = (n0 - remainder) / 26;
-        }
-        return result.reverse().toString();
     }
 
     /**
