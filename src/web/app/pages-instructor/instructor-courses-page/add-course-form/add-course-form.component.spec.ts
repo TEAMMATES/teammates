@@ -36,6 +36,7 @@ describe('AddCourseFormComponent', () => {
   };
   const timezoneServiceStub: any = {
     getTzOffsets: jest.fn(() => timeZoneOffsets1),
+    guessTimezone: jest.fn(() => 'UTC'),
   };
   const spyCourseService: any = {
     createCourse: jest.fn(() => of(testCourse)),

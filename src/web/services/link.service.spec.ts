@@ -7,7 +7,7 @@ describe('Link Service', () => {
   let service: LinkService;
 
   beforeEach(() => {
-    service = TestBed.get(LinkService);
+    service = TestBed.inject(LinkService);
   });
 
   const mockStudent: Student = {

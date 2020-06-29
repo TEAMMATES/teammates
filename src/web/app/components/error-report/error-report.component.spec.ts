@@ -25,7 +25,7 @@ describe('ErrorReportComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ErrorReportComponent);
     component = fixture.componentInstance;
-    httpRequestService = TestBed.get(HttpRequestService);
+    httpRequestService = TestBed.inject(HttpRequestService);
     fixture.detectChanges();
   });
 

@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import moment from 'moment-timezone';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -19,7 +18,7 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('newCourseMessageTemplate', { static: false }) newCourseMessageTemplate!: TemplateRef<any>;
+  @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
   timezone: string = '';
@@ -38,7 +37,7 @@ export class AddCourseFormComponent implements OnInit {
       return;
     }
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
+    this.timezone = this.timezoneService.guessTimezone();
   }
 
   /**
@@ -48,7 +47,7 @@ export class AddCourseFormComponent implements OnInit {
     if (!this.isEnabled) {
       return;
     }
-    this.timezone = moment.tz.guess();
+    this.timezone = this.timezoneService.guessTimezone();
   }
 
   /**
@@ -76,7 +75,7 @@ export class AddCourseFormComponent implements OnInit {
     });
     this.newCourseId = '';
     this.newCourseName = '';
-    this.timezone = moment.tz.guess();
+    this.timezone = this.timezoneService.guessTimezone();
   }
 
   /**
