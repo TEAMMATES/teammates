@@ -60,7 +60,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1_actionTest.csv
   });
 
   it('should show responses along with stats for feedbackSessionResultsC1S1', () => {
@@ -68,7 +67,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsHideMissingResponses.csv
   });
 
   it('should show missing responses for feedbackSessionResultsC1S1', () => {
@@ -76,7 +74,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsAllResults.csv
   });
 
   it('should show responses from/to section for feedbackSessionResultsC1S1S1', () => {
@@ -85,7 +82,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.EITHER);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Either_actionTest.csv
   });
 
   it('should only show responses from section for feedbackSessionResultsC1S1S1', () => {
@@ -94,7 +90,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.GIVER);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Giver_actionTest.csv
   });
 
   it('should only show responses to section for feedbackSessionResultsC1S1S1', () => {
@@ -103,7 +98,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.EVALUEE);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Recipient_actionTest.csv
   });
 
   it('should only show responses from and to section for feedbackSessionResultsC1S1S1', () => {
@@ -112,7 +106,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.BOTH);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Both_actionTest.csv
   });
 
   it('should display student last name displayed properly for feedbackSessionResultsC1S1NewLastName', () => {
@@ -120,7 +113,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1NewLastName_actionTest.csv
   });
 
   it('should show missing responses', () => {
@@ -128,7 +120,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsMissingResponsesShown_actionTest.csv
   });
 
   it('should hide missing responses', () => {
@@ -136,7 +127,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsMissingResponsesHidden_actionTest.csv
   });
 
   it('should hide stats', () => {
@@ -144,7 +134,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsStatisticsHidden_actionTest.csv
   });
 
   it('should show stats', () => {
@@ -152,7 +141,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsStatisticsShown_actionTest.csv
   });
 
   it('should generate results for a specific question (question 1)', () => {
@@ -160,7 +148,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1Q1_actionTest.csv
   });
 
   it('should generate results for a specific question (question 2)', () => {
@@ -168,7 +155,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsSingleQuestion.csv
   });
 
   it('should generate results for a specific question from/to section', () => {
@@ -177,7 +163,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.EITHER);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Q2Either_actionTest.csv
   });
 
   it('should generate results for a specific question with responses from section', () => {
@@ -186,7 +171,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.GIVER);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Q2Giver_actionTest.csv
   });
 
   it('should generate results for a specific question with responses to section', () => {
@@ -195,7 +179,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.EVALUEE);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Q2Recipient_actionTest.csv
   });
 
   it('should generate results for a specific question with responses from and to section', () => {
@@ -204,7 +187,6 @@ describe('SessionResultCsvService', () => {
     const result: string = service.getCsvForSessionResult(sessionResult, false, false,
         'Section 1', InstructorSessionResultSectionType.BOTH);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsC1S1S1Q2Both_actionTest.csv
   });
 
   it('should generate results for MCQ question', () => {
@@ -212,7 +194,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsMcqResults.csv
   });
 
   it('should generate results for MSQ question', () => {
@@ -220,7 +201,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsMsqResults.csv
   });
 
   it('should generate results for NUMSCALE question', () => {
@@ -228,7 +208,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsNumscaleResults.csv
   });
 
   it('should generate results for CONSTSUM question', () => {
@@ -236,7 +215,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsConstsumResults.csv
   });
 
   it('should generate results for CONSTSUM question (restricted responses)', () => {
@@ -245,7 +223,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsConstsumResultsInstructorNoPrivilege.csv
   });
 
   it('should generate results for CONTRIB question', () => {
@@ -253,7 +230,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsContribResults.csv
   });
 
   it('should generate results for CONTRIB question (restricted section)', () => {
@@ -261,7 +237,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsContribResultsRestrictedSections.csv
   });
 
   it('should generate results for RUBRIC question', () => {
@@ -269,7 +244,6 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsRubricResults.csv
   });
 
   it('should generate results for RANK question', () => {
@@ -277,6 +251,5 @@ describe('SessionResultCsvService', () => {
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
-    // feedbackSessionResultsRankResults.csv
   });
 });

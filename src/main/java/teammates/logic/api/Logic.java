@@ -1372,19 +1372,6 @@ public class Logic {
     }
 
     /**
-     * Gets all copiable questions for an instructor<br>
-     * Returns an empty list if they are no questions
-     * for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(googleId);
-        return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);
-    }
-
-    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.

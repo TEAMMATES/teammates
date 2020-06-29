@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 
@@ -17,8 +16,8 @@ public abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissi
     /**
      * Validates the questionType of the corresponding question.
      */
-    protected void validQuestionTypeForCommentInSubmission(FeedbackQuestionType questionType) {
-        if (questionType != FeedbackQuestionType.MCQ && questionType != FeedbackQuestionType.MSQ) {
+    protected void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
+        if (!feedbackQuestion.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for comment in submission");
         }
     }

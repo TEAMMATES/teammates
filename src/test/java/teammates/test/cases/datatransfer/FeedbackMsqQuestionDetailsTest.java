@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
@@ -146,5 +147,17 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
+    }
+
+    @Test
+    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
+        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+    }
+
+    @Test
+    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
+        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 }

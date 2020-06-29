@@ -259,28 +259,6 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testConvertCommentTextToStringForCsv() {
-        String text = "aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello";
-        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
-                .builder()
-                .withCommentText(text)
-                .build();
-        String commentText = feedbackAttributes.getCommentAsCsvString();
-        assertEquals("\"aaa , bb\"\"b, c\"\"\"\"cc hello Images Link: http://test.com/test.png \"", commentText);
-    }
-
-    @Test
-    public void testConvertCommentTextToStringForHtml() {
-        String text = "<script>alert('injected');</script> <image src=\"http://test.com/test.png\"></image> hello";
-        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
-                .builder()
-                .withCommentText(text)
-                .build();
-        String commentText = feedbackAttributes.getCommentAsHtmlString();
-        assertEquals("hello Images Link: http:&#x2f;&#x2f;test.com&#x2f;test.png ", commentText);
-    }
-
-    @Test
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         Instant lastEditorAt = Instant.now();
         FeedbackResponseCommentAttributes.UpdateOptions updateOptions =
