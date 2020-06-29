@@ -304,7 +304,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Get the local date and time of timezone from timestamp.
    */
   private getDateTimeAtTimezone(timestamp: number, timeZone: string): {date: DateFormat; time: TimeFormat} {
-    const momentInstance: any = moment(timestamp).tz(timeZone);
+    const momentInstance: any = this.timezoneService.getMomentInstance(timestamp, timeZone);
     const date: DateFormat = {
       year: momentInstance.year(),
       month: momentInstance.month() + 1, // moment return 0-11 for month
@@ -326,24 +326,24 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   editExistingSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
 
-    forkJoin(
-        this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
-            this.sessionEditFormModel.submissionStartTime, this.sessionEditFormModel.timeZone,
-            'Submission opening time'),
-        this.resolveLocalDateTime(this.sessionEditFormModel.submissionEndDate,
-            this.sessionEditFormModel.submissionEndTime, this.sessionEditFormModel.timeZone,
-            'Submission closing time'),
-        this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM ?
-            this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
-                this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone,
-                'Session visible time')
-            : of(0),
-        this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM ?
-            this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
-                this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone,
-                'Response visible time')
-            : of(0),
-    ).pipe(
+    forkJoin([
+      this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
+          this.sessionEditFormModel.submissionStartTime, this.sessionEditFormModel.timeZone,
+          'Submission opening time'),
+      this.resolveLocalDateTime(this.sessionEditFormModel.submissionEndDate,
+          this.sessionEditFormModel.submissionEndTime, this.sessionEditFormModel.timeZone,
+          'Submission closing time'),
+      this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM ?
+          this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
+              this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone,
+              'Session visible time')
+          : of(0),
+      this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM ?
+          this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
+              this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone,
+              'Response visible time')
+          : of(0),
+    ]).pipe(
         switchMap((vals: number[]) => {
           return this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
             instructions: this.sessionEditFormModel.instructions,

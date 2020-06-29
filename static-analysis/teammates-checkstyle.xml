@@ -169,6 +169,7 @@
         <module name="IllegalType"/>
         <module name="InnerTypeLast"/>
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
+        <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
         <module name="UnnecessarySemicolonInTryWithResources"/>
         <module name="UnnecessarySemicolonInEnumeration"/>
         <module name="JavadocBlockTagLocation"/>
@@ -185,6 +186,9 @@
             <property name="ignoreMethodNamesRegex" value="main"/>
         </module>
         <module name="JavadocContentLocationCheck"/>
+        <module name="JavadocMissingWhitespaceAfterAsteriskCheck"/>
+        <module name="AvoidDoubleBraceInitialization"/>
+        <module name="NoCodeInFile"/>
     </module>
     <module name="FileTabCharacter"/>
     <module name="NewlineAtEndOfFile">

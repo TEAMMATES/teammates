@@ -2,7 +2,6 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
@@ -258,13 +257,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       previewAs: this.previewAsPerson,
     }).subscribe((feedbackSession: FeedbackSession) => {
       this.feedbackSessionInstructions = feedbackSession.instructions;
-      this.formattedSessionOpeningTime =
-              moment(feedbackSession.submissionStartTimestamp)
-                  .tz(feedbackSession.timeZone).format(TIME_FORMAT);
+      this.formattedSessionOpeningTime = this.timezoneService
+          .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
-      const submissionEndTime: any = moment(feedbackSession.submissionEndTimestamp);
-      this.formattedSessionClosingTime = submissionEndTime
-              .tz(feedbackSession.timeZone).format(TIME_FORMAT);
+      this.formattedSessionClosingTime = this.timezoneService
+          .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
       this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
       this.feedbackSessionTimezone = feedbackSession.timeZone;
@@ -278,7 +275,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             break;
           case FeedbackSessionSubmissionStatus.OPEN:
             // closing in 15 minutes
-            if (moment.utc().add(15, 'minutes').isAfter(submissionEndTime)) {
+            if (Date.now() - feedbackSession.submissionEndTimestamp < 15 * 60 * 1000) {
               this.modalService.open(FeedbackSessionClosingSoonModalComponent);
             }
             break;

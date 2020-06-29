@@ -27,7 +27,7 @@ describe('NationalitiesService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(NationalitiesService);
+    service = TestBed.inject(NationalitiesService);
   });
 
   it('should be created', () => {

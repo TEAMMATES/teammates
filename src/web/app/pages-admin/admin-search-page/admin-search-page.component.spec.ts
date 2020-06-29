@@ -35,11 +35,11 @@ describe('AdminSearchPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminSearchPageComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.get(AccountService);
-    searchService = TestBed.get(SearchService);
-    studentService = TestBed.get(StudentService);
-    statusMessageService = TestBed.get(StatusMessageService);
-    modalService = TestBed.get(NgbModal);
+    accountService = TestBed.inject(AccountService);
+    searchService = TestBed.inject(SearchService);
+    studentService = TestBed.inject(StudentService);
+    statusMessageService = TestBed.inject(StatusMessageService);
+    modalService = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 

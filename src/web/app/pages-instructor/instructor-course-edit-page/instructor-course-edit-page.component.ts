@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import moment from 'moment-timezone';
-
 import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatAll, tap } from 'rxjs/operators';
@@ -62,7 +60,7 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  @ViewChild('courseForm', { static: false }) form!: FormGroup;
+  @ViewChild('courseForm') form!: FormGroup;
 
   // enum
   EditMode: typeof EditMode = EditMode;
@@ -151,10 +149,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.loadCurrInstructorInfo();
 
       // load all section and session name
-      forkJoin(
-          this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
-          this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ).subscribe((vals: any[]) => {
+      forkJoin([
+        this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
+        this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+      ]).subscribe((vals: any[]) => {
         const students: Students = vals[0] as Students;
         const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
 
@@ -174,7 +172,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Replaces the timezone value with the detected timezone.
    */
   detectTimezone(): void {
-    this.course.timeZone = moment.tz.guess();
+    this.course.timeZone = this.timezoneService.guessTimezone();
   }
 
   /**

@@ -554,7 +554,7 @@ export class FeedbackQuestionsService {
    * Gets template questions.
    */
   getTemplateQuestions(): TemplateQuestion[] {
-    return templateQuestions;
+    return templateQuestions as any;
   }
 
   /**

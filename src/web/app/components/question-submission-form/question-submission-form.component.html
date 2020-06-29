@@ -122,7 +122,7 @@
                                                            [isDisabled]="isDisabled"></tm-constsum-recipients-question-edit-answer-form>
           </div>
 
-          <div *ngIf="feedbackQuestionsService.isAllowedToHaveParticipantComment(model.questionType)" class="col-12">
+          <div *ngIf="allowedToHaveParticipantComment" class="col-12">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
               <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                               [model]="recipientSubmissionFormModel.commentByGiver"

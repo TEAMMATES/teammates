@@ -25,7 +25,7 @@ describe('FeedbackQuestionsService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(FeedbackQuestionsService);
+    service = TestBed.inject(FeedbackQuestionsService);
   });
 
   it('should be created', () => {

@@ -89,39 +89,40 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
-    forkJoin(
-        this.studentService.getStudentsFromCourse({ courseId }),
-        this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }))
-        .subscribe(
-            (result: any[]) => {
-              const students: Student[] = (result[0] as Students).students;
-              const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
+    forkJoin([
+      this.studentService.getStudentsFromCourse({ courseId }),
+      this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }),
+    ]).subscribe((result: any[]) => {
+      const students: Student[] = (result[0] as Students).students;
+      const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
 
-              const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
+      const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
 
-              modalRef.componentInstance.courseId = courseId;
-              modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-              modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
-                email: student.email,
-                name: student.name,
-                teamName: student.teamName,
-                sectionName: student.sectionName,
+      modalRef.componentInstance.courseId = courseId;
+      modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
+      modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
+        email: student.email,
+        name: student.name,
+        teamName: student.teamName,
+        sectionName: student.sectionName,
 
-                hasSubmittedSession: giverSet.has(student.email),
+        hasSubmittedSession: giverSet.has(student.email),
 
-                isSelected: false,
-              } as StudentListInfoTableRowModel));
+        isSelected: false,
+      } as StudentListInfoTableRowModel));
 
-              modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-                this.feedbackSessionsService.remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
-                  usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
-                }).subscribe(() => {
-                  this.statusMessageService.showSuccessToast(
-                      'Reminder e-mails have been sent out to those students and instructors. '
-                      + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-                }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-              }, () => {});
+      modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
+        this.feedbackSessionsService.remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
+          usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+        }).subscribe(() => {
+          this.statusMessageService.showSuccessToast(
+              'Reminder e-mails have been sent out to those students and instructors. '
+              + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      }, () => {});
 
-            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 }
