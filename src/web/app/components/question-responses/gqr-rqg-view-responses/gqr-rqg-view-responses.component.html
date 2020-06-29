@@ -28,14 +28,14 @@
                 ></tm-single-statistics>
               </div>
             </div>
-            <h3>{{ teamInfo.key }} Detailed Responses</h3>
-            <hr>
-            <div *ngFor="let userInfo of teamInfo.value">
-              <ng-container
-                  [ngTemplateOutlet]="userTab"
-                  [ngTemplateOutletContext]="{userInfo:userInfo}">
-              </ng-container>
-            </div>
+          </div>
+          <h3>{{ teamInfo.key }} Detailed Responses</h3>
+          <hr>
+          <div *ngFor="let userInfo of teamInfo.value">
+            <ng-container
+                    [ngTemplateOutlet]="userTab"
+                    [ngTemplateOutletContext]="{userInfo:userInfo}">
+            </ng-container>
           </div>
         </div>
       </div>
