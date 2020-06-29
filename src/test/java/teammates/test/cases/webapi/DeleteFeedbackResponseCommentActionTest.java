@@ -4,12 +4,16 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.DeleteFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
@@ -92,6 +96,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     @Test
     protected void testAccessControlsForCommentByInstructor() throws Exception {
         int questionNumber = 1;
+        CourseAttributes course = typicalBundle.courses.get("idOfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment1FromInstructor1Q2");
         FeedbackResponseAttributes response = typicalBundle.feedbackResponses.get("response1ForQ1");
@@ -107,12 +112,49 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
         verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);
-
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("Comment giver without privilege should pass");
+
+        InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor1.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor1.googleId);
+        verifyCanAccess(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor1, submissionParams);
+
+        ______TS("Instructor with correct privilege should pass");
+
+        InstructorAttributes instructor2 = typicalBundle.instructors.get("instructor2OfCourse1");
+
+        grantInstructorWithSectionPrivilege(instructor2,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A", "Section B"});
+
+        loginAsInstructor(instructor2.googleId);
+        verifyCanAccess(submissionParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor2, submissionParams);
+
+        ______TS("Instructor with only section 1 privilege should fail");
+
+        grantInstructorWithSectionPrivilege(instructor2,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A"});
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Instructor with only section 2 privilege should fail");
+
+        grantInstructorWithSectionPrivilege(instructor2,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section B"});
+        verifyCannotAccess(submissionParams);
     }
 
     @Test
@@ -177,10 +219,67 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         assertNotEquals(differentStudentInSameCourse.getEmail(), comment.getCommentGiver());
         loginAsStudent(differentStudentInSameCourse.getGoogleId());
         verifyCannotAccess(submissionParams);
+
+        ______TS("Typical cases: unauthorized users");
+
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
     }
 
     @Test
-    public void testAccessControlsForCommentByTeam() {
+    public void testCrossSectionAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
+        int questionNumber = 6;
+        FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment2FromStudent1");
+        FeedbackResponseAttributes response = typicalBundle.feedbackResponses.get("response1ForQ6");
+
+        FeedbackQuestionAttributes question =
+                logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
+        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        ______TS("Instructor with correct privilege can delete comment");
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("helperOfCourse1");
+
+        String[] instructorParams = new String[] {
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+        };
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A", "Section B"});
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(instructorParams);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, instructorParams);
+
+        ______TS("Instructor with only section A privilege cannot delete comment");
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A"});
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Instructor with only section B privilege cannot delete comment");
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section B"});
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    @Test
+    public void testAccessControlsForCommentByTeam() throws InvalidParametersException, EntityDoesNotExistException {
         int questionNumber = 4;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment1FromTeam1");
@@ -211,6 +310,42 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         loginAsStudent(differentStudentInSameTeam.getGoogleId());
         verifyCanAccess(submissionParams);
 
-    }
+        ______TS("Typical cases: unauthorized users");
 
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        ______TS("Instructor with correct privilege can delete comment");
+
+        String[] instructorParams = new String[] {
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+        };
+
+        InstructorAttributes instructor = typicalBundle.instructors.get("helperOfCourse1");
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A", "Section B"});
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(instructorParams);
+        verifyCanMasquerade(instructor.googleId, instructorParams);
+
+        ______TS("Instructor with only section A privilege cannot delete comment");
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section A"});
+
+        verifyCannotAccess(submissionParams);
+
+        ______TS("Instructor with only section B privilege cannot delete comment");
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section B"});
+
+        verifyCannotAccess(submissionParams);
+    }
 }

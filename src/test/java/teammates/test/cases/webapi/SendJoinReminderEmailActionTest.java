@@ -195,7 +195,28 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        ______TS("Sending registration emails to all students");
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+
+        ______TS("Sending registration emails to student");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.STUDENT_EMAIL, typicalBundle.students.get("student1InCourse1").email,
+        };
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+
+        ______TS("Sending registration emails to instructor");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, typicalBundle.instructors.get("instructor1OfCourse1").email,
+        };
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
     }
 
 }
