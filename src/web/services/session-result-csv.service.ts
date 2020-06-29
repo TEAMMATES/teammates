@@ -146,15 +146,20 @@ export class SessionResultCsvService {
           recipientTeamName, recipientName, recipientLastName, recipientEmail, ...responseAnswer];
 
         if (isParticipantCommentsOnResponsesAllowed) {
-          const participantComment: string = response.participantComment ? response.participantComment.commentText : '';
-          currRow.push(participantComment);
+          const participantCommentHtml: string =
+              response.participantComment ? response.participantComment.commentText : '';
+          const participantComment: string = StringHelper.getTextFromHtml(participantCommentHtml);
+          const imgLinks: string = StringHelper.convertImageToLinkInHtml(participantCommentHtml);
+          currRow.push(participantComment + imgLinks);
         }
 
         if (isInstructorCommentsOnResponsesAllowed) {
           for (const commentOutput of response.instructorComments) {
             const instructorName: string = commentOutput.commentGiverName ? commentOutput.commentGiverName : '';
-            const instructorComment: string = commentOutput.commentText;
-            currRow.push(instructorName, instructorComment);
+            const instructorCommentHtml: string = commentOutput.commentText;
+            const instructorComment: string = StringHelper.getTextFromHtml(instructorCommentHtml);
+            const imgLinks: string = StringHelper.convertImageToLinkInHtml(instructorCommentHtml);
+            currRow.push(instructorName, instructorComment + imgLinks);
           }
         }
 
