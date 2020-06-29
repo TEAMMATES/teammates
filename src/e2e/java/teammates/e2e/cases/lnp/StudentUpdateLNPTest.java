@@ -322,9 +322,6 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
         displayLnpResults();
     }
 
-    /**
-    * Removes the entities added for the instructors' course update L&P test.
-    */
     @AfterClass
     public void classTearDown() throws IOException {
         deleteTestData();
