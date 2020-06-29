@@ -51,11 +51,11 @@ body {
 
 .table {
   margin-bottom: 0;
-}
 
-.table th,
-.table td {
-  padding: .5rem;
+  & th,
+  td {
+    padding: .5rem;
+  }
 }
 
 .card-header {
