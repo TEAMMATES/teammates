@@ -18,7 +18,7 @@
                   ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal); $event.stopPropagation();" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal); $event.stopPropagation();"><i class="fas fa-ban"></i> Discard</button>
+                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal); $event.stopPropagation();"><i class="fas fa-ban"></i> Cancel</button>
           <ng-template #discardModal let-modal>
             <div class="modal-header bg-warning">
               <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
