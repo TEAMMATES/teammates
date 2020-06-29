@@ -27,7 +27,7 @@ build_script:
   - gradlew.bat downloadLinters
   - gradlew.bat lint --continue
   - gradlew.bat componentTests
-  - npm install
+  - npm ci
   - npm run lint
   - gradlew.bat generateTypes
   - npm run coverage

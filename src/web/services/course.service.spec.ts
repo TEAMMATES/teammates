@@ -25,7 +25,7 @@ describe('CourseService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(CourseService);
+    service = TestBed.inject(CourseService);
   });
 
   it('should be created', () => {

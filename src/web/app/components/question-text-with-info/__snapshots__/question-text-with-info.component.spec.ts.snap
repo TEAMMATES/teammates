@@ -26,7 +26,6 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
   </b> MCQ question details
   <a
     href="/"
-    ng-reflect-query-params-handling="merge"
     queryparamshandling="merge"
   >
      [more]
@@ -47,7 +46,6 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
   </b> MCQ question details
   <a
     href="/"
-    ng-reflect-query-params-handling="merge"
     queryparamshandling="merge"
   >
      [less]
@@ -56,9 +54,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     
     
     
-    <tm-mcq-question-additional-info
-      ng-reflect-question-details="[object Object]"
-    >
+    <tm-mcq-question-additional-info>
       Multiple-choice (single answer) question options:
   
       

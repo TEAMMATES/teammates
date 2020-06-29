@@ -95,10 +95,10 @@ export class CourseService {
       user: googleId,
     };
 
-    return forkJoin(
-        this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
-        this.httpRequestService.get(ResourceEndpoints.COURSES, archivedCoursesParamMap),
-    ).pipe(
+    return forkJoin([
+      this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
+      this.httpRequestService.get(ResourceEndpoints.COURSES, archivedCoursesParamMap),
+    ]).pipe(
         map((vals: Courses[]) => {
           return {
             courses: vals[0].courses.concat(vals[1].courses),

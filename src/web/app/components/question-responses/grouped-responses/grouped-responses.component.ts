@@ -6,6 +6,7 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { CommentRowMode } from '../../comment-box/comment-row/comment-row.component';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 /**
@@ -60,4 +61,11 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     team.giver = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
   }
+
+  toggleAddComment(responseId: string): void {
+    const commentTable: CommentTableModel = this.instructorCommentTableModel[responseId];
+    commentTable.isAddingNewComment = !commentTable.isAddingNewComment;
+    this.triggerModelChangeForSingleResponse(responseId, commentTable);
+  }
+
 }

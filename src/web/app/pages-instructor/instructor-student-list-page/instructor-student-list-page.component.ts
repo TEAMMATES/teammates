@@ -68,7 +68,7 @@ export class InstructorStudentListPageComponent implements OnInit {
             this.courseTabList.push(courseTab);
           });
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -110,7 +110,7 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
 
           courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -128,7 +128,7 @@ export class InstructorStudentListPageComponent implements OnInit {
 
           courseTab.studentList.push(...students);
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -146,9 +146,9 @@ export class InstructorStudentListPageComponent implements OnInit {
       courseTab.stats = this.courseService.calculateCourseStatistics(students);
 
       this.statusMessageService
-          .showSuccessMessage(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
+          .showSuccessToast(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

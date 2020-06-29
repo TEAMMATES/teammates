@@ -42,7 +42,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
         <form
           class="form form-horizontal ng-untouched ng-pristine ng-valid"
           id="instructor-student-edit-form"
-          ng-reflect-form="[object Object]"
           novalidate=""
         >
           <div
@@ -60,7 +59,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 class="form-control ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentname"
                 id="studentname"
-                ng-reflect-name="studentname"
               />
               
             </div>
@@ -80,7 +78,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 class="form-control ng-untouched ng-pristine ng-valid"
                 formcontrolname="sectionname"
                 id="sectionname"
-                ng-reflect-name="sectionname"
               />
               
             </div>
@@ -103,7 +100,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 formcontrolname="teamname"
                 id="teamname"
                 name="teamname"
-                ng-reflect-name="teamname"
               />
               
             </div>
@@ -123,7 +119,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 class="form-control ng-untouched ng-pristine ng-valid"
                 formcontrolname="newstudentemail"
                 id="newstudentemail"
-                ng-reflect-name="newstudentemail"
               />
               
             </div>
@@ -143,7 +138,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
                 class="form-control ng-untouched ng-pristine ng-valid"
                 formcontrolname="comments"
                 id="comments"
-                ng-reflect-name="comments"
                 rows="6"
               >
                             

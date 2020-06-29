@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Course, Gender, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
@@ -17,7 +16,6 @@ describe('StudentCourseDetailsPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         TeammatesCommonModule,
-        MatSnackBarModule,
       ],
     })
     .compileComponents();

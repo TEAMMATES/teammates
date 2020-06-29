@@ -15,10 +15,12 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
+  studentName=""
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
+  studentTeam=""
 >
   <h1>
     's Records
@@ -27,13 +29,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
     >
        - su1337
     </small>
-  </h1><tm-student-profile
-    ng-reflect-photo-url="http://localhost:8080/webapi/s"
-    ng-reflect-student-profile="[object Object]"
-  /><tm-more-info
-    ng-reflect-more-info-text=""
-    ng-reflect-student-name=""
-  /><h2>
+  </h1><tm-student-profile /><tm-more-info /><h2>
     Records in feedback sessions
   </h2>
 </tm-instructor-student-records-page>
@@ -54,25 +50,21 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
+  studentName={[Function String]}
   studentProfile={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
   studentSection=""
   studentService={[Function StudentService]}
+  studentTeam=""
 >
   <h1>
-    John Doe's Records
+    Not John Doe's Records
     <small
       class="text-muted"
     >
        - su1337
     </small>
-  </h1><tm-student-profile
-    ng-reflect-photo-url="http://localhost:8080/webapi/s"
-    ng-reflect-student-profile="[object Object]"
-  /><tm-more-info
-    ng-reflect-more-info-text=""
-    ng-reflect-student-name="John Doe"
-  /><h2>
+  </h1><tm-student-profile /><tm-more-info /><h2>
     Records in feedback sessions
   </h2>
 </tm-instructor-student-records-page>

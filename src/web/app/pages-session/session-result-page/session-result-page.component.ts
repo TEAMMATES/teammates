@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -128,10 +127,10 @@ export class SessionResultPageComponent implements OnInit {
     }).subscribe((feedbackSession: FeedbackSession) => {
       const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
-      this.formattedSessionOpeningTime =
-          moment(this.session.submissionStartTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
-      this.formattedSessionClosingTime =
-          moment(this.session.submissionEndTimestamp).tz(this.session.timeZone).format(TIME_FORMAT);
+      this.formattedSessionOpeningTime = this.timezoneService
+          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+      this.formattedSessionClosingTime = this.timezoneService
+          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
       this.feedbackSessionsService.getFeedbackSessionResults({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
@@ -142,10 +141,10 @@ export class SessionResultPageComponent implements OnInit {
             (a: QuestionOutput, b: QuestionOutput) =>
                 a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
