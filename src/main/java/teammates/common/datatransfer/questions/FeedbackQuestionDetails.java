@@ -3,15 +3,10 @@ package teammates.common.datatransfer.questions;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 /**
  * A class holding the details for a specific question type.
@@ -33,8 +28,9 @@ public abstract class FeedbackQuestionDetails {
         this.questionText = questionText;
     }
 
-    public abstract String getQuestionTypeDisplayName();
-
+    /**
+     * Get question result statistics as JSON string.
+     */
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public String getQuestionResultStatisticsJson(
             FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
@@ -45,83 +41,10 @@ public abstract class FeedbackQuestionDetails {
         return "";
     }
 
-    public abstract String getQuestionResultStatisticsCsv(List<FeedbackResponseAttributes> responses,
-                                                          FeedbackQuestionAttributes question,
-                                                          FeedbackSessionResultsBundle bundle);
-
-    public abstract boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails);
-
-    public abstract String getCsvHeader();
-
-    /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
-    public String getCsvDetailedResponsesHeader(int noOfInstructorComments) {
-        StringBuilder header = new StringBuilder(1000);
-        String headerString = "Team" + "," + "Giver's Full Name" + ","
-                + "Giver's Last Name" + "," + "Giver's Email" + ","
-                + "Recipient's Team" + "," + "Recipient's Full Name" + ","
-                + "Recipient's Last Name" + "," + "Recipient's Email" + ","
-                + getCsvHeader();
-        header.append(headerString);
-
-        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
-            headerString = ',' + "Giver's Comments";
-            header.append(headerString);
-        }
-        header.append(getCsvDetailedInstructorsCommentsHeader(noOfInstructorComments)).append(System.lineSeparator());
-        return header.toString();
-    }
-
-    public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
-                                             FeedbackResponseAttributes feedbackResponseAttributes,
-                                             FeedbackQuestionAttributes question) {
-        // Retrieve giver details
-        String giverLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.giver);
-        String giverFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.giver);
-        String giverTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.giver);
-        String giverEmail = fsrBundle.getDisplayableEmailGiver(feedbackResponseAttributes);
-
-        // Retrieve recipient details
-        String recipientLastName = fsrBundle.getLastNameForEmail(feedbackResponseAttributes.recipient);
-        String recipientFullName = fsrBundle.getNameForEmail(feedbackResponseAttributes.recipient);
-        String recipientTeamName = fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipient);
-        String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
-
-        StringBuilder detailedResponseRow = new StringBuilder(1000);
-        String detailedResponseRowString = SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
-                + "," + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
-                + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question);
-        detailedResponseRow.append(detailedResponseRowString);
-        // Append feedback participant comments if allowed
-        if (isFeedbackParticipantCommentsOnResponsesAllowed()) {
-            String feedbackParticipantComment =
-                    fsrBundle.getCsvDetailedFeedbackParticipantCommentOnResponse(feedbackResponseAttributes);
-            detailedResponseRow.append(',').append(feedbackParticipantComment);
-        }
-        // Append instructor comments if allowed
-        if (isInstructorCommentsOnResponsesAllowed()) {
-            String instructorComments =
-                    fsrBundle.getCsvDetailedInstructorFeedbackResponseComments(feedbackResponseAttributes);
-            detailedResponseRow.append(instructorComments);
-        }
-        return detailedResponseRow.append(System.lineSeparator()).toString();
-    }
-
-    public String getQuestionText() {
-        return questionText;
-    }
-
     /**
-     * Returns a list of strings where each string is an instruction to answer the question.
-     *
-     * @return List of strings containing instructions.
+     * Checks whether the changes to the question details require deletion of corresponding responses.
      */
-    public abstract List<String> getInstructions();
+    public abstract boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails);
 
     /**
      * Individual responses are shown by default.
@@ -149,17 +72,17 @@ public abstract class FeedbackQuestionDetails {
      */
     public abstract String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes);
 
-    // The following function handle the display of rows between possible givers
-    // and recipients who did not respond to a question in feedback sessions
+    /**
+     * Checks whether instructor comments are allowed for the question.
+     */
+    public boolean isInstructorCommentsOnResponsesAllowed() {
+        return true;
+    }
 
     /**
-     * Returns true if 'No Response' is to be displayed in the Response rows.
+     * Checks whether participant comments are allowed for the question.
      */
-    public boolean shouldShowNoResponseText(FeedbackQuestionAttributes question) {
-        // we do not show all possible responses
-        return question.recipientType != FeedbackParticipantType.STUDENTS
-            && question.recipientType != FeedbackParticipantType.TEAMS;
-    }
+    public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
 
     /**
      * Checks whether missing responses should be generated.
@@ -167,59 +90,6 @@ public abstract class FeedbackQuestionDetails {
     public boolean shouldGenerateMissingResponses(FeedbackQuestionAttributes question) {
         // generate combinations against all students are meaningless
         return question.getRecipientType() != FeedbackParticipantType.STUDENTS;
-    }
-
-    public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,
-                                         FeedbackSessionResultsBundle bundle,
-                                         FeedbackQuestionAttributes question) {
-        return SanitizationHelper.sanitizeForCsv(getNoResponseText(giverEmail, recipientEmail, bundle, question));
-    }
-
-    /**
-     * Returns text to indicate that there is no response between the giver and recipient.
-     *
-     * <p>Used in instructorFeedbackResultsPage to show possible givers and recipients who did
-     * not respond to the question in the feedback session.
-     */
-    public String getNoResponseText(String giverEmail, String recipientEmail,
-                                    FeedbackSessionResultsBundle bundle,
-                                    FeedbackQuestionAttributes question) {
-        return Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
-    }
-
-    public String getJsonString() {
-        Assumption.assertNotNull(questionType);
-        return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
-    }
-
-    public FeedbackQuestionDetails getDeepCopy() {
-        Assumption.assertNotNull(questionType);
-        String serializedDetails = getJsonString();
-        return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
-    }
-
-    public FeedbackQuestionType getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public boolean isInstructorCommentsOnResponsesAllowed() {
-        return true;
-    }
-
-    public abstract boolean isFeedbackParticipantCommentsOnResponsesAllowed();
-
-    public String getCsvDetailedInstructorsCommentsHeader(int noOfComments) {
-        StringBuilder commentsHeader = new StringBuilder(200);
-
-        for (int i = noOfComments; i > 0; i--) {
-            commentsHeader.append("," + "Comment From" + "," + "Comment");
-        }
-
-        return commentsHeader.toString();
     }
 
     @Override
@@ -243,7 +113,30 @@ public abstract class FeedbackQuestionDetails {
         return this.getJsonString().hashCode();
     }
 
+    public String getJsonString() {
+        Assumption.assertNotNull(questionType);
+        return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
+    }
+
+    public FeedbackQuestionDetails getDeepCopy() {
+        Assumption.assertNotNull(questionType);
+        String serializedDetails = getJsonString();
+        return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
+    }
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
     public void setQuestionType(FeedbackQuestionType questionType) {
         this.questionType = questionType;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
     }
 }

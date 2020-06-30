@@ -160,7 +160,7 @@ public final class SanitizationHelper {
 
     /**
      * Recovers a html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file.<br>
+     * to original encoding for appropriate display.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
@@ -182,7 +182,7 @@ public final class SanitizationHelper {
 
     /**
      * This recovers a set of html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file.<br>
+     * to original encoding for appropriate display.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
@@ -274,29 +274,6 @@ public final class SanitizationHelper {
                 .replace(":", " ")
                 .replace("<", "&lt;")
                 .replace(">", "&gt;");
-    }
-
-    /**
-     * Sanitizes the string for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180.
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
-     */
-    public static String sanitizeForCsv(String str) {
-        return "\"" + str.replace("\"", "\"\"") + "\"";
-    }
-
-    /**
-     * Sanitizes the list of strings for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180.
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
-     */
-    public static List<String> sanitizeListForCsv(List<String> strList) {
-
-        return strList.stream().map(string -> sanitizeForCsv(string))
-                               .collect(Collectors.toList());
-
     }
 
     /**

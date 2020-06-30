@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -30,6 +32,7 @@ import teammates.ui.webapi.request.Intent;
  */
 public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<UpdateFeedbackResponseCommentAction> {
 
+    private CourseAttributes course;
     private InstructorAttributes instructor1OfCourse1;
     private InstructorAttributes instructor2OfCourse1;
     private InstructorAttributes helperOfCourse1;
@@ -39,6 +42,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseAttributes response1ForQn1;
     private FeedbackResponseCommentAttributes comment1FromInstructor1;
     private FeedbackResponseCommentAttributes comment1FromStudent1;
+    private FeedbackResponseCommentAttributes comment2FromStudent1;
     private FeedbackResponseCommentAttributes comment1FromTeam1;
     private FeedbackResponseCommentAttributes comment1FromInstructor1Q2;
 
@@ -57,6 +61,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         DataBundle dataBundle = loadDataBundle("/FeedbackResponseCommentCRUDTest.json");
         removeAndRestoreDataBundle(dataBundle);
 
+        course = dataBundle.courses.get("idOfCourse1");
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         student2InCourse1 = dataBundle.students.get("student2InCourse1");
         student3InCourse1 = dataBundle.students.get("student3InCourse1");
@@ -70,14 +75,19 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 3);
         FeedbackQuestionAttributes qn4InSession1InCourse1 = logic.getFeedbackQuestion(
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 4);
+        FeedbackQuestionAttributes qn6InSession1InCourse1 = logic.getFeedbackQuestion(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 6);
         response1ForQn1 = logic.getFeedbackResponse(qn1InSession1InCourse1.getId(),
                 instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
         FeedbackResponseAttributes response1ForQn3 = logic.getFeedbackResponse(qn3InSession1InCourse1.getId(),
                 student1InCourse1.getEmail(), student1InCourse1.getEmail());
         FeedbackResponseAttributes response1ForQ4 = logic.getFeedbackResponse(qn4InSession1InCourse1.getId(),
                 student1InCourse1.getTeam(), student3InCourse1.getTeam());
+        FeedbackResponseAttributes response1ForQn6 = logic.getFeedbackResponse(qn6InSession1InCourse1.getId(),
+                student1InCourse1.getEmail(), student3InCourse1.getEmail());
         comment1FromInstructor1 = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQn1.getId());
         comment1FromStudent1 = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQn3.getId());
+        comment2FromStudent1 = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQn6.getId());
         comment1FromTeam1 = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ4.getId());
 
         comment1FromInstructor1Q2 = dataBundle.feedbackResponseComments.get("comment1FromInstructor1Q2");
@@ -491,5 +501,60 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
         };
         assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+    }
+
+    @Test
+    protected void testAccessControl_instructorsWithCorrectPrivilege_shouldPass() throws Exception {
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponseComment();
+
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+
+        InstructorAttributes instructor = helperOfCourse1;
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege("Section A",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        instructorPrivileges.updatePrivilege("Section B",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_instructorWithOnlyEitherSectionPrivilege_shouldFail() throws Exception {
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponseComment();
+
+        InstructorAttributes instructor = helperOfCourse1;
+        InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
+        instructorPrivileges.updatePrivilege("Section A",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(submissionParams);
+
+        instructorPrivileges.updatePrivilege("Section A",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
+        instructorPrivileges.updatePrivilege("Section B",
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+                .withPrivileges(instructorPrivileges).build());
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    private String[] getSubmissionParamsForCrossSectionResponseComment() {
+        return new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment2FromStudent1.getId().toString(),
+        };
     }
 }

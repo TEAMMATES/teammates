@@ -7,6 +7,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
@@ -105,6 +106,18 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+    }
+
+    @Test
+    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
+        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+    }
+
+    @Test
+    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnTrue() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
+        assertTrue(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 
 }

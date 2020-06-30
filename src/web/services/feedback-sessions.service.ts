@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+  InstructorSessionResultSectionType,
+} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
@@ -7,17 +11,23 @@ import {
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessions, FeedbackSessionStats, FeedbackSessionSubmittedGiverSet,
+  FeedbackSessions,
+  FeedbackSessionStats,
+  FeedbackSessionSubmittedGiverSet,
   HasResponses,
   MessageOutput,
-  OngoingSessions, SessionLinksRecoveryResponse, SessionResults,
+  OngoingSessions,
+  SessionLinksRecoveryResponse,
+  SessionResults,
 } from '../types/api-output';
 import {
   FeedbackSessionCreateRequest,
   FeedbackSessionStudentRemindRequest,
-  FeedbackSessionUpdateRequest, Intent,
+  FeedbackSessionUpdateRequest,
+  Intent,
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
+import { SessionResultCsvService } from './session-result-csv.service';
 import { TimezoneService } from './timezone.service';
 
 /**
@@ -37,7 +47,8 @@ export interface TemplateSession {
 export class FeedbackSessionsService {
 
   constructor(private httpRequestService: HttpRequestService,
-              private timezoneService: TimezoneService) {
+              private timezoneService: TimezoneService,
+              private sessionResultCsvService: SessionResultCsvService) {
   }
 
   /**
@@ -298,18 +309,24 @@ export class FeedbackSessionsService {
    */
   downloadSessionResults(courseId: string,
                          feedbackSessionName: string,
-                         userIntent: string,
+                         intent: Intent,
                          indicateMissingResponses: boolean,
-                         showStatistics: boolean): Observable<any> {
-    const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
-      intent: userIntent,
-      frindicatemissingresponses: indicateMissingResponses ? 'true' : 'false',
-      frshowstats: showStatistics ? 'true' : 'false',
-    };
-
-    return this.httpRequestService.get(ResourceEndpoints.RESULT_CSV, paramMap, 'text');
+                         showStatistics: boolean,
+                         groupBySection?: string,
+                         sectionDetail?: InstructorSessionResultSectionType): Observable<string> {
+    return this.getFeedbackSessionResults({
+      courseId,
+      feedbackSessionName,
+      intent,
+      groupBySection,
+    }).pipe(
+        map((results: SessionResults) =>
+            this.sessionResultCsvService.getCsvForSessionResult(
+                results, indicateMissingResponses, showStatistics,
+                groupBySection, sectionDetail,
+            ),
+        ),
+    );
   }
 
   /**
