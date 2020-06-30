@@ -36,18 +36,22 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final String INSTRUCTOR_NAME = "LnPInstructor";
-    private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
+    private static final int NUM_FEEDBACK_SESSIONS = 500;
 
     private static final String COURSE_ID = "TestData.CS101";
     private static final String COURSE_NAME = "LnPCourse";
     private static final String COURSE_TIME_ZONE = "UTC";
 
-    private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
-    private static final int NUM_FEEDBACK_SESSIONS = 500;
-
     private static final String UPDATE_COURSE_NAME = "updatedCourse";
     private static final String UPDATE_COURSE_TIME_ZONE = "GMT";
+
+    private static final String INSTRUCTOR_ID = "LnPInstructor_id";
+    private static final String INSTRUCTOR_NAME = "LnPInstructor";
+    private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
+
+    private static final String HAS_ADMIN_PRIVILEGE = "no";
+
+    private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
     private static final double MEAN_RESP_TIME_LIMIT = 10;
@@ -78,7 +82,7 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
 
                 instructors.put(INSTRUCTOR_NAME,
                         InstructorAttributes.builder(COURSE_ID, INSTRUCTOR_EMAIL)
-                                .withGoogleId(INSTRUCTOR_NAME)
+                                .withGoogleId(INSTRUCTOR_ID)
                                 .withName(INSTRUCTOR_NAME)
                                 .withRole("Co-owner")
                                 .withIsDisplayedToStudents(true)
@@ -136,9 +140,9 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId);
-                    csvRow.add("no");
-                    csvRow.add(instructor.courseId);
+                    csvRow.add(INSTRUCTOR_ID);
+                    csvRow.add(HAS_ADMIN_PRIVILEGE);
+                    csvRow.add(COURSE_ID);
 
                     for (int i = 1; i <= NUM_FEEDBACK_SESSIONS; i++) {
                         csvRow.add(FEEDBACK_SESSION_NAME + " " + i);
@@ -215,9 +219,6 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
         displayLnpResults();
     }
 
-    /**
-     * Removes the entities added for the instructors' course update L&P test.
-     */
     @AfterClass
     public void classTearDown() throws IOException {
         deleteTestData();
