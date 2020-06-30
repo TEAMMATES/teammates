@@ -41,10 +41,10 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     @Override
     @Test
     protected void testExecute() throws Exception {
-        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -137,14 +137,14 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     protected void testExecute_masqueradeMode_shouldCreateQuestionSuccessfully() throws Exception {
         loginAsAdmin();
 
-        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
-        params = addUserIdToParams(instructor1ofCourse1.getGoogleId(), params);
+        params = addUserIdToParams(instructor1OfCourse1.getGoogleId(), params);
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
@@ -164,10 +164,10 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
     @Test
     public void testExecute_contributionQuestion_shouldCreateQuestionSuccessfully() {
-        InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1ofCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, session.getCourseId(),
@@ -268,9 +268,10 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course with correct privilege can access");
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 
 }

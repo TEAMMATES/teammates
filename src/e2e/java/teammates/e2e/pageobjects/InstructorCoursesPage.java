@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -58,6 +57,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "deleted-table-heading")
     private WebElement deleteTableHeading;
 
+    @FindBy(id = "archived-table-heading")
+    private WebElement archiveTableHeading;
+
     public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
@@ -82,6 +84,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     public void verifyArchivedCoursesDetails(CourseAttributes[] courses) {
+        showArchiveTable();
         String[][] courseDetails = getCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as archive courses are not sorted
@@ -123,26 +126,14 @@ public class InstructorCoursesPage extends AppPage {
         assertEquals(expectedNum, getDeletedCourseCount());
     }
 
-    public void verifyStatusMessageWithLinks(String expected, String[] expectedLinks) {
-        WebElement statusMessage = browser.driver.findElement(By.className("mat-snack-bar-container"));
-        assertEquals(expected, statusMessage.getText());
-
-        List<WebElement> actualLinks = statusMessage.findElements(By.tagName("a"));
-        for (int i = 0; i < expectedLinks.length; i++) {
-            assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
-        }
-    }
-
     public void addCourse(CourseAttributes newCourse) {
         click(addCourseButton);
 
         fillTextBox(courseIdTextBox, newCourse.getId());
         fillTextBox(courseNameTextBox, newCourse.getName());
         selectNewTimeZone(newCourse.getTimeZone().toString());
-        waitForPageToLoad();
 
         click(submitButton);
-        waitForElementPresence(By.className("mat-snack-bar-container"));
     }
 
     public void showStatistics(String courseId) {
@@ -190,6 +181,12 @@ public class InstructorCoursesPage extends AppPage {
         }
     }
 
+    public void showArchiveTable() {
+        if (!isElementVisible(By.id("archived-course-id-0"))) {
+            click(archiveTableHeading);
+        }
+    }
+
     public void restoreCourse(String courseId) {
         WebElement restoreButton = getRestoreButton(courseId);
         click(restoreButton);
@@ -220,17 +217,14 @@ public class InstructorCoursesPage extends AppPage {
 
     public void sortByCourseName() {
         click(sortByCourseNameIcon);
-        waitForPageToLoad();
     }
 
     public void sortByCourseId() {
         click(sortByCourseIdIcon);
-        waitForPageToLoad();
     }
 
     public void sortByCreationDate() {
         click(sortByCreationDateIcon);
-        waitForPageToLoad();
     }
 
     private WebElement getActiveTableRow(String courseId) {

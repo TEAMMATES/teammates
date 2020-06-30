@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import moment from 'moment-timezone';
+import { TimezoneService } from '../../../services/timezone.service';
 
 /**
  * Pipe to handle the display of a timestamp in detail.
@@ -9,11 +9,13 @@ import moment from 'moment-timezone';
 })
 export class FormatDateDetailPipe implements PipeTransform {
 
+  constructor(private timezoneService: TimezoneService) {}
+
   /**
    * Transforms a timestamp to a date string in detail.
    */
   transform(timestamp: number, timeZone: string): string {
-    return moment(timestamp).tz(timeZone).format('ddd, DD MMM YYYY, HH:mm A z');
+    return this.timezoneService.formatToString(timestamp, timeZone, 'ddd, DD MMM YYYY, HH:mm A z');
   }
 
 }

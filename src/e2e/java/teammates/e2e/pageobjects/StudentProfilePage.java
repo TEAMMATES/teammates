@@ -76,7 +76,7 @@ public class StudentProfilePage extends AppPage {
     private StudentProfilePage submitEditedProfile() {
         click(saveProfileButton);
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
+        waitForPageToLoad(true);
         return changePageType(StudentProfilePage.class);
     }
 
@@ -128,7 +128,7 @@ public class StudentProfilePage extends AppPage {
 
     public void uploadPicture() {
         click(uploadPictureSubmit);
-        waitForPageToLoad();
+        waitForPageToLoad(true);
     }
 
     public void editProfilePhoto() {

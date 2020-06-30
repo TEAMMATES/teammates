@@ -147,16 +147,17 @@ public class CourseRosterTest extends BaseTestCase {
     public void testGetInfoForIdentifier_studentCase_shouldShowCorrectInfo() {
         CourseRoster roster = new CourseRoster(
                 createStudentList(
-                        "John", "john@gmail.com",
+                        "John Doe", "john@gmail.com",
                         "s2", "s2@gmail.com",
                         "s3", "s3@gmail.com"),
                 createInstructorList(
                         "John", "john@email.com",
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("john@gmail.com");
-        assertEquals("John", info.getName());
-        assertEquals("John", info.getTeamName());
-        assertEquals("John's Section", info.getSectionName());
+        assertEquals("John Doe", info.getName());
+        assertEquals("Doe", info.getLastName());
+        assertEquals("John Doe", info.getTeamName());
+        assertEquals("John Doe's Section", info.getSectionName());
     }
 
     @Test
@@ -167,10 +168,11 @@ public class CourseRosterTest extends BaseTestCase {
                         "s2", "s2@gmail.com",
                         "s3", "s3@gmail.com"),
                 createInstructorList(
-                        "John", "john@email.com",
+                        "John Doe", "john@email.com",
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("john@email.com");
-        assertEquals("John", info.getName());
+        assertEquals("John Doe", info.getName());
+        assertEquals("Doe", info.getLastName());
         assertEquals(Const.USER_TEAM_FOR_INSTRUCTOR, info.getTeamName());
         assertEquals(Const.DEFAULT_SECTION, info.getSectionName());
     }
@@ -187,6 +189,7 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("s1");
         assertEquals("s1", info.getName());
+        assertEquals("s1", info.getLastName());
         assertEquals("s1", info.getTeamName());
         assertEquals("s1's Section", info.getSectionName());
     }
@@ -203,6 +206,7 @@ public class CourseRosterTest extends BaseTestCase {
                         "Jean", "ins2@email.com"));
         CourseRoster.ParticipantInfo info = roster.getInfoForIdentifier("random");
         assertEquals(Const.USER_NOBODY_TEXT, info.getName());
+        assertEquals(Const.USER_NOBODY_TEXT, info.getLastName());
         assertEquals(Const.USER_NOBODY_TEXT, info.getTeamName());
         assertEquals(Const.DEFAULT_SECTION, info.getSectionName());
     }

@@ -38,6 +38,7 @@ public class ActionFactory {
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
+        map(ResourceURIs.AUTH_REGKEY, GET, GetRegkeyValidityAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
@@ -62,7 +63,6 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
-        map(ResourceURIs.RESULT_CSV, GET, GetSessionResultsAsCsvAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
@@ -115,7 +115,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, POST, PostStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, DELETE, DeleteStudentProfilePictureAction.class);
-        map(ResourceURIs.STUDENTS_CSV, GET, GetStudentsAsCsvAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
     }

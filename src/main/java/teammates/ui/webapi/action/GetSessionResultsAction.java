@@ -25,10 +25,6 @@ public class GetSessionResultsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (userInfo.isAdmin) {
-            return;
-        }
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -41,14 +37,13 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges();
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, fs);
             break;
         case STUDENT_RESULT:
             StudentAttributes student = getStudent(courseId);
-
             gateKeeper.verifyAccessible(student, fs);
-
             if (!fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.");
             }

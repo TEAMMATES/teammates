@@ -38,7 +38,7 @@ export class MsqFieldComponent {
     if (this.numberOfMsqChoices > 2) {
       this.elementDeleted.emit(this.index);
     } else {
-      this.statusMessageService.showErrorMessage('There must be at least two Msq options.');
+      this.statusMessageService.showErrorToast('There must be at least two Msq options.');
     }
   }
 

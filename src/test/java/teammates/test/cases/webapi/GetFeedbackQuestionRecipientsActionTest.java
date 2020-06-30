@@ -8,6 +8,8 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.action.GetFeedbackQuestionRecipientsAction;
@@ -24,6 +26,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     private FeedbackSessionAttributes secondSessionInCourse1;
     private FeedbackSessionAttributes firstSessionInCourse2;
     private StudentAttributes student1InCourse1;
+    private StudentAttributes student3InCourse1;
     private InstructorAttributes instructor1OfCourse1;
     private InstructorAttributes instructor1OfCourse2;
 
@@ -35,6 +38,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         secondSessionInCourse1 = testData.feedbackSessions.get("session2InCourse1");
         firstSessionInCourse2 = testData.feedbackSessions.get("session1InCourse2");
         student1InCourse1 = testData.students.get("student1InCourse1");
+        student3InCourse1 = testData.students.get("student3InCourse1");
         instructor1OfCourse1 = testData.instructors.get("instructor1OfCourse1");
         instructor1OfCourse2 = testData.instructors.get("instructor1OfCourse2");
     }
@@ -163,15 +167,38 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     @Override
     protected void testAccessControl() throws Exception {
+        //see independent test cases
+    }
 
+    @Test
+    protected void testAccessControl_studentSubmission()
+            throws EntityDoesNotExistException, InvalidParametersException {
         // Use typical bundle for testing access control because we want to make the login account consistent
         // with "high-level" and "mid-level" access control tests, although accounts are same in two bundles
         useTypicalDataBundle();
+        Intent intent = Intent.STUDENT_SUBMISSION;
+        String[] params =
+                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
+
+        ______TS("Typical unauthorized cases");
+
+        verifyInaccessibleWithoutLogin(params);
+        String unregUserId = "unreg.user";
+        loginAsUnregistered(unregUserId);
+        verifyCannotAccess(params);
+
+        ______TS("Student access student's question, should be accessible");
+
+        verifyAccessibleForStudentsOfTheSameCourse(params);
+
+        ______TS("student cannot access other course question");
+        params = generateParameters(firstSessionInCourse2, 1, intent, "", "", "");
+        verifyCannotAccess(params);
 
         ______TS("Student intends to access instructor's question, should not be accessible");
-        loginAsStudent(student1InCourse1.googleId);
         String[] studentAccessInstructorQuestionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.STUDENT_SUBMISSION, "", "", "");
+        loginAsStudent(student1InCourse1.googleId);
         verifyCannotAccess(studentAccessInstructorQuestionParams);
 
         ______TS("Instructor intends to access student's question, should not be accessible");
@@ -184,20 +211,31 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         String[] instructorSubmissionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
         verifyOnlyInstructorsOfTheSameCourseCanAccess(instructorSubmissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(instructorSubmissionParams);
 
         ______TS("Student access student's question, should be accessible");
         String[] studentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
         verifyAccessibleForStudentsOfTheSameCourse(studentSubmissionParams);
 
-        ______TS("Unregistered student access with correct regKey, should be accessible");
-        StudentAttributes unloggedStudent =
-                logic.getStudentForGoogleId(student1InCourse1.getCourse(), student1InCourse1.googleId);
+        ______TS("Not logged in user access with correct unused regKey, should be accessible");
+        logic.resetStudentGoogleId(student3InCourse1.email, student3InCourse1.getCourse());
+        StudentAttributes unregisteredStudent =
+                logic.getStudentForEmail(student3InCourse1.getCourse(), student3InCourse1.email);
         String[] unregisteredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        StringHelper.encrypt(unloggedStudent.getKey()), "", "");
+                        StringHelper.encrypt(unregisteredStudent.getKey()), "", "");
         verifyAccessibleWithoutLogin(unregisteredStudentSubmissionParams);
+
+        ______TS("Access with correct but used regKey, should not be accessible by anyone");
+        StudentAttributes registeredStudent =
+                logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.email);
+        String[] registeredStudentSubmissionParams =
+                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
+                        StringHelper.encrypt(registeredStudent.getKey()), "", "");
+        verifyCannotAccess(registeredStudentSubmissionParams);
+
+        gaeSimulation.logoutUser();
+        verifyCannotAccess(registeredStudentSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -210,31 +248,65 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         String[] moderatedStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
                         "", student1InCourse1.email, "");
-        verifyAccessibleForInstructorsOfTheSameCourse(moderatedStudentSubmissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(moderatedStudentSubmissionParams);
+
+        verifyInaccessibleForInstructorsOfOtherCourses(moderatedStudentSubmissionParams);
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(moderatedStudentSubmissionParams);
+
+        grantInstructorWithSectionPrivilege(helperOfCourse1,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section 1"});
+        verifyCanAccess(moderatedStudentSubmissionParams);
 
         ______TS("Instructor previews student's question, should be accessible if he has privilege");
         String[] previewStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
                         "", "", student1InCourse1.email);
-        verifyAccessibleForInstructorsOfTheSameCourse(previewStudentSubmissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(previewStudentSubmissionParams);
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewStudentSubmissionParams);
+
+    }
+
+    @Test
+    protected void testAccessControl_instructorSubmission()
+            throws InvalidParametersException, EntityDoesNotExistException {
+        ______TS("Instructor access instructor's question, should be accessible");
+        String[] instructorSubmissionParams =
+                generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, instructorSubmissionParams);
+
+        ______TS("Instructor intends to access student's question, should not be accessible");
+        loginAsInstructor(instructor1OfCourse1.googleId);
+        String[] instructorAccessStudentQuestionParams =
+                generateParameters(firstSessionInCourse1, 2, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
+        verifyCannotAccess(instructorAccessStudentQuestionParams);
 
         ______TS("Instructor moderates another instructor's question, "
                 + "should be accessible if he has privilege");
         String[] moderatedInstructorSubmissionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
                         "", instructor1OfCourse1.email, "");
-        verifyAccessibleForInstructorsOfTheSameCourse(moderatedInstructorSubmissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(moderatedInstructorSubmissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, moderatedInstructorSubmissionParams);
 
         ______TS("Instructor previews another instructor's question,"
                 + " should be accessible if he has privilege");
         String[] previewInstructorSubmissionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.email);
-        verifyAccessibleForInstructorsOfTheSameCourse(previewInstructorSubmissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(previewInstructorSubmissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
+
+        ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
+        loginAsInstructor(instructor1OfCourse1.googleId);
+        String[] invalidModeratedInstructorSubmissionParams =
+                generateParameters(secondSessionInCourse1, 1, Intent.INSTRUCTOR_SUBMISSION,
+                        "", instructor1OfCourse1.email, "");
+        verifyCannotAccess(invalidModeratedInstructorSubmissionParams);
     }
 
     private void useTypicalDataBundle() {
@@ -243,6 +315,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         secondSessionInCourse1 = typicalBundle.feedbackSessions.get("session2InCourse1");
         firstSessionInCourse2 = typicalBundle.feedbackSessions.get("session1InCourse2");
         student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        student3InCourse1 = typicalBundle.students.get("student3InCourse1");
         instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
     }

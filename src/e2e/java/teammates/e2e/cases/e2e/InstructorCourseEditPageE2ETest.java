@@ -93,6 +93,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(1, instructors[0]);
+        editPage.waitForPageToLoad();
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",

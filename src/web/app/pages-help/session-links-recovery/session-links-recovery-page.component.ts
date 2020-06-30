@@ -26,7 +26,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   formSessionLinksRecovery!: FormGroup;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
-  @ViewChild('captchaElem', { static: false }) captchaElem!: ReCaptcha2Component;
+  @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
               private statusMessageService: StatusMessageService,
@@ -48,7 +48,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     }
 
     if (!this.formSessionLinksRecovery.valid || this.captchaResponse === undefined) {
-      this.statusMessageService.showErrorMessage(
+      this.statusMessageService.showErrorToast(
           'Please enter a valid email address and click the reCAPTCHA before submitting.');
       return;
     }
@@ -58,10 +58,10 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       captchaResponse: this.captchaResponse,
     }).subscribe((resp: SessionLinksRecoveryResponse) => {
       resp.isEmailSent
-            ? this.statusMessageService.showSuccessMessage(resp.message)
-            : this.statusMessageService.showErrorMessage(resp.message);
+            ? this.statusMessageService.showSuccessToast(resp.message)
+            : this.statusMessageService.showErrorToast(resp.message);
     }, (response: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(response.error.message);
+      this.statusMessageService.showErrorToast(response.error.message);
     });
     this.resetFormGroups();
   }

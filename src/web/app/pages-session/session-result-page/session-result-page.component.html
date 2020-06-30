@@ -1,6 +1,14 @@
 <h1>
   Feedback Session Results
 </h1>
+<div class="row" *ngIf="regKey">
+  <div class="col-12">
+    <div class="alert alert-primary" role="alert">
+      You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to
+      <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+    </div>
+  </div>
+</div>
 <div class="card card-plain">
   <div class="card-body">
     <br/>

@@ -1,0 +1,700 @@
+{
+  "questions": [
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM",
+        "questionNumber": 1,
+        "questionBrief": "Rank the other students.",
+        "questionDetails": {
+          "minOptionsToBeRanked": -2147483648,
+          "maxOptionsToBeRanked": -2147483648,
+          "areDuplicatesAllowed": false,
+          "questionType": "RANK_RECIPIENTS",
+          "questionText": "Rank the other students."
+        },
+        "questionType": "RANK_RECIPIENTS",
+        "giverType": "STUDENTS",
+        "recipientType": "STUDENTS",
+        "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student1InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 3,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 4,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student3InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 4,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student4InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 3,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student1InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 2,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student1InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 1,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 2,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student3InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": 3,
+            "questionType": "RANK_RECIPIENTS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student2InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student5 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.2",
+          "recipientEmail": "student5InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student2InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student2InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student2InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student5InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student5InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student5InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student5InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student4InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student4InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student5 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.2",
+          "recipientEmail": "student5InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student4InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student4InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student1InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student5 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.2",
+          "recipientEmail": "student5InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student3InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student3InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student5 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.2",
+          "recipientEmail": "student5InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGEAM%student3InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    },
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDAM",
+        "questionNumber": 2,
+        "questionBrief": "Rank the areas of improvement you think your team should make progress in.",
+        "questionDetails": {
+          "options": [
+            "Quality of work",
+            "Quality of progress reports",
+            "Time management",
+            "Teamwork and communication",
+            "Friendliness of teammates"
+          ],
+          "minOptionsToBeRanked": -2147483648,
+          "maxOptionsToBeRanked": -2147483648,
+          "areDuplicatesAllowed": true,
+          "questionType": "RANK_OPTIONS",
+          "questionText": "Rank the areas of improvement you think your team should make progress in."
+        },
+        "questionType": "RANK_OPTIONS",
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM",
+        "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDAM%student3InCourse1@gmail.tmt%Team 1.1</td></div>'\"",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "Team 1.1</td></div>'\"",
+          "recipientLastName": "Team 1.1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              2,
+              -999,
+              1,
+              1,
+              -999
+            ],
+            "questionType": "RANK_OPTIONS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDAM%student4InCourse1@gmail.tmt%Team 1.1</td></div>'\"",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "Team 1.1</td></div>'\"",
+          "recipientLastName": "Team 1.1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              3,
+              -999,
+              2,
+              1,
+              -999
+            ],
+            "questionType": "RANK_OPTIONS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDAM%student1InCourse1@gmail.tmt%Team 1.1</td></div>'\"",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "Team 1.1</td></div>'\"",
+          "recipientLastName": "Team 1.1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              1,
+              2,
+              3,
+              4,
+              -999
+            ],
+            "questionType": "RANK_OPTIONS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDAM%student2InCourse1@gmail.tmt%Team 1.1</td></div>'\"",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "Team 1.1</td></div>'\"",
+          "recipientLastName": "Team 1.1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              4,
+              3,
+              2,
+              1,
+              -999
+            ],
+            "questionType": "RANK_OPTIONS"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDAM%student5InCourse1@gmail.tmt%Team 1.2",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "Team 1.2",
+          "recipientLastName": "Team 1.2",
+          "recipientTeam": "Team 1.2",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              1,
+              -999,
+              -999,
+              -999,
+              -999
+            ],
+            "questionType": "RANK_OPTIONS"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    }
+  ],
+  "feedbackSession": {
+    "courseId": "FSQTT.idOfTypicalCourse1",
+    "timeZone": "Africa/Johannesburg",
+    "feedbackSessionName": "RANK Session",
+    "instructions": "Please answer the following questions.",
+    "submissionStartTimestamp": 1333317540000,
+    "submissionEndTimestamp": 1809122340000,
+    "gracePeriod": 10,
+    "sessionVisibleSetting": "CUSTOM",
+    "customSessionVisibleTimestamp": 1332971940000,
+    "responseVisibleSetting": "CUSTOM",
+    "customResponseVisibleTimestamp": 1809208740000,
+    "submissionStatus": "OPEN",
+    "publishStatus": "NOT_PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 1332287940000
+  }
+}

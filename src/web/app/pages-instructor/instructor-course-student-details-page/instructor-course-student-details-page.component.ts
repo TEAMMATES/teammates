@@ -44,12 +44,12 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     this.studentProfileService.getStudentProfile(studentEmail, courseId).subscribe((studentProfile: StudentProfile) => {
       this.studentProfile = studentProfile;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.studentService.getStudent(courseId, studentEmail).subscribe((student: Student) => {
       this.student = student;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

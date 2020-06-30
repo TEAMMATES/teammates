@@ -16,31 +16,10 @@ public class FeedbackConstantSumResponseDetails extends
         super(FeedbackQuestionType.CONSTSUM);
     }
 
-    /**
-     * Returns the list of answers (for constant sum to recipients, there will only be one answer).
-     */
-    public List<Integer> getAnswerList() {
-        return answers;
-    }
-
     @Override
     public String getAnswerString() {
         String listString = answers.toString(); //[1, 2, 3] format
         return listString.substring(1, listString.length() - 1); //remove []
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        StringBuilder csvBuilder = new StringBuilder();
-
-        for (Integer answer : answers) {
-            if (!((FeedbackConstantSumQuestionDetails) questionDetails).isDistributeToRecipients()) {
-                csvBuilder.append(',');
-            }
-            csvBuilder.append(answer);
-        }
-
-        return csvBuilder.toString();
     }
 
     @Override
@@ -123,6 +102,10 @@ public class FeedbackConstantSumResponseDetails extends
         }
 
         return errors;
+    }
+
+    public List<Integer> getAnswers() {
+        return answers;
     }
 
     public void setAnswers(List<Integer> answers) {

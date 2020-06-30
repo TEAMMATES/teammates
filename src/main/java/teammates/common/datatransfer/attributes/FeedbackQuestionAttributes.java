@@ -161,27 +161,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return getInvalidityInfo().isEmpty();
     }
 
-    public boolean isGiverAStudent() {
-        return giverType == FeedbackParticipantType.SELF
-               || giverType == FeedbackParticipantType.STUDENTS;
-    }
-
-    public boolean isRecipientNameHidden() {
-        return recipientType == FeedbackParticipantType.NONE
-               || recipientType == FeedbackParticipantType.SELF;
-    }
-
-    public boolean isRecipientAStudent() {
-        return recipientType == FeedbackParticipantType.SELF
-               || recipientType == FeedbackParticipantType.STUDENTS
-               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
-    }
-
-    public boolean isRecipientInstructor() {
-        return recipientType == FeedbackParticipantType.INSTRUCTORS;
-    }
-
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }
@@ -336,40 +315,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         return true;
-    }
-
-    public void updateValues(FeedbackQuestionAttributes newAttributes) {
-        // These can't be changed anyway. Copy values to defensively avoid invalid parameters.
-        newAttributes.feedbackSessionName = this.feedbackSessionName;
-        newAttributes.courseId = this.courseId;
-
-        if (newAttributes.questionDetails == null) {
-            newAttributes.questionDetails = getQuestionDetails();
-        }
-
-        if (newAttributes.questionDescription == null) {
-            newAttributes.questionDescription = this.questionDescription;
-        }
-
-        if (newAttributes.giverType == null) {
-            newAttributes.giverType = this.giverType;
-        }
-
-        if (newAttributes.recipientType == null) {
-            newAttributes.recipientType = this.recipientType;
-        }
-
-        if (newAttributes.showResponsesTo == null) {
-            newAttributes.showResponsesTo = this.showResponsesTo;
-        }
-
-        if (newAttributes.showGiverNameTo == null) {
-            newAttributes.showGiverNameTo = this.showGiverNameTo;
-        }
-
-        if (newAttributes.showRecipientNameTo == null) {
-            newAttributes.showRecipientNameTo = this.showRecipientNameTo;
-        }
     }
 
     public void removeIrrelevantVisibilityOptions() {

@@ -2,20 +2,22 @@ import { DOCUMENT } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
+  AuthInfo,
   ConfirmationResponse,
   ConfirmationResult,
   FeedbackParticipantType,
@@ -27,6 +29,7 @@ import {
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  RegkeyValidity,
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
@@ -107,6 +110,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
 
+  private backendUrl: string = environment.backendUrl;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private statusMessageService: StatusMessageService,
@@ -119,6 +124,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private modalService: NgbModal,
               private pageScrollService: PageScrollService,
               private authService: AuthService,
+              private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
@@ -143,13 +149,47 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.isSubmissionFormsDisabled = true;
       }
 
-      if (this.regKey) {
-        // public page using regKey, fetch CSRF token
-        this.authService.getAuthUser().subscribe(() => {}, () => {});
-      }
+      const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+      this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
+        if (this.regKey && !isPreviewOrModeration) {
+          this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
+            if (resp.isValid) {
+              if (auth.user) {
+                // The logged in user matches the registration key; redirect to the logged in URL
 
-      this.loadPersonName();
-      this.loadFeedbackSession();
+                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
+                    { courseid: this.courseId, fsname: this.feedbackSessionName });
+              } else {
+                // There is no logged in user for valid, unused registration key; load information based on the key
+
+                this.loadPersonName();
+                this.loadFeedbackSession();
+              }
+            } else if (!auth.user) {
+              // If there is no logged in user for a valid, used registration key, redirect to login page
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            } else {
+              this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                  'You are not authorized to view this page.');
+            }
+          }, () => {
+            this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                'You are not authorized to view this page.');
+          });
+        } else if (auth.user) {
+          // Load information based on logged in user
+          // This will also cover moderation/preview cases
+          this.loadPersonName();
+          this.loadFeedbackSession();
+        } else {
+          this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+              'You are not authorized to view this page.');
+        }
+      }, () => {
+        this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+            'You are not authorized to view this page.');
+      });
     });
   }
 
@@ -217,13 +257,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       previewAs: this.previewAsPerson,
     }).subscribe((feedbackSession: FeedbackSession) => {
       this.feedbackSessionInstructions = feedbackSession.instructions;
-      this.formattedSessionOpeningTime =
-              moment(feedbackSession.submissionStartTimestamp)
-                  .tz(feedbackSession.timeZone).format(TIME_FORMAT);
+      this.formattedSessionOpeningTime = this.timezoneService
+          .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
-      const submissionEndTime: any = moment(feedbackSession.submissionEndTimestamp);
-      this.formattedSessionClosingTime = submissionEndTime
-              .tz(feedbackSession.timeZone).format(TIME_FORMAT);
+      this.formattedSessionClosingTime = this.timezoneService
+          .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
       this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
       this.feedbackSessionTimezone = feedbackSession.timeZone;
@@ -237,7 +275,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             break;
           case FeedbackSessionSubmissionStatus.OPEN:
             // closing in 15 minutes
-            if (moment.utc().add(15, 'minutes').isAfter(submissionEndTime)) {
+            if (feedbackSession.submissionEndTimestamp - Date.now() < 15 * 60 * 1000) {
               this.modalService.open(FeedbackSessionClosingSoonModalComponent);
             }
             break;
@@ -255,7 +293,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       if (resp.status === 404) {
         this.modalService.open(FeedbackSessionDeletedModalComponent);
       }
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -298,7 +336,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.questionSubmissionForms.push(model);
         this.loadFeedbackQuestionRecipientsForQuestion(model);
       });
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -343,7 +381,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       } else {
         this.loadFeedbackResponses(model);
       }
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -416,7 +454,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
       // load comments
       this.loadParticipantComment(model);
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorMessage(resp.error.message));
+    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
@@ -445,7 +483,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     forkJoin(loadCommentRequests).subscribe(() => {
       // comment loading success
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -509,7 +547,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     recipientSubmissionFormModel.commentByGiver = undefined;
                   }),
                   catchError((error: any) => {
-                    this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                    this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
                     failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
                     return of(error);
                   }),
@@ -535,7 +573,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       }),
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
-                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
                         failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
                         return of(error);
                       }),
@@ -561,7 +599,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       }),
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
-                        this.statusMessageService.showErrorMessage((error as ErrorMessageOutput).error.message);
+                        this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
                         failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
                         return of(error);
                       }),
@@ -579,14 +617,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     forkJoin(savingRequests).pipe(
         switchMap(() => {
           if (failToSaveQuestions.size === 0) {
-            this.statusMessageService.showSuccessMessage('All responses submitted successfully!');
+            this.statusMessageService.showSuccessToast('All responses submitted successfully!');
           } else {
-            this.statusMessageService.showErrorMessage('Some responses are not saved successfully');
+            this.statusMessageService.showErrorToast('Some responses are not saved successfully');
           }
 
           if (notYetAnsweredQuestions.size !== 0) {
             // TODO use showInfoMessage
-            this.statusMessageService.showSuccessMessage(
+            this.statusMessageService.showSuccessToast(
                 `Note that some questions are yet to be answered. They are:
                 ${ Array.from(notYetAnsweredQuestions.values()) }.`);
           }
@@ -614,17 +652,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         case ConfirmationResult.SUCCESS:
           break;
         case ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND:
-          this.statusMessageService.showErrorMessage(
+          this.statusMessageService.showErrorToast(
               `Submission confirmation email failed to send: ${response.message}`);
           break;
         default:
-          this.statusMessageService.showErrorMessage(`Unknown result ${response.result}`);
+          this.statusMessageService.showErrorToast(`Unknown result ${response.result}`);
       }
       hasSubmissionConfirmationError = false;
       this.shouldSendConfirmationEmail = false;
     }, (resp: ErrorMessageOutput) => {
       hasSubmissionConfirmationError = true;
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -716,9 +754,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           moderatedperson: this.moderatedPerson,
         }).subscribe(() => {
           recipientSubmissionFormModel.commentByGiver = undefined;
-          this.statusMessageService.showSuccessMessage('Your comment has been deleted!');
+          this.statusMessageService.showSuccessToast('Your comment has been deleted!');
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -745,9 +783,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }).subscribe(
         (comment: FeedbackResponseComment) => {
           recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
-          this.statusMessageService.showSuccessMessage('Your comment has been saved!');
+          this.statusMessageService.showSuccessToast('Your comment has been saved!');
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 }

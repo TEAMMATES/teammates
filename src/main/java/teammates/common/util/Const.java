@@ -663,6 +663,7 @@ public final class Const {
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
+        public static final String AUTH_REGKEY = "/auth/regkey";
         public static final String ACCOUNT = "/account";
         public static final String ACCOUNT_RESET = "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
@@ -676,7 +677,6 @@ public final class Const {
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
         public static final String RESULT = "/result";
-        public static final String RESULT_CSV = "/result/csv";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ONGOING = "/sessions/ongoing";
@@ -708,7 +708,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSE_LINKS_REGENERATION = "/student/courselinks/regeneration";
-        public static final String STUDENTS_CSV = "/students/csv";
     }
 
     public static class CronJobURIs {

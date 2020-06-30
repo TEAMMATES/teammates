@@ -165,7 +165,17 @@ public abstract class AppPage {
      * Waits until the page is fully loaded.
      */
     public void waitForPageToLoad() {
-        browser.waitForPageLoad();
+        waitForPageToLoad(false);
+    }
+
+    /**
+     * Waits until the page is fully loaded.
+     *
+     * @param excludeToast Set this to true if toast message's disappearance should not be counted
+     *         as criteria for page load's completion.
+     */
+    public void waitForPageToLoad(boolean excludeToast) {
+        browser.waitForPageLoad(excludeToast);
     }
 
     public void waitForElementVisibility(WebElement element) {
@@ -549,20 +559,35 @@ public abstract class AppPage {
     }
 
     /**
-     * Asserts message in snackbar is equal to the expected message.
+     * Asserts message in toast is equal to the expected message.
      */
     public void verifyStatusMessage(String expectedMessage) {
+        verifyStatusMessageWithLinks(expectedMessage, new String[] {});
+    }
+
+    /**
+     * Asserts message in toast is equal to the expected message and contains the expected links.
+     */
+    public void verifyStatusMessageWithLinks(String expectedMessage, String[] expectedLinks) {
+        WebElement[] statusMessage = new WebElement[1];
         try {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
                 @Override
                 public void run() {
-                    WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
-                    assertEquals(expectedMessage, statusMessage.getText());
+                    statusMessage[0] = waitForElementPresence(By.className("toast-body"));
+                    assertEquals(expectedMessage, statusMessage[0].getText());
                 }
             }, WebDriverException.class, AssertionError.class);
         } catch (MaximumRetriesExceededException e) {
-            WebElement statusMessage = browser.driver.findElement(By.className("mat-simple-snackbar"));
-            assertEquals(expectedMessage, statusMessage.getText());
+            statusMessage[0] = waitForElementPresence(By.className("toast-body"));
+            assertEquals(expectedMessage, statusMessage[0].getText());
+        } finally {
+            if (expectedLinks.length > 0) {
+                List<WebElement> actualLinks = statusMessage[0].findElements(By.tagName("a"));
+                for (int i = 0; i < expectedLinks.length; i++) {
+                    assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
+                }
+            }
         }
     }
 

@@ -89,11 +89,20 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
 
       responsesToShow.push(response);
     }
-    this.responsesToShow = responsesToShow;
+
+    const hasRealResponse: boolean =
+        responsesToShow.some((response: ResponseOutput) => !response.isMissingResponse);
+    if (hasRealResponse) {
+      this.responsesToShow = responsesToShow;
+      this.sortResponses(this.sortBy);
+    } else {
+      // If there is no real response, it is not necessary to show any of the missing responses
+      this.responsesToShow = [];
+    }
   }
 
   sortResponses(by: SortBy): void {
-    if (this.sortBy === by) {
+    if (by !== SortBy.NONE && this.sortBy === by) {
       this.sortOrder = this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     } else {
       this.sortBy = by;
@@ -104,6 +113,15 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
 
   sortResponsesBy(by: SortBy, order: SortOrder):
     ((a: ResponseOutput, b: ResponseOutput) => number) {
+    if (by === SortBy.NONE) {
+      // Default order: giver team > giver name > recipient team > recipient name
+      return ((a: ResponseOutput, b: ResponseOutput): number => {
+        return this.tableComparatorService.compare(SortBy.GIVER_TEAM, order, a.giverTeam, b.giverTeam)
+            || this.tableComparatorService.compare(SortBy.GIVER_NAME, order, a.giver, b.giver)
+            || this.tableComparatorService.compare(SortBy.RECIPIENT_TEAM, order, a.recipientTeam, b.recipientTeam)
+            || this.tableComparatorService.compare(SortBy.RECIPIENT_NAME, order, a.recipient, b.recipient);
+      });
+    }
     return ((a: ResponseOutput, b: ResponseOutput): number => {
       let strA: string;
       let strB: string;

@@ -10,9 +10,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-params="[object Object]"
-  >
+  <tm-instructor-search-bar>
     <div
       class="card bg-light mb-4"
     >
@@ -45,7 +43,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model="TEST"
               placeholder="Your search keyword"
               type="text"
             />
@@ -67,7 +64,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
                 <input
                   class="form-check-inline ng-untouched ng-pristine ng-valid"
                   id="studentsCheckbox"
-                  ng-reflect-model="true"
                   type="checkbox"
                 />
                 <label
@@ -85,7 +81,6 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
                 <input
                   class="form-check-inline ng-untouched ng-pristine ng-valid"
                   id="commentCheckbox"
-                  ng-reflect-model="false"
                   type="checkbox"
                 />
                 <label
@@ -126,9 +121,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-params="[object Object]"
-  >
+  <tm-instructor-search-bar>
     <div
       class="card bg-light mb-4"
     >
@@ -161,7 +154,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model=""
               placeholder="Your search keyword"
               type="text"
             />
@@ -184,7 +176,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                 <input
                   class="form-check-inline ng-untouched ng-pristine ng-valid"
                   id="studentsCheckbox"
-                  ng-reflect-model="true"
                   type="checkbox"
                 />
                 <label
@@ -202,7 +193,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                 <input
                   class="form-check-inline ng-untouched ng-pristine ng-valid"
                   id="commentCheckbox"
-                  ng-reflect-model="false"
                   type="checkbox"
                 />
                 <label
@@ -229,9 +219,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar><tm-student-result-table
-    ng-reflect-student-tables="[object Object]"
-  >
+  </tm-instructor-search-bar><tm-student-result-table>
     <div
       class="card border border-primary mb-4"
     >
@@ -255,12 +243,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           <div
             class="card-body p-0"
           >
-            <tm-student-list
-              ng-reflect-course-id="test-exa.demo"
-              ng-reflect-enable-remind-button="false"
-              ng-reflect-students="[object Object],[object Object"
-              ng-reflect-use-gray-heading="true"
-            >
+            <tm-student-list>
               <div
                 class="table-responsive"
               >
@@ -269,7 +252,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                 >
                   <thead
                     class="thead-gray"
-                    ng-reflect-ng-class="[object Object]"
                   >
                     <tr>
                       <th>
@@ -354,16 +336,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td
                         class="align-center"
                       >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
+                        <tm-view-photo-popover>
                           
                           
                           
                           <a
                             href="/"
-                            ng-reflect-query-params-handling="preserve"
                             queryparamshandling="preserve"
                             role="button"
                           >
@@ -400,12 +378,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -416,12 +388,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -432,9 +398,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <button
                           class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
                         >
                           Delete
                         </button>
@@ -443,12 +406,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -463,16 +420,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td
                         class="align-center"
                       >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
+                        <tm-view-photo-popover>
                           
                           
                           
                           <a
                             href="/"
-                            ng-reflect-query-params-handling="preserve"
                             queryparamshandling="preserve"
                             role="button"
                           >
@@ -509,12 +462,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -525,12 +472,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -541,9 +482,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <button
                           class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
                         >
                           Delete
                         </button>
@@ -552,12 +490,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -572,16 +504,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td
                         class="align-center"
                       >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
+                        <tm-view-photo-popover>
                           
                           
                           
                           <a
                             href="/"
-                            ng-reflect-query-params-handling="preserve"
                             queryparamshandling="preserve"
                             role="button"
                           >
@@ -618,12 +546,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -634,12 +556,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -650,9 +566,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <button
                           class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
                         >
                           Delete
                         </button>
@@ -661,12 +574,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -681,16 +588,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td
                         class="align-center"
                       >
-                        <tm-view-photo-popover
-                          ng-reflect-is-view-photo-link-in-popover="false"
-                          ng-reflect-photo-url="http://localhost:8080/webapi/s"
-                        >
+                        <tm-view-photo-popover>
                           
                           
                           
                           <a
                             href="/"
-                            ng-reflect-query-params-handling="preserve"
                             queryparamshandling="preserve"
                             role="button"
                           >
@@ -727,12 +630,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View the details of the studen"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -743,12 +640,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Use this to edit the details o"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/courses/studen"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -759,9 +650,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <button
                           class="btn btn-light btn-sm mr-2"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="Delete the student and the cor"
                         >
                           Delete
                         </button>
@@ -770,12 +658,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          ng-reflect-klass="btn btn-light btn-sm mr-2"
-                          ng-reflect-ng-class="[object Object]"
-                          ng-reflect-ngb-tooltip="View all data about this stude"
-                          ng-reflect-query-params="[object Object]"
-                          ng-reflect-router-link="/web/instructor/students/recor"
-                          ng-reflect-target="_blank"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -806,9 +688,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-params="[object Object]"
-  >
+  <tm-instructor-search-bar>
     <div
       class="card bg-light mb-4"
     >
@@ -841,7 +721,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
-              ng-reflect-model=""
               placeholder="Your search keyword"
               type="text"
             />
@@ -864,7 +743,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
                 <input
                   class="form-check-inline ng-untouched ng-pristine ng-valid"
                   id="studentsCheckbox"
-                  ng-reflect-model="true"
                   type="checkbox"
                 />
                 <label
@@ -882,7 +760,6 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
                 <input
                   class="form-check-inline ng-untouched ng-pristine ng-valid"
                   id="commentCheckbox"
-                  ng-reflect-model="false"
                   type="checkbox"
                 />
                 <label

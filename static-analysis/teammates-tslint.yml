@@ -150,7 +150,6 @@ rules:
   no-unsafe-finally: true
   no-unused-expression: true
   no-unused-variable: false # Use compiler's built-in check instead
-  no-use-before-declare: true
   number-literal-format: true
   one-line: [
     true,
@@ -168,7 +167,6 @@ rules:
   typedef: [
     true,
     "call-signature",
-    "arrow-call-signature",
     "parameter",
     "arrow-parameter",
     "property-declaration",
