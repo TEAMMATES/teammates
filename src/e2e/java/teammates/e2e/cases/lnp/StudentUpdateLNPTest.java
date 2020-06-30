@@ -43,14 +43,17 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUMBER_OF_FEEDBACK_RESPONSES = 100;
-
-    private static final String INSTRUCTOR_NAME = "LnPInstructor";
-    private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
+    private static final int NUMBER_OF_FEEDBACK_RESPONSES = 500;
 
     private static final String COURSE_ID = "TestData.CS101";
     private static final String COURSE_NAME = "LnPCourse";
     private static final String COURSE_TIME_ZONE = "UTC";
+
+    private static final String INSTRUCTOR_ID = "LnPInstructor_id";
+    private static final String INSTRUCTOR_NAME = "LnPInstructor";
+    private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
+
+    private static final String HAS_ADMIN_PRIVILEGE = "no";
 
     private static final String STUDENT_ID = "LnPStudent.tmms";
     private static final String STUDENT_NAME = "LnPStudent";
@@ -65,10 +68,11 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
     private static final String RECEIVER_SECTION_NAME = "Section 1";
 
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
-    private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
 
-    private static final String QUESTION_ID = "QuestionTest";
-    private static final String QUESTION_TEXT = "Test Question";
+    private static final String FEEDBACK_QUESTION_ID = "QuestionTest";
+    private static final String FEEDBACK_QUESTION_TEXT = "Test Question description";
+
+    private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
     private static final double MEAN_RESP_TIME_LIMIT = 10;
@@ -99,7 +103,7 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
 
                 instructors.put(INSTRUCTOR_NAME,
                         InstructorAttributes.builder(COURSE_ID, INSTRUCTOR_EMAIL)
-                            .withGoogleId(INSTRUCTOR_NAME)
+                            .withGoogleId(INSTRUCTOR_ID)
                             .withName(INSTRUCTOR_NAME)
                             .withRole("Co-owner")
                             .withIsDisplayedToStudents(true)
@@ -161,12 +165,12 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
 
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
-                FeedbackQuestionDetails details = new FeedbackTextQuestionDetails(QUESTION_TEXT);
+                FeedbackQuestionDetails details = new FeedbackTextQuestionDetails(FEEDBACK_QUESTION_TEXT);
 
-                feedbackQuestions.put(QUESTION_ID,
+                feedbackQuestions.put(FEEDBACK_QUESTION_ID,
                         FeedbackQuestionAttributes.builder()
                                 .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                                .withQuestionDescription(QUESTION_TEXT)
+                                .withQuestionDescription(FEEDBACK_QUESTION_TEXT)
                                 .withCourseId(COURSE_ID)
                                 .withQuestionDetails(details)
                                 .withQuestionNumber(1)
@@ -190,7 +194,7 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
                             new FeedbackTextResponseDetails(responseText);
 
                     feedbackResponses.put(responseText,
-                            FeedbackResponseAttributes.builder(QUESTION_ID,
+                            FeedbackResponseAttributes.builder(FEEDBACK_QUESTION_ID,
                                 STUDENT_EMAIL,
                                 STUDENT_EMAIL)
                                 .withCourseId(COURSE_ID)
@@ -233,13 +237,13 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId);
-                    csvRow.add("no");
+                    csvRow.add(INSTRUCTOR_ID);
+                    csvRow.add(HAS_ADMIN_PRIVILEGE);
                     csvRow.add(COURSE_ID);
                     csvRow.add(STUDENT_ID);
                     csvRow.add(STUDENT_EMAIL);
                     csvRow.add(FEEDBACK_SESSION_NAME);
-                    csvRow.add(QUESTION_ID);
+                    csvRow.add(FEEDBACK_QUESTION_ID);
 
                     for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
                         csvRow.add(FEEDBACK_RESPONSE_ID + " " + i);
@@ -304,9 +308,9 @@ public class StudentUpdateLNPTest extends BaseLNPTestCase {
     @Override
     protected void setupSpecification() {
         this.specification = LNPSpecification.builder()
-        .withErrorRateLimit(ERROR_RATE_LIMIT)
-        .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
-        .build();
+                .withErrorRateLimit(ERROR_RATE_LIMIT)
+                .withMeanRespTimeLimit(MEAN_RESP_TIME_LIMIT)
+                .build();
     }
 
     @BeforeClass
