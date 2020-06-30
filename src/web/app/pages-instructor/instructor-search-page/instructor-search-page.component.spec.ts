@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';
@@ -16,7 +15,6 @@ describe('InstructorSearchPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        MatSnackBarModule,
         InstructorSearchPageModule,
       ],
     })

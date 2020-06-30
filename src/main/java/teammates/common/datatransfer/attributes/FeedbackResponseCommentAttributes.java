@@ -6,10 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -176,43 +172,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
 
     public boolean isCommentFromFeedbackParticipant() {
         return isCommentFromFeedbackParticipant;
-    }
-
-    /**
-     * Converts comment text in form of string for csv i.e if it contains image, changes it into link.
-     *
-     * @return Comment in form of string
-     */
-    public String getCommentAsCsvString() {
-        String htmlText = commentText;
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        convertImageToLinkInComment(comment, htmlText);
-        return SanitizationHelper.sanitizeForCsv(comment.toString());
-    }
-
-    /**
-     * Converts comment text in form of string.
-     *
-     * @return Comment in form of string
-     */
-    public String getCommentAsHtmlString() {
-        String htmlText = commentText;
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        convertImageToLinkInComment(comment, htmlText);
-        return SanitizationHelper.sanitizeForHtml(comment.toString());
-    }
-
-    // Converts image in comment text to link.
-    private void convertImageToLinkInComment(StringBuilder comment, String htmlText) {
-        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
-            comment.append(" Images Link: ");
-            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
-            for (Element element : ele) {
-                comment.append(element.absUrl("src") + ' ');
-            }
-        }
     }
 
     /**

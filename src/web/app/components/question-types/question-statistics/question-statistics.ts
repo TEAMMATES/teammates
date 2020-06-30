@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { Directive, Input, OnInit } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestionDetails,
@@ -27,6 +27,8 @@ export interface Response<R extends FeedbackResponseDetails> {
 /**
  * The abstract question statistics.
  */
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails>
     implements OnInit {
 

@@ -1,11 +1,11 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import {
@@ -15,7 +15,7 @@ import {
 const routes: Routes = [
   {
     path: 'web',
-    loadChildren: './pages.module#PagesModule',
+    loadChildren: () => import('./pages.module').then((m: any) => m.PagesModule),
   },
   {
     path: '',
@@ -32,11 +32,11 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatSnackBarModule,
     HttpClientModule,
     NgbModule,
     RouterModule.forRoot(routes),
     StatusMesssageModalModule,
+    NgxPageScrollCoreModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerImmediately',

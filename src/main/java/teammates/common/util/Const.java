@@ -677,7 +677,6 @@ public final class Const {
         public static final String INSTRUCTOR = "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
         public static final String RESULT = "/result";
-        public static final String RESULT_CSV = "/result/csv";
         public static final String STUDENTS = "/students";
         public static final String STUDENT = "/student";
         public static final String SESSIONS_ONGOING = "/sessions/ongoing";
@@ -709,7 +708,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
         public static final String STUDENT_COURSE_LINKS_REGENERATION = "/student/courselinks/regeneration";
-        public static final String STUDENTS_CSV = "/students/csv";
     }
 
     public static class CronJobURIs {

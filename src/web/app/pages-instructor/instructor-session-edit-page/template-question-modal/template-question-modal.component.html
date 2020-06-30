@@ -13,8 +13,10 @@
       <span [innerHTML]="templateQuestionModel.description" class="template-description"
             (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails"></span>
     </div>
-    <div class="card-body" *ngIf="templateQuestionModel.isShowDetails">
-      <tm-question-edit-form [formModel]="templateQuestionModel.model" isDisplayOnly="true"></tm-question-edit-form>
+    <div [ngbCollapse]="!templateQuestionModel.isShowDetails">
+      <div class="card-body">
+        <tm-question-edit-form [formModel]="templateQuestionModel.model" isDisplayOnly="true"></tm-question-edit-form>
+      </div>
     </div>
   </div>
 </div>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.Const;
@@ -54,5 +55,17 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = rubricDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
+    }
+
+    @Test
+    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
+        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+    }
+
+    @Test
+    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
+        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
 }

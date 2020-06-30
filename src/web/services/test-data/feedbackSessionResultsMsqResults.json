@@ -1,0 +1,454 @@
+{
+  "questions": [
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDMM",
+        "questionNumber": 2,
+        "questionBrief": "What do you like best about the class' product?",
+        "questionDetails": {
+          "msqChoices": [
+            "It's good",
+            "It's perfect"
+          ],
+          "otherEnabled": false,
+          "hasAssignedWeights": false,
+          "msqWeights": [],
+          "msqOtherWeight": 0.0,
+          "generateOptionsFor": "NONE",
+          "maxSelectableChoices": -2147483648,
+          "minSelectableChoices": -2147483648,
+          "questionType": "MSQ",
+          "questionText": "What do you like best about the class' product?"
+        },
+        "questionType": "MSQ",
+        "giverType": "INSTRUCTORS",
+        "recipientType": "SELF",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDMM%instructor2@course1.tmt%instructor2@course1.tmt",
+          "giver": "Instructor2 Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "instructor2@course1.tmt",
+          "giverTeam": "Instructors",
+          "giverEmail": "instructor2@course1.tmt",
+          "giverSection": "None",
+          "recipient": "Instructor2 Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Instructors",
+          "recipientEmail": "instructor2@course1.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "It's perfect"
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDMM%instructor3@course1.tmt%instructor3@course1.tmt",
+          "giver": "Instructor3 Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "instructor3@course1.tmt",
+          "giverTeam": "Instructors",
+          "giverEmail": "instructor3@course1.tmt",
+          "giverSection": "None",
+          "recipient": "Instructor3 Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Instructors",
+          "recipientEmail": "instructor3@course1.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              ""
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDMM%instructor1@course1.tmt%instructor1@course1.tmt",
+          "giver": "Instructor1 Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "instructor1@course1.tmt",
+          "giverTeam": "Instructors",
+          "giverEmail": "instructor1@course1.tmt",
+          "giverSection": "None",
+          "recipient": "Instructor1 Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Instructors",
+          "recipientEmail": "instructor1@course1.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "It's good",
+              "It's perfect"
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    },
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDEM",
+        "questionNumber": 1,
+        "questionBrief": "What do you like best about our product?",
+        "questionDetails": {
+          "msqChoices": [
+            "It's good",
+            "It's perfect"
+          ],
+          "otherEnabled": false,
+          "hasAssignedWeights": false,
+          "msqWeights": [],
+          "msqOtherWeight": 0.0,
+          "generateOptionsFor": "NONE",
+          "maxSelectableChoices": -2147483648,
+          "minSelectableChoices": -2147483648,
+          "questionType": "MSQ",
+          "questionText": "What do you like best about our product?"
+        },
+        "questionType": "MSQ",
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDEM%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "It's good"
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDEM%student3InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              ""
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDEM%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "It's good",
+              "It's perfect"
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDEM%student5InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student5 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.2",
+          "recipientEmail": "student5InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDEM%student4InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    },
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDUM",
+        "questionNumber": 3,
+        "questionBrief": "Choose all the food you like",
+        "questionDetails": {
+          "msqChoices": [
+            "Pizza",
+            "Pasta",
+            "Chicken rice"
+          ],
+          "otherEnabled": true,
+          "hasAssignedWeights": true,
+          "msqWeights": [
+            1.0,
+            2.0,
+            0.0
+          ],
+          "msqOtherWeight": 3.0,
+          "generateOptionsFor": "NONE",
+          "maxSelectableChoices": -2147483648,
+          "minSelectableChoices": -2147483648,
+          "questionType": "MSQ",
+          "questionText": "Choose all the food you like"
+        },
+        "questionType": "MSQ",
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDUM%student3InCourse1@gmail.tmt%student3InCourse1@gmail.tmt",
+          "giver": "student3 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student3InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student3InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student3 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student3InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "Hotdog"
+            ],
+            "isOther": true,
+            "otherFieldContent": "Hotdog",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDUM%student2InCourse1@gmail.tmt%student2InCourse1@gmail.tmt",
+          "giver": "student2 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student2InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student2InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student2 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student2InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "Pasta"
+            ],
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDUM%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answers": [
+              "Pizza",
+              "Pasta",
+              "Chicken rice",
+              "Hotdog"
+            ],
+            "isOther": true,
+            "otherFieldContent": "Hotdog",
+            "questionType": "MSQ"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDUM%student5InCourse1@gmail.tmt%student5InCourse1@gmail.tmt",
+          "giver": "student5 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student5InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.2",
+          "giverEmail": "student5InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student5 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.2",
+          "recipientEmail": "student5InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDUM%student4InCourse1@gmail.tmt%student4InCourse1@gmail.tmt",
+          "giver": "student4 In Course1",
+          "giverLastName": "Course1",
+          "relatedGiverEmail": "student4InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student4InCourse1@gmail.tmt",
+          "giverSection": "None",
+          "recipient": "student4 In Course1",
+          "recipientLastName": "Course1",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student4InCourse1@gmail.tmt",
+          "recipientSection": "None",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    }
+  ],
+  "feedbackSession": {
+    "courseId": "FSQTT.idOfTypicalCourse1",
+    "timeZone": "Africa/Johannesburg",
+    "feedbackSessionName": "MSQ Session",
+    "instructions": "Please answer the following questions.",
+    "submissionStartTimestamp": 1333317540000,
+    "submissionEndTimestamp": 1809122340000,
+    "gracePeriod": 10,
+    "sessionVisibleSetting": "CUSTOM",
+    "customSessionVisibleTimestamp": 1332971940000,
+    "responseVisibleSetting": "CUSTOM",
+    "customResponseVisibleTimestamp": 1809208740000,
+    "submissionStatus": "OPEN",
+    "publishStatus": "NOT_PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 1332287940000
+  }
+}

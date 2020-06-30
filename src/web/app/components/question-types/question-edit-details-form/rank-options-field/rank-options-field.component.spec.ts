@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
 import { RankOptionsFieldComponent } from './rank-options-field.component';
 
 describe('RankOptionsFieldComponent', () => {
@@ -13,7 +12,6 @@ describe('RankOptionsFieldComponent', () => {
       declarations: [RankOptionsFieldComponent],
       imports: [
         FormsModule,
-        MatSnackBarModule,
       ],
     })
     .compileComponents();

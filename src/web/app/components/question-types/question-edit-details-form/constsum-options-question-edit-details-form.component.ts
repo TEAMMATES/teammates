@@ -66,7 +66,7 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
    */
   onConstsumOptionDeleted(event: number): void {
     if (this.model.constSumOptions.length <= 2) {
-      this.statusMessageService.showErrorMessage('There must be at least one option.');
+      this.statusMessageService.showErrorToast('There must be at least one option.');
       return;
     }
 

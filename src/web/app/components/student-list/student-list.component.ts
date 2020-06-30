@@ -95,7 +95,7 @@ export class StudentListComponent implements OnInit {
         this.navigationService.navigateWithSuccessMessage(this.router,
             `/web/instructor/courses/details?courseid=${this.courseId}`, resp.message);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 

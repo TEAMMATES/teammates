@@ -22,6 +22,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.CommentVisibilityType;
@@ -45,6 +46,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseAttributes response2ForQ3;
     private FeedbackResponseAttributes response2ForQ4;
     private FeedbackResponseAttributes response1ForQ5;
+    private FeedbackResponseAttributes response1ForQ6;
     private StudentAttributes student1InCourse1;
     private StudentAttributes student2InCourse1;
     private StudentAttributes student3InCourse1;
@@ -81,6 +83,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 4);
         FeedbackQuestionAttributes qn5InSession1InCourse1 = logic.getFeedbackQuestion(
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 5);
+        FeedbackQuestionAttributes qn6InSession1InCourse1 = logic.getFeedbackQuestion(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 6);
         response1ForQ1 = logic.getFeedbackResponse(qn1InSession1InCourse1.getId(),
                 instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
         response1ForQ2 = logic.getFeedbackResponse(qn2InSession1InCourse1.getId(),
@@ -93,6 +97,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 student1InCourse1.getTeam(), student1InCourse1.getTeam());
         response1ForQ5 = logic.getFeedbackResponse(qn5InSession1InCourse1.getId(),
                 instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
+        response1ForQ6 = logic.getFeedbackResponse(qn6InSession1InCourse1.getId(),
+                student1InCourse1.getEmail(), student3InCourse1.getEmail());
     }
 
     @Override
@@ -360,6 +366,30 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
+    public void testAccessControl_contributionQuestionResponse_instructorNotAllowedToAddComment() {
+        DataBundle contributionDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(contributionDataBundle);
+        InstructorAttributes instructorAttributes = contributionDataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes contributionSession = contributionDataBundle.feedbackSessions.get("contribSession");
+        FeedbackQuestionAttributes contributionQuestion = logic.getFeedbackQuestion(
+                contributionSession.getFeedbackSessionName(), contributionSession.getCourseId(), 1);
+        FeedbackResponseAttributes contributionResponse =
+                contributionDataBundle.feedbackResponses.get("response1ForQ1S5C1");
+        contributionResponse = logic.getFeedbackResponse(
+                contributionQuestion.getId(), contributionResponse.getGiver(), contributionResponse.getRecipient());
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, contributionResponse.getId(),
+        };
+
+        loginAsInstructor(instructorAttributes.getGoogleId());
+        InvalidHttpParameterException exception = assertThrows(
+                InvalidHttpParameterException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        AssertHelper.assertContains("Invalid question type for instructor comment", exception.getMessage());
+    }
+
+    @Test
     protected void testAccessControl_commentAlreadyExist_shouldNotCreateAgain() {
         ______TS("students give a comment already exists");
 
@@ -504,6 +534,54 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
         };
         verifyCanMasquerade(instructor1OfCourse1.getGoogleId(), submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_onlyInstructorsWithCorrectPrivilege_shouldPass() throws Exception {
+
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponse();
+
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        InstructorAttributes instructor = helperOfCourse1;
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section A", "Section B"});
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_onlyInstructorsWithOnlyEitherPrivilege_shouldFail() throws Exception {
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponse();
+
+        InstructorAttributes instructor = helperOfCourse1;
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section A"});
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(submissionParams);
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section B"});
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    private String[] getSubmissionParamsForCrossSectionResponse() {
+        return new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ6.getId(),
+        };
+
     }
 
     /**

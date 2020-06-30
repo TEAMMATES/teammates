@@ -9,10 +9,6 @@
     "src/web/polyfills.ts"
   ],
   "include": [
-    "src/web/**/*.ts"
-  ],
-  "exclude": [
-    "**/*.spec.ts",
-    "src/web/test-helpers/*.ts"
+    "src/web/**/*.d.ts"
   ]
 }

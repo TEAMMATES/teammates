@@ -7,7 +7,6 @@ import { Course } from '../../../../types/api-output';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -32,11 +31,12 @@ describe('AddCourseFormComponent', () => {
   const timeZoneOffsets1: Record<string, number> = { GMT: 0 };
 
   const spyStatusMessageService: any = {
-    showErrorMessage: jest.fn(),
-    showSuccessMessageTemplate: jest.fn(),
+    showErrorToast: jest.fn(),
+    showSuccessToastTemplate: jest.fn(),
   };
   const timezoneServiceStub: any = {
     getTzOffsets: jest.fn(() => timeZoneOffsets1),
+    guessTimezone: jest.fn(() => 'UTC'),
   };
   const spyCourseService: any = {
     createCourse: jest.fn(() => of(testCourse)),
@@ -51,7 +51,6 @@ describe('AddCourseFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         NgbModule,
-        MatSnackBarModule,
       ],
       providers: [
         { provide: StatusMessageService, useValue: spyStatusMessageService },
@@ -88,11 +87,11 @@ describe('AddCourseFormComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should call showErrorMessage when courseId is blank', () => {
+  it('should call showErrorToast when courseId is blank', () => {
     component.newCourseId = '';
     component.onSubmit();
     fixture.detectChanges();
-    expect(spyStatusMessageService.showErrorMessage).toHaveBeenCalled();
+    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalled();
   });
 
   it('should hold added course with valid details', () => {
@@ -100,7 +99,7 @@ describe('AddCourseFormComponent', () => {
     component.newCourseName = testCourseName;
     component.onSubmit();
     fixture.detectChanges();
-    expect(spyStatusMessageService.showSuccessMessageTemplate).toHaveBeenCalled();
+    expect(spyStatusMessageService.showSuccessToastTemplate).toHaveBeenCalled();
     expect(component.course).toEqual(testCourse);
   });
 });

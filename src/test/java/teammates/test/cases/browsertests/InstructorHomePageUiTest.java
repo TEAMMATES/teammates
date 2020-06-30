@@ -60,7 +60,6 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         testCourseLinks();
         testSearchAction();
         testSortAction();
-        testDownloadAction();
         testRemindActions();
         testPublishUnpublishResendLinkActions();
         testArchiveCourseAction();
@@ -224,36 +223,6 @@ public class InstructorHomePageUiTest extends BaseE2ETestCase {
         assertEquals(expectedAddSessionLinkText, browser.driver.getCurrentUrl());
         homePage.goToPreviousPage(InstructorHomePage.class);
 
-    }
-
-    private void testDownloadAction() throws Exception {
-
-        // Test that download result button exist in homePage
-        homePage.verifyDownloadResultButtonExists(feedbackSessionClosed.getCourseId(),
-                feedbackSessionClosed.getFeedbackSessionName());
-
-        ______TS("Typical case: download report");
-
-        AppUrl reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
-                .withUserId("CHomeUiT.instructor.tmms")
-                .withCourseId(feedbackSessionClosed.getCourseId())
-                .withSessionName(feedbackSessionClosed.getFeedbackSessionName());
-
-        homePage.verifyDownloadLink(reportUrl);
-
-        ______TS("Typical case: download report unsuccessfully due to missing parameters");
-
-        reportUrl = createUrl(Const.ResourceURIs.RESULT_CSV)
-                .withUserId("CHomeUiT.instructor.tmms");
-        browser.driver.get(reportUrl.toAbsoluteString());
-        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
-        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
-        // Verify an error page is returned due to missing parameters in URL
-        // assertTrue("Expected url is Unauthorised page, but is " + afterReportDownloadUrl,
-        //                 afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
-
-        // Redirect to the instructor home page after showing error page
-        loginAsCommonInstructor();
     }
 
     private void testRemindActions() {

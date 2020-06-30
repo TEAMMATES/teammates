@@ -91,7 +91,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.courseService.getCourseAsInstructor(courseid).subscribe((course: Course) => {
       this.courseDetails.course = course;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -103,7 +103,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     .subscribe((instructors: Instructors) => {
       this.instructors = instructors.instructors;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -133,7 +133,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       });
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -154,7 +154,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
       this.students.push(...students);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -185,9 +185,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           numOfSections: 0,
           numOfTeams: 0,
         };
-        this.statusMessageService.showSuccessMessage(resp.message);
+        this.statusMessageService.showSuccessToast(resp.message);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
@@ -210,7 +210,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           this.courseStudentListAsCsv = resp;
           this.loading = false;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
     }
   }
@@ -231,7 +231,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       .subscribe((resp: string) => {
         this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
         this.isAjaxSuccess = false;
       });
     this.loading = false;
@@ -245,7 +245,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
         '/web/instructor/courses/details', resp.message);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -321,9 +321,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students);
 
       this.statusMessageService
-          .showSuccessMessage(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
+          .showSuccessToast(`Student is successfully deleted from course "${this.courseDetails.course.courseId}"`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

@@ -84,7 +84,7 @@ public class AdminSearchPage extends AppPage {
         waitForPageToLoad();
 
         regenerateLinksModal.findElement(By.className("btn-warning")).click();
-        waitForPageToLoad();
+        waitForPageToLoad(true);
     }
 
     public void clickExpandStudentLinks() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { LoadingBarService } from '../../../services/loading-bar.service';
@@ -61,33 +61,34 @@ export class InstructorSearchPageComponent implements OnInit {
       return;
     }
     this.loadingBarService.showLoadingBar();
-    forkJoin(
-        this.searchParams.isSearchForComments
-            ? this.searchService.searchComment(this.searchParams.searchKey)
-            : of([]),
-        this.searchParams.isSearchForStudents
-            ? this.searchService.searchInstructor(this.searchParams.searchKey)
-            : of([]))
-        .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
-        .subscribe((resp: [InstructorSearchResult, InstructorSearchResult]) => {
-          this.commentTables = resp[0].searchCommentsTables;
-          const searchStudentsTable: SearchStudentsTable[] = resp[1].searchStudentsTables;
-          const hasStudents: boolean = !!(
-              searchStudentsTable && searchStudentsTable.length
-          );
-          const hasComments: boolean = !!(
-              this.commentTables && this.commentTables.length
-          );
+    forkJoin([
+      this.searchParams.isSearchForComments
+          ? this.searchService.searchComment(this.searchParams.searchKey)
+          : of() as Observable<InstructorSearchResult>,
+      this.searchParams.isSearchForStudents
+          ? this.searchService.searchInstructor(this.searchParams.searchKey)
+          : of() as Observable<InstructorSearchResult>,
+    ]).pipe(
+        finalize(() => this.loadingBarService.hideLoadingBar()),
+    ).subscribe((resp: InstructorSearchResult[]) => {
+      this.commentTables = resp[0].searchCommentsTables;
+      const searchStudentsTable: SearchStudentsTable[] = resp[1].searchStudentsTables;
+      const hasStudents: boolean = !!(
+          searchStudentsTable && searchStudentsTable.length
+      );
+      const hasComments: boolean = !!(
+          this.commentTables && this.commentTables.length
+      );
 
-          if (hasStudents) {
-            this.studentsListRowTables = this.flattenStudentTable(searchStudentsTable);
-          }
-          if (!hasStudents && !hasComments) {
-            this.statusMessageService.showWarningMessage('No results found.');
-          }
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+      if (hasStudents) {
+        this.studentsListRowTables = this.flattenStudentTable(searchStudentsTable);
+      }
+      if (!hasStudents && !hasComments) {
+        this.statusMessageService.showWarningToast('No results found.');
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   private flattenStudentTable(searchStudentsTable: SearchStudentsTable[]): SearchStudentsListRowTable[] {
