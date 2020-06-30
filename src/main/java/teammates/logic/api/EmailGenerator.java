@@ -109,6 +109,21 @@ public class EmailGenerator {
     }
 
     /**
+     * Generates the feedback session reminder emails for the given {@code student}
+     */
+    public EmailWrapper generateFeedbackSessionStudentReminderEmail(
+            FeedbackSessionAttributes session, StudentAttributes student) {
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+
+        return generateFeedbackSessionEmailBaseForStudents(course, session, student, template,
+                EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
+    }
+
+    /**
      * Generates the email containing the summary of the feedback sessions
      * email for the given {@code courseId} for {@code student}.
      * @param courseId - ID of the course

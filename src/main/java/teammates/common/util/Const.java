@@ -550,6 +550,8 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY_EMAIL = "sessionlinksrecoveryemail";
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
+        public static final String GENERATE_EMAIL_TYPE = "emailtype";
+
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
 
@@ -704,6 +706,7 @@ public final class Const {
         public static final String LOCAL_DATE_TIME = "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
+        public static final String GENERATE_EMAIL = "/generateemail";
 
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
