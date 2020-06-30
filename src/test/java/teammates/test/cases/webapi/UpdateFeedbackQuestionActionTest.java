@@ -475,17 +475,14 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
             getAction(new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"}).checkSpecificAccessControl();
         });
 
-        ______TS("inaccessible without ModifySessionPrivilege");
+        ______TS("accessible only for instructor with ModifySessionPrivilege");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalQuestion.getFeedbackQuestionId(),
         };
 
-        verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);
-
-        ______TS("only instructors of the same course can access");
-
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 
 }
