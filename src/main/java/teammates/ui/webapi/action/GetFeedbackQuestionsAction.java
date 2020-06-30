@@ -37,6 +37,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
+            gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
