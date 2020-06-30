@@ -170,12 +170,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void verifySubmissionStatus(FeedbackSessionAttributes feedbackSession) {
         String submissionStatus = getSubmissionStatus();
-        if (!feedbackSession.isVisible() || (feedbackSession.isVisible() && !feedbackSession.isOpened())) {
-            assertEquals(submissionStatus, "Awaiting");
-        } else if (feedbackSession.isOpened() || feedbackSession.isInGracePeriod()) {
+        if (feedbackSession.isClosed()) {
+            assertEquals(submissionStatus, "Closed");
+        } else if (feedbackSession.isVisible() && (feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
             assertEquals(submissionStatus, "Open");
         } else {
-            assertEquals(submissionStatus, "Closed");
+            assertEquals(submissionStatus, "Awaiting");
         }
     }
 
