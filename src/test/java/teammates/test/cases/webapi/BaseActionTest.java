@@ -33,7 +33,6 @@ import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.MockPart;
 import teammates.ui.webapi.action.Action;
-import teammates.ui.webapi.action.CsvResult;
 import teammates.ui.webapi.action.ImageResult;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.request.BasicRequest;
@@ -512,15 +511,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected JsonResult getJsonResult(Action a) {
         return (JsonResult) a.execute();
-    }
-
-    /**
-     * Executes the action and returns the csv content.
-     *
-     * <p>Assumption: The action returns a {@link CsvResult}.
-     */
-    protected CsvResult getCsvResult(Action a) {
-        return (CsvResult) a.execute();
     }
 
     /**

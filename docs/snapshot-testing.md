@@ -27,9 +27,9 @@ For such testing method to be effective, before the changes are committed, a *ma
 
 ## How do we use Snapshot Testing?
 
-For the web page comparison, the tests are done in the front-end using Jest. [Jest has native support for snapshot testing (in fact, that is where the name is obtained from!)](https://jestjs.io/docs/en/snapshot-testing). Auto-update mode is activated by pressing `u` when running Jest under watch mode.
+For the web page comparison and CSV content generation, the tests are done in the front-end using Jest. [Jest has native support for snapshot testing (in fact, that is where the name is obtained from!)](https://jestjs.io/docs/en/snapshot-testing). Auto-update mode is activated by pressing `u` when running Jest under watch mode.
 
-For email and CSV content generation, the tests are done in the back-end. Auto-update mode is activated by setting the value of `test.snapshot.update` to `true` in `test.properties`.
+For email generation, the tests are done in the back-end. Auto-update mode is activated by setting the value of `test.snapshot.update` to `true` in `test.properties`.
 
 ## When do we use Snapshot Testing?
 
@@ -58,11 +58,6 @@ The same idea applies to email content test:
 EmailChecker.verifyEmailContent(email, recipient, subject, "/studentCourseJoinEmail.html");
 ```
 
-And to CSV content test:
-
-```java
-CsvChecker.verifyCsvContent(csvContent, "/feedbackSessionResults.csv");
-```
 
 ## When do we NOT use Snapshot Testing?
 

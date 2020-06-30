@@ -509,7 +509,6 @@ public class ArchitectureTest {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(E2E_PAGEOBJECTS_PACKAGE))
                 .and().doNotHaveSimpleName("BaseTestCase")
                 .and().doNotHaveSimpleName("AssertHelper")
-                .and().doNotHaveSimpleName("CsvChecker")
                 .and().doNotHaveSimpleName("EmailChecker")
                 .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")

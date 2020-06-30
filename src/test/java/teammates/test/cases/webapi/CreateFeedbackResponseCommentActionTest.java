@@ -22,6 +22,7 @@ import teammates.common.util.Const;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.CommentVisibilityType;
@@ -362,6 +363,30 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         assertThrows(InvalidHttpParameterException.class,
                 () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+    }
+
+    @Test
+    public void testAccessControl_contributionQuestionResponse_instructorNotAllowedToAddComment() {
+        DataBundle contributionDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(contributionDataBundle);
+        InstructorAttributes instructorAttributes = contributionDataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes contributionSession = contributionDataBundle.feedbackSessions.get("contribSession");
+        FeedbackQuestionAttributes contributionQuestion = logic.getFeedbackQuestion(
+                contributionSession.getFeedbackSessionName(), contributionSession.getCourseId(), 1);
+        FeedbackResponseAttributes contributionResponse =
+                contributionDataBundle.feedbackResponses.get("response1ForQ1S5C1");
+        contributionResponse = logic.getFeedbackResponse(
+                contributionQuestion.getId(), contributionResponse.getGiver(), contributionResponse.getRecipient());
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, contributionResponse.getId(),
+        };
+
+        loginAsInstructor(instructorAttributes.getGoogleId());
+        InvalidHttpParameterException exception = assertThrows(
+                InvalidHttpParameterException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        AssertHelper.assertContains("Invalid question type for instructor comment", exception.getMessage());
     }
 
     @Test

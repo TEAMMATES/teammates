@@ -18,6 +18,7 @@ import {
   SingleStatisticsModule,
 } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
 import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
@@ -25,6 +26,7 @@ import { InstructorSessionResultPageComponent } from './instructor-session-resul
 import { InstructorSessionResultQuestionViewComponent } from './instructor-session-result-question-view.component';
 import { InstructorSessionResultRgqViewComponent } from './instructor-session-result-rgq-view.component';
 import { InstructorSessionResultRqgViewComponent } from './instructor-session-result-rqg-view.component';
+import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
 
 describe('InstructorSessionResultPageComponent', () => {
   let component: InstructorSessionResultPageComponent;
@@ -40,12 +42,14 @@ describe('InstructorSessionResultPageComponent', () => {
         InstructorSessionResultRqgViewComponent,
         InstructorSessionResultGqrViewComponent,
         InstructorSessionNoResponsePanelComponent,
+        SectionTypeDescriptionPipe,
       ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
         FormsModule,
         NgbModule,
+        TeammatesCommonModule,
         QuestionTextWithInfoModule,
         GqrRqgViewResponsesModule,
         GrqRgqViewResponsesModule,
