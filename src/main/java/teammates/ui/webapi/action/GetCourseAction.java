@@ -35,7 +35,7 @@ public class GetCourseAction extends Action {
 
         if (userInfo.isStudent && Const.EntityType.STUDENT.equals(entityType)) {
             CourseAttributes course = logic.getCourse(courseId);
-            gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.id), course);
+            gateKeeper.verifyAccessible(logic.getStudentForGoogleId(courseId, userInfo.getId()), course);
             return;
         }
 
