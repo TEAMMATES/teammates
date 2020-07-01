@@ -109,7 +109,7 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates the feedback session reminder emails for the given {@code student}
+     * Generates the feedback session reminder emails for the given {@code student}.
      */
     public EmailWrapper generateFeedbackSessionStudentReminderEmail(
             FeedbackSessionAttributes session, StudentAttributes student) {

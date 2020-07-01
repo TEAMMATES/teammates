@@ -209,8 +209,8 @@ export class AdminSearchPageComponent {
         });
   }
 
-  sessionLinkToSessionName(sessionLink: string): string | null {
-    return new URL(sessionLink).searchParams.get('fsname');
+  sessionLinkToSessionName(sessionLink: string): string | undefined {
+    return new URL(sessionLink).searchParams.get('fsname') || undefined;
   }
 
 }
