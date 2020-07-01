@@ -25,6 +25,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
     Question 0:
   </b> MCQ question details
   <a
+    class="info-font-size"
     href="/"
     queryparamshandling="merge"
   >
@@ -45,12 +46,15 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     Question 0:
   </b> MCQ question details
   <a
+    class="info-font-size"
     href="/"
     queryparamshandling="merge"
   >
      [less]
   
-  </a><div>
+  </a><div
+    class="info-font-size"
+  >
     
     
     
