@@ -1,0 +1,85 @@
+{
+  "questions": [
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGBYM",
+        "questionNumber": 1,
+        "questionBrief": "What is the best selling point of your product?",
+        "questionDetails": {
+          "hasAssignedWeights": false,
+          "mcqWeights": [],
+          "mcqOtherWeight": 0.0,
+          "numOfMcqChoices": 2,
+          "mcqChoices": [
+            "Price",
+            "Quality"
+          ],
+          "otherEnabled": false,
+          "generateOptionsFor": "NONE",
+          "questionType": "MCQ",
+          "questionText": "What is the best selling point of your product?"
+        },
+        "questionType": "MCQ",
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGBYM%student1InCourse1@gmail.tmt%student1InCourse1@gmail.tmt",
+          "giver": "student1 In Course1</td></div>'\"",
+          "giverLastName": "Course1</td></div>'\"",
+          "relatedGiverEmail": "student1InCourse1@gmail.tmt",
+          "giverTeam": "Team 1.1</td></div>'\"",
+          "giverEmail": "student1InCourse1@gmail.tmt",
+          "giverSection": "Section 1",
+          "recipient": "student1 In Course1</td></div>'\"",
+          "recipientLastName": "Course1</td></div>'\"",
+          "recipientTeam": "Team 1.1</td></div>'\"",
+          "recipientEmail": "student1InCourse1@gmail.tmt",
+          "recipientSection": "Section 1",
+          "responseDetails": {
+            "answer": "Quality",
+            "isOther": false,
+            "otherFieldContent": "",
+            "questionType": "MCQ"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    }
+  ],
+  "feedbackSession": {
+    "courseId": "idOfTypicalCourse1",
+    "timeZone": "Africa/Johannesburg",
+    "feedbackSessionName": "Session with MCQ",
+    "instructions": "Please please fill in the following questions.",
+    "submissionStartTimestamp": 1333317540000,
+    "submissionEndTimestamp": 1809122340000,
+    "gracePeriod": 10,
+    "sessionVisibleSetting": "CUSTOM",
+    "customSessionVisibleTimestamp": 1332971940000,
+    "responseVisibleSetting": "CUSTOM",
+    "customResponseVisibleTimestamp": 1809208740000,
+    "submissionStatus": "OPEN",
+    "publishStatus": "NOT_PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 1332287940000
+  }
+}

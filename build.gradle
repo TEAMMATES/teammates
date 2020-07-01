@@ -159,6 +159,9 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     excludeClassPatterns = [
         "teammates.ui.webapi.output.**Builder"
     ]
+    excludeClasses = [
+        "teammates.ui.webapi.output.SessionResultsData\$NameInfo"
+    ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {

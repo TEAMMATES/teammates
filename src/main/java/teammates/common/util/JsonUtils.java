@@ -138,7 +138,7 @@ public final class JsonUtils {
 
         @Override
         public JsonElement serialize(FeedbackResponseDetails src, Type typeOfSrc, JsonSerializationContext context) {
-            return context.serialize(src, src.questionType.getResponseDetailsClass());
+            return context.serialize(src, src.getQuestionType().getResponseDetailsClass());
         }
 
         @Override
