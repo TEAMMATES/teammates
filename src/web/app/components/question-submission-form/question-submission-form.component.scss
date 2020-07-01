@@ -6,6 +6,11 @@
   margin-top: 10px;
 }
 
+.constraint-margins {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
 .question-header {
   background-color: lighten(#007BFF, 5%);
 }
@@ -20,10 +25,7 @@
   padding-right: 50px;
 }
 
-.evaluee-row {
-  margin-bottom: 20px;
-}
-
 .evaluee-select {
-  font-weight: bold;
+  padding-left: 15px;
+  padding-right: 15px;
 }
