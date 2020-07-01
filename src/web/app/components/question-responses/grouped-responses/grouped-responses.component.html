@@ -1,4 +1,4 @@
-<div class="row" style="padding-bottom: 20px; border-bottom: 1px solid #DDD;"
+<div class="row" style="border-bottom: 1px solid #DDD;"
     *ngIf="responses.length && responses[0].allResponses.length && hasRealResponses">
   <div class="col-md-3">
     <div>
@@ -37,7 +37,7 @@
                     [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
             <button (click)="toggleAddComment(response.allResponses[0].responseId)"
                     *ngIf="response.feedbackQuestion.questionType !== 'CONTRIB'"
-                    ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm" style="margin-left: auto;">
+                    ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm comment-button">
               <i class="fas fa-comment"></i>
             </button>
           </div>

@@ -19,7 +19,7 @@
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
                                             (click)="$event.stopPropagation()"></tm-question-text-with-info>
               </div>
-              <div class="card-body">
+              <div class="card-body top-padded-small">
                 <tm-single-statistics [responses]="question.allResponses"
                                       [question]="question.feedbackQuestion.questionDetails"
                                       [statistics]="question.questionStatistics"
@@ -29,7 +29,7 @@
               </div>
             </div>
           </div>
-          <h3>{{ teamInfo.key }} Detailed Responses</h3>
+          <h3 class="top-padded">{{ teamInfo.key }} Detailed Responses</h3>
           <hr>
           <div *ngFor="let userInfo of teamInfo.value">
             <ng-container
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div [ngbCollapse]="!userExpanded[userInfo]">
-      <div class="card-body">
+      <div class="card-body top-padded-0">
         <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
           <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
@@ -83,7 +83,7 @@
             </div>
           </div>
           <div [ngbCollapse]="!question.isTabExpanded">
-            <div class="card-body">
+            <div class="card-body top-padded-small">
               <tm-single-statistics [responses]="question.questionOutput.allResponses"
                                     [question]="question.questionOutput.feedbackQuestion.questionDetails"
                                     [statistics]="question.questionOutput.questionStatistics"
