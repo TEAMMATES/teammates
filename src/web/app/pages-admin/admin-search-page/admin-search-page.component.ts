@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
+import { EmailGenerationService } from '../../../services/email-generation.service';
 import {
   AdminSearchResult,
   InstructorAccountSearchResult,
@@ -9,7 +10,7 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { GenerateEmail, RegenerateStudentCourseLinks } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   RegenerateLinksConfirmModalComponent,
@@ -38,6 +39,7 @@ export class AdminSearchPageComponent {
     private accountService: AccountService,
     private studentService: StudentService,
     private searchService: SearchService,
+    private emailGenerationService: EmailGenerationService,
   ) {}
 
   /**
@@ -187,6 +189,28 @@ export class AdminSearchPageComponent {
     const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
 
     return link.replace(regex, `$1${newVal}`);
+  }
+
+  /**
+   * Open up an email populated with content for users.
+   * Content generated is related to the emailtype
+   * @param emailtype the type of email to generate. Options are STUDENT_COURSE_JOIN or FEEDBACK_SESSION_REMINDER
+   * @param fsname feedback session name for FEEDBACK_SESSION_REMINDER
+   */
+  openEmail(courseId: string, studentemail: string, emailtype: string, fsname?: string): void {
+    this.emailGenerationService.getEmail({ courseId, studentemail, emailtype, fsname })
+        .subscribe((email: GenerateEmail) => {
+          const emailWrapper: string = `mailto:${email.recipient}`
+          + `?Subject=${email.subject}`
+          + `&body=${email.content}`;
+          window.location.href = emailWrapper;
+        }, (err: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(err.error.message);
+        });
+  }
+
+  sessionLinkToSessionName(sessionLink: string): string | null {
+    return new URL(sessionLink).searchParams.get('fsname');
   }
 
 }

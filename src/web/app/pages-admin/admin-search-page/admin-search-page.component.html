@@ -149,18 +149,22 @@
                 </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, 'STUDENT_COURSE_JOIN')">Send mail</button>
                   <input [value]="student.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
                   <strong>{{ openFs.key }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, 'FEEDBACK_SESSION_REMINDER', sessionLinkToSessionName(openFs.value))">Send mail</button>
                   <input [value]="openFs.value" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-danger" *ngFor="let notOpenFs of student.notOpenSessions | keyvalue">
                   <strong>{{ notOpenFs.key }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, 'FEEDBACK_SESSION_REMINDER', sessionLinkToSessionName(notOpenFs.value))">Send mail</button>
                   <input [value]="notOpenFs.value" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-success" *ngFor="let publishedFs of student.publishedSessions | keyvalue">
                   <strong>{{ publishedFs.key }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, 'FEEDBACK_SESSION_REMINDER', sessionLinkToSessionName(publishedFs.value))">Send mail</button>
                   <input [value]="publishedFs.value" readonly class="form-control">
                 </li>
               </ul>
