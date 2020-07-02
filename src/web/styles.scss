@@ -9,8 +9,12 @@ body {
   font-size: 15px;
 }
 
+ul {
+  margin-bottom: 0;
+}
+
 .btn {
-  font-size: inherit;
+  font-size: .8rem;
 }
 
 .color-orange {
@@ -47,6 +51,19 @@ body {
 
 .modal-content {
   padding: 30px 20px;
+}
+
+.table {
+  margin-bottom: 0;
+
+  & th,
+  td {
+    padding: .5rem;
+  }
+}
+
+.card-header {
+  padding: .5rem 1rem;
 }
 
 // The following few properties are for the usermap page.

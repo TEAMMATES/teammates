@@ -306,50 +306,6 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testCsvToHtmlTable() {
-        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + System.lineSeparator()
-                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + System.lineSeparator()
-                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + System.lineSeparator()
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + System.lineSeparator()
-                         + ",,," + System.lineSeparator()
-                         + ",,,Data 5-4" + System.lineSeparator();
-        String htmlText = StringHelper.csvToHtmlTable(csvText);
-        String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
-                                      + "<tr>"
-                                          + "<td>ColHeader1</td>"
-                                          + "<td> ColHeader2</td>"
-                                          + "<td> ColHeader3</td>"
-                                          + "<td>ColHeader4</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td>Data 1-1</td>"
-                                          + "<td> Data 1&quot;2</td>"
-                                          + "<td> Data 1,3</td>"
-                                          + "<td>Data 1&quot;&quot;4</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td>Data 2-1</td>"
-                                          + "<td> Data 2-2</td>"
-                                          + "<td> Data 2-3</td>"
-                                          + "<td>Data 2-4&quot;</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td>Data 3-1</td>"
-                                          + "<td> Data 3-2</td>"
-                                          + "<td> Data 3-3</td>"
-                                          + "<td>Data 3-4</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td></td>"
-                                          + "<td></td>"
-                                          + "<td></td>"
-                                          + "<td>Data 5-4</td>"
-                                      + "</tr>"
-                                  + "</table>";
-        assertEquals(expectedHtmlText, htmlText);
-    }
-
-    @Test
     public void testTrim() {
         String[] input = {"  apple tea", "banana  ", "   carrot cake      ", "magnesium & hydroxide     -"};
         String[] expected = {"apple tea", "banana", "carrot cake", "magnesium & hydroxide     -"};
