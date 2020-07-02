@@ -89,12 +89,12 @@
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
         <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
-          <label class="col-md-10">
+          <label>
             <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role == instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
             {{ role | instructorRoleDescription }}
+            <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                    (click)="viewRolePrivilegeModel.emit(role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
           </label>
-          <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
-                  (click)="viewRolePrivilegeModel.emit(role)" type="button" class="col-md-2 btn btn-secondary btn-sm">View Details</button>
         </div>
       </div>
     </div>
