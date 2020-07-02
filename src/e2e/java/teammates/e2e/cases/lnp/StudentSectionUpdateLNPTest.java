@@ -37,7 +37,7 @@ import teammates.e2e.util.LNPTestData;
 import teammates.ui.webapi.request.StudentUpdateRequest;
 
 /**
-* L&P Test Case for student update cascade API.
+* L&P Test Case for student update by section name cascade API.
 */
 public class StudentSectionUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
