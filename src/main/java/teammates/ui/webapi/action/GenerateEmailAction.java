@@ -18,7 +18,7 @@ public class GenerateEmailAction extends Action {
 
     @Override
     protected AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
