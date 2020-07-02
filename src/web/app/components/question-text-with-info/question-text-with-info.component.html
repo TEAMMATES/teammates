@@ -1,4 +1,7 @@
-<b>Question {{ questionNumber }}:</b> {{ questionDetails.questionText }}
+<a ngbTooltip="Download Question Results" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+  <b>Question {{ questionNumber }}:</b>
+</a>
+{{ questionDetails.questionText }}
 <a class="info-font-size" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
   [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
 </a>
