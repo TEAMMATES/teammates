@@ -365,6 +365,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       Intent.INSTRUCTOR_RESULT,
       this.indicateMissingResponses,
       this.showStatistics,
+      this.section.length === 0 ? undefined : this.section,
+      this.section.length === 0 ? undefined : this.sectionType,
     ).subscribe((resp: string) => {
       blob = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);

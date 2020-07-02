@@ -1,0 +1,136 @@
+{
+  "questions": [
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDIM",
+        "questionNumber": 2,
+        "questionBrief": "Split points among the teams",
+        "questionDetails": {
+          "numOfConstSumOptions": 0,
+          "constSumOptions": [],
+          "distributeToRecipients": true,
+          "pointsPerOption": true,
+          "forceUnevenDistribution": false,
+          "distributePointsFor": "None",
+          "points": 100,
+          "questionType": "CONSTSUM_RECIPIENTS",
+          "questionText": "Split points among the teams"
+        },
+        "questionType": "CONSTSUM_RECIPIENTS",
+        "giverType": "INSTRUCTORS",
+        "recipientType": "TEAMS",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 2,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    },
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDQM",
+        "questionNumber": 3,
+        "questionBrief": "How much has each student worked?",
+        "questionDetails": {
+          "numOfConstSumOptions": 0,
+          "constSumOptions": [],
+          "distributeToRecipients": true,
+          "pointsPerOption": true,
+          "forceUnevenDistribution": false,
+          "distributePointsFor": "None",
+          "points": 100,
+          "questionType": "CONSTSUM_RECIPIENTS",
+          "questionText": "How much has each student worked?"
+        },
+        "questionType": "CONSTSUM_RECIPIENTS",
+        "giverType": "INSTRUCTORS",
+        "recipientType": "STUDENTS",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 5,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    },
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGDoM",
+        "questionNumber": 1,
+        "questionBrief": "How important are the following factors to you? Give points accordingly.",
+        "questionDetails": {
+          "numOfConstSumOptions": 2,
+          "constSumOptions": [
+            "Grades",
+            "Fun"
+          ],
+          "distributeToRecipients": false,
+          "pointsPerOption": false,
+          "forceUnevenDistribution": false,
+          "distributePointsFor": "None",
+          "points": 100,
+          "questionType": "CONSTSUM_OPTIONS",
+          "questionText": "How important are the following factors to you? Give points accordingly."
+        },
+        "questionType": "CONSTSUM_OPTIONS",
+        "giverType": "STUDENTS",
+        "recipientType": "SELF",
+        "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
+        "customNumberOfEntitiesToGiveFeedbackTo": 1,
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "",
+      "allResponses": [],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    }
+  ],
+  "feedbackSession": {
+    "courseId": "FSQTT.idOfTypicalCourse1",
+    "timeZone": "Africa/Johannesburg",
+    "feedbackSessionName": "CONSTSUM Session",
+    "instructions": "Please answer the following questions.",
+    "submissionStartTimestamp": 1333317540000,
+    "submissionEndTimestamp": 1809122340000,
+    "gracePeriod": 10,
+    "sessionVisibleSetting": "CUSTOM",
+    "customSessionVisibleTimestamp": 1332971940000,
+    "responseVisibleSetting": "CUSTOM",
+    "customResponseVisibleTimestamp": 1809208740000,
+    "submissionStatus": "OPEN",
+    "publishStatus": "NOT_PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 1332287940000
+  }
+}

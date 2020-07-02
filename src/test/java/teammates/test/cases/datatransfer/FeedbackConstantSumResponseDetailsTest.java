@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.test.cases.BaseTestCase;
 
 /**
@@ -175,4 +176,15 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
                 .build();
     }
 
+    @Test
+    public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+    }
+
+    @Test
+    public void testIsFeedbackParticipantCommentsOnResponsesAllowed_shouldReturnFalse() {
+        FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+        assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
+    }
 }

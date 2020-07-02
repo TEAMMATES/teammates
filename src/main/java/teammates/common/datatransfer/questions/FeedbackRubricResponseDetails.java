@@ -12,7 +12,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
      * List of integers, the size of the list corresponds to the number of sub-questions.
      * Each integer at index i, represents the choice chosen for sub-question i.
      */
-    public List<Integer> answer;
+    private List<Integer> answer;
 
     public FeedbackRubricResponseDetails() {
         super(FeedbackQuestionType.RUBRIC);
@@ -21,11 +21,6 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerString() {
         return this.answer.toString();
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return answer.toString();
     }
 
     @Override
