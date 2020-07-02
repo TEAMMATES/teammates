@@ -193,7 +193,7 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                         new FeedbackTextResponseDetails(FEEDBACK_RESPONSE_ID);
 
                 feedbackResponses.put(FEEDBACK_RESPONSE_ID,
-                        FeedbackResponseAttributes.builder(FEEDBACK_QUESTION_ID,
+                        FeedbackResponseAttributes.builder("1",
                             INSTRUCTOR_EMAIL,
                             STUDENT_EMAIL)
                             .withCourseId(COURSE_ID)
