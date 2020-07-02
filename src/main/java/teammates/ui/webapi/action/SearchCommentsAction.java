@@ -22,7 +22,7 @@ public class SearchCommentsAction extends Action {
     public void checkSpecificAccessControl() {
         // Only instructors can search for comments
         if (!userInfo.isInstructor) {
-            throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
+            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
     }
 
