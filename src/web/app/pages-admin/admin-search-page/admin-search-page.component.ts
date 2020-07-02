@@ -11,6 +11,7 @@ import {
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { EmailType } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   RegenerateLinksConfirmModalComponent,
@@ -28,6 +29,9 @@ import {
   styleUrls: ['./admin-search-page.component.scss'],
 })
 export class AdminSearchPageComponent {
+
+  // enum
+  EmailType: typeof EmailType = EmailType;
 
   searchQuery: string = '';
   instructors: InstructorAccountSearchResult[] = [];
@@ -194,10 +198,10 @@ export class AdminSearchPageComponent {
   /**
    * Open up an email populated with content for users.
    * Content generated is related to the emailtype
-   * @param emailtype the type of email to generate. Options are STUDENT_COURSE_JOIN or FEEDBACK_SESSION_REMINDER
+   * @param emailtype type of email to generate. Current options are STUDENT_COURSE_JOIN or FEEDBACK_SESSION_REMINDER
    * @param fsname feedback session name for FEEDBACK_SESSION_REMINDER
    */
-  openEmail(courseId: string, studentemail: string, emailtype: string, fsname?: string): void {
+  openEmail(courseId: string, studentemail: string, emailtype: EmailType, fsname?: string): void {
     this.emailGenerationService.getEmail({ courseId, studentemail, emailtype, fsname })
         .subscribe((email: Email) => {
           const emailWrapper: string = `mailto:${email.recipient}`
