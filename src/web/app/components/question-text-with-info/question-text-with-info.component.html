@@ -1,10 +1,11 @@
-<a ngbTooltip="Download Question Results" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
-  <b>Question {{ questionNumber }}:</b>
-</a>
-{{ questionDetails.questionText }}
-<a class="info-font-size" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
+<span class="d-inline-flex">
+  <button ngbTooltip="Download Question Results" openDelay="500" type="button" class="btn btn-link text-white padding-0 mr-1" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+    <b>Question {{ questionNumber }}:</b>
+  </button>{{ questionDetails.questionText }}
+  <a class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
   [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
-</a>
+  </a>
+</span>
 <div class="info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
   <tm-contribution-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
   <tm-text-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.TEXT" [questionDetails]="questionDetails"></tm-text-question-additional-info>
