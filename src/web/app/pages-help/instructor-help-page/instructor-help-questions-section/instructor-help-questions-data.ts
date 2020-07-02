@@ -41,7 +41,10 @@ import {
     QuestionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 
-export const ExampleEssayQuestionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of essay question model
+ */
+export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -64,8 +67,10 @@ export const ExampleEssayQuestionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleNumericalScaleQuestionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of numerical scale question model
+ */
+export const EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -88,8 +93,10 @@ export const ExampleNumericalScaleQuestionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] = [
+/**
+ * Structure for example of numerical scale responses
+ */
+export const EXAMPLE_NUMERICAL_SCALE_RESPONSES: Response<FeedbackNumericalScaleResponseDetails>[] = [
   {
     giver: 'Alice',
     giverEmail: 'alice@gmail.com',
@@ -203,8 +210,10 @@ export const ExampleNumericalScaleResponses: Response<FeedbackNumericalScaleResp
     },
   },
 ];
-
-export const ExampleNumericalScaleResponseOutput: ResponseOutput[] = [
+/**
+ * Structure for example of numerical scale response output
+ */
+export const EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT: ResponseOutput[] = [
   {
     isMissingResponse: false,
     responseId: '1',
@@ -342,20 +351,26 @@ export const ExampleNumericalScaleResponseOutput: ResponseOutput[] = [
     instructorComments: [],
   },
 ];
-
-export const ExampleNumericalScaleQuestionTabModel: QuestionTabModel = {
-  question: ExampleNumericalScaleQuestionModel,
-  responses: ExampleNumericalScaleResponseOutput,
+/**
+ * Structure for example of numerical scale question tab model
+ */
+export const EXAMPLE_NUMERICAL_SCALE_QUESTION_TAB_MODEL: QuestionTabModel = {
+  question: EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL,
+  responses: EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT,
   statistics: '',
   hasPopulated: true,
   isTabExpanded: true,
 };
-
-export const ExampleNumericalScaleQuestions: Record<string, QuestionTabModel> = {
-  question: ExampleNumericalScaleQuestionTabModel,
+/**
+ * Structure for example of numerical scale questions
+ */
+export const EXAMPLE_NUMERICAL_SCALE_QUESTIONS: Record<string, QuestionTabModel> = {
+  question: EXAMPLE_NUMERICAL_SCALE_QUESTION_TAB_MODEL,
 };
-
-export const ExampleInstructorCommentTableModel: Record<string, CommentTableModel> = {
+/**
+ * Structure for example of instructor comment tab model
+ */
+export const EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL: Record<string, CommentTableModel> = {
   1: {
     commentRows: [],
     newCommentRow: {
@@ -485,8 +500,10 @@ export const ExampleInstructorCommentTableModel: Record<string, CommentTableMode
     isReadOnly: true,
   },
 };
-
-export const ExampleFeedbackSession: FeedbackSession = {
+/**
+ * Structure for example of feedback session
+ */
+export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   courseId: 'CS2103T',
   timeZone: 'UTC',
   feedbackSessionName: 'Project Feedback 1',
@@ -502,8 +519,10 @@ export const ExampleFeedbackSession: FeedbackSession = {
   isPublishedEmailEnabled: true,
   createdAtTimestamp: 0,
 };
-
-export const ExampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails = {
+/**
+ * Structure for example of distrution point option question detail
+ */
+export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL: FeedbackConstantSumQuestionDetails = {
   numOfConstSumOptions: 2,
   constSumOptions: ['Option A', 'Option B'],
   distributeToRecipients: false,
@@ -514,8 +533,10 @@ export const ExampleDistributePointOptionQuestionDetail: FeedbackConstantSumQues
   questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
   questionText: '',
 };
-
-export const ExampleDistributedPointOptionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of distribution point option model
+ */
+export const EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -523,7 +544,7 @@ export const ExampleDistributedPointOptionModel: QuestionEditFormModel = {
   questionBrief: '',
   questionDescription: '',
   questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-  questionDetails: ExampleDistributePointOptionQuestionDetail,
+  questionDetails: EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL,
 
   isEditable: false,
   isSaving: false,
@@ -538,8 +559,10 @@ export const ExampleDistributedPointOptionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleDistributePointOptionResponseOutput: ResponseOutput[] = [
+/**
+ * Structure for example of distribute point option response output
+ */
+export const EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT: ResponseOutput[] = [
   {
     isMissingResponse: false,
     responseId: '1',
@@ -677,20 +700,26 @@ export const ExampleDistributePointOptionResponseOutput: ResponseOutput[] = [
     instructorComments: [],
   },
 ];
-
-export const ExampleDistributePointOptionQuestionTabModel: QuestionTabModel = {
-  question: ExampleDistributedPointOptionModel,
-  responses: ExampleDistributePointOptionResponseOutput,
+/**
+ * Structure for example of distribute point option question tab model
+ */
+export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL: QuestionTabModel = {
+  question: EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
+  responses: EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT,
   statistics: '',
   hasPopulated: true,
   isTabExpanded: true,
 };
-
-export const ExampleDistributePointOptionQuestions: Record<string, QuestionTabModel> = {
-  question: ExampleDistributePointOptionQuestionTabModel,
+/**
+ * Structure for example of distribute point option questions
+ */
+export const EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTIONS: Record<string, QuestionTabModel> = {
+  question: EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL,
 };
-
-export const ExampleDistributedPointRecipientModel: QuestionEditFormModel = {
+/**
+ * Structure for example of distributed point recipient model
+ */
+export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -713,8 +742,10 @@ export const ExampleDistributedPointRecipientModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleTeamContributionQuestionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of team contribution question model
+ */
+export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -738,8 +769,10 @@ export const ExampleTeamContributionQuestionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleTeamContributionResponseOutput: ResponseOutput[] = [
+/**
+ * Structure for example of team contribution response output
+ */
+export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
   {
     isMissingResponse: false,
     responseId: '1',
@@ -877,8 +910,10 @@ export const ExampleTeamContributionResponseOutput: ResponseOutput[] = [
     instructorComments: [],
   },
 ];
-
-export const ExampleContributionStatistics: ContributionStatistics = {
+/**
+ * Structure for example of contribution statistics
+ */
+export const EXAMPLE_CONTRIBUTION_STATISTICS: ContributionStatistics = {
   results: {
     'emma@gmail.com': {
       claimed: 110,
@@ -894,20 +929,26 @@ export const ExampleContributionStatistics: ContributionStatistics = {
     },
   },
 };
-
-export const ExampleTeamContributionQuestionTabModel: QuestionTabModel = {
-  question: ExampleTeamContributionQuestionModel,
-  responses: ExampleTeamContributionResponseOutput,
-  statistics: JSON.stringify(ExampleContributionStatistics),
+/**
+ * Structure for example of team contribution question tab model
+ */
+export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_TAB_MODEL: QuestionTabModel = {
+  question: EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL,
+  responses: EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT,
+  statistics: JSON.stringify(EXAMPLE_CONTRIBUTION_STATISTICS),
   hasPopulated: true,
   isTabExpanded: true,
 };
-
-export const ExampleTeamContributionQuestions: Record<string, QuestionTabModel> = {
-  question: ExampleTeamContributionQuestionTabModel,
+/**
+ * Structure for example of team contribution questions
+ */
+export const EXAMPLE_TEAM_CONTRIBUTION_QUESTIONS: Record<string, QuestionTabModel> = {
+  question: EXAMPLE_TEAM_CONTRIBUTION_QUESTION_TAB_MODEL,
 };
-
-export const ExampleRubricQuestionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of rubric question model
+ */
+export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -943,8 +984,10 @@ export const ExampleRubricQuestionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleRubricQuestionResponseOutput: ResponseOutput[] = [
+/**
+ * Structure for example of rubric question response output
+ */
+export const EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT: ResponseOutput[] = [
   {
     isMissingResponse: false,
     responseId: '1',
@@ -1082,20 +1125,26 @@ export const ExampleRubricQuestionResponseOutput: ResponseOutput[] = [
     instructorComments: [],
   },
 ];
-
-export const ExampleRubricQuestionQuestionTabModel: QuestionTabModel = {
-  question: ExampleRubricQuestionModel,
-  responses: ExampleRubricQuestionResponseOutput,
+/**
+ * Structure for example of rubric question questions tab model
+ */
+export const EXAMPLE_RUBRIC_QUESTION_QUESTION_TAB_MODEL: QuestionTabModel = {
+  question: EXAMPLE_RUBRIC_QUESTION_MODEL,
+  responses: EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT,
   statistics: '',
   hasPopulated: true,
   isTabExpanded: true,
 };
-
-export const ExampleRubricQuestionQuestions: Record<string, QuestionTabModel> = {
-  question: ExampleRubricQuestionQuestionTabModel,
+/**
+ * Structure for example of rubric question questions
+ */
+export const EXAMPLE_RUBRIC_QUESTION_QUESTIONS: Record<string, QuestionTabModel> = {
+  question: EXAMPLE_RUBRIC_QUESTION_QUESTION_TAB_MODEL,
 };
-
-export const ExampleRankRecipientQuestionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of rank recipient question model
+ */
+export const EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -1118,8 +1167,10 @@ export const ExampleRankRecipientQuestionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleRankRecipientResponseOutput: ResponseOutput[] = [
+/**
+ * Structure for example of rank recipient response output
+ */
+export const EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT: ResponseOutput[] = [
   {
     isMissingResponse: false,
     responseId: '1',
@@ -1257,20 +1308,26 @@ export const ExampleRankRecipientResponseOutput: ResponseOutput[] = [
     instructorComments: [],
   },
 ];
-
-export const ExampleRankRecipientQuestionTabModel: QuestionTabModel = {
-  question: ExampleRankRecipientQuestionModel,
-  responses: ExampleRankRecipientResponseOutput,
+/**
+ * Structure for example of rank recipient question tab model
+ */
+export const EXAMPLE_RANK_RECIPIENT_QUESTION_TAB_MODEL: QuestionTabModel = {
+  question: EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL,
+  responses: EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT,
   statistics: '',
   hasPopulated: true,
   isTabExpanded: true,
 };
-
-export const ExampleRankRecipientQuestions: Record<string, QuestionTabModel> = {
-  question: ExampleRankRecipientQuestionTabModel,
+/**
+ * Structure for example of rank recipient questions
+ */
+export const EXAMPLE_RANK_RECIPIENT_QUESTIONS: Record<string, QuestionTabModel> = {
+  question: EXAMPLE_RANK_RECIPIENT_QUESTION_TAB_MODEL,
 };
-
-export const ExampleRankOptionQuestionModel: QuestionEditFormModel = {
+/**
+ * Structure for example of rank option question model
+ */
+export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -1294,8 +1351,10 @@ export const ExampleRankOptionQuestionModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = {
+/**
+ * Structure for example of MCQ question without weights model
+ */
+export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -1325,8 +1384,10 @@ export const ExampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleMCQQuestionWithWeightsModel: QuestionEditFormModel = {
+/**
+ * Structure for example of MCQ question with weights model
+ */
+export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   feedbackQuestionId: '',
   isQuestionHasResponses: false,
 
@@ -1356,8 +1417,10 @@ export const ExampleMCQQuestionWithWeightsModel: QuestionEditFormModel = {
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
-
-export const ExampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel = {
+/**
+ * Structure for example of responder rubric submission form model
+ */
+export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionFormModel = {
   recipientList: [
     {
       recipientIdentifier: 'alice',
