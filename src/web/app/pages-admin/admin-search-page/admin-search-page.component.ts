@@ -10,7 +10,7 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { GenerateEmail, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   RegenerateLinksConfirmModalComponent,
@@ -199,7 +199,7 @@ export class AdminSearchPageComponent {
    */
   openEmail(courseId: string, studentemail: string, emailtype: string, fsname?: string): void {
     this.emailGenerationService.getEmail({ courseId, studentemail, emailtype, fsname })
-        .subscribe((email: GenerateEmail) => {
+        .subscribe((email: Email) => {
           const emailWrapper: string = `mailto:${email.recipient}`
           + `?Subject=${email.subject}`
           + `&body=${email.content}`;

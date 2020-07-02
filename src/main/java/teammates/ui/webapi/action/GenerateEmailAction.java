@@ -9,7 +9,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.webapi.output.GenerateEmailData;
+import teammates.ui.webapi.output.EmailData;
 
 /**
  * Generate email content.
@@ -32,7 +32,7 @@ public class GenerateEmailAction extends Action {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String emailType = getNonNullRequestParamValue(Const.ParamsNames.GENERATE_EMAIL_TYPE);
+        String emailType = getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         CourseAttributes course = logic.getCourse(courseId);
@@ -55,6 +55,6 @@ public class GenerateEmailAction extends Action {
             throw new InvalidHttpParameterException("Unknown emailType " + emailType);
         }
 
-        return new JsonResult(new GenerateEmailData(email));
+        return new JsonResult(new EmailData(email));
     }
 }

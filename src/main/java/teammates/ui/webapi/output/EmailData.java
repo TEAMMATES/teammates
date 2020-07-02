@@ -5,12 +5,12 @@ import teammates.common.util.EmailWrapper;
 /**
  * The output format for email request.
  */
-public class GenerateEmailData extends ApiOutput {
+public class EmailData extends ApiOutput {
     private final String recipient;
     private final String subject;
     private final String content;
 
-    public GenerateEmailData(EmailWrapper email) {
+    public EmailData(EmailWrapper email) {
         this.recipient = email.getRecipient();
         this.subject = email.getSubject();
         this.content = email.getContent();
