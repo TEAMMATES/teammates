@@ -91,7 +91,7 @@ export abstract class InstructorSessionResultView implements OnInit {
   }
 
   /**
-   * Triggers the download of a question result
+   * Triggers the download of a question result.
    */
   triggerDownloadQuestionResult($event: { questionNumber: number, questionId: string }): void {
     this.downloadQuestionResult.emit($event);

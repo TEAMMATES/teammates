@@ -3,8 +3,10 @@
     <tm-question-text-with-info
         [questionNumber]="question.question.questionNumber"
         [questionDetails]="question.question.questionDetails"
-        (downloadQuestionResultEvent)="triggerDownloadQuestionResult({questionNumber: question.question.questionNumber, questionId: question.question.feedbackQuestionId})"
-        ></tm-question-text-with-info>
+        (downloadQuestionResultEvent)="triggerDownloadQuestionResult({
+        questionNumber: question.question.questionNumber,
+        questionId: question.question.feedbackQuestionId})"
+    ></tm-question-text-with-info>
     <div class="float-right">
       <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
       <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>

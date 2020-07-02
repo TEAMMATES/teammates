@@ -96,7 +96,7 @@ export abstract class InstructorResponsesViewBase {
   }
 
   /**
-   * Triggers the download of a question result
+   * Triggers the download of a question result.
    */
   triggerDownloadQuestionResult(questionNumber: number, questionId: string): void {
     this.downloadQuestionResult.emit({

@@ -20,7 +20,7 @@
                                             (click)="$event.stopPropagation()"
                                             (downloadQuestionResultEvent)="triggerDownloadQuestionResult(
                                             question.feedbackQuestion.questionNumber,
-                                            question.feedbackQuestion.feedbackQuestionId);"
+                                            question.feedbackQuestion.feedbackQuestionId)"
                 ></tm-question-text-with-info>
               </div>
               <div class="card-body">
@@ -83,7 +83,7 @@
                                         (click)="$event.stopPropagation()"
                                         (downloadQuestionResultEvent)="triggerDownloadQuestionResult(
                                         question.questionOutput.feedbackQuestion.questionNumber,
-                                        question.questionOutput.feedbackQuestion.feedbackQuestionId);"
+                                        question.questionOutput.feedbackQuestion.feedbackQuestionId)"
             ></tm-question-text-with-info>
             <div class="float-right">
               <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
