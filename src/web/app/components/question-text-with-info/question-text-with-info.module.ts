@@ -8,7 +8,6 @@ import {
 } from '../question-types/question-additional-info/question-additional-info.module';
 import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
 
-
 /**
  * Module for question text with toggle-able additional info.
  */

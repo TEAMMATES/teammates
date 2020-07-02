@@ -45,7 +45,7 @@ export abstract class InstructorResponsesViewBase {
   }> = new EventEmitter();
   @Output() downloadQuestionResult: EventEmitter<{
     questionNumber: number,
-    questionId: string
+    questionId: string,
   }> = new EventEmitter();
 
   constructor() {
@@ -98,7 +98,7 @@ export abstract class InstructorResponsesViewBase {
   /**
    * Triggers the download of a question result
    */
-  triggerDownloadQuestionResult(questionNumber: number, questionId: string) {
+  triggerDownloadQuestionResult(questionNumber: number, questionId: string): void {
     this.downloadQuestionResult.emit({
       questionNumber,
       questionId,

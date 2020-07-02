@@ -385,15 +385,14 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         Intent.INSTRUCTOR_RESULT,
         this.indicateMissingResponses,
         this.showStatistics,
-        question.questionId
+        question.questionId,
     ).subscribe((resp: string) => {
-      const blob = new Blob([resp], { type: 'text/csv' });
+      const blob: any = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
-
 
   /**
    * Handle expand all questions button event.
