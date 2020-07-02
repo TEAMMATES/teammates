@@ -28,15 +28,15 @@ public class JoinCourseAction extends Action {
 
     @Override
     public ActionResult execute() {
-        String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+        String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:
-            return joinCourseForStudent(regkey);
+            return joinCourseForStudent(regKey);
         case Const.EntityType.INSTRUCTOR:
             String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
             String mac = getRequestParamValue(Const.ParamsNames.INSTITUTION_MAC);
-            return joinCourseForInstructor(regkey, institute, mac);
+            return joinCourseForInstructor(regKey, institute, mac);
         default:
             return new JsonResult("Error: invalid entity type", HttpStatus.SC_BAD_REQUEST);
         }
