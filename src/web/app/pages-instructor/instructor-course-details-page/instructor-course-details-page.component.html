@@ -74,15 +74,12 @@
     There are no students in this course. Click
     <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
   </div>
-  <ng-template #studentListTable class="card border border-primary mb-4">
-    <div class="card-body p-0">
-      <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.courseId}}]</div>
-      <div class="card-body p-0">
-        <tm-student-list
-            [courseId]="courseDetails.course.courseId" [students]="students" [useGrayHeading]="true" [enableRemindButton]="true"
-            (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
-        ></tm-student-list>
-      </div>
+  <ng-template #studentListTable>
+    <div class="card-body p-0 student-table-margin card border">
+      <tm-student-list
+          [courseId]="courseDetails.course.courseId" [students]="students" [useGrayHeading]="true" [enableRemindButton]="true"
+          (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
+      ></tm-student-list>
     </div>
   </ng-template>
   <ng-template #remindStudentsModal let-modal>

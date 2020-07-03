@@ -1,36 +1,41 @@
 <div class="card bg-light top-padded">
   <div class="card-header bg-primary text-white text-center">
-    <strong>Instructor {{ instructorIndex + 1 }}:</strong><br/>
-    <span>
-            <button id="btn-resend-invite-{{ instructorIndex + 1 }}" class="btn btn-light btn-sm" ngbTooltip="Send invitation email to the instructor" placement="top-right"
-                    *ngIf="instructor.joinState == JoinState.NOT_JOINED && editMode == EditMode.EDIT"
-                    [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
-                    (click)="sendRemindJoinEmail.emit()">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-              Resend Invite
-            </button>&nbsp;
-            <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-light btn-sm"
-                    ngbTooltip="Edit instructor details" placement="top-right"
-                    [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
-                    (click)="triggerModelChange('isEditing', true)">
-              <i class="fa fa-pen" aria-hidden="true"></i>
-              Edit
-            </button>
-            <button id="btn-cancel-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing || editMode == EditMode.ADD" class="btn btn-light btn-sm"
-                    ngbTooltip="Cancel editing instructor details" placement="top-right"
-                    (click)="cancelEditing.emit()">
-              <i class="fa fa-times" aria-hidden="true"></i>
-              Cancel
-            </button>&nbsp;
-            <button id="btn-delete-instructor-{{ instructorIndex + 1 }}" *ngIf="editMode == EditMode.EDIT" class="btn btn-light btn-sm"
-                    ngbTooltip="Delete the instructor from the course" placement="top-right"
-                    [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
-                    (click)="deleteInstructor.emit()">
-              <i class="fa fa-trash" aria-hidden="true"></i>
-              Delete
-            </button>
-          </span>
+    <div class="row">
+      <div class="col-md-6 text-left align-self-center">
+        <strong>Instructor {{ instructorIndex + 1 }}</strong>
+      </div>
+      <div class="col-md-6 text-right">
+        <button id="btn-resend-invite-{{ instructorIndex + 1 }}" class="btn btn-light btn-sm" ngbTooltip="Send invitation email to the instructor" placement="top-right"
+                *ngIf="instructor.joinState == JoinState.NOT_JOINED && editMode == EditMode.EDIT"
+                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
+                (click)="sendRemindJoinEmail.emit()">
+          <i class="fa fa-envelope" aria-hidden="true"></i>
+          Resend Invite
+        </button>&nbsp;
+        <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-light btn-sm"
+                ngbTooltip="Edit instructor details" placement="top-right"
+                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
+                (click)="triggerModelChange('isEditing', true)">
+          <i class="fa fa-pen" aria-hidden="true"></i>
+          Edit
+        </button>
+        <button id="btn-cancel-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing || editMode == EditMode.ADD" class="btn btn-light btn-sm"
+                ngbTooltip="Cancel editing instructor details" placement="top-right"
+                (click)="cancelEditing.emit()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>&nbsp;
+        <button id="btn-delete-instructor-{{ instructorIndex + 1 }}" *ngIf="editMode == EditMode.EDIT" class="btn btn-light btn-sm"
+                ngbTooltip="Delete the instructor from the course" placement="top-right"
+                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
+                (click)="deleteInstructor.emit()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Delete
+        </button>
+      </div>
+    </div>
   </div>
+
   <div class="card-body" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
     <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT">
       <label class="col-sm-3 control-label">
@@ -78,18 +83,18 @@
                [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
       </div>
     </div>
-    <div class="form-row form-group">
+    <div class="form-row form-group align-items-start">
       <label class="col-sm-3 control-label">
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
-        <div *ngFor="let role of InstructorPermissionRole | enumToArray">
+        <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
           <label>
             <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role == instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
             {{ role | instructorRoleDescription }}
+            <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                    (click)="viewRolePrivilegeModel.emit(role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
           </label>
-          <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
-                  (click)="viewRolePrivilegeModel.emit(role)" type="button" class="btn btn-secondary btn-sm btn-block mb-3">View Details</button>
         </div>
       </div>
     </div>
