@@ -1,5 +1,5 @@
 <div class="card" xmlns="http://www.w3.org/1999/html">
-  <div class="card-header text-white question-header cursor-pointer" (click)="model.isCollapsed = !model.isCollapsed">
+  <div class="card-header text-white question-header cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
     <div class="row align-items-center">
       <div class="col-5">
         <span>
