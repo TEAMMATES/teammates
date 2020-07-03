@@ -582,7 +582,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="session-search">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isSearchCollapsed = !isSearchCollapsed" [attr.aria-expanded]="!isSearchCollapsed">
         How do I search for a feedback session question, response or comment on a response?
