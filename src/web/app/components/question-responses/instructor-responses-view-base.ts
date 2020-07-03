@@ -43,10 +43,6 @@ export abstract class InstructorResponsesViewBase {
     responseId: string,
     index: number,
   }> = new EventEmitter();
-  @Output() downloadQuestionResult: EventEmitter<{
-    questionNumber: number,
-    questionId: string,
-  }> = new EventEmitter();
 
   constructor() {
 
@@ -93,15 +89,5 @@ export abstract class InstructorResponsesViewBase {
    */
   triggerModelChange(instructorCommentTableModel: Record<string, CommentTableModel>): void {
     this.instructorCommentTableModelChange.emit(instructorCommentTableModel);
-  }
-
-  /**
-   * Triggers the download of a question result.
-   */
-  triggerDownloadQuestionResult(questionNumber: number, questionId: string): void {
-    this.downloadQuestionResult.emit({
-      questionNumber,
-      questionId,
-    });
   }
 }

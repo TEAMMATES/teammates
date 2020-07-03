@@ -30,9 +30,6 @@
           <tm-question-text-with-info
               [questionNumber]="response.feedbackQuestion.questionNumber"
               [questionDetails]="response.feedbackQuestion.questionDetails"
-              (downloadQuestionResultEvent)="triggerDownloadQuestionResult(
-              response.feedbackQuestion.questionNumber,
-               response.feedbackQuestion.feedbackQuestionId)"
           ></tm-question-text-with-info>
         </div>
         <div class="card-body">

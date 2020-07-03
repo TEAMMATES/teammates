@@ -4,6 +4,7 @@
       <tm-question-text-with-info class="col-md-11"
         [questionNumber]="question.question.questionNumber"
         [questionDetails]="question.question.questionDetails"
+        [shouldShowDownloadQuestionResult]="true"
         (downloadQuestionResultEvent)="triggerDownloadQuestionResult({
         questionNumber: question.question.questionNumber,
         questionId: question.question.feedbackQuestionId})"

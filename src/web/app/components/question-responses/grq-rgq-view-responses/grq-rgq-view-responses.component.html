@@ -60,8 +60,7 @@
                                   (instructorCommentTableModelChange)="triggerModelChange($event)"
                                   (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
                                   (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
-                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                                  (downloadQuestionResult)="triggerDownloadQuestionResult($event.questionNumber, $event.questionId)"></tm-grouped-responses>
+                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-grouped-responses>
           </div>
         </ng-container>
         <div *ngIf="!userHasRealResponses[userInfo]" class="top-padded">

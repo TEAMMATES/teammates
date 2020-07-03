@@ -52,10 +52,6 @@ export abstract class InstructorSessionResultView implements OnInit {
     responseId: string,
     index: number,
   }> = new EventEmitter();
-  @Output() downloadQuestionResult: EventEmitter<{
-    questionNumber: number,
-    questionId: string,
-  }> = new EventEmitter();
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
 
@@ -88,12 +84,5 @@ export abstract class InstructorSessionResultView implements OnInit {
    */
   triggerSaveNewCommentEvent(responseId: string): void {
     this.saveNewCommentEvent.emit(responseId);
-  }
-
-  /**
-   * Triggers the download of a question result.
-   */
-  triggerDownloadQuestionResult($event: { questionNumber: number, questionId: string }): void {
-    this.downloadQuestionResult.emit($event);
   }
 }

@@ -18,9 +18,6 @@
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
                                             (click)="$event.stopPropagation()"
-                                            (downloadQuestionResultEvent)="triggerDownloadQuestionResult(
-                                            question.feedbackQuestion.questionNumber,
-                                            question.feedbackQuestion.feedbackQuestionId)"
                 ></tm-question-text-with-info>
               </div>
               <div class="card-body top-padded-small">
@@ -81,9 +78,6 @@
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
                                         (click)="$event.stopPropagation()"
-                                        (downloadQuestionResultEvent)="triggerDownloadQuestionResult(
-                                        question.questionOutput.feedbackQuestion.questionNumber,
-                                        question.questionOutput.feedbackQuestion.feedbackQuestionId)"
             ></tm-question-text-with-info>
             <div class="float-right">
               <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
