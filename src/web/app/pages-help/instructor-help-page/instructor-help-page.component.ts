@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
+import {DOCUMENT} from '@angular/common';
+import {PageScrollService} from 'ngx-page-scroll-core';
 
 /**
  * Instructor help page.
@@ -22,14 +24,22 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('helpPage') bodyRef ?: ElementRef;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this.route.fragment.subscribe((f: string) => {
-      this.scroll(f);
+    this.route.queryParams.subscribe((queryParam: Params) => {
+      if (queryParam.questionId) {
+        setTimeout(() => this.pageScrollService.scroll({
+          document: this.document,
+          scrollTarget: `#${queryParam.questionId}`,
+          scrollOffset: 70,
+        }), 500);
+      }
     });
   }
 
