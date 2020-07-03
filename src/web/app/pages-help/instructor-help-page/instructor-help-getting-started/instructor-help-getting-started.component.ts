@@ -11,6 +11,7 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./instructor-help-getting-started.component.scss'],
 })
 export class InstructorHelpGettingStartedComponent implements OnInit {
+
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath: string = '';
 
