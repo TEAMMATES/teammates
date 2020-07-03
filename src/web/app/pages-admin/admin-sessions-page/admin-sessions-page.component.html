@@ -1,4 +1,4 @@
-<h4 style="margin-top: 40px; margin-bottom: 10px;">
+<h4>
   <small>
     Total: {{ totalOngoingSessions}} -
     Opened: {{ totalOpenSessions}} -
@@ -13,7 +13,7 @@
 <button class="btn btn-info btn-sm" style="margin-right: 10px;" (click)="openAllInstitutions()">Open All</button>
 <button class="btn btn-warning btn-sm" (click)="closeAllInstitutions()">Collapse All</button>
 <div style="margin-top: 20px;">
-  <div class="form-group text-center">
+  <div class="text-center">
     <button class="btn btn-link center-block" (click)="showFilter = !showFilter">
       {{ showFilter ? 'Hide' : 'Show' }} filter
       <br>
