@@ -17,14 +17,12 @@ export class EmailGenerationService {
   /**
    * Get email contents by calling API.
    */
-  getEmail(queryParams: {
-    courseId: string, studentemail: string, emailtype: string, fsname?: string,
-  }): Observable<Email> {
+  getEmail(courseId: string, studentemail: string, emailtype: string, fsname?: string): Observable<Email> {
     const paramsMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      studentemail: queryParams.studentemail,
-      emailtype: queryParams.emailtype,
-      ...(queryParams.fsname && { fsname: queryParams.fsname }),
+      studentemail,
+      emailtype,
+      courseid: courseId,
+      ...(fsname && { fsname }),
     };
     return this.httpRequestService.get(ResourceEndpoints.EMAIL, paramsMap);
   }

@@ -202,7 +202,7 @@ export class AdminSearchPageComponent {
    * @param fsname feedback session name for FEEDBACK_SESSION_REMINDER
    */
   openEmail(courseId: string, studentemail: string, emailtype: EmailType, fsname?: string): void {
-    this.emailGenerationService.getEmail({ courseId, studentemail, emailtype, fsname })
+    this.emailGenerationService.getEmail(courseId, studentemail, emailtype, fsname)
         .subscribe((email: Email) => {
           const emailWrapper: string = `mailto:${email.recipient}`
           + `?Subject=${email.subject}`
