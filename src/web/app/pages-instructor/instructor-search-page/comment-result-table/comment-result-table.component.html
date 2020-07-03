@@ -4,7 +4,7 @@
     <div class="font-weight-bold col-md-3">Session: {{ tableRow.feedbackSession.feedbackSessionName }} ({{ tableRow.feedbackSession.courseId }})</div>
     <div class="col-md-9">
       <div *ngFor="let question of tableRow.questions">
-        <div *ngFor="let response of question.allResponses" class="card p-0 border border-primary mb-5">
+        <div *ngFor="let response of question.allResponses" class="card p-0 border border-primary mb-3">
           <div class="card-header bg-light-blue">
             <b>Question {{ question.feedbackQuestion.questionNumber }}:</b> {{ question.feedbackQuestion.questionDetails.questionText }}
           </div>
