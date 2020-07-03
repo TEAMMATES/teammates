@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
 import { Sections } from './sections';
-import {DOCUMENT} from '@angular/common';
-import {PageScrollService} from 'ngx-page-scroll-core';
 
 /**
  * Instructor help page.
