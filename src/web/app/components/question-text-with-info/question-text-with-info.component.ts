@@ -16,6 +16,7 @@ export class QuestionTextWithInfoComponent implements OnInit {
     questionType: FeedbackQuestionType.TEXT,
     questionText: '',
   };
+  @Input() shouldShowDownloadQuestionResult: boolean = false;
 
   @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
 
