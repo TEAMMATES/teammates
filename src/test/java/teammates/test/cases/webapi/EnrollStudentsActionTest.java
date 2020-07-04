@@ -317,7 +317,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, "",
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 }

@@ -228,7 +228,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        loginAsInstructor(instructor1OfCourse1.googleId);
+        verifyCanAccess(submissionParams);
     }
 
     @Test

@@ -167,7 +167,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
 
-        ((FeedbackTextResponseDetails) fra2.responseDetails).answer = "My second answer";
+        ((FeedbackTextResponseDetails) fra2.responseDetails).setAnswer("My second answer");
         assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
         assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
 
@@ -182,7 +182,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseDetails frdDeep = fra.getResponseDetails();
 
-        ((FeedbackTextResponseDetails) fra.responseDetails).answer = "My second answer";
+        ((FeedbackTextResponseDetails) fra.responseDetails).setAnswer("My second answer");
         assertEquals(frdDeep.getAnswerString(), "My original answer");
     }
 
@@ -195,7 +195,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackTextResponseDetails updatedDetails = new FeedbackTextResponseDetails("Updated answer");
         fra.setResponseDetails(updatedDetails);
-        updatedDetails.answer = "Modified deep copy answer";
+        updatedDetails.setAnswer("Modified deep copy answer");
 
         assertEquals(updatedDetails.getAnswerString(), "Modified deep copy answer");
         assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");

@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -41,7 +40,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
-        FeedbackQuestionType questionType = question.getQuestionType();
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
@@ -56,7 +54,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
 
-            validQuestionTypeForCommentInSubmission(questionType);
+            validQuestionForCommentInSubmission(question);
             verifyCommentNotExist(feedbackResponseId);
             verifyResponseOwnerShipForStudent(studentAttributes, response, question);
             break;
@@ -71,7 +69,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
 
-            validQuestionTypeForCommentInSubmission(questionType);
+            validQuestionForCommentInSubmission(question);
             verifyCommentNotExist(feedbackResponseId);
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
@@ -82,6 +80,9 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            if (!question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
+                throw new InvalidHttpParameterException("Invalid question type for instructor comment");
+            }
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

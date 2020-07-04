@@ -256,7 +256,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         assertEquals(expected.getGiver(), actual.getGiverIdentifier());
         assertEquals(expected.getRecipient(), actual.getRecipientIdentifier());
         assertEquals(expected.getResponseDetails().getAnswerString(), actual.getResponseDetails().getAnswerString());
-        assertEquals(expected.getResponseDetails().questionType, actual.getResponseDetails().questionType);
+        assertEquals(expected.getResponseDetails().getQuestionType(), actual.getResponseDetails().getQuestionType());
         assertEquals(JsonUtils.toJson(expected.getResponseDetails()),
                 JsonUtils.toJson(actual.getResponseDetails()));
     }

@@ -1,6 +1,6 @@
 package teammates.ui.webapi.action;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -55,24 +55,20 @@ public class GetAuthInfoAction extends Action {
         } else {
             String googleId = userInfo.getId();
             AccountAttributes accountInfo = logic.getAccount(googleId);
-            String institute = null;
-            if (accountInfo != null) {
-                institute = accountInfo.getInstitute();
-            }
+            String institute = accountInfo == null ? null : accountInfo.getInstitute();
             output = new AuthInfo(userInfo, institute, authType == AuthType.MASQUERADE);
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.CsrfConfig.TOKEN_COOKIE_NAME);
-        if (!csrfToken.equals(existingCsrfToken)) {
-            Cookie csrfTokenCookie = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, csrfToken);
-            csrfTokenCookie.setSecure(!Config.isDevServer());
-            csrfTokenCookie.setPath("/");
-            List<Cookie> cookieList = Arrays.asList(csrfTokenCookie);
-            return new JsonResult(output, cookieList);
+        if (csrfToken != null && csrfToken.equals(existingCsrfToken)) {
+            return new JsonResult(output);
         }
-
-        return new JsonResult(output);
+        Cookie csrfTokenCookie = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, csrfToken);
+        csrfTokenCookie.setSecure(!Config.isDevServer());
+        csrfTokenCookie.setPath("/");
+        List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
+        return new JsonResult(output, cookieList);
     }
 
 }

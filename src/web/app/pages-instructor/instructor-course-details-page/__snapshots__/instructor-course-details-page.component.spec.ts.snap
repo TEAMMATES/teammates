@@ -365,202 +365,193 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
     </div>
     
     <div
-      class="card-body p-0"
+      class="card-body p-0 student-table-margin card border"
     >
-      <div
-        class="card-header text-dark-blue bg-light-blue font-weight-bold"
-      >
-        [CS101]
-      </div>
-      <div
-        class="card-body p-0"
-      >
-        <tm-student-list>
-          <div
-            class="table-responsive"
+      <tm-student-list>
+        <div
+          class="table-responsive"
+        >
+          <table
+            class="table table-bordered table-striped m-0"
           >
-            <table
-              class="table table-bordered table-striped m-0"
+            <thead
+              class="thead-gray"
             >
-              <thead
-                class="thead-gray"
-              >
-                <tr>
-                  <th>
-                    Photo
-                  </th>
-                  
-                  <th
-                    class="sortable-header"
-                  >
-                     Section 
-                    
-                    <span>
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                    
-                    
-                  </th>
-                  <th
-                    class="sortable-header"
-                  >
-                     Team 
-                    
-                    <span>
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                    
-                    
-                  </th>
-                  <th
-                    class="sortable-header"
-                  >
-                     Student Name 
-                    
-                    <span>
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                    
-                    
-                  </th>
-                  <th
-                    class="sortable-header"
-                  >
-                     Status 
-                    
-                    <span>
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                    
-                    
-                  </th>
-                  <th
-                    class="sortable-header"
-                  >
-                     Email 
-                    
-                    <span>
-                      <i
-                        class="fas fa-sort"
-                      />
-                    </span>
-                    
-                    
-                  </th>
-                  <th>
-                    Action(s)
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+              <tr>
+                <th>
+                  Photo
+                </th>
                 
-                <tr
-                  s=""
+                <th
+                  class="sortable-header"
                 >
-                  <td
-                    class="align-center"
-                  >
-                    <tm-view-photo-popover>
-                      
-                      
-                      
-                      <a
-                        href="/"
-                        queryparamshandling="preserve"
-                        role="button"
-                      >
-                         View Photo 
-                      </a>
-                      
-                      
-                      
-                    </tm-view-photo-popover>
-                  </td>
+                   Section 
                   
-                  <td>
-                    Tutorial Group 1
-                  </td>
-                  <td>
-                    Team 1
-                  </td>
-                  <td>
-                    Jamie
-                  </td>
-                  <td
-                    class="align-center"
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Team 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Student Name 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Status 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Email 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th>
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr
+                s=""
+              >
+                <td
+                  class="align-center"
+                >
+                  <tm-view-photo-popover>
+                    
+                    
+                    
+                    <a
+                      href="/"
+                      queryparamshandling="preserve"
+                      role="button"
+                    >
+                       View Photo 
+                    </a>
+                    
+                    
+                    
+                  </tm-view-photo-popover>
+                </td>
+                
+                <td>
+                  Tutorial Group 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Jamie
+                </td>
+                <td
+                  class="align-center"
+                >
+                  Yet to Join
+                </td>
+                <td>
+                  jamie@gmail.com
+                </td>
+                <td
+                  class="no-print align-center"
+                >
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm mr-2"
+                    href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    Yet to Join
-                  </td>
-                  <td>
-                    jamie@gmail.com
-                  </td>
-                  <td
-                    class="no-print align-center"
+                     View
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm mr-2"
+                    href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm mr-2"
-                      href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                       View
-                    </a>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm mr-2"
-                      href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                       Edit
-                    </a>
-                    
-                    
-                    
-                    
-                    
-                    <button
-                      class="btn btn-light btn-sm mr-2"
-                    >
-                      Send Invite
-                    </button>
-                    
-                    
-                    
-                    <button
-                      class="btn btn-light btn-sm mr-2"
-                    >
-                      Delete
-                    </button>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm mr-2"
-                      href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                       All Records
-                    </a>
-                    
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </tm-student-list>
-      </div>
+                     Edit
+                  </a>
+                  
+                  
+                  
+                  
+                  
+                  <button
+                    class="btn btn-light btn-sm mr-2"
+                  >
+                    Send Invite
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="btn btn-light btn-sm mr-2"
+                  >
+                    Delete
+                  </button>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm mr-2"
+                    href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                     All Records
+                  </a>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </tm-student-list>
     </div>
     
     

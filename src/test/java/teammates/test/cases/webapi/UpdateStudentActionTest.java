@@ -289,7 +289,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Override
     @Test
-    protected void testAccessControl() {
+    protected void testAccessControl() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student3InCourse1");
 
@@ -298,13 +298,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
-        ______TS("Only instructors of same course can access");
-
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
-
-        ______TS("Instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 }
