@@ -48,6 +48,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsAdmin();
         String[] accNameParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, acc.getName(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
@@ -61,6 +62,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsAdmin();
         String[] accCourseIdParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, acc.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
         SearchStudentsAction a = getAction(accCourseIdParams);
         JsonResult result = getJsonResult(a);
@@ -73,6 +75,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsAdmin();
         String[] accNameParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "Course2",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
@@ -87,6 +90,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         StudentAttributes acc = typicalBundle.students.get("student1InCourse1");
         String[] emailParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, acc.getEmail(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
 
         SearchStudentsAction a = getAction(emailParams);
@@ -101,6 +105,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsAdmin();
         String[] accNameParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "minuscoronavirus",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
         SearchStudentsAction a = getAction(accNameParams);
         JsonResult result = getJsonResult(a);
@@ -114,6 +119,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsAdmin();
         String[] googleIdParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "Course",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
         };
         SearchStudentsAction a = getAction(googleIdParams);
         JsonResult result = getJsonResult(a);
@@ -127,6 +133,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsInstructor("idOfInstructor1OfCourse1");
         String[] googleIdParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "Course",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         SearchStudentsAction a = getAction(googleIdParams);
@@ -139,7 +146,17 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     @Override
     @Test
     protected void testAccessControl() {
-        verifyAccessibleForAdmin();
-        verifyOnlyInstructorsCanAccess();
+        String[] adminParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "dummy",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+        String[] instructorParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "dummy",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+        verifyAccessibleForAdmin(adminParams);
+        verifyOnlyInstructorsCanAccess(instructorParams);
+        verifyInaccessibleForAdmin(instructorParams);
+        verifyInaccessibleForInstructors(adminParams);
     }
 }

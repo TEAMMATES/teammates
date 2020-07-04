@@ -28,6 +28,13 @@ public class SearchStudentsAction extends Action {
         if (!userInfo.isInstructor && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
         }
+        String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        if (!userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+        }
+        if (!userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
+            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
+        }
     }
 
     private String getInstituteFromCourseId(String courseId) {
@@ -72,11 +79,12 @@ public class SearchStudentsAction extends Action {
     @Override
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
+        String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         List<StudentAttributes> students;
         List<StudentData> studentDataList = new ArrayList<>();
 
         // Search for students
-        if (userInfo.isAdmin) {
+        if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
             students = logic.searchStudentsInWholeSystem(searchKey).studentList;
         } else {
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
@@ -86,7 +94,7 @@ public class SearchStudentsAction extends Action {
         for (StudentAttributes s : students) {
             StudentData studentData = new StudentData(s);
 
-            if (userInfo.isAdmin) {
+            if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         StringHelper.encrypt(s.getKey()),
                         getInstituteFromCourseId(s.getCourse()));
