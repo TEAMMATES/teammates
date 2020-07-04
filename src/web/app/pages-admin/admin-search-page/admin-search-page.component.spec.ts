@@ -1,8 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { InstructorAccountSearchResult,
@@ -26,7 +25,7 @@ describe('AdminSearchPageComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        MatSnackBarModule,
+        NgbTooltipModule,
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
@@ -36,11 +35,11 @@ describe('AdminSearchPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminSearchPageComponent);
     component = fixture.componentInstance;
-    accountService = TestBed.get(AccountService);
-    searchService = TestBed.get(SearchService);
-    studentService = TestBed.get(StudentService);
-    statusMessageService = TestBed.get(StatusMessageService);
-    modalService = TestBed.get(NgbModal);
+    accountService = TestBed.inject(AccountService);
+    searchService = TestBed.inject(SearchService);
+    studentService = TestBed.inject(StudentService);
+    statusMessageService = TestBed.inject(StatusMessageService);
+    modalService = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 
@@ -55,7 +54,7 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
       (args: string): void => {
         expect(args).toEqual('This is the error message');
       });
@@ -72,7 +71,7 @@ describe('AdminSearchPageComponent', () => {
       instructors: [],
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showWarningMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showWarningToast').and.callFake(
       (args: string): void => {
         expect(args).toEqual('No results found.');
       });
@@ -247,8 +246,17 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(of('Success'));
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
       (args: string): void => {
         expect(args).toEqual('The instructor\'s Google ID has been reset.');
       });
@@ -275,13 +283,22 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(throwError({
       error: {
         message: 'This is the error message',
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
       (args: string): void => {
         expect(args).toEqual('This is the error message');
       });
@@ -316,9 +333,18 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetStudentAccount').and.returnValue(of('success'));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
       (args: string): void => {
         expect(args).toEqual('The student\'s Google ID has been reset.');
       });
@@ -353,13 +379,22 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
+    spyOn(modalService, 'open').and.callFake(() => {
+      return {
+        componentInstance: {
+          name: 'dummy', course: 'dummy',
+        },
+        result: Promise.resolve(),
+      };
+    });
+
     spyOn(accountService, 'resetStudentAccount').and.returnValue(throwError({
       error: {
         message: 'This is the error message.',
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
       (args: string): void => {
         expect(args).toEqual('This is the error message.');
       });
@@ -408,7 +443,7 @@ describe('AdminSearchPageComponent', () => {
       newRegistrationKey: 'newKey',
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
         (args: string): void => {
           expect(args).toEqual('success');
         });
@@ -463,7 +498,7 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorMessage').and.callFake(
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
         (args: string): void => {
           expect(args).toEqual('This is the error message.');
         });

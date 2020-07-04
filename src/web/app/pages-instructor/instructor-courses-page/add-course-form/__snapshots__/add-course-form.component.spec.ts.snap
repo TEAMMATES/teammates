@@ -33,26 +33,23 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
       </button>
     </div>
     <div
-      class="card-body"
+      class="card-body text-center"
     >
       <div
         class="form-group row"
       >
         <label
-          class="col-sm-3 control-label bold-label text-right"
+          class="col-md-3 text-md-right col-form-label"
         >
           Course ID:
         </label>
         <div
-          class="col-sm-6"
+          class="col-md-6 text-md-left"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-id"
             maxlength="40"
-            ng-reflect-maxlength="40"
-            ng-reflect-model=""
-            ng-reflect-ngb-tooltip="Enter the identifier of the co"
             ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
@@ -63,20 +60,17 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         class="form-group row"
       >
         <label
-          class="col-sm-3 control-label bold-label text-right"
+          class="col-md-3 text-md-right col-form-label"
         >
           Course Name:
         </label>
         <div
-          class="col-sm-6"
+          class="col-md-6 text-md-left"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
-            ng-reflect-maxlength="64"
-            ng-reflect-model=""
-            ng-reflect-ngb-tooltip="Enter the name of the course, "
             ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
@@ -87,12 +81,12 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         class="form-group row"
       >
         <label
-          class="col-sm-3 control-label bold-label text-right"
+          class="col-md-3 text-md-right col-form-label"
         >
           Time Zone:
         </label>
         <div
-          class="col-sm-6"
+          class="col-md-6 text-md-left"
         >
           <div
             class="input-group"
@@ -100,15 +94,12 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ng-reflect-model="UTC"
-              ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
               
               <option
-                ng-reflect-value="GMT"
                 value="GMT"
               >
                 GMT
@@ -131,7 +122,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         class="form-group row"
       >
         <div
-          class="offset-sm-3 col-sm-9"
+          class="col-md-9 offset-md-3 text-md-left"
         >
           <button
             class="btn btn-primary"
@@ -179,26 +170,23 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
       </button>
     </div>
     <div
-      class="card-body"
+      class="card-body text-center"
     >
       <div
         class="form-group row"
       >
         <label
-          class="col-sm-3 control-label bold-label text-right"
+          class="col-md-3 text-md-right col-form-label"
         >
           Course ID:
         </label>
         <div
-          class="col-sm-6"
+          class="col-md-6 text-md-left"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-id"
             maxlength="40"
-            ng-reflect-maxlength="40"
-            ng-reflect-model=""
-            ng-reflect-ngb-tooltip="Enter the identifier of the co"
             ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
@@ -209,20 +197,17 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         class="form-group row"
       >
         <label
-          class="col-sm-3 control-label bold-label text-right"
+          class="col-md-3 text-md-right col-form-label"
         >
           Course Name:
         </label>
         <div
-          class="col-sm-6"
+          class="col-md-6 text-md-left"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
-            ng-reflect-maxlength="64"
-            ng-reflect-model=""
-            ng-reflect-ngb-tooltip="Enter the name of the course, "
             ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
@@ -233,12 +218,12 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         class="form-group row"
       >
         <label
-          class="col-sm-3 control-label bold-label text-right"
+          class="col-md-3 text-md-right col-form-label"
         >
           Time Zone:
         </label>
         <div
-          class="col-sm-6"
+          class="col-md-6 text-md-left"
         >
           <div
             class="input-group"
@@ -246,15 +231,12 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ng-reflect-model="UTC"
-              ng-reflect-ngb-tooltip="The time zone for the course. "
               ngbtooltip="The time zone for the course. You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
               
               <option
-                ng-reflect-value="GMT"
                 value="GMT"
               >
                 GMT
@@ -277,7 +259,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         class="form-group row"
       >
         <div
-          class="offset-sm-3 col-sm-9"
+          class="col-md-9 offset-md-3 text-md-left"
         >
           <button
             class="btn btn-primary"

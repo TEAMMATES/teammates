@@ -11,7 +11,7 @@ describe('SortableService', () => {
         TableComparatorService,
       ],
     });
-    service = TestBed.get(TableComparatorService);
+    service = TestBed.inject(TableComparatorService);
   });
 
   it('should be created', () => {

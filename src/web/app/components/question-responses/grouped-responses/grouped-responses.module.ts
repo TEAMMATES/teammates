@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { CommentBoxModule } from '../../comment-box/comment-box.module';
@@ -22,6 +23,7 @@ import { GroupedResponsesComponent } from './grouped-responses.component';
     ResponseModerationButtonModule,
     CommentBoxModule,
     TeammatesCommonModule,
+    NgbTooltipModule,
   ],
 })
 export class GroupedResponsesModule { }

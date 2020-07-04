@@ -35,7 +35,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         loginAdminToPage(url, AdminHomePage.class);
         searchPage = AppPage.getNewPageInstance(browser, url, AdminSearchPage.class);
 
-        browser.waitForPageLoad();
+        searchPage.waitForPageToLoad();
         StudentAttributes student = testData.students.get("student1InCourse1");
         AccountAttributes studentAccount = testData.accounts.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
@@ -60,6 +60,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.regenerateLinksForStudent(student);
         verifyRegenerateStudentCourseLinks(studentRow, originalJoinLink);
+        searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");
         searchPage.clearSearchBox();

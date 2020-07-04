@@ -55,6 +55,24 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
 
+        ______TS("Normal case: No logged in user, has nextUrl parameter");
+
+        gaeSimulation.logoutUser();
+        String nextUrl = "/web/join";
+
+        a = getAction(new String[] { "nextUrl", nextUrl });
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (AuthInfo) r.getOutput();
+        assertEquals(gateKeeper.getLoginUrl(nextUrl), output.getStudentLoginUrl());
+        assertEquals(gateKeeper.getLoginUrl(nextUrl), output.getInstructorLoginUrl());
+        assertEquals(gateKeeper.getLoginUrl(nextUrl), output.getAdminLoginUrl());
+        assertNull(output.getUser());
+        assertNull(output.getInstitute());
+        assertFalse(output.isMasquerade());
+
         ______TS("Normal case: With logged in user");
 
         loginAsInstructor("idOfInstructor1OfCourse1");

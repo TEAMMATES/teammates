@@ -12,7 +12,9 @@
         <input type="text" class="form-control" [ngModel]="searchParams.searchKey"
           (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="search()">Search</button>
+            <button class="btn btn-primary" (click)="search()"
+                    [disabled]="!(searchParams.isSearchForComments || searchParams.isSearchForStudents) || searchParams.searchKey === ''"
+            >Search</button>
           </div>
         <div class="input-group mt-md-1">
           <div class="col-md-3">
@@ -24,6 +26,11 @@
             <input type="checkbox" class="form-check-inline" id="commentCheckbox" [ngModel]="searchParams.isSearchForComments"
               (ngModelChange)="onCommentCheckboxChange($event)">
             <label class="form-check-label" for="commentCheckbox"><b>Questions, responses, comments on responses</b></label>
+          </div>
+          <div class="invalid-field mt-md-1"
+               [hidden]="searchParams.isSearchForComments || searchParams.isSearchForStudents">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp;
+            Please select at least one search type.
           </div>
         </div>
       </div>

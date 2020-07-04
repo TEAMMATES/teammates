@@ -885,7 +885,7 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2",
+      "recipientSection": "No specific section",
       "responseDetails": {
         "answer": 4,
         "questionType": "NUMSCALE"
@@ -1192,8 +1192,8 @@
       "feedbackQuestionId": "14",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
       "responseDetails": {
         "answers": [
           1,
@@ -1224,7 +1224,7 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2",
+      "recipientSection": "No specific section",
       "responseDetails": {
         "answer": 5,
         "questionType": "NUMSCALE"

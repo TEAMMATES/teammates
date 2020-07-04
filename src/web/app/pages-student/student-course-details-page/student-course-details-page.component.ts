@@ -96,7 +96,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -133,7 +133,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                 });
         });
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
@@ -146,7 +146,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 

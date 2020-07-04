@@ -40,6 +40,9 @@ export class ResponseModerationButtonComponent implements OnInit {
   @Input()
   moderatedQuestionId: string = '';
 
+  @Input()
+  isGiverInstructor: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void { }

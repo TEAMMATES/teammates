@@ -7,6 +7,7 @@ import { ErrorReportModule } from './components/error-report/error-report.module
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { StatusMessageModule } from './components/status-message/status-message.module';
+import { ToastModule } from './components/toast/toast.module';
 import { PageNotFoundModule } from './page-not-found/page-not-found.module';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
@@ -26,7 +27,7 @@ const routes: Routes = [
   {
     path: 'front',
     component: StaticPageComponent,
-    loadChildren: './pages-static/static-pages.module#StaticPagesModule',
+    loadChildren: () => import('./pages-static/static-pages.module').then((m: any) => m.StaticPagesModule),
   },
   {
     path: 'join',
@@ -59,17 +60,17 @@ const routes: Routes = [
   {
     path: 'student',
     component: StudentPageComponent,
-    loadChildren: './pages-student/student-pages.module#StudentPagesModule',
+    loadChildren: () => import('./pages-student/student-pages.module').then((m: any) => m.StudentPagesModule),
   },
   {
     path: 'instructor',
     component: InstructorPageComponent,
-    loadChildren: './pages-instructor/instructor-pages.module#InstructorPagesModule',
+    loadChildren: () => import('./pages-instructor/instructor-pages.module').then((m: any) => m.InstructorPagesModule),
   },
   {
     path: 'admin',
     component: AdminPageComponent,
-    loadChildren: './pages-admin/admin-pages.module#AdminPagesModule',
+    loadChildren: () => import('./pages-admin/admin-pages.module').then((m: any) => m.AdminPagesModule),
   },
   {
     path: '**',
@@ -92,6 +93,7 @@ const routes: Routes = [
     SessionResultPageModule,
     SessionSubmissionPageModule,
     RouterModule.forChild(routes),
+    ToastModule,
   ],
   declarations: [
     PageComponent,

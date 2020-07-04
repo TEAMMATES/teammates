@@ -100,7 +100,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
                 FeedbackResponseAttributes
                         .builder(feedbackQuestion.getId(), giverIdentifier, createRequest.getRecipientIdentifier())
                 .withGiverSection(giverSection)
-                .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
+                .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(), feedbackQuestion.getGiverType(),
                         feedbackQuestion.getRecipientType(), createRequest.getRecipientIdentifier()))
                 .withCourseId(feedbackQuestion.getCourseId())
                 .withFeedbackSessionName(feedbackQuestion.getFeedbackSessionName())

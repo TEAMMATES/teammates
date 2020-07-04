@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
-import { JoinStatus } from '../types/api-output';
+import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
 
@@ -25,9 +27,12 @@ export class UserJoinPageComponent implements OnInit {
   mac: string = '';
   userId: string = '';
 
+  private backendUrl: string = environment.backendUrl;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private courseService: CourseService,
+              private authService: AuthService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
@@ -39,6 +44,7 @@ export class UserJoinPageComponent implements OnInit {
 
       if (this.institute != null && this.mac == null) {
         this.validUrl = false;
+        return;
       }
 
       this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
@@ -48,6 +54,12 @@ export class UserJoinPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 403) {
           this.isLoading = false;
+          const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+          this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+            if (!auth.user) {
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            }
+          });
         } else {
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.error.requestId;

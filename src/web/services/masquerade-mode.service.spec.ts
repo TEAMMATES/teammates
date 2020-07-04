@@ -11,7 +11,7 @@ describe('MasqueradeModeService', () => {
         MasqueradeModeService,
       ],
     });
-    service = TestBed.get(MasqueradeModeService);
+    service = TestBed.inject(MasqueradeModeService);
   });
 
   it('should be created', () => {

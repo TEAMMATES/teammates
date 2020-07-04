@@ -25,7 +25,7 @@ describe('ErrorReportService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(ErrorReportService);
+    service = TestBed.inject(ErrorReportService);
   });
 
   it('should be created', () => {

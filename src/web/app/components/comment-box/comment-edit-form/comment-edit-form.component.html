@@ -6,7 +6,7 @@
     Giver: {{ response.giver }} ({{ response.giverTeam }})<br/>
     Recipient: {{ response.recipient }} ({{ response.recipientTeam }})
   </div>
-  <div class="offset-sm-6 col-sm-6">
+  <div class="col-6">
     <div class="float-right">
       <span>
         <button *ngIf="isVisibilityOptionEnabled" class="btn btn-info btn-sm" (click)="toggleVisibilityTable()">
@@ -49,7 +49,7 @@
 </div>
 
 <button type="button" class="btn btn-primary btn-sm float-right"
-        [ngbTooltip]="mode == CommentRowMode.EDIT ? 'Save this comment' : 'Create this comment'" style="margin-left: 5px"
+        [ngbTooltip]="mode == CommentRowMode.EDIT ? 'Save this comment' : 'Create this comment'" style="margin-left: 5px;"
         (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
   {{ mode == CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
 

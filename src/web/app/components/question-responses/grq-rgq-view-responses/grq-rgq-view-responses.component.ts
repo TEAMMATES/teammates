@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
+  FeedbackParticipantType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus, QuestionOutput, ResponseOutput,
@@ -54,8 +55,10 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
+  userIsInstructor: Record<string, boolean> = {};
 
   responsesToShow: Record<string, Record<string, QuestionOutput[]>> = {};
+  userHasRealResponses: Record<string, boolean> = {};
 
   constructor(private feedbackResponsesService: FeedbackResponsesService) {
     super();
@@ -71,6 +74,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
 
   private filterResponses(): void {
     this.responsesToShow = {};
+    this.userHasRealResponses = {};
     this.teamsToUsers = {};
     this.usersToTeams = {};
     this.userToEmail = {};
@@ -83,17 +87,24 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
           // filter out missing responses
           continue;
         }
+
+        if (this.section) {
+          if (this.isGrq && response.giverSection !== this.section
+              || !this.isGrq && response.recipientSection !== this.section) {
+            continue;
+          }
+        }
+        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
+            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        if (!shouldDisplayBasedOnSection) {
+          continue;
+        }
+
         if (response.giverEmail) {
           this.userToEmail[response.giver] = response.giverEmail;
         }
         if (response.recipientEmail) {
           this.userToEmail[response.recipient] = response.recipientEmail;
-        }
-
-        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
-        if (!shouldDisplayBasedOnSection) {
-          continue;
         }
 
         if (this.isGrq) {
@@ -108,6 +119,8 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
           }
           this.userExpanded[response.giver] = this.isExpandAll;
+          this.userIsInstructor[response.giver] =
+              question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
         } else {
           this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || '';
           this.userExpanded[response.recipient] = this.isExpandAll;
@@ -131,6 +144,8 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
     }
 
     for (const user of Object.keys(this.userExpanded)) {
+      this.userHasRealResponses[user] = false;
+
       for (const question of this.responses) {
         const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
@@ -167,6 +182,11 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             this.responsesToShow[user] = this.responsesToShow[user] || {};
             this.responsesToShow[user][other] = this.responsesToShow[user][other] || [];
             this.responsesToShow[user][other].push(questionCopy2);
+
+            if (!this.userHasRealResponses[user]) {
+              this.userHasRealResponses[user] =
+                  questionCopy2.allResponses.some((response: ResponseOutput) => !response.isMissingResponse);
+            }
           }
         }
       }

@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -41,7 +40,6 @@ describe('InstructorStudentRecordsPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         NgbModule,
-        MatSnackBarModule,
         GrqRgqViewResponsesModule,
       ],
       providers: [
@@ -82,6 +80,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
       moreInfo: '',
     };
 
+    component.studentName = 'Not John Doe';
     component.studentProfile = studentProfile;
     component.courseId = 'su1337';
     fixture.detectChanges();

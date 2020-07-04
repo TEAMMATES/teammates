@@ -1,36 +1,25 @@
 <div class="card" xmlns="http://www.w3.org/1999/html">
-  <div class="card-header text-white question-header">
+  <div class="card-header text-white question-header cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
     <div class="row align-items-center">
       <div class="col-5">
+        <span>
+          <i class="fas fa-chevron-down collapse-caret" *ngIf="model.isCollapsed"></i>
+          <i class="fas fa-chevron-up collapse-caret" *ngIf="!model.isCollapsed"></i>
+        </span>
         <strong>Question <span *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
-        <select class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable">
+        <select class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
           <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
         </select>
         {{ model.questionType | questionTypeName }}
       </div>
       <div class="col-7 text-right" *ngIf="!isDisplayOnly">
         <div *ngIf="formMode === QuestionEditFormMode.EDIT">
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChange('isEditable', true)"
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
                   ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal)" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal); $event.stopPropagation();" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal)"><i class="fas fa-ban"></i> Discard</button>
-          <ng-template #discardModal let-modal>
-            <div class="modal-header bg-warning">
-              <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
-              <button type="button" class="close" (click)="modal.dismiss()">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-            <div class="modal-body">
-              Are you sure you want to discard your unsaved edits?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-              <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-            </div>
-          </ng-template>
-          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal)"><i class="fas fa-trash"></i> Delete</button>
+                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal); $event.stopPropagation();"><i class="fas fa-ban"></i> Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal); $event.stopPropagation();"><i class="fas fa-trash"></i> Delete</button>
           <ng-template #deleteModal let-modal>
             <div class="modal-header bg-danger">
               <h5 class="modal-title"><i class="fas fa-times-circle"></i> Warning: Deleted question cannot be recovered</h5>
@@ -47,12 +36,12 @@
             </div>
           </ng-template>
           <button type="button" class="btn btn-primary btn-sm"
-                  (click)="duplicateCurrentQuestionHandler()"
+                  (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();"
                   ngbTooltip="Make a copy of the existing question and add to the current feedback session." container="body"><i class="far fa-copy"></i> Duplicate</button>
         </div>
         <div *ngIf="formMode === QuestionEditFormMode.ADD">
           <button type="button" class="btn btn-primary btn-sm"
-                  ngbTooltip="Cancel adding new question. No new question will be added to the feedback session." container="body" (click)="discardChangesHandler(discardNewQuestionModal)"><i class="fas fa-ban"></i> Cancel</button>
+                  ngbTooltip="Cancel adding new question. No new question will be added to the feedback session." container="body" (click)="discardChangesHandler(discardNewQuestionModal); $event.stopPropagation();"><i class="fas fa-ban"></i> Cancel</button>
           <ng-template #discardNewQuestionModal let-modal>
             <div class="modal-header bg-warning">
               <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
@@ -71,212 +60,234 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="card-body">
-    <div class="background-color-light-blue">
-      <div class="row">
-        <div class="col-12">
-          <div class="row padding-15px text-left">
-            <div class="col-md-2">
-              <div class="question-basic-info">Question</div>
-            </div>
-            <div class="col-md-10">
-              <textarea class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
-                        placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
-                        ngbTooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
-              ></textarea>
-            </div>
-          </div>
-          <div class="row padding-15px text-left">
-            <div class="col-md-2">
-              <div class="question-basic-info">[Optional]<br/>Description</div>
-            </div>
-            <div class="col-md-10">
-              <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable"
-                                   placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
-                                   ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>
-            </div>
-          </div>
-          <div class="padding-15px">
-            <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
-            <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
-            <tm-mcq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-mcq-question-edit-details-form>
-            <tm-msq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-msq-question-edit-details-form>
-            <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
-            <tm-rank-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-options-question-edit-details-form>
-            <tm-rank-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-recipients-question-edit-details-form>
-            <tm-rubric-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rubric-question-edit-details-form>
-            <tm-constsum-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-options-question-edit-details-form>
-            <tm-constsum-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-recipients-question-edit-details-form>
-          </div>
-        </div>
-      </div>
+    <div class="row align-items-center" *ngIf="model.isCollapsed">
+      <div class="collapse-qn-description">{{model.questionBrief}}</div>
     </div>
-    <div class="background-color-light-green margin-top-15px padding-15px">
-      <div>
-        <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
-      </div>
-      <div ngbDropdown class="margin-top-15px">
-        <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
-          <span *ngIf="!model.isUsingOtherFeedbackPath">
-            {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
-          </span>
-          <span *ngIf="model.isUsingOtherFeedbackPath">Custom feedback path</span>
-        </button>
-        <ul ngbDropdownMenu>
-          <li class="dropdown-header">Common feedback path combinations</li>
-          <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
-            <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
-              <span ngbDropdownAnchor class="float-right invisible"></span>
-              {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
-              <ul ngbDropdownMenu>
-                <li class="dropdown-item" *ngFor="let recipient of path.value"
-                    (click)="changeGiverRecipientType(path.key, recipient)">{{ recipient | recipientTypeDescription }}</li>
-              </ul>
-            </div>
-          </li>
-          <li class="dropdown-divider"></li>
-          <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true)">Custom feedback path...</li>
-        </ul>
-      </div>
-      <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
-        <div class="col-6">
-          <div class="row">
-            <div class="col-12">
-              <strong>Who will give the feedback:</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <select class="form-control" [ngModel]="model.giverType" (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
-                <option *ngFor="let path of this.allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="row">
-            <div class="col-12">
-              <strong>Who the feedback is about:</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <select class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
-                <option *ngFor="let recipientType of this.allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row margin-top-15px align-items-center"
-           *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
-        <div class="offset-1 col-4 text-right">
-          The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
-        </div>
-        <div class="col-2">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
-                       (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
-                       [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
-                       [disabled]="!model.isEditable">
+  </div>
+  <div [ngbCollapse]="model.isCollapsed">
+    <div class="card-body">
+      <div class="background-color-light-blue">
+        <div class="row">
+          <div class="col-12">
+            <div class="row padding-15px text-left">
+              <div class="col-md-2">
+                <div class="question-basic-info">Question</div>
+              </div>
+              <div class="col-md-10">
+                <textarea class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
+                          placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
+                          ngbTooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
+                ></textarea>
               </div>
             </div>
-            <input type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+            <div class="row padding-15px text-left">
+              <div class="col-md-2">
+                <div class="question-basic-info">[Optional]<br/>Description</div>
+              </div>
+              <div class="col-md-10">
+                <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="80"
+                                     placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
+                                     ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>
+              </div>
+            </div>
+            <div class="padding-15px">
+              <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
+              <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
+              <tm-mcq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MCQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-mcq-question-edit-details-form>
+              <tm-msq-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-msq-question-edit-details-form>
+              <tm-num-scale-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-num-scale-question-edit-details-form>
+              <tm-rank-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-options-question-edit-details-form>
+              <tm-rank-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rank-recipients-question-edit-details-form>
+              <tm-rubric-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-rubric-question-edit-details-form>
+              <tm-constsum-options-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-options-question-edit-details-form>
+              <tm-constsum-recipients-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-constsum-recipients-question-edit-details-form>
+            </div>
           </div>
         </div>
-        <div class="col-2">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
-                     [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting" (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
-                     [value]="NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED"
-                     [disabled]="!model.isEditable">
-              Unlimited
-            </label>
-          </div>
+      </div>
+      <div class="background-color-light-green margin-top-15px padding-15px">
+        <div>
+          <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
         </div>
-      </div>
-    </div>
-    <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
-      <div>
-        <div *ngIf="model.isQuestionHasResponses">
-          <h5>Changing the visibility after collecting responses is not recommended.</h5>
-          <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
-        </div>
-        <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
-      </div>
-      <div ngbDropdown class="margin-top-15px">
-        <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
-          <span *ngIf="!model.isUsingOtherVisibilitySetting">
-            {{ model.commonVisibilitySettingName }}
-          </span>
-          <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
-        </button>
-        <ul ngbDropdownMenu>
-          <li class="dropdown-header">Common visibility options</li>
-          <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
-              (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
-          <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
-          <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Custom visibility options...</li>
-        </ul>
-      </div>
-      <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
-        <thead>
-          <tr>
-            <th scope="col" class="text-center">User/Group</th>
-            <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
-            <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
-              <td [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body"> {{ visibilityType | visibilityTypeName }}</td>
-              <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
-                <input type="checkbox"
-                       (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
-                       [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
-                       [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-      <div class="margin-top-15px visibility-message">
-        This is the visibility hint as seen by the feedback giver:
-        <ul class="text-muted background-color-warning">
-          <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
-          <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
-            <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
-              {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+        <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px" autoClose="outside">
+          <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
+            <span *ngIf="!model.isUsingOtherFeedbackPath">
+              {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
+            </span>
+            <span *ngIf="model.isUsingOtherFeedbackPath">Custom feedback path</span>
+          </button>
+          <ul ngbDropdownMenu>
+            <li class="dropdown-header">Common feedback path combinations</li>
+            <li class="dropdown-item" *ngFor="let path of this.commonFeedbackPaths | keyvalue">
+              <div ngbDropdown #subMenu="ngbDropdown" placement="right" (mouseenter)="subMenu.open()" (mouseleave)="subMenu.close()">
+                <span ngbDropdownAnchor class="float-right invisible"></span>
+                {{ path.key | giverTypeDescription }} will give feedback on ... <i class="fas fa-caret-right"></i>
+                <ul ngbDropdownMenu>
+                  <li class="dropdown-item" *ngFor="let recipient of path.value"
+                      (click)="changeGiverRecipientType(path.key, recipient); mainMenu.close()">{{ recipient | recipientTypeDescription }}</li>
+                </ul>
+              </div>
             </li>
-          </ng-container>
-          <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
-        </ul>
+            <li class="dropdown-divider"></li>
+            <li class="dropdown-item" (click)="triggerModelChange('isUsingOtherFeedbackPath', true); mainMenu.close()">Custom feedback path...</li>
+          </ul>
+        </div>
+        <div class="row margin-top-15px" *ngIf="model.isUsingOtherFeedbackPath">
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12">
+                <strong>Who will give the feedback:</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <select class="form-control" [ngModel]="model.giverType" (ngModelChange)="changeGiverRecipientType($event, model.recipientType)" [disabled]="!model.isEditable">
+                  <option *ngFor="let path of this.allowedFeedbackPaths | keyvalue" [ngValue]="path.key">{{ path.key | giverTypeDescription }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12">
+                <strong>Who the feedback is about:</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <select class="form-control" [ngModel]="model.recipientType" (ngModelChange)="changeGiverRecipientType(model.giverType, $event)" [disabled]="!model.isEditable">
+                  <option *ngFor="let recipientType of this.allowedFeedbackPaths.get(model.giverType)" [ngValue]="recipientType">{{ recipientType | recipientTypeDescription }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row margin-top-15px align-items-center"
+             *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
+          <div class="offset-1 col-4 text-right">
+            The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
+          </div>
+          <div class="col-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'" [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting"
+                         (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
+                         [value]="NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM"
+                         [disabled]="!model.isEditable">
+                </div>
+              </div>
+              <input type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
+                       [ngModel]="model.numberOfEntitiesToGiveFeedbackToSetting" (ngModelChange)="triggerModelChange('numberOfEntitiesToGiveFeedbackToSetting', $event)"
+                       [value]="NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED"
+                       [disabled]="!model.isEditable">
+                Unlimited
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="margin-top-15px padding-15px" [ngClass]="{ 'background-color-light-green': !model.isQuestionHasResponses, 'alert alert-danger': model.isQuestionHasResponses }">
+        <div>
+          <div *ngIf="model.isQuestionHasResponses">
+            <h5>Changing the visibility after collecting responses is not recommended.</h5>
+            <p>Reason: The existing responses were submitted under the 'promise' of a certain visibility and changing the visibility later 'breaks' that promise.</p>
+          </div>
+          <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
+        </div>
+        <div ngbDropdown class="margin-top-15px">
+          <button class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
+            <span *ngIf="!model.isUsingOtherVisibilitySetting">
+              {{ model.commonVisibilitySettingName }}
+            </span>
+            <span *ngIf="model.isUsingOtherVisibilitySetting">Custom visibility options</span>
+          </button>
+          <ul ngbDropdownMenu>
+            <li class="dropdown-header">Common visibility options</li>
+            <li class="dropdown-item" *ngFor="let visibilityOption of commonFeedbackVisibilitySettings"
+                (click)="applyCommonVisibilitySettings(visibilityOption)">{{ visibilityOption.name }}</li>
+            <li class="dropdown-divider" *ngIf="isCustomFeedbackVisibilitySettingAllowed"></li>
+            <li class="dropdown-item" *ngIf="isCustomFeedbackVisibilitySettingAllowed" (click)="triggerModelChange('isUsingOtherVisibilitySetting', true)">Custom visibility options...</li>
+          </ul>
+        </div>
+        <table class="table margin-top-15px background-color-white table-striped" *ngIf="model.isUsingOtherVisibilitySetting">
+          <thead>
+            <tr>
+              <th scope="col" class="text-center">User/Group</th>
+              <th scope="col" class="text-center" *ngFor="let visibilityControl of VisibilityControl | enumToArray">{{ visibilityControl | visibilityControlName }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+              <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
+                <td [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body"> {{ visibilityType | visibilityTypeName }}</td>
+                <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
+                  <input type="checkbox"
+                         (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"
+                         [checked]="visibilityStateMachine.isVisible(visibilityType, visibilityControl)"
+                         [disabled]="!visibilityStateMachine.isCellEditable(visibilityType, visibilityControl) || !model.isEditable">
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div class="margin-top-15px visibility-message">
+          This is the visibility hint as seen by the feedback giver:
+          <ul class="text-muted background-color-warning">
+            <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+            <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+              <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+                {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+              </li>
+            </ng-container>
+            <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
       <div class="col-12 text-right">
+        <button type="button" class="btn btn-primary margin-right-5px" *ngIf="model.isEditable"
+                ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal)"><i class="fas fa-ban"></i> Cancel</button>
         <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler(saveModal)">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
-          <span *ngIf="formMode === QuestionEditFormMode.EDIT">Save Changes</span>
-          <span *ngIf="formMode === QuestionEditFormMode.ADD">Save Questions</span>
+          <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>
+          <span *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i> Save Questions</span>
         </button>
       </div>
     </div>
   </div>
 </div>
-<ng-template #saveModal let-modal>
-  <div class="modal-header bg-danger">
-    <h5 class="modal-title text-white"><i class="fas fa-times-circle"></i> Warning: Existing responses will be deleted by your action</h5>
+<ng-template #discardModal let-modal>
+  <div class="modal-header bg-warning">
+    <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
     <button type="button" class="close" (click)="modal.dismiss()">
       <i class="fas fa-times"></i>
     </button>
   </div>
   <div class="modal-body">
-    <p>Editing some fields will result in <b>all existing responses for this question to be deleted.</b></p>
+    Are you sure you want to discard your unsaved edits?
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
+  </div>
+</ng-template>
+<ng-template #saveModal let-modal>
+  <div class="modal-header bg-danger">
+    <h5 class="modal-title text-white"><i class="fas fa-times-circle"></i> Warning: Existing responses might be deleted by your action</h5>
+    <button type="button" class="close" (click)="modal.dismiss()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Editing fields affecting responders' answers will result in <b>all existing responses for this question to be deleted.</b></p>
     <p>Are you sure you want to continue?</p>
   </div>
   <div class="modal-footer">

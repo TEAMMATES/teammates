@@ -1,5 +1,5 @@
-<div class="row" style="padding-bottom: 20px; border-bottom: 1px solid #dddddd;"
-    *ngIf="responses.length && responses[0].allResponses.length">
+<div class="row" style="border-bottom: 1px solid #DDD;"
+    *ngIf="responses.length && responses[0].allResponses.length && hasRealResponses">
   <div class="col-md-3">
     <div>
       {{ isGrq ? 'To' : 'From' }}:
@@ -18,7 +18,9 @@
       {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
     </div>
     <div class="top-padded">
-      <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session" [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"></tm-response-moderation-button>
+      <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session"
+                                     [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"
+                                     [isGiverInstructor]="responses[0].feedbackQuestion.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
     </div>
   </div>
   <div class="col-md-9">
@@ -28,10 +30,17 @@
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <tm-single-response
-              [class.color-neutral]="response.allResponses[0].isMissingResponse"
-              [responseDetails]="response.allResponses[0].responseDetails"
-              [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+          <div class="row" style="margin: 0;">
+            <tm-single-response
+                    [class.color-neutral]="response.allResponses[0].isMissingResponse"
+                    [responseDetails]="response.allResponses[0].responseDetails"
+                    [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+            <button (click)="toggleAddComment(response.allResponses[0].responseId)"
+                    *ngIf="response.feedbackQuestion.questionType !== 'CONTRIB'"
+                    ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm comment-button">
+              <i class="fas fa-comment"></i>
+            </button>
+          </div>
           <tm-comment-row *ngIf="response.allResponses[0].participantComment"
                           [model]="response.allResponses[0].participantComment | commentToCommentRowModel: session.timeZone"
                           [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
@@ -42,7 +51,7 @@
                           [shouldHideEditButton]="true"
           ></tm-comment-row>
           <br/>
-          <tm-comment-table *ngIf="!response.allResponses[0].isMissingResponse"
+          <tm-comment-table *ngIf="!response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'"
                             [model]="instructorCommentTableModel[response.allResponses[0].responseId]"
                             [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
                             [response]="response.allResponses[0]"

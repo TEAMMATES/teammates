@@ -15,21 +15,9 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
         super(FeedbackQuestionType.NUMSCALE);
     }
 
-    /**
-     * Returns answer in double form.
-     */
-    public double getAnswer() {
-        return answer;
-    }
-
     @Override
     public String getAnswerString() {
         return StringHelper.toDecimalFormatString(answer);
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        return getAnswerString();
     }
 
     @Override
@@ -65,4 +53,11 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
         return errors;
     }
 
+    public double getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(double answer) {
+        this.answer = answer;
+    }
 }

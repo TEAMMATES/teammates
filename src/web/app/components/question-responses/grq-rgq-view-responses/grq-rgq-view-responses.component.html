@@ -8,15 +8,15 @@
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
       </div>
-      <div class="card-body" *ngIf="teamExpanded[teamInfo.key]">
-
-        <div *ngFor="let userInfo of teamInfo.value">
-          <ng-container
-              [ngTemplateOutlet]="userTab"
-              [ngTemplateOutletContext]="{userInfo:userInfo}">
-          </ng-container>
+      <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
+        <div class="card-body">
+          <div *ngFor="let userInfo of teamInfo.value">
+            <ng-container
+                [ngTemplateOutlet]="userTab"
+                [ngTemplateOutletContext]="{userInfo:userInfo}">
+            </ng-container>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -43,21 +43,31 @@
         [{{ userToEmail[userInfo] }}]
       </a>
     <div class="float-right">
-      <tm-response-moderation-button *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"></tm-response-moderation-button>
+      <tm-response-moderation-button class="mr-2" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+                                     [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
       <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
       <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
     </div>
   </div>
-    <div class="card-body" *ngIf="userExpanded[userInfo]">
-      <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
-        <tm-grouped-responses [responses]="other.value"
-                              [isGrq]="isGrq" [session]="session"
-                              [instructorCommentTableModel]="instructorCommentTableModel"
-                              [userToEmail]="userToEmail"
-                              (instructorCommentTableModelChange)="triggerModelChange($event)"
-                              (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
-                              (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
-                              (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-grouped-responses>
+    <div [ngbCollapse]="!userExpanded[userInfo]">
+      <div class="card-body">
+        <ng-container *ngIf="userHasRealResponses[userInfo]">
+          <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
+            <tm-grouped-responses [responses]="other.value"
+                                  [isGrq]="isGrq" [session]="session"
+                                  [instructorCommentTableModel]="instructorCommentTableModel"
+                                  [userToEmail]="userToEmail"
+                                  (instructorCommentTableModelChange)="triggerModelChange($event)"
+                                  (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
+                                  (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
+                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-grouped-responses>
+          </div>
+        </ng-container>
+        <div *ngIf="!userHasRealResponses[userInfo]" class="top-padded">
+          <i>
+            There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.
+          </i>
+        </div>
       </div>
     </div>
   </div>

@@ -1,18 +1,11 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails.MultipleOptionStatistics;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private List<String> msqChoices;
@@ -36,28 +29,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
         this.msqOtherWeight = 0;
-    }
-
-    public List<Double> getMsqWeights() {
-        return msqWeights;
-    }
-
-    public double getMsqOtherWeight() {
-        return msqOtherWeight;
-    }
-
-    @Override
-    public String getQuestionTypeDisplayName() {
-        return Const.FeedbackQuestionTypeNames.MSQ;
-    }
-
-    @Override
-    public List<String> getInstructions() {
-        return null;
-    }
-
-    public boolean getOtherEnabled() {
-        return otherEnabled;
     }
 
     @Override
@@ -97,47 +68,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         }
 
         return this.otherEnabled != newMsqDetails.otherEnabled;
-    }
-
-    @Override
-    public String getQuestionResultStatisticsCsv(
-            List<FeedbackResponseAttributes> responses,
-            FeedbackQuestionAttributes question,
-            FeedbackSessionResultsBundle bundle) {
-        if (responses.isEmpty()) {
-            return "";
-        }
-
-        MSQStatistics msqStats = new MSQStatistics(this);
-        Map<String, Integer> answerFrequency = msqStats.collateAnswerFrequency(responses);
-        int numChoicesSelected = getNumberOfResponses(answerFrequency);
-        if (numChoicesSelected == -1) {
-            return "";
-        }
-        StringBuilder csv = new StringBuilder();
-
-        csv.append(msqStats.getResponseSummaryStatsCsv(answerFrequency, numChoicesSelected));
-
-        // Create 'Per recipient Stats' for csv if weights are enabled.
-        if (hasAssignedWeights) {
-            String header = msqStats.getPerRecipientResponseStatsHeaderCsv();
-            // Get the response attributes sorted based on Recipient Team name and recipient name.
-            List<FeedbackResponseAttributes> sortedResponses = msqStats.getResponseAttributesSorted(responses, bundle);
-            String body = msqStats.getPerRecipientResponseStatsBodyCsv(sortedResponses, bundle);
-            String perRecipientStatsCsv = header + body;
-
-            // Add per recipient stats to csv string
-            csv.append(System.lineSeparator())
-                .append("Per Recipient Statistics").append(System.lineSeparator())
-                .append(perRecipientStatsCsv);
-        }
-        return csv.toString();
-    }
-
-    @Override
-    public String getCsvHeader() {
-        List<String> sanitizedChoices = SanitizationHelper.sanitizeListForCsv(msqChoices);
-        return "Feedbacks:," + StringHelper.toString(sanitizedChoices, ",");
     }
 
     @Override
@@ -243,6 +173,42 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return msqChoices;
     }
 
+    public void setMsqChoices(List<String> msqChoices) {
+        this.msqChoices = msqChoices;
+    }
+
+    public boolean isOtherEnabled() {
+        return otherEnabled;
+    }
+
+    public void setOtherEnabled(boolean otherEnabled) {
+        this.otherEnabled = otherEnabled;
+    }
+
+    public boolean hasAssignedWeights() {
+        return hasAssignedWeights;
+    }
+
+    public void setHasAssignedWeights(boolean hasAssignedWeights) {
+        this.hasAssignedWeights = hasAssignedWeights;
+    }
+
+    public List<Double> getMsqWeights() {
+        return msqWeights;
+    }
+
+    public void setMsqWeights(List<Double> msqWeights) {
+        this.msqWeights = msqWeights;
+    }
+
+    public double getMsqOtherWeight() {
+        return msqOtherWeight;
+    }
+
+    public void setMsqOtherWeight(double msqOtherWeight) {
+        this.msqOtherWeight = msqOtherWeight;
+    }
+
     public FeedbackParticipantType getGenerateOptionsFor() {
         return generateOptionsFor;
     }
@@ -251,174 +217,27 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.generateOptionsFor = generateOptionsFor;
     }
 
-    public void setMsqChoices(List<String> msqChoices) {
-        this.msqChoices = msqChoices;
-    }
-
-    public boolean hasAssignedWeights() {
-        return hasAssignedWeights;
-    }
-
-    /**
-     * Returns maximum selectable choices for this MSQ question.
-     * @return Integer.MIN_VALUE if not set by instructor.
-     */
     public int getMaxSelectableChoices() {
         return maxSelectableChoices;
-    }
-
-    /**
-     * Returns minimum selectable choices for this MSQ question.
-     */
-    public int getMinSelectableChoices() {
-        return minSelectableChoices;
-    }
-
-    public void setOtherEnabled(boolean otherEnabled) {
-        this.otherEnabled = otherEnabled;
-    }
-
-    public void setHasAssignedWeights(boolean hasAssignedWeights) {
-        this.hasAssignedWeights = hasAssignedWeights;
-    }
-
-    public void setMsqWeights(List<Double> msqWeights) {
-        this.msqWeights = msqWeights;
-    }
-
-    public void setMsqOtherWeight(double msqOtherWeight) {
-        this.msqOtherWeight = msqOtherWeight;
     }
 
     public void setMaxSelectableChoices(int maxSelectableChoices) {
         this.maxSelectableChoices = maxSelectableChoices;
     }
 
+    public int getMinSelectableChoices() {
+        return minSelectableChoices;
+    }
+
     public void setMinSelectableChoices(int minSelectableChoices) {
         this.minSelectableChoices = minSelectableChoices;
     }
 
+    public int getNumOfGeneratedMsqChoices() {
+        return numOfGeneratedMsqChoices;
+    }
+
     public void setNumOfGeneratedMsqChoices(int numOfGeneratedMsqChoices) {
         this.numOfGeneratedMsqChoices = numOfGeneratedMsqChoices;
-    }
-
-    /**
-     * Returns number of non-empty responses.<br>
-     * <p>
-     * <em>Note:</em> Response can be empty when <b>'None of the above'</b> option is selected.
-     * We don't count responses that select 'None of the above' option.</p>
-     */
-    private int getNumberOfResponses(Map<String, Integer> answerFrequency) {
-        int numChoicesSelected = answerFrequency.values().stream().mapToInt(Integer::intValue).sum();
-
-        // we will only show stats if there is at least one nonempty response
-        if (numChoicesSelected == 0) {
-            return -1;
-        }
-
-        return numChoicesSelected;
-    }
-
-    /**
-     * Calculates the Response Statistics for MSQ questions.
-     */
-    private static class MSQStatistics extends MultipleOptionStatistics {
-
-        MSQStatistics(FeedbackMsqQuestionDetails msqDetails) {
-            this.choices = msqDetails.getMsqChoices();
-            this.numOfChoices = choices.size();
-            this.weights = msqDetails.getMsqWeights();
-            this.otherEnabled = msqDetails.getOtherEnabled();
-            this.hasAssignedWeights = msqDetails.hasAssignedWeights();
-            this.otherWeight = msqDetails.getMsqOtherWeight();
-        }
-
-        /**
-         * Calculates the answer frequency for each option based on the received responses for a question.
-         * <p>
-         *   <strong>Note:</strong> Empty answers which denotes the <code>None of the above</code> option are ignored.
-         * </p>
-         * @param responses The list of response attributes.
-         */
-        @Override
-        protected Map<String, Integer> collateAnswerFrequency(List<FeedbackResponseAttributes> responses) {
-            Map<String, Integer> answerFrequency = new LinkedHashMap<>();
-
-            for (String option : choices) {
-                answerFrequency.put(option, 0);
-            }
-            if (otherEnabled) {
-                answerFrequency.put("Other", 0);
-            }
-
-            for (FeedbackResponseAttributes response : responses) {
-                FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
-                updateResponseCountPerOptionForResponse(responseDetails, answerFrequency);
-            }
-            return answerFrequency;
-        }
-
-        /**
-         * Updates the number of responses per option for each response in responseCountPerOption map.
-         */
-        private void updateResponseCountPerOptionForResponse(FeedbackMsqResponseDetails responseDetails,
-                Map<String, Integer> responseCountPerOption) {
-            List<String> answerStrings = responseDetails.getAnswerStrings();
-            boolean isOtherOptionAnswer = responseDetails.isOtherOptionAnswer();
-            String otherAnswer = "";
-
-            if (isOtherOptionAnswer) {
-                responseCountPerOption.put("Other", responseCountPerOption.get("Other") + 1);
-
-                // remove other answer temporarily to calculate stats for other options
-                otherAnswer = responseDetails.getOtherFieldContent();
-                answerStrings.remove(otherAnswer);
-            }
-
-            for (String answerString : answerStrings) {
-                // Answer string is empty when 'None of the above' option is selected,
-                // in that case, don't count that response.
-                if (answerString.isEmpty()) {
-                    continue;
-                }
-                responseCountPerOption.put(answerString, responseCountPerOption.getOrDefault(answerString, 0) + 1);
-            }
-
-            // restore other answer if any
-            if (isOtherOptionAnswer) {
-                answerStrings.add(otherAnswer);
-            }
-        }
-
-        /**
-         * Returns a Map containing response counts for each option for every recipient.
-         */
-        @Override
-        protected Map<String, Map<String, Integer>> calculatePerRecipientResponseCount(
-                List<FeedbackResponseAttributes> responses) {
-            Map<String, Map<String, Integer>> perRecipientResponse = new LinkedHashMap<>();
-
-            responses.forEach(response -> {
-                perRecipientResponse.computeIfAbsent(response.recipient, key -> {
-                    // construct default value for responseCount
-                    Map<String, Integer> responseCountPerOption = new LinkedHashMap<>();
-                    for (String choice : choices) {
-                        responseCountPerOption.put(choice, 0);
-                    }
-                    if (otherEnabled) {
-                        responseCountPerOption.put("Other", 0);
-                    }
-                    return responseCountPerOption;
-                });
-                perRecipientResponse.computeIfPresent(response.recipient, (key, responseCountPerOption) -> {
-                    // update responseCount here
-                    FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
-                    updateResponseCountPerOptionForResponse(frd, responseCountPerOption);
-                    return responseCountPerOption;
-                });
-            });
-            return perRecipientResponse;
-        }
-
     }
 }

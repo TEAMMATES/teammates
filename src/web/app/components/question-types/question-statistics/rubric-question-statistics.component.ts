@@ -1,13 +1,12 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {
-  FeedbackParticipantType,
-  FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
-} from '../../../../types/api-output';
+import { StringHelper } from '../../../../services/string-helper';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
-import { QuestionStatistics } from './question-statistics';
+import {
+  PerRecipientStats,
+  RubricQuestionStatisticsCalculation,
+} from './question-statistics-calculation/rubric-question-statistics-calculation';
 
 /**
  * Statistics for rubric questions.
@@ -17,23 +16,15 @@ import { QuestionStatistics } from './question-statistics';
   templateUrl: './rubric-question-statistics.component.html',
   styleUrls: ['./rubric-question-statistics.component.scss'],
 })
-export class RubricQuestionStatisticsComponent
-    extends QuestionStatistics<FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails>
+export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation
     implements OnInit, OnChanges {
 
   excludeSelf: boolean = false;
 
-  subQuestions: string[] = [];
-  choices: string[] = [];
-  hasWeights: boolean = false;
-  weights: number[][] = [];
-  answers: number[][] = [];
-  percentages: number[][] = [];
-  answersExcludeSelf: number[][] = [];
-  percentagesExcludeSelf: number[][] = [];
-
-  columnsData: ColumnData[] = [];
-  rowsData: SortableTableCellData[][] = [];
+  summaryColumnsData: ColumnData[] = [];
+  summaryRowsData: SortableTableCellData[][] = [];
+  perRecipientColumnsData: ColumnData[] = [];
+  perRecipientRowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
@@ -49,96 +40,72 @@ export class RubricQuestionStatisticsComponent
     this.getTableData();
   }
 
-  private calculateStatistics(): void {
-    this.answers = [];
-    this.percentages = [];
-    this.answersExcludeSelf = [];
-    this.percentagesExcludeSelf = [];
-
-    this.subQuestions = this.question.rubricSubQuestions;
-    this.choices = this.question.rubricChoices;
-    this.hasWeights = this.question.hasAssignedWeights;
-    this.weights = this.question.rubricWeightsForEachCell;
-
-    for (const _ of this.question.rubricSubQuestions) {
-      const subQuestionAnswers: number[] = [];
-      for (const __ of this.question.rubricChoices) {
-        subQuestionAnswers.push(0);
-      }
-      this.answers.push(JSON.parse(JSON.stringify(subQuestionAnswers)));
-      this.answersExcludeSelf.push(JSON.parse(JSON.stringify(subQuestionAnswers)));
-    }
-
-    const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
-        || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
-
-    for (const response of this.responses) {
-      for (let i: number = 0; i < response.responseDetails.answer.length; i += 1) {
-        const subAnswer: number = response.responseDetails.answer[i];
-        if (subAnswer === -1) {
-          continue;
-        }
-        this.answers[i][subAnswer] += 1;
-
-        if (isRecipientTeam && response.recipient !== response.giver
-            || !isRecipientTeam && response.recipientEmail !== response.giverEmail) {
-          this.answersExcludeSelf[i][subAnswer] += 1;
-        }
-      }
-    }
-
-    this.percentages = this.calculatePercentages(this.answers);
-    this.percentagesExcludeSelf = this.calculatePercentages(this.answersExcludeSelf);
-  }
-
-  private calculatePercentages(answers: number[][]): number[][] {
-    // Deep-copy the answers
-    const percentages: number[][] = JSON.parse(JSON.stringify(answers));
-    // console.log(percentages);
-
-    // Apply weights if applicable
-    if (this.hasWeights) {
-      for (let i: number = 0; i < answers.length; i += 1) {
-        for (let j: number = 0; j < answers[i].length; j += 1) {
-          percentages[i][j] = percentages[i][j] * this.weights[i][j];
-        }
-      }
-    }
-
-    // Calculate sums for each row
-    const sums: number[] = percentages.map((weightedAnswers: number[]) =>
-        weightedAnswers.reduce((a: number, b: number) => a + b, 0));
-
-    // Calculate the percentages based on the entry of each cell and the sum of each row
-    for (let i: number = 0; i < answers.length; i += 1) {
-      for (let j: number = 0; j < answers[i].length; j += 1) {
-        percentages[i][j] = sums[i] === 0 ? 0 : Math.round(percentages[i][j] / sums[i] * 100);
-      }
-    }
-
-    return percentages;
-  }
-
   getTableData(): void {
-    this.columnsData = [
+    this.summaryColumnsData = [
         { header: '' },
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
     ];
+    if (this.hasWeights) {
+      this.summaryColumnsData.push({ header: 'Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE });
+    }
 
-    this.rowsData = this.subQuestions.map((subQuestion: string, questionIndex: number) => {
-      return [
+    this.summaryRowsData = this.subQuestions.map((subQuestion: string, questionIndex: number) => {
+      const currRow: SortableTableCellData[] = [
         { value: subQuestion },
         ...this.choices.map((_: string, choiceIndex: number) => {
           if (this.excludeSelf) {
             return { value: `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \
-            (${ this.answersExcludeSelf[questionIndex][choiceIndex] }) \
-            ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
+(${ this.answersExcludeSelf[questionIndex][choiceIndex] }) \
+${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
           }
           return { value: `${ this.percentages[questionIndex][choiceIndex] }% \
-              (${ this.answers[questionIndex][choiceIndex] }) \
-              ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
+(${ this.answers[questionIndex][choiceIndex] }) \
+${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
         }),
       ];
+      if (this.hasWeights) {
+        if (this.excludeSelf) {
+          currRow.push({ value: this.subQuestionWeightAverageExcludeSelf[questionIndex] });
+        } else {
+          currRow.push({ value: this.subQuestionWeightAverage[questionIndex] });
+        }
+      }
+
+      return currRow;
+    });
+
+    if (!this.hasWeights) {
+      return;
+    }
+
+    // generate per recipient table if weight is enabled
+    this.perRecipientColumnsData = [
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
+      { header: 'Sub Question', sortBy: SortBy.QUESTION_TEXT },
+      ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
+      { header: 'Total', sortBy: SortBy.RUBRIC_TOTAL_CHOSEN_WEIGHT },
+      { header: 'Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
+    ];
+
+    this.perRecipientRowsData = [];
+    Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
+      this.subQuestions.forEach((subQuestion: string, questionIndex: number) => {
+        this.perRecipientRowsData.push([
+          { value: perRecipientStats.recipientTeam },
+          { value: perRecipientStats.recipientName },
+          { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
+          ...this.choices.map((_: string, choiceIndex: number) => {
+            return {
+              value: `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
+(${perRecipientStats.answers[questionIndex][choiceIndex]}) \
+[${this.weights[questionIndex][choiceIndex]}]`,
+            };
+          }),
+          { value: perRecipientStats.subQuestionTotalChosenWeight[questionIndex] },
+          { value: perRecipientStats.subQuestionWeightAverage[questionIndex] },
+        ]);
+      });
     });
   }
 

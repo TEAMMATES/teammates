@@ -56,7 +56,10 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getStudentForEmail(courseId, previewAsPerson);
         } else {
-            return getUnregisteredStudent().orElseGet(() -> logic.getStudentForGoogleId(courseId, userInfo.getId()));
+            return getUnregisteredStudent().orElseGet(() -> {
+                gateKeeper.verifyLoggedInUserPrivileges();
+                return logic.getStudentForGoogleId(courseId, userInfo.getId());
+            });
         }
     }
 
@@ -73,15 +76,26 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     student.getSection(),
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         } else {
+            if (!StringHelper.isEmpty(student.googleId)) {
+                if (userInfo == null) {
+                    // Student is associated to a google ID; even if registration key is passed, do not allow access
+                    throw new UnauthorizedAccessException("Login is required to access this feedback session");
+                } else if (!userInfo.id.equals(student.googleId)) {
+                    // Logged in student is not the same as the student registered for the given key, do not allow access
+                    throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
+                }
+            }
             gateKeeper.verifyAccessible(student, feedbackSession);
         }
     }
@@ -98,9 +112,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
-            if (userInfo == null) {
-                throw new UnauthorizedAccessException("Instructor must login to access");
-            }
+            gateKeeper.verifyLoggedInUserPrivileges();
             return logic.getInstructorForGoogleId(courseId, userInfo.getId());
         }
     }
@@ -113,14 +125,12 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        } else {
+        if (StringHelper.isEmpty(moderatedPerson) && StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
+        } else {
+            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
     }
 
@@ -152,10 +162,24 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
      * Gets the section of a recipient.
      */
     protected String getRecipientSection(
-            String courseId, FeedbackParticipantType recipientType, String recipientIdentifier) {
+            String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            String recipientIdentifier) {
         switch (recipientType) {
-        case INSTRUCTORS:
         case SELF:
+            switch (giverType) {
+            case INSTRUCTORS:
+            case SELF:
+                return Const.DEFAULT_SECTION;
+            case TEAMS:
+                return logic.getSectionForTeam(courseId, recipientIdentifier);
+            case STUDENTS:
+                StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
+                return student == null ? Const.DEFAULT_SECTION : student.section;
+            default:
+                Assumption.fail("Invalid giver type " + giverType + " for recipient type " + recipientType);
+                return null;
+            }
+        case INSTRUCTORS:
         case NONE:
             return Const.DEFAULT_SECTION;
         case TEAMS:

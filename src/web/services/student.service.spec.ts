@@ -1,10 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
+import { Course, Students } from '../types/api-output';
 import { StudentUpdateRequest } from '../types/api-request';
+import { CourseService } from './course.service';
 import { HttpRequestService } from './http-request.service';
 import { StudentService } from './student.service';
+import DoneCallback = jest.DoneCallback;
 
 const defaultStudentUpdateRequest: StudentUpdateRequest = {
   name: 'John Doe',
@@ -15,26 +19,34 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
   isSessionSummarySendEmail: true,
 };
 
+const studentCsvListTester:
+    (courseId: string, service: StudentService, spyCourseService: any, done: DoneCallback) => void =
+    (courseId: string, service: StudentService, spyCourseService: any, done: DoneCallback): void => {
+      const course: Course = require(`./test-data/${courseId}`).course;
+      const students: Students = require(`./test-data/${courseId}`).students;
+      spyOn(spyCourseService, 'getCourseAsInstructor').and.returnValue(of(course));
+      spyOn(service, 'getStudentsFromCourse').and.returnValue(of(students));
+      service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => {
+        expect(csvResult).toMatchSnapshot();
+        done();
+      });
+    };
+
 describe('StudentService', () => {
   let spyHttpRequestService: any;
+  let spyCourseService: any;
   let service: StudentService;
 
   beforeEach(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
       ],
-      providers: [
-        { provide: HttpRequestService, useValue: spyHttpRequestService },
-      ],
+      providers: [HttpRequestService, CourseService],
     });
-    service = TestBed.get(StudentService);
+    service = TestBed.inject(StudentService);
+    spyHttpRequestService = TestBed.inject(HttpRequestService);
+    spyCourseService = TestBed.inject(CourseService);
   });
 
   it('should be created', () => {
@@ -46,6 +58,7 @@ describe('StudentService', () => {
       courseid: 'CS3281',
       studentemail: 'johndoe@gmail.com',
     };
+    spyOn(spyHttpRequestService, 'put').and.stub();
 
     service.updateStudent({
       courseId: paramMap.courseid,
@@ -61,6 +74,7 @@ describe('StudentService', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
     };
+    spyOn(spyHttpRequestService, 'delete').and.stub();
 
     service.deleteAllStudentsFromCourse({
       courseId: paramMap.courseid,
@@ -75,6 +89,7 @@ describe('StudentService', () => {
       courseid: 'CS3281',
       studentemail: 'johndoe@gmail.com',
     };
+    spyOn(spyHttpRequestService, 'post').and.stub();
 
     service.regenerateStudentCourseLinks(paramMap.courseid, paramMap.studentemail);
 
@@ -82,18 +97,11 @@ describe('StudentService', () => {
         .toHaveBeenCalledWith(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramMap);
   });
 
-  it('should execute GET when loading students in a course as CSV', () => {
-    const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-    };
+  it('should generate course student list with section as csv', (done: DoneCallback) => {
+    studentCsvListTester('studentCsvListWithSection', service, spyCourseService, done);
+  });
 
-    const responseType: string = 'text';
-
-    service.loadStudentListAsCsv({
-      courseId: paramMap.courseid,
-    });
-
-    expect(spyHttpRequestService.get)
-        .toHaveBeenCalledWith(ResourceEndpoints.STUDENTS_CSV, paramMap, responseType);
+  it('should generate course student list without section as csv', (done: DoneCallback) => {
+    studentCsvListTester('studentCsvListWithoutSection', service, spyCourseService, done);
   });
 });

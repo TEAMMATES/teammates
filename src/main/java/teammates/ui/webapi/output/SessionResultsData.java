@@ -29,6 +29,7 @@ public class SessionResultsData extends ApiOutput {
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
     protected final List<QuestionOutput> questions = new ArrayList<>();
+    protected FeedbackSessionData feedbackSession;
 
     protected SessionResultsData() {
         // use factory method instead
@@ -39,6 +40,7 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
+        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -67,6 +69,8 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForStudent(SessionResultsBundle bundle, StudentAttributes student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
+        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
+        sessionResultsData.feedbackSession.hideInformationForStudent();
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -117,7 +121,7 @@ public class SessionResultsData extends ApiOutput {
             giverName = "You";
         } else {
             // we don't want student to figure out who is who by using the hash
-            giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle));
+            giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle).getName());
         }
 
         // process recipient
@@ -131,7 +135,7 @@ public class SessionResultsData extends ApiOutput {
             recipientName = String.format("Your Team (%s)", response.getRecipient());
         } else {
             // we don't want student to figure out who is who by using the hash
-            recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle));
+            recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle).getName());
         }
 
         // process comments
@@ -143,11 +147,13 @@ public class SessionResultsData extends ApiOutput {
         return ResponseOutput.builder()
                 .withResponseId(response.getId())
                 .withGiver(giverName)
+                .withGiverLastName(null)
                 .withGiverTeam(null)
                 .withGiverEmail(null)
                 .withRelatedGiverEmail(null)
                 .withGiverSection(response.getGiverSection())
                 .withRecipient(recipientName)
+                .withRecipientLastName(null)
                 .withRecipientTeam(null)
                 .withRecipientEmail(null)
                 .withRecipientSection(response.getRecipientSection())
@@ -184,19 +190,34 @@ public class SessionResultsData extends ApiOutput {
 
             if (bundle.getRoster().isTeamInCourse(giverEmail)) {
                 // remove recipient email as it is a team name
-                giverEmail = null;
                 relatedGiverEmail =
                         bundle.getRoster().getTeamToMembersTable().get(giverEmail).iterator().next().getEmail();
+                giverEmail = null;
             }
         }
-        String giverName = getGiverNameOfResponse(response, bundle);
+        NameInfo giverNameInfo = getGiverNameOfResponse(response, bundle);
+        String giverName = giverNameInfo.getName();
+        String giverLastName = giverNameInfo.getLastName();
         String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
+        String giverSection = response.getGiverSection();
+        FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
+        if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
+            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            giverSection = Const.DEFAULT_SECTION;
+        }
 
         // process recipient
         String recipientEmail = null;
-        String recipientName = getRecipientNameOfResponse(response, bundle);
+        NameInfo recipientNameInfo = getRecipientNameOfResponse(response, bundle);
+        String recipientName = recipientNameInfo.getName();
+        String recipientLastName = recipientNameInfo.getLastName();
         String recipientTeam =
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+        String recipientSection = response.getRecipientSection();
+        if (question.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+            recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            recipientSection = Const.DEFAULT_SECTION;
+        }
         if (bundle.isResponseRecipientVisible(response)) {
             recipientEmail = response.getRecipient();
 
@@ -218,14 +239,16 @@ public class SessionResultsData extends ApiOutput {
                 .withIsMissingResponse(isMissingResponse)
                 .withResponseId(response.getId())
                 .withGiver(giverName)
+                .withGiverLastName(giverLastName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
                 .withRelatedGiverEmail(relatedGiverEmail)
-                .withGiverSection(response.getGiverSection())
+                .withGiverSection(giverSection)
                 .withRecipient(recipientName)
+                .withRecipientLastName(recipientLastName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
-                .withRecipientSection(response.getRecipientSection())
+                .withRecipientSection(recipientSection)
                 .withResponseDetails(response.getResponseDetails())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
@@ -237,22 +260,25 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getGiverNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
+    private static NameInfo getGiverNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
         FeedbackParticipantType participantType = question.giverType;
 
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();
+        String lastName = userInfo.getLastName();
         if (question.getGiverType() == FeedbackParticipantType.TEAMS
                 && bundle.getRoster().isStudentInCourse(response.getGiver())) {
             // user gives responses on behalf of the team (legacy implementation), the name should be the team name instead
             name = userInfo.getTeamName();
+            lastName = userInfo.getTeamName();
         }
         if (!bundle.isResponseGiverVisible(response)) {
             name = SessionResultsBundle.getAnonName(participantType, name);
+            lastName = null;
         }
 
-        return name;
+        return new NameInfo(name, lastName);
     }
 
     /**
@@ -260,7 +286,7 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getRecipientNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
+    private static NameInfo getRecipientNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
         FeedbackParticipantType participantType = question.getRecipientType();
         if (participantType == FeedbackParticipantType.SELF) {
@@ -268,16 +294,20 @@ public class SessionResultsData extends ApiOutput {
             participantType = question.getGiverType();
         }
 
-        String name = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getName();
+        CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getRecipient());
+        String name = userInfo.getName();
+        String lastName = userInfo.getLastName();
         if (response.getRecipient().equals(Const.GENERAL_QUESTION)) {
             // for general question
             name = Const.USER_NOBODY_TEXT;
+            lastName = null;
         }
         if (!bundle.isResponseRecipientVisible(response)) {
             name = SessionResultsBundle.getAnonName(participantType, name);
+            lastName = null;
         }
 
-        return name;
+        return new NameInfo(name, lastName);
     }
 
     private static Queue<CommentOutput> buildComments(List<FeedbackResponseCommentAttributes> feedbackResponseComments,
@@ -320,6 +350,29 @@ public class SessionResultsData extends ApiOutput {
 
     public List<QuestionOutput> getQuestions() {
         return questions;
+    }
+
+    /**
+     * Data transfer object containing the processed name and last name of a participant.
+     */
+    private static class NameInfo {
+        private final String name;
+        @Nullable
+        private final String lastName;
+
+        private NameInfo(String name, String lastName) {
+            this.name = name;
+            this.lastName = lastName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        @Nullable
+        public String getLastName() {
+            return lastName;
+        }
     }
 
     /**
@@ -387,6 +440,8 @@ public class SessionResultsData extends ApiOutput {
         private String responseId;
 
         private String giver;
+        @Nullable
+        private String giverLastName;
         /**
          * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
          * email or null.
@@ -398,6 +453,8 @@ public class SessionResultsData extends ApiOutput {
         private String giverEmail;
         private String giverSection;
         private String recipient;
+        @Nullable
+        private String recipientLastName;
         private String recipientTeam;
         @Nullable
         private String recipientEmail;
@@ -432,10 +489,17 @@ public class SessionResultsData extends ApiOutput {
             return giver;
         }
 
+        @Nullable
+        public String getGiverLastName() {
+            return giverLastName;
+        }
+
+        @Nullable
         public String getGiverEmail() {
             return giverEmail;
         }
 
+        @Nullable
         public String getRelatedGiverEmail() {
             return relatedGiverEmail;
         }
@@ -452,10 +516,16 @@ public class SessionResultsData extends ApiOutput {
             return recipient;
         }
 
+        @Nullable
+        public String getRecipientLastName() {
+            return recipientLastName;
+        }
+
         public String getRecipientTeam() {
             return recipientTeam;
         }
 
+        @Nullable
         public String getRecipientEmail() {
             return recipientEmail;
         }
@@ -503,6 +573,11 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
+            public Builder withGiverLastName(String giverLastName) {
+                responseOutput.giverLastName = giverLastName;
+                return this;
+            }
+
             public Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
                 responseOutput.relatedGiverEmail = relatedGiverEmail;
                 return this;
@@ -525,6 +600,11 @@ public class SessionResultsData extends ApiOutput {
 
             public Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
+                return this;
+            }
+
+            public Builder withRecipientLastName(String recipientLastName) {
+                responseOutput.recipientLastName = recipientLastName;
                 return this;
             }
 

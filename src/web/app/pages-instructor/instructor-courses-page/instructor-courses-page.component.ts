@@ -58,6 +58,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
   isAddNewCourseFormExpanded: boolean = false;
+  isArchivedCourseExpanded: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -92,11 +93,11 @@ export class InstructorCoursesPageComponent implements OnInit {
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
         }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(error.error.message);
+          this.statusMessageService.showErrorToast(error.error.message);
         });
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
@@ -109,11 +110,11 @@ export class InstructorCoursesPageComponent implements OnInit {
           const archivedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.archivedCourses.push(archivedCourse);
         }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(error.error.message);
+          this.statusMessageService.showErrorToast(error.error.message);
         });
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
@@ -129,11 +130,11 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.canRestoreAll = false;
               }
             }, (error: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorMessage(error.error.message);
+              this.statusMessageService.showErrorToast(error.error.message);
             });
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -142,7 +143,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   getCourseStats(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
@@ -154,7 +155,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           .length,
       };
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -163,7 +164,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   changeArchiveStatus(courseId: string, toArchive: boolean): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     this.courseService.changeArchiveStatus(courseId, {
@@ -171,14 +172,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     }).subscribe((courseArchive: CourseArchive) => {
       if (courseArchive.isArchived) {
         this.changeModelFromActiveToArchived(courseId);
-        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been archived.
+        this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived.
           It will not appear on the home page anymore.`);
       } else {
         this.changeModelFromArchivedToActive(courseId);
-        this.statusMessageService.showSuccessMessage('The course has been unarchived.');
+        this.statusMessageService.showSuccessToast('The course has been unarchived.');
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -230,17 +231,17 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDelete(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
-        this.statusMessageService.showSuccessMessage(
+        this.statusMessageService.showSuccessToast(
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -270,7 +271,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDeletePermanently(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
@@ -278,9 +279,9 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
+        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -290,15 +291,15 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onRestore(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
 
     this.courseService.restoreCourse(courseId).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessToast(resp.message);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -316,9 +317,9 @@ export class InstructorCoursesPageComponent implements OnInit {
 
       forkJoin(deleteRequests).subscribe(() => {
         this.softDeletedCourses = [];
-        this.statusMessageService.showSuccessMessage('All courses have been permanently deleted.');
+        this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
 
     }, () => {});
@@ -335,9 +336,9 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     forkJoin(restoreRequests).subscribe(() => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage('All courses have been restored.');
+      this.statusMessageService.showSuccessToast('All courses have been restored.');
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 

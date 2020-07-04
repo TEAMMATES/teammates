@@ -24,7 +24,7 @@ describe('AdminHomePageComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminHomePageComponent);
-    service = TestBed.get(AccountService);
+    service = TestBed.inject(AccountService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

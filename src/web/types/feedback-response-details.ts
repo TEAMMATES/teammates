@@ -4,6 +4,13 @@
 export const CONTRIBUTION_POINT_NOT_SUBMITTED: number = -999;
 
 /**
+ * Special answer of a contribution question response to indicate the response is not initialized.
+ *
+ * <p>Used in session result.
+ */
+export const CONTRIBUTION_POINT_NOT_INITIALIZED: number = -9999;
+
+/**
  * Special answer of a contribution question response for 'Not Sure' answer.
  */
 export const CONTRIBUTION_POINT_NOT_SURE: number = -101;
@@ -12,6 +19,11 @@ export const CONTRIBUTION_POINT_NOT_SURE: number = -101;
  * Special answer of a contribution question response for 'Equal Share' answer.
  */
 export const CONTRIBUTION_POINT_EQUAL_SHARE: number = 100;
+
+/**
+ * Special answer of a MSQ question indicating 'None of the above'.
+ */
+export const MSQ_ANSWER_NONE_OF_THE_ABOVE: string = '';
 
 /**
  * Special answer of a numerical scale question response to indicate the response is not submitted.

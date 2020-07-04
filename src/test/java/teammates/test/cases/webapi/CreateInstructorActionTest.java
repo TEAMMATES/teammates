@@ -156,12 +156,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         ______TS("only instructors of the same course can access");
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
-
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
 
         // remove the newly added instructor
         InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");

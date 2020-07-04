@@ -14,6 +14,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import {
   RegenerateLinksConfirmModalComponent,
 } from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
+import {
+  ResetGoogleIdConfirmModalComponent,
+} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Admin search page.
@@ -46,7 +49,9 @@ export class AdminSearchPageComponent {
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 
       if (!hasStudents && !hasInstructors) {
-        this.statusMessageService.showWarningMessage('No results found.');
+        this.statusMessageService.showWarningToast('No results found.');
+        this.instructors = [];
+        this.students = [];
       } else {
         this.instructors = resp.instructors;
         this.students = resp.students;
@@ -54,7 +59,7 @@ export class AdminSearchPageComponent {
         this.hideAllStudentsLinks();
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -102,13 +107,18 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
+    const modalRef: NgbModalRef = this.modalService.open(ResetGoogleIdConfirmModalComponent);
+    modalRef.componentInstance.name = instructor.name;
+    modalRef.componentInstance.course = instructor.courseId;
 
-    this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
-      this.search();
-      this.statusMessageService.showSuccessMessage('The instructor\'s Google ID has been reset.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    modalRef.result.then(() => {
+      this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
+        this.search();
+        this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -119,12 +129,18 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
-      student.googleId = '';
-      this.statusMessageService.showSuccessMessage('The student\'s Google ID has been reset.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    const modalRef: NgbModalRef = this.modalService.open(ResetGoogleIdConfirmModalComponent);
+    modalRef.componentInstance.name = student.name;
+    modalRef.componentInstance.course = student.courseId;
+
+    modalRef.result.then(() => {
+      this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
+        student.googleId = '';
+        this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
+    }, () => {});
   }
 
   /**
@@ -138,10 +154,10 @@ export class AdminSearchPageComponent {
     modalRef.result.then(() => {
       this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
         .subscribe((resp: RegenerateStudentCourseLinks) => {
-          this.statusMessageService.showSuccessMessage(resp.message);
+          this.statusMessageService.showSuccessToast(resp.message);
           this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
         }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(response.error.message);
+          this.statusMessageService.showErrorToast(response.error.message);
         });
     }, () => {});
   }

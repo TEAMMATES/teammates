@@ -60,7 +60,7 @@
     <p><button type="button" class="btn btn-outline-primary" (click)="isEditDetailsCollapsed = !isEditDetailsCollapsed" [attr.aria-expanded]="!isEditDetailsCollapsed">
       How do I edit a student's details after enrolling the student?
     </button></p>
-    <div [ngbCollapse]="!isEditDetailsCollapsed" class="collapse">
+    <div [ngbCollapse]="!isEditDetailsCollapsed">
       <div class="card">
         <div class="card-body">
           <p>
@@ -162,14 +162,14 @@
             If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
           </p>
           <tm-example-box>
-            <tm-student-result-table [studentTables]="exampleSingleStudentResultTables"></tm-student-result-table>
+            <tm-student-result-table [studentTables]="exampleSingleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
           </tm-example-box>
           <p>
             You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
             For example, if you search for <code>alice Section A Team B jack@email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
           </p>
           <tm-example-box>
-            <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables"></tm-student-result-table>
+            <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
           </tm-example-box>
         </div>
       </div>

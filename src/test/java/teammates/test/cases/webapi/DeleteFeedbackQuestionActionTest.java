@@ -81,9 +81,10 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
 
         verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course with correct privilege can access");
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 
 }

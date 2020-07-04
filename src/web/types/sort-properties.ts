@@ -283,6 +283,16 @@ export enum SortBy {
     RUBRIC_CHOICE,
 
     /**
+     * Weight average.
+     */
+    RUBRIC_WEIGHT_AVERAGE,
+
+    /**
+     * Total chosen weight.
+     */
+    RUBRIC_TOTAL_CHOSEN_WEIGHT,
+
+    /**
      * Option to constsum options
      */
     CONSTSUM_OPTIONS_OPTION,

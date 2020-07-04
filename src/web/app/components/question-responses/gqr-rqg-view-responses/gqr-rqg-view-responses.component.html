@@ -8,12 +8,35 @@
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
       </div>
-      <div class="card-body" *ngIf="teamExpanded[teamInfo.key]">
-        <div *ngFor="let userInfo of teamInfo.value">
-          <ng-container
-              [ngTemplateOutlet]="userTab"
-              [ngTemplateOutletContext]="{userInfo:userInfo}">
-          </ng-container>
+      <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
+        <div class="card-body">
+          <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
+            <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
+            <hr>
+            <div class="card top-padded" *ngFor="let question of teamsToQuestions[teamInfo.key]">
+              <div class="card-header bg-info text-white">
+                <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
+                                            [questionDetails]="question.feedbackQuestion.questionDetails"
+                                            (click)="$event.stopPropagation()"></tm-question-text-with-info>
+              </div>
+              <div class="card-body top-padded-small">
+                <tm-single-statistics [responses]="question.allResponses"
+                                      [question]="question.feedbackQuestion.questionDetails"
+                                      [statistics]="question.questionStatistics"
+                                      [recipientType]="question.feedbackQuestion.recipientType"
+                                      [displayContributionStats]="false"
+                ></tm-single-statistics>
+              </div>
+            </div>
+          </div>
+          <h3 class="top-padded">{{ teamInfo.key }} Detailed Responses</h3>
+          <hr>
+          <div *ngFor="let userInfo of teamInfo.value">
+            <ng-container
+                    [ngTemplateOutlet]="userTab"
+                    [ngTemplateOutletContext]="{userInfo:userInfo}">
+            </ng-container>
+          </div>
         </div>
       </div>
     </div>
@@ -40,37 +63,43 @@
         [{{ userToEmail[userInfo] }}]
       </a>
       <div class="float-right">
-        <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session" [relatedGiverEmail]="userToRelatedEmail[userInfo]"></tm-response-moderation-button>
+        <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
+                                       [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+                                       [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
         <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
         <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
       </div>
     </div>
-    <div class="card-body" *ngIf="userExpanded[userInfo]">
-      <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
-        <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
-          <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
-                                      [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
-                                      (click)="$event.stopPropagation()"></tm-question-text-with-info>
-          <div class="float-right">
-            <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
-            <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
+    <div [ngbCollapse]="!userExpanded[userInfo]">
+      <div class="card-body top-padded-0">
+        <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
+          <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
+            <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
+                                        [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
+                                        (click)="$event.stopPropagation()"></tm-question-text-with-info>
+            <div class="float-right">
+              <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
+              <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
+            </div>
           </div>
-        </div>
-        <div class="card-body" *ngIf="question.isTabExpanded">
-          <tm-single-statistics [responses]="question.questionOutput.allResponses"
-                                [question]="question.questionOutput.feedbackQuestion.questionDetails"
-                                [statistics]="question.questionOutput.questionStatistics"
-                                [recipientType]="question.questionOutput.feedbackQuestion.recipientType"
-                                [displayContributionStats]="false"
-          ></tm-single-statistics>
-          <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
-                                          [indicateMissingResponses]="true" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
-                                          [instructorCommentTableModel]="instructorCommentTableModel"
-                                          (instructorCommentTableModelChange)="triggerModelChange($event)"
-                                          (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                                          (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
-                                          (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
-          ></tm-per-question-view-responses>
+          <div [ngbCollapse]="!question.isTabExpanded">
+            <div class="card-body top-padded-small">
+              <tm-single-statistics [responses]="question.questionOutput.allResponses"
+                                    [question]="question.questionOutput.feedbackQuestion.questionDetails"
+                                    [statistics]="question.questionOutput.questionStatistics"
+                                    [recipientType]="question.questionOutput.feedbackQuestion.recipientType"
+                                    [displayContributionStats]="false"
+              ></tm-single-statistics>
+              <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
+                                              [indicateMissingResponses]="indicateMissingResponses" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
+                                              [instructorCommentTableModel]="instructorCommentTableModel"
+                                              (instructorCommentTableModelChange)="triggerModelChange($event)"
+                                              (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                                              (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
+                                              (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
+              ></tm-per-question-view-responses>
+            </div>
+          </div>
         </div>
       </div>
     </div>

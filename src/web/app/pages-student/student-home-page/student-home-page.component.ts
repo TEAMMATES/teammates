@@ -105,7 +105,7 @@ export class StudentHomePageComponent implements OnInit {
           });
       }
     }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(e.error.message);
+      this.statusMessageService.showErrorToast(e.error.message);
     });
   }
 

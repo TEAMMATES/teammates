@@ -5,11 +5,10 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
-    public List<String> answers; // answers contain the "other" answer, if any
+    private List<String> answers; // answers contain the "other" answer, if any
     private boolean isOther;
     private String otherFieldContent; //content of other field if "other" is selected as the answer
 
@@ -20,34 +19,9 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         otherFieldContent = "";
     }
 
-    public boolean contains(String candidateAnswer) {
-        return answers.contains(candidateAnswer);
-    }
-
     @Override
     public String getAnswerString() {
         return StringHelper.toString(answers, ", ");
-    }
-
-    public List<String> getAnswerStrings() {
-        return answers;
-    }
-
-    @Override
-    public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
-        FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
-        StringBuilder csvBuilder = new StringBuilder();
-
-        if (!isAnswerBlank()) {
-            for (String choice : msqDetails.getMsqChoices()) {
-                csvBuilder.append(',');
-                if (this.contains(choice)) {
-                    csvBuilder.append(SanitizationHelper.sanitizeForCsv(choice));
-                }
-            }
-        }
-
-        return csvBuilder.toString();
     }
 
     @Override
@@ -58,7 +32,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         List<String> msqChoices = msqQuestionDetails.getMsqChoices();
         int maxSelectableChoices = msqQuestionDetails.getMaxSelectableChoices();
         int minSelectableChoices = msqQuestionDetails.getMinSelectableChoices();
-        boolean isOtherEnabled = msqQuestionDetails.getOtherEnabled();
+        boolean isOtherEnabled = msqQuestionDetails.isOtherEnabled();
 
         // number of Msq options selected including other option
         int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
@@ -71,14 +45,29 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
+        // if other is not chosen while other field is not empty trigger this error
+        if (isOtherEnabled && !isOther && !getOtherFieldContent().isEmpty()) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+        }
+
+        List<String> validChoices = new ArrayList<>(msqChoices);
+        if (isOtherEnabled && isOther) {
+            // other field content becomes a valid choice if other is enabled
+            validChoices.add(getOtherFieldContent());
+        }
         // if selected answers are not a part of the Msq option list trigger this error
-        boolean isAnswersPartOfChoices = msqChoices.containsAll(answers);
+        boolean isAnswersPartOfChoices = validChoices.containsAll(answers);
         if (!isAnswersPartOfChoices && !isNoneOfTheAboveOptionEnabled) {
             errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
         }
 
         // if other option is selected but no text is provided trigger this error
         if (isOther && getOtherFieldContent().trim().equals("")) {
+            errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+        }
+
+        // if other option is selected but not in the answer list trigger this error
+        if (isOther && !answers.contains(otherFieldContent)) {
             errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
         }
 
@@ -105,16 +94,31 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return errors;
     }
 
-    private boolean isAnswerBlank() {
-        return answers.size() == 1 && answers.get(0).isEmpty();
-    }
-
     public Boolean isOtherOptionAnswer() {
         return isOther;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public boolean isOther() {
+        return isOther;
+    }
+
+    public void setOther(boolean other) {
+        isOther = other;
     }
 
     public String getOtherFieldContent() {
         return otherFieldContent;
     }
 
+    public void setOtherFieldContent(String otherFieldContent) {
+        this.otherFieldContent = otherFieldContent;
+    }
 }

@@ -52,7 +52,7 @@ describe('FeedbackSessionsService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(FeedbackSessionsService);
+    service = TestBed.inject(FeedbackSessionsService);
     model = {
       feedbackSession: {
         courseId: 'CS3281',

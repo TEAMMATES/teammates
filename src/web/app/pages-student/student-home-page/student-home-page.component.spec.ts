@@ -10,7 +10,6 @@ import {
 } from '../../../types/api-output';
 import { StudentHomePageComponent } from './student-home-page.component';
 
-import { MatSnackBarModule } from '@angular/material';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
@@ -30,7 +29,6 @@ describe('StudentHomePageComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         RouterTestingModule,
-        MatSnackBarModule,
         TeammatesCommonModule,
       ],
     })

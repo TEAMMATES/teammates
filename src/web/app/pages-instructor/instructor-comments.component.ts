@@ -60,7 +60,7 @@ export abstract class InstructorCommentsComponent {
             ...commentTableModel,
           };
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -89,7 +89,7 @@ export abstract class InstructorCommentsComponent {
             ...commentTableModel,
           };
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -126,7 +126,7 @@ export abstract class InstructorCommentsComponent {
             isAddingNewComment: false,
           };
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 }
