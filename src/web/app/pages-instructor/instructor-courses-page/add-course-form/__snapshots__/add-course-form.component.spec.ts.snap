@@ -122,7 +122,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         class="form-group row"
       >
         <div
-          class="col-md-12"
+          class="col-md-9 offset-md-3 text-md-left"
         >
           <button
             class="btn btn-primary"
@@ -259,7 +259,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         class="form-group row"
       >
         <div
-          class="col-md-12"
+          class="col-md-9 offset-md-3 text-md-left"
         >
           <button
             class="btn btn-primary"

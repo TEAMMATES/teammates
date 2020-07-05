@@ -32,7 +32,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -55,7 +55,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -69,7 +69,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </a>
     </div>
     
-  </div><br />
+  </div>
 </tm-instructor-home-page>
 `;
 
@@ -105,7 +105,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -128,7 +128,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -148,13 +148,11 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -178,10 +176,10 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -259,7 +257,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -282,7 +280,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -302,13 +300,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -332,10 +328,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -353,16 +349,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           <div
             class="btn-toolbar col-md-6"
           >
-            
-            <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
             
             <div
               class="float-right"
@@ -501,6 +487,16 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
             </div>
           </div>
         </div>
@@ -784,7 +780,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -807,7 +803,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -827,13 +823,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -857,10 +851,10 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -878,16 +872,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           <div
             class="btn-toolbar col-md-6"
           >
-            
-            <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
             
             <div
               class="float-right"
@@ -1008,6 +992,16 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
             </div>
           </div>
         </div>
@@ -1443,7 +1437,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -1466,7 +1460,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -1486,13 +1480,11 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -1516,10 +1508,10 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -1537,16 +1529,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           <div
             class="btn-toolbar col-md-6"
           >
-            
-            <div
-              class="float-right"
-            >
-              
-              <i
-                class="fas fa-chevron-down"
-              />
-              
-            </div>
             
             <div
               class="float-right"
@@ -1685,6 +1667,16 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
+              
+              <i
+                class="fas fa-chevron-down"
+              />
+              
             </div>
           </div>
         </div>
@@ -1742,7 +1734,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -1765,7 +1757,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -1785,13 +1777,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -1815,10 +1805,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -1836,16 +1826,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           <div
             class="btn-toolbar col-md-6"
           >
-            
-            <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
             
             <div
               class="float-right"
@@ -1985,6 +1965,16 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
             </div>
+            
+            <div
+              class="float-right"
+            >
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -2041,7 +2031,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
@@ -2064,7 +2054,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       </div>
     </div>
   </div><div
-    class="row"
+    class="row mb-3"
   >
     <div
       class="col-4"
@@ -2084,13 +2074,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -2114,10 +2102,10 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         </div>
       </div>
     </div>
-  </div><br /><div>
+  </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -2135,16 +2123,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           <div
             class="btn-toolbar col-md-6"
           >
-            
-            <div
-              class="float-right"
-            >
-              
-              
-              <i
-                class="fas fa-chevron-up"
-              />
-            </div>
             
             <div
               class="float-right"
@@ -2283,6 +2261,16 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
+              
+              
+              <i
+                class="fas fa-chevron-up"
+              />
             </div>
           </div>
         </div>

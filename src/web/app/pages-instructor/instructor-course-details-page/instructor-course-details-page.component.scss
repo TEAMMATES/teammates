@@ -2,6 +2,10 @@
   margin-bottom: 20px;
 }
 
+.form-group {
+  margin-bottom: .5rem;
+}
+
 .fill-plain {
   background-color: #EAEFF5;
 }
@@ -16,4 +20,8 @@ label {
 
 .btn-link:hover {
   cursor: pointer;
+}
+
+.student-table-margin {
+  margin-top: 50px;
 }

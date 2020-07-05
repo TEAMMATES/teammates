@@ -13,9 +13,9 @@
         (click)="toggleCard(courseTab)">
         <div class="row course-card-content">
           <div class="col-sm-11">
-            <div>
-              <h5><i class="fas fa-chalkboard-teacher"
-                style="color: white;"></i>&nbsp;[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</h5>
+            <div class="course-card-header-text">
+              <i class="fas fa-chalkboard-teacher"
+                style="color: white;"></i>&nbsp;[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}
             </div>
           </div>
           <div class="col-sm-1">
@@ -34,20 +34,20 @@
             <div class="card-deck" *ngIf="courseTab.stats">
               <div class="card">
                 <div class="card-body">
-                  <h2 class="card-title">{{courseTab.stats.numOfStudents}}</h2>
-                  <h4 class="card-text">Students</h4>
+                  <h3 class="card-title">{{courseTab.stats.numOfStudents}}</h3>
+                  <h5 class="card-text">Students</h5>
                 </div>
               </div>
               <div class="card">
                 <div class="card-body">
-                  <h2 class="card-title">{{courseTab.stats.numOfSections}}</h2>
-                  <h4 class="card-text">Sections</h4>
+                  <h3 class="card-title">{{courseTab.stats.numOfSections}}</h3>
+                  <h5 class="card-text">Sections</h5>
                 </div>
               </div>
               <div class="card">
                 <div class="card-body">
-                  <h2 class="card-title">{{courseTab.stats.numOfTeams}}</h2>
-                  <h4 class="card-text">Teams</h4>
+                  <h3 class="card-title">{{courseTab.stats.numOfTeams}}</h3>
+                  <h5 class="card-text">Teams</h5>
                 </div>
               </div>
             </div>
@@ -71,7 +71,7 @@
       </div>
 
       <ng-template #noStudentsTemplate>
-        <h4>There are no students in this course.</h4>
+        <h5>There are no students in this course.</h5>
         <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
           Enroll Students
         </button>

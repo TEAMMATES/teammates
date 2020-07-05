@@ -43,7 +43,7 @@
         [{{ userToEmail[userInfo] }}]
       </a>
     <div class="float-right">
-      <tm-response-moderation-button *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+      <tm-response-moderation-button class="mr-2" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
                                      [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
       <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
       <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
@@ -63,7 +63,7 @@
                                   (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-grouped-responses>
           </div>
         </ng-container>
-        <div *ngIf="!userHasRealResponses[userInfo]">
+        <div *ngIf="!userHasRealResponses[userInfo]" class="top-padded">
           <i>
             There are no responses {{ isGrq ? 'given' : 'received' }} by this user or you may not have the permission to see the responses.
           </i>
