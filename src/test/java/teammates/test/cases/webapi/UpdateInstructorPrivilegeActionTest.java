@@ -399,12 +399,8 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
-
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
 
         ______TS("invalid course id cannot access");
 

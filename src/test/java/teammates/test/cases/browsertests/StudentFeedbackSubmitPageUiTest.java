@@ -391,9 +391,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
                                                                           aliceTeam,
                                                                           "Team 2").getResponseDetails();
-        assertFalse(frMsq.contains("UI"));
-        assertTrue(frMsq.contains("Algo"));
-        assertFalse(frMsq.contains("Design"));
+        assertFalse(frMsq.getAnswers().contains("UI"));
+        assertTrue(frMsq.getAnswers().contains("Algo"));
+        assertFalse(frMsq.getAnswers().contains("Design"));
 
         FeedbackNumericalScaleResponseDetails frNumscale = (FeedbackNumericalScaleResponseDetails)
                 BackDoor.getFeedbackResponse(fqNumscale.getId(), "SFSubmitUiT.alice.b@gmail.tmt",

@@ -3,6 +3,7 @@
 }
 
 .course-tab-header {
+  padding: .3rem 1rem;
   cursor: pointer;
 }
 
@@ -15,13 +16,15 @@
 }
 
 .btn-toolbar {
-  display: inline;
   white-space: nowrap;
   margin-top: 5px;
   margin-bottom: 2px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .course-header {
-  display: inline;
+  display: inline-flex;
+  align-items: center;
   white-space: nowrap;
 }

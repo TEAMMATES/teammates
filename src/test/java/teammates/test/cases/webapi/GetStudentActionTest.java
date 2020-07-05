@@ -248,9 +248,16 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
-
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+
+        grantInstructorWithSectionPrivilege(helperOfCourse1,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                new String[] {"Section 1"});
+        verifyCanAccess(submissionParams);
 
         ______TS("Instructor - must provide student email");
 

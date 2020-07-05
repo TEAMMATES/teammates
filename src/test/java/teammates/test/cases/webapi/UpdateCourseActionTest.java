@@ -200,8 +200,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
                 Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, submissionParams);
     }
 
 }

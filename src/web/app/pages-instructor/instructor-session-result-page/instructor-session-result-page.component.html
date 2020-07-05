@@ -3,7 +3,7 @@
 </h1>
 
 <div class="card bg-light top-padded" *ngIf="session">
-  <div class="card-body row" style="padding: 40px;">
+  <div class="card-body row info-card-padding">
     <div class="col-sm-12 col-md-12 col-lg-4">
       <div class="form-group row">
         <label class="col-lg-4 control-label"><b>Course ID:</b></label>
@@ -14,8 +14,9 @@
       <div class="form-group row">
         <label class="col-lg-4 control-label"><b>Session:</b></label>
         <div class="col-lg-8">
-          <p class="form-control-static">{{ session.feedbackSessionName }}</p>
-          <a routerLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName }"><i class="fas fa-edit"></i></a>
+          <p class="form-control-static">{{ session.feedbackSessionName }}
+            <a routerLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName }"><i class="fas fa-edit"></i></a>
+          </p>
         </div>
       </div>
     </div>
@@ -83,17 +84,8 @@
         </label>
         <div>
           <select class="form-control" [(ngModel)]="sectionType">
-            <option [ngValue]="InstructorSessionResultSectionType.EITHER">
-              Show response if either the giver or evaluee is in the selected section
-            </option>
-            <option [ngValue]="InstructorSessionResultSectionType.GIVER">
-              Show response if the giver is in the selected section
-            </option>
-            <option [ngValue]="InstructorSessionResultSectionType.EVALUEE">
-              Show response if the evaluee is in the selected section
-            </option>
-            <option [ngValue]="InstructorSessionResultSectionType.BOTH">
-              Show response only if both are in the selected section
+            <option *ngFor="let sectionType of InstructorSessionResultSectionType | enumToArray" [ngValue]="sectionType">
+              {{ sectionType | sectionTypeDescription }}
             </option>
           </select>
         </div>

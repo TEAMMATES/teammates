@@ -184,9 +184,17 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Success/Failure case: only instructors with privilege can view photo");
 
         gaeSimulation.logoutUser();
-        verifyInaccessibleWithoutViewStudentInSectionsPrivilege(submissionParams);
+
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(submissionParams);
+
+        grantInstructorWithSectionPrivilege(helperOfCourse1,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                new String[] {"Section 1"});
+        verifyCanAccess(submissionParams);
 
         ______TS("Failure case: error in params (passing in non-existent email/id)");
 

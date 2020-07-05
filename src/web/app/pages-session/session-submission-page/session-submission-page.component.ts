@@ -275,7 +275,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             break;
           case FeedbackSessionSubmissionStatus.OPEN:
             // closing in 15 minutes
-            if (Date.now() - feedbackSession.submissionEndTimestamp < 15 * 60 * 1000) {
+            if (feedbackSession.submissionEndTimestamp - Date.now() < 15 * 60 * 1000) {
               this.modalService.open(FeedbackSessionClosingSoonModalComponent);
             }
             break;

@@ -9,7 +9,7 @@
       <div class="col-md-6">
         <div class="row align-items-center">
           <div class="col-md-4">
-            <h4 class="text-center">Create new </h4>
+            <h5 class="text-center">Create new</h5>
           </div>
           <div class="col-9 col-md-7">
             <select class="form-control" ngbTooltip="Select a session type here." [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
@@ -24,7 +24,7 @@
       <div class="col-md-6">
         <div class="row text-center align-items-center mt-1">
           <div class="col-md-3">
-            <h4 class="text-md-right">Or: </h4>
+            <h5 class="text-md-right">Or: </h5>
           </div>
           <div class="col-md-9 text-md-left">
             <button type="button" class="btn btn-info" (click)="copyOthersHandler()">Copy from previous feedback sessions</button>
@@ -240,7 +240,7 @@
                 <tm-time-picker id="session-visibility-time" [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
               </div>
             </div>
-            <div class="row mt-md-3 ml-md-3">
+            <div class="row mt-md-1 ml-md-3">
               <div class="col-12 form-check">
                 <label class="form-check-label" ngbTooltip="Select this option to have the feedback session become visible when it is open for submissions (as selected above).">
                   <input id="session-visibility-at-open" class="form-check-input" type="radio" name="sessionVisibleRadio" [value]="SessionVisibleSetting.AT_OPEN" [ngModel]="model.sessionVisibleSetting" (ngModelChange)="triggerModelChange('sessionVisibleSetting', $event)" [disabled]="!model.isEditable">
@@ -279,8 +279,7 @@
                   <tm-time-picker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
                 </div>
             </div>
-            <br>
-            <div class="row mt-md-3 ml-md-1">
+            <div class="row mt-md-2 ml-md-1">
               <div class="col-12">
                 <div class="form-check">
                   <label class="form-check-label" ngbTooltip="Select this option to have the feedback responses be immediately visible when the session becomes visible to users.">
@@ -290,8 +289,7 @@
                 </div>
               </div>
             </div>
-            <br>
-            <div class="row mt-md-3 ml-md-1">
+            <div class="row mt-md-2 ml-md-1">
               <div class="col-12">
                 <div class="form-check">
                   <label class="form-check-label" ngbTooltip="Select this option if you intend to manually publish the responses for this session later on.">
@@ -314,8 +312,7 @@
         <div class="col-12 font-bold">
             Send emails for
         </div>
-        <br>
-        <div class="row ml-md-1">
+        <div class="row ml-md-1 mt-md-3">
           <div class="col-md-4">
             <div class="form-check form-check-inline">
               <label class="form-check-label" ngbTooltip="Select this option to automatically send an email to students to notify them when the session is open for submission.">
