@@ -17,8 +17,7 @@
               <div class="card-header bg-info text-white">
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
-                                            (click)="$event.stopPropagation()"
-                ></tm-question-text-with-info>
+                                            (click)="$event.stopPropagation()"></tm-question-text-with-info>
               </div>
               <div class="card-body top-padded-small">
                 <tm-single-statistics [responses]="question.allResponses"
@@ -77,8 +76,7 @@
           <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
-                                        (click)="$event.stopPropagation()"
-            ></tm-question-text-with-info>
+                                        (click)="$event.stopPropagation()"></tm-question-text-with-info>
             <div class="float-right">
               <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
               <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>

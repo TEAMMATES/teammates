@@ -85,4 +85,5 @@ export abstract class InstructorSessionResultView implements OnInit {
   triggerSaveNewCommentEvent(responseId: string): void {
     this.saveNewCommentEvent.emit(responseId);
   }
+
 }
