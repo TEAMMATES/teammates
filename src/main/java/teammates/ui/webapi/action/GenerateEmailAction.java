@@ -52,7 +52,7 @@ public class GenerateEmailAction extends Action {
             FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
             email = emailGenerator.generateFeedbackSessionStudentReminderEmail(feedbackSession, student);
         } else {
-            throw new InvalidHttpParameterException("Unknown emailType " + emailType);
+            throw new InvalidHttpParameterException("Email type " + emailType + " not accepted");
         }
 
         return new JsonResult(new EmailData(email));
