@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 import {
   QuestionAdditionalInfoModule,
 } from '../question-types/question-additional-info/question-additional-info.module';
@@ -20,6 +22,7 @@ import { QuestionTextWithInfoComponent } from './question-text-with-info.compone
     CommonModule,
     RouterModule,
     QuestionAdditionalInfoModule,
+    NgbTooltipModule,
   ],
 })
 export class QuestionTextWithInfoModule { }
