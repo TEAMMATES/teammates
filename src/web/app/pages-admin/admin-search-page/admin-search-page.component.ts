@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {AccountService} from '../../../services/account.service';
-import {EmailGenerationService} from '../../../services/email-generation.service';
+import { Component } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AccountService } from '../../../services/account.service';
+import { EmailGenerationService } from '../../../services/email-generation.service';
 import {
   AdminSearchResult,
   FeedbackSessionsGroup,
@@ -9,13 +9,13 @@ import {
   SearchService,
   StudentAccountSearchResult,
 } from '../../../services/search.service';
-import {StatusMessageService} from '../../../services/status-message.service';
-import {StudentService} from '../../../services/student.service';
-import {Email, RegenerateStudentCourseLinks} from '../../../types/api-output';
-import {EmailType} from '../../../types/api-request';
-import {ErrorMessageOutput} from '../../error-message-output';
-import {RegenerateLinksConfirmModalComponent,} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
-import {ResetGoogleIdConfirmModalComponent,} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
+import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
+import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { EmailType } from '../../../types/api-request';
+import { ErrorMessageOutput } from '../../error-message-output';
+import { RegenerateLinksConfirmModalComponent } from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
+import { ResetGoogleIdConfirmModalComponent } from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Admin search page.
