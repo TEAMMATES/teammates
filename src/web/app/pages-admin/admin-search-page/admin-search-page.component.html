@@ -153,19 +153,19 @@
                   <input [value]="student.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
-                  <strong>{{ openFs.key }}</strong>
-                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, EmailType.FEEDBACK_SESSION_REMINDER, sessionLinkToSessionName(openFs.value))">Send mail</button>
-                  <input [value]="openFs.value" readonly class="form-control">
+                  <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, EmailType.FEEDBACK_SESSION_REMINDER, openFs.key)">Send mail</button>
+                  <input [value]="openFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-danger" *ngFor="let notOpenFs of student.notOpenSessions | keyvalue">
-                  <strong>{{ notOpenFs.key }}</strong>
-                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, EmailType.FEEDBACK_SESSION_REMINDER, sessionLinkToSessionName(notOpenFs.value))">Send mail</button>
-                  <input [value]="notOpenFs.value" readonly class="form-control">
+                  <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, EmailType.FEEDBACK_SESSION_REMINDER, notOpenFs.key)">Send mail</button>
+                  <input [value]="notOpenFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-success" *ngFor="let publishedFs of student.publishedSessions | keyvalue">
-                  <strong>{{ publishedFs.key }}</strong>
-                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, EmailType.FEEDBACK_SESSION_REMINDER, sessionLinkToSessionName(publishedFs.value))">Send mail</button>
-                  <input [value]="publishedFs.value" readonly class="form-control">
+                  <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openEmail(student.courseId, student.email, EmailType.FEEDBACK_SESSION_REMINDER, publishedFs.key)">Send mail</button>
+                  <input [value]="publishedFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
               </ul>
             </td>

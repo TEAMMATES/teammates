@@ -342,16 +342,25 @@ export class SearchService {
     };
     for (const feedbackSession of feedbackSessions.feedbackSessions) {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
-        feedbackSessionLinks.openSessions[this.feedbackSessionService.generateNameFragment(feedbackSession).toString()]
-          = this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName]
+            = {
+              ...this.feedbackSessionService.formatProperties(feedbackSession),
+              feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+            };
       } else {
-        feedbackSessionLinks.notOpenSessions[this.feedbackSessionService.generateNameFragment(feedbackSession)]
-          = this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName]
+            = {
+              ...this.feedbackSessionService.formatProperties(feedbackSession),
+              feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+            };
       }
 
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
-        feedbackSessionLinks.publishedSessions[this.feedbackSessionService.generateNameFragment(feedbackSession)]
-           = this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName]
+            = {
+              ...this.feedbackSessionService.formatProperties(feedbackSession),
+              feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
+            };
       }
     }
     return feedbackSessionLinks;
@@ -505,15 +514,23 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
-  openSessions: { [index: string]: string };
-  notOpenSessions: { [index: string]: string };
-  publishedSessions: { [index: string]: string };
+  openSessions: FeedbackSessionsGroup;
+  notOpenSessions: FeedbackSessionsGroup;
+  publishedSessions: FeedbackSessionsGroup;
+}
+
+/**
+ * Feedback session inforamtion for search result.
+ */
+export interface FeedbackSessionsGroup {
+  [name: string]: {
+    startTime: string;
+    endTime: string;
+    feedbackSessionUrl: string;
+  };
 }
 
 // Private interfaces
-interface FeedbackSessionsGroup {
-  [key: string]: string;
-}
 
 interface StudentFeedbackSessions {
   openSessions: FeedbackSessionsGroup;

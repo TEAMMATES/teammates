@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import {
-  AdminSearchResult,
+  AdminSearchResult, FeedbackSessionsGroup,
   InstructorAccountSearchResult,
   SearchService,
   StudentAccountSearchResult,
@@ -172,9 +172,9 @@ export class AdminSearchPageComponent {
    * Updates the student's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
-    const updateSessions: Function = (sessions: { [index: string]: string }): void => {
+    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
       Object.keys(sessions).forEach((key: string): void => {
-        sessions[key] = this.getUpdatedUrl(sessions[key], newKey);
+        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
       });
     };
 
@@ -211,10 +211,6 @@ export class AdminSearchPageComponent {
         }, (err: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(err.error.message);
         });
-  }
-
-  sessionLinkToSessionName(sessionLink: string): string | undefined {
-    return new URL(sessionLink).searchParams.get('fsname') || undefined;
   }
 
 }
