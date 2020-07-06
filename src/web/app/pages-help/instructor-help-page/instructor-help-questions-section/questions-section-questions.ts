@@ -25,12 +25,12 @@ export enum QuestionsSectionQuestions {
   /**
    * Distribute Points (Among Options) Questions
    */
-  POINTS_OPTIONS = 'POINTS_OPTIONS',
+  POINTS_OPTIONS = 'points-options',
 
   /**
    * Distribute Points (Among Recipients) Questions
    */
-  POINTS_RECIPIENTS = 'POINTS_RECIPIENTS',
+  POINTS_RECIPIENTS = 'points-recipients',
 
   /**
    * Team Contribution Questions

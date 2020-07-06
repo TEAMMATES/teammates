@@ -5,11 +5,11 @@
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="displaySubsection(showQuestion, 0, 1)" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isEssayQuestionsCollapsed = !isEssayQuestionsCollapsed" [attr.aria-expanded]="!isEssayQuestionsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.ESSAY] = !questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
         Essay Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isEssayQuestionsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -40,13 +40,13 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="single-answer-mcq">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="{{QuestionsSectionQuestions.SINGLE_ANSWER_MCQ}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isMCQSingleAnsCollapsed = !isMCQSingleAnsCollapsed" [attr.aria-expanded]="!isMCQSingleAnsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
         Multiple Choice (Single Answer) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isMCQSingleAnsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -109,17 +109,17 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isMCQMultipleAnsCollapsed = !isMCQMultipleAnsCollapsed" [attr.aria-expanded]="!isMCQMultipleAnsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
         Multiple Choice (Multiple Answers) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isMCQMultipleAnsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
       <div class="card">
         <div class="card-body">
           <p>
             Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
             <br> The setup and result statistics is similar to the single answer version. See
-            <a (click)="jumpTo('single-answer-mcq'); isMCQSingleAnsCollapsed = true" [routerLink]="">above</a> for details.
+            <a (click)="jumpTo(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ); questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = true" [routerLink]="">above</a> for details.
           </p>
           <p>
             <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
@@ -134,11 +134,11 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isNumericalScaleCollapsed = !isNumericalScaleCollapsed" [attr.aria-expanded]="!isNumericalScaleCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE] = !questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
         Numerical Scale Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isNumericalScaleCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -193,11 +193,11 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isPointsOptionsCollapsed = !isPointsOptionsCollapsed" [attr.aria-expanded]="!isPointsOptionsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
         Distribute Points (Among Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isPointsOptionsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -251,11 +251,11 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isPointsRecipientsCollapsed = !isPointsRecipientsCollapsed" [attr.aria-expanded]="!isPointsRecipientsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
         Distribute Points (Among Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isPointsRecipientsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -292,13 +292,13 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="team-contribution-questions">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="{{QuestionsSectionQuestions.CONTRIBUTION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isContributionQsCollapsed = !isContributionQsCollapsed" [attr.aria-expanded]="!isContributionQsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION] = !questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
         Team Contribution Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isContributionQsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -529,7 +529,7 @@
           <p>
             The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
             If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
-            <a (click)="jumpTo('tips-for-conducting-peer-eval')" [routerLink]="">tips for conducting 'team peer evaluation' sessions</a> section.
+            <button class="btn btn-link" (click)="collapsePeerEvalTips.emit()">tips for conducting 'team peer evaluation' sessions</button> section.
           </p>
           <p>
             The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
@@ -554,11 +554,11 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isRubricQsCollapsed = !isRubricQsCollapsed" [attr.aria-expanded]="!isRubricQsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC] = !questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
         Rubric Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isRubricQsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -653,11 +653,11 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isRankOptionsCollapsed = !isRankOptionsCollapsed" [attr.aria-expanded]="!isRankOptionsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
         Rank (Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isRankOptionsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
       <div class="card">
         <div class="card-body">
           <p>
@@ -699,11 +699,11 @@
   <!--Question-->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isRankRecipientsCollapsed = !isRankRecipientsCollapsed" [attr.aria-expanded]="!isRankRecipientsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
         Rank (Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isRankRecipientsCollapsed">
+    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
       <div class="card">
         <div class="card-body">
           <p>

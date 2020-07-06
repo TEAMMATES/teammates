@@ -19,6 +19,9 @@ export class InstructorHelpGettingStartedComponent implements OnInit {
 
   // enum
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
+  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
+  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
