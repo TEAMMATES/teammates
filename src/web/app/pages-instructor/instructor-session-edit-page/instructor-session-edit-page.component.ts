@@ -827,7 +827,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles question 'Help' link click event.
    */
   questionsHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#questions`);
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help?questionId=questions&section=questions`);
   }
 
   /**

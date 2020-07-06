@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
+import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
+import { Sections } from '../../../../pages-help/instructor-help-page/sections';
 import { ColumnData, SortableTableCellData } from '../../../sortable-table/sortable-table.component';
 import {
   ContributionQuestionStatisticsCalculation,
@@ -20,6 +22,10 @@ import { ContributionComponent } from './contribution.component';
 })
 export class ContributionQuestionStatisticsComponent extends ContributionQuestionStatisticsCalculation
     implements OnInit, OnChanges {
+
+  // enum
+  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   @Input() displayContributionStats: boolean = true;
 
