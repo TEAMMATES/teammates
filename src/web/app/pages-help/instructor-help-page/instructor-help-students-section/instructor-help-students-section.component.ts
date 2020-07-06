@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Gender, JoinState, Student, StudentProfile } from '../../../../types/api-output';
 import {
   SearchStudentsListRowTable,
 } from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { StudentsSectionQuestions } from './students-section-questions';
 
 /**
  * Students Section of the Instructor Help Page.
@@ -15,6 +16,9 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
   styleUrls: ['./instructor-help-students-section.component.scss'],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
+
+  // enum
+  StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
 
   readonly supportEmail: string = environment.supportEmail;
   readonly exampleStudentProfile: StudentProfile = {
@@ -113,15 +117,22 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     ],
   }];
 
-  @Input() isEditDetailsCollapsed: boolean = false;
-  isViewProfileCollapsed: boolean = false;
-  isViewAllResponsesCollapsed: boolean = false;
-  isStudentSearchCollapsed: boolean = false;
-  isStudentEmailCollapsed: boolean = false;
-  isGoogleAccountCollapsed: boolean = false;
-  isChangeGoogleIdCollapsed: boolean = false;
+  questionsToCollapsed: Record<string, boolean> = {
+    [StudentsSectionQuestions.STUDENT_EDIT_DETAILS]: false,
+    [StudentsSectionQuestions.STUDENT_EMAIL]: false,
+    [StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]: false,
+    [StudentsSectionQuestions.STUDENT_SEARCH]: false,
+    [StudentsSectionQuestions.STUDENT_VIEW_PROFILE]: false,
+    [StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]: false,
+    [StudentsSectionQuestions.STUDENT_CHANGE_ID]: false,
+    [StudentsSectionQuestions.STUDENT_EDIT_DETAILS]: false,
+  };
 
   constructor() {
     super();
+  }
+
+  expand(questionId: string): void {
+    this.questionsToCollapsed[questionId] = true;
   }
 }

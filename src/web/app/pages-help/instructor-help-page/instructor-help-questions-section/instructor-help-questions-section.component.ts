@@ -25,30 +25,27 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import {
-    DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-    DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
-    DEFAULT_MCQ_QUESTION_DETAILS,
-    DEFAULT_NUMSCALE_QUESTION_DETAILS,
-    DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
-    DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
-    DEFAULT_RUBRIC_QUESTION_DETAILS,
-    DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_RUBRIC_QUESTION_DETAILS,
+  DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
-import { QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
+import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
-import {
-    QuestionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import {
-    InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
+import { QuestionsSectionQuestions } from './questions-section-questions';
 
 /**
  * Questions Section of the Instructor Help Page.
@@ -61,6 +58,8 @@ import { InstructorHelpSectionComponent } from '../instructor-help-section.compo
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
   // enum
+  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
 
@@ -1461,17 +1460,20 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     } as FeedbackRubricQuestionDetails,
   };
 
-  isEssayQuestionsCollapsed: boolean = false;
-  isMCQSingleAnsCollapsed: boolean = false;
-  isMCQMultipleAnsCollapsed: boolean = false;
-  isNumericalScaleCollapsed: boolean = false;
-  isPointsOptionsCollapsed: boolean = false;
-  isPointsRecipientsCollapsed: boolean = false;
-  isContributionQsCollapsed: boolean = false;
-  isRubricQsCollapsed: boolean = false;
-  isRankOptionsCollapsed: boolean = false;
-  isRankRecipientsCollapsed: boolean = false;
-  @Output() collapsePeerEvalTips: EventEmitter<boolean> = new EventEmitter<boolean>();
+  questionsToCollapsed: Record<string, boolean> = {
+    [QuestionsSectionQuestions.ESSAY]: false,
+    [QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]: false,
+    [QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]: false,
+    [QuestionsSectionQuestions.NUMERICAL_SCALE]: false,
+    [QuestionsSectionQuestions.POINTS_OPTIONS]: false,
+    [QuestionsSectionQuestions.POINTS_RECIPIENTS]: false,
+    [QuestionsSectionQuestions.CONTRIBUTION]: false,
+    [QuestionsSectionQuestions.RUBRIC]: false,
+    [QuestionsSectionQuestions.RANK_OPTIONS]: false,
+    [QuestionsSectionQuestions.RANK_RECIPIENTS]: false,
+  };
+
+  @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,
@@ -1498,9 +1500,10 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       scrollTarget: `#${target}`,
       scrollOffset: 70,
     });
-    if (target === 'tips-for-conducting-peer-eval') {
-      this.collapsePeerEvalTips.emit(true);
-    }
     return false;
+  }
+
+  expand(questionId: string): void {
+    this.questionsToCollapsed[questionId] = true;
   }
 }

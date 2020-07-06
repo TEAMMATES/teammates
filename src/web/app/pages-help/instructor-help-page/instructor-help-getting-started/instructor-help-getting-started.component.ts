@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { CoursesSectionQuestions } from '../instructor-help-courses-section/courses-section-questions';
+import { QuestionsSectionQuestions } from '../instructor-help-questions-section/questions-section-questions';
+import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
+import { StudentsSectionQuestions } from '../instructor-help-students-section/students-section-questions';
+import { Sections } from '../sections';
 
 /**
  * Getting Started Section for Instructors
@@ -11,6 +16,10 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./instructor-help-getting-started.component.scss'],
 })
 export class InstructorHelpGettingStartedComponent implements OnInit {
+
+  // enum
+  StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath: string = '';

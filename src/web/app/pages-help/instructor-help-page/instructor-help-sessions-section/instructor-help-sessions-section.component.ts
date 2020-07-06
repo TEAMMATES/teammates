@@ -1,33 +1,40 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
 
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   CommentVisibilityType,
-  Course, FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
+  Course,
+  FeedbackContributionResponseDetails,
+  FeedbackMcqQuestionDetails,
+  FeedbackMcqResponseDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackSession,
+  FeedbackQuestionType,
+  FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   Instructor,
   InstructorPermissionRole,
   JoinState,
-  NumberOfEntitiesToGiveFeedbackToSetting, QuestionOutput,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionOutput,
   ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
 } from '../../../../types/api-output';
 import {
-  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS, DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+  DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
 import { CommentRowMode } from '../../../components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.component';
 import {
-  SessionEditFormMode, SessionEditFormModel,
+  SessionEditFormMode,
+  SessionEditFormModel,
 } from '../../../components/session-edit-form/session-edit-form-model';
 import {
   RecycleBinFeedbackSessionRowModel,
@@ -35,13 +42,17 @@ import {
 import {
   SearchCommentsTable,
 } from '../../../pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
-import { SectionTabModel,
+import {
+  SectionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import { InstructorSessionResultSectionType,
+import {
+  InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import { InstructorSessionResultViewType,
+import {
+  InstructorSessionResultViewType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { SessionsSectionQuestions } from './sessions-section-questions';
 
 /**
  * Sessions Section of the Instructor Help Page.
@@ -58,6 +69,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
 
   readonly exampleSessionEditFormModel: SessionEditFormModel = {
     courseId: 'CS2103T',
@@ -409,20 +421,22 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     questions: this.exampleQuestionsWithResponses,
   }];
 
-  @Input() isPeerEvalTipsCollapsed: boolean = false;
-  isNewFeedbackSessionCollapsed: boolean = false;
-  isAddQuestionsCollapsed: boolean = false;
-  isPreviewCollapsed: boolean = false;
-  isCannotSubmitCollapsed: boolean = false;
-  isViewResultsCollapsed: boolean = false;
-  isViewAllResponsesCollapsed: boolean = false;
-  isAddCommentCollapsed: boolean = false;
-  isEditDelCommentCollapsed: boolean = false;
-  isSearchCollapsed: boolean = false;
-  isViewDeletedCollapsed: boolean = false;
-  isRestoreSessionCollapsed: boolean = false;
-  isDelSessionCollapsed: boolean = false;
-  isRestoreDelAllCollapsed: boolean = false;
+  questionsToCollapsed: Record<string, boolean> = {
+    [SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]: false,
+    [SessionsSectionQuestions.SESSION_NEW_FEEDBACK]: false,
+    [SessionsSectionQuestions.SESSION_QUESTIONS]: false,
+    [SessionsSectionQuestions.SESSION_PREVIEW]: false,
+    [SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]: false,
+    [SessionsSectionQuestions.SESSION_VIEW_RESULTS]: false,
+    [SessionsSectionQuestions.VIEW_ALL_RESPONSES]: false,
+    [SessionsSectionQuestions.SESSION_ADD_COMMENTS]: false,
+    [SessionsSectionQuestions.EDIT_DEL_COMMENT]: false,
+    [SessionsSectionQuestions.SESSION_SEARCH]: false,
+    [SessionsSectionQuestions.VIEW_DELETED_SESSION]: false,
+    [SessionsSectionQuestions.RESTORE_SESSION]: false,
+    [SessionsSectionQuestions.PERMANENT_DEL_SESSION]: false,
+    [SessionsSectionQuestions.RESTORE_DEL_ALL]: false,
+  };
 
   constructor(private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {
@@ -439,5 +453,9 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
       scrollOffset: 70,
     });
     return false;
+  }
+
+  expand(questionId: string): void {
+    this.questionsToCollapsed[questionId] = true;
   }
 }
