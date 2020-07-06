@@ -46,11 +46,11 @@ export class SearchService {
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
     return this.searchStudents(searchKey, 'instructor').pipe(
-      map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
-      mergeMap((coursesWithSections: SearchStudentsListRowTable[]) =>
+      map((studentsRes: Students) => this.getCoursesWithStudents(studentsRes)),
+      mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
         forkJoin([
-          of(coursesWithSections),
-          this.getPrivileges(coursesWithSections),
+          of(coursesWithStudents),
+          this.getPrivileges(coursesWithStudents),
         ]),
       ),
       map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
@@ -118,13 +118,13 @@ export class SearchService {
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_COMMENTS, paramMap);
   }
 
-  getCoursesWithSections(studentsRes: Students): SearchStudentsListRowTable[] {
+  getCoursesWithStudents(studentsRes: Students): SearchStudentsListRowTable[] {
     const { students }: { students: Student[] } = studentsRes;
 
     const distinctCourses: string[] = Array.from(
       new Set(students.map((s: Student) => s.courseId)),
     );
-    const coursesWithSections: SearchStudentsListRowTable[] = distinctCourses.map(
+    const coursesWithStudents: SearchStudentsListRowTable[] = distinctCourses.map(
       (courseId: string) => ({
         courseId,
         students: Array.from(
@@ -140,7 +140,7 @@ export class SearchService {
       }),
     );
 
-    return coursesWithSections;
+    return coursesWithStudents;
   }
 
   private getSearchCommentsTable(searchResults: CommentSearchResults): InstructorSearchResult {
@@ -155,13 +155,13 @@ export class SearchService {
   }
 
   getPrivileges(
-    coursesWithSections: SearchStudentsListRowTable[],
+    coursesWithStudents: SearchStudentsListRowTable[],
   ): Observable<InstructorPrivilege[]> {
-    if (coursesWithSections.length === 0) {
+    if (coursesWithStudents.length === 0) {
       return of([]);
     }
     return forkJoin(
-      coursesWithSections.map((course: SearchStudentsListRowTable) => {
+      coursesWithStudents.map((course: SearchStudentsListRowTable) => {
         return course.students.map((studentModel: StudentListRowModel) => {
           return this.instructorService.loadInstructorPrivilege({
             courseId: course.courseId,
@@ -177,14 +177,14 @@ export class SearchService {
   }
 
   combinePrivileges(
-    [coursesWithSections, privileges]: [SearchStudentsListRowTable[], InstructorPrivilege[]],
+    [coursesWithStudents, privileges]: [SearchStudentsListRowTable[], InstructorPrivilege[]],
   ): InstructorSearchResult {
     /**
      * Pop the privilege objects one at a time and attach them to the results. This is possible
      * because `forkJoin` guarantees that the `InstructorPrivilege` results are returned in the
      * same order the requests were made.
      */
-    for (const course of coursesWithSections) {
+    for (const course of coursesWithStudents) {
       for (const studentModel of course.students) {
         const sectionPrivileges: InstructorPrivilege | undefined = privileges.shift();
         if (!sectionPrivileges) { continue; }
@@ -195,7 +195,7 @@ export class SearchService {
     }
 
     return {
-      searchStudentsTables: coursesWithSections,
+      searchStudentsTables: coursesWithStudents,
       searchCommentsTables: [],
     };
   }
