@@ -1,6 +1,6 @@
 <div *ngFor="let sectionInfo of responses | keyvalue">
   <div class="card margin-bottom-15px" *ngIf="!section || (sectionInfo.key == section)">
-    <div class="card-header bg-info text-white course-tab-header" (click)="toggleAndLoadTab.emit(sectionInfo.key)">
+    <div class="card-header bg-info text-white cursor-pointer" (click)="toggleAndLoadTab.emit(sectionInfo.key)">
       {{ sectionInfo.key === 'None' ? 'No specific section' : sectionInfo.key }}
       <div class="float-right">
         <i class="fas fa-chevron-down" *ngIf="!sectionInfo.value.isTabExpanded"></i>

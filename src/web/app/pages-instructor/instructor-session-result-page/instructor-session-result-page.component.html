@@ -120,7 +120,7 @@
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
       [(instructorCommentTableModel)]="instructorCommentTableModel"
       (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
-      (toggleAndLoadTab)="toggleQuestionTab($event)"></tm-instructor-session-result-question-view>
+      (toggleAndLoadTab)="toggleQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
   <tm-instructor-session-result-grq-view *ngIf="viewType === InstructorSessionResultViewType.GRQ" [responses]="sectionsModel" [isExpandAll]="isExpandAll"
       [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
