@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import { Email } from '../types/api-output';
+import { EmailType } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -14,10 +15,18 @@ export class EmailGenerationService {
 
   constructor(private httpRequestService: HttpRequestService) { }
 
+  getCourseJoinEmail(courseId: string, studentEmail: string): Observable<Email> {
+    return this.getEmail(courseId, studentEmail, EmailType.STUDENT_COURSE_JOIN);
+  }
+
+  getFeedbackSessionReminderEmail(courseId: string, studentEmail: string, fsname: string): Observable<Email> {
+    return this.getEmail(courseId, studentEmail, EmailType.FEEDBACK_SESSION_REMINDER, fsname);
+  }
+
   /**
    * Get email contents by calling API.
    */
-  getEmail(courseId: string, studentemail: string, emailtype: string, fsname?: string): Observable<Email> {
+  private getEmail(courseId: string, studentemail: string, emailtype: EmailType, fsname?: string): Observable<Email> {
     const paramsMap: Record<string, string> = {
       studentemail,
       emailtype,

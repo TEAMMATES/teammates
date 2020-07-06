@@ -1,24 +1,21 @@
-import { Component } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { AccountService } from '../../../services/account.service';
-import { EmailGenerationService } from '../../../services/email-generation.service';
+import {Component} from '@angular/core';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {AccountService} from '../../../services/account.service';
+import {EmailGenerationService} from '../../../services/email-generation.service';
 import {
-  AdminSearchResult, FeedbackSessionsGroup,
+  AdminSearchResult,
+  FeedbackSessionsGroup,
   InstructorAccountSearchResult,
   SearchService,
   StudentAccountSearchResult,
 } from '../../../services/search.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
-import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
-import { EmailType } from '../../../types/api-request';
-import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  RegenerateLinksConfirmModalComponent,
-} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
-import {
-  ResetGoogleIdConfirmModalComponent,
-} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
+import {StatusMessageService} from '../../../services/status-message.service';
+import {StudentService} from '../../../services/student.service';
+import {Email, RegenerateStudentCourseLinks} from '../../../types/api-output';
+import {EmailType} from '../../../types/api-request';
+import {ErrorMessageOutput} from '../../error-message-output';
+import {RegenerateLinksConfirmModalComponent,} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
+import {ResetGoogleIdConfirmModalComponent,} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Admin search page.
@@ -196,18 +193,28 @@ export class AdminSearchPageComponent {
   }
 
   /**
-   * Open up an email populated with content for users.
-   * Content generated is related to the emailtype
-   * @param emailtype type of email to generate. Current options are STUDENT_COURSE_JOIN or FEEDBACK_SESSION_REMINDER
-   * @param fsname feedback session name for FEEDBACK_SESSION_REMINDER
+   * Open up an email populated with content for course join invitation.
    */
-  openEmail(courseId: string, studentemail: string, emailtype: EmailType, fsname?: string): void {
-    this.emailGenerationService.getEmail(courseId, studentemail, emailtype, fsname)
+  openCourseJoinEmail(courseId: string, studentemail: string): void {
+    this.emailGenerationService.getCourseJoinEmail(courseId, studentemail)
         .subscribe((email: Email) => {
-          const emailWrapper: string = `mailto:${email.recipient}`
-          + `?Subject=${email.subject}`
-          + `&body=${email.content}`;
-          window.location.href = emailWrapper;
+          window.location.href = `mailto:${email.recipient}`
+              + `?Subject=${email.subject}`
+              + `&body=${email.content}`;
+        }, (err: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(err.error.message);
+        });
+  }
+
+  /**
+   * Open up an email populated with content for feedback session reminder.
+   */
+  openFeedbackSessionReminderEmail(courseId: string, studentemail: string, fsname: string): void {
+    this.emailGenerationService.getFeedbackSessionReminderEmail(courseId, studentemail, fsname)
+        .subscribe((email: Email) => {
+          window.location.href = `mailto:${email.recipient}`
+              + `?Subject=${email.subject}`
+              + `&body=${email.content}`;
         }, (err: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(err.error.message);
         });

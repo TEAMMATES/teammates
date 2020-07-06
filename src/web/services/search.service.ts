@@ -344,25 +344,22 @@ export class SearchService {
     };
     for (const feedbackSession of feedbackSessions.feedbackSessions) {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
-        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName]
-            = {
-              ...this.formatProperties(feedbackSession),
-              feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
-            };
+        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
       } else {
-        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName]
-            = {
-              ...this.formatProperties(feedbackSession),
-              feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
-            };
+        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
       }
 
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
-        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName]
-            = {
-              ...this.formatProperties(feedbackSession),
-              feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
-            };
+        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
+        };
       }
     }
     return feedbackSessionLinks;
