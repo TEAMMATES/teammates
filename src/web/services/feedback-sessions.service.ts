@@ -416,7 +416,7 @@ export class FeedbackSessionsService {
    * Generates the name fragment of a feedbackSession for display on the frontend.
    */
   generateNameFragment(feedbackSession: FeedbackSession): string {
-    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM yyyy, hh:mm A Z';
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
     const startTime: string = this.timezoneService
         .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
     const endTime: string = this.timezoneService
