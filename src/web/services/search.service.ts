@@ -12,7 +12,7 @@ import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   CommentSearchResult,
   CommentSearchResults,
-  Course,
+  Course, FeedbackSession,
   FeedbackSessions,
   Instructor,
   InstructorPermissionRole,
@@ -27,6 +27,7 @@ import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
+import { TimezoneService } from './timezone.service';
 
 /**
  * Handles the logic for search.
@@ -42,6 +43,7 @@ export class SearchService {
     private feedbackSessionService: FeedbackSessionsService,
     private courseService: CourseService,
     private linkService: LinkService,
+    private timezoneService: TimezoneService,
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
@@ -344,13 +346,13 @@ export class SearchService {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
         feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName]
             = {
-              ...this.feedbackSessionService.formatProperties(feedbackSession),
+              ...this.formatProperties(feedbackSession),
               feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
             };
       } else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName]
             = {
-              ...this.feedbackSessionService.formatProperties(feedbackSession),
+              ...this.formatProperties(feedbackSession),
               feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
             };
       }
@@ -358,7 +360,7 @@ export class SearchService {
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
         feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName]
             = {
-              ...this.feedbackSessionService.formatProperties(feedbackSession),
+              ...this.formatProperties(feedbackSession),
               feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
             };
       }
@@ -471,6 +473,15 @@ export class SearchService {
         return distinctFeedbackSessionsMap;
       }),
     );
+  }
+
+  formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+    const startTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    const endTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    return { startTime, endTime };
   }
 }
 
