@@ -4,8 +4,8 @@ import { animate, AnimationTriggerMetadata, state, style, transition, trigger } 
  * Directive for collapsing of *ngIf columns.
  */
 export const collapseAnim: AnimationTriggerMetadata = trigger('collapseAnim', [
-  state('*', style({ 'overflow-y': 'hidden' })),
-  state('void', style({ 'overflow-y': 'hidden' })),
+  state('*', style({ overflow: 'hidden' })),
+  state('void', style({ overflow: 'hidden' })),
   transition(':leave', [
     style({ height: '*' }),
     animate('300ms ease-in-out', style({ height: 0, opacity: 0 })),

@@ -19,7 +19,8 @@
             </div>
           </div>
         </div>
-      <table class="table table-responsive-lg table-striped table-bordered recycle-bin-table" *ngIf="isRecycleBinExpanded">
+      <div *ngIf="isRecycleBinExpanded" @collapseAnim>
+        <table class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
         <thead class="recycle-bin-table-header">
         <tr>
           <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header">
@@ -66,6 +67,7 @@
         </tr>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
