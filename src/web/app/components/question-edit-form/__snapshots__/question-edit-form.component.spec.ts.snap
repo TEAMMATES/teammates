@@ -31,7 +31,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
     xmlns="http://www.w3.org/1999/html"
   >
     <div
-      class="card-header text-white question-header"
+      class="card-header text-white question-header cursor-pointer"
     >
       <div
         class="row align-items-center"
@@ -39,6 +39,13 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         <div
           class="col-5"
         >
+          <span>
+            
+            
+            <i
+              class="fas fa-chevron-up collapse-caret"
+            />
+          </span>
           <strong>
             Question 
             
@@ -69,7 +76,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             
             
             
-            
             <button
               class="btn btn-primary btn-sm"
               type="button"
@@ -95,309 +101,316 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           
         </div>
       </div>
+      
     </div>
     <div
-      class="card-body"
+      class="collapse show"
     >
       <div
-        class="background-color-light-blue"
+        class="card-body"
       >
         <div
-          class="row"
+          class="background-color-light-blue"
         >
           <div
-            class="col-12"
+            class="row"
           >
             <div
-              class="row padding-15px text-left"
+              class="col-12"
             >
               <div
-                class="col-md-2"
+                class="row padding-15px text-left"
               >
                 <div
-                  class="question-basic-info"
-                >
-                  Question
-                </div>
-              </div>
-              <div
-                class="col-md-10"
-              >
-                <textarea
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                  disabled=""
-                  ngbtooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
-                  placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
-                />
-              </div>
-            </div>
-            <div
-              class="row padding-15px text-left"
-            >
-              <div
-                class="col-md-2"
-              >
-                <div
-                  class="question-basic-info"
-                >
-                  [Optional]
-                  <br />
-                  Description
-                </div>
-              </div>
-              <div
-                class="col-md-10"
-              >
-                <tm-rich-text-editor
-                  ngbtooltip="Please enter the description of the question."
-                  placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
-                >
-                  <editor
-                    class="editor editor-disabled ng-untouched ng-pristine ng-valid"
-                    placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
-                    style="min-height: 150px;"
-                  >
-                    
-                    <div
-                      id="tiny-angular_031577836800000"
-                    />
-                  </editor>
-                </tm-rich-text-editor>
-              </div>
-            </div>
-            <div
-              class="padding-15px"
-            >
-              
-              <tm-text-question-edit-details-form>
-                <div
-                  class="row"
+                  class="col-md-2"
                 >
                   <div
-                    class="col-12 question-recommended-length"
+                    class="question-basic-info"
                   >
-                     [Optional] 
-                    <span
-                      ngbtooltip="The recommended length is shown to the respondent but not enforced"
-                    >
-                       Recommended length 
-                    </span>
-                     for the response: 
-                    <input
-                      class="form-control ng-untouched ng-pristine ng-valid"
-                      disabled=""
-                      min="0"
-                      type="number"
-                    />
-                     words 
+                    Question
                   </div>
                 </div>
-              </tm-text-question-edit-details-form>
-              
-              
-              
-              
-              
-              
-              
-              
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="background-color-light-green margin-top-15px padding-15px"
-      >
-        <div>
-          <b
-            class="feedback-path-title"
-          >
-            Feedback Path
-          </b>
-           (Who is giving feedback about whom?) 
-        </div>
-        <div
-          class="margin-top-15px dropdown"
-          ngbdropdown=""
-        >
-          <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn btn-light dropdown-toggle"
-            disabled=""
-            ngbdropdowntoggle=""
-          >
-            
-            <span>
-               Students in this course will give feedback on 
-              <i
-                class="fas fa-arrow-right"
-              />
-               Other students in the course 
-            </span>
-            
-          </button>
-          <ul
-            class="dropdown-menu"
-            ngbdropdownmenu=""
-            x-placement="bottom"
-          >
-            <li
-              class="dropdown-header"
-            >
-              Common feedback path combinations
-            </li>
-            
-            <li
-              class="dropdown-divider"
-            />
-            <li
-              class="dropdown-item"
-            >
-              Custom feedback path...
-            </li>
-          </ul>
-        </div>
-        
-        
-        <div
-          class="row margin-top-15px align-items-center"
-        >
-          <div
-            class="offset-1 col-4 text-right"
-          >
-             The maximum number of students each respondent should give feedback to: 
-          </div>
-          <div
-            class="col-2"
-          >
-            <div
-              class="input-group"
-            >
-              <div
-                class="input-group-prepend"
-              >
                 <div
-                  class="input-group-text"
+                  class="col-md-10"
                 >
-                  <input
-                    class="ng-untouched ng-pristine ng-valid"
+                  <textarea
+                    class="form-control ng-untouched ng-pristine ng-valid"
                     disabled=""
-                    type="radio"
+                    ngbtooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
+                    placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
                   />
                 </div>
               </div>
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                disabled=""
-                min="1"
-                type="number"
-              />
+              <div
+                class="row padding-15px text-left"
+              >
+                <div
+                  class="col-md-2"
+                >
+                  <div
+                    class="question-basic-info"
+                  >
+                    [Optional]
+                    <br />
+                    Description
+                  </div>
+                </div>
+                <div
+                  class="col-md-10"
+                >
+                  <tm-rich-text-editor
+                    minheightinpx="80"
+                    ngbtooltip="Please enter the description of the question."
+                    placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                  >
+                    <editor
+                      class="editor editor-disabled ng-untouched ng-pristine ng-valid"
+                      placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                      style="min-height: 80px;"
+                    >
+                      
+                      <div
+                        id="tiny-angular_031577836800000"
+                      />
+                    </editor>
+                  </tm-rich-text-editor>
+                </div>
+              </div>
+              <div
+                class="padding-15px"
+              >
+                
+                <tm-text-question-edit-details-form>
+                  <div
+                    class="row"
+                  >
+                    <div
+                      class="col-12 question-recommended-length"
+                    >
+                       [Optional] 
+                      <span
+                        ngbtooltip="The recommended length is shown to the respondent but not enforced"
+                      >
+                         Recommended length 
+                      </span>
+                       for the response: 
+                      <input
+                        class="form-control ng-untouched ng-pristine ng-valid"
+                        disabled=""
+                        min="0"
+                        type="number"
+                      />
+                       words 
+                    </div>
+                  </div>
+                </tm-text-question-edit-details-form>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+              </div>
             </div>
+          </div>
+        </div>
+        <div
+          class="background-color-light-green margin-top-15px padding-15px"
+        >
+          <div>
+            <b
+              class="feedback-path-title"
+            >
+              Feedback Path
+            </b>
+             (Who is giving feedback about whom?) 
           </div>
           <div
-            class="col-2"
+            autoclose="outside"
+            class="margin-top-15px dropdown"
+            ngbdropdown=""
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="btn btn-light dropdown-toggle"
+              disabled=""
+              ngbdropdowntoggle=""
+            >
+              
+              <span>
+                 Students in this course will give feedback on 
+                <i
+                  class="fas fa-arrow-right"
+                />
+                 Other students in the course 
+              </span>
+              
+            </button>
+            <ul
+              class="dropdown-menu"
+              ngbdropdownmenu=""
+              x-placement="bottom"
+            >
+              <li
+                class="dropdown-header"
+              >
+                Common feedback path combinations
+              </li>
+              
+              <li
+                class="dropdown-divider"
+              />
+              <li
+                class="dropdown-item"
+              >
+                Custom feedback path...
+              </li>
+            </ul>
+          </div>
+          
+          
+          <div
+            class="row margin-top-15px align-items-center"
           >
             <div
-              class="form-check"
+              class="offset-1 col-4 text-right"
             >
-              <label
-                class="form-check-label"
+               The maximum number of students each respondent should give feedback to: 
+            </div>
+            <div
+              class="col-2"
+            >
+              <div
+                class="input-group"
               >
+                <div
+                  class="input-group-prepend"
+                >
+                  <div
+                    class="input-group-text"
+                  >
+                    <input
+                      class="ng-untouched ng-pristine ng-valid"
+                      disabled=""
+                      type="radio"
+                    />
+                  </div>
+                </div>
                 <input
-                  class="form-check-input ng-untouched ng-pristine ng-valid"
+                  class="form-control ng-untouched ng-pristine ng-valid"
                   disabled=""
-                  type="radio"
+                  min="1"
+                  type="number"
                 />
-                 Unlimited 
-              </label>
+              </div>
+            </div>
+            <div
+              class="col-2"
+            >
+              <div
+                class="form-check"
+              >
+                <label
+                  class="form-check-label"
+                >
+                  <input
+                    class="form-check-input ng-untouched ng-pristine ng-valid"
+                    disabled=""
+                    type="radio"
+                  />
+                   Unlimited 
+                </label>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="margin-top-15px padding-15px background-color-light-green"
-      >
-        <div>
+        <div
+          class="margin-top-15px padding-15px background-color-light-green"
+        >
+          <div>
+            
+            <b
+              class="visibility-title"
+            >
+              Visibility
+            </b>
+             (Who can see the responses?) 
+          </div>
+          <div
+            class="margin-top-15px dropdown"
+            ngbdropdown=""
+          >
+            <button
+              aria-expanded="false"
+              aria-haspopup="true"
+              class="btn btn-light dropdown-toggle"
+              disabled=""
+              ngbdropdowntoggle=""
+            >
+              
+              <span>
+                  
+              </span>
+              
+            </button>
+            <ul
+              class="dropdown-menu"
+              ngbdropdownmenu=""
+              x-placement="bottom"
+            >
+              <li
+                class="dropdown-header"
+              >
+                Common visibility options
+              </li>
+              
+              
+              <li
+                class="dropdown-divider"
+              />
+              
+              <li
+                class="dropdown-item"
+              >
+                Custom visibility options...
+              </li>
+            </ul>
+          </div>
           
-          <b
-            class="visibility-title"
+          <div
+            class="margin-top-15px visibility-message"
           >
-            Visibility
-          </b>
-           (Who can see the responses?) 
-        </div>
-        <div
-          class="margin-top-15px dropdown"
-          ngbdropdown=""
-        >
-          <button
-            aria-expanded="false"
-            aria-haspopup="true"
-            class="btn btn-light dropdown-toggle"
-            disabled=""
-            ngbdropdowntoggle=""
-          >
-            
-            <span>
-                
-            </span>
-            
-          </button>
-          <ul
-            class="dropdown-menu"
-            ngbdropdownmenu=""
-            x-placement="bottom"
-          >
-            <li
-              class="dropdown-header"
+             This is the visibility hint as seen by the feedback giver: 
+            <ul
+              class="text-muted background-color-warning"
             >
-              Common visibility options
-            </li>
-            
-            
-            <li
-              class="dropdown-divider"
-            />
-            
-            <li
-              class="dropdown-item"
-            >
-              Custom visibility options...
-            </li>
-          </ul>
-        </div>
-        
-        <div
-          class="margin-top-15px visibility-message"
-        >
-           This is the visibility hint as seen by the feedback giver: 
-          <ul
-            class="text-muted background-color-warning"
-          >
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li>
-              No-one can see your responses
-            </li>
-          </ul>
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              <li>
+                No-one can see your responses
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       
@@ -407,6 +420,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         <div
           class="col-12 text-right"
         >
+          
           <button
             class="btn btn-primary"
             disabled=""
@@ -414,7 +428,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             
             
             <span>
-              Save Changes
+              <i
+                class="fas fa-check"
+              />
+               Save Changes
             </span>
             
           </button>

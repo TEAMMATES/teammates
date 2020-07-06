@@ -21,6 +21,11 @@ export class InstructorSessionResultQuestionViewComponent
   @Input() questions: Record<string, QuestionTabModel> = {};
   @Input() isDisplayOnly: boolean = false;
 
+  @Output() downloadQuestionResult: EventEmitter<{
+    questionNumber: number,
+    questionId: string,
+  }> = new EventEmitter();
+
   questionsOrder: QuestionTabModel[] = [];
 
   constructor() {
@@ -40,5 +45,12 @@ export class InstructorSessionResultQuestionViewComponent
         .sort((val1: QuestionTabModel, val2: QuestionTabModel) => {
           return val1.question.questionNumber - (val2.question.questionNumber);
         });
+  }
+
+  /**
+   * Triggers the download of a question result.
+   */
+  triggerDownloadQuestionResult($event: { questionNumber: number, questionId: string }): void {
+    this.downloadQuestionResult.emit($event);
   }
 }
