@@ -530,8 +530,6 @@ export interface FeedbackSessionsGroup {
   };
 }
 
-// Private interfaces
-
 interface StudentFeedbackSessions {
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
