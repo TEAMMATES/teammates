@@ -37,9 +37,35 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    public void execute_notEnoughParameters_parameterFailure() {
+    public void execute_invalidParameters_parameterFailure() {
         loginAsAdmin();
         verifyHttpParameterFailure();
+
+        String[] notEnoughParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "dummy",
+        };
+        verifyHttpParameterFailure(notEnoughParams);
+
+        String[] invalidEntityParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "dummy",
+                Const.ParamsNames.ENTITY_TYPE, "dummy",
+        };
+        verifyHttpParameterFailure(invalidEntityParams);
+
+        String[] adminParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "dummy",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
+        };
+        String[] instructorParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "dummy",
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        loginAsAdmin();
+        verifyHttpParameterFailure(instructorParams);
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+        verifyHttpParameterFailure(adminParams);
     }
 
     @Test
@@ -146,17 +172,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     @Override
     @Test
     protected void testAccessControl() {
-        String[] adminParams = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "dummy",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-        };
-        String[] instructorParams = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "dummy",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-        verifyAccessibleForAdmin(adminParams);
-        verifyOnlyInstructorsCanAccess(instructorParams);
-        verifyInaccessibleForAdmin(instructorParams);
-        verifyInaccessibleForInstructors(adminParams);
+        verifyAccessibleForAdmin();
+        verifyOnlyInstructorsCanAccess();
     }
 }
