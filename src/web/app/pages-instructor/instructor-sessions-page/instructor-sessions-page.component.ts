@@ -531,7 +531,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
       restoreRequests.push(
-          this.feedbackSessionsService.deleteFeedbackSession(
+          this.feedbackSessionsService.deleteSessionFromRecycleBin(
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
           ));
