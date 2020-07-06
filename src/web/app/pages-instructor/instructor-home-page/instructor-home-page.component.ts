@@ -27,6 +27,7 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
@@ -49,6 +50,7 @@ interface CourseTabModel {
   selector: 'tm-instructor-home-page',
   templateUrl: './instructor-home-page.component.html',
   styleUrls: ['./instructor-home-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 

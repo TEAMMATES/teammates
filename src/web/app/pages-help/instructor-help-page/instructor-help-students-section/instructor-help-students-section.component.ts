@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Student, StudentProfile } from '../../../../types/api-output';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import {
   SearchStudentsListRowTable,
 } from '../../../pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
@@ -19,6 +20,7 @@ import {
   selector: 'tm-instructor-help-students-section',
   templateUrl: './instructor-help-students-section.component.html',
   styleUrls: ['./instructor-help-students-section.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
