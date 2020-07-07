@@ -3,6 +3,8 @@ import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentRowMode, CommentRowModel } from '../comment-row/comment-row.component';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 
 /**
  * Model for CommentTableComponent.
@@ -68,9 +70,28 @@ export class CommentTableComponent implements OnInit {
   @Output()
   updateCommentEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor() { }
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
+    this.sortComments();
+  }
+
+  ngOnChanges(): void {
+    this.sortComments();
+  }
+
+  /**
+   * Sorts the comments by last edited date.
+   */
+  sortComments(): void {
+    this.model.commentRows = this.model.commentRows
+        .sort(
+            (a: CommentRowModel, b: CommentRowModel) =>
+                this.tableComparatorService
+                    .compare(
+                        SortBy.COMMENTS_LAST_EDITED_DATE,
+                        SortOrder.DESC,
+                        String(a.originalComment?.lastEditedAt), String(b.originalComment?.lastEditedAt)));
   }
 
   /**
