@@ -55,7 +55,6 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
-import {SessionsTableModule} from "../../components/sessions-table/sessions-table.module";
 
 /**
  * Module for instructor help page.
@@ -83,7 +82,6 @@ import {SessionsTableModule} from "../../components/sessions-table/sessions-tabl
         QuestionTextWithInfoModule,
         SingleStatisticsModule,
         StudentViewResponsesModule,
-        SessionsTableModule,
     ],
   declarations: [
     InstructorHelpPageComponent,
