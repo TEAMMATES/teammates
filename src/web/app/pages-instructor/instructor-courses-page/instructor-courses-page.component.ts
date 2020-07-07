@@ -19,12 +19,8 @@ import {
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  CoursePermanentDeletionConfirmModalComponent,
-} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
-import {
-  CourseSoftDeletionConfirmModalComponent,
-} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
+import { CoursePermanentDeletionConfirmModalComponent, } from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
+import { CourseSoftDeletionConfirmModalComponent, } from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface CourseModel {
   course: Course;
@@ -48,7 +44,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   courseStats: Record<string, Record<string, number>> = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
+  tableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -92,6 +88,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
+          this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
         }, (error: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(error.error.message);
         });
@@ -369,7 +366,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = a.course.courseName;
           strB = b.course.courseName;
           break;
-        case SortBy.SESSION_CREATION_DATE:
+        case SortBy.COURSE_CREATION_DATE:
           strA = a.course.creationTimestamp.toString();
           strB = b.course.creationTimestamp.toString();
           break;
