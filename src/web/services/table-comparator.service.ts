@@ -76,6 +76,7 @@ export class TableComparatorService {
       case SortBy.CONSTSUM_OPTIONS_OPTION:
       case SortBy.CONTRIBUTION_TEAM:
       case SortBy.CONTRIBUTION_RECIPIENT:
+      case SortBy.COMMENTS_LAST_EDITED_DATE:
       case SortBy.RANK_RECIPIENTS_SELF_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:

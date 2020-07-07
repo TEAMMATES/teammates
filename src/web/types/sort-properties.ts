@@ -321,6 +321,11 @@ export enum SortBy {
      * Amount of contribution measured in numbers
      */
     CONTRIBUTION_VALUE,
+
+    /**
+     * The last edited date of comment
+     */
+    COMMENTS_LAST_EDITED_DATE,
 }
 
 /**
