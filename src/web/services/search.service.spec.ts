@@ -179,7 +179,7 @@ describe('SearchService', () => {
     );
   });
 
-  it('should parse students into courses correctly', () => {
+  it('should parse students into courses with sections correctly', () => {
     const { students }: { students: Student[] } = mockStudents;
 
     // Number of courses should match
@@ -187,17 +187,33 @@ describe('SearchService', () => {
       Array.from(new Set(students.map((s: Student) => s.courseId))).length,
     );
 
-    // Number of students in a course should match
+    // Number of sections in a course should match
     expect(
-      coursesWithStudents.filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
-        .students.length,
+      Array.from(
+        new Set(
+          coursesWithStudents
+            .filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
+            .students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName),
+        ),
+      ).length,
     ).toEqual(
       Array.from(
         new Set(
           students
-            .filter((s: Student) => s.courseId === students[0].courseId),
+            .filter((s: Student) => s.courseId === students[0].courseId)
+            .map((s: Student) => s.sectionName),
         ),
       ).length,
+    );
+
+    // Number of students in a section should match
+    expect(
+        coursesWithStudents
+          .filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
+          .students.filter((s: StudentListRowModel) => s.student.sectionName === students[0].sectionName)
+          .length,
+    ).toEqual(
+      students.filter((s: Student) => s.sectionName === students[0].sectionName).length,
     );
   });
 
