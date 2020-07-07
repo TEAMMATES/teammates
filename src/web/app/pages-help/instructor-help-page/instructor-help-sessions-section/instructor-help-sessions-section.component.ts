@@ -424,6 +424,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   isRestoreSessionCollapsed: boolean = false;
   isDelSessionCollapsed: boolean = false;
   isRestoreDelAllCollapsed: boolean = false;
+  isModerateAnswerCollapsed: boolean = false;
 
   constructor(private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {

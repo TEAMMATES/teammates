@@ -486,8 +486,26 @@
       <br/>
     </div>
   </div>
+  <!-- Button -->
+  <div *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="session-moderate-answer">
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isModerateAnswerCollapsed = !isModerateAnswerCollapsed" [attr.aria-expanded]="!isModerateAnswerCollapsed">
+        How can I modify student answers that are inappropriate?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isModerateAnswerCollapsed">
+      <div class="card">
+        <div class="card-body">
+          <p>
+            If a student provided feedback in an unconstructive or otherwise inappropriate way, you can moderate answers. You may enter this mode while viewing the <strong>Feedback Session Results</strong> page and clicking the <button class="btn btn-sm btn-secondary">Moderate answer</button> button of an answer. in the <strong>Actions</strong> column.<br>
+          </p>
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isViewAllResponsesCollapsed = !isViewAllResponsesCollapsed" [attr.aria-expanded]="!isViewAllResponsesCollapsed">
         How do I view all the responses a student has given and received?
@@ -514,9 +532,9 @@
   </div>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(showQuestion, 8, 11)">Adding Comments to Responses</h4>
+  <h4 *ngIf="displaySubsection(showQuestion, 9, 12)">Adding Comments to Responses</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question id="session-add-comments">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="session-add-comments">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isAddCommentCollapsed = !isAddCommentCollapsed" [attr.aria-expanded]="!isAddCommentCollapsed">
         How do I create a comment on a response?
@@ -639,9 +657,9 @@
   </div>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(showQuestion, 11, 15)">Restoring Deleted Sessions</h4>
+  <h4 *ngIf="displaySubsection(showQuestion, 12, 16)">Restoring Deleted Sessions</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="view-deleted-session">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[12]" #question id="view-deleted-session">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isViewDeletedCollapsed = !isViewDeletedCollapsed" [attr.aria-expanded]="!isViewDeletedCollapsed">
         How do I view sessions I have deleted?
@@ -726,7 +744,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[14]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[15]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isRestoreDelAllCollapsed = !isRestoreDelAllCollapsed" [attr.aria-expanded]="!isRestoreDelAllCollapsed">
         How do I restore/delete all sessions from Recycle Bin?
