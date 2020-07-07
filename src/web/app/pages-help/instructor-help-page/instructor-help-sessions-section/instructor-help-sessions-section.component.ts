@@ -415,6 +415,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   isPreviewCollapsed: boolean = false;
   isCannotSubmitCollapsed: boolean = false;
   isViewResultsCollapsed: boolean = false;
+  isRemindStudentCollapsed: boolean = false;
   isViewAllResponsesCollapsed: boolean = false;
   isAddCommentCollapsed: boolean = false;
   isEditDelCommentCollapsed: boolean = false;

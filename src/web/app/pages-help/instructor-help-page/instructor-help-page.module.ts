@@ -55,34 +55,36 @@ import {
 import {
   InstructorHelpStudentsSectionComponent,
 } from './instructor-help-students-section/instructor-help-students-section.component';
+import {SessionsTableModule} from "../../components/sessions-table/sessions-table.module";
 
 /**
  * Module for instructor help page.
  */
 @NgModule({
-  imports: [
-    CommentBoxModule,
-    CommonModule,
-    FormsModule,
-    NgbModule,
-    RouterModule,
-    StudentProfileModule,
-    QuestionEditFormModule,
-    ReactiveFormsModule,
-    InstructorSearchPageModule,
-    InstructorCourseStudentEditPageModule,
-    InstructorCoursesPageModule,
-    InstructorSessionEditPageModule,
-    InstructorSessionResultPageModule,
-    SessionEditFormModule,
-    QuestionEditFormModule,
-    QuestionSubmissionFormModule,
-    SessionsRecycleBinTableModule,
-    InstructorSessionResultPageModule,
-    QuestionTextWithInfoModule,
-    SingleStatisticsModule,
-    StudentViewResponsesModule,
-  ],
+    imports: [
+        CommentBoxModule,
+        CommonModule,
+        FormsModule,
+        NgbModule,
+        RouterModule,
+        StudentProfileModule,
+        QuestionEditFormModule,
+        ReactiveFormsModule,
+        InstructorSearchPageModule,
+        InstructorCourseStudentEditPageModule,
+        InstructorCoursesPageModule,
+        InstructorSessionEditPageModule,
+        InstructorSessionResultPageModule,
+        SessionEditFormModule,
+        QuestionEditFormModule,
+        QuestionSubmissionFormModule,
+        SessionsRecycleBinTableModule,
+        InstructorSessionResultPageModule,
+        QuestionTextWithInfoModule,
+        SingleStatisticsModule,
+        StudentViewResponsesModule,
+        SessionsTableModule,
+    ],
   declarations: [
     InstructorHelpPageComponent,
     InstructorHelpStudentsSectionComponent,

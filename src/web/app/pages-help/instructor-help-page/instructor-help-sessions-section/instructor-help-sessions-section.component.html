@@ -296,7 +296,7 @@
   </div>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(showQuestion, 4, 7)">Managing Session Responses</h4>
+  <h4 *ngIf="displaySubsection(showQuestion, 4, 8)">Managing Session Responses</h4>
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="session-cannot-submit">
     <p>
@@ -466,8 +466,35 @@
       <br/>
     </div>
   </div>
+  <!-- Button -->
+  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="session-remind-student">
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="isRemindStudentCollapsed = !isRemindStudentCollapsed" [attr.aria-expanded]="!isRemindStudentCollapsed">
+        How do I remind students to fill in the questions?
+      </button>
+    </p>
+    <div [ngbCollapse]="!isRemindStudentCollapsed">
+      <div class="card">
+        <div class="card-body">
+          <p>
+            Remind students who have not yet filled in the questions of a session by clicking the <button class="btn btn-sm btn-secondary">Remind</button> button of a session in the <b>Home</b> or <b>Sessions</b> page.<br>
+          </p>
+          <p>You have multiple ways of selecting the students you'd like to remind. You can pick and choose individuals from the table within the modal or use a bulk selection checkbox. This gives you the possibility to either remind all students who haven't yet provided a response ("Select all respondent not yet submitted") or send a reminder to all students ("Select all respondents").
+          </p>
+          <tm-example-box>
+            <div class="card-body row">
+              <div class="col-md-6">
+                <tm-send-reminders-to-student-modal></tm-send-reminders-to-student-modal>
+              </div>
+            </div>
+          </tm-example-box>
+        </div>
+      </div>
+      <br/>
+    </div>
+  </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isViewAllResponsesCollapsed = !isViewAllResponsesCollapsed" [attr.aria-expanded]="!isViewAllResponsesCollapsed">
         How do I view all the responses a student has given and received?
@@ -494,9 +521,9 @@
   </div>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(showQuestion, 7, 10)">Adding Comments to Responses</h4>
+  <h4 *ngIf="displaySubsection(showQuestion, 8, 11)">Adding Comments to Responses</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="session-add-comments">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question id="session-add-comments">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isAddCommentCollapsed = !isAddCommentCollapsed" [attr.aria-expanded]="!isAddCommentCollapsed">
         How do I create a comment on a response?
@@ -546,7 +573,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isEditDelCommentCollapsed = !isEditDelCommentCollapsed" [attr.aria-expanded]="!isEditDelCommentCollapsed">
         How do I edit or delete a comment on a response?
@@ -582,7 +609,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isSearchCollapsed = !isSearchCollapsed" [attr.aria-expanded]="!isSearchCollapsed">
         How do I search for a feedback session question, response or comment on a response?
@@ -619,9 +646,9 @@
   </div>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(showQuestion, 10, 14)">Restoring Deleted Sessions</h4>
+  <h4 *ngIf="displaySubsection(showQuestion, 11, 15)">Restoring Deleted Sessions</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question id="view-deleted-session">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="view-deleted-session">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isViewDeletedCollapsed = !isViewDeletedCollapsed" [attr.aria-expanded]="!isViewDeletedCollapsed">
         How do I view sessions I have deleted?
@@ -650,7 +677,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="restore-session">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[12]" #question id="restore-session">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isRestoreSessionCollapsed = !isRestoreSessionCollapsed" [attr.aria-expanded]="!isRestoreSessionCollapsed">
         How do I restore a deleted session?
@@ -678,7 +705,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[12]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isDelSessionCollapsed = !isDelSessionCollapsed" [attr.aria-expanded]="!isDelSessionCollapsed">
         How do I permanently delete a session?
@@ -706,7 +733,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[14]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isRestoreDelAllCollapsed = !isRestoreDelAllCollapsed" [attr.aria-expanded]="!isRestoreDelAllCollapsed">
         How do I restore/delete all sessions from Recycle Bin?
