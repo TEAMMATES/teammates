@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 
 /**
  * API output format for session results, including statistics.
@@ -436,7 +437,6 @@ public class SessionResultsData extends ApiOutput {
 
         private boolean isMissingResponse;
 
-        // TODO: security risk: responseId can expose giver and recipient email
         private String responseId;
 
         private String giver;
@@ -564,7 +564,7 @@ public class SessionResultsData extends ApiOutput {
             }
 
             public Builder withResponseId(String responseId) {
-                responseOutput.responseId = responseId;
+                responseOutput.responseId = StringHelper.encrypt(responseId);
                 return this;
             }
 
