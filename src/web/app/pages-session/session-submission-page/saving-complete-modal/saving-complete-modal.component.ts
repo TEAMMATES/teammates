@@ -15,10 +15,14 @@ export class SavingCompleteModalComponent implements OnInit {
   notYetAnsweredQuestions: string = '';
 
   @Input()
-  failToSaveQuestions: string = '';
+  failToSaveQuestions: Record<string, string> = {};
 
   @Input()
   hasSubmissionConfirmationError: boolean = false;
+
+  get hasFailToSaveQuestions(): boolean {
+    return Object.keys(this.failToSaveQuestions).length !== 0;
+  }
 
   constructor(public activeModal: NgbActiveModal) {}
 

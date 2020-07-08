@@ -520,7 +520,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveFeedbackResponses(): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
-    const failToSaveQuestions: Set<number> = new Set();
+    const failToSaveQuestions: Record<string, string> = {};
     const savingRequests: Observable<any>[] = [];
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
@@ -548,7 +548,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                   }),
                   catchError((error: any) => {
                     this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
-                    failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                    failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
+                        (error as ErrorMessageOutput).error.message;
                     return of(error);
                   }),
               ));
@@ -574,7 +575,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
                         this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
-                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
+                            (error as ErrorMessageOutput).error.message;
                         return of(error);
                       }),
                   ));
@@ -600,7 +602,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
                       catchError((error: any) => {
                         this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
-                        failToSaveQuestions.add(questionSubmissionFormModel.questionNumber);
+                        failToSaveQuestions[questionSubmissionFormModel.questionNumber]
+                            = (error as ErrorMessageOutput).error.message;
                         return of(error);
                       }),
                   ));
@@ -616,7 +619,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     let hasSubmissionConfirmationError: boolean = false;
     forkJoin(savingRequests).pipe(
         switchMap(() => {
-          if (failToSaveQuestions.size === 0) {
+          if (Object.keys(failToSaveQuestions).length === 0) {
             this.statusMessageService.showSuccessToast('All responses submitted successfully!');
           } else {
             this.statusMessageService.showErrorToast('Some responses are not saved successfully');
@@ -644,7 +647,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
           const modalRef: NgbModalRef = this.modalService.open(SavingCompleteModalComponent);
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values()).join(', ');
-          modalRef.componentInstance.failToSaveQuestions = Array.from(failToSaveQuestions.values()).join(', ');
+          modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
           modalRef.componentInstance.hasSubmissionConfirmationError = hasSubmissionConfirmationError;
         }),
     ).subscribe((response: ConfirmationResponse) => {
