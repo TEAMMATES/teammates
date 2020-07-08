@@ -8,15 +8,20 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Gender, Instructor,
-  QuestionOutput, ResponseOutput,
-  SessionResults, Student,
+  Gender,
+  Instructor,
+  QuestionOutput,
+  ResponseOutput,
+  SessionResults,
+  Student,
   StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -65,6 +70,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
               private studentService: StudentService,
               private instructorService: InstructorService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              private tableComparatorService: TableComparatorService,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe) {
@@ -149,7 +155,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         }, (errorMessageOutput: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-        });
+        }, () => this.sortFeedbackSessions());
   }
 
   /**
@@ -166,6 +172,19 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
 
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
+    });
+  }
+
+  /**
+   * Sorts the student's feedback sessions according to name
+   */
+  private sortFeedbackSessions(): void {
+    this.sessionTabs.sort((a: SessionTab, b: SessionTab) => {
+      return this.tableComparatorService.compare(
+          SortBy.SESSION_NAME,
+          SortOrder.ASC,
+          a.feedbackSession.feedbackSessionName,
+          b.feedbackSession.feedbackSessionName);
     });
   }
 }
