@@ -69,33 +69,17 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
-      case SortBy.CONSTSUM_OPTIONS_POINTS:
-      case SortBy.CONSTSUM_RECIPIENTS_POINTS:
       case SortBy.CONTRIBUTION_VALUE:
       case SortBy.RUBRIC_CHOICE:
       case SortBy.RANK_RECIPIENTS_TEAM:
       case SortBy.RANK_RECIPIENTS_RECIPIENT:
       case SortBy.RANK_OPTIONS_OVERALL_RANK:
-      case SortBy.NUMERICAL_SCALE_AVERAGE:
       case SortBy.NUMERICAL_SCALE_MAX:
       case SortBy.NUMERICAL_SCALE_MIN:
-      case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
-      case SortBy.MCQ_WEIGHT:
       case SortBy.MCQ_RESPONSE_COUNT:
-      case SortBy.MCQ_PERCENTAGE:
-      case SortBy.MCQ_WEIGHTED_PERCENTAGE:
       case SortBy.MCQ_OPTION_SELECTED_TIMES:
-      case SortBy.MCQ_WEIGHT_TOTAL:
-      case SortBy.MCQ_WEIGHT_AVERAGE:
-      case SortBy.MSQ_WEIGHT:
       case SortBy.MSQ_RESPONSE_COUNT:
-      case SortBy.MSQ_PERCENTAGE:
-      case SortBy.MSQ_WEIGHTED_PERCENTAGE:
       case SortBy.MSQ_OPTION_SELECTED_TIMES:
-      case SortBy.MSQ_WEIGHT_TOTAL:
-      case SortBy.MSQ_WEIGHT_AVERAGE:
-      case SortBy.RUBRIC_TOTAL_CHOSEN_WEIGHT:
-      case SortBy.RUBRIC_WEIGHT_AVERAGE:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
@@ -134,6 +118,23 @@ export class TableComparatorService {
       case SortBy.RECIPIENT_TEAM:
       case SortBy.RECIPIENT_NAME:
         return this.compareLexicographically(strA, strB, order);
+      case SortBy.CONSTSUM_OPTIONS_POINTS:
+      case SortBy.CONSTSUM_RECIPIENTS_POINTS:
+      case SortBy.RUBRIC_WEIGHT_AVERAGE:
+      case SortBy.RUBRIC_TOTAL_CHOSEN_WEIGHT:
+      case SortBy.NUMERICAL_SCALE_AVERAGE:
+      case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
+      case SortBy.MCQ_WEIGHT:
+      case SortBy.MCQ_PERCENTAGE:
+      case SortBy.MCQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MCQ_WEIGHT_TOTAL:
+      case SortBy.MCQ_WEIGHT_AVERAGE:
+      case SortBy.MSQ_WEIGHT:
+      case SortBy.MSQ_PERCENTAGE:
+      case SortBy.MSQ_WEIGHTED_PERCENTAGE:
+      case SortBy.MSQ_WEIGHT_TOTAL:
+      case SortBy.MSQ_WEIGHT_AVERAGE:
+        return this.compareFloats(strA, strB, order);
       default:
         return 0;
     }
