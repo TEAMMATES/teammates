@@ -17,7 +17,7 @@
       <div class="col-md-12">
         <tm-status-message [messages]="statusMessage"></tm-status-message>
         <div class="card card-default">
-          <div id="toggle-existing-students" class="card-header"
+          <div id="toggle-existing-students" class="card-header cursor-pointer"
                (click)="toggleExistingStudentsPanel()">
             <b class="existing-students-status-message">Existing Students</b>
             <div class="float-right margin-left-7px">
@@ -48,7 +48,7 @@
           </hot-table>
         </div>
         <div class="card card-default">
-          <div class="card-header" (click)="toggleNewStudentsPanel()">
+          <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
             <div class="float-right margin-left-7px">
               <i class="fas fa-chevron-{{ isNewStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>

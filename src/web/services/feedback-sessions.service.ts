@@ -310,12 +310,14 @@ export class FeedbackSessionsService {
                          intent: Intent,
                          indicateMissingResponses: boolean,
                          showStatistics: boolean,
+                         questionId?: string,
                          groupBySection?: string,
                          sectionDetail?: InstructorSessionResultSectionType): Observable<string> {
     return this.getFeedbackSessionResults({
       courseId,
       feedbackSessionName,
       intent,
+      questionId,
       groupBySection,
     }).pipe(
         map((results: SessionResults) =>

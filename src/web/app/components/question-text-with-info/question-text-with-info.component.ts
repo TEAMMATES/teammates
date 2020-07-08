@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionDetails, FeedbackQuestionType } from '../../../types/api-output';
 
 /**
@@ -16,6 +16,9 @@ export class QuestionTextWithInfoComponent implements OnInit {
     questionType: FeedbackQuestionType.TEXT,
     questionText: '',
   };
+  @Input() shouldShowDownloadQuestionResult: boolean = false;
+
+  @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;

@@ -47,7 +47,7 @@ export class SearchService {
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.searchStudents(searchKey).pipe(
+    return this.searchStudents(searchKey, 'instructor').pipe(
       map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
       mergeMap((coursesWithSections: SearchStudentsTable[]) =>
         forkJoin([
@@ -71,7 +71,7 @@ export class SearchService {
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin([
-      this.searchStudents(searchKey),
+      this.searchStudents(searchKey, 'admin'),
       this.searchInstructors(searchKey),
     ]).pipe(
       map((value: [Students, Instructors]): [Student[], Instructor[]] =>
@@ -94,9 +94,10 @@ export class SearchService {
     );
   }
 
-  searchStudents(searchKey: string): Observable<Students> {
+  searchStudents(searchKey: string, entityType: string): Observable<Students> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
+      entitytype: entityType,
     };
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
   }
