@@ -8,13 +8,13 @@
   </div>
   <div class="row">
     <div class="col-sm-12 table-responsive">
-      <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData"></tm-sortable-table>
+      <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData" [initialColumnIndexToSortBy]="3"></tm-sortable-table>
     </div>
     <div class="col-sm-12 table-responsive" *ngIf="question.hasAssignedWeights" style="margin-top: 20px;">
       <strong class="text-color-gray">
         Per Recipient Statistics
       </strong>
-      <tm-sortable-table [rows]="perRecipientRowsData" [columns]="perRecipientColumnsData"></tm-sortable-table>
+      <tm-sortable-table [rows]="perRecipientRowsData" [columns]="perRecipientColumnsData" [initialColumnIndexToSortBy]="4"></tm-sortable-table>
     </div>
   </div>
 </div>

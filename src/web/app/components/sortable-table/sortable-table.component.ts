@@ -49,6 +49,9 @@ export class SortableTableComponent implements OnInit {
   @Input()
   rows: SortableTableCellData[][] = [];
 
+  @Input()
+  initialColumnIndexToSortBy: number = -1;
+
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
   tableRows: SortableTableCellData[][] = [];
@@ -57,6 +60,7 @@ export class SortableTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableRows = this.rows.slice(); // Shallow clone to avoid reordering original array
+    this.initialSort(); // Performs an initial sort on the table
   }
 
   ngOnChanges(): void {
@@ -94,4 +98,19 @@ export class SortableTableComponent implements OnInit {
     });
   }
 
+  /**
+   * Sorts the table with initial column index or leftmost sortable column
+   */
+  initialSort(): void {
+    let indexOfColumnToSort: number = this.initialColumnIndexToSortBy;
+    if (indexOfColumnToSort < 0 || indexOfColumnToSort >= this.columns.length) {
+      indexOfColumnToSort = this.columns.findIndex((column: ColumnData) => column.sortBy);
+      if (indexOfColumnToSort < 0) {
+        return;
+      }
+    }
+
+    this.columnToSortBy = this.columns[indexOfColumnToSort].header;
+    this.sortRows();
+  }
 }
