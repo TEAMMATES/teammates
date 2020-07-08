@@ -32,4 +32,20 @@ describe('SortableService', () => {
     expect(service.compare(SortBy.SECTION_NAME, SortOrder.ASC, 'Team 2' , 'Team 11')).toEqual(-1);
     expect(service.compare(SortBy.STUDENT_NAME, SortOrder.ASC, 'Team 2' , 'Team 11')).toEqual(1);
   });
+
+  it('should compare floating point numbers correctly', () => {
+    expect(service.compareFloats('30.5', '30.31', SortOrder.ASC)).toEqual(1);
+    expect(service.compareFloats('0.67', '0.66', SortOrder.DESC)).toEqual(-1);
+    expect(service.compareFloats('0.76', '0.76', SortOrder.ASC)).toEqual(0);
+    expect(service.compareFloats('1.76', '1.76', SortOrder.DESC)).toEqual(0);
+  });
+
+  it('should compare NaN correctly', () => {
+    expect(service.compareFloats('-', '1.34', SortOrder.ASC)).toEqual(1);
+    expect(service.compareFloats('-', '1.34', SortOrder.DESC)).toEqual(1);
+    expect(service.compareFloats('1.34', 'NaN', SortOrder.ASC)).toEqual(-1);
+    expect(service.compareFloats('1.34', 'NaN', SortOrder.DESC)).toEqual(-1);
+    expect(service.compareFloats('-', 'NaN', SortOrder.ASC)).toEqual(1);
+    expect(service.compareFloats('NaN', '-', SortOrder.DESC)).toEqual(1);
+  });
 });
