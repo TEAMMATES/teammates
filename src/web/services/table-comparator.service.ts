@@ -38,6 +38,33 @@ export class TableComparatorService {
   }
 
   /**
+   * Compares two strings which are expected to be floating point numbers depending on the order given.
+   * If either string cannot be parsed into number, it will be seen as 'smaller'
+   * If both strings cannot be parsed into number, strA will always be seen as 'larger'
+   */
+  compareFloats(strA: string, strB: string, order: SortOrder): number {
+    const numA: number = Number(strA);
+    const numB: number = Number(strB);
+    if (Number.isNaN(numA)) {
+      return 1;
+    }
+
+    if (Number.isNaN(numB)) {
+      return -1;
+    }
+
+    if (order === SortOrder.ASC) {
+      return numA < numB ? -1 : (numA > numB ? 1 : 0);
+    }
+
+    if (order === SortOrder.DESC) {
+      return numA < numB ? 1 : (numA > numB ? -1 : 0);
+    }
+
+    return 0;
+  }
+
+  /**
    * Compares two strings depending on element to sort by and the order given.
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
