@@ -32,7 +32,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   // enum
   Gender: typeof Gender = Gender;
   SortBy: typeof SortBy = SortBy;
-  teammateProfilesSortBy: SortBy = SortBy.NONE;
+  teammateProfilesSortBy: SortBy = SortBy.STUDENT_NAME;
 
   // data
   student: Student = {
