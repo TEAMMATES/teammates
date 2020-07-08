@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
+import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -21,6 +22,7 @@ import {
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { ConfirmationModalType } from '../../components/confirmation-modal/confirmation-modal-type';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -78,11 +80,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
+              private confirmationModalService: ConfirmationModalService,
               private courseService: CourseService,
-              private ngbModal: NgbModal,
               private loadingBarService: LoadingBarService) {
-    super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
+    super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
+        feedbackQuestionsService, tableComparatorService, modalService, studentService);
   }
 
   ngOnInit(): void {
@@ -117,26 +119,26 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Open the modal for different buttons and link.
-   */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
-  }
-
-  /**
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.courseService.changeArchiveStatus(courseId, {
-      archiveStatus: true,
-    }).subscribe((courseArchive: CourseArchive) => {
-      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-        return model.course.courseId !== courseId;
+    const modalContent: string = `Are you sure you want to archive <strong>${courseId}</strong>? ` +
+        'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
+
+    const modalRef: NgbModalRef =
+        this.confirmationModalService.open('Confirm archiving course', ConfirmationModalType.INFO, modalContent);
+    modalRef.result.then(() => {
+      this.courseService.changeArchiveStatus(courseId, {
+        archiveStatus: true,
+      }).subscribe((courseArchive: CourseArchive) => {
+        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+          return model.course.courseId !== courseId;
+        });
+        this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
+            You can retrieve it from the Courses page.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
-      this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
-          You can retrieve it from the Courses page.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -144,14 +146,21 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    this.courseService.binCourse(courseId).subscribe((course: Course) => {
-      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-        return model.course.courseId !== courseId;
+    const modalContent: string = `Are you sure you want to delete the course ${courseId}? ` +
+        'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
+
+    const modalRef: NgbModalRef = this.confirmationModalService
+        .open('Warning: Confirm moving course to Recycle Bin', ConfirmationModalType.WARNING, modalContent);
+    modalRef.result.then(() => {
+      this.courseService.binCourse(courseId).subscribe((course: Course) => {
+        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+          return model.course.courseId !== courseId;
+        });
+        this.statusMessageService.showSuccessToast(
+            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
-      this.statusMessageService.showSuccessToast(
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
   /**

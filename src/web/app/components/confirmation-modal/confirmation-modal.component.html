@@ -1,0 +1,31 @@
+<div class="modal-header"
+     [ngClass]="{
+     'bg-danger text-white' : type === ConfirmationModalType.DANGER,
+     'bg-warning' : type === ConfirmationModalType.WARNING,
+     'bg-info' : type === ConfirmationModalType.INFO,
+     'bg-white' : type === ConfirmationModalType.NEUTRAL}">
+  <div>
+    <h5 class="modal-title">
+      <i *ngIf="type === ConfirmationModalType.DANGER" class="fas fa-times-circle"></i>
+      <i *ngIf="type === ConfirmationModalType.WARNING" class="fas fa-exclamation-circle"></i>
+      <i *ngIf="type === ConfirmationModalType.INFO" class="fas fa-info-circle"></i>
+      {{header}}
+    </h5>
+  </div>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <div [innerHTML]="content"></div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
+  <button type="button" class="btn"
+          [ngClass]="{
+          'btn-danger' : type === ConfirmationModalType.DANGER,
+          'btn-warning' : type === ConfirmationModalType.WARNING,
+          'btn-info' : type === ConfirmationModalType.INFO,
+          'btn-primary' : type === ConfirmationModalType.NEUTRAL}"
+          (click)="activeModal.close()">Yes</button>
+</div>

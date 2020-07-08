@@ -137,15 +137,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
-              modalService: NgbModal,
+              ngbModalService: NgbModal,
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
-    super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
+    super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
+        feedbackQuestionsService, tableComparatorService, ngbModalService, studentService);
   }
 
   ngOnInit(): void {
