@@ -5,6 +5,7 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
@@ -15,9 +16,8 @@ import {
   FeedbackSessionSubmissionStatus,
   HasResponses,
 } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentCourse {
   course: Course;
@@ -163,7 +163,7 @@ export class StudentHomePageComponent implements OnInit {
   }
 
   sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
-    return ((a: StudentCourse, b: StudentCourse ): number => {
+    return ((a: StudentCourse, b: StudentCourse): number => {
       let strA: string;
       let strB: string;
       switch (by) {

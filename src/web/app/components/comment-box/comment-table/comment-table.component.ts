@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
-import { CommentRowMode, CommentRowModel } from '../comment-row/comment-row.component';
-import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
+import { CommentRowMode, CommentRowModel } from '../comment-row/comment-row.component';
 
 /**
  * Model for CommentTableComponent.

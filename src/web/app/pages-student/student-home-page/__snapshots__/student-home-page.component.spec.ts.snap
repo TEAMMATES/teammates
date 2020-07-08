@@ -2,11 +2,13 @@
 
 exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
 <tm-student-home-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
+  sortBy="0"
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -14,9 +16,40 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <div
+    class="row mb-2"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-right"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div
     class="card bg-light top-padded"
   >
     
@@ -329,11 +362,13 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
 
 exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
+  sortBy="0"
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -341,6 +376,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <div>
@@ -359,11 +395,13 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
+  sortBy="0"
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -371,9 +409,40 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <div
+    class="row mb-2"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="float-right"
+      >
+        <strong
+          class="d-inline"
+        >
+           Sort By: 
+        </strong>
+        <div
+          class="btn-group"
+        >
+          <button
+            class="btn btn-light"
+          >
+            Course ID
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Course Name
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div
     class="card bg-light top-padded"
   >
     

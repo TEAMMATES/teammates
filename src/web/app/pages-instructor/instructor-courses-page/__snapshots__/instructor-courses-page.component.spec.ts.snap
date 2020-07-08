@@ -20,7 +20,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -89,13 +89,13 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             >
                Creation Date 
               
+              
+              
               <span>
                 <i
-                  class="fas fa-sort"
+                  class="fas fa-sort-up"
                 />
               </span>
-              
-              
             </th>
             <th>
               Sections
@@ -471,7 +471,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -540,13 +540,13 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             >
                Creation Date 
               
+              
+              
               <span>
                 <i
-                  class="fas fa-sort"
+                  class="fas fa-sort-up"
                 />
               </span>
-              
-              
             </th>
             <th>
               Sections
@@ -928,7 +928,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -975,7 +975,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -1044,13 +1044,13 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             >
                Creation Date 
               
+              
+              
               <span>
                 <i
-                  class="fas fa-sort"
+                  class="fas fa-sort-up"
                 />
               </span>
-              
-              
             </th>
             <th>
               Sections
