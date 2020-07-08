@@ -472,7 +472,7 @@ export class SearchService {
     );
   }
 
-  formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
+  private formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
     const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
     const startTime: string = this.timezoneService
         .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
