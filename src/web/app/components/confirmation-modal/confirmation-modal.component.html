@@ -1,9 +1,10 @@
 <div class="modal-header"
      [ngClass]="{
-     'bg-danger text-white' : type === ConfirmationModalType.DANGER,
-     'bg-warning' : type === ConfirmationModalType.WARNING,
-     'bg-info' : type === ConfirmationModalType.INFO,
-     'bg-white' : type === ConfirmationModalType.NEUTRAL}">
+     'alert-danger' : type === ConfirmationModalType.DANGER,
+     'alert-warning' : type === ConfirmationModalType.WARNING,
+     'alert-info' : type === ConfirmationModalType.INFO,
+     'alert-primary' : type === ConfirmationModalType.PRIMARY,
+     'alert-secondary' : type === ConfirmationModalType.NEUTRAL}">
   <div>
     <h5 class="modal-title">
       <i *ngIf="type === ConfirmationModalType.DANGER" class="fas fa-times-circle"></i>
@@ -28,6 +29,6 @@
           'btn-danger' : type === ConfirmationModalType.DANGER,
           'btn-warning' : type === ConfirmationModalType.WARNING,
           'btn-info' : type === ConfirmationModalType.INFO,
-          'btn-primary' : type === ConfirmationModalType.NEUTRAL}"
+          'btn-primary' : type === ConfirmationModalType.NEUTRAL || type === ConfirmationModalType.PRIMARY}"
           (click)="activeModal.close()">{{ confirmMessage }}</button>
 </div>

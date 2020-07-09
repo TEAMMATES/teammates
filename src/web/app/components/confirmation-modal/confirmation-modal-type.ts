@@ -15,6 +15,10 @@ export enum ConfirmationModalType {
    */
   INFO,
   /**
+   * Primary modal.
+   */
+  PRIMARY,
+  /**
    * Neutral modal.
    */
   NEUTRAL,

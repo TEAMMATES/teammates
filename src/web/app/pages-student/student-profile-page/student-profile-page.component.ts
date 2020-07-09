@@ -17,9 +17,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
 import { NationalitiesService } from '../../../services/nationalities.service';
 import { ConfirmationModalType } from '../../components/confirmation-modal/confirmation-modal-type';
-import {
-  UploadEditProfilePictureModalComponent,
-} from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 /**
  * Student profile page.
@@ -110,7 +108,8 @@ export class StudentProfilePageComponent implements OnInit {
    * Prompts the user with a modal box to confirm changes made to the form.
    */
   onSubmit(): void {
-    this.confirmationModalService.open('Save Changes?', ConfirmationModalType.NEUTRAL, 'Are you sure you want to make changes to your profile?');
+    const modalRef: NgbModalRef = this.confirmationModalService.open('Save Changes?', ConfirmationModalType.PRIMARY, 'Are you sure you want to make changes to your profile?');
+    modalRef.result.then(() => this.submitEditForm(), () => {});
   }
 
   /**
@@ -181,8 +180,13 @@ export class StudentProfilePageComponent implements OnInit {
   /**
    * Prompts the user with a modal box to confirm deleting the profile picture.
    */
-  onDelete(confirmDeleteProfilePicture: any): void {
-    this.ngbModal.open(confirmDeleteProfilePicture);
+  onDelete(): void {
+    const modalRef: NgbModalRef = this.confirmationModalService
+        .open('Confirm Deletion?', ConfirmationModalType.DANGER,
+        'Are you sure you want to delete your profile picture?');
+    modalRef.result.then(() => {
+      this.deleteProfilePicture();
+    }, () => {});
   }
 
   /**
