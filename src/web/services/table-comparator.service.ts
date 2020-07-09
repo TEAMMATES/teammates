@@ -38,11 +38,11 @@ export class TableComparatorService {
   }
 
   /**
-   * Compares two strings which are expected to be floating point numbers depending on the order given.
+   * Compares two strings which are expected to be numbers depending on the order given.
    * If either string cannot be parsed into number, it will be seen as 'smaller'
    * If both strings cannot be parsed into number, strA will always be seen as 'larger'
    */
-  compareFloats(strA: string, strB: string, order: SortOrder): number {
+  compareNumbers(strA: string, strB: string, order: SortOrder): number {
     const numA: number = Number(strA);
     const numB: number = Number(strB);
     if (Number.isNaN(numA)) {
@@ -53,15 +53,7 @@ export class TableComparatorService {
       return -1;
     }
 
-    if (order === SortOrder.ASC) {
-      return numA < numB ? -1 : (numA > numB ? 1 : 0);
-    }
-
-    if (order === SortOrder.DESC) {
-      return numA < numB ? 1 : (numA > numB ? -1 : 0);
-    }
-
-    return 0;
+    return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
   }
 
   /**
@@ -134,7 +126,7 @@ export class TableComparatorService {
       case SortBy.MSQ_WEIGHTED_PERCENTAGE:
       case SortBy.MSQ_WEIGHT_TOTAL:
       case SortBy.MSQ_WEIGHT_AVERAGE:
-        return this.compareFloats(strA, strB, order);
+        return this.compareNumbers(strA, strB, order);
       default:
         return 0;
     }
