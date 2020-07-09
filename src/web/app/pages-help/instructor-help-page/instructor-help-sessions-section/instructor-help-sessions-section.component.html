@@ -9,7 +9,7 @@
         Tips for conducting team peer evaluation sessions
       </button>
     </p>
-    <div [ngbCollapse]="!isPeerEvalTipsCollapsed">
+    <div *ngIf="isPeerEvalTipsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -63,7 +63,7 @@
         How do I create and schedule a new feedback session?
       </button>
     </p>
-    <div [ngbCollapse]="!isNewFeedbackSessionCollapsed">
+    <div *ngIf="isNewFeedbackSessionCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
@@ -154,7 +154,7 @@
         How do I add questions to a session?
       </button>
     </p>
-    <div [ngbCollapse]="!isAddQuestionsCollapsed">
+    <div *ngIf="isAddQuestionsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -255,7 +255,7 @@
         How do I preview a session?
       </button>
     </p>
-    <div [ngbCollapse]="!isPreviewCollapsed">
+    <div *ngIf="isPreviewCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -304,7 +304,7 @@
         What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
       </button>
     </p>
-    <div [ngbCollapse]="!isCannotSubmitCollapsed">
+    <div *ngIf="isCannotSubmitCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -339,7 +339,7 @@
         How do I view the results of my session?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewResultsCollapsed">
+    <div *ngIf="isViewResultsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -473,7 +473,7 @@
         How do I view all the responses a student has given and received?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewAllResponsesCollapsed">
+    <div *ngIf="isViewAllResponsesCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -502,7 +502,7 @@
         How do I create a comment on a response?
       </button>
     </p>
-    <div [ngbCollapse]="!isAddCommentCollapsed">
+    <div *ngIf="isAddCommentCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -552,7 +552,7 @@
         How do I edit or delete a comment on a response?
       </button>
     </p>
-    <div [ngbCollapse]="!isEditDelCommentCollapsed">
+    <div *ngIf="isEditDelCommentCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -588,7 +588,7 @@
         How do I search for a feedback session question, response or comment on a response?
       </button>
     </p>
-    <div [ngbCollapse]="!isSearchCollapsed">
+    <div *ngIf="isSearchCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
@@ -627,7 +627,7 @@
         How do I view sessions I have deleted?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewDeletedCollapsed">
+    <div *ngIf="isViewDeletedCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -656,7 +656,7 @@
         How do I restore a deleted session?
       </button>
     </p>
-    <div [ngbCollapse]="!isRestoreSessionCollapsed">
+    <div *ngIf="isRestoreSessionCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -684,7 +684,7 @@
         How do I permanently delete a session?
       </button>
     </p>
-    <div [ngbCollapse]="!isDelSessionCollapsed">
+    <div *ngIf="isDelSessionCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -712,7 +712,7 @@
         How do I restore/delete all sessions from Recycle Bin?
       </button>
     </p>
-    <div [ngbCollapse]="!isRestoreDelAllCollapsed">
+    <div *ngIf="isRestoreDelAllCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>

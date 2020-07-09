@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  <div [ngbCollapse]="!question.isTabExpanded">
+  <div *ngIf="question.isTabExpanded" @collapseAnim>
     <div class="card-body">
       <div class="stats-table">
         <tm-single-statistics *ngIf="showStatistics"
