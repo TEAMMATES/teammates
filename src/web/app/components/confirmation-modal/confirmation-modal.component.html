@@ -20,12 +20,12 @@
   <div [innerHTML]="content"></div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
+  <button type="button" class="btn btn-light" *ngIf="!isNotificationOnly" (click)="activeModal.dismiss()">No, Cancel the Operation</button>
   <button type="button" class="btn"
           [ngClass]="{
           'btn-danger' : type === ConfirmationModalType.DANGER,
           'btn-warning' : type === ConfirmationModalType.WARNING,
           'btn-info' : type === ConfirmationModalType.INFO,
           'btn-primary' : type === ConfirmationModalType.NEUTRAL}"
-          (click)="activeModal.close()">Yes</button>
+          (click)="activeModal.close()">{{ isNotificationOnly ? 'OK' : 'Yes' }}</button>
 </div>

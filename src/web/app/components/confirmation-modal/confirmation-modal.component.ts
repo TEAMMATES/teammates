@@ -14,6 +14,7 @@ export class ConfirmationModalComponent implements OnInit {
   @Input() header: string = '';
   @Input() content: any = '';
   @Input() type: ConfirmationModalType = ConfirmationModalType.NEUTRAL;
+  @Input() isNotificationOnly?: boolean = false;
 
   // enum
   ConfirmationModalType: typeof  ConfirmationModalType = ConfirmationModalType;
