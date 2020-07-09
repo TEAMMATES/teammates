@@ -9,7 +9,7 @@
       How do I add students to a course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -33,7 +33,7 @@
     <p><button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT] = !questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
       Is there a size limit for a course?
     </button></p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -52,7 +52,7 @@
       What should I do if my course doesn’t have teams?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -71,7 +71,7 @@
       What are sections meant for?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -95,7 +95,7 @@
       How do I enroll students into sections?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -116,7 +116,7 @@
       How do I add instructors to my course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -149,7 +149,7 @@
       How do I edit the information of an instructor in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -185,7 +185,7 @@
       How do I set an instructor's access level?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -222,7 +222,7 @@
       How do I set custom privileges for an instructor?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -248,7 +248,7 @@
       How do I view a list of students in a course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -278,7 +278,7 @@
       How do I change a student's section?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -310,7 +310,7 @@
       What should I do if a student says his/her courses have disappeared from the system?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -329,7 +329,7 @@
       How do I delete students from a course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -360,7 +360,7 @@
       How do I archive a course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -387,7 +387,7 @@
       How do I view courses I have archived?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -410,7 +410,7 @@
       How do I unarchive an archived course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -431,7 +431,7 @@
       How do I view courses I have deleted?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -454,7 +454,7 @@
       How do I restore a deleted course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -476,7 +476,7 @@
       How do I permanently delete a course?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -498,7 +498,7 @@
       How do I restore/delete all courses from Recycle Bin?
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
+    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>

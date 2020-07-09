@@ -126,7 +126,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   ngOnInit(): void {
-
     this.route.queryParams.subscribe((queryParams: any) => {
       this.feedbackSessionsService.getFeedbackSession({
         courseId: queryParams.courseid,
@@ -369,6 +368,26 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       this.section.length === 0 ? undefined : this.sectionType,
     ).subscribe((resp: string) => {
       blob = new Blob([resp], { type: 'text/csv' });
+      saveAs(blob, filename);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
+    const filename: string = `${
+      this.session.feedbackSessionName.concat('_question', String(question.questionNumber))
+    }.csv`;
+
+    this.feedbackSessionsService.downloadSessionResults(
+        this.session.courseId,
+        this.session.feedbackSessionName,
+        Intent.INSTRUCTOR_RESULT,
+        this.indicateMissingResponses,
+        this.showStatistics,
+        question.questionId,
+    ).subscribe((resp: string) => {
+      const blob: any = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);

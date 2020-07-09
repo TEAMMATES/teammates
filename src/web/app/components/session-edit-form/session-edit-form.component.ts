@@ -12,6 +12,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
@@ -23,6 +24,7 @@ import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session
   templateUrl: './session-edit-form.component.html',
   styleUrls: ['./session-edit-form.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: SessionEditFormDatePickerFormatter }],
+  animations: [collapseAnim],
 })
 export class SessionEditFormComponent implements OnInit {
 

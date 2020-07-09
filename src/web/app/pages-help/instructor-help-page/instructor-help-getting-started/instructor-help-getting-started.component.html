@@ -139,13 +139,13 @@
     </p>
     <ul>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, sections: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-secondary btn-sm">Results</button> button.
+        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-secondary btn-sm">Results</button> button.
       </li>
       <li>
         Moderate responses: edit inappropriate responses from respondents before publishing the responses.
       </li>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_ADD_COMMENTS, sections: Sections.sessions}">Add comments to responses</a>: reply to respondents' answers, or add your own notes on a response. You can make your comment visible to other instructors, the response giver, and/or the response giver's team.
+        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_ADD_COMMENTS, section: Sections.sessions}">Add comments to responses</a>: reply to respondents' answers, or add your own notes on a response. You can make your comment visible to other instructors, the response giver, and/or the response giver's team.
       </li>
       <li>
         Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also manually send reminder emails to students at any time while a session is open. Click the <button class="btn btn-sm btn-secondary">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.
@@ -188,7 +188,7 @@
         <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_EMAIL, section: Sections.students}">Email a group of students</a>: contact students regarding their feedback responses, or the course in general. Also handy for locating the email address of past students.
       </li>
       <li>
-        Search: <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_SEARCH, section: Sections.students}">search for students, teams or sections</a>, or <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_SEARCH, sections: Sections.sessions}">search for questions, responses or comments</a>.
+        Search: <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_SEARCH, section: Sections.students}">search for students, teams or sections</a>, or <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_SEARCH, section: Sections.sessions}">search for questions, responses or comments</a>.
       </li>
       <li>
         <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ARCHIVE, section: Sections.courses}">Archive old courses</a>: archive old courses that you no longer need actively.

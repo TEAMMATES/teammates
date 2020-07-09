@@ -98,7 +98,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
       scrollTarget: `#${target}`,
       scrollOffset: 70,
       scrollFinishListener: this.scrollFinishEvent,
-    }), timeout ? timeout : 600);
+    }), timeout ? timeout : 500);
   }
 
   /**

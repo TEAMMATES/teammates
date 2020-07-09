@@ -168,9 +168,10 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for students', () => {
-    service.searchStudents('Alice');
+    service.searchStudents('Alice', 'instructor');
     const paramMap: { [key: string]: string } = {
       searchkey: 'Alice',
+      entitytype: 'instructor',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(
       '/search/students',

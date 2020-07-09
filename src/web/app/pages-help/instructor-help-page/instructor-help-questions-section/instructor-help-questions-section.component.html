@@ -3,13 +3,13 @@
   <!-- Section -->
   <h4 *ngIf="displaySubsection(showQuestion, 0, 10)">Setting Up Questions</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="displaySubsection(showQuestion, 0, 1)" #question>
+  <div class="instr-help-qn-first" *ngIf="displaySubsection(showQuestion, 0, 1)" #question id="{{QuestionsSectionQuestions.ESSAY}}" >
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.ESSAY] = !questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
         Essay Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -46,7 +46,7 @@
         Multiple Choice (Single Answer) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -113,7 +113,7 @@
         Multiple Choice (Multiple Answers) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -138,7 +138,7 @@
         Numerical Scale Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -197,7 +197,7 @@
         Distribute Points (Among Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -255,7 +255,7 @@
         Distribute Points (Among Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -298,7 +298,7 @@
         Team Contribution Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -558,7 +558,7 @@
         Rubric Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -657,7 +657,7 @@
         Rank (Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -703,7 +703,7 @@
         Rank (Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>

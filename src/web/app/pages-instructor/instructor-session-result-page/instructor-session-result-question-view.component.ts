@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { QuestionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
@@ -11,6 +12,7 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
   selector: 'tm-instructor-session-result-question-view',
   templateUrl: './instructor-session-result-question-view.component.html',
   styleUrls: ['./instructor-session-result-question-view.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorSessionResultQuestionViewComponent
     extends InstructorSessionResultView implements OnInit, OnChanges {
@@ -20,6 +22,11 @@ export class InstructorSessionResultQuestionViewComponent
 
   @Input() questions: Record<string, QuestionTabModel> = {};
   @Input() isDisplayOnly: boolean = false;
+
+  @Output() downloadQuestionResult: EventEmitter<{
+    questionNumber: number,
+    questionId: string,
+  }> = new EventEmitter();
 
   questionsOrder: QuestionTabModel[] = [];
 
@@ -40,5 +47,12 @@ export class InstructorSessionResultQuestionViewComponent
         .sort((val1: QuestionTabModel, val2: QuestionTabModel) => {
           return val1.question.questionNumber - (val2.question.questionNumber);
         });
+  }
+
+  /**
+   * Triggers the download of a question result.
+   */
+  triggerDownloadQuestionResult($event: { questionNumber: number, questionId: string }): void {
+    this.downloadQuestionResult.emit($event);
   }
 }

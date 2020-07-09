@@ -1,14 +1,14 @@
 <div *ngIf="groupByTeam">
   <div *ngFor="let teamInfo of teamsToUsers | keyvalue">
     <div class="card top-padded">
-      <div class="card-header bg-warning" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
+      <div class="card-header bg-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key }}
         <div class="float-right">
           <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
       </div>
-      <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
+      <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim>
         <div class="card-body">
           <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
@@ -17,7 +17,7 @@
               <div class="card-header bg-info text-white">
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
-                                            (click)="$event.stopPropagation()"></tm-question-text-with-info>
+                ></tm-question-text-with-info>
               </div>
               <div class="card-body top-padded-small">
                 <tm-single-statistics [responses]="question.allResponses"
@@ -53,7 +53,7 @@
 
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded">
-    <div class="card-header bg-primary text-white" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
+    <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       {{ isGqr ? 'From' : 'To' }}:
       <tm-student-name-with-photo [name]="userInfo"
                        [email]="userToEmail[userInfo]"
@@ -70,19 +70,19 @@
         <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
       </div>
     </div>
-    <div [ngbCollapse]="!userExpanded[userInfo]">
+    <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body top-padded-0">
         <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
-          <div class="card-header bg-info text-white" (click)="question.isTabExpanded = !question.isTabExpanded">
+          <div class="card-header bg-info text-white cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
-                                        (click)="$event.stopPropagation()"></tm-question-text-with-info>
+            ></tm-question-text-with-info>
             <div class="float-right">
               <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
               <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
             </div>
           </div>
-          <div [ngbCollapse]="!question.isTabExpanded">
+          <div *ngIf="question.isTabExpanded" @collapseAnim>
             <div class="card-body top-padded-small">
               <tm-single-statistics [responses]="question.questionOutput.allResponses"
                                     [question]="question.questionOutput.feedbackQuestion.questionDetails"

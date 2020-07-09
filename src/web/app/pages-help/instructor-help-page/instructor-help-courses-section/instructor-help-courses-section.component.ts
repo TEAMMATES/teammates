@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { StudentsSectionQuestions } from '../instructor-help-students-section/students-section-questions';
 import { Sections } from '../sections';
@@ -14,6 +15,7 @@ import { CoursesSectionQuestions } from './courses-section-questions';
   selector: 'tm-instructor-help-courses-section',
   templateUrl: './instructor-help-courses-section.component.html',
   styleUrls: ['./instructor-help-courses-section.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

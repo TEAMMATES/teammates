@@ -231,6 +231,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.clickExpandInstructorLinks();
         searchPage.clickCollapseStudentLinks();
+        searchPage.waitUntilAnimationFinish();
+
         numExpandedStudentRows = searchPage.getNumExpandedRows(studentRow);
         numExpandedInstructorRows = searchPage.getNumExpandedRows(instructorRow);
         assertEquals(numExpandedStudentRows, 0);

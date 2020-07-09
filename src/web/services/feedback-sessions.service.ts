@@ -28,7 +28,6 @@ import {
 } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
-import { TimezoneService } from './timezone.service';
 
 /**
  * A template session.
@@ -47,7 +46,6 @@ export interface TemplateSession {
 export class FeedbackSessionsService {
 
   constructor(private httpRequestService: HttpRequestService,
-              private timezoneService: TimezoneService,
               private sessionResultCsvService: SessionResultCsvService) {
   }
 
@@ -312,12 +310,14 @@ export class FeedbackSessionsService {
                          intent: Intent,
                          indicateMissingResponses: boolean,
                          showStatistics: boolean,
+                         questionId?: string,
                          groupBySection?: string,
                          sectionDetail?: InstructorSessionResultSectionType): Observable<string> {
     return this.getFeedbackSessionResults({
       courseId,
       feedbackSessionName,
       intent,
+      questionId,
       groupBySection,
     }).pipe(
         map((results: SessionResults) =>
@@ -412,15 +412,4 @@ export class FeedbackSessionsService {
     return feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
   }
 
-  /**
-   * Generates the name fragment of a feedbackSession for display on the frontend.
-   */
-  generateNameFragment(feedbackSession: FeedbackSession): string {
-    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM yyyy, hh:mm A Z';
-    const startTime: string = this.timezoneService
-        .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
-    const endTime: string = this.timezoneService
-        .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
-    return `${feedbackSession.feedbackSessionName} ${startTime}-${endTime}`;
-  }
 }
