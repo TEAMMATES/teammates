@@ -1,18 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { ConfirmationModalType } from '../confirmation-modal/confirmation-modal-type';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
-import {
-  ConfirmPublishingSessionModalComponent,
-} from './confirm-publishing-session-modal/confirm-publishing-session-modal.component';
-import {
-  ConfirmSessionMoveToRecycleBinModalComponent,
-} from './confirm-session-move-to-recycle-bin-modal/confirm-session-move-to-recycle-bin-modal.component';
-import {
-  ConfirmUnpublishingSessionModalComponent,
-} from './confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -92,7 +85,7 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private confirmationModalService: ConfirmationModalService) { }
 
   /**
    * Sorts the list of feedback session row.
@@ -105,7 +98,10 @@ export class SessionsTableComponent implements OnInit {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(rowIndex: number): void {
-    this.modalService.open(ConfirmSessionMoveToRecycleBinModalComponent).result.then(() => {
+    const modalContent: string = 'Warning: The session will be moved to the recycle bin.';
+    const modalRef: NgbModalRef = this.confirmationModalService.open('Are you sure you want to continue?',
+        ConfirmationModalType.WARNING, modalContent);
+    modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
     }, () => {});
   }
@@ -132,9 +128,13 @@ export class SessionsTableComponent implements OnInit {
    * Publishes a feedback session.
    */
   publishSession(rowIndex: number): void {
-    const modalRef: NgbModalRef = this.modalService.open(ConfirmPublishingSessionModalComponent);
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
+    const modalContent: string = `Are you sure you want to publish the responses for the session
+        ${model.feedbackSession.feedbackSessionName}?
+        An email will be sent to students to inform them that the responses are ready for viewing`;
+
+    const modalRef: NgbModalRef = this.confirmationModalService.open('Confirm publishing responses',
+        ConfirmationModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.publishSessionEvent.emit(rowIndex);
@@ -145,9 +145,14 @@ export class SessionsTableComponent implements OnInit {
    * Unpublishes a feedback session.
    */
   unpublishSession(rowIndex: number): void {
-    const modalRef: NgbModalRef = this.modalService.open(ConfirmUnpublishingSessionModalComponent);
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
+    const modalContent: string = `Are you sure you want to unpublish the session
+        ${model.feedbackSession.feedbackSessionName}?
+        An email will be sent to students to inform them that the session has been unpublished
+        and the session responses will no longer be viewable by students.`;
+
+    const modalRef: NgbModalRef = this.confirmationModalService.open('Confirm unpublishing responses',
+        ConfirmationModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.unpublishSessionEvent.emit(rowIndex);

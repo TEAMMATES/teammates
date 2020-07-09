@@ -4,13 +4,13 @@
      'alert-warning' : type === ConfirmationModalType.WARNING,
      'alert-info' : type === ConfirmationModalType.INFO,
      'alert-primary' : type === ConfirmationModalType.PRIMARY,
-     'alert-secondary' : type === ConfirmationModalType.NEUTRAL}">
+     'bg-white' : type === ConfirmationModalType.NEUTRAL}">
   <div>
     <h5 class="modal-title">
       <i *ngIf="type === ConfirmationModalType.DANGER" class="fas fa-times-circle"></i>
       <i *ngIf="type === ConfirmationModalType.WARNING" class="fas fa-exclamation-circle"></i>
       <i *ngIf="type === ConfirmationModalType.INFO" class="fas fa-info-circle"></i>
-      {{header}}
+      <span class="margin-left-5px" [innerHTML]="header"></span>
     </h5>
   </div>
   <button type="button" class="close" (click)="activeModal.dismiss()">

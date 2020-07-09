@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalOptions, ConfirmationModalService } from '../../../../services/confirmation-modal.service';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
@@ -12,6 +12,7 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
+import { ConfirmationModalType } from '../../confirmation-modal/confirmation-modal-type';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
@@ -32,7 +33,7 @@ export class ContributionQuestionEditAnswerFormComponent
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private confirmationModalService: ConfirmationModalService) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS(), DEFAULT_CONTRIBUTION_RESPONSE_DETAILS());
   }
 
@@ -44,10 +45,14 @@ export class ContributionQuestionEditAnswerFormComponent
     return points;
   }
 
-  /**
-   * Opens a modal.
-   */
-  openModal(modal: any): void {
-    this.modalService.open(modal);
+  openHelpModal(): void {
+    const modalHeader: string = 'More info about the <code>Equal Share</code> scale';
+    const modalContent: string = `
+        <p><code>Equal share</code> is a relative measure of individual contribution to a team task.</p>
+        <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
+        <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share,
+            <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>`;
+    const modalOptions: ConfirmationModalOptions = { isNotificationOnly: true, confirmMessage: 'OK' };
+    this.confirmationModalService.open(modalHeader, ConfirmationModalType.NEUTRAL, modalContent, modalOptions);
   }
 }

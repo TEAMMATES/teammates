@@ -14,7 +14,7 @@
     </select>
   </div>
   <div class="col-md-7 col-sm-12" *ngIf="shouldShowHelpLink">
-    <button type="button" class="btn btn-link" (click)="openModal(helpModal)"><i class="fas fa-exclamation-circle"></i> More info about the <code>Equal Share</code> scale</button>
+    <button type="button" class="btn btn-link" (click)="openHelpModal()"><i class="fas fa-exclamation-circle"></i> More info about the <code>Equal Share</code> scale</button>
   </div>
   <ng-template #helpModal let-modal>
     <div class="modal-header">
