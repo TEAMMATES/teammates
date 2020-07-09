@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackSession } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
  * Model for a row of recycle bin feedback session
@@ -16,6 +17,7 @@ export interface RecycleBinFeedbackSessionRowModel {
   selector: 'tm-sessions-recycle-bin-table',
   templateUrl: './sessions-recycle-bin-table.component.html',
   styleUrls: ['./sessions-recycle-bin-table.component.scss'],
+  animations: [collapseAnim],
 })
 export class SessionsRecycleBinTableComponent implements OnInit {
 

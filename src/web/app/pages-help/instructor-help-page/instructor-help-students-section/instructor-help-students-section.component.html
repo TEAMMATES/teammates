@@ -9,7 +9,7 @@
       How do I view a student's profile?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewProfileCollapsed">
+    <div *ngIf="isViewProfileCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>To view the profile of Student A from Course B:</p>
@@ -60,7 +60,7 @@
     <p><button type="button" class="btn btn-outline-primary" (click)="isEditDetailsCollapsed = !isEditDetailsCollapsed" [attr.aria-expanded]="!isEditDetailsCollapsed">
       How do I edit a student's details after enrolling the student?
     </button></p>
-    <div [ngbCollapse]="!isEditDetailsCollapsed">
+    <div *ngIf="isEditDetailsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -101,7 +101,7 @@
       How do I view all the responses a student has given and received?
       </button>
     </p>
-    <div [ngbCollapse]="!isViewAllResponsesCollapsed">
+    <div *ngIf="isViewAllResponsesCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -130,7 +130,7 @@
       How do I search for a student in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isStudentSearchCollapsed">
+    <div *ngIf="isStudentSearchCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -183,7 +183,7 @@
       How do I email a student or students in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isStudentEmailCollapsed">
+    <div *ngIf="isStudentEmailCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <ol>
@@ -212,7 +212,7 @@
       Is it compulsory for students to use Google accounts?
       </button>
     </p>
-    <div id="answer5" [ngbCollapse]="!isGoogleAccountCollapsed">
+    <div id="answer5" *ngIf="isGoogleAccountCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -231,7 +231,7 @@
       How do I change the Google ID associated with a student?
       </button>
     </p>
-    <div [ngbCollapse]="!isChangeGoogleIdCollapsed">
+    <div *ngIf="isChangeGoogleIdCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>

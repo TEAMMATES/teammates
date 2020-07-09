@@ -20,6 +20,7 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import {
   SearchCommentsTable,
 } from '../../../pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
@@ -54,6 +55,7 @@ import {
   selector: 'tm-instructor-help-sessions-section',
   templateUrl: './instructor-help-sessions-section.component.html',
   styleUrls: ['./instructor-help-sessions-section.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
