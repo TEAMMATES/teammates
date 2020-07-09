@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
+import { ConfirmationModalService } from '../../../../services/confirmation-modal.service';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import {
-  CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
+  CommentVisibilityType,
+  FeedbackResponseComment,
+  FeedbackVisibilityType,
+  ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { ConfirmationModalType } from '../../confirmation-modal/confirmation-modal-type';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
-import {
-  ConfirmDeleteCommentModalComponent,
-} from '../confirm-delete-comment-modal/confirm-delete-comment-modal.component';
 
 /**
  * Model for a comment row.
@@ -114,7 +116,8 @@ export class CommentRowComponent implements OnInit, OnChanges {
 
   visibilityStateMachine: CommentVisibilityStateMachine;
 
-  constructor(private modalService: NgbModal, private commentService: FeedbackResponseCommentService) {
+  constructor(private confirmationModalComponent: ConfirmationModalService,
+              private commentService: FeedbackResponseCommentService) {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 
@@ -155,7 +158,9 @@ export class CommentRowComponent implements OnInit, OnChanges {
    * Triggers the delete comment event
    */
   triggerDeleteCommentEvent(): void {
-    const modalRef: NgbModalRef = this.modalService.open(ConfirmDeleteCommentModalComponent);
+    const modalRef: NgbModalRef = this.confirmationModalComponent
+        .open('Warning: This will delete the comment permanently.', ConfirmationModalType.WARNING,
+            'Are you sure you want to continue?');
 
     modalRef.result.then(() => {
       this.deleteCommentEvent.emit();
