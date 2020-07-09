@@ -14,7 +14,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 
 import { from, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
 import { NationalitiesService } from '../../../services/nationalities.service';
+import { ConfirmationModalType } from '../../components/confirmation-modal/confirmation-modal-type';
 import {
   UploadEditProfilePictureModalComponent,
 } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
@@ -40,9 +42,10 @@ export class StudentProfilePageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private ngbModal: NgbModal,
+  constructor(private confirmationModalService: ConfirmationModalService,
               private nationalitiesService: NationalitiesService,
               private authService: AuthService,
+              private ngbModal: NgbModal,
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService) {
   }
@@ -106,8 +109,8 @@ export class StudentProfilePageComponent implements OnInit {
   /**
    * Prompts the user with a modal box to confirm changes made to the form.
    */
-  onSubmit(confirmEditProfile: any): void {
-    this.ngbModal.open(confirmEditProfile);
+  onSubmit(): void {
+    this.confirmationModalService.open('Save Changes?', ConfirmationModalType.NEUTRAL, 'Are you sure you want to make changes to your profile?');
   }
 
   /**
