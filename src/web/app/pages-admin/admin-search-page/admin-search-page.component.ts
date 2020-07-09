@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../services/account.service';
+import { EmailGenerationService } from '../../../services/email-generation.service';
 import {
   AdminSearchResult,
+  FeedbackSessionsGroup,
   InstructorAccountSearchResult,
   SearchService,
   StudentAccountSearchResult,
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  RegenerateLinksConfirmModalComponent,
-} from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
-import {
-  ResetGoogleIdConfirmModalComponent,
-} from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
+import { RegenerateLinksConfirmModalComponent } from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
+import { ResetGoogleIdConfirmModalComponent } from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Admin search page.
@@ -25,6 +24,7 @@ import {
   selector: 'tm-admin-search-page',
   templateUrl: './admin-search-page.component.html',
   styleUrls: ['./admin-search-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class AdminSearchPageComponent {
 
@@ -38,6 +38,7 @@ export class AdminSearchPageComponent {
     private accountService: AccountService,
     private studentService: StudentService,
     private searchService: SearchService,
+    private emailGenerationService: EmailGenerationService,
   ) {}
 
   /**
@@ -166,9 +167,9 @@ export class AdminSearchPageComponent {
    * Updates the student's displayed course join and feedback session links with the value of the newKey.
    */
   private updateDisplayedStudentCourseLinks(student: StudentAccountSearchResult, newKey: string): void {
-    const updateSessions: Function = (sessions: { [index: string]: string }): void => {
+    const updateSessions: Function = (sessions: FeedbackSessionsGroup): void => {
       Object.keys(sessions).forEach((key: string): void => {
-        sessions[key] = this.getUpdatedUrl(sessions[key], newKey);
+        sessions[key].feedbackSessionUrl = this.getUpdatedUrl(sessions[key].feedbackSessionUrl, newKey);
       });
     };
 
@@ -187,6 +188,34 @@ export class AdminSearchPageComponent {
     const regex: RegExp = new RegExp(`(${param}=)[^\&]+`);
 
     return link.replace(regex, `$1${newVal}`);
+  }
+
+  /**
+   * Open up an email populated with content for course join invitation.
+   */
+  openCourseJoinEmail(courseId: string, studentemail: string): void {
+    this.emailGenerationService.getCourseJoinEmail(courseId, studentemail)
+        .subscribe((email: Email) => {
+          window.location.href = `mailto:${email.recipient}`
+              + `?Subject=${email.subject}`
+              + `&body=${email.content}`;
+        }, (err: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(err.error.message);
+        });
+  }
+
+  /**
+   * Open up an email populated with content for feedback session reminder.
+   */
+  openFeedbackSessionReminderEmail(courseId: string, studentemail: string, fsname: string): void {
+    this.emailGenerationService.getFeedbackSessionReminderEmail(courseId, studentemail, fsname)
+        .subscribe((email: Email) => {
+          window.location.href = `mailto:${email.recipient}`
+              + `?Subject=${email.subject}`
+              + `&body=${email.content}`;
+        }, (err: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(err.error.message);
+        });
   }
 
 }

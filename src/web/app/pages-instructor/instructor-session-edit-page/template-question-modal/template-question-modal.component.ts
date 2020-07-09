@@ -5,6 +5,7 @@ import { FeedbackQuestion } from '../../../../types/api-output';
 import {
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 
 interface TemplateQuestionModel {
   description: string;
@@ -19,6 +20,7 @@ interface TemplateQuestionModel {
 @Component({
   templateUrl: './template-question-modal.component.html',
   styleUrls: ['./template-question-modal.component.scss'],
+  animations: [collapseAnim],
 })
 export class TemplateQuestionModalComponent implements OnInit {
 

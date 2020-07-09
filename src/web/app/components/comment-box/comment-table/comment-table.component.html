@@ -25,7 +25,7 @@
       ></tm-comment-row>
     </li>
     <!-- "Add new comment" row -->
-    <li class="list-group-item" *ngIf="!model.isReadOnly && model.isAddingNewComment">
+    <li class="list-group-item" *ngIf="!model.isReadOnly && model.isAddingNewComment" @collapseAnim>
       <tm-comment-row [model]="model.newCommentRow" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
                       [mode]="CommentRowMode.ADD"
                       [questionShowResponsesTo]="questionShowResponsesTo"

@@ -207,13 +207,16 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       
       
       
+      
       <div
-        class="card-body padding-0 collapse show"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
         <tm-sessions-table>
           
           <div
             class="no-session-message"
+            style=""
           >
              There are no feedback sessions in this course. 
           </div>
@@ -504,13 +507,16 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       
       
       
+      
       <div
-        class="card-body padding-0 collapse show"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
         <tm-sessions-table>
           
           <div
             class="row"
+            style=""
           >
             <div
               class="col-12"
@@ -1009,13 +1015,16 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       
       
       
+      
       <div
-        class="card-body padding-0 collapse show"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
         <tm-sessions-table>
           
           <div
             class="row"
+            style=""
           >
             <div
               class="col-12"
@@ -1684,19 +1693,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       
       
       
-      <div
-        class="card-body padding-0 collapse"
-      >
-        <tm-sessions-table>
-          
-          <div
-            class="no-session-message"
-          >
-             There are no feedback sessions in this course. 
-          </div>
-          
-        </tm-sessions-table>
-      </div>
+      
     </div>
   </div>
 </tm-instructor-home-page>
@@ -1981,13 +1978,16 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       
       
       
+      
       <div
-        class="card-body padding-0 collapse show"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
         <tm-sessions-table>
           
           <div
             class="no-session-message"
+            style=""
           >
              There are no feedback sessions in this course. 
           </div>
@@ -2278,13 +2278,16 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       
       
       
+      
       <div
-        class="card-body padding-0 collapse show"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
         <tm-sessions-table>
           
           <div
             class="no-session-message"
+            style=""
           >
              There are no feedback sessions in this course. 
           </div>
