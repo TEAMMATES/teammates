@@ -520,7 +520,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveFeedbackResponses(): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
-    const failToSaveQuestions: Record<string, string> = {};
+    const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {

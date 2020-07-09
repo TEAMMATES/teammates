@@ -15,7 +15,7 @@ export class SavingCompleteModalComponent implements OnInit {
   notYetAnsweredQuestions: string = '';
 
   @Input()
-  failToSaveQuestions: Record<string, string> = {};
+  failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
 
   @Input()
   hasSubmissionConfirmationError: boolean = false;
