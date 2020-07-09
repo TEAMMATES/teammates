@@ -23,25 +23,27 @@
 </div>
 <p *ngIf="isVisibilityOptionEnabled">You may change comment's visibility using the visibility options on the right hand side.</p>
 
-<table *ngIf="isVisibilityTableExpanded" class="table margin-bottom-0 background-color-white table-striped">
-  <thead>
-  <tr>
-    <th scope="col" class="text-center">User/Group</th>
-    <th scope="col" class="text-center" *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
-  </tr>
-  </thead>
-  <tbody>
-  <ng-container *ngFor="let commentVisibilityType of CommentVisibilityType | enumToArray">
-    <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)">
-      <td [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription" container="body"> {{ commentVisibilityType | commentVisibilityTypeName }}</td>
-      <td *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray" class="text-center">
-        <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
-               (click)="modifyVisibilityControl($event.target.checked, commentVisibilityType, commentVisibilityControl)">
-      </td>
+<div *ngIf="isVisibilityTableExpanded" @collapseAnim>
+  <table class="table margin-bottom-0 background-color-white table-striped">
+    <thead>
+    <tr>
+      <th scope="col" class="text-center">User/Group</th>
+      <th scope="col" class="text-center" *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
     </tr>
-  </ng-container>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let commentVisibilityType of CommentVisibilityType | enumToArray">
+      <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)">
+        <td [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription" container="body"> {{ commentVisibilityType | commentVisibilityTypeName }}</td>
+        <td *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray" class="text-center">
+          <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
+                 (click)="modifyVisibilityControl($event.target.checked, commentVisibilityType, commentVisibilityControl)">
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>
 
 <div style="margin: 10px 0;">
   <tm-rich-text-editor [richText]="model.commentText" (richTextChange)="triggerModelChange('commentText', $event)"

@@ -35,11 +35,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
     </button>
   </div><div
     class="course-section"
-    hidden=""
-  >
-    <tm-add-course-form />
-  </div><div
-    class="course-section"
   >
     <h3>
       Active courses
@@ -484,11 +479,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       />
        Add New Course 
     </button>
-  </div><div
-    class="course-section"
-    hidden=""
-  >
-    <tm-add-course-form />
   </div><div
     class="course-section"
   >
@@ -942,11 +932,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
        Add New Course 
     </button>
   </div><div
-    class="course-section"
-    hidden=""
-  >
-    <tm-add-course-form />
-  </div><div
     class="alert alert-warning margin-top-30px"
     role="alert"
   >
@@ -988,11 +973,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
       />
        Add New Course 
     </button>
-  </div><div
-    class="course-section"
-    hidden=""
-  >
-    <tm-add-course-form />
   </div><div
     class="course-section"
   >

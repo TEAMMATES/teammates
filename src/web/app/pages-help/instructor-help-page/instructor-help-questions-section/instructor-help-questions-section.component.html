@@ -9,7 +9,7 @@
         Essay Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isEssayQuestionsCollapsed">
+    <div *ngIf="isEssayQuestionsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -46,7 +46,7 @@
         Multiple Choice (Single Answer) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isMCQSingleAnsCollapsed">
+    <div *ngIf="isMCQSingleAnsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -113,7 +113,7 @@
         Multiple Choice (Multiple Answers) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isMCQMultipleAnsCollapsed">
+    <div *ngIf="isMCQMultipleAnsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -138,7 +138,7 @@
         Numerical Scale Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isNumericalScaleCollapsed">
+    <div *ngIf="isNumericalScaleCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -197,7 +197,7 @@
         Distribute Points (Among Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isPointsOptionsCollapsed">
+    <div *ngIf="isPointsOptionsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -255,7 +255,7 @@
         Distribute Points (Among Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isPointsRecipientsCollapsed">
+    <div *ngIf="isPointsRecipientsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -298,7 +298,7 @@
         Team Contribution Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isContributionQsCollapsed">
+    <div *ngIf="isContributionQsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -558,7 +558,7 @@
         Rubric Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isRubricQsCollapsed">
+    <div *ngIf="isRubricQsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -657,7 +657,7 @@
         Rank (Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isRankOptionsCollapsed">
+    <div *ngIf="isRankOptionsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -703,7 +703,7 @@
         Rank (Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isRankRecipientsCollapsed">
+    <div *ngIf="isRankRecipientsCollapsed" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
