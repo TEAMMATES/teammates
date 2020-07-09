@@ -12,7 +12,7 @@ import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   CommentSearchResult,
   CommentSearchResults,
-  Course,
+  Course, FeedbackSession,
   FeedbackSessions,
   Instructor,
   InstructorPermissionRole,
@@ -27,6 +27,7 @@ import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
+import { TimezoneService } from './timezone.service';
 
 /**
  * Handles the logic for search.
@@ -42,6 +43,7 @@ export class SearchService {
     private feedbackSessionService: FeedbackSessionsService,
     private courseService: CourseService,
     private linkService: LinkService,
+    private timezoneService: TimezoneService,
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
@@ -343,16 +345,22 @@ export class SearchService {
     };
     for (const feedbackSession of feedbackSessions.feedbackSessions) {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
-        feedbackSessionLinks.openSessions[this.feedbackSessionService.generateNameFragment(feedbackSession).toString()]
-          = this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
       } else {
-        feedbackSessionLinks.notOpenSessions[this.feedbackSessionService.generateNameFragment(feedbackSession)]
-          = this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
       }
 
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
-        feedbackSessionLinks.publishedSessions[this.feedbackSessionService.generateNameFragment(feedbackSession)]
-           = this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
+        };
       }
     }
     return feedbackSessionLinks;
@@ -464,6 +472,15 @@ export class SearchService {
       }),
     );
   }
+
+  private formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+    const startTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    const endTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    return { startTime, endTime };
+  }
 }
 
 /**
@@ -506,14 +523,20 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
-  openSessions: { [index: string]: string };
-  notOpenSessions: { [index: string]: string };
-  publishedSessions: { [index: string]: string };
+  openSessions: FeedbackSessionsGroup;
+  notOpenSessions: FeedbackSessionsGroup;
+  publishedSessions: FeedbackSessionsGroup;
 }
 
-// Private interfaces
-interface FeedbackSessionsGroup {
-  [key: string]: string;
+/**
+ * Feedback session inforamtion for search result.
+ */
+export interface FeedbackSessionsGroup {
+  [name: string]: {
+    startTime: string;
+    endTime: string;
+    feedbackSessionUrl: string;
+  };
 }
 
 interface StudentFeedbackSessions {

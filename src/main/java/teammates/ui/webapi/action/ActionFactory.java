@@ -78,6 +78,7 @@ public class ActionFactory {
         map(ResourceURIs.SEARCH_COMMENTS, GET, SearchCommentsAction.class);
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
+        map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
