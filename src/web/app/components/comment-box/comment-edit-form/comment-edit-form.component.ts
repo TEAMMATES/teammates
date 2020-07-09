@@ -8,6 +8,7 @@ import {
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowMode } from '../comment-row/comment-row.component';
 
 /**
@@ -28,6 +29,7 @@ export interface CommentEditFormModel {
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
   styleUrls: ['./comment-edit-form.component.scss'],
+  animations: [collapseAnim],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
 

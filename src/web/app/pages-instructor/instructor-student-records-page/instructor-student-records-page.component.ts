@@ -20,6 +20,7 @@ import { Intent } from '../../../types/api-request';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
 
@@ -37,6 +38,7 @@ interface SessionTab {
   selector: 'tm-instructor-student-records-page',
   templateUrl: './instructor-student-records-page.component.html',
   styleUrls: ['./instructor-student-records-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorStudentRecordsPageComponent extends InstructorCommentsComponent implements OnInit {
 

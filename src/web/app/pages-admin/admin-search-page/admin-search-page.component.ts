@@ -12,6 +12,7 @@ import {
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { RegenerateLinksConfirmModalComponent } from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
 import { ResetGoogleIdConfirmModalComponent } from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
@@ -23,6 +24,7 @@ import { ResetGoogleIdConfirmModalComponent } from './reset-google-id-confirm-mo
   selector: 'tm-admin-search-page',
   templateUrl: './admin-search-page.component.html',
   styleUrls: ['./admin-search-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class AdminSearchPageComponent {
 

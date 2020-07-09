@@ -13,7 +13,7 @@
       </label>&nbsp;
       <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
     </div>
-    <div [ngbCollapse]="!templateQuestionModel.isShowDetails">
+    <div *ngIf="templateQuestionModel.isShowDetails" @collapseAnim>
       <div class="card-body">
         <tm-question-edit-form [formModel]="templateQuestionModel.model" isDisplayOnly="true"></tm-question-edit-form>
       </div>

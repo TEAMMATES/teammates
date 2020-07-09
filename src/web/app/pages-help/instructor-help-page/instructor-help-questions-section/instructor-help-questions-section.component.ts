@@ -17,6 +17,7 @@ import {
 import { QuestionSubmissionFormModel,
 } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import {
   QuestionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
@@ -65,6 +66,7 @@ import {
   selector: 'tm-instructor-help-questions-section',
   templateUrl: './instructor-help-questions-section.component.html',
   styleUrls: ['./instructor-help-questions-section.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 

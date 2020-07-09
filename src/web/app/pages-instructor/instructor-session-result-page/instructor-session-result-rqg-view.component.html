@@ -7,7 +7,7 @@
         <i class="fas fa-chevron-up" *ngIf="sectionInfo.value.isTabExpanded"></i>
       </div>
     </div>
-    <div [ngbCollapse]="!sectionInfo.value.isTabExpanded">
+    <div *ngIf="sectionInfo.value.isTabExpanded" @collapseAnim>
       <div class="card-body">
         <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="sectionInfo.key" [sectionType]="sectionType"
                                    [indicateMissingResponses]="indicateMissingResponses"

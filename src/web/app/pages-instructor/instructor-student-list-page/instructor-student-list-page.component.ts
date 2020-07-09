@@ -7,6 +7,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentIndexedData {
@@ -28,6 +29,7 @@ interface CourseTab {
   selector: 'tm-instructor-student-list-page',
   templateUrl: './instructor-student-list-page.component.html',
   styleUrls: ['./instructor-student-list-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorStudentListPageComponent implements OnInit {
 
