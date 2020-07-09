@@ -160,20 +160,17 @@ export class SearchService {
     if (coursesWithStudents.length === 0) {
       return of([]);
     }
-    return forkJoin(
-      coursesWithStudents.map((course: SearchStudentsListRowTable) => {
-        return course.students.map((studentModel: StudentListRowModel) => {
-          return this.instructorService.loadInstructorPrivilege({
-            courseId: course.courseId,
-            sectionName: studentModel.student.sectionName,
-          });
-        });
-      }).reduce(
-        (acc: Observable<InstructorPrivilege>[], val: Observable<InstructorPrivilege>[]) =>
-        acc.concat(val),
-        [],
-      ),
-    );
+    const privileges: any[] = [];
+    for (const course of coursesWithStudents) {
+      const distinctSections: string[] = Array.from(
+        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)));
+      const instructorPrivileges: Observable<InstructorPrivilege>[] = distinctSections.map((section: string) =>
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId, sectionName: section }));
+      for (const studentModel of course.students) {
+        privileges.push(instructorPrivileges[distinctSections.indexOf(studentModel.student.sectionName)]);
+      }
+    }
+    return of(privileges);
   }
 
   combinePrivileges(
