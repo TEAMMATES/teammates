@@ -296,7 +296,7 @@
   </div>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(showQuestion, 4, 8)">Managing Session Responses</h4>
+  <h4 *ngIf="displaySubsection(showQuestion, 4, 9)">Managing Session Responses</h4>
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="session-cannot-submit">
     <p>
@@ -584,7 +584,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isEditDelCommentCollapsed = !isEditDelCommentCollapsed" [attr.aria-expanded]="!isEditDelCommentCollapsed">
         How do I edit or delete a comment on a response?
@@ -620,7 +620,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[11]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isSearchCollapsed = !isSearchCollapsed" [attr.aria-expanded]="!isSearchCollapsed">
         How do I search for a feedback session question, response or comment on a response?
@@ -688,7 +688,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[12]" #question id="restore-session">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[13]" #question id="restore-session">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isRestoreSessionCollapsed = !isRestoreSessionCollapsed" [attr.aria-expanded]="!isRestoreSessionCollapsed">
         How do I restore a deleted session?
@@ -716,7 +716,7 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[14]" #question>
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="isDelSessionCollapsed = !isDelSessionCollapsed" [attr.aria-expanded]="!isDelSessionCollapsed">
         How do I permanently delete a session?
