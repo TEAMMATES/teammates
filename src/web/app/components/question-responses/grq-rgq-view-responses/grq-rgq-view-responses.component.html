@@ -8,7 +8,7 @@
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
       </div>
-      <div [ngbCollapse]="!teamExpanded[teamInfo.key]">
+      <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim>
         <div class="card-body">
           <div *ngFor="let userInfo of teamInfo.value">
             <ng-container
@@ -49,7 +49,7 @@
       <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
     </div>
   </div>
-    <div [ngbCollapse]="!userExpanded[userInfo]">
+    <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body">
         <ng-container *ngIf="userHasRealResponses[userInfo]">
           <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">

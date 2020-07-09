@@ -2,6 +2,7 @@ package teammates.ui.webapi.output;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+import teammates.common.util.StringHelper;
 
 /**
  * The API output format of {@link FeedbackResponseAttributes}.
@@ -17,7 +18,7 @@ public class FeedbackResponseData extends ApiOutput {
     private final FeedbackResponseDetails responseDetails;
 
     public FeedbackResponseData(FeedbackResponseAttributes feedbackResponseAttributes) {
-        this.feedbackResponseId = feedbackResponseAttributes.getId();
+        this.feedbackResponseId = StringHelper.encrypt(feedbackResponseAttributes.getId());
         this.giverIdentifier = feedbackResponseAttributes.giver;
         this.recipientIdentifier = feedbackResponseAttributes.recipient;
         this.responseDetails = feedbackResponseAttributes.getResponseDetails();
