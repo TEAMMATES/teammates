@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.action.DeleteFeedbackResponseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.request.Intent;
@@ -96,11 +97,19 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
 
+        ______TS("Unencrypted responseId");
+
+        String[] invalidParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+        };
+        verifyHttpParameterFailure(invalidParams);
+
         ______TS("Typical success case, student");
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse.getId()),
         };
 
         DeleteFeedbackResponseAction a = getAction(params);
@@ -122,7 +131,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse3.getId()),
         };
 
         a = getAction(params);
@@ -149,7 +158,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] wrongGiverTypeParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse.getId()),
         };
 
         verifyCannotAccess(wrongGiverTypeParams);
@@ -160,7 +169,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] previewParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse.getId()),
                 Const.ParamsNames.PREVIEWAS, instructor1OfCourse1.email,
         };
 
@@ -174,7 +183,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] sessionNotOpenParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseInClosedSession.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseInClosedSession.getId()),
         };
 
         verifyCannotAccess(sessionNotOpenParams);
@@ -189,7 +198,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] invalidModeratedInstructorSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse2.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructor1OfCourse1.getEmail(),
         };
 
@@ -206,7 +215,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] moderatedStudentSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, testModerateResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(testModerateResponse.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
         };
         verifyCannotAccess(moderatedStudentSubmissionParams);
@@ -217,7 +226,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] nonExistParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, "randomNonExistId",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomNonExistId"),
         };
 
         assertThrows(EntityNotFoundException.class, () -> getAction(nonExistParams).checkAccessControl());
@@ -232,7 +241,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] studentAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse.getId()),
         };
 
         verifyCannotAccess(studentAccessOtherPersonParams);
@@ -245,7 +254,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] studentAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse.getId()),
         };
 
         verifyCanAccess(studentAccessOwnPersonParams);
@@ -260,7 +269,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] studentAccessOSameTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse2.getId()),
         };
 
         verifyCanAccess(studentAccessOSameTeamParams);
@@ -275,7 +284,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] studentAccessOtherTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse2.getId()),
         };
 
         verifyCannotAccess(studentAccessOtherTeamParams);
@@ -290,7 +299,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] instructorAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse3.getId()),
         };
 
         verifyCannotAccess(instructorAccessOtherPersonParams);
@@ -303,7 +312,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] instructorAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse3.getId()),
         };
 
         verifyCanAccess(instructorAccessOwnPersonParams);
@@ -314,7 +323,7 @@ public class DeleteFeedbackResponseActionTest extends BaseActionTest<DeleteFeedb
 
         String[] unknownIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, typicalResponse3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(typicalResponse3.getId()),
         };
 
         assertThrows(InvalidHttpParameterException.class, () -> getAction(unknownIntentParams).checkAccessControl());

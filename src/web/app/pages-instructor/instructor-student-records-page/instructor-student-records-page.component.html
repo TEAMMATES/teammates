@@ -8,7 +8,7 @@
     <span class="float-right fas"
       [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
   </div>
-  <div class="card-body" [ngbCollapse]="session.isCollapsed">
+  <div class="card-body" *ngIf="!session.isCollapsed" @collapseAnim>
     <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"
                                [session]="session.feedbackSession"
                                [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""

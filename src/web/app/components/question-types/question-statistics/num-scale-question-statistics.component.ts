@@ -36,12 +36,12 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
 
   private getTableData(): void {
     this.columnsData = [
-      { header: 'Team', sortBy: SortBy.MCQ_CHOICE },
-      { header: 'Recipient', sortBy: SortBy.MCQ_WEIGHT },
-      { header: 'Average', sortBy: SortBy.MCQ_RESPONSE_COUNT, headerToolTip: 'Average of the visible responses' },
-      { header: 'Max', sortBy: SortBy.MCQ_PERCENTAGE, headerToolTip: 'Maximum of the visible responses' },
-      { header: 'Min', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE, headerToolTip: 'Minimum of the visible responses' },
-      { header: 'Average excluding self response', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE,
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Recipient', sortBy: SortBy.RECIPIENT_NAME },
+      { header: 'Average', sortBy: SortBy.NUMERICAL_SCALE_AVERAGE, headerToolTip: 'Average of the visible responses' },
+      { header: 'Max', sortBy: SortBy.NUMERICAL_SCALE_MAX, headerToolTip: 'Maximum of the visible responses' },
+      { header: 'Min', sortBy: SortBy.NUMERICAL_SCALE_MIN, headerToolTip: 'Minimum of the visible responses' },
+      { header: 'Average excluding self response', sortBy: SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
         headerToolTip: 'Average of the visible responses excluding recipient\'s own response to himself/herself'},
     ];
 

@@ -64,7 +64,7 @@
       <div class="collapse-qn-description">{{model.questionBrief}}</div>
     </div>
   </div>
-  <div [ngbCollapse]="model.isCollapsed">
+  <div *ngIf="!model.isCollapsed" @collapseAnim>
     <div class="card-body">
       <div class="background-color-light-blue">
         <div class="row">
