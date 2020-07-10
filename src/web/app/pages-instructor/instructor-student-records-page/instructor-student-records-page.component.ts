@@ -72,11 +72,11 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
               private studentService: StudentService,
               private instructorService: InstructorService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-              private tableComparatorService: TableComparatorService,
+              tableComparatorService: TableComparatorService,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe) {
-    super(commentToCommentRowModel, commentService, statusMessageService);
+    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
   }
 
   ngOnInit(): void {
@@ -171,7 +171,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
-
+      this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });

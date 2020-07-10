@@ -1,5 +1,6 @@
 import { FeedbackResponseCommentService } from '../../services/feedback-response-comment.service';
 import { StatusMessageService } from '../../services/status-message.service';
+import { TableComparatorService } from '../../services/table-comparator.service';
 import {
     FeedbackResponseComment,
     FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -7,6 +8,7 @@ import {
     SessionVisibleSetting,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CommentRowModel } from '../components/comment-box/comment-row/comment-row.component';
 import { CommentTableModel } from '../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../components/comment-box/comment-to-comment-row-model.pipe';
@@ -42,7 +44,8 @@ export abstract class InstructorCommentsComponent {
   protected constructor(
         protected commentToCommentRowModel: CommentToCommentRowModelPipe,
         protected commentService: FeedbackResponseCommentService,
-        protected statusMessageService: StatusMessageService) { }
+        protected statusMessageService: StatusMessageService,
+        protected tableComparatorService: TableComparatorService) { }
 
   /**
    * Deletes an instructor comment.
@@ -59,6 +62,7 @@ export abstract class InstructorCommentsComponent {
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
+          this.sortComments(this.instructorCommentTableModel[data.responseId]);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -88,6 +92,7 @@ export abstract class InstructorCommentsComponent {
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
+          this.sortComments(this.instructorCommentTableModel[data.responseId]);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -125,8 +130,18 @@ export abstract class InstructorCommentsComponent {
             },
             isAddingNewComment: false,
           };
+          this.sortComments(this.instructorCommentTableModel[responseId]);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
+  }
+
+  sortComments(commentTable: CommentTableModel): void {
+    commentTable.commentRows.sort((a: CommentRowModel, b: CommentRowModel) => {
+      return this.tableComparatorService.compare(
+          SortBy.COMMENTS_LAST_EDITED_DATE,
+          SortOrder.DESC,
+          String(a.originalComment?.lastEditedAt), String(b.originalComment?.lastEditedAt));
+    });
   }
 }
