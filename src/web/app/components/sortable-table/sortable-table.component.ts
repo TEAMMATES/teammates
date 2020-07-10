@@ -50,7 +50,7 @@ export class SortableTableComponent implements OnInit {
   rows: SortableTableCellData[][] = [];
 
   @Input()
-  initialColumnIndexToSortBy: number = -1;
+  initialSortBy: SortBy = SortBy.NONE;
 
   columnToSortBy: string = '';
   sortOrder: SortOrder = SortOrder.ASC;
@@ -99,11 +99,12 @@ export class SortableTableComponent implements OnInit {
   }
 
   /**
-   * Sorts the table with initial column index or leftmost sortable column
+   * Sorts the table with an initial SortBy
    */
   initialSort(): void {
-    let indexOfColumnToSort: number = this.initialColumnIndexToSortBy;
-    if (indexOfColumnToSort < 0 || indexOfColumnToSort >= this.columns.length) {
+    let indexOfColumnToSort: number =
+        this.columns.findIndex((column: ColumnData) => column.sortBy === this.initialSortBy);
+    if (indexOfColumnToSort < 0) {
       indexOfColumnToSort = this.columns.findIndex((column: ColumnData) => column.sortBy);
       if (indexOfColumnToSort < 0) {
         return;
