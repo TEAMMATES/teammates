@@ -15,6 +15,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
 import teammates.ui.webapi.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.webapi.request.Intent;
@@ -31,7 +32,13 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public void checkSpecificAccessControl() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
@@ -91,7 +98,13 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public ActionResult execute() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);

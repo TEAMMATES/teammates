@@ -10,7 +10,7 @@
       </button>
   </div>
 </div>
-<div [ngbCollapse]="!isTabExpanded">
+<div *ngIf="isTabExpanded" @collapseAnim>
   <div class="card-body p-0">
     <div *ngIf="noResponseStudentsInSection.length">
       <table class="table table-striped">

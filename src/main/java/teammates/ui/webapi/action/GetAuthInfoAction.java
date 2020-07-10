@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
@@ -65,7 +64,6 @@ public class GetAuthInfoAction extends Action {
             return new JsonResult(output);
         }
         Cookie csrfTokenCookie = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, csrfToken);
-        csrfTokenCookie.setSecure(!Config.isDevServer());
         csrfTokenCookie.setPath("/");
         List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
         return new JsonResult(output, cookieList);
