@@ -1,28 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminAccountsPageComponent } from './admin-accounts-page.component';
+import { UserJoinPageComponent } from './user-join-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AdminAccountsPageComponent,
+    component: UserJoinPageComponent,
   },
 ];
 
 /**
- * Module for admin accounts page.
+ * Module for user join page.
  */
 @NgModule({
   declarations: [
-    AdminAccountsPageComponent,
+    UserJoinPageComponent,
   ],
   exports: [
-    AdminAccountsPageComponent,
+    UserJoinPageComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
   ],
 })
-export class AdminAccountsPageModule { }
+export class UserJoinPageModule { }

@@ -44,7 +44,8 @@ public class OriginCheckFilter implements Filter {
 
     private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
             Const.CsrfConfig.TOKEN_HEADER_NAME,
-            "Content-Type"
+            "Content-Type",
+            "ngsw-bypass"
     ));
 
     @Override

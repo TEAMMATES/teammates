@@ -46,9 +46,10 @@ export class HttpRequestService {
       responseType: any = 'json' as 'text'): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
+    const headers: HttpHeaders = new HttpHeaders({ 'ngsw-bypass': 'true' });
     return this.httpClient.get(
         `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
-        { params, responseType, withCredentials },
+        { params, headers, responseType, withCredentials },
     );
   }
 
@@ -59,6 +60,7 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
+    headers.set('ngsw-bypass', 'true');
     return this.httpClient.post(
         `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`, body,
         { params, headers, withCredentials },
@@ -72,6 +74,7 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
+    headers.set('ngsw-bypass', 'true');
     return this.httpClient.put(
         `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
         body,
@@ -86,6 +89,7 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
+    headers.set('ngsw-bypass', 'true');
     return this.httpClient.delete(
         `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
         { params, headers, withCredentials },
