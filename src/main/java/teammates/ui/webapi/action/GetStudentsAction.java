@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.StudentData;
 import teammates.ui.webapi.output.StudentsData;
 
 /**
@@ -48,13 +49,7 @@ public class GetStudentsAction extends Action {
             // request to get team members by current student
             List<StudentAttributes> studentsForTeam = logic.getStudentsForTeam(teamName, courseId);
             StudentsData studentsData = new StudentsData(studentsForTeam);
-
-            // hide information for students
-            studentsData.getStudents().forEach(s -> {
-                s.setComments(null);
-                s.setJoinState(null);
-            });
-
+            studentsData.getStudents().forEach(StudentData::hideInformationForStudent);
             return new JsonResult(studentsData);
         }
 
