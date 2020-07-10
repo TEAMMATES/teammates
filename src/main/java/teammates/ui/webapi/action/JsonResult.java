@@ -54,6 +54,7 @@ public class JsonResult extends ActionResult {
     public void send(HttpServletResponse resp) throws IOException {
         output.setRequestId(Config.getRequestId());
         for (Cookie cookie : cookies) {
+            cookie.setSecure(!Config.isDevServer());
             resp.addCookie(cookie);
         }
         resp.setStatus(getStatusCode());
