@@ -56,6 +56,9 @@ public class GetStudentProfileAction extends Action {
             studentId = userInfo.id;
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+            if (student == null) {
+                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+            }
             studentId = student.getGoogleId();
         }
 
