@@ -16,9 +16,6 @@ public class GetStudentProfilePictureAction extends Action {
     /** Indicates ACCESS is not given. */
     public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
-    /** Indicates profile picture not found. */
-    public static final String PROFILE_PIC_NOT_FOUND = "Student has no profile picture";
-
     @Override
     protected AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -57,6 +54,9 @@ public class GetStudentProfilePictureAction extends Action {
             studentProfile = logic.getStudentProfile(userInfo.id);
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+            if (student == null) {
+                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+            }
 
             if (!StringHelper.isEmpty(student.googleId)) {
                 studentProfile = logic.getStudentProfile(student.googleId);
@@ -64,7 +64,7 @@ public class GetStudentProfilePictureAction extends Action {
         }
 
         if (studentProfile == null || studentProfile.pictureKey.equals("")) {
-            return new JsonResult(PROFILE_PIC_NOT_FOUND, HttpStatus.SC_NOT_FOUND);
+            return new ImageResult();
         }
 
         return new ImageResult(studentProfile.pictureKey);

@@ -30,7 +30,9 @@ export class OptionRichTextEditorComponent implements OnInit {
 
   // the argument passed to tinymce.init() in native JavaScript
   readonly init: any = {
+    base_url: '/tinymce',
     skin_url: '/tinymce/skins/ui/oxide',
+    suffix: '.min',
     resize: false,
     fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 26pt 28pt 36pt 48pt 72pt',
     font_formats: 'Andale Mono=andale mono,times;'

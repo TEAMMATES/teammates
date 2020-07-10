@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentBoxModule } from '../comment-box/comment-box.module';
 import { QuestionConstraintModule } from '../question-types/question-constraint/question-constraint.module';
 import {
@@ -22,7 +22,7 @@ import { RecipientTypeNamePipe } from './recipient-type-name.pipe';
     CommonModule,
     TeammatesCommonModule,
     VisibilityMessagesModule,
-    NgbModule,
+    NgbTooltipModule,
     FormsModule,
     RichTextEditorModule,
     QuestionConstraintModule,

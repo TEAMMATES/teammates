@@ -85,7 +85,12 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
             FeedbackResponseCommentAttributes comment =
                     logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
             if (comment == null) {
-                return new JsonResult("Comment not found", HttpStatus.SC_NOT_FOUND);
+                FeedbackResponseAttributes fr = logic.getFeedbackResponse(feedbackResponseId);
+                if (fr == null) {
+                    throw new EntityNotFoundException(
+                            new EntityDoesNotExistException("The feedback response does not exist."));
+                }
+                return new JsonResult("Comment not found", HttpStatus.SC_NO_CONTENT);
             }
             return new JsonResult(new FeedbackResponseCommentData(comment));
         default:

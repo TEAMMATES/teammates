@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { ResponseModerationButtonModule } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.module';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
@@ -19,7 +19,7 @@ import { GrqRgqViewResponsesComponent } from './grq-rgq-view-responses.component
     GroupedResponsesModule,
     ResponseModerationButtonModule,
     TeammatesCommonModule,
-    NgbModule,
+    NgbCollapseModule,
   ],
 })
 export class GrqRgqViewResponsesModule { }

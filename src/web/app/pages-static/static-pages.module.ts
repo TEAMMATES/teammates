@@ -3,84 +3,64 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
-import {
-  InstructorHelpGettingStartedComponent,
-} from '../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component';
-import { InstructorHelpPageComponent } from '../pages-help/instructor-help-page/instructor-help-page.component';
-import { InstructorHelpPageModule } from '../pages-help/instructor-help-page/instructor-help-page.module';
-import {
-  SessionLinksRecoveryPageComponent,
-} from '../pages-help/session-links-recovery/session-links-recovery-page.component';
-import {
-  SessionLinksRecoveryPageModule,
-} from '../pages-help/session-links-recovery/session-links-recovery-page.module';
-import { StudentHelpPageComponent } from '../pages-help/student-help-page/student-help-page.component';
-import { StudentHelpPageModule } from '../pages-help/student-help-page/student-help-page.module';
-import { AboutPageComponent } from './about-page/about-page.component';
-import { AboutPageModule } from './about-page/about-page.module';
-import { ContactPageComponent } from './contact-page/contact-page.component';
-import { ContactPageModule } from './contact-page/contact-page.module';
-import { FeaturesPageComponent } from './features-page/features-page.component';
-import { FeaturesPageModule } from './features-page/features-page.module';
-import { IndexPageComponent } from './index-page/index-page.component';
-import { IndexPageModule } from './index-page/index-page.module';
-import { RequestPageComponent } from './request-page/request-page.component';
-import { RequestPageModule } from './request-page/request-page.module';
-import { TermsPageComponent } from './terms-page/terms-page.component';
-import { TermsPageModule } from './terms-page/terms-page.module';
-import { UsermapPageComponent } from './usermap-page/usermap-page.component';
-import { UsermapPageModule } from './usermap-page/usermap-page.module';
 
 const routes: Routes = [
   {
     path: 'home',
-    component: IndexPageComponent,
+    loadChildren: () => import('./index-page/index-page.module').then((m: any) => m.IndexPageModule),
   },
   {
     path: 'request',
-    component: RequestPageComponent,
+    loadChildren: () => import('./request-page/request-page.module').then((m: any) => m.RequestPageModule),
   },
   {
     path: 'features',
-    component: FeaturesPageComponent,
+    loadChildren: () => import('./features-page/features-page.module').then((m: any) => m.FeaturesPageModule),
   },
   {
     path: 'about',
-    component: AboutPageComponent,
+    loadChildren: () => import('./about-page/about-page.module').then((m: any) => m.AboutPageModule),
   },
   {
     path: 'contact',
-    component: ContactPageComponent,
+    loadChildren: () => import('./contact-page/contact-page.module').then((m: any) => m.ContactPageModule),
   },
   {
     path: 'terms',
-    component: TermsPageComponent,
+    loadChildren: () => import('./terms-page/terms-page.module').then((m: any) => m.TermsPageModule),
   },
   {
     path: 'usermap',
-    component: UsermapPageComponent,
+    loadChildren: () => import('./usermap-page/usermap-page.module').then((m: any) => m.UsermapPageModule),
   },
   {
     path: 'help',
     children: [
       {
         path: 'student',
-        component: StudentHelpPageComponent,
+        loadChildren: () => import('../pages-help/student-help-page/student-help-page.module')
+            .then((m: any) => m.StudentHelpPageModule),
       },
       {
         path: 'instructor',
-        component: InstructorHelpPageComponent,
+        loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-page.module')
+            .then((m: any) => m.InstructorHelpPageModule),
+        data: {
+          instructorGettingStartedPath: '/web/front/help/getting-started',
+        },
       },
       {
         path: 'getting-started',
-        component: InstructorHelpGettingStartedComponent,
+        loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-getting-started-page.module')
+            .then((m: any) => m.InstructorHelpGettingStartedPageModule),
         data: {
           instructorHelpPath: '/web/front/help/instructor',
         },
       },
       {
         path: 'session-links-recovery',
-        component: SessionLinksRecoveryPageComponent,
+        loadChildren: () => import('../pages-help/session-links-recovery/session-links-recovery-page.module')
+            .then((m: any) => m.SessionLinksRecoveryPageModule),
       },
     ],
   },
@@ -103,16 +83,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     PageNotFoundModule,
-    AboutPageModule,
-    ContactPageModule,
-    FeaturesPageModule,
-    IndexPageModule,
-    RequestPageModule,
-    TermsPageModule,
-    UsermapPageModule,
-    StudentHelpPageModule,
-    InstructorHelpPageModule,
-    SessionLinksRecoveryPageModule,
     RouterModule.forChild(routes),
   ],
 })

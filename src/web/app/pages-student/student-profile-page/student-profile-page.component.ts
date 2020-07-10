@@ -12,8 +12,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-import { HttpErrorResponse } from '@angular/common/http';
-import { from, of, throwError } from 'rxjs';
+import { from, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { NationalitiesService } from '../../../services/nationalities.service';
 import {
@@ -116,17 +115,9 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onUploadEdit(): void {
     const NO_IMAGE_UPLOADED: number = 600;
-    const NO_IMAGE_FOUND: number = 404;
 
     this.studentProfileService.getProfilePicture()
         .pipe(
-            // If no picture is found, return null
-            catchError((err: HttpErrorResponse) => {
-              if (err.status !== NO_IMAGE_FOUND) {
-                return throwError(status);
-              }
-              return of(null);
-            }),
             // Open Modal and wait for user to upload picture
             switchMap((image: Blob | null) => {
               const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
