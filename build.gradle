@@ -166,7 +166,8 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.request.**"
+        "teammates.ui.webapi.request.**",
+        "teammates.common.util.EmailType"
     ]
     outputFile = "src/web/types/api-request.ts"
 }

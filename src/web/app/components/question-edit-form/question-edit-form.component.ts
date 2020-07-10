@@ -9,6 +9,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
 const CLEAN_PROPERTIES: Set<string> = new Set<string>(['isEditable', 'isCollapsed', 'isChanged']);
@@ -20,6 +21,7 @@ const CLEAN_PROPERTIES: Set<string> = new Set<string>(['isEditable', 'isCollapse
   selector: 'tm-question-edit-form',
   templateUrl: './question-edit-form.component.html',
   styleUrls: ['./question-edit-form.component.scss'],
+  animations: [collapseAnim],
 })
 export class QuestionEditFormComponent implements OnInit {
 

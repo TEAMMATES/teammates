@@ -13,6 +13,7 @@ import {
 import {
   StudentListInfoTableRowModel,
 } from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
  * Instructor sessions results page No Response Panel.
@@ -21,6 +22,7 @@ import {
   selector: 'tm-instructor-session-no-response-panel',
   templateUrl: './instructor-session-no-response-panel.component.html',
   styleUrls: ['./instructor-session-no-response-panel.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 

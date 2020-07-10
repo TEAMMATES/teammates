@@ -10,6 +10,7 @@ import {
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 interface QuestionTab {
@@ -25,6 +26,7 @@ interface QuestionTab {
   selector: 'tm-gqr-rqg-view-responses',
   templateUrl: './gqr-rqg-view-responses.component.html',
   styleUrls: ['./gqr-rqg-view-responses.component.scss'],
+  animations: [collapseAnim],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 

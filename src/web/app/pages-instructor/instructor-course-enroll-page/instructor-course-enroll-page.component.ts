@@ -10,6 +10,7 @@ import { StudentService } from '../../../services/student.service';
 import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
 import { StatusMessage } from '../../components/status-message/status-message';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { EnrollStatus } from './enroll-status';
 
@@ -26,6 +27,7 @@ interface EnrollResultPanel {
   selector: 'tm-instructor-course-enroll-page',
   templateUrl: './instructor-course-enroll-page.component.html',
   styleUrls: ['./instructor-course-enroll-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
 
