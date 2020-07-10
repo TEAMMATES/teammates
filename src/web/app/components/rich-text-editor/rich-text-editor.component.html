@@ -1,4 +1,4 @@
 <editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }"
-        [init]="init" [disabled]="isDisabled" [inline]="isInlineMode"
+        [init]="init" [disabled]="isDisabled"
         [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
 </editor>

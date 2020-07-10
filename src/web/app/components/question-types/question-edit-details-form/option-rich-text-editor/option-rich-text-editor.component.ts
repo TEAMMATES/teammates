@@ -14,9 +14,6 @@ export class OptionRichTextEditorComponent implements OnInit {
   isDisabled: boolean = false;
 
   @Input()
-  isInlineMode: boolean = true;
-
-  @Input()
   minHeightInPx: number = 120;
 
   @Input()
@@ -44,6 +41,7 @@ export class OptionRichTextEditorComponent implements OnInit {
       suffix: '.min',
       height: this.minHeightInPx,
       resize: false,
+      inline: true,
       relative_urls: false,
       convert_urls: false,
       remove_linebreaks: false,

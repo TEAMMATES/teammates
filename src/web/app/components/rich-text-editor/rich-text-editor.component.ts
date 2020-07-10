@@ -14,9 +14,6 @@ export class RichTextEditorComponent implements OnInit {
   isDisabled: boolean = false;
 
   @Input()
-  isInlineMode: boolean = true;
-
-  @Input()
   minHeightInPx: number = 150;
 
   @Input()
@@ -41,9 +38,11 @@ export class RichTextEditorComponent implements OnInit {
     return {
       base_url: '/tinymce',
       skin_url: '/tinymce/skins/ui/oxide',
+      content_css: '/assets/tinymce/tinymce.css',
       suffix: '.min',
       height: this.minHeightInPx,
       resize: true,
+      inline: false,
       relative_urls: false,
       convert_urls: false,
       remove_linebreaks: false,
