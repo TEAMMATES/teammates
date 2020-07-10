@@ -74,7 +74,7 @@ public class GetStudentProfileAction extends Action {
 
         StudentProfileData output = new StudentProfileData(name, studentProfile);
         // If student requesting and is not the student's own profile, hide some fields
-        if (userInfo.isStudent && !studentId.equals(userInfo.id)) {
+        if (userInfo.isStudent && !userInfo.isInstructor && !studentId.equals(userInfo.id)) {
             output.hideInformationWhenViewedByOtherStudent();
         }
 
