@@ -14,17 +14,13 @@ import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
-import { QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
+import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
-import {
-  QuestionTabModel,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
-import {
-    InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
+import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
 import {
   EXAMPLE_CONTRIBUTION_STATISTICS,
   EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
@@ -58,6 +54,7 @@ import {
   EXAMPLE_TEAM_CONTRIBUTION_QUESTION_TAB_MODEL,
   EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT,
 } from './instructor-help-questions-data';
+import { QuestionsSectionQuestions } from './questions-section-questions';
 
 /**
  * Questions Section of the Instructor Help Page.
@@ -71,6 +68,8 @@ import {
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
 
   // enum
+  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
+  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
 
@@ -113,17 +112,20 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel
     = EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL;
 
-  isEssayQuestionsCollapsed: boolean = false;
-  isMCQSingleAnsCollapsed: boolean = false;
-  isMCQMultipleAnsCollapsed: boolean = false;
-  isNumericalScaleCollapsed: boolean = false;
-  isPointsOptionsCollapsed: boolean = false;
-  isPointsRecipientsCollapsed: boolean = false;
-  isContributionQsCollapsed: boolean = false;
-  isRubricQsCollapsed: boolean = false;
-  isRankOptionsCollapsed: boolean = false;
-  isRankRecipientsCollapsed: boolean = false;
-  @Output() collapsePeerEvalTips: EventEmitter<boolean> = new EventEmitter<boolean>();
+  questionsToCollapsed: Record<string, boolean> = {
+    [QuestionsSectionQuestions.ESSAY]: false,
+    [QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]: false,
+    [QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]: false,
+    [QuestionsSectionQuestions.NUMERICAL_SCALE]: false,
+    [QuestionsSectionQuestions.POINTS_OPTIONS]: false,
+    [QuestionsSectionQuestions.POINTS_RECIPIENTS]: false,
+    [QuestionsSectionQuestions.CONTRIBUTION]: false,
+    [QuestionsSectionQuestions.RUBRIC]: false,
+    [QuestionsSectionQuestions.RANK_OPTIONS]: false,
+    [QuestionsSectionQuestions.RANK_RECIPIENTS]: false,
+  };
+
+  @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
 
   constructor(private modalService: NgbModal,
               private pageScrollService: PageScrollService,
@@ -150,9 +152,10 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
       scrollTarget: `#${target}`,
       scrollOffset: 70,
     });
-    if (target === 'tips-for-conducting-peer-eval') {
-      this.collapsePeerEvalTips.emit(true);
-    }
     return false;
+  }
+
+  expand(questionId: string): void {
+    this.questionsToCollapsed[questionId] = true;
   }
 }
