@@ -31,6 +31,10 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
 import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
+  CoursesSectionQuestions,
+} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import { Sections } from '../../pages-help/instructor-help-page/sections';
+import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
   InstructorSessionLevelPermission,
@@ -38,11 +42,15 @@ import {
 import {
   DeleteInstructorConfirmModalComponent,
 } from './delete-instructor-confirm-model/delete-instructor-confirm-modal.component';
-import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import {
+  EditMode, InstructorEditPanel,
+} from './instructor-edit-panel/instructor-edit-panel.component';
 import {
   ResendInvitationEmailModalComponent,
 } from './resend-invitation-email-modal/resend-invitation-email-modal.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
+import {
+  ViewRolePrivilegesModalComponent,
+} from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
@@ -65,6 +73,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   // enum
   EditMode: typeof EditMode = EditMode;
   FormValidator: typeof FormValidator = FormValidator;
+  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   courseId: string = '';
   timezones: string[] = [];
