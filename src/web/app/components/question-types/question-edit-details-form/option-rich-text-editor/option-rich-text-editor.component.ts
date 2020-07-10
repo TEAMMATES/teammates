@@ -42,6 +42,7 @@ export class OptionRichTextEditorComponent implements OnInit {
       base_url: '/tinymce',
       skin_url: '/tinymce/skins/ui/oxide',
       suffix: '.min',
+      height: this.minHeightInPx,
       resize: false,
       relative_urls: false,
       convert_urls: false,
