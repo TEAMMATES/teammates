@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
@@ -15,7 +15,7 @@ import {
   declarations: [SessionsRecycleBinTableComponent, RecycleBinTableFormatDatePipe],
   imports: [
     CommonModule,
-    NgbModule,
+    NgbTooltipModule,
     TeammatesCommonModule,
   ],
   exports: [SessionsRecycleBinTableComponent],

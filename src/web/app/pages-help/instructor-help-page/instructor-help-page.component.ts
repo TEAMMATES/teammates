@@ -23,6 +23,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
+  instructorGettingStartedPath: string = '';
   searchTerm: String = '';
   key: String = '';
 
@@ -38,7 +39,15 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
 
   constructor(private route: ActivatedRoute,
               private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: Document) { }
+              @Inject(DOCUMENT) private document: Document) {
+    let r: ActivatedRoute = this.route;
+    while (r.firstChild) {
+      r = r.firstChild;
+    }
+    r.data.subscribe((resp: any) => {
+      this.instructorGettingStartedPath = resp.instructorGettingStartedPath;
+    });
+  }
 
   ngOnInit(): void {
     this.scrollFinishEvent.subscribe(() => this.expandQuestionTab());

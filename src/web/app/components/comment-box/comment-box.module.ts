@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SingleResponseModule } from '../question-responses/single-response/single-response.module';
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
@@ -41,7 +41,7 @@ import {
     CommonModule,
     SingleResponseModule,
     RichTextEditorModule,
-    NgbModule,
+    NgbTooltipModule,
     FormsModule,
   ],
   exports: [
