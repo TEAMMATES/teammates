@@ -116,7 +116,7 @@
         <i class="fas fa-chevron-up" *ngIf="institutionPanelsStatus[mapping.key]"></i>
       </div>
     </div>
-    <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]">
+    <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]" @collapseAnim>
       <div class="table-responsive">
         <table class="table table-striped data-table session-table">
           <thead>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
+import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowMode, CommentRowModel } from '../comment-row/comment-row.component';
 
 /**
@@ -22,6 +23,7 @@ export interface CommentTableModel {
   selector: 'tm-comment-table',
   templateUrl: './comment-table.component.html',
   styleUrls: ['./comment-table.component.scss'],
+  animations: [collapseAnim],
 })
 export class CommentTableComponent implements OnInit {
 

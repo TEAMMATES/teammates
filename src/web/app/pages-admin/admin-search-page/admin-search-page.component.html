@@ -140,9 +140,9 @@
               <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
             </td>
           </tr>
-          <tr *ngIf="student.showLinks">
+          <tr>
             <td colspan="6">
-              <ul class="list-group">
+              <ul class="list-group" *ngIf="student.showLinks" @collapseAnim>
                 <li class="list-group-item list-group-item-success has-success">
                   <strong>Email</strong>
                   <input [value]="student.email" readonly class="form-control">
