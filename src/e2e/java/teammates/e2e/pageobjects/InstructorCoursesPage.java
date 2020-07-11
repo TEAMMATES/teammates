@@ -85,6 +85,7 @@ public class InstructorCoursesPage extends AppPage {
 
     public void verifyArchivedCoursesDetails(CourseAttributes[] courses) {
         showArchiveTable();
+        this.waitUntilAnimationFinish();
         String[][] courseDetails = getCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as archive courses are not sorted
@@ -94,6 +95,7 @@ public class InstructorCoursesPage extends AppPage {
 
     public void verifyDeletedCoursesDetails(CourseAttributes[] courses) {
         showDeleteTable();
+        this.waitUntilAnimationFinish();
         String[][] courseDetails = getDeletedCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as deleted courses are not sorted

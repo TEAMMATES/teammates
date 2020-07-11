@@ -148,14 +148,14 @@ exports[`CopySessionModalComponent should snap with some session and courses can
         <div
           class="form-check"
         >
-          <input
-            class="form-check-input ng-untouched ng-pristine ng-valid"
-            name="copySessionChooseCourse"
-            type="radio"
-          />
           <label
             class="form-check-label"
           >
+            <input
+              class="form-check-input ng-untouched ng-pristine ng-valid"
+              name="copySessionChooseCourse"
+              type="radio"
+            />
              [
             <span
               class="text-danger"
@@ -163,32 +163,32 @@ exports[`CopySessionModalComponent should snap with some session and courses can
               Test01
             </span>
             ] : Sample Course 101 
+            
+            <span
+              class="text-danger"
+            >
+               {Session currently in this course} 
+            </span>
           </label>
-          
-          <div
-            class="text-danger"
-          >
-             {Session currently in this course} 
-          </div>
         </div>
         <div
           class="form-check"
         >
-          <input
-            class="form-check-input ng-untouched ng-pristine ng-valid"
-            name="copySessionChooseCourse"
-            type="radio"
-          />
           <label
             class="form-check-label"
           >
+            <input
+              class="form-check-input ng-untouched ng-pristine ng-valid"
+              name="copySessionChooseCourse"
+              type="radio"
+            />
              [
             <span>
               Test02
             </span>
             ] : Sample Course 202 
+            
           </label>
-          
         </div>
       </div>
     </div>

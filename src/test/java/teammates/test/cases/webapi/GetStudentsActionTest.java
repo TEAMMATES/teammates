@@ -57,6 +57,8 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         assertEquals(5, students.size());
         StudentData typicalStudent = students.get(0);
+        assertNull(typicalStudent.getGoogleId());
+        assertNull(typicalStudent.getKey());
         assertEquals("idOfTypicalCourse1", typicalStudent.getCourseId());
         assertEquals("student1InCourse1@gmail.tmt", typicalStudent.getEmail());
         assertEquals("student1 In Course1</td></div>'\"", typicalStudent.getName());
@@ -85,6 +87,8 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         assertEquals(4, students.size());
         StudentData typicalStudent = students.get(0);
+        assertNull(typicalStudent.getGoogleId());
+        assertNull(typicalStudent.getKey());
         assertEquals("idOfTypicalCourse1", typicalStudent.getCourseId());
         assertEquals("student1InCourse1@gmail.tmt", typicalStudent.getEmail());
         assertEquals("student1 In Course1</td></div>'\"", typicalStudent.getName());

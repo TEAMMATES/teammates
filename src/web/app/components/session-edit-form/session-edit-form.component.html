@@ -207,7 +207,7 @@
       <span class="text-muted">Session is visible at submission opening time, responses are only visible when you publish the results.</span>
       <button id="btn-change-visibility" type="button" class="btn btn-link" (click)="triggerModelChange('hasVisibleSettingsPanelExpanded', true)" [disabled]="!model.isEditable">[Change]</button>
     </div>
-    <div class="card border-primary margin-top-20px" *ngIf="model.hasVisibleSettingsPanelExpanded">
+    <div class="card border-primary margin-top-20px" *ngIf="model.hasVisibleSettingsPanelExpanded" @collapseAnim>
       <div class="card-body">
         <div class="row align-items-start">
           <div class="col-md-6 text-center text-md-left">
@@ -307,7 +307,7 @@
       <span class="text-muted">Emails are sent when session opens (within 15 minutes), 24 hrs before session closes and when results are published.</span>
       <button id="btn-change-email" type="button" class="btn btn-link" (click)="triggerModelChange('hasEmailSettingsPanelExpanded', true)" [disabled]="!model.isEditable">[Change]</button>
     </div>
-    <div class="card border-primary margin-top-20px" *ngIf="model.hasEmailSettingsPanelExpanded">
+    <div class="card border-primary margin-top-20px" *ngIf="model.hasEmailSettingsPanelExpanded" @collapseAnim>
       <div class="card-body">
         <div class="col-12 font-bold">
             Send emails for

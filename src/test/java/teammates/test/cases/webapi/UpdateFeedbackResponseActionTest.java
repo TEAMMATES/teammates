@@ -17,6 +17,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.UpdateFeedbackResponseAction;
 import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
@@ -69,31 +70,34 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    protected void testExecute_missingIntent_httpParameterFailure() {
+    protected void testExecute_invalidParams_httpParameterFailure() {
 
         ______TS("missing intent response parameters");
 
         loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] missingIntentParams = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
         };
 
         verifyHttpParameterFailure(missingIntentParams);
-    }
-
-    @Test
-    protected void testExecute_missingResponseId_httpParameterFailure() {
 
         ______TS("missing response id parameters");
-
-        loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] missingResponseIdParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
         verifyHttpParameterFailure(missingResponseIdParams);
+
+        ______TS("unencrypted response id parameters");
+
+        String[] unencryptedResponseId = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+        };
+
+        verifyHttpParameterFailure(unencryptedResponseId);
     }
 
     @Test
@@ -135,7 +139,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(studentAttributes.getEmail());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(feedbackResponse.getId()),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
@@ -188,7 +192,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
         FeedbackResponseUpdateRequest updateRequest = getUpdateRequest(instructorAttributes.getEmail());
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(feedbackResponse.getId()),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
@@ -225,7 +229,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] wrongGiverTypeParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
         };
 
         verifyCannotAccess(wrongGiverTypeParams);
@@ -240,7 +244,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] previewParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
                 Const.ParamsNames.PREVIEWAS, instructor1OfCourse1.email,
         };
 
@@ -265,7 +269,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] sessionNotOpenParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseInClosedSession.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(responseInClosedSession.getId()),
         };
 
         verifyCannotAccess(sessionNotOpenParams);
@@ -291,7 +295,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] invalidModeratedInstructorSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student4ResponseToTeam.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student4inCourse1.getEmail(),
         };
 
@@ -309,7 +313,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] nonExistParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, "randomNonExistId",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomNonExistId"),
         };
 
         assertThrows(EntityNotFoundException.class, () -> getAction(nonExistParams).checkAccessControl());
@@ -324,7 +328,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] unknownIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(instructor1ResponseToAll.getId()),
         };
 
         assertThrows(InvalidHttpParameterException.class, () -> getAction(unknownIntentParams).checkAccessControl());
@@ -354,7 +358,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] moderatedStudentSubmissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, testModerateResponse.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(testModerateResponse.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
         };
 
@@ -378,7 +382,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] studentAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
         };
 
         verifyCannotAccess(updateRequest, studentAccessOtherPersonParams);
@@ -407,7 +411,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] studentAccessOtherTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student4ResponseToTeam.getId()),
         };
 
         verifyCannotAccess(updateRequest, studentAccessOtherTeamParams);
@@ -430,7 +434,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] instructorAccessOtherPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(instructor1ResponseToAll.getId()),
         };
 
         verifyCannotAccess(updateRequest, instructorAccessOtherPersonParams);
@@ -449,7 +453,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] instructorAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(instructor1ResponseToAll.getId()),
         };
 
         verifyCanAccess(updateRequest, instructorAccessOwnPersonParams);
@@ -468,7 +472,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] instructorAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, instructor1ResponseToAll.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(instructor1ResponseToAll.getId()),
         };
 
         verifyCannotAccess(updateRequest, instructorAccessOwnPersonParams);
@@ -496,7 +500,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] studentAccessSameTeamParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student4ResponseToTeam.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student4ResponseToTeam.getId()),
         };
 
         verifyCanAccess(updateRequest, studentAccessSameTeamParams);
@@ -515,7 +519,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] studentAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
         };
 
         verifyCanAccess(updateRequest, studentAccessOwnPersonParams);
@@ -534,7 +538,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] studentAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
         };
 
@@ -557,7 +561,7 @@ public class UpdateFeedbackResponseActionTest extends BaseActionTest<UpdateFeedb
 
         String[] studentAccessOwnPersonParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, student1ResponseToStudent1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(student1ResponseToStudent1.getId()),
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, student1InCourse1.getEmail(),
         };
 

@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.action.GetFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
@@ -74,11 +75,17 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
-        loginAsStudent(student1InCourse1.getGoogleId());
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId());
-        verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
+        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_RESPONSE_ID,
+                StringHelper.encrypt(response1ForQ1.getId()));
+        verifyHttpParameterFailure(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+        };
+        verifyHttpParameterFailure(submissionParams);
     }
 
     @Test
@@ -89,7 +96,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         verifyHttpParameterFailure(submissionParams);
 
@@ -97,7 +104,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(student1InCourse1.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         verifyHttpParameterFailure(submissionParams);
     }
@@ -111,13 +118,12 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
         FeedbackResponseCommentAttributes expected =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId());
-        assertNotNull(actualComment.getFeedbackResponseCommentId());
         assertEquals(actualComment.getFeedbackCommentText(), expected.getCommentText());
         assertEquals(actualComment.getCommentGiver(), expected.getCommentGiver());
 
@@ -131,25 +137,33 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         actualComment = getFeedbackResponseComments(submissionParams);
         expected = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ1.getId());
-        assertNotNull(actualComment.getFeedbackResponseCommentId());
         assertEquals(actualComment.getFeedbackCommentText(), expected.getCommentText());
         assertEquals(actualComment.getCommentGiver(), expected.getCommentGiver());
 
-        ______TS("non-existent comment, should return 404");
+        ______TS("non-existent comment in existing response, should return 204");
 
         loginAsStudent(student1InCourse1.getGoogleId());
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response2ForQ4.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response2ForQ4.getId()),
         };
         GetFeedbackResponseCommentAction action = getAction(submissionParams);
         JsonResult actualResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_NOT_FOUND, actualResult.getStatusCode());
+        assertEquals(HttpStatus.SC_NO_CONTENT, actualResult.getStatusCode());
+
+        ______TS("non-existent response, should return 404");
+
+        String[] nonExistentResponseSubmissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomresponseid"),
+        };
+
+        assertThrows(EntityNotFoundException.class, () -> getAction(nonExistentResponseSubmissionParams).execute());
     }
 
     @Override
@@ -166,7 +180,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
 
         verifyCanAccess(submissionParams);
@@ -176,7 +190,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         verifyCanAccess(submissionParams);
     }
@@ -188,7 +202,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] studentInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         assertThrows(InvalidHttpParameterException.class,
                 () -> getAction(studentInvalidIntentParams).checkSpecificAccessControl());
@@ -197,7 +211,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] instructorInvalidIntentParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         assertThrows(InvalidHttpParameterException.class,
                 () -> getAction(instructorInvalidIntentParams).checkSpecificAccessControl());
@@ -209,7 +223,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, "responseIdOfNonExistingResponse",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("responseIdOfNonExistingResponse"),
         };
 
         assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
@@ -222,7 +236,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsInstructor(instructor1OfCourse2.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         verifyCannotAccess(submissionParams);
@@ -231,7 +245,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         loginAsStudent(student1InCourse2.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
 
         verifyCannotAccess(submissionParams);

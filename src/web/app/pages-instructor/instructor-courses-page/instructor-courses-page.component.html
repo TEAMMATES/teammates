@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<div class="course-section" [hidden]="!isAddNewCourseFormExpanded">
+<div class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
   ></tm-add-course-form>
@@ -166,7 +166,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded">
+    <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded" @collapseAnim>
       <table id="archived-courses-table" class="table table-striped table-bordered archive-table">
         <thead>
           <tr class="background-color-medium-gray text-color-gray">
@@ -233,7 +233,7 @@
           </div>
         </div>
       </div>
-      <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded">
+      <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded" @collapseAnim>
         <table id="deleted-courses-table" class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
           <thead>
             <tr class="background-color-medium-gray text-color-gray">

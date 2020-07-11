@@ -42,6 +42,7 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
@@ -64,6 +65,7 @@ interface RecycleBinFeedbackSessionRowModel {
   selector: 'tm-instructor-sessions-page',
   templateUrl: './instructor-sessions-page.component.html',
   styleUrls: ['./instructor-sessions-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
@@ -531,7 +533,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
       restoreRequests.push(
-          this.feedbackSessionsService.deleteFeedbackSession(
+          this.feedbackSessionsService.deleteSessionFromRecycleBin(
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
           ));

@@ -109,8 +109,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
       </div>
       
     </div>
+    
     <div
-      class="collapse show"
+      class="ng-trigger ng-trigger-collapseAnim"
+      style="overflow:hidden;0:overflow;"
     >
       <div
         class="card-body"
@@ -166,15 +168,19 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="col-md-10"
                 >
                   <tm-rich-text-editor
+<<<<<<< HEAD
                     id="question-description"
                     minheightinpx="80"
+=======
+                    minheightinpx="100"
+>>>>>>> a5f15f9f634d1b988b3f6f50a85959365da48b1b
                     ngbtooltip="Please enter the description of the question."
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
                     <editor
                       class="editor editor-disabled ng-untouched ng-pristine ng-valid"
                       placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
-                      style="min-height: 80px;"
+                      style="min-height: 100px;"
                     >
                       
                       <div
@@ -188,7 +194,9 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="padding-15px"
               >
                 
-                <tm-text-question-edit-details-form>
+                <tm-text-question-edit-details-form
+                  style=""
+                >
                   <div
                     class="row"
                   >
@@ -244,13 +252,15 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <button
               aria-expanded="false"
               aria-haspopup="true"
-              class="btn btn-light dropdown-toggle"
+              class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
               id="btn-feedback-path"
               ngbdropdowntoggle=""
             >
               
-              <span>
+              <span
+                style=""
+              >
                  Students in this course will give feedback on 
                 <i
                   class="fas fa-arrow-right"
@@ -285,6 +295,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           
           <div
             class="row margin-top-15px align-items-center"
+            style=""
           >
             <div
               class="offset-1 col-4 text-right"
@@ -360,13 +371,15 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <button
               aria-expanded="false"
               aria-haspopup="true"
-              class="btn btn-light dropdown-toggle"
+              class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
               id="btn-question-visibility"
               ngbdropdowntoggle=""
             >
               
-              <span>
+              <span
+                style=""
+              >
                   
               </span>
               
@@ -386,10 +399,12 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               
               <li
                 class="dropdown-divider"
+                style=""
               />
               
               <li
                 class="dropdown-item"
+                style=""
               >
                 Custom visibility options...
               </li>
@@ -421,7 +436,9 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               
               
               
-              <li>
+              <li
+                style=""
+              >
                 No-one can see your responses
               </li>
             </ul>
@@ -431,6 +448,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
       
       <div
         class="row margin-top-15px"
+        style=""
       >
         <div
           class="col-12 text-right"

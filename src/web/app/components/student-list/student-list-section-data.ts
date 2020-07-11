@@ -16,7 +16,7 @@ export interface StudentListSectionData {
 export interface StudentListStudentData {
   name: string;
   email: string;
-  status: JoinState;
+  status?: JoinState;
   team: string;
   photoUrl?: string;
 }

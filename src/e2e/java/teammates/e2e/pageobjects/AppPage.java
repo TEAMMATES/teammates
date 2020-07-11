@@ -191,6 +191,11 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.elementToBeClickable(element));
     }
 
+    public void waitUntilAnimationFinish() {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 2);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
+    }
+
     /**
      * Waits until an element is no longer attached to the DOM or the timeout expires.
      * @param element the WebElement

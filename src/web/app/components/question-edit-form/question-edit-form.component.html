@@ -64,7 +64,7 @@
       <div class="collapse-qn-description">{{model.questionBrief}}</div>
     </div>
   </div>
-  <div [ngbCollapse]="model.isCollapsed">
+  <div *ngIf="!model.isCollapsed" @collapseAnim>
     <div class="card-body">
       <div class="background-color-light-blue">
         <div class="row">
@@ -85,7 +85,7 @@
                 <div class="question-basic-info">[Optional]<br/>Description</div>
               </div>
               <div class="col-md-10">
-                <tm-rich-text-editor id="question-description" [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="80"
+                <tm-rich-text-editor id="question-description" [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="100"
                                      placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
                                      ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>
               </div>
@@ -110,7 +110,7 @@
           <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
         </div>
         <div ngbDropdown #mainMenu="ngbDropdown" class="margin-top-15px" autoClose="outside">
-          <button id="btn-feedback-path" class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
+          <button id="btn-feedback-path" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable || this.commonFeedbackPaths.size === 1">
             <span *ngIf="!model.isUsingOtherFeedbackPath">
               {{ model.giverType | giverTypeDescription }} will give feedback on <i class="fas fa-arrow-right"></i> {{ model.recipientType | recipientTypeDescription }}
             </span>
@@ -202,7 +202,7 @@
           <b [ngClass]="{ 'visibility-title': !model.isQuestionHasResponses }">Visibility</b> (Who can see the responses?)
         </div>
         <div ngbDropdown class="margin-top-15px">
-          <button id="btn-question-visibility" class="btn btn-light" ngbDropdownToggle [disabled]="!model.isEditable">
+          <button id="btn-question-visibility" class="btn btn-light white-space-normal" ngbDropdownToggle [disabled]="!model.isEditable">
             <span *ngIf="!model.isUsingOtherVisibilitySetting">
               {{ model.commonVisibilitySettingName }}
             </span>

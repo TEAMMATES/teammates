@@ -6,14 +6,14 @@
 </div>
 <div id="template-question-modal" class="modal-body">
   <div class="card margin-top-20px" *ngFor="let templateQuestionModel of templateQuestionModels">
-    <div class="card-header">
+    <div class="card-header cursor-pointer"
+         (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
       <label>
-        <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected">
+        <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
       </label>&nbsp;
-      <span [innerHTML]="templateQuestionModel.description" class="template-description"
-            (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails"></span>
+      <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
     </div>
-    <div [ngbCollapse]="!templateQuestionModel.isShowDetails">
+    <div *ngIf="templateQuestionModel.isShowDetails" @collapseAnim>
       <div class="card-body">
         <tm-question-edit-form [formModel]="templateQuestionModel.model" isDisplayOnly="true"></tm-question-edit-form>
       </div>
