@@ -321,14 +321,19 @@ public final class BackDoor {
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
+
         CoursesData coursesData = JsonUtils.fromJson(response.responseBody, CoursesData.class);
-        List<CourseData> courseDataList = coursesData.getCourses();
-        for (CourseData courseData : courseDataList) {
-            if (courseData.getCourseId().equals(courseId)) {
-                return courseData;
-            }
+        CourseData courseData = coursesData.getCourses()
+                .stream()
+                .filter(cd -> cd.getCourseId().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+        if (courseData == null) {
+            return null;
         }
-        return null;
+
+        return courseData;
     }
 
     /**
@@ -358,13 +363,17 @@ public final class BackDoor {
         }
 
         InstructorsData instructorsData = JsonUtils.fromJson(response.responseBody, InstructorsData.class);
-        List<InstructorData> instructorsDataList = instructorsData.getInstructors();
-        for (InstructorData instructor : instructorsDataList) {
-            if (instructor.getEmail().equals(email)) {
-                return instructor;
-            }
+        InstructorData instructorData = instructorsData.getInstructors()
+                .stream()
+                .filter(instructor -> instructor.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        if (instructorData == null) {
+            return null;
         }
-        return null;
+
+        return instructorData;
     }
 
     /**
@@ -460,6 +469,9 @@ public final class BackDoor {
      */
     public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         FeedbackSessionData sessionData = getFeedbackSessionData(courseId, feedbackSessionName);
+        if (sessionData == null) {
+            return null;
+        }
 
         FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
                 .builder(sessionData.getFeedbackSessionName(), sessionData.getCourseId())
@@ -507,15 +519,19 @@ public final class BackDoor {
         }
 
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
-        List<FeedbackSessionData> sessionsDataList = sessionsData.getFeedbackSessions();
-        for (FeedbackSessionData feedbackSession : sessionsDataList) {
-            if (feedbackSession.getFeedbackSessionName().equals(feedbackSessionName)) {
-                return FeedbackSessionAttributes
-                        .builder(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName())
-                        .build();
-            }
+        FeedbackSessionData feedbackSession = sessionsData.getFeedbackSessions()
+                        .stream()
+                        .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
+                        .findFirst()
+                        .orElse(null);
+
+        if (feedbackSession == null) {
+            return null;
         }
-        return null;
+
+        return FeedbackSessionAttributes
+                .builder(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName())
+                .build();
     }
 
     /**
@@ -533,28 +549,32 @@ public final class BackDoor {
         }
 
         FeedbackQuestionsData questionsData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
-        List<FeedbackQuestionData> questionsDataList = questionsData.getQuestions();
-        for (FeedbackQuestionData question : questionsDataList) {
-            if (question.getQuestionNumber() == qnNumber) {
-                return FeedbackQuestionAttributes.builder()
-                        .withCourseId(courseId)
-                        .withFeedbackSessionName(feedbackSessionName)
-                        .withQuestionDetails(question.getQuestionDetails())
-                        .withQuestionDescription(question.getQuestionDescription())
-                        .withQuestionNumber(question.getQuestionNumber())
-                        .withGiverType(question.getGiverType())
-                        .withRecipientType(question.getRecipientType())
-                        .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackToSetting()
-                                .equals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED)
-                                ? Const.MAX_POSSIBLE_RECIPIENTS
-                                : question.getCustomNumberOfEntitiesToGiveFeedbackTo())
-                        .withShowResponsesTo(convertToFeedbackParticipantType(question.getShowResponsesTo()))
-                        .withShowGiverNameTo(convertToFeedbackParticipantType(question.getShowGiverNameTo()))
-                        .withShowRecipientNameTo(convertToFeedbackParticipantType(question.getShowRecipientNameTo()))
-                        .build();
-            }
+        FeedbackQuestionData question = questionsData.getQuestions()
+                .stream()
+                .filter(fq -> fq.getQuestionNumber() == qnNumber)
+                .findFirst()
+                .orElse(null);
+
+        if (question == null) {
+            return null;
         }
-        return null;
+
+        return FeedbackQuestionAttributes.builder()
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withQuestionDetails(question.getQuestionDetails())
+                .withQuestionDescription(question.getQuestionDescription())
+                .withQuestionNumber(question.getQuestionNumber())
+                .withGiverType(question.getGiverType())
+                .withRecipientType(question.getRecipientType())
+                .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackToSetting()
+                        .equals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED)
+                        ? Const.MAX_POSSIBLE_RECIPIENTS
+                        : question.getCustomNumberOfEntitiesToGiveFeedbackTo())
+                .withShowResponsesTo(convertToFeedbackParticipantType(question.getShowResponsesTo()))
+                .withShowGiverNameTo(convertToFeedbackParticipantType(question.getShowGiverNameTo()))
+                .withShowRecipientNameTo(convertToFeedbackParticipantType(question.getShowRecipientNameTo()))
+                .build();
     }
 
     /**
