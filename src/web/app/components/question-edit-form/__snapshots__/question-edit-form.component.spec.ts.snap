@@ -168,12 +168,8 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="col-md-10"
                 >
                   <tm-rich-text-editor
-<<<<<<< HEAD
                     id="question-description"
-                    minheightinpx="80"
-=======
                     minheightinpx="100"
->>>>>>> a5f15f9f634d1b988b3f6f50a85959365da48b1b
                     ngbtooltip="Please enter the description of the question."
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
