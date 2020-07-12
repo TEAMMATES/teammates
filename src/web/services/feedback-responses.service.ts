@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
+  InstructorSessionResultSectionType,
+} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import {
   FeedbackResponsesResponse,
 } from '../app/pages-session/session-submission-page/session-submission-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
@@ -16,6 +19,7 @@ import {
   FeedbackResponse,
   FeedbackResponseDetails, FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
+  ResponseOutput,
 } from '../types/api-output';
 import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest, Intent } from '../types/api-request';
 import {
@@ -120,6 +124,35 @@ export class FeedbackResponsesService {
       default:
         return true;
     }
+  }
+
+  /**
+   * Determines whether responses should be displayed based on the selected section.
+   */
+  isFeedbackResponsesDisplayedOnSection(response: ResponseOutput, section: string,
+      sectionType: InstructorSessionResultSectionType): boolean {
+
+    let isDisplayed: boolean = true;
+
+    if (section) {
+      switch (sectionType) {
+        case InstructorSessionResultSectionType.EITHER:
+          isDisplayed = response.giverSection === section || response.recipientSection === section;
+          break;
+        case InstructorSessionResultSectionType.GIVER:
+          isDisplayed = response.giverSection === section;
+          break;
+        case InstructorSessionResultSectionType.EVALUEE:
+          isDisplayed = response.recipientSection === section;
+          break;
+        case InstructorSessionResultSectionType.BOTH:
+          isDisplayed = response.giverSection === section && response.recipientSection === section;
+          break;
+        default:
+      }
+    }
+
+    return isDisplayed;
   }
 
   /**

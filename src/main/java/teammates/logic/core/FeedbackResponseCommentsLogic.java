@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -93,12 +95,35 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(String courseId,
-                                                           String feedbackSessionName, String section) {
+    /**
+     * Gets all feedback response comments for session in a section.
+     *
+     * @param courseId the course ID of the feedback session
+     * @param feedbackSessionName the feedback session name
+     * @param section if null, will retrieve all comments in the session
+     * @return a list of feedback response comments
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(
+            String courseId, String feedbackSessionName, @Nullable String section) {
         if (section == null) {
-            return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
+            return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
         }
         return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
+    }
+
+    /**
+     * Gets all feedback response comments for a question in a section.
+     *
+     * @param questionId the ID of the question
+     * @param section if null, will retrieve all comments for the question
+     * @return a list of feedback response comments
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForQuestionInSection(
+            String questionId, @Nullable String section) {
+        if (section == null) {
+            return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
+        }
+        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
     }
 
     /*
@@ -292,7 +317,7 @@ public final class FeedbackResponseCommentsLogic {
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
                 && (studentsEmailInTeam.contains(response.giver)
-                        || (student.getTeam().equals(response.giver)));
+                        || (isUserStudent && student.getTeam().equals(response.giver)));
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,

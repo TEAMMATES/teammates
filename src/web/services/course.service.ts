@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  StudentListResults,
-} from '../app/pages-instructor/instructor-course-enroll-page/instructor-course-enroll-page.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { Course, CourseArchive, Courses,  HasResponses, JoinStatus, MessageOutput } from '../types/api-output';
+import { Course, CourseArchive, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseArchiveRequest, CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
+
+/**
+ * The statistics of a course
+ */
+export interface CourseStatistics {
+  numOfSections: number;
+  numOfTeams: number;
+  numOfStudents: number;
+}
 
 /**
  * Handles course related logic provision.
@@ -89,10 +95,10 @@ export class CourseService {
       user: googleId,
     };
 
-    return forkJoin(
-        this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
-        this.httpRequestService.get(ResourceEndpoints.COURSES, archivedCoursesParamMap),
-    ).pipe(
+    return forkJoin([
+      this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap),
+      this.httpRequestService.get(ResourceEndpoints.COURSES, archivedCoursesParamMap),
+    ]).pipe(
         map((vals: Courses[]) => {
           return {
             courses: vals[0].courses.concat(vals[1].courses),
@@ -248,12 +254,19 @@ export class CourseService {
   }
 
   /**
-   * Returns a list of students enrolled in a course.
+   * Calculates the statistics for a course from a list of students in the course
    */
-  getStudentsEnrolledInCourse(queryParams: { courseId: string }): Observable<StudentListResults> {
-    const paramsMap: Record<string, string> = {
-      courseid: queryParams.courseId,
+  calculateCourseStatistics(students: Student[]): CourseStatistics {
+    const teams: Set<string> = new Set();
+    const sections: Set<string> = new Set();
+    students.forEach((student: Student) => {
+      teams.add(student.teamName);
+      sections.add(student.sectionName);
+    });
+    return {
+      numOfSections: sections.size,
+      numOfTeams: teams.size,
+      numOfStudents: students.length,
     };
-    return this.httpRequestService.get(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramsMap);
   }
 }

@@ -526,22 +526,6 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
     }
 
     @Test
-    public void testGetPublicProfilePictureUrl() {
-        StudentAttributes studentAttributes = StudentAttributes
-                .builder("course1", "email@email.com")
-                .withName("name 1")
-                .withSectionName("sect 1")
-                .withComment("comment 1")
-                .withTeamName("team 1")
-                .build();
-        String profilePicUrl = Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withStudentEmail(StringHelper.encrypt("email@email.com"))
-                .withCourseId(StringHelper.encrypt("course1"))
-                .toString();
-        assertEquals(profilePicUrl, studentAttributes.getPublicProfilePictureUrl());
-    }
-
-    @Test
     public void testEquals() {
 
         StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());

@@ -156,7 +156,7 @@ export abstract class InstructorSessionBasePageComponent {
     ).subscribe((instructorPrivilege: InstructorPrivilege) => {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -172,7 +172,7 @@ export abstract class InstructorSessionBasePageComponent {
         .subscribe((resp: FeedbackSessionStats) => {
           model.isLoadingResponseRate = false;
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -196,7 +196,7 @@ export abstract class InstructorSessionBasePageComponent {
               '/web/instructor/sessions/edit',
               'The feedback session has been copied. Please modify settings/questions as necessary.',
               { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -236,7 +236,7 @@ export abstract class InstructorSessionBasePageComponent {
       blob = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -253,9 +253,9 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          this.statusMessageService.showSuccessMessage('The feedback session has been published. '
+          this.statusMessageService.showSuccessToast('The feedback session has been published. '
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -270,7 +270,7 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          this.statusMessageService.showSuccessMessage('The feedback session has been unpublished.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 }

@@ -4,8 +4,9 @@
     <div class="card-body fill-plain">
       <p class="text-muted">
         <i class="fas fa-info-circle"></i>
-        <a tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
-          Scroll down
+        <a class="scroll-down" tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
+          <b>&nbsp;</b>
+          <b><u>Scroll down</u></b>
         </a>
         to see more information about the spreadsheet interfaces.
         <br>
@@ -16,15 +17,15 @@
       <div class="col-md-12">
         <tm-status-message [messages]="statusMessage"></tm-status-message>
         <div class="card card-default">
-          <div class="card-header"
+          <div id="toggle-existing-students" class="card-header cursor-pointer"
                (click)="toggleExistingStudentsPanel()">
+            <b class="existing-students-status-message">Existing Students</b>
             <div class="float-right margin-left-7px">
               <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
               <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
               <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
               <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>
-            <strong>Existing Students</strong>
           </div>
           <hot-table
               [licenseKey]="'non-commercial-and-evaluation'"
@@ -43,11 +44,11 @@
               [maxCols]="5"
               [maxRows]="100"
               [stretchH]="'all'"
-              [hidden]="isExistingStudentsPanelCollapsed">
+              [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
           </hot-table>
         </div>
         <div class="card card-default">
-          <div class="card-header" (click)="toggleNewStudentsPanel()">
+          <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
             <div class="float-right margin-left-7px">
               <i class="fas fa-chevron-{{ isNewStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
             </div>
@@ -76,22 +77,20 @@
           </hot-table>
         </div>
         <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
-          <div class="col-md-6">
+          <div class="enroll-button-group">
             <div class="input-group">
-              <button type="button" title="Add" id="button_add_empty_rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
+              <button type="button" title="Add" id="btn-add-empty-rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
                 Add row(s)
               </button>
-              <div class="col-xs-4">
-                <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
-              </div>
+              <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="enroll-button-group">
             <button
                 type="submit"
                 title="Enroll"
-                id="button_enroll"
-                name="button_enroll"
+                id="btn-enroll"
+                name="button-enroll"
                 class="btn btn-primary float-right"
                 (click)="submitEnrollData()">
               Enroll students
@@ -249,7 +248,7 @@
   </div>
 </div>
 <hr>
-<div *ngIf="coursePresent && showEnrollResults">
+<div id="results-panel" *ngIf="coursePresent && showEnrollResults">
   <div class="row">
     <div class="col-md-10">
       <h1>Enrollment Results for {{ courseid }}</h1>
@@ -272,7 +271,7 @@
         {{ enrollResultPanel.messageForEnrollmentStatus }}
       </div>
       <table class="table table-striped table-bordered">
-        <tbody>
+        <thead>
           <tr>
             <th>Section</th>
             <th>Team</th>
@@ -280,6 +279,8 @@
             <th>E-mail address</th>
             <th>Comments</th>
           </tr>
+        </thead>
+        <tbody>
           <tr *ngFor="let student of enrollResultPanel.studentList">
             <td>{{ student.sectionName }}</td>
             <td>{{ student.teamName }}</td>

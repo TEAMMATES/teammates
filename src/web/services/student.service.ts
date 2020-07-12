@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { MessageOutput, Student, Students } from '../types/api-output';
+import { Course, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
+import { SortBy, SortOrder } from '../types/sort-properties';
+import { CourseService } from './course.service';
+import { CsvHelper } from './csv-helper';
 import { HttpRequestService } from './http-request.service';
+import { TableComparatorService } from './table-comparator.service';
 
 /**
  * Handles student related logic provision.
@@ -13,7 +19,9 @@ import { HttpRequestService } from './http-request.service';
 })
 export class StudentService {
 
-  constructor(private httpRequestService: HttpRequestService) {
+  constructor(private httpRequestService: HttpRequestService,
+              private tableComparatorService: TableComparatorService,
+              private courseService: CourseService) {
   }
 
   /**
@@ -83,6 +91,17 @@ export class StudentService {
   }
 
   /**
+   * Regenerates the links for a student in a course.
+   */
+  regenerateStudentCourseLinks(courseId: string, studentEmail: string): Observable<any> {
+    const paramsMap: Record<string, string> = {
+      courseid: courseId,
+      studentemail: studentEmail,
+    };
+    return this.httpRequestService.post(ResourceEndpoints.STUDENT_COURSE_LINKS_REGENERATION, paramsMap);
+  }
+
+  /**
    * Enroll a list of students to a course by calling API.
    * Students who are enrolled successfully will be returned.
    */
@@ -118,10 +137,38 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    const paramsMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-    };
-    const responseType: string = 'text';
-    return this.httpRequestService.get(ResourceEndpoints.STUDENTS_CSV, paramsMap, responseType);
+    return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(mergeMap((course: Course) => {
+      return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(map((students: Students) => {
+        return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
+      }));
+    }));
+  }
+
+  processStudentsToCsv(courseId: string, courseName: string, students: Student[]): string {
+    const csvRows: string[][] = [];
+    csvRows.push(['Course ID', courseId]);
+    csvRows.push(['Course Name', courseName]);
+    csvRows.push([]);
+    const hasSection: boolean =
+        students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
+    const headers: string[] = ['Team', 'Full Name', 'Last Name', 'Status', 'Email'];
+    csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
+    students.sort((a: Student, b: Student) => {
+      return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
+          || this.tableComparatorService.compare(SortBy.STUDENT_NAME, SortOrder.ASC, a.name, b.name);
+    });
+    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
+    students.forEach((student: Student) => {
+      const studentRow: string[] = [
+        student.teamName ? student.teamName : '',
+        student.name,
+        student.lastName ? student.lastName : '',
+        joinStatePipe.transform(student.joinState),
+        student.email,
+      ];
+      csvRows.push(hasSection ? [student.sectionName].concat(studentRow) : studentRow);
+    });
+    return CsvHelper.convertCsvContentsToCsvString(csvRows);
   }
 }

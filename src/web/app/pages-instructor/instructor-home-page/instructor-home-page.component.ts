@@ -11,7 +11,6 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
   CourseArchive,
@@ -28,6 +27,7 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
@@ -50,6 +50,7 @@ interface CourseTabModel {
   selector: 'tm-instructor-home-page',
   templateUrl: './instructor-home-page.component.html',
   styleUrls: ['./instructor-home-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
 
@@ -66,6 +67,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   courseTabModels: CourseTabModel[] = [];
 
   hasCoursesLoaded: boolean = false;
+  isNewUser: boolean = false;
 
   constructor(router: Router,
               statusMessageService: StatusMessageService,
@@ -78,12 +80,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               tableComparatorService: TableComparatorService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
-              private timezoneService: TimezoneService,
               private loadingBarService: LoadingBarService) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
-    // need timezone data for moment()
-    this.timezoneService.getTzVersion();
   }
 
   ngOnInit(): void {
@@ -134,10 +133,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
         return model.course.courseId !== courseId;
       });
-      this.statusMessageService.showSuccessMessage(`The course ${courseArchive.courseId} has been archived.
+      this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
           You can retrieve it from the Courses page.`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -149,10 +148,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
         return model.course.courseId !== courseId;
       });
-      this.statusMessageService.showSuccessMessage(
+      this.statusMessageService.showSuccessToast(
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
   /**
@@ -181,8 +180,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           this.courseTabModels.push(model);
           this.updateCourseInstructorPrivilege(model);
         });
+        this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
         this.sortCoursesBy(this.instructorCoursesSortBy);
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
@@ -193,7 +193,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       .subscribe((instructorPrivilege: InstructorPrivilege) => {
         model.instructorPrivilege = instructorPrivilege;
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
@@ -220,7 +220,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             }
           }, (resp: ErrorMessageOutput) => {
             model.isAjaxSuccess = false;
-            this.statusMessageService.showErrorMessage(resp.error.message);
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
     }
   }
@@ -326,9 +326,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         .subscribe(() => {
           this.courseTabModels[tabIndex].sessionsTableRowModels.splice(
               this.courseTabModels[tabIndex].sessionsTableRowModels.indexOf(model), 1);
-          this.statusMessageService.showSuccessMessage(
+          this.statusMessageService.showSuccessToast(
               "The feedback session has been deleted. You can restore it from the 'Sessions' tab.");
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**

@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
@@ -113,7 +113,7 @@ describe('InstructorCoursesPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         NgbModule,
-        MatSnackBarModule,
+        BrowserAnimationsModule,
       ],
     })
     .compileComponents();

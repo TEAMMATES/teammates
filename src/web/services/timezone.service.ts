@@ -31,6 +31,7 @@ export class TimezoneService {
 
   tzVersion: string = '';
   tzOffsets: Record<string, number> = {};
+  guessedTimezone: string = '';
 
   // These short timezones are not supported by Java
   private readonly badZones: Record<string, boolean> = {
@@ -47,6 +48,7 @@ export class TimezoneService {
           const offset: number = moment.tz.zone(tz).utcOffset(d) * -1;
           this.tzOffsets[tz] = offset;
         });
+    this.guessedTimezone = moment.tz.guess();
   }
 
   /**
@@ -64,6 +66,13 @@ export class TimezoneService {
   }
 
   /**
+   * Guesses the timezone based on the web browser's settings.
+   */
+  guessTimezone(): string {
+    return this.guessedTimezone;
+  }
+
+  /**
    * Returns true if the specified time zone ID is "bad", i.e. not supported by back-end.
    */
   isBadZone(tz: string): boolean {
@@ -72,6 +81,17 @@ export class TimezoneService {
 
   getTimeZone(): Observable<TimeZones> {
     return this.httpRequestService.get(ResourceEndpoints.TIMEZONE);
+  }
+
+  formatToString(timestamp: number, timeZone: string, format: string): string {
+    return moment(timestamp).tz(timeZone).format(format);
+  }
+
+  getMomentInstance(timestamp: number | null, timeZone: string): any {
+    if (!timestamp) {
+      return moment.tz(timeZone);
+    }
+    return moment(timestamp).tz(timeZone);
   }
 
   /**

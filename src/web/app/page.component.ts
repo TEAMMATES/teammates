@@ -11,11 +11,12 @@ import {
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import uaParser from 'ua-parser-js';
-import { environment } from '../environments/environment';
-
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
+import uaParser from 'ua-parser-js';
+import { environment } from '../environments/environment';
+import { StatusMessageService } from '../services/status-message.service';
+import { Toast } from './components/toast/toast';
 
 const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -49,6 +50,7 @@ export class PageComponent {
   isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
   logoutUrl: string = `${environment.backendUrl}/logout`;
+  toast: Toast | null = null;
 
   /**
    * Minimum versions of browsers supported.
@@ -66,11 +68,13 @@ export class PageComponent {
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-              private modalService: NgbModal, location: Location) {
+              private modalService: NgbModal, location: Location,
+              private statusMessageService: StatusMessageService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
         window.scrollTo(0, 0); // reset viewport
+        this.toast = null; // reset toast
         let r: ActivatedRoute = this.route;
         while (r.firstChild) {
           r = r.firstChild;
@@ -97,6 +101,10 @@ export class PageComponent {
         this.modalService.dismissAll();
       }
     });
+
+    this.statusMessageService.getToastEvent().subscribe((toast: Toast) => {
+      this.toast = toast;
+    });
   }
 
   private checkBrowserVersion(): void {
@@ -116,6 +124,16 @@ export class PageComponent {
     // Check if the device is a mobile device
     if (window.innerWidth < 992) {
       this.isCollapsed = !this.isCollapsed;
+    }
+  }
+
+  /**
+   * Method that checks if current page has active modals and close them.
+   */
+  closeModal(): void {
+
+    if (this.modalService.hasOpenModals()) {
+      this.modalService.dismissAll();
     }
   }
 }

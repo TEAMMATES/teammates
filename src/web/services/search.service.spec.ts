@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
-import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
+import { StudentListSectionData } from '../app/components/student-list/student-list-section-data';
+import {
+  SearchStudentsTable,
+} from '../app/pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
   Course,
@@ -153,12 +154,12 @@ describe('SearchService', () => {
       delete: jest.fn(),
     };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, MatSnackBarModule],
+      imports: [HttpClientTestingModule],
       providers: [
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(SearchService);
+    service = TestBed.inject(SearchService);
     coursesWithSections = service.getCoursesWithSections(mockStudents);
   });
 
@@ -167,9 +168,10 @@ describe('SearchService', () => {
   });
 
   it('should execute GET when searching for students', () => {
-    service.searchStudents('Alice');
+    service.searchStudents('Alice', 'instructor');
     const paramMap: { [key: string]: string } = {
       searchkey: 'Alice',
+      entitytype: 'instructor',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(
       '/search/students',

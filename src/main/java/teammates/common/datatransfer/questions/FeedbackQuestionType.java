@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import teammates.common.util.Logger;
-
 /**
  * Feedback Question Type Definitions.
  */
@@ -21,8 +19,6 @@ public enum FeedbackQuestionType {
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
     RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
-
-    private static final Logger log = Logger.getLogger();
 
     private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
     private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
@@ -55,14 +51,4 @@ public enum FeedbackQuestionType {
         return responseDetailsClass;
     }
 
-    /**
-     * Returns CONSTSUM if passed CONSTSUM_OPTION or CONSTSUM_RECIPIENT as argument.
-     * Any other string is returned as is.
-     */
-    public static String standardizeIfConstSum(String questionType) {
-        if ("CONSTSUM_OPTION".equals(questionType) || "CONSTSUM_RECIPIENT".equals(questionType)) {
-            return "CONSTSUM";
-        }
-        return questionType;
-    }
 }

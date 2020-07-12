@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { RouterModule, Routes } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import {
   QuestionSubmissionFormModule,
@@ -23,6 +23,13 @@ import {
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: SessionSubmissionPageComponent,
+  },
+];
+
 /**
  * Module for feedback session submission page.
  */
@@ -32,9 +39,9 @@ import { SessionSubmissionPageComponent } from './session-submission-page.compon
     TeammatesCommonModule,
     CommonModule,
     FormsModule,
-    NgbModule,
+    NgbTooltipModule,
     QuestionSubmissionFormModule,
-    NgxPageScrollCoreModule,
+    RouterModule.forChild(routes),
   ],
   declarations: [
     SavingCompleteModalComponent,

@@ -19,9 +19,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.CommentVisibilityType;
@@ -45,6 +47,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseAttributes response2ForQ3;
     private FeedbackResponseAttributes response2ForQ4;
     private FeedbackResponseAttributes response1ForQ5;
+    private FeedbackResponseAttributes response1ForQ6;
     private StudentAttributes student1InCourse1;
     private StudentAttributes student2InCourse1;
     private StudentAttributes student3InCourse1;
@@ -81,6 +84,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 4);
         FeedbackQuestionAttributes qn5InSession1InCourse1 = logic.getFeedbackQuestion(
                 session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 5);
+        FeedbackQuestionAttributes qn6InSession1InCourse1 = logic.getFeedbackQuestion(
+                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId(), 6);
         response1ForQ1 = logic.getFeedbackResponse(qn1InSession1InCourse1.getId(),
                 instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
         response1ForQ2 = logic.getFeedbackResponse(qn2InSession1InCourse1.getId(),
@@ -93,6 +98,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 student1InCourse1.getTeam(), student1InCourse1.getTeam());
         response1ForQ5 = logic.getFeedbackResponse(qn5InSession1InCourse1.getId(),
                 instructor1OfCourse1.getEmail(), instructor1OfCourse1.getEmail());
+        response1ForQ6 = logic.getFeedbackResponse(qn6InSession1InCourse1.getId(),
+                student1InCourse1.getEmail(), student3InCourse1.getEmail());
     }
 
     @Override
@@ -107,6 +114,13 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         ______TS("not enough parameters");
         verifyHttpParameterFailure();
+
+        ______TS("unencrypted responseId");
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+        };
+        verifyHttpParameterFailure(submissionParams);
     }
 
     @Test
@@ -116,7 +130,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         ______TS("successful case for unpublished session for INSTRUCTOR_RESULT");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         FeedbackResponseCommentCreateRequest requestBody =
                 new FeedbackResponseCommentCreateRequest("Comment to first response",
@@ -145,7 +159,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         ______TS("typical successful case for unpublished session empty giver permissions");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
@@ -162,7 +176,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
@@ -172,7 +186,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         requestBody = new FeedbackResponseCommentCreateRequest("Comment shown to giver",
@@ -182,7 +196,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         requestBody = new FeedbackResponseCommentCreateRequest("Comment shown to receiver",
@@ -192,7 +206,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         requestBody =
@@ -203,7 +217,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         requestBody = new FeedbackResponseCommentCreateRequest(
@@ -214,7 +228,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         requestBody = new FeedbackResponseCommentCreateRequest("Comment shown to students",
@@ -232,7 +246,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 session1InCourse1.getCourseId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
@@ -258,7 +272,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         ______TS("Unsuccessful case: empty comment text");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("",
@@ -285,7 +299,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest(
@@ -306,7 +320,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         requestBody = new FeedbackResponseCommentCreateRequest(
@@ -329,14 +343,14 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         ______TS("invalid intent STUDENT_RESULT");
         String[] invalidIntent1 = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         verifyHttpParameterFailure(invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         verifyHttpParameterFailure(invalidIntent2);
     }
@@ -351,12 +365,36 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     protected void testAccessControl_textTypeQuestionResponse_notAllowedToAddComment() {
         String[] submissionParamsInstructor = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ2.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ2.getId()),
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         assertThrows(InvalidHttpParameterException.class,
                 () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+    }
+
+    @Test
+    public void testAccessControl_contributionQuestionResponse_instructorNotAllowedToAddComment() {
+        DataBundle contributionDataBundle = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
+        removeAndRestoreDataBundle(contributionDataBundle);
+        InstructorAttributes instructorAttributes = contributionDataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes contributionSession = contributionDataBundle.feedbackSessions.get("contribSession");
+        FeedbackQuestionAttributes contributionQuestion = logic.getFeedbackQuestion(
+                contributionSession.getFeedbackSessionName(), contributionSession.getCourseId(), 1);
+        FeedbackResponseAttributes contributionResponse =
+                contributionDataBundle.feedbackResponses.get("response1ForQ1S5C1");
+        contributionResponse = logic.getFeedbackResponse(
+                contributionQuestion.getId(), contributionResponse.getGiver(), contributionResponse.getRecipient());
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(contributionResponse.getId()),
+        };
+
+        loginAsInstructor(instructorAttributes.getGoogleId());
+        InvalidHttpParameterException exception = assertThrows(
+                InvalidHttpParameterException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        AssertHelper.assertContains("Invalid question type for instructor comment", exception.getMessage());
     }
 
     @Test
@@ -368,7 +406,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParamsStudent = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
 
         assertThrows(InvalidHttpParameterException.class,
@@ -381,7 +419,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] submissionParamsInstructor = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
         assertThrows(InvalidHttpParameterException.class,
@@ -395,7 +433,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParamsStudentToStudents = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response2ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response2ForQ3.getId()),
         };
         verifyCannotAccess(submissionParamsStudentToStudents);
 
@@ -409,7 +447,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsStudent(student3InCourse1.getGoogleId());
         String[] submissionParamsTeam = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response2ForQ4.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response2ForQ4.getId()),
         };
         verifyCannotAccess(submissionParamsTeam);
 
@@ -422,7 +460,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsInstructor(instructor2OfCourse1.getGoogleId());
         String[] submissionParamsInstructorToInstructor = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ5.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ5.getId()),
         };
         verifyCannotAccess(submissionParamsInstructorToInstructor);
 
@@ -439,14 +477,14 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] invalidIntent1 = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent1).checkAccessControl());
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent2).checkAccessControl());
     }
@@ -457,7 +495,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsInstructor(helperOfCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         verifyCannotAccess(submissionParams);
     }
@@ -468,7 +506,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         gaeSimulation.logoutUser();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ3.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
         verifyCannotAccess(submissionParams);
     }
@@ -479,7 +517,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         verifyCannotAccess(submissionParams);
     }
@@ -490,7 +528,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsInstructor(instructor2OfCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         verifyCanAccess(submissionParams);
     }
@@ -501,9 +539,57 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         loginAsAdmin();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response1ForQ1.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
         verifyCanMasquerade(instructor1OfCourse1.getGoogleId(), submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_onlyInstructorsWithCorrectPrivilege_shouldPass() throws Exception {
+
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponse();
+
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyInaccessibleForUnregisteredUsers(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        InstructorAttributes instructor = helperOfCourse1;
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section A", "Section B"});
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
+
+        verifyCanMasquerade(instructor.googleId, submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_onlyInstructorsWithOnlyEitherPrivilege_shouldFail() throws Exception {
+        String[] submissionParams = getSubmissionParamsForCrossSectionResponse();
+
+        InstructorAttributes instructor = helperOfCourse1;
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section A"});
+
+        loginAsInstructor(instructor.googleId);
+        verifyCannotAccess(submissionParams);
+
+        grantInstructorWithSectionPrivilege(instructor,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                new String[] {"Section B"});
+
+        verifyCannotAccess(submissionParams);
+    }
+
+    private String[] getSubmissionParamsForCrossSectionResponse() {
+        return new String[] {
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ6.getId()),
+        };
+
     }
 
     /**

@@ -20,7 +20,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_RESULTS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE}.
  */
 @Priority(-1)
 public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
@@ -52,11 +52,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
         testPanelsCollapseExpand();
         testShowStats();
         testRemindAllAction();
-    }
-
-    @Test
-    public void testBackEndActions() {
-        testDownloadAction();
     }
 
     private void testContent() throws Exception {
@@ -632,45 +627,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
         assertFalse(resultsPage.verifyMissingResponsesVisibility());
     }
 
-    private void testDownloadAction() {
-
-        ______TS("Typical case: download report");
-
-        AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
-                                                  .withUserId("CFResultsUiT.instr")
-                                                  .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session");
-
-        resultsPage.verifyDownloadLink(reportUrl);
-
-        ______TS("Typical case: download report for one question");
-
-        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
-                                                  .withUserId("CFResultsUiT.instr")
-                                                  .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session")
-                                                  .withQuestionNumber("2");
-
-        resultsPage.verifyDownloadLink(reportUrl);
-
-        ______TS("Typical case: download report unsuccessfully");
-
-        reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
-                                              .withUserId("CFResultsUiT.instr");
-        browser.driver.get(reportUrl.toAbsoluteString());
-        String afterReportDownloadUrl = browser.driver.getCurrentUrl();
-        assertFalse(reportUrl.toString().equals(afterReportDownloadUrl));
-        // Get an error page due to missing parameters in URL
-        // If admin is an instructor, expected url is InstructorHomePage
-        //                 otherwise, expected url is unauthorised.jsp
-        // assertTrue("Expected url is InstructorHomePage or Unauthorised page, but is " + afterReportDownloadUrl,
-        //            afterReportDownloadUrl.contains(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-        //            || afterReportDownloadUrl.contains(Const.ViewURIs.UNAUTHORIZED));
-
-        // return to the previous page
-        loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-    }
-
     @Test
     public void testLink() {
         ______TS("action: test that edit link leads to correct edit page");
@@ -689,7 +645,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
     }
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPage(String instructorName, String fsName) {
-        AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());
@@ -699,7 +655,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
     private InstructorFeedbackResultsPage
             loginToInstructorFeedbackResultsPageWithViewType(String instructorName, String fsName,
                                                              boolean needAjax, String viewType) {
-        AppUrl resultsUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                                 .withUserId(testData.instructors.get(instructorName).googleId)
                                 .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                                 .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

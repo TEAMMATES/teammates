@@ -1,5 +1,7 @@
 package teammates.e2e.pageobjects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -48,6 +50,12 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "hide-instructor-links")
     private WebElement collapseInstructorLinksButton;
 
+    @FindBy(tagName = "tm-regenerate-links-confirm-modal")
+    private WebElement regenerateLinksModal;
+
+    @FindBy(tagName = "tm-reset-google-id-confirm-modal")
+    private WebElement resetGoogleIdModal;
+
     public AdminSearchPage(Browser browser) {
         super(browser);
     }
@@ -68,6 +76,15 @@ public class AdminSearchPage extends AppPage {
     public void clickSearchButton() {
         click(searchButton);
         waitForPageToLoad();
+    }
+
+    public void regenerateLinksForStudent(StudentAttributes student) {
+        WebElement studentRow = getStudentRow(student);
+        studentRow.findElement(By.xpath("//button[text()='Regenerate links']")).click();
+        waitForPageToLoad();
+
+        regenerateLinksModal.findElement(By.className("btn-warning")).click();
+        waitForPageToLoad(true);
     }
 
     public void clickExpandStudentLinks() {
@@ -93,9 +110,15 @@ public class AdminSearchPage extends AppPage {
     public WebElement getStudentRow(StudentAttributes student) {
         String details = String.format("%s [%s] (%s)", student.course,
                 student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
-        String xpath = String.format("//table[@id='search-table-student']/tbody/tr[td[%d]='%s' and td[%d]='%s']",
-                    STUDENT_COL_DETAILS, details, STUDENT_COL_NAME, student.name);
-        return browser.driver.findElement(By.xpath(xpath));
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-student tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> columns = row.findElements(By.tagName("td"));
+            if (columns.get(STUDENT_COL_DETAILS - 1).getAttribute("innerHTML").contains(details)
+                    && columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML").contains(student.name)) {
+                return row;
+            }
+        }
+        return null;
     }
 
     public String getStudentDetails(WebElement studentRow) {
@@ -138,10 +161,14 @@ public class AdminSearchPage extends AppPage {
         WebElement studentRow = getStudentRow(student);
         studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
         waitForPageToLoad();
+
+        resetGoogleIdModal.findElement(By.className("btn-warning")).click();
+        waitForPageToLoad();
     }
 
     public WebElement getInstructorRow(InstructorAttributes instructor) {
-        String xpath = String.format("//table[@id='search-table-instructor']/tbody/tr[td[%d]='%s' and td[%d]='%s']",
+        String xpath = String.format(
+                "//table[@id='search-table-instructor']/tbody/tr[td[%d][span[text()='%s']] and td[%d]='%s']",
                 INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.name);
         return browser.driver.findElement(By.xpath(xpath));
     }
@@ -182,6 +209,9 @@ public class AdminSearchPage extends AppPage {
         WebElement instructorRow = getInstructorRow(instructor);
         instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
         waitForPageToLoad();
+
+        resetGoogleIdModal.findElement(By.className("btn-warning")).click();
+        waitForPageToLoad();
     }
 
     public int getNumExpandedRows(WebElement row) {
@@ -205,13 +235,10 @@ public class AdminSearchPage extends AppPage {
 
     private String getExpandedRowInputValue(WebElement row, String rowHeader) {
         try {
-            String xpath = String.format("following-sibling::tr[1]/td/ul/li[//text()[contains(., '%s')]]/input",
-                    rowHeader);
+            String xpath = String.format("following-sibling::tr[1]/td/ul/li[contains(., '%s')]/input", rowHeader);
             return row.findElement(By.xpath(xpath)).getAttribute("value");
         } catch (NoSuchElementException e) {
             return "";
         }
     }
 }
-
-

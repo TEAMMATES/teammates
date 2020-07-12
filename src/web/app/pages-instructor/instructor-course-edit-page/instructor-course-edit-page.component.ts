@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import moment from 'moment-timezone';
-
 import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatAll, tap } from 'rxjs/operators';
@@ -33,6 +31,10 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
 import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
+  CoursesSectionQuestions,
+} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import { Sections } from '../../pages-help/instructor-help-page/sections';
+import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
   InstructorSessionLevelPermission,
@@ -40,14 +42,19 @@ import {
 import {
   DeleteInstructorConfirmModalComponent,
 } from './delete-instructor-confirm-model/delete-instructor-confirm-modal.component';
-import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import {
+  EditMode, InstructorEditPanel,
+} from './instructor-edit-panel/instructor-edit-panel.component';
 import {
   ResendInvitationEmailModalComponent,
 } from './resend-invitation-email-modal/resend-invitation-email-modal.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
+import {
+  ViewRolePrivilegesModalComponent,
+} from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
+  originalPanel: InstructorEditPanel;
   editPanel: InstructorEditPanel;
 }
 
@@ -61,11 +68,13 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  @ViewChild('courseForm', { static: false }) form!: FormGroup;
+  @ViewChild('courseForm') form!: FormGroup;
 
   // enum
   EditMode: typeof EditMode = EditMode;
   FormValidator: typeof FormValidator = FormValidator;
+  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   courseId: string = '';
   timezones: string[] = [];
@@ -150,10 +159,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.loadCurrInstructorInfo();
 
       // load all section and session name
-      forkJoin(
-          this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
-          this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ).subscribe((vals: any[]) => {
+      forkJoin([
+        this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
+        this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+      ]).subscribe((vals: any[]) => {
         const students: Students = vals[0] as Students;
         const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
 
@@ -173,7 +182,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Replaces the timezone value with the detected timezone.
    */
   detectTimezone(): void {
-    this.course.timeZone = moment.tz.guess();
+    this.course.timeZone = this.timezoneService.guessTimezone();
   }
 
   /**
@@ -184,7 +193,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -198,14 +207,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }).subscribe((resp: InstructorPrivilege) => {
       this.currInstructorCoursePrivilege = resp;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     // login credential
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -217,7 +226,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -233,12 +242,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
     }).subscribe((resp: Course) => {
-      this.statusMessageService.showSuccessMessage('The course has been edited.');
+      this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
     Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
@@ -265,13 +274,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructors) => {
           this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
             originalInstructor: Object.assign({}, i),
+            originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
           }));
           this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
-            this.loadPermissionForInstructor(panel.originalInstructor, panel.editPanel.permission);
+            this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -327,7 +337,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }).subscribe((resp: InstructorPrivilege) => {
       modalRef.componentInstance.instructorPrivilege = resp;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -336,7 +346,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   cancelEditingInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    panelDetail.editPanel = this.getInstructorEditPanelModel(panelDetail.originalInstructor);
+    panelDetail.editPanel = JSON.parse(JSON.stringify(panelDetail.originalPanel));
   }
 
   /**
@@ -367,13 +377,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
 
-      this.statusMessageService.showSuccessMessage(`The instructor ${resp.name} has been updated.`);
+      this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
 
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     panelDetail.editPanel.isEditing = false;
+    panelDetail.originalPanel = JSON.parse(JSON.stringify(panelDetail.editPanel));
   }
 
   /**
@@ -395,10 +406,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
                   this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
         } else {
           this.instructorDetailPanels.splice(index, 1);
-          this.statusMessageService.showSuccessMessage('Instructor is successfully deleted.');
+          this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
         }
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -415,9 +426,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.courseService
           .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
           .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessMessage(resp.message);
+            this.statusMessageService.showSuccessToast(resp.message);
           }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
     }, () => {});
   }
@@ -438,12 +449,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: Object.assign({}, resp),
+            originalPanel: this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
           this.instructorDetailPanels.push(newDetailPanels);
-          this.statusMessageService.showSuccessMessage(`"The instructor ${resp.name} has been added successfully.
+          this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
           An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
 
           this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
@@ -476,14 +489,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
             isEditing: true,
           };
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
   /**
    * Loads permission for instructor.
    */
-  loadPermissionForInstructor(instructor: Instructor, permission: InstructorOverallPermission): void {
+  loadPermissionForInstructor(panel: InstructorEditPanelDetail): void {
+    const instructor: Instructor = panel.originalInstructor;
+    const permission: InstructorOverallPermission = panel.editPanel.permission;
+
     if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
       return;
     }
@@ -603,8 +619,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
           sectionLevel.sessionLevel = [];
         }
       });
+      panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -691,7 +708,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

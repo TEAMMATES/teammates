@@ -23,6 +23,7 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.core.CoursesLogic;
@@ -228,8 +229,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has joined the course");
 
-        EmailWrapper email =
-                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email);
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForStudent.html");
@@ -237,12 +238,32 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has not joined the course");
 
-        email = new EmailGenerator()
-                .generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email);
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), unregisteredStudent.email,
+                Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, unregisteredStudent.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailForUnregisteredStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to student. "
+                + "Student has joined the course");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email,
+                                            Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
+        subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, student1.email, subject, "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to student. "
+                + "Student has not joined the course");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), unregisteredStudent.email,
+                                            Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
+        subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, unregisteredStudent.email, subject,
+                "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedUnregisteredStudent.html");
 
         ______TS("feedback session submission email");
 
@@ -325,8 +346,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback sessions summary of course email: sanitization required");
 
-        EmailWrapper email =
-                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.email);
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                session.getCourseId(), student1.email, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
         verifyEmail(email, student1.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");
@@ -388,6 +409,37 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");
 
+    }
+
+    @Test
+    public void testGenerateFeedbackSessionSummaryOfCourse_noSessionLinksFound() throws IOException {
+        FeedbackSessionAttributes session =
+                fsLogic.getFeedbackSession("Feedback session with no emails sent", "idOfTestingNoEmailsSentCourse");
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+
+        StudentAttributes noLinksStudent = studentsLogic.getStudentForEmail(course.getId(), "student1@noemailssent.tmt");
+
+        ______TS("send summary of all feedback sessions of course email to new student. "
+                + "No feedback session opening or published emails have been sent");
+
+        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+                                                            session.getCourseId(), noLinksStudent.email,
+                                                            Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
+        String subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, noLinksStudent.email, subject,
+                    "/summaryOfFeedbackSessionsOfCourseEmailForNoLinksStudent.html");
+
+        ______TS("send summary of all regenerated feedback session links of course email to student. "
+                + "No feedback session opening or published emails have been sent");
+
+        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), noLinksStudent.email,
+                Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
+        subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
+
+        verifyEmail(email, noLinksStudent.email, subject,
+                    "/summaryOfFeedbackSessionsOfCourseEmailForNoLinksRegeneratedStudent.html");
     }
 
     @Test

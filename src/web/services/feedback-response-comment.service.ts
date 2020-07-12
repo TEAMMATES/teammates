@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-endpoints';
-import { FeedbackResponseComment } from '../types/api-output';
+import { FeedbackResponseComment, FeedbackVisibilityType } from '../types/api-output';
 import {
   FeedbackResponseCommentCreateRequest,
   FeedbackResponseCommentUpdateRequest, Intent,
 } from '../types/api-request';
+import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -67,5 +68,12 @@ export class FeedbackResponseCommentService {
       responseid: responseId,
       ...additionalParams,
     });
+  }
+
+  /**
+   * Gets a state machine of comment visibility settings for a certain question.
+   */
+  getNewVisibilityStateMachine(questionShowResponsesTo: FeedbackVisibilityType[]): CommentVisibilityStateMachine {
+    return new CommentVisibilityStateMachine(questionShowResponsesTo);
   }
 }

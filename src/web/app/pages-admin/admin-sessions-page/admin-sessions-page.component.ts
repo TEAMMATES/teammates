@@ -4,6 +4,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
@@ -18,6 +19,7 @@ interface OngoingSessionModel {
   selector: 'tm-admin-sessions-page',
   templateUrl: './admin-sessions-page.component.html',
   styleUrls: ['./admin-sessions-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class AdminSessionsPageComponent implements OnInit {
 
@@ -49,7 +51,7 @@ export class AdminSessionsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
+    this.timezone = this.timezoneService.guessTimezone();
 
     const now: any = moment();
     this.startDate = {
@@ -102,7 +104,7 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   private getMomentInstant(year: number, month: number, day: number, hour: number, minute: number): any {
-    const inst: any = moment.tz(this.timezone);
+    const inst: any = this.timezoneService.getMomentInstance(null, this.timezone);
     inst.set('year', year);
     inst.set('month', month);
     inst.set('date', day);
@@ -144,7 +146,7 @@ export class AdminSessionsPageComponent implements OnInit {
             this.institutionPanelsStatus[institution] = true;
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -166,7 +168,7 @@ export class AdminSessionsPageComponent implements OnInit {
             sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 

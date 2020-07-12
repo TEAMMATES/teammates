@@ -7,11 +7,8 @@
 }
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
-::ng-deep .mat-progress-bar-fill::after {
-  background-color: #007BFF;
-}
-
-::ng-deep .mat-progress-bar-buffer {
-  background: #E4E8EB;
+::ng-deep .progress {
+  border-radius: 0;
+  height: .25rem;
 }
 /* stylelint-enable */

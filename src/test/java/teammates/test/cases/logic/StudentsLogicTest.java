@@ -286,6 +286,29 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertNull(responseToBeDeleted);
     }
 
+    @Test
+    public void testRegenerateStudentRegistrationKey() throws Exception {
+        ______TS("typical regeneration of course student's registration key");
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        verifyPresentInDatastore(student1InCourse1);
+
+        StudentAttributes updatedStudent =
+                        studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, student1InCourse1.email);
+
+        assertNotEquals(student1InCourse1.getKey(), updatedStudent.getKey());
+
+        ______TS("non-existent student");
+
+        String nonExistentEmail = "non-existent@email";
+        assertNull(logic.getStudentForEmail(student1InCourse1.course, nonExistentEmail));
+
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, nonExistentEmail));
+        assertEquals("Student does not exist: [" + student1InCourse1.course + "/" + nonExistentEmail + "]",
+                      ednee.getMessage());
+    }
+
     private void testGetStudentForEmail() {
 
         ______TS("null parameters");

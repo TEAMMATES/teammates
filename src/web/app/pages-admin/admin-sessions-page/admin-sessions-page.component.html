@@ -1,4 +1,4 @@
-<h4 style="margin-top: 40px; margin-bottom: 10px;">
+<h4>
   <small>
     Total: {{ totalOngoingSessions}} -
     Opened: {{ totalOpenSessions}} -
@@ -13,7 +13,7 @@
 <button class="btn btn-info btn-sm" style="margin-right: 10px;" (click)="openAllInstitutions()">Open All</button>
 <button class="btn btn-warning btn-sm" (click)="closeAllInstitutions()">Collapse All</button>
 <div style="margin-top: 20px;">
-  <div class="form-group text-center">
+  <div class="text-center">
     <button class="btn btn-link center-block" (click)="showFilter = !showFilter">
       {{ showFilter ? 'Hide' : 'Show' }} filter
       <br>
@@ -23,14 +23,14 @@
   <div class="card bg-light" *ngIf="showFilter">
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4" data-toggle="tooltip" data-placement="top">
+        <div class="col-xl-4" data-toggle="tooltip" data-placement="top">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <label class="label-control">From</label>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <form>
                 <div class="form-group">
                   <div class="input-group">
@@ -44,19 +44,19 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
               <ngb-timepicker [(ngModel)]="startTime" [spinners]="false"></ngb-timepicker>
             </div>
           </div>
         </div>
-        <div class="col-md-4 border-left-gray" data-toggle="tooltip" data-placement="top">
+        <div class="col-xl-4 border-left-gray" data-toggle="tooltip" data-placement="top">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <label class="label-control">To</label>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <form>
                 <div class="form-group">
                   <div class="input-group">
@@ -70,24 +70,24 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
               <ngb-timepicker [(ngModel)]="endTime" [spinners]="false"></ngb-timepicker>
             </div>
           </div>
         </div>
-        <div class="col-md-4 border-left-gray">
+        <div class="col-xl-4 border-left-gray">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-12">
               <label class="control-label">Time Zone</label>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-6">
               <select class="form-control" [(ngModel)]="timezone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
-            <div class="col-sm-6">
+            <div class="col-6">
               <button class="btn btn-primary btn-block" (click)="getFeedbackSessions()">
                 Filter by Range
               </button>
@@ -99,15 +99,27 @@
   </div>
 </div>
 
-<div class="card bg-light" style="margin-top: 20px;" *ngFor="let mapping of sessions | keyvalue">
-  <div class="card-header bg-primary text-white" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
-    <strong>{{ mapping.key }}</strong>
-    <strong class="float-sm-right">{{ mapping.value.length }}</strong>
+<ng-template #noOngoingSessions>
+  <div class="alert alert-warning margin-top-30px" role="alert">
+    Currently No Ongoing Sessions
   </div>
-  <div class="card-body" *ngIf="institutionPanelsStatus[mapping.key]">
-    <div class="table-responsive">
-      <table class="table table-striped data-table">
-        <thead>
+</ng-template>
+
+<div *ngIf="totalOngoingSessions; else noOngoingSessions">
+  <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
+    <div class="row no-gutters text-left text-white card-header bg-primary" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
+      <div class="col-11">
+        <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
+      </div>
+      <div class="col-1 text-right">
+        <i class="fas fa-chevron-down" *ngIf="!institutionPanelsStatus[mapping.key]"></i>
+        <i class="fas fa-chevron-up" *ngIf="institutionPanelsStatus[mapping.key]"></i>
+      </div>
+    </div>
+    <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]" @collapseAnim>
+      <div class="table-responsive">
+        <table class="table table-striped data-table session-table">
+          <thead>
           <tr>
             <th>Status</th>
             <th>[Course ID] Session Name</th>
@@ -116,9 +128,9 @@
             <th>End Time</th>
             <th>Creator</th>
           </tr>
-        </thead>
+          </thead>
 
-        <tbody>
+          <tbody>
           <tr *ngFor="let session of mapping.value">
             <td>{{ session.ongoingSession.sessionStatus }}</td>
             <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
@@ -128,10 +140,11 @@
             </td>
             <td>{{ showDateFromMillis(session.ongoingSession.startTime) }}</td>
             <td>{{ showDateFromMillis(session.ongoingSession.endTime) }}</td>
-            <td><a [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
+            <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

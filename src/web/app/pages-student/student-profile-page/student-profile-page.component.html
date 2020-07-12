@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="row profile-pic-row">
-        <div class="col-3 cursor-pointer">
+        <div class="col-md-12 cursor-pointer">
           <button
               class="btn btn-primary upload-edit-photo"
               ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
@@ -76,7 +76,7 @@
                 type="radio"
                 formControlName="studentgender"
                 [value]="gender">
-            <label class="student-gender-label">{{ gender | genderFormat }}</label>
+            <label class="student-gender-label mt-1">{{ gender | genderFormat }}</label>
           </div>
         </div>
         <div class="form-group" ngbTooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc">
@@ -110,11 +110,11 @@
           Are you sure you want to make changes to your profile?
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary modal-btn-ok" (click)="submitEditForm(); modal.dismiss()">
-            Yes, save changes
-          </button>
           <button type="button" class="btn btn-outline-secondary modal-btn-cancel" (click)="modal.dismiss()">
             Cancel
+          </button>
+          <button type="button" class="btn btn-primary modal-btn-ok" (click)="submitEditForm(); modal.dismiss()">
+            Yes, save changes
           </button>
         </div>
       </ng-template>

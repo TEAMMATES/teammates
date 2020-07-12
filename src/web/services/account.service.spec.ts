@@ -26,7 +26,7 @@ describe('AccountService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(AccountService);
+    service = TestBed.inject(AccountService);
   });
 
   it('should be created', () => {

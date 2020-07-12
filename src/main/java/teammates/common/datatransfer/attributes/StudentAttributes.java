@@ -109,13 +109,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 .toString();
     }
 
-    public String getPublicProfilePictureUrl() {
-        return Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withStudentEmail(StringHelper.encrypt(email))
-                .withCourseId(StringHelper.encrypt(course))
-                .toString();
-    }
-
     public String getName() {
         return name;
     }
@@ -380,7 +373,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link StudentAttributes}.
+     * Helper class to specify the fields to update in {@link StudentAttributes}.
      */
     public static class UpdateOptions {
         private String courseId;

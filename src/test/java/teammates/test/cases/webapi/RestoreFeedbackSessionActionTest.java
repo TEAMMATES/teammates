@@ -90,8 +90,8 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     protected void testAccessControl() throws Exception {
         logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
 
-        verifyOnlyInstructorsCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 
 }

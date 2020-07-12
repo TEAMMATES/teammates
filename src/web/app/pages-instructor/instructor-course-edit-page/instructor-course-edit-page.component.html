@@ -1,40 +1,44 @@
 <div class="card bg-light top-padded">
-  <div class="card-header bg-primary text-white">
-    <strong>Course:</strong>
-    <span class="float-sm-right">
-      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
-              [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
-              *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
-        <i class="fa fa-pen" aria-hidden="true"></i>
-        Edit
-      </button>
-      <button *ngIf="isEditingCourse" class="btn btn-light btn-sm"
-              ngbTooltip="Cancel editing course details" placement="top-right"
-              (click)="cancelEditingCourse()">
-              <i class="fa fa-times" aria-hidden="true"></i>
-        Cancel
-      </button>&nbsp;
-      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
-              [disabled]="!currInstructorCoursePrivilege.canModifyCourse" (click)="deleteCourse()">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-        Delete
-      </button>
-    </span>
+  <div class="card-header bg-primary text-white text-center">
+    <div class="row">
+      <div class="col-md-6 text-md-left align-self-center">
+        <strong>Course</strong>
+      </div>
+      <div class="col-md-6 text-md-right">
+        <button id="btn-edit-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
+                *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
+          <i class="fa fa-pen" aria-hidden="true"></i>
+          Edit
+        </button>
+        <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-light btn-sm"
+                ngbTooltip="Cancel editing course details" placement="top-right"
+                (click)="cancelEditingCourse()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>&nbsp;
+        <button id="btn-delete-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse" (click)="deleteCourse()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Delete
+        </button>
+      </div>
+    </div>
   </div>
   <div class="card-body fill-plain">
     <form #courseForm="ngForm" (ngSubmit)="onSaveCourse()">
       <div class="form-row form-group">
-        <label class="col-sm-3">Course ID:</label>
-        <div class="col-sm-3">
-          <input class="col-xs-12 form-control" type="text" tabindex="1"
+        <label class="col-sm-3 font-weight-bold text-md-right">Course ID:</label>
+        <div class="col-sm-9">
+          <input id="course-id" class="col-xs-12 form-control" type="text" tabindex="1"
                  #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
                  [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
         </div>
       </div>
       <div class="form-row form-group">
-        <label class="col-sm-3">Course Name:</label>
+        <label class="col-sm-3 font-weight-bold text-md-right">Course Name:</label>
         <div class="col-sm-9">
-          <input class="form-control" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
+          <input id = "course-name" class="form-control" ngbTooltip="Enter the name of the course, e.g. Software Engineering."
                  type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
                  [(ngModel)]="course.courseName" #courseName="ngModel"
                  [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
@@ -46,10 +50,10 @@
         </div>
       </div>
       <div class="form-row form-group">
-        <label class="col-xs-12 col-sm-3">Time Zone:</label>
+        <label class="col-xs-12 col-sm-3 font-weight-bold text-md-right">Time Zone:</label>
         <div class="col-xs-12 col-sm-9">
           <div class="input-group">
-            <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
+            <select id="time-zone" class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
               device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
               [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
               <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
@@ -62,9 +66,9 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group m-0">
         <div class=" col-sm-12 text-center">
-          <button class="btn btn-primary" type="submit" [disabled]="form.invalid" *ngIf="isEditingCourse">
+          <button id="btn-save-course" class="btn btn-primary" type="submit" [disabled]="form.invalid" *ngIf="isEditingCourse">
             Save Changes
           </button>
         </div>
@@ -73,23 +77,26 @@
   </div>
 </div>
 <div class="right top-padded">
-  <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
+  <a class="small" routerLink="/web/instructor/help" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}" rel="noopener noreferrer" target="_blank">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
     More about configuring access permissions
   </a>
 </div>
 <ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
-  <tm-instructor-edit-panel [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
-                            [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-                            (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
-                            (deleteInstructor)="deleteInstructor(i)"
-                            (saveInstructor)="saveInstructor(i)" (cancelEditing)="cancelEditingInstructor(i)"
-                            (sendRemindJoinEmail)="resendReminderEmail(i)"
-                            [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
+  <tm-instructor-edit-panel
+          [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
+          [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+          (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+          (deleteInstructor)="deleteInstructor(i)"
+          (saveInstructor)="saveInstructor(i)"
+          (cancelEditing)="cancelEditingInstructor(i)"
+          (sendRemindJoinEmail)="resendReminderEmail(i)"
+          [allSections]="this.allSections" [allSessions]="this.allSessions">
+  </tm-instructor-edit-panel>
   <br/>
 </ng-container>
 <div class="text-center" *ngIf="!isAddingNewInstructor">
-  <button class="btn btn-primary" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
+  <button id="btn-add-instructor" class="btn btn-primary" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
     Add New Instructor
   </button>
 </div>

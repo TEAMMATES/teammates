@@ -1,5 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 
@@ -10,7 +12,11 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorSessionNoResponsePanelComponent],
-      imports: [RouterModule],
+      imports: [
+        RouterModule,
+        HttpClientTestingModule,
+        NgbModule,
+      ],
     })
     .compileComponents();
   }));

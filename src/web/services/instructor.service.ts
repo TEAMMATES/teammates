@@ -36,21 +36,29 @@ export class InstructorService {
    */
   getInstructor(queryParams: {
     courseId: string,
-    feedbackSessionName: string,
+    feedbackSessionName?: string,
     intent: Intent,
-    key: string,
-    moderatedPerson: string,
-    previewAs: string,
+    key?: string,
+    moderatedPerson?: string,
+    previewAs?: string,
   }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
       intent: queryParams.intent,
-      key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
-      previewas: queryParams.previewAs,
     };
-    return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR, paramMap);
+    if (queryParams.feedbackSessionName) {
+      paramMap.fsname = queryParams.feedbackSessionName;
+    }
+    if (queryParams.key) {
+      paramMap.key = queryParams.key;
+    }
+    if (queryParams.moderatedPerson) {
+      paramMap.moderatedperson = queryParams.moderatedPerson;
+    }
+    if (queryParams.previewAs) {
+      paramMap.previewas = queryParams.previewAs;
+    }
+    return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR, paramMap);
   }
 
   /**

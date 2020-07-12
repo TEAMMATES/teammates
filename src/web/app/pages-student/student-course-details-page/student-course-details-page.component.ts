@@ -6,8 +6,10 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { Course, Gender, Instructor, Instructors, JoinState, Student, StudentProfile,
   Students } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -27,8 +29,12 @@ export interface StudentProfileWithPicture {
   styleUrls: ['./student-course-details-page.component.scss'],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
-  Gender: typeof Gender = Gender; // enum
+  // enum
+  Gender: typeof Gender = Gender;
+  SortBy: typeof SortBy = SortBy;
+  teammateProfilesSortBy: SortBy = SortBy.NONE;
 
+  // data
   student: Student = {
     email: '',
     courseId: '',
@@ -51,7 +57,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
-  constructor(private route: ActivatedRoute,
+  constructor(private tableComparatorService: TableComparatorService,
+              private route: ActivatedRoute,
               private instructorService: InstructorService,
               private studentProfileService: StudentProfileService,
               private studentService: StudentService,
@@ -89,7 +96,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -100,34 +107,34 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadTeammates(courseId: string, teamName: string): void {
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
-        .subscribe((students: Students) => {
-          students.students.forEach((student: Student) => {
-            // filter away current user
-            if (student.email === this.student.email) {
-              return;
-            }
+      .subscribe((students: Students) => {
+        students.students.forEach((student: Student) => {
+          // filter away current user
+          if (student.email === this.student.email) {
+            return;
+          }
 
-            this.studentProfileService.getStudentProfile(student.email, courseId)
-                  .subscribe((studentProfile: StudentProfile) => {
-                    const newPhotoUrl: string =
-                      `${environment.backendUrl}/webapi/student/profilePic`
-                      + `?courseid=${courseId}&studentemail=${student.email}`;
+          this.studentProfileService.getStudentProfile(student.email, courseId)
+                .subscribe((studentProfile: StudentProfile) => {
+                  const newPhotoUrl: string =
+                    `${environment.backendUrl}/webapi/student/profilePic`
+                    + `?courseid=${courseId}&studentemail=${student.email}`;
 
-                    const newTeammateProfile: StudentProfileWithPicture = {
-                      studentProfile: {
-                        ...studentProfile,
-                        email: student.email,
-                        shortName: student.name,
-                      },
-                      photoUrl : newPhotoUrl,
-                    };
+                  const newTeammateProfile: StudentProfileWithPicture = {
+                    studentProfile: {
+                      ...studentProfile,
+                      email: student.email,
+                      shortName: student.name,
+                    },
+                    photoUrl : newPhotoUrl,
+                  };
 
-                    this.teammateProfiles.push(newTeammateProfile);
-                  });
-          });
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+                  this.teammateProfiles.push(newTeammateProfile);
+                });
         });
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   /**
@@ -139,7 +146,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -148,5 +155,63 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   setDefaultPic(teammateProfile: StudentProfileWithPicture): void {
     teammateProfile.photoUrl = '/assets/images/profile_picture_default.png';
+  }
+
+  /**
+   * Checks the option selected to sort teammates.
+   * @param sortOption: option for sorting
+   */
+  isSelectedForSorting(sortOption: SortBy): boolean {
+    return this.teammateProfilesSortBy === sortOption;
+  }
+
+  /**
+   * Sorts the teammates according to selected option.
+   * @param sortOption: option for sorting
+   */
+  sortTeammatesBy(sortOption: SortBy): void {
+    this.teammateProfilesSortBy = sortOption;
+
+    if (this.teammateProfiles.length > 1) {
+      this.teammateProfiles.sort(this.sortPanelsBy(sortOption));
+    }
+  }
+
+  /**
+   * Sorts the panels of teammates in order.
+   * @param sortOption: option for sorting
+   */
+  sortPanelsBy(sortOption: SortBy):
+      ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
+    return ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }): number => {
+      let strA: string;
+      let strB: string;
+      switch (sortOption) {
+        case SortBy.STUDENT_NAME:
+          strA = a.studentProfile.shortName;
+          strB = b.studentProfile.shortName;
+          break;
+        case SortBy.EMAIL:
+          strA = a.studentProfile.email;
+          strB = b.studentProfile.email;
+          break;
+        case SortBy.STUDENT_GENDER:
+          strA = a.studentProfile.gender;
+          strB = b.studentProfile.gender;
+          break;
+        case SortBy.INSTITUTION:
+          strA = a.studentProfile.institute;
+          strB = b.studentProfile.institute;
+          break;
+        case SortBy.NATIONALITY:
+          strA = a.studentProfile.nationality;
+          strB = b.studentProfile.nationality;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(sortOption, SortOrder.ASC, strA, strB);
+    });
   }
 }

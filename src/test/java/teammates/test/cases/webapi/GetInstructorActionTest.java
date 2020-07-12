@@ -46,7 +46,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName());
 
-        ______TS("Typical Success Case");
+        ______TS("Typical Success Case with INSTRUCTOR_SUBMISSION");
         String[] params = {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
@@ -60,7 +60,20 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         InstructorData response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor1OfCourse1.name, response.getName());
 
-        ______TS("Course ID given but Course is non existent");
+        ______TS("Typical Success Case with FULL_DETAIL");
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+
+        getInstructorAction = getAction(params);
+        actionOutput = getJsonResult(getInstructorAction);
+
+        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        response = (InstructorData) actionOutput.getOutput();
+        assertEquals(instructor1OfCourse1.getName(), response.getName());
+
+        ______TS("Course ID given but Course is non existent (INSTRUCTOR_SUBMISSION)");
 
         String[] invalidCourseParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "1234A",
@@ -71,6 +84,19 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         GetInstructorAction invalidCourseAction = getAction(invalidCourseParams);
         JsonResult invalidCourseOutput = getJsonResult(invalidCourseAction);
         MessageOutput invalidCourseMsg = (MessageOutput) invalidCourseOutput.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, invalidCourseOutput.getStatusCode());
+        assertEquals("Instructor could not be found for this course", invalidCourseMsg.getMessage());
+
+        ______TS("Instructor not found case with FULL_DETAIL");
+        invalidCourseParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "Unknown",
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+
+        invalidCourseAction = getAction(invalidCourseParams);
+        invalidCourseOutput = getJsonResult(invalidCourseAction);
+        invalidCourseMsg = (MessageOutput) invalidCourseOutput.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, invalidCourseOutput.getStatusCode());
         assertEquals("Instructor could not be found for this course", invalidCourseMsg.getMessage());
@@ -108,7 +134,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         loginAsInstructor(instructor1OfCourse1.googleId);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course with correct privilege can access");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -116,12 +142,8 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, submissionParams);
 
         ______TS("feedback session does not exist");
 
@@ -134,6 +156,14 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
             verifyAccessibleForInstructorsOfTheSameCourse(invalidFeedbackSessionParams);
         });
+
+        ______TS("need login for FULL_DETAILS intent");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+        verifyInaccessibleWithoutLogin(submissionParams);
+        verifyAnyLoggedInUserCanAccess(submissionParams);
     }
 
 }

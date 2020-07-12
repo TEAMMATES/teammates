@@ -1,4 +1,4 @@
-<div class="card border-{{ isSelfResponses ? 'info' : 'primary' }}" style="margin-top: 20px;">
+<div class="card border-{{ isSelfResponses ? 'info' : 'primary' }} mt-4">
   <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }} text-white">
     <b>To:</b> {{ recipient }}
   </div>
@@ -13,7 +13,34 @@
           </tr>
           <tr>
             <td>
-              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
+              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails" [isStudentPage]="true"></tm-single-response>
+            </td>
+          </tr>
+          <tr *ngIf="response.participantComment">
+            <td>
+              <tm-comment-row
+                              [mode]="CommentRowMode.EDIT"
+                              [isVisibilityOptionEnabled]="false"
+                              [isDisabled]="true"
+                              [shouldHideSavingButton]="true"
+                              [shouldHideClosingButton]="true"
+                              [shouldHideEditButton]="true"
+                              [shouldHideDeleteButton]="true"
+                              [isFeedbackParticipantComment]="true"
+                              [response]="response"
+                              [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
+                              [model]="response.participantComment | commentToCommentRowModel"
+            ></tm-comment-row>
+            </td>
+          </tr>
+          <tr *ngIf="response.instructorComments.length > 0">
+            <td>
+              <tm-comment-table
+                  [response]="response"
+                  [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
+                  [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
+                  [shouldHideClosingButtonForNewComment]="true"
+              ></tm-comment-table>
             </td>
           </tr>
         </ng-container>

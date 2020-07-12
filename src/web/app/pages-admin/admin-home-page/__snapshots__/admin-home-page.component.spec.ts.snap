@@ -31,7 +31,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
         <textarea
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-details-single-line"
-          ng-reflect-model=""
         />
       </div>
       <div
@@ -65,7 +64,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-name"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -78,7 +76,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-email"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -91,7 +88,6 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -141,7 +137,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         <textarea
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-details-single-line"
-          ng-reflect-model=""
         />
       </div>
       <div
@@ -175,7 +170,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-name"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -188,7 +182,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-email"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -201,7 +194,6 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -294,9 +286,11 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
               </td>
               <td>
                 
-                <div>
+                <div
+                  class="button-group"
+                >
                   <button
-                    class="btn btn-sm btn-primary text-nowrap"
+                    class="action-btn btn btn-sm btn-primary text-nowrap"
                     disabled=""
                     id="add-instructor-1"
                     style="margin-right: 10px;"
@@ -304,7 +298,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
                     Add Instructor
                   </button>
                   <button
-                    class="btn btn-sm btn-danger"
+                    class="action-btn btn btn-sm btn-danger"
                     id="cancel-instructor-1"
                   >
                     Cancel
@@ -367,7 +361,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
         <textarea
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-details-single-line"
-          ng-reflect-model=""
         />
       </div>
       <div
@@ -401,7 +394,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-name"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -414,7 +406,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-email"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -427,7 +418,6 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
         <input
           class="form-control ng-untouched ng-pristine ng-valid"
           id="instructor-institution"
-          ng-reflect-model=""
           type="text"
         />
       </div>
@@ -497,16 +487,18 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
               </td>
               <td>
                 
-                <div>
+                <div
+                  class="button-group"
+                >
                   <button
-                    class="btn btn-sm btn-primary text-nowrap"
+                    class="action-btn btn btn-sm btn-primary text-nowrap"
                     id="add-instructor-0"
                     style="margin-right: 10px;"
                   >
                     Add Instructor
                   </button>
                   <button
-                    class="btn btn-sm btn-danger"
+                    class="action-btn btn btn-sm btn-danger"
                     id="cancel-instructor-0"
                   >
                     Cancel
@@ -569,16 +561,18 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
               </td>
               <td>
                 
-                <div>
+                <div
+                  class="button-group"
+                >
                   <button
-                    class="btn btn-sm btn-primary text-nowrap"
+                    class="action-btn btn btn-sm btn-primary text-nowrap"
                     id="add-instructor-2"
                     style="margin-right: 10px;"
                   >
                     Add Instructor
                   </button>
                   <button
-                    class="btn btn-sm btn-danger"
+                    class="action-btn btn btn-sm btn-danger"
                     id="cancel-instructor-2"
                   >
                     Cancel
@@ -594,6 +588,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 
                 
                 <span
+                  class="message"
                   id="message-instructor-2"
                 >
                   The instructor cannot be added for some reason

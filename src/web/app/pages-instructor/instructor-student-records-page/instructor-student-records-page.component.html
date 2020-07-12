@@ -1,13 +1,32 @@
-<h1>{{studentProfile.name}}'s Records<small class="text-muted"> - {{courseId}}</small></h1>
+<h1>{{studentName}}'s Records<small class="text-muted"> - {{courseId}}</small></h1>
 <tm-student-profile [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
-<tm-more-info [studentName]="studentProfile.name" [moreInfoText]="studentProfile.moreInfo"></tm-more-info>
-<div *ngFor="let session of sessions" class="card card-default mb-4">
+<tm-more-info [studentName]="studentName" [moreInfoText]="studentProfile.moreInfo"></tm-more-info>
+<h2>Records in feedback sessions</h2>
+<div *ngFor="let session of sessionTabs" class="card card-default mb-4">
   <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
-    Feedback Session : {{session.name}}
+    Feedback Session : {{session.feedbackSession.feedbackSessionName}}
     <span class="float-right fas"
       [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
   </div>
-  <div class="card-body" [ngbCollapse]="session.isCollapsed">
-    TODO
+  <div class="card-body" *ngIf="!session.isCollapsed" @collapseAnim>
+    <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"
+                               [session]="session.feedbackSession"
+                               [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
+                               [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
+                               (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
+    ></tm-grq-rgq-view-responses>
+    <div *ngIf="session.responsesReceivedByStudent.length === 0">
+      No feedback responses for {{studentName}} ({{studentTeam}}) found.
+    </div>
+    <br/>
+    <tm-grq-rgq-view-responses *ngIf="session.responsesGivenByStudent.length > 0"
+                               [session]="session.feedbackSession"
+                               [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
+                               [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
+                               (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
+    ></tm-grq-rgq-view-responses>
+    <div *ngIf="session.responsesGivenByStudent.length === 0">
+      No feedback responses from {{studentName}} ({{studentTeam}}) found.
+    </div>
   </div>
 </div>

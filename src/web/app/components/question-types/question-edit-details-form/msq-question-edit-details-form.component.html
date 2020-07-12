@@ -1,6 +1,6 @@
 <div class="row">
   <br>
-  <div class="col-sm-12 margin-bottom-7px">
+  <div class="col-sm-12">
     <div class="form-check form-check-inline" *ngIf="!isGeneratedOptionsEnabled">
       <label class="form-check-label" ngbTooltip="Assign weights to the choices for calculating statistics."
              container="body">
@@ -10,17 +10,19 @@
       </label>
     </div>
     <div *ngIf="model.hasAssignedWeights && !isGeneratedOptionsEnabled"
-         class="form-check form-check-inline padding-left-260px align-center">Weights&#8595;
+         class="form-check form-check-inline padding-left-300px align-center">Weights&#8595;
     </div>
   </div>
   <br>
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
-      <div class="row">
-        <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)">
-          <div class="margin-bottom-7px"  *ngFor="let num of model.msqChoices; let i = index;
-          trackBy: trackMsqOption" cdkDrag>
-            <br>
+      <div cdkDropList (cdkDropListDropped)="onMsqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+        <div class="row margin-top-22px" *ngFor="let num of model.msqChoices; let i = index; trackBy: trackMsqOption" cdkDrag cdkDragLockAxis="y">
+          <br>
+          <div class="col-sm-1" cdkDragHandle>
+            <span class="btn input-group-addon">&#8597; </span>
+          </div>
+          <div [ngClass]="model.hasAssignedWeights ? 'col-sm-8' : 'col-sm-10'">
             <tm-msq-field (elementDeleted)="onMsqOptionDeleted($event)"
                           (msqText)="onMsqOptionEntered($event, i)"
                           [index]="i"
@@ -28,14 +30,13 @@
                           [numberOfMsqChoices]="model.msqChoices.length"
                           [text]="model.msqChoices[i].trim()"></tm-msq-field>
           </div>
-          <br>
+          <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
+            <tm-weight-field [isEditable]="isEditable"
+                             [weight]="model.msqWeights[i]"
+                             (weightEntered)="onMsqWeightEntered($event, i)"></tm-weight-field>
+          </div>
         </div>
-        <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
-          <tm-weight-field *ngFor="let num of model.msqWeights; let i = index; trackBy: trackMsqWeight"
-                           [isEditable]="isEditable"
-                           [weight]="model.msqWeights[i]"
-                           (weightEntered)="onMsqWeightEntered($event, i)"></tm-weight-field>
-        </div>
+        <br>
       </div>
       <div class="row">
         <div class="col-sm-6">
@@ -61,14 +62,14 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-lg-5 col-lg-offset-1 padding-right-25px">
+  <div class="col-sm-6 col-lg-5 col-lg-offset-1">
     <label class="form-check-label">
       <input class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isGeneratedOptionsEnabled"
              (ngModelChange)="triggerGeneratedOptionsChange($event)">
       <b>Or, generate options from the list of all</b>
     </label>
-    <select class="form-control width-auto inline" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
+    <select class="form-control" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
       <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option }}</option>
     </select>
@@ -79,7 +80,7 @@
              (ngModelChange)="triggerMaxSelectableOptionsChange($event)">
       <b>Maximum number of options a respondent is allowed to select</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMaxSelectableChoicesEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMaxSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMaxSelectableOption"
            (ngModelChange)="triggerModelChange('maxSelectableChoices', $event)"
            [min]="isMinSelectableChoicesEnabled ? model.minSelectableChoices : 2"
@@ -91,7 +92,7 @@
              (ngModelChange)="triggerMinSelectableOptionsChange($event)">
       <b>Minimum number of options a respondent is allowed to select</b>
     </label>
-    <input type="number" class="form-control width-auto inline" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
+    <input type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMinSelectableOption"
            (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="2" [max]="maxMinSelectableValue">
   </div>

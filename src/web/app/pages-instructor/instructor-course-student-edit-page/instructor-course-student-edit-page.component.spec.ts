@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
 import { InstructorCourseStudentEditPageComponent } from './instructor-course-student-edit-page.component';
@@ -17,7 +16,6 @@ describe('InstructorCourseStudentEditPageComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        MatSnackBarModule,
       ],
     })
     .compileComponents();

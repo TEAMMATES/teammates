@@ -41,14 +41,14 @@ More information can be found at [this documentation](https://help.github.com/ar
 These tools are necessary regardless of whether you are developing front-end or back-end:
 
 1. Install JDK 1.8.
-1. Install Python 2.7.
+1. Install Python 3 (recommended) or Python 2.7.
 
 If you want to develop front-end, you need to install the following:
 
-1. Install Node.js (minimum version 8.9.4).
-1. (Optional but highly recommended) Install Angular CLI version 8 globally.
+1. Install Node.js (minimum version 12.11.1).
+1. (Optional but highly recommended) Install Angular CLI version 9 globally.
    ```sh
-   npm install -g @angular/cli@8
+   npm install -g @angular/cli@9
    ```
    **Verification:** Run `ng` and you should see a list of available Angular CLI commands.
 
@@ -63,7 +63,7 @@ If you want to develop front-end, you need to install the following:
 1. Modify the following config file:
    * `gradle.properties`
      * If you want to use a JDK other than the one specified in your PATH variable, add the value to the variable `org.gradle.java.home`.
-     * If you want to use a specific Google Cloud SDK installation, add the value to the variable `cloud.sdk.home`. A minimum version of `222.0.0` is required.
+     * If you want to use a specific Google Cloud SDK installation, add the value to the variable `cloud.sdk.home`. A minimum version of `274.0.0` is required.
 
 1. Run this command to download the necessary tools for front-end development (if you are going to be involved):
    ```sh

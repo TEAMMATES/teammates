@@ -1,36 +1,44 @@
-<div class="card-header bg-info text-dark course-tab-header" (click)="toggleTab()">
+<div class="card-header bg-info text-dark cursor-pointer" (click)="toggleTab()">
   Participants who have not responded to any question
   <div class="float-right">
     <i class="fas fa-chevron-down" *ngIf="!isTabExpanded"></i>
     <i class="fas fa-chevron-up" *ngIf="isTabExpanded"></i>
   </div>
-</div>
-<div class="card-body" *ngIf="isTabExpanded">
-  <div *ngIf="noResponseStudentsInSection.length">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Team</th>
-        <th>Name</th>
-        <th>Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let noResponseStudent of noResponseStudentsInSection">
-        <td>{{ noResponseStudent.teamName }}</td>
-        <td>{{ noResponseStudent.name }}</td>
-        <td>
-          <a routerLink="/web/student/sessions/submission"
-             [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
-             class="btn btn-light btn-sm button">
-            Submit response
-          </a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+  <div class="float-right" style='padding-right: 15px; margin: -5px; padding-top: 2px;'>
+      <button class="btn btn-light btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();">
+          Remind All
+      </button>
   </div>
-  <div *ngIf="!noResponseStudentsInSection.length">
-    <i>All students have responded to some questions in this session.</i>
+</div>
+<div *ngIf="isTabExpanded" @collapseAnim>
+  <div class="card-body p-0">
+    <div *ngIf="noResponseStudentsInSection.length">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Team</th>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let noResponseStudent of noResponseStudentsInSection">
+          <td>{{ noResponseStudent.teamName }}</td>
+          <td>{{ noResponseStudent.name }}</td>
+          <td>
+            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/student/sessions/submission"
+               [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
+               class="btn btn-light btn-sm button">
+              Submit response
+            </a>
+            <ng-template #displayOnlySubmitResponseButton><a class="btn btn-light btn-sm button">Submit response</a></ng-template>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!noResponseStudentsInSection.length">
+      <i>All students have responded to some questions in this session.</i>
+    </div>
   </div>
 </div>

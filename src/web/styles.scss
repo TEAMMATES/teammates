@@ -3,43 +3,18 @@
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~handsontable/dist/handsontable.full.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
 }
 
-.snackbar {
-  max-width: 100% !important;
-  margin-top: 60px !important;
-}
-
-.snackbar-danger {
-  background-color: var(--danger);
-  color: var(--light);
-
-  a {
-    color: #000;
-  }
-}
-
-.snackbar-success {
-  background-color: var(--success);
-  color: var(--light);
-
-  a {
-    color: #000;
-  }
-}
-
-.snackbar-warning {
-  background-color: var(--warning);
-  color: var(--dark);
+ul {
+  margin-bottom: 0;
 }
 
 .btn {
-  font-size: inherit;
+  font-size: .8rem;
 }
 
 .color-orange {
@@ -54,12 +29,41 @@ body {
   display: none;
 }
 
+.modal {
+  text-align: center;
+  padding: 0 !important;
+}
+
+.modal::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
 .modal-dialog {
+  text-align: left;
+  display: inline-block;
   min-width: 800px;
+  vertical-align: middle;
 }
 
 .modal-content {
   padding: 30px 20px;
+}
+
+.table {
+  margin-bottom: 0;
+
+  & th,
+  td {
+    padding: .5rem;
+  }
+}
+
+.card-header {
+  padding: .5rem 1rem;
 }
 
 // The following few properties are for the usermap page.
@@ -103,4 +107,15 @@ body {
   .no-print {
     display: none;
   }
+}
+
+// make tinyMCE over the modal
+.tox-tinymce {
+  z-index: 1051;
+}
+
+// cursor not-allowed for input disabled attribute and tinyMCE's disabled
+[disabled],
+.editor.editor-disabled {
+  cursor: not-allowed;
 }

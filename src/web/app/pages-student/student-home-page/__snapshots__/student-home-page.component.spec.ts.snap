@@ -31,12 +31,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?courseid=CS2103"
-          ng-reflect-ngb-tooltip="View and edit information rega"
-          ng-reflect-query-params="[object Object]"
-          ng-reflect-router-link="../course"
+          href="/web/student/course?courseid=CS2103"
           ngbtooltip="View and edit information regarding your team"
-          routerlink="../course"
+          routerlink="/web/student/course"
         >
            View team 
         </a>
@@ -81,7 +78,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="The session is not open for su"
                 style="border-bottom: 1px dashed black;"
               >
                  Submitted 
@@ -89,7 +85,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="The responses for the session "
                 style="border-bottom: 1px dashed black;"
               >
                  Published 
@@ -98,14 +93,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               <a
                 class="btn btn-light btn-sm"
-                href="/sessions/result?courseid=CS2103&fsname=First%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
+                href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
                 ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
+                routerlink="/web/student/sessions/result"
               >
                  View Responses 
               </a>
@@ -120,12 +110,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2103&fsname=First%20Session"
-                ng-reflect-ngb-tooltip="Edit submitted feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
+                href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
                 ngbtooltip="Edit submitted feedback"
-                routerlink="../sessions/submission"
+                routerlink="/web/student/sessions/submission"
               >
                  Edit Submission 
               </a>
@@ -144,7 +131,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="The feedback session is yet to"
                 style="border-bottom: 1px dashed black;"
               >
                  Pending 
@@ -152,7 +138,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="The responses for the session "
                 style="border-bottom: 1px dashed black;"
               >
                  Not Published 
@@ -161,14 +146,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               <a
                 class="btn btn-light btn-sm disabled"
-                href="/sessions/result?courseid=CS2103&fsname=Second%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
+                href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
                 ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
+                routerlink="/web/student/sessions/result"
               >
                  View Responses 
               </a>
@@ -177,12 +157,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2103&fsname=Second%20Session"
-                ng-reflect-ngb-tooltip="Start submitting feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
+                href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
                 ngbtooltip="Start submitting feedback"
-                routerlink="../sessions/submission"
+                routerlink="/web/student/sessions/submission"
               >
                  Start Submission 
               </a>
@@ -210,12 +187,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?courseid=CS2102"
-          ng-reflect-ngb-tooltip="View and edit information rega"
-          ng-reflect-query-params="[object Object]"
-          ng-reflect-router-link="../course"
+          href="/web/student/course?courseid=CS2102"
           ngbtooltip="View and edit information regarding your team"
-          routerlink="../course"
+          routerlink="/web/student/course"
         >
            View team 
         </a>
@@ -260,7 +234,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="You have submitted your feedba"
                 style="border-bottom: 1px dashed black;"
               >
                  Submitted 
@@ -268,7 +241,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="The responses for the session "
                 style="border-bottom: 1px dashed black;"
               >
                  Not Published 
@@ -277,14 +249,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               <a
                 class="btn btn-light btn-sm disabled"
-                href="/sessions/result?courseid=CS2102&fsname=Third%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
+                href="/web/student/sessions/result?courseid=CS2102&fsname=Third%20Session"
                 ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
+                routerlink="/web/student/sessions/result"
               >
                  View Responses 
               </a>
@@ -294,12 +261,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2102&fsname=Third%20Session"
-                ng-reflect-ngb-tooltip="Edit submitted feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
+                href="/web/student/sessions/submission?courseid=CS2102&fsname=Third%20Session"
                 ngbtooltip="Edit submitted feedback"
-                routerlink="../sessions/submission"
+                routerlink="/web/student/sessions/submission"
               >
                  Edit Submission 
               </a>
@@ -318,7 +282,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="You have submitted your feedba"
                 style="border-bottom: 1px dashed black;"
               >
                  Closed 
@@ -326,7 +289,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             </td>
             <td>
               <a
-                ng-reflect-ngb-tooltip="The responses for the session "
                 style="border-bottom: 1px dashed black;"
               >
                  Not Published 
@@ -335,14 +297,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <td>
               <a
                 class="btn btn-light btn-sm disabled"
-                href="/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
+                href="/web/student/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
                 ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
+                routerlink="/web/student/sessions/result"
               >
                  View Responses 
               </a>
@@ -353,12 +310,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               
               <a
                 class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
-                ng-reflect-ngb-tooltip="View submitted feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
+                href="/web/student/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
                 ngbtooltip="View submitted feedback"
-                routerlink="../sessions/submission"
+                routerlink="/web/student/sessions/submission"
               >
                  View Submission 
               </a>
@@ -393,7 +347,6 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
      You are not enrolled in any courses. Please refer to the 
     <a
       href="/web/student/help"
-      ng-reflect-router-link="/web/student/help"
       routerlink="/web/student/help"
     >
       help page
@@ -435,12 +388,9 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
       >
         <a
           class="btn btn-light btn-sm button"
-          href="/course?courseid=CS3281"
-          ng-reflect-ngb-tooltip="View and edit information rega"
-          ng-reflect-query-params="[object Object]"
-          ng-reflect-router-link="../course"
+          href="/web/student/course?courseid=CS3281"
           ngbtooltip="View and edit information regarding your team"
-          routerlink="../course"
+          routerlink="/web/student/course"
         >
            View team 
         </a>

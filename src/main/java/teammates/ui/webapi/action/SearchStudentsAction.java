@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -25,7 +26,7 @@ public class SearchStudentsAction extends Action {
     @Override
     public void checkSpecificAccessControl() {
         // Only instructors and admins can search for student
-        if (userInfo.isStudent && !userInfo.isInstructor) {
+        if (!userInfo.isInstructor && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
         }
     }
@@ -72,26 +73,29 @@ public class SearchStudentsAction extends Action {
     @Override
     public ActionResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
+        String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         List<StudentAttributes> students;
-        List<StudentData> studentDataList = new ArrayList<>();
 
         // Search for students
-        if (userInfo.isAdmin) {
-            students = logic.searchStudentsInWholeSystem(searchKey).studentList;
-        } else {
+        if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
             students = logic.searchStudents(searchKey, instructors).studentList;
+        } else if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+            students = logic.searchStudentsInWholeSystem(searchKey).studentList;
+        } else {
+            throw new InvalidHttpParameterException("Invalid entity type for search");
         }
 
+        List<StudentData> studentDataList = new ArrayList<>();
         for (StudentAttributes s : students) {
             StudentData studentData = new StudentData(s);
 
-            if (userInfo.isAdmin) {
+            if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
                         StringHelper.encrypt(s.getKey()),
-                        getInstituteFromCourseId(s.getCourse()));
-            } else {
-                studentData.hideInformationForInstructor();
+                        getInstituteFromCourseId(s.getCourse()),
+                        s.getGoogleId()
+                );
             }
             studentData.hideLastName();
 

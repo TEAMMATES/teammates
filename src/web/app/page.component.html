@@ -5,17 +5,17 @@
   <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed">
+  <div class="navbar-collapse" [ngStyle]="{display: isCollapsed ? 'none' : 'block'}">
     <ul class="nav navbar-nav mr-auto" *ngIf="isValidUser">
       <ng-template ngFor let-navItem [ngForOf]="navItems">
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse()">{{ childItem.display}}</a>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [routerLink]="navItem.url" (click)="toggleCollapse()">{{ navItem.display }}</a>
+          <a class="nav-link" [routerLink]="navItem.url" (click)="toggleCollapse();closeModal()">{{ navItem.display }}</a>
         </li>
       </ng-template>
     </ul>
@@ -31,9 +31,9 @@
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent">To student pages</a>
-          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor">To instructor pages</a>
-          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin">To admin pages</a>
+          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
+          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
+          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
           <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
@@ -43,6 +43,7 @@
 </nav>
 <tm-loader-bar></tm-loader-bar>
 <tm-loading-spinner *ngIf="isFetchingAuthDetails"></tm-loading-spinner>
+<tm-toast [(toast)]="toast" aria-live="polite" aria-atomic="true"></tm-toast>
 <div *ngIf="!isFetchingAuthDetails" id="main-content" class="container main-content">
   <div *ngIf="isUnsupportedBrowser">
     <div class="alert alert-danger" role="alert">
@@ -71,9 +72,9 @@
       <div class="row">
         <div class="alert alert-light col-sm-4 offset-sm-4">
           <img src="assets/images/angry.png" style="float: left; height: 90px; margin: 0 10px 10px 0;">
-          <h5 style="padding: 30px 0 20px 0">You are not authorized to view this page.</h5>
+          <h5 style="padding: 30px 0 20px 0;">You are not authorized to view this page.</h5>
           <hr>
-          <p style="text-align: center">Logout and return to main page.</p>
+          <p style="text-align: center;">Logout and return to main page.</p>
         </div>
       </div>
     </div>
@@ -82,7 +83,7 @@
         <div class="alert alert-danger col-sm-8 offset-sm-2">
           <div class="align-left">
             <h5 style="text-align: center;"><i class="fas fa-exclamation-circle"></i>&nbsp;Ooops! Your Google account is not known to TEAMMATES</h5>
-            <p style="text-align: center">
+            <p style="text-align: center;">
               To access a course on TEAMMATES, you need to wait until an instructor adds you to that course. As a confirmation, TEAMMATES will send you instructions on how to access that particular course.
             </p>
             <hr>
@@ -113,18 +114,18 @@
 </div>
 <div>
   <footer>
-    <div class="container footer text-nowrap">
-      <div class="row">
-        <div class="col-sm-4 col-md-4 text-left">
+    <div class="container footer">
+      <div class="row text-center">
+        <div class="col-sm-4 text-md-left">
           <i class="fas fa-bolt"></i><a routerLink="/web/front/home"> TEAMMATES</a> V{{ version }}
         </div>
-        <div class="col-sm-4 col-md-4 text-center">
+        <div class="col-sm-4 text-md-center">
           <span *ngIf="institute"><i class="fas fa-university"></i> for {{ institute }}</span>
         </div>
-        <div class="col-sm-4 col-md-4 text-right">
+        <div class="col-sm-4 text-md-right">
           <i class="far fa-comments"></i> Send <a routerLink="/web/front/contact" target="_blank">Feedback</a>
         </div>
-        <div class="col-sm-12 text-center">
+        <div class="col-sm-12">
           Sponsored by School of Computing, National University of Singapore. (<a routerLink="/web/front/contact">Become a sponsor</a>)
         </div>
       </div>

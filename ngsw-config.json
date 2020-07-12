@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "assetGroups": [
     {
@@ -8,9 +9,8 @@
         "files": [
           "/assets/icons/**",
           "/index.html",
-          "/fa-*",
-          "/*.css",
-          "/*.js"
+          "/manifest.webmanifest",
+          "/*.css"
         ]
       }
     }, {
@@ -19,7 +19,9 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/assets/**"
+          "/assets/**",
+          "/*.js",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
       }
     }

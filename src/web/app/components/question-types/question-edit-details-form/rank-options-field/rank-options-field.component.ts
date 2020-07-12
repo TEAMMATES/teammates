@@ -45,7 +45,7 @@ export class RankOptionsFieldComponent {
     if (this.numberOfRankChoices > 2) {
       this.elementDeleted.emit(this.index);
     } else {
-      this.statusMessageService.showErrorMessage('There must be at least two Rank options.');
+      this.statusMessageService.showErrorToast('There must be at least two Rank options.');
     }
   }
 

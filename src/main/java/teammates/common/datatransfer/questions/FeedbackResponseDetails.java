@@ -2,9 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
@@ -17,25 +15,18 @@ import teammates.common.util.JsonUtils;
  * question type.
  */
 public abstract class FeedbackResponseDetails {
-    public FeedbackQuestionType questionType;
+    private FeedbackQuestionType questionType;
 
     public FeedbackResponseDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }
 
-    public void setQuestionType(FeedbackQuestionType questionType) {
-        this.questionType = questionType;
-    }
+    public abstract String getAnswerString();
 
     /**
-     * Extract response details and sets details accordingly.
+     * Validates the response details.
      */
-    public abstract void extractResponseDetails(
-            FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails,
-            String[] answer);
-
-    public abstract String getAnswerString();
+    public abstract List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion);
 
     public String getJsonString() {
         Assumption.assertNotNull(questionType);
@@ -56,21 +47,11 @@ public abstract class FeedbackResponseDetails {
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
     }
 
-    public abstract String getAnswerCsv(FeedbackQuestionDetails questionDetails);
-
-    /**
-     * getAnswerCsv with an additional parameter (FeedbackSessionResultsBundle)
-     *
-     * <p>default action is to call getAnswerCsv(FeedbackQuestionDetails questionDetails).
-     * override in child class if necessary.
-     */
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question,
-                               FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
-        return getAnswerCsv(question.getQuestionDetails());
+    public void setQuestionType(FeedbackQuestionType questionType) {
+        this.questionType = questionType;
     }
 
-    /**
-     * Validates the response details.
-     */
-    public abstract List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion);
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
 }

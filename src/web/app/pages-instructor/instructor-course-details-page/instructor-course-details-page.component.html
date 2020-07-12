@@ -1,59 +1,59 @@
-<div>
+<div class="text-center">
   <h1>Course Details</h1>
   <div class="card">
     <div class="card-body fill-plain">
       <div class="form">
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Course ID:</label>
-          <div class="col-sm-6">
+          <label class="col-sm-3 text-sm-right">Course ID:</label>
+          <div class="col-sm-6 text-sm-left">
             <p class="form-control-static">{{courseDetails.course.courseId}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Course name:</label>
-          <div class="col-sm-6" id="coursename">
+          <label class="col-sm-3 text-sm-right">Course name:</label>
+          <div class="col-sm-6 text-sm-left" id="coursename">
             <p class="form-control-static">{{courseDetails.course.courseName}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Sections:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.stats.sectionsTotal}}</p>
+          <label class="col-sm-3 text-sm-right">Sections:</label>
+          <div class="col-sm-6 text-sm-left">
+            <p class="form-control-static">{{courseDetails.stats.numOfSections}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Teams:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.stats.teamsTotal}}</p>
+          <label class="col-sm-3 text-sm-right">Teams:</label>
+          <div class="col-sm-6 text-sm-left">
+            <p class="form-control-static">{{courseDetails.stats.numOfTeams}}</p>
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-sm-3 text-right">Total students:</label>
-          <div class="col-sm-6">
-            <p class="form-control-static">{{courseDetails.stats.studentsTotal}}</p>
+          <label class="col-sm-3 text-sm-right">Total students:</label>
+          <div class="col-sm-6 text-sm-left">
+            <p class="form-control-static">{{courseDetails.stats.numOfStudents}}</p>
           </div>
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-sm-3 control-label text-right">Instructors:</label>
-        <div class="col-sm-6">
+        <label class="col-sm-3 text-sm-right control-label">Instructors:</label>
+        <div class="col-sm-6 text-sm-left">
           <div *ngFor="let instructor of instructors">
             {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
           </div>
         </div>
       </div>
-      <div *ngIf="sections.length > 0">
+      <div *ngIf="students.length > 0">
         <div class="form-group">
           <div class="text-center">
-            <button type="button" class="btn btn-primary" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
+            <button type="button" class="btn btn-primary mb-2" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
-            <button type="button" class="btn btn-primary" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
+            <button type="button" class="btn btn-primary mb-2" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
               <i class="fa fa-download"></i>
               Download Student List
             </button>
-            <button type="button" class="btn btn-danger" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
+            <button type="button" class="btn btn-danger mb-2" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
               <i class="fa fa-trash"></i>
               Delete All Students
             </button>
@@ -69,20 +69,17 @@
       </div>
     </div>
   </div>
-  <div *ngIf="sections.length === 0, else studentListTable" class="alert alert-warning">
+  <div *ngIf="students.length === 0, else studentListTable" class="alert alert-warning">
     <i class="fa fa-exclamation-circle text-muted"></i>
     There are no students in this course. Click
     <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
   </div>
-  <ng-template #studentListTable class="card border border-primary mb-4">
-    <div class="card-body p-0">
-      <div class="card-header text-dark-blue bg-light-blue font-weight-bold">[{{courseDetails.course.courseId}}]</div>
-      <div class="card-body p-0">
-        <tm-student-list
-            [courseId]="courseDetails.course.courseId" [sections]="sections" [useGrayHeading]="true" [enableRemindButton]="true"
-            (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
-        ></tm-student-list>
-      </div>
+  <ng-template #studentListTable>
+    <div class="card-body p-0 student-table-margin card border">
+      <tm-student-list
+          [courseId]="courseDetails.course.courseId" [students]="students" [useGrayHeading]="true" [enableRemindButton]="true"
+          (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
+      ></tm-student-list>
     </div>
   </ng-template>
   <ng-template #remindStudentsModal let-modal>
@@ -97,7 +94,7 @@
       <br>
     </div>
     <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+      <button type="button" class="modal-btn-cancel btn-lg " (click)="modal.dismiss()">No, cancel the operation</button>
       <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
@@ -112,7 +109,7 @@
       <br>
     </div>
     <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg btn-default" (click)="modal.dismiss()">No, cancel the operation</button>
+      <button type="button" class="modal-btn-cancel btn-lg " (click)="modal.dismiss()">No, cancel the operation</button>
       <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
