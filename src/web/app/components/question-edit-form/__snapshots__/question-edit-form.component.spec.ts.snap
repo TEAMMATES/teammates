@@ -106,7 +106,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
     
     <div
       class="ng-trigger ng-trigger-collapseAnim"
-      style="overflow:hidden;0:overflow;"
+      style=""
     >
       <div
         class="card-body"
