@@ -232,10 +232,10 @@ public final class FieldValidator {
      * <li>Special characters allowed are ! # $ % & ' * + - / = ? ^ _ ` { } ~
      * <li>Dot can only appear between any 2 characters and cannot appear continuously<br>
      * Domain part:
-     * <li>Only allow letters, digits, hyphen and dot; Must end with letters
+     * <li>Only allow letters, digits, hyphen and dot; Must end with letters; Must have TLD
      */
     public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
-                                            + "@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
+                                            + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
 
     /**
      * Allows English alphabet, numbers, underscore,  dot and hyphen.
