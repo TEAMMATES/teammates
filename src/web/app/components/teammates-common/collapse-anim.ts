@@ -10,6 +10,6 @@ export const collapseAnim: AnimationTriggerMetadata = trigger('collapseAnim', [
   ]),
   transition(':enter', [
     style({ height: '0', overflow: 'hidden' }),
-    animate('300ms ease-in-out', style({ height: '*', opacity: 1, overflow: 'visible' })),
+    animate('300ms ease-in-out', style({ height: '*', opacity: 1 })),
   ]),
 ]);
