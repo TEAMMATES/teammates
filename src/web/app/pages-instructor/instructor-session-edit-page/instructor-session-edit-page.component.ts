@@ -116,22 +116,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   };
 
   // to get the original session model on discard changes
-  feedbackSessionModelBeforeEditing: FeedbackSession = {
-    courseId: '',
-    timeZone: '',
-    feedbackSessionName: '',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.LATER,
-    submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: false,
-    isPublishedEmailEnabled: false,
-    createdAtTimestamp: 0,
-  };
+  feedbackSessionModelBeforeEditing: SessionEditFormModel = this.sessionEditFormModel;
 
   // to get the original question model
   feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
@@ -227,6 +212,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       })
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+        this.feedbackSessionModelBeforeEditing = this.sessionEditFormModel;
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
@@ -322,7 +308,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       model.customResponseVisibleTime = customResponseVisible.time;
       model.customResponseVisibleDate = customResponseVisible.date;
     }
-    this.feedbackSessionModelBeforeEditing = feedbackSession;
 
     return model;
   }
@@ -352,6 +337,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   editExistingSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
+    this.feedbackSessionModelBeforeEditing = this.sessionEditFormModel;
 
     forkJoin([
       this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
@@ -405,7 +391,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelEditingSessionHandler(): void {
-    this.sessionEditFormModel = this.getSessionEditFormModel(this.feedbackSessionModelBeforeEditing);
+    this.sessionEditFormModel = this.feedbackSessionModelBeforeEditing;
   }
 
   /**
