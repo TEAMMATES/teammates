@@ -6,6 +6,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   courseId="undefined"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -13,7 +14,21 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >
-  
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-course-student-edit-page>
 `;
 
@@ -24,6 +39,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   editForm={[Function FormGroup]}
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -32,136 +48,20 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   student={[Function Object]}
   studentService={[Function StudentService]}
 >
-  <div>
+  <tm-loading-spinner>
     <div
-      class="card border-primary"
+      class="loading-container"
     >
       <div
-        class="card-body fill-plain"
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
       >
-        <form
-          class="form form-horizontal ng-untouched ng-pristine ng-valid"
-          id="instructor-student-edit-form"
-          novalidate=""
-        >
-          <div
-            class="form-row"
-          >
-            <label
-              class="col-sm-1"
-            >
-              Student Name:
-            </label>
-            <div
-              class="col-sm-11"
-            >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentname"
-                id="studentname"
-              />
-              
-            </div>
-          </div>
-          <div
-            class="form-row"
-          >
-            <label
-              class="col-sm-1"
-            >
-              Section Name:
-            </label>
-            <div
-              class="col-sm-11"
-            >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                formcontrolname="sectionname"
-                id="sectionname"
-              />
-              
-            </div>
-          </div>
-          <div
-            class="form-row"
-          >
-            <label
-              class="col-sm-1"
-            >
-              Team
-              <br />
-              Name:
-            </label>
-            <div
-              class="col-sm-11"
-            >
-              <input
-                class="form-control col-form-label ng-untouched ng-pristine ng-valid"
-                formcontrolname="teamname"
-                id="teamname"
-                name="teamname"
-              />
-              
-            </div>
-          </div>
-          <div
-            class="form-row"
-          >
-            <label
-              class="col-sm-1"
-            >
-              E-mail Address:
-            </label>
-            <div
-              class="col-sm-11"
-            >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                formcontrolname="newstudentemail"
-                id="newstudentemail"
-              />
-              
-            </div>
-          </div>
-          <div
-            class="form-row"
-          >
-            <label
-              class="col-sm-1"
-            >
-              Comments:
-            </label>
-            <div
-              class="col-sm-11"
-            >
-              <textarea
-                class="form-control ng-untouched ng-pristine ng-valid"
-                formcontrolname="comments"
-                id="comments"
-                rows="6"
-              >
-                            
-              </textarea>
-            </div>
-          </div>
-          <br />
-          <div
-            class="text-center"
-          >
-            <input
-              class="btn btn-primary"
-              id="button_submit"
-              type="submit"
-              value="Save Changes"
-            />
-          </div>
-          <br />
-          <br />
-          
-          
-        </form>
+        Loading...
       </div>
     </div>
-  </div>
+  </tm-loading-spinner>
 </tm-instructor-course-student-edit-page>
 `;

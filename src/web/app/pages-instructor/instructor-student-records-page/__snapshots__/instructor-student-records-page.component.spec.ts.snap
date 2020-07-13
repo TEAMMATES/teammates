@@ -9,6 +9,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
+  isStudentLoading={[Function Boolean]}
+  isStudentProfileLoading={[Function Boolean]}
+  isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
   session={[Function Object]}
@@ -29,9 +32,51 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
     >
        - su1337
     </small>
-  </h1><tm-student-profile /><tm-more-info /><h2>
+  </h1><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><h2>
     Records in feedback sessions
-  </h2>
+  </h2><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-student-records-page>
 `;
 
@@ -44,6 +89,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
+  isStudentLoading={[Function Boolean]}
+  isStudentProfileLoading={[Function Boolean]}
+  isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
   session={[Function Object]}
@@ -64,8 +112,50 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
     >
        - su1337
     </small>
-  </h1><tm-student-profile /><tm-more-info /><h2>
+  </h1><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><h2>
     Records in feedback sessions
-  </h2>
+  </h2><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-student-records-page>
 `;

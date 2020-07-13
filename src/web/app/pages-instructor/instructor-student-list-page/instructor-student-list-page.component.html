@@ -29,7 +29,7 @@
       </div>
 
       <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
-        <div class="card-body">
+        <div *tmIsLoading="!courseTab.hasStudentLoaded" class="card-body">
           <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
             <div class="card-deck" *ngIf="courseTab.stats">
               <div class="card">

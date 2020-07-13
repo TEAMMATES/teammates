@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { InstructorCourseStudentEditPageComponent } from './instructor-course-student-edit-page.component';
 
 describe('InstructorCourseStudentEditPageComponent', () => {
@@ -16,6 +17,7 @@ describe('InstructorCourseStudentEditPageComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();

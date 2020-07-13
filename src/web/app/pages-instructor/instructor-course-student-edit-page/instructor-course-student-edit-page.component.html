@@ -1,5 +1,5 @@
-<div *ngIf="student">
-  <div class="card border-primary">
+<div *tmIsLoading="isStudentLoading">
+  <div *ngIf="student" class="card border-primary">
     <div class="card-body fill-plain">
       <form
         id="instructor-student-edit-form"
