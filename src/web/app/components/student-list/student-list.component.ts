@@ -6,14 +6,16 @@ import {
   Output,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { JoinStatePipe } from './join-state.pipe';
 
 /**
@@ -58,7 +60,7 @@ export class StudentListComponent implements OnInit {
               private navigationService: NavigationService,
               private courseService: CourseService,
               private tableComparatorService: TableComparatorService,
-              private ngbModal: NgbModal) {
+              private simpleModalService: SimpleModalService) {
   }
 
   ngOnInit(): void {
@@ -80,10 +82,31 @@ export class StudentListComponent implements OnInit {
   }
 
   /**
-   * Open the student delete confirmation modal.
+   * Open the student email reminder modal.
    */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
+  openRemindModal(studentModel: StudentListRowModel): void {
+    const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students
+          at the opening time of each session. Send a join request to ${ studentModel.student.email } anyway?`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Confirm sending join requests', SimpleModalType.INFO, modalContent);
+    modalRef.result.then(() => {
+      this.remindStudentFromCourse(studentModel.student.email);
+    });
+  }
+
+  /**
+   * Open the delete student confirmation modal.
+   */
+  openDeleteModal(studentModel: StudentListRowModel): void {
+    const modalContent: string = `<p class="font-weight-bold">Are you sure you want to remove
+        <span class="text-primary">"${ studentModel.student.name }"</span> from the course
+        <span class="text-primary">"${ this.courseId }"</span>?
+      </p>`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Confirm deletion', SimpleModalType.DANGER, modalContent);
+    modalRef.result.then(() => {
+      this.removeStudentFromCourse(studentModel.student.email);
+    });
   }
 
   /**
