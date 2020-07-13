@@ -346,11 +346,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    * Handle print view button event.
    */
   printViewHandler(): void {
-    this.expandAllTabs();
-    setTimeout(() => {
-      // TODO the timeout is brittle
-      window.print();
-    }, 1000);
+    window.print();
   }
 
   /**
