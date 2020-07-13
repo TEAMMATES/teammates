@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgbCollapseModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { GqrRqgViewResponsesModule } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
 import { GrqRgqViewResponsesModule } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
 import { PerQuestionViewResponsesModule } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
@@ -48,6 +49,7 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
     GqrRqgViewResponsesModule,
     GrqRgqViewResponsesModule,
     SingleStatisticsModule,
+    LoadingSpinnerModule,
   ],
   providers: [
     CommentToCommentRowModelPipe,

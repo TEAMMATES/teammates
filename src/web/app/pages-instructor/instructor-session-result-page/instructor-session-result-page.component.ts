@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -97,6 +98,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   questionsModel: Record<string, QuestionTabModel> = {};
   isQuestionsLoaded: boolean = false;
 
+  isFeedbackSessionLoading: boolean = false;
+  isDownloadingResults: boolean = false;
+
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
 
@@ -127,6 +131,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      this.isFeedbackSessionLoading = true;
       this.feedbackSessionsService.getFeedbackSession({
         courseId: queryParams.courseid,
         feedbackSessionName: queryParams.fsname,
@@ -142,6 +147,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           this.formattedResultVisibleFromTime = this.timezoneService
               .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
         }
+        this.isFeedbackSessionLoading = false;
 
         // load section tabs
         this.courseService.getCourseSectionNames(queryParams.courseid)
@@ -215,6 +221,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           this.currInstructorName = instructor.name;
         });
       }, (resp: ErrorMessageOutput) => {
+        this.isFeedbackSessionLoading = false;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
     });
@@ -355,6 +362,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    * Handle download results button event.
    */
   downloadResultHandler(): void {
+    this.isDownloadingResults = true;
     const filename: string = `${this.session.feedbackSessionName.concat('_result')}.csv`;
     let blob: any;
 
@@ -366,7 +374,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       this.showStatistics,
       this.section.length === 0 ? undefined : this.section,
       this.section.length === 0 ? undefined : this.sectionType,
-    ).subscribe((resp: string) => {
+    ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe((resp: string) => {
       blob = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
     }, (resp: ErrorMessageOutput) => {
