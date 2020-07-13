@@ -163,19 +163,19 @@ export class SearchService {
       return of([]);
     }
     const privileges: Observable<InstructorPrivilege>[] = [];
-    for (const course of coursesWithStudents) {
-      const distinctSections: string[] = Array.from(
-        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)));
+    coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
       const sectionToPrivileges: Record<string, Observable<InstructorPrivilege>> = {};
-      for (const section of distinctSections) {
+      Array.from(
+        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
+      ).forEach((section: string) => {
         sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege(
-             { courseId: course.courseId, sectionName: section },
+          { courseId: course.courseId, sectionName: section },
         );
-      }
-      for (const studentModel of course.students) {
-        privileges.push(sectionToPrivileges[studentModel.student.sectionName]);
-      }
-    }
+      });
+      course.students.forEach((studentModel: StudentListRowModel) =>
+        privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
+      );
+    });
     return forkJoin(privileges);
   }
 
