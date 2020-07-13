@@ -212,7 +212,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       })
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
-        this.feedbackSessionModelBeforeEditing = this.sessionEditFormModel;
+        this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
