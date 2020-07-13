@@ -46,8 +46,8 @@ export class RichTextEditorComponent implements OnInit {
       relative_urls: false,
       convert_urls: false,
       remove_linebreaks: false,
+      placeholder: this.placeholderText,
       plugins: [
-        'placeholder',
         'advlist autolink autoresize lists link image charmap hr anchor',
         'searchreplace wordcount visualblocks visualchars code',
         'insertdatetime nonbreaking save table directionality',

@@ -45,8 +45,7 @@
               "src/web/styles.scss"
             ],
             "scripts": [
-              "node_modules/tinymce/tinymce.min.js",
-              "src/web/tinymce/placeholder-plugin.js"
+              "node_modules/tinymce/tinymce.min.js"
             ]
           },
           "configurations": {
