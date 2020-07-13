@@ -1,3 +1,9 @@
 .btn-border {
   border: 1px solid #CCC;
 }
+
+@media print {
+  .btn-moderate-response {
+    display: none;
+  }
+}

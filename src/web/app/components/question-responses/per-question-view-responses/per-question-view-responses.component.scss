@@ -6,3 +6,9 @@
 .color-neutral {
   color: gray;
 }
+
+@media print {
+  .btn-add-comment {
+    display: none;
+  }
+}
