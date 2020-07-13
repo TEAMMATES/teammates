@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ConfirmationModalOptions, ConfirmationModalService } from '../../../../services/confirmation-modal.service';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
   FeedbackContributionQuestionDetails,
   FeedbackContributionResponseDetails,
@@ -12,7 +12,7 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { ConfirmationModalType } from '../../confirmation-modal/confirmation-modal-type';
+import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**
@@ -33,7 +33,7 @@ export class ContributionQuestionEditAnswerFormComponent
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
-  constructor(private confirmationModalService: ConfirmationModalService) {
+  constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS(), DEFAULT_CONTRIBUTION_RESPONSE_DETAILS());
   }
 
@@ -52,7 +52,6 @@ export class ContributionQuestionEditAnswerFormComponent
         <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
         <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share,
             <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>`;
-    const modalOptions: ConfirmationModalOptions = { isNotificationOnly: true, confirmMessage: 'OK' };
-    this.confirmationModalService.open(modalHeader, ConfirmationModalType.NEUTRAL, modalContent, modalOptions);
+    this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, modalContent);
   }
 }

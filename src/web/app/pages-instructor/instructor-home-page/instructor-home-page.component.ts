@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -22,13 +22,13 @@ import {
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { ConfirmationModalType } from '../../components/confirmation-modal/confirmation-modal-type';
 import {
   CopySessionResult,
   SessionsTableColumn,
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -80,7 +80,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
-              private confirmationModalService: ConfirmationModalService,
+              private simpleModalService: SimpleModalService,
               private courseService: CourseService,
               private loadingBarService: LoadingBarService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
@@ -126,7 +126,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =
-        this.confirmationModalService.open('Confirm archiving course', ConfirmationModalType.INFO, modalContent);
+        this.simpleModalService.openConfirmationModal('Confirm archiving course', SimpleModalType.INFO, modalContent);
     modalRef.result.then(() => {
       this.courseService.changeArchiveStatus(courseId, {
         archiveStatus: true,
@@ -149,8 +149,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const modalContent: string = `Are you sure you want to delete the course ${courseId}? ` +
         'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
-    const modalRef: NgbModalRef = this.confirmationModalService
-        .open('Warning: Confirm moving course to Recycle Bin', ConfirmationModalType.WARNING, modalContent);
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Warning: Confirm moving course to Recycle Bin', SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {

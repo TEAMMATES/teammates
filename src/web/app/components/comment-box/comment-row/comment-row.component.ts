@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { ConfirmationModalService } from '../../../../services/confirmation-modal.service';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import {
   CommentVisibilityType,
@@ -10,7 +10,7 @@ import {
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
-import { ConfirmationModalType } from '../../confirmation-modal/confirmation-modal-type';
+import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
 
 /**
@@ -116,7 +116,7 @@ export class CommentRowComponent implements OnInit, OnChanges {
 
   visibilityStateMachine: CommentVisibilityStateMachine;
 
-  constructor(private confirmationModalComponent: ConfirmationModalService,
+  constructor(private simpleModalService: SimpleModalService,
               private commentService: FeedbackResponseCommentService) {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
@@ -158,8 +158,8 @@ export class CommentRowComponent implements OnInit, OnChanges {
    * Triggers the delete comment event
    */
   triggerDeleteCommentEvent(): void {
-    const modalRef: NgbModalRef = this.confirmationModalComponent
-        .open('Warning: This will delete the comment permanently.', ConfirmationModalType.WARNING,
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Warning: This will delete the comment permanently.', SimpleModalType.WARNING,
             'Are you sure you want to continue?');
 
     modalRef.result.then(() => {

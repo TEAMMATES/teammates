@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { ConfirmationModalType } from '../confirmation-modal/confirmation-modal-type';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -85,7 +85,7 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor(private modalService: NgbModal, private confirmationModalService: ConfirmationModalService) { }
+  constructor(private modalService: NgbModal, private simpleModalService: SimpleModalService) { }
 
   /**
    * Sorts the list of feedback session row.
@@ -99,8 +99,8 @@ export class SessionsTableComponent implements OnInit {
    */
   moveSessionToRecycleBin(rowIndex: number): void {
     const modalContent: string = 'Warning: The session will be moved to the recycle bin.';
-    const modalRef: NgbModalRef = this.confirmationModalService.open('Are you sure you want to continue?',
-        ConfirmationModalType.WARNING, modalContent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Are you sure you want to continue?',
+        SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
     }, () => {});
@@ -133,8 +133,8 @@ export class SessionsTableComponent implements OnInit {
         ${model.feedbackSession.feedbackSessionName}?
         An email will be sent to students to inform them that the responses are ready for viewing`;
 
-    const modalRef: NgbModalRef = this.confirmationModalService.open('Confirm publishing responses',
-        ConfirmationModalType.WARNING, modalContent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Confirm publishing responses',
+        SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.publishSessionEvent.emit(rowIndex);
@@ -151,8 +151,8 @@ export class SessionsTableComponent implements OnInit {
         An email will be sent to students to inform them that the session has been unpublished
         and the session responses will no longer be viewable by students.`;
 
-    const modalRef: NgbModalRef = this.confirmationModalService.open('Confirm unpublishing responses',
-        ConfirmationModalType.WARNING, modalContent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Confirm unpublishing responses',
+        SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.unpublishSessionEvent.emit(rowIndex);

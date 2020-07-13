@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfirmationModalService } from '../../../../services/confirmation-modal.service';
-import { ConfirmationModalType } from '../../../components/confirmation-modal/confirmation-modal-type';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
 /**
  * More info box and dialog
@@ -15,7 +15,7 @@ export class MoreInfoComponent implements OnInit {
   @Input() studentName: string = '';
   @Input() moreInfoText: string = '';
 
-  constructor(private confirmationModalService: ConfirmationModalService) { }
+  constructor(private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
   }
@@ -24,9 +24,9 @@ export class MoreInfoComponent implements OnInit {
    * Open the more info modal.
    */
   openMoreInfoModal(): void {
-    this.confirmationModalService
-        .open(`${this.studentName}\'s Profile - More Info`, ConfirmationModalType.NEUTRAL,
-            this.moreInfoText, { isNotificationOnly: true, confirmMessage: 'Close' });
+    this.simpleModalService
+        .openInformationModal(`${this.studentName}\'s Profile - More Info`, SimpleModalType.NEUTRAL,
+            this.moreInfoText, { confirmMessage: 'Close' });
   }
 
 }

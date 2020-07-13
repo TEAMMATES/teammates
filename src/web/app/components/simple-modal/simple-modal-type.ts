@@ -1,7 +1,7 @@
 /**
  * Represents the type of  the modal to be displayed.
  */
-export enum ConfirmationModalType {
+export enum SimpleModalType {
   /**
    * Warning modal.
    */

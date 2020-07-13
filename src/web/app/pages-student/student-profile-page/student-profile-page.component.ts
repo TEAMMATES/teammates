@@ -14,9 +14,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 
 import { from, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { ConfirmationModalService } from '../../../services/confirmation-modal.service';
 import { NationalitiesService } from '../../../services/nationalities.service';
-import { ConfirmationModalType } from '../../components/confirmation-modal/confirmation-modal-type';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 /**
@@ -40,7 +40,7 @@ export class StudentProfilePageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private confirmationModalService: ConfirmationModalService,
+  constructor(private simpleModalService: SimpleModalService,
               private nationalitiesService: NationalitiesService,
               private authService: AuthService,
               private ngbModal: NgbModal,
@@ -108,7 +108,8 @@ export class StudentProfilePageComponent implements OnInit {
    * Prompts the user with a modal box to confirm changes made to the form.
    */
   onSubmit(): void {
-    const modalRef: NgbModalRef = this.confirmationModalService.open('Save Changes?', ConfirmationModalType.PRIMARY, 'Are you sure you want to make changes to your profile?');
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Save Changes?', SimpleModalType.PRIMARY, 'Are you sure you want to make changes to your profile?');
     modalRef.result.then(() => this.submitEditForm(), () => {});
   }
 
@@ -181,8 +182,8 @@ export class StudentProfilePageComponent implements OnInit {
    * Prompts the user with a modal box to confirm deleting the profile picture.
    */
   onDelete(): void {
-    const modalRef: NgbModalRef = this.confirmationModalService
-        .open('Confirm Deletion?', ConfirmationModalType.DANGER,
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Confirm Deletion?', SimpleModalType.DANGER,
         'Are you sure you want to delete your profile picture?');
     modalRef.result.then(() => {
       this.deleteProfilePicture();
