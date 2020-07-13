@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatAll, tap } from 'rxjs/operators';
+import { concatAll, finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -139,6 +139,12 @@ export class InstructorCourseEditPageComponent implements OnInit {
   allSections: string[] = [];
   allSessions: string[] = [];
 
+  isCourseLoading: boolean = false;
+  isInstructorsLoading: boolean = false;
+  isSavingCourseEdit: boolean = false;
+  isSavingNewInstructor: boolean = false;
+  isSavingInstructorEdit: boolean[] = [];
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private navigationService: NavigationService,
@@ -189,7 +195,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the course being edited.
    */
   loadCourseInfo(): void {
-    this.courseService.getCourseAsInstructor(this.courseId).subscribe((resp: Course) => {
+    this.isCourseLoading = true;
+    this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
+      this.isCourseLoading = false;
+    })).subscribe((resp: Course) => {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
@@ -238,10 +247,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
       Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
       return;
     }
+    this.isSavingCourseEdit = true;
     this.courseService.updateCourse(this.courseId, {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
-    }).subscribe((resp: Course) => {
+    }).pipe(finalize(() => this.isSavingCourseEdit = false)).subscribe((resp: Course) => {
       this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
@@ -267,6 +277,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads all instructors in the course.
    */
   loadCourseInstructors(): void {
+    this.isInstructorsLoading = true;
     this.instructorService.loadInstructors({
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
@@ -280,6 +291,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
             this.loadPermissionForInstructor(panel);
           });
+          this.isSavingInstructorEdit = resp.instructors.map(() => false);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -354,6 +366,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   saveInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
+    this.isSavingInstructorEdit[index] = true;
     const reqBody: InstructorCreateRequest = {
       id: panelDetail.originalInstructor.joinState === JoinState.JOINED
           ? panelDetail.originalInstructor.googleId : undefined,
@@ -368,7 +381,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
       requestBody: reqBody,
-    }).subscribe((resp: Instructor) => {
+    }).pipe(finalize(() => this.isSavingInstructorEdit[index] = false)).subscribe((resp: Instructor) => {
       panelDetail.originalInstructor = Object.assign({}, resp);
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
@@ -437,6 +450,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Adds new instructor.
    */
   addNewInstructor(): void {
+    this.isSavingNewInstructor = true;
     const reqBody: InstructorCreateRequest = {
       name: this.newInstructorPanel.name,
       email: this.newInstructorPanel.email,
@@ -446,6 +460,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     } as InstructorCreateRequest;
 
     this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
+        .pipe(finalize(() => this.isSavingNewInstructor = false))
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: Object.assign({}, resp),
@@ -458,6 +473,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorDetailPanels.push(newDetailPanels);
           this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
           An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
+          this.isSavingInstructorEdit.push(false);
 
           this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
@@ -501,6 +517,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const permission: InstructorOverallPermission = panel.editPanel.permission;
 
     if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+      this.isInstructorsLoading = false;
       return;
     }
 
@@ -574,7 +591,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     });
 
     // get all permission
-    forkJoin(requests).subscribe(() => {
+    forkJoin(requests).pipe(finalize(() => this.isInstructorsLoading = false)).subscribe(() => {
       permission.sectionLevel = permission.sectionLevel
           .filter((sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission

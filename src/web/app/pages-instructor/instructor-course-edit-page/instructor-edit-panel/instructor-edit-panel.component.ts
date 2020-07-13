@@ -106,6 +106,12 @@ export class InstructorEditPanelComponent implements OnInit {
   @Input()
   allSessions: string[] = [];
 
+  @Input()
+  isSavingNewInstructor: boolean = false;
+
+  @Input()
+  isSavingInstructorEdit: boolean = false;
+
   @Output()
   sendRemindJoinEmail: EventEmitter<void> = new EventEmitter();
   @Output()

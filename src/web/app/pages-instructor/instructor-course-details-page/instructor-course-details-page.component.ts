@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { ClipboardService } from 'ngx-clipboard';
+import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -58,8 +59,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   students: StudentListRowModel[] = [];
   courseStudentListAsCsv: string = '';
 
-  loading: boolean = false;
-  isAjaxSuccess: boolean = true;
+  isLoadingCsv: boolean = false;
+  isAjaxForCsvSuccess: boolean = true;
+  isStudentsLoading: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private clipboardService: ClipboardService,
@@ -111,6 +113,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the students in the course
    */
   private loadStudents(courseid: string): void {
+    this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -144,18 +147,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.instructorService.loadInstructorPrivilege({
       sectionName,
       courseId: courseid,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      students.forEach((studentModel: StudentListRowModel) => {
-        if (studentModel.student.sectionName === sectionName) {
-          studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-          studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
-        }
-      });
-
-      this.students.push(...students);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    })
+        .pipe(finalize(() => this.isStudentsLoading = false))
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          students.forEach((studentModel: StudentListRowModel) => {
+            if (studentModel.student.sectionName === sectionName) {
+              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+            }
+          });
+          this.students.push(...students);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -199,16 +203,16 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     let blob: any;
 
     // Calling REST API only the first time to load the downloadable data
-    if (this.loading) {
+    if (this.isLoadingCsv) {
       blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
       saveAs(blob, filename);
     } else {
       this.studentService.loadStudentListAsCsv({ courseId })
+        .pipe(finalize(() => this.isLoadingCsv = false))
         .subscribe((resp: string) => {
           blob = new Blob([resp], { type: 'text/csv' });
           saveAs(blob, filename);
           this.courseStudentListAsCsv = resp;
-          this.loading = false;
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -219,11 +223,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Load the student list in csv table format
    */
   loadStudentsListCsv(courseId: string): void {
-    this.loading = true;
+    this.isLoadingCsv = true;
 
     // Calls the REST API once only when student list is not loaded
     if (this.courseStudentListAsCsv !== '') {
-      this.loading = false;
+      this.isLoadingCsv = false;
       return;
     }
 
@@ -232,9 +236,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-        this.isAjaxSuccess = false;
+        this.isAjaxForCsvSuccess = false;
       });
-    this.loading = false;
+    this.isLoadingCsv = false;
   }
 
   /**

@@ -1,4 +1,4 @@
-<div class="text-center">
+<div *tmIsLoading="isStudentsLoading" class="text-center">
   <h1>Course Details</h1>
   <div class="card">
     <div class="card-body fill-plain">
@@ -124,9 +124,9 @@
       </button>
     </div>
     <div class="modal-body">
-      <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
+      <tm-ajax-preload *ngIf="isLoadingCsv"></tm-ajax-preload>
       <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
-      <b>{{ isAjaxSuccess ? '' : 'There was an error loading data. Please try again.' }}</b>
+      <b>{{ isAjaxForCsvSuccess ? '' : 'There was an error loading data. Please try again.' }}</b>
     </div>
   </ng-template>
 </div>
