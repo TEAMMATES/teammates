@@ -7,4 +7,5 @@ export interface Toast {
   message: string | TemplateRef<any>;
   delay?: number;
   classes: string;
+  autohide: boolean;
 }
