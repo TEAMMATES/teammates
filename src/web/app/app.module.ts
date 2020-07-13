@@ -11,7 +11,7 @@ import { Intent } from '../types/api-request';
 import { AppComponent } from './app.component';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import {
   StatusMesssageModalModule,
 } from './components/status-message/status-messsage-modal/status-messsage-modal.module';
@@ -100,7 +100,6 @@ const routes: Routes = [
     StudentPageComponent,
     InstructorPageComponent,
     AdminPageComponent,
-    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,6 +116,7 @@ const routes: Routes = [
       enabled: environment.production,
       registrationStrategy: 'registerImmediately',
     }),
+    LoadingSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
