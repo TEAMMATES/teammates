@@ -1,7 +1,7 @@
 {
   "accounts": {
-    "SCDetailsUiT.instr": {
-      "googleId": "SCDetailsUiT.instr",
+    "SCDetailsE2eT.instr": {
+      "googleId": "SCDetailsE2eT.instr",
       "name": "Instructor",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -9,18 +9,42 @@
     }
   },
   "courses": {
-    "SCDetailsUiT.CS2104": {
-      "id": "SCDetailsUiT.CS2104",
+    "SCDetailsE2eT.CS2104": {
+      "id": "SCDetailsE2eT.CS2104",
       "name": "Programming Language Concepts",
-      "timeZone": "UTC"
+      "timeZone": "UTC",
+      "createdAt": "2012-04-02T11:00:00Z"
     }
   },
   "instructors": {
-    "SCDetailsUiT.instr": {
-      "googleId": "SCDetailsUiT.instr",
-      "courseId": "SCDetailsUiT.CS2104",
+    "SCDetailsE2eT.instr": {
+      "googleId": "SCDetailsE2eT.instr",
+      "courseId": "SCDetailsE2eT.CS2104",
       "name": "Teammates Test",
-      "email": "SCDetailsUiT.instr@gmail.tmt",
+      "email": "SCDetailsE2eT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SCDetailsE2eT.instr2": {
+      "googleId": "SCDetailsE2eT.instr2",
+      "courseId": "SCDetailsE2eT.CS2104",
+      "name": "Teammates Test 2",
+      "email": "SCDetailsE2eT2.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -41,22 +65,31 @@
     }
   },
   "students": {
-    "SCDetailsUiT.alice": {
-      "googleId": "SCDetailsUiT.alice.veryLongGoogleId",
-      "email": "SCDetailsUiT.alice@gmail.tmt",
-      "course": "SCDetailsUiT.CS2104",
-      "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "This student's name is Alice Betsy</option></td></div>'\"",
-      "team": "Team 1</td></div>'\"",
+    "SCDetailsE2eT.alice": {
+      "googleId": "SCDetailsE2eT.alice",
+      "email": "SCDetailsE2eT.alice@gmail.tmt",
+      "course": "SCDetailsE2eT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
       "section": "None"
     },
-    "SCDetailsUiT.benny": {
-      "googleId": "SCDetailsUiT.benny",
-      "email": "SCDetailsUiT.benny@gmail.tmt",
-      "course": "SCDetailsUiT.CS2104",
+    "SCDetailsE2eT.benny": {
+      "googleId": "SCDetailsE2eT.benny",
+      "email": "SCDetailsE2eT.benny@gmail.tmt",
+      "course": "SCDetailsE2eT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\"",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "SCDetailsE2eT.charlie": {
+      "googleId": "SCDetailsE2eT.charlie",
+      "email": "SCDetailsE2eT.charlie@gmail.tmt",
+      "course": "SCDetailsE2eT.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 1",
       "section": "None"
     }
   },
@@ -65,14 +98,24 @@
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "profiles": {
-    "SCDetailsUiT.student1InTSCourse": {
-      "googleId": "SCDetailsUiT.benny",
+    "SCDetailsE2eT.benny": {
+      "googleId": "SCDetailsE2eT.benny",
       "shortName": "Benny",
-      "email": "SCDetailsUiT.benny@gmail.tmt",
-      "institute": "inst<script> alert('hi!'); </script>",
+      "email": "SCDetailsE2eT.benny@gmail.tmt",
+      "institute": "inst",
       "nationality": "American",
       "gender": "OTHER",
-      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": ""
+    },
+    "SCDetailsE2eT.charlie": {
+      "googleId": "SCDetailsE2eT.charlie",
+      "shortName": "Charlie",
+      "email": "SCDetailsE2eT.charlie@gmail.tmt",
+      "institute": "inst",
+      "nationality": "Singaporean",
+      "gender": "OTHER",
+      "moreInfo": "I am also a student :P",
       "pictureKey": ""
     }
   }
