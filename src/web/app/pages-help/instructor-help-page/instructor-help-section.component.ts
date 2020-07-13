@@ -1,7 +1,10 @@
+import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit, ElementRef, Input, OnChanges, OnInit, QueryList,
+  AfterViewInit, Directive, ElementRef, Inject, Input, OnChanges, OnInit, QueryList,
   SimpleChanges, ViewChildren,
 } from '@angular/core';
+import { PageScrollService } from 'ngx-page-scroll-core';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 
 interface QuestionDetail {
   tag: number;
@@ -11,6 +14,8 @@ interface QuestionDetail {
 /**
  * Base section for instructor help page.
  */
+@Directive()
+// tslint:disable-next-line:directive-class-suffix
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: String;
@@ -19,8 +24,11 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   showQuestion: Boolean[];
   searchedTerms: number;
   questionDetails: QuestionDetail[];
+  questionsToCollapsed: Record<string, boolean> = {};
 
-  protected constructor() {
+  constructor(protected simpleModalService: SimpleModalService,
+              private pageScrollService: PageScrollService,
+              @Inject(DOCUMENT) private document: any) {
     this.key = '';
     this.showQuestion = [];
     this.searchedTerms = -1;
@@ -28,7 +36,9 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   }
 
   ngOnInit(): void {
-
+    for (const question of this.getQuestionsOrder()) {
+      this.questionsToCollapsed[question] = false;
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -110,5 +120,22 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
         .reduce((x: any, y: any) => x || y, false);
   }
 
-  abstract expand(questionId: string): void;
+  expand(questionId: string): void {
+    this.questionsToCollapsed[questionId] = true;
+  }
+
+  /**
+   * Scrolls to an HTML element with a given target id.
+   */
+  jumpTo(target: string): boolean {
+    this.pageScrollService.scroll({
+      document: this.document,
+      scrollTarget: `#${target}`,
+      scrollOffset: 70,
+    });
+    return false;
+  }
+
+  abstract getQuestionsOrder(): string[];
+
 }

@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {
   InstructorCourseStudentEditFormModule,
 } from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-form.module';
@@ -22,6 +23,7 @@ describe('InstructorHelpStudentsSectionComponent', () => {
       imports: [
         NgbModule,
         RouterTestingModule,
+        NgxPageScrollCoreModule,
         HttpClientTestingModule,
         ExampleBoxModule,
         StudentProfileModule,
