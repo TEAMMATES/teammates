@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div class="row mb-3">
+<div class="row mb-3" *tmIsLoading="!hasCoursesLoaded">
   <div class="col-4">
     <a routerLink="/web/instructor/courses" class="btn btn-primary text-white" [queryParams]="{isAddNewCourse: true}">Add New Course</a>
   </div>
@@ -36,15 +36,16 @@
   </div>
 </div>
 
-<div *ngIf="courseTabModels.length > 0">
-  <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-    <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(courseTabModel);">
-      <div class="row">
-        <div class="course-header col-md-6">
-          <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
-        </div>
-        <div class="btn-toolbar col-md-6">
-          <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
+<div *tmIsLoading="!hasCoursesLoaded">
+  <div *ngIf="courseTabModels.length > 0">
+    <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
+      <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(courseTabModel);">
+        <div class="row">
+          <div class="course-header col-md-6">
+            <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
+          </div>
+          <div class="btn-toolbar col-md-6">
+            <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
             <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
               <div ngbDropdownMenu>
@@ -60,7 +61,7 @@
                 </a>
               </div>
             </span>
-            <span ngbDropdown class="padding-right-10px">
+              <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu >
                 <a class="btn btn-light btn-sm dropdown-item"
@@ -69,7 +70,7 @@
                 </a>
               </div>
             </span>
-            <span ngbDropdown class="padding-right-10px">
+              <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu>
                 <a class="btn btn-light btn-sm dropdown-item"
@@ -78,7 +79,7 @@
                 </a>
               </div>
             </span>
-            <span ngbDropdown class="padding-right-10px">
+              <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-light btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu>
                 <a class="btn btn-light btn-sm dropdown-item"
@@ -97,64 +98,65 @@
                 </ng-container>
               </div>
             </span>
-          </div>
-          <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
-            <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
-            <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
+            </div>
+            <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
+              <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
+              <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <ng-template #errorLoadingFeedbackSessions>
-      Error loading feedback sessions. Click here to retry.
-    </ng-template>
-    <ng-template #courseDeleteModal let-modal>
-      <div class="modal-header bg-warning">
-        <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Confirm moving course to Recycle Bin </h5>
-        <button type="button" class="close" (click)="modal.dismiss()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete the course: {{courseTabModel.course.courseId}}?
-        This action can be reverted by going to the "Courses" tab and restoring the desired course(s).
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-        <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
-      </div>
-    </ng-template>
-    <ng-template #courseArchiveModal let-modal>
-      <div class="modal-header bg-info">
-        <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Confirm archiving course </h5>
-        <button type="button" class="close" (click)="modal.dismiss()">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to archive {{courseTabModel.course.courseId}}?
-        This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-        <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
-      </div>
-    </ng-template>
+      <ng-template #errorLoadingFeedbackSessions>
+        Error loading feedback sessions. Click here to retry.
+      </ng-template>
+      <ng-template #courseDeleteModal let-modal>
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Confirm moving course to Recycle Bin </h5>
+          <button type="button" class="close" (click)="modal.dismiss()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete the course: {{courseTabModel.course.courseId}}?
+          This action can be reverted by going to the "Courses" tab and restoring the desired course(s).
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+          <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
+        </div>
+      </ng-template>
+      <ng-template #courseArchiveModal let-modal>
+        <div class="modal-header bg-info">
+          <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Confirm archiving course </h5>
+          <button type="button" class="close" (click)="modal.dismiss()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to archive {{courseTabModel.course.courseId}}?
+          This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+          <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
+        </div>
+      </ng-template>
 
-    <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
-      <tm-sessions-table
-          [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
-          [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-          [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
-          (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
-          (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
-          (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
-          (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
-          (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
-          (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
-          (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
-          (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+      <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
+        <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
+            [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
+            [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
+            [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+            (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+            (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
+            (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
+            (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
+            (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+            (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
+            (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
+            (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+      </div>
     </div>
   </div>
 </div>
