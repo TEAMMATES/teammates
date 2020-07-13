@@ -1,9 +1,9 @@
 <div>
-  <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Courses</h2>
+  <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Courses</h2>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(showQuestion, 0, 5)">Enrolling Students in Courses</h4>
+  <h4 *ngIf="displaySubsection(0, 5)">Enrolling Students in Courses</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="{{CoursesSectionQuestions.COURSE_ADD_STUDENTS}}">
+  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)" #question id="{{CoursesSectionQuestions.COURSE_ADD_STUDENTS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]= !questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
       How do I add students to a course?
@@ -29,7 +29,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)" #question id="{{CoursesSectionQuestions.SIZE_LIMIT}}">
     <p><button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT] = !questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
       Is there a size limit for a course?
     </button></p>
@@ -46,7 +46,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)" #question id="{{CoursesSectionQuestions.NO_TEAMS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS] = !questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
       What should I do if my course doesn’t have teams?
@@ -65,7 +65,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.SECTIONS)" #question id="{{CoursesSectionQuestions.SECTIONS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.SECTIONS] = !questionsToCollapsed[CoursesSectionQuestions.SECTIONS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
       What are sections meant for?
@@ -89,7 +89,7 @@
     </div>
   </div>
     <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="{{CoursesSectionQuestions.ENROLL_SECTIONS}}">
+  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)" #question id="{{CoursesSectionQuestions.ENROLL_SECTIONS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = !questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
       How do I enroll students into sections?
@@ -108,9 +108,9 @@
     </div>
   </div>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(showQuestion, 5, 9)">Adding Instructors to Courses</h4>
+  <h4 *ngIf="displaySubsection(5, 9)">Adding Instructors to Courses</h4>
   <!--Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="{{CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR}}">
+  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)" #question id="{{CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
       How do I add instructors to my course?
@@ -143,7 +143,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="{{CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR}}">
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)" #question id="{{CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
       How do I edit the information of an instructor in my course?
@@ -179,7 +179,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="{{CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS}}">
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)" #question id="{{CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
       How do I set an instructor's access level?
@@ -216,7 +216,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
+  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)" #question id="{{CoursesSectionQuestions.PRIVILEGES}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES] = !questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
       How do I set custom privileges for an instructor?
@@ -240,9 +240,9 @@
     </div>
   </div>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(showQuestion, 9, 13)">Managing Courses</h4>
+  <h4 *ngIf="displaySubsection(9, 13)">Managing Courses</h4>
   <!--Question-->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="{{CoursesSectionQuestions.COURSE_VIEW_STUDENTS}}">
+  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)" #question id="{{CoursesSectionQuestions.COURSE_VIEW_STUDENTS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
       How do I view a list of students in a course?
@@ -272,7 +272,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[10]" #question>
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)" #question id="{{CoursesSectionQuestions.CHANGE_SECTION}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION] = !questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
       How do I change a student's section?
@@ -304,7 +304,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[11]" #question>
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)" #question id="{{CoursesSectionQuestions.DISAPPEARED_COURSE}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE] = !questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
       What should I do if a student says his/her courses have disappeared from the system?
@@ -323,7 +323,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[12]" #question>
+  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)" #question id="{{CoursesSectionQuestions.DEL_STUDENTS}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS] = !questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
       How do I delete students from a course?
@@ -352,9 +352,9 @@
     </div>
   </div>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(showQuestion, 13, 16)">Archiving Courses</h4>
+  <h4 *ngIf="displaySubsection(13, 16)">Archiving Courses</h4>
   <!--Question-->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[13]" #question id="{{CoursesSectionQuestions.COURSE_ARCHIVE}}">
+  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_ARCHIVE)" #question id="{{CoursesSectionQuestions.COURSE_ARCHIVE}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
       How do I archive a course?
@@ -381,7 +381,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[14]" #question id="{{CoursesSectionQuestions.COURSE_VIEW_ARCHIVED}}">
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED)" #question id="{{CoursesSectionQuestions.COURSE_VIEW_ARCHIVED}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
       How do I view courses I have archived?
@@ -404,7 +404,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[15]" #question id="{{CoursesSectionQuestions.COURSE_UNARCHIVE}}">
+  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_UNARCHIVE)" #question id="{{CoursesSectionQuestions.COURSE_UNARCHIVE}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
       How do I unarchive an archived course?
@@ -423,9 +423,9 @@
     </div>
   </div>
   <!-- Section -->
-  <h4 *ngIf="displaySubsection(showQuestion, 16, 20)">Restoring Deleted Courses</h4>
+  <h4 *ngIf="displaySubsection(16, 20)">Restoring Deleted Courses</h4>
   <!--Question-->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[16]" #question id="{{CoursesSectionQuestions.COURSE_VIEW_DELETED}}">
+  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)" #question id="{{CoursesSectionQuestions.COURSE_VIEW_DELETED}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
       How do I view courses I have deleted?
@@ -448,7 +448,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[17]" #question id="{{CoursesSectionQuestions.COURSE_RESTORE}}">
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)" #question id="{{CoursesSectionQuestions.COURSE_RESTORE}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
       How do I restore a deleted course?
@@ -470,7 +470,7 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[18]" #question>
+  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.PERM_DEL)" #question id="{{CoursesSectionQuestions.PERM_DEL}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL] = !questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
       How do I permanently delete a course?
@@ -492,7 +492,7 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[19]" #question>
+  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)" #question id="{{CoursesSectionQuestions.RESTORE_ALL}}">
     <p>
       <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL] = !questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
       How do I restore/delete all courses from Recycle Bin?

@@ -7,8 +7,8 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 
 interface QuestionDetail {
-  tag: number;
-  keywords: String[];
+  id: string;
+  keywords: string[];
 }
 
 /**
@@ -21,8 +21,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   @Input() key: String;
   @ViewChildren('question') questionHTML !: QueryList<ElementRef>;
 
-  showQuestion: Boolean[];
-  searchedTerms: number;
+  showQuestion: string[];
   questionDetails: QuestionDetail[];
   questionsToCollapsed: Record<string, boolean> = {};
 
@@ -31,7 +30,6 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
               @Inject(DOCUMENT) private document: any) {
     this.key = '';
     this.showQuestion = [];
-    this.searchedTerms = -1;
     this.questionDetails = [];
   }
 
@@ -42,6 +40,9 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.key) {
+      return;
+    }
     if (this.key === '') {
       this.resetFaq();
     } else {
@@ -55,59 +56,45 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   ngAfterViewInit(): void {
     if (this.questionDetails.length === 0) {
       this.generateTerms();
-
-      const size: number = this.questionDetails.length;
-      for (let i: number = 0; i < size; i += 1) {
-        this.showQuestion.push(true);
-      }
     }
   }
 
   private generateTerms(): void {
     this.questionHTML.forEach((question: ElementRef) => {
-      const className: String = question.nativeElement.className;
-      const text: String = question.nativeElement.textContent;
-
-      const tag: number = Number(className.replace(/[^0-9]/g, ''));
+      const id: string = question.nativeElement.id;
+      const text: string = question.nativeElement.textContent;
 
         // filter small words away
-      let keywords: String[] = text.split(' ').filter((word: String) => word.length > 3);
+      let keywords: string[] = text.split(' ').filter((word: string) => word.length > 3);
 
         // convert to lower case
-      keywords = keywords.map((word: String) => word.toLowerCase());
+      keywords = keywords.map((word: string) => word.toLowerCase());
 
         // remove punctuation
-      keywords = keywords.map((word: String) =>
+      keywords = keywords.map((word: string) =>
         word.replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, ''));
 
       const newQuestion: QuestionDetail = {
-        tag,
+        id,
         keywords,
       };
 
       this.questionDetails.push(newQuestion);
-    },
-    );
+    });
   }
 
   private resetFaq(): void {
-    for (let i: number = 0; i < this.questionDetails.length; i += 1) {
-      this.showQuestion[i] = true;
-    }
-    this.searchedTerms = -1;
+    this.showQuestion = [];
   }
 
-  private filterFaq(searchTerm: String): void {
-    this.searchedTerms = 0;
+  private filterFaq(searchTerm: string): void {
+    this.showQuestion = [];
     for (const questionDetail of this.questionDetails) {
+      const id: string = questionDetail.id;
+      const terms: string[] = questionDetail.keywords;
 
-      const tag: number = questionDetail.tag;
-      const terms: String[] = questionDetail.keywords;
-
-      this.showQuestion[tag] = terms.includes(searchTerm);
-
-      if (this.showQuestion[tag]) {
-        this.searchedTerms += 1;
+      if (terms.includes(searchTerm)) {
+        this.showQuestion.push(id);
       }
     }
   }
@@ -115,9 +102,9 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   /**
    * Checks if any question in the subsection is to be displayed after the search
    */
-  displaySubsection(questionsToDisplay: Boolean[], firstPoint: number, lastPoint: number): boolean {
-    return questionsToDisplay.length === 0 || questionsToDisplay.slice(firstPoint, lastPoint)
-        .reduce((x: any, y: any) => x || y, false);
+  displaySubsection(firstPoint: number, lastPoint: number): boolean {
+    return !this.key || this.getQuestionsOrder().slice(firstPoint, lastPoint)
+        .find((question: string) => this.showQuestion.includes(question)) != null;
   }
 
   expand(questionId: string): void {
