@@ -83,18 +83,20 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+      forkJoin(
+          resp.courses.map((course: Course) =>
+              this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
+      ).subscribe((privileges: InstructorPrivilege[]) => {
+        resp.courses.forEach((course: Course, index: number) => {
+          const canModifyCourse: boolean = privileges[index].canModifyCourse;
+          const canModifyStudent: boolean = privileges[index].canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
-          this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(error.error.message);
         });
-      }
+        this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
+      }, (error: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(error.error.message);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
