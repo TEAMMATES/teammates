@@ -323,9 +323,9 @@ export enum SortBy {
     CONTRIBUTION_VALUE,
 
     /**
-     * The last edited date of comment
+     * The creation date of a comment
      */
-    COMMENTS_LAST_EDITED_DATE,
+    COMMENTS_CREATION_DATE,
 }
 
 /**

@@ -62,7 +62,6 @@ export abstract class InstructorCommentsComponent {
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
-          this.sortComments(this.instructorCommentTableModel[data.responseId]);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -92,7 +91,6 @@ export abstract class InstructorCommentsComponent {
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
-          this.sortComments(this.instructorCommentTableModel[data.responseId]);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -130,18 +128,20 @@ export abstract class InstructorCommentsComponent {
             },
             isAddingNewComment: false,
           };
-          this.sortComments(this.instructorCommentTableModel[responseId]);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
+  /**
+   * Sorts instructor's comments according to creation date.
+   */
   sortComments(commentTable: CommentTableModel): void {
     commentTable.commentRows.sort((a: CommentRowModel, b: CommentRowModel) => {
       return this.tableComparatorService.compare(
-          SortBy.COMMENTS_LAST_EDITED_DATE,
-          SortOrder.DESC,
-          String(a.originalComment?.lastEditedAt), String(b.originalComment?.lastEditedAt));
+          SortBy.COMMENTS_CREATION_DATE,
+          SortOrder.ASC,
+          String(a.originalComment?.createdAt), String(b.originalComment?.createdAt));
     });
   }
 }
