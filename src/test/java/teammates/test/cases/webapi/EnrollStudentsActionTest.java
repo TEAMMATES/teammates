@@ -199,7 +199,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
         for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
             StudentAttributes addedStudent = StudentAttributes
-                    .builder(courseId, i + "email@com")
+                    .builder(courseId, i + "email@test.com")
                     .withName("Name " + i)
                     .withSectionName(randomSectionName)
                     .withTeamName("Team " + i)
@@ -218,7 +218,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
         // Enroll one more student to exceed limit.
         StudentAttributes oneMoreStudentToGoBeyondLimit = StudentAttributes
-                .builder(courseId, "email@com")
+                .builder(courseId, "email@test.com")
                 .withName("Name")
                 .withSectionName(randomSectionName)
                 .withTeamName("Team")

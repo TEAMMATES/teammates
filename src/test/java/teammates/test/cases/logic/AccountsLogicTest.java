@@ -453,7 +453,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
-                .builder(instructor.courseId, "email@com")
+                .builder(instructor.courseId, "email@test.com")
                 .withName(instructor.name)
                 .withSectionName("section")
                 .withTeamName("team")
