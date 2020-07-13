@@ -57,7 +57,8 @@ export class RichTextEditorComponent implements OnInit {
       autoresize_bottom_margin: 50,
 
       toolbar1: 'styleselect | forecolor backcolor '
-          + '| bold italic underline | alignleft aligncenter alignright alignjustify '
+          + '| bold italic underline strikethrough subscript superscript '
+          + '| alignleft aligncenter alignright alignjustify '
           + '| bullist numlist | link image charmap emoticons',
     };
   }

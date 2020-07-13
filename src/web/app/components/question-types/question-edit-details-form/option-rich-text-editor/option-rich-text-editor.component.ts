@@ -54,7 +54,8 @@ export class OptionRichTextEditorComponent implements OnInit {
       menubar: false,
 
       toolbar1: 'styleselect | forecolor backcolor '
-          + '| bold italic underline | alignleft aligncenter alignright alignjustify '
+          + '| bold italic underline strikethrough subscript superscript '
+          + '| alignleft aligncenter alignright alignjustify '
           + '| bullist numlist | link image charmap emoticons',
     };
   }
