@@ -55,7 +55,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="course-name"
+              >
                 
               </span>
             </div>
@@ -73,7 +75,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="course-id"
+              >
                 
               </span>
             </div>
@@ -91,7 +95,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="time-zone"
+              >
                 UTC
               </span>
             </div>
@@ -109,7 +115,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="created-date"
+              >
                 Thu, 01 Jan 1970, 00:00 AM UTC
               </span>
             </div>
@@ -151,7 +159,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-name"
+              >
                 
               </span>
             </div>
@@ -169,7 +179,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-section"
+              >
                 
               </span>
             </div>
@@ -187,7 +199,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-team"
+              >
                 
               </span>
             </div>
@@ -205,7 +219,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-email"
+              >
                 
               </span>
             </div>
@@ -232,6 +248,7 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
       >
         <button
           class="btn btn-light"
+          id="sort-name"
         >
           Name
         </button>
@@ -316,7 +333,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="course-name"
+              >
                 Sample Course 101
               </span>
             </div>
@@ -334,7 +353,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="course-id"
+              >
                 1.1.c-demo2
               </span>
             </div>
@@ -352,7 +373,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="time-zone"
+              >
                 UTC
               </span>
             </div>
@@ -370,7 +393,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="created-date"
+              >
                 Wed, 13 Mar 2019, 10:15 AM UTC
               </span>
             </div>
@@ -404,6 +429,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           >
             <table
               class="table table-striped"
+              id="instructor-table"
             >
               <thead>
                 <tr>
@@ -473,7 +499,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-name"
+              >
                 1
               </span>
             </div>
@@ -491,7 +519,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-section"
+              >
                 Tutorial Group 2
               </span>
             </div>
@@ -509,7 +539,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-team"
+              >
                 Team 2
               </span>
             </div>
@@ -527,7 +559,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-8"
             >
-              <span>
+              <span
+                id="student-email"
+              >
                 1@1.com
               </span>
             </div>
@@ -554,6 +588,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       >
         <button
           class="btn btn-light"
+          id="sort-name"
         >
           Name
         </button>
@@ -614,6 +649,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           >
             <table
               class="table table-striped"
+              id="teammates-table-0"
             >
               <tbody>
                 <tr>
