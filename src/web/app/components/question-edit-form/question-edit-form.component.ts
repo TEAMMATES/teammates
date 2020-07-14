@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { SimpleModalService } from '../../../services/simple-modal.service';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackParticipantType,
@@ -11,8 +11,8 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
 const CLEAN_PROPERTIES: Set<string> = new Set<string>(['isEditable', 'isCollapsed', 'isChanged']);

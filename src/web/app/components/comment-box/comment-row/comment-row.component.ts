@@ -1,13 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
-import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
-import {
-  CommentVisibilityType,
-  FeedbackResponseComment,
-  FeedbackVisibilityType,
-  ResponseOutput,
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
