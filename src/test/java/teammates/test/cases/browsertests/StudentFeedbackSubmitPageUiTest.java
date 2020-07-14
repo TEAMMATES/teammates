@@ -24,7 +24,7 @@ import teammates.test.pageobjects.FeedbackSessionNotVisiblePage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE}.
+ * SUT: {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  */
@@ -391,9 +391,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
                                                                           aliceTeam,
                                                                           "Team 2").getResponseDetails();
-        assertFalse(frMsq.contains("UI"));
-        assertTrue(frMsq.contains("Algo"));
-        assertFalse(frMsq.contains("Design"));
+        assertFalse(frMsq.getAnswers().contains("UI"));
+        assertTrue(frMsq.getAnswers().contains("Algo"));
+        assertFalse(frMsq.getAnswers().contains("Design"));
 
         FeedbackNumericalScaleResponseDetails frNumscale = (FeedbackNumericalScaleResponseDetails)
                 BackDoor.getFeedbackResponse(fqNumscale.getId(), "SFSubmitUiT.alice.b@gmail.tmt",

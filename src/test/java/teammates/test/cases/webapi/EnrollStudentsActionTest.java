@@ -53,10 +53,65 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
+    public void testExecute_withNewStudentWithEmptySectionName_shouldBeAddedToDatabaseWithDefaultSectionName() {
+        String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
+        StudentAttributes newStudent = getTypicalNewStudent(courseId);
+        newStudent.section = "";
+        StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
+
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
+        List<StudentData> enrolledStudents = executeActionAndReturnResults(courseId, req);
+
+        assertEquals(1, enrolledStudents.size());
+
+        // verify student in database
+        StudentAttributes actualStudent =
+                logic.getStudentForEmail(enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
+        assertEquals(newStudent.getCourse(), actualStudent.getCourse());
+        assertEquals(newStudent.getName(), actualStudent.getName());
+        assertEquals(newStudent.getEmail(), actualStudent.getEmail());
+        assertEquals(newStudent.getTeam(), actualStudent.getTeam());
+        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSection());
+        assertEquals(newStudent.getComments(), actualStudent.getComments());
+
+        // verify response data is correct
+        StudentsEnrollRequest.StudentEnrollRequest request = req.getStudentEnrollRequests().get(0);
+        StudentData response = enrolledStudents.get(0);
+        assertEquals(request.getEmail(), response.getEmail());
+        assertEquals(request.getName(), response.getName());
+        assertEquals(Const.DEFAULT_SECTION, response.getSectionName());
+        assertEquals(request.getTeam(), response.getTeamName());
+        assertEquals(request.getComments(), response.getComments());
+    }
+
+    @Test
     public void testExecute_withExistingStudent_shouldBeUpdatedToDatabase() {
         StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
         String courseId = studentToUpdate.getCourse();
         studentToUpdate.name = "new name";
+        StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
+
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
+        List<StudentData> enrolledStudents = executeActionAndReturnResults(courseId, req);
+
+        assertEquals(1, enrolledStudents.size());
+        verifyStudentInDatabase(studentToUpdate, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
+        verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
+    }
+
+    @Test
+    public void testExecute_withSectionFieldChanged_shouldBeUpdatedToDatabase() {
+        StudentAttributes studentToUpdate = typicalBundle.students.get("student5InCourse1");
+        String courseId = studentToUpdate.getCourse();
+
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+
+        // Ensure that student5InCourse1 has a unique team name in the course.
+        // Otherwise, it will give a duplicate team name error when changing section name.
+        assertEquals(1, students.stream().filter(student ->
+                student.section.equals(studentToUpdate.section)).count());
+
+        studentToUpdate.section = "New Section";
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -118,7 +173,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         student1.section = "random section 1";
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, studentInCourse1.section, student1.section);
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, studentInCourse1.section);
     }
 
     @Test
@@ -136,6 +191,56 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, student2.section);
     }
 
+    @Test
+    public void testExecute_withNumberOfStudentsMoreThanSectionLimit_shouldThrowInvalidHttpRequestBodyException() {
+        String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
+        String randomSectionName = "randomSectionName";
+        List<StudentAttributes> studentList = new ArrayList<>();
+
+        for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
+            StudentAttributes addedStudent = StudentAttributes
+                    .builder(courseId, i + "email@test.com")
+                    .withName("Name " + i)
+                    .withSectionName(randomSectionName)
+                    .withTeamName("Team " + i)
+                    .withComment("cmt" + i)
+                    .build();
+            studentList.add(addedStudent);
+        }
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+
+        // Enroll students up to but not exceeding limit.
+        StudentsEnrollRequest req = prepareRequest(studentList);
+        getAction(req, params).execute();
+
+        // Enroll one more student to exceed limit.
+        StudentAttributes oneMoreStudentToGoBeyondLimit = StudentAttributes
+                .builder(courseId, "email@test.com")
+                .withName("Name")
+                .withSectionName(randomSectionName)
+                .withTeamName("Team")
+                .withComment("cmt")
+                .build();
+
+        req = prepareRequest(Arrays.asList(oneMoreStudentToGoBeyondLimit));
+        EnrollStudentsAction action = getAction(req, params);
+
+        InvalidHttpRequestBodyException ee = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> action.execute());
+
+        String expectedErrorMessage = String.format(
+                Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                Const.StudentsLogicConst.SECTION_SIZE_LIMIT, randomSectionName)
+                + " "
+                + String.format(Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                Const.StudentsLogicConst.SECTION_SIZE_LIMIT);
+
+        assertEquals(expectedErrorMessage, ee.getMessage());
+    }
+
     private void verifyCorrectResponseData(StudentsEnrollRequest.StudentEnrollRequest request, StudentData response) {
         assertEquals(request.getEmail(), response.getEmail());
         assertEquals(request.getName(), response.getName());
@@ -147,7 +252,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     private void verifyDuplicatedTeamNameDetected(String courseId, StudentsEnrollRequest req, String expectedTeam,
                                                   String expectedSectionOne, String expectedSectionTwo) {
         String expectedMessage = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                + " Please use different team names in different sections";
+                + " Please use different team names in different sections.";
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
@@ -212,7 +317,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, "",
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 }

@@ -1,4 +1,5 @@
 language: java
+os: linux
 dist: xenial
 jdk:
   - openjdk8
@@ -13,14 +14,14 @@ notifications:
 
 before_install:
   - |
-      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md)|(\.txt)|(\.png)|(\.jpg)|(\.gif)|^(LICENSE)|^(docs)|^(\.templates)'
+      git diff --name-only $TRAVIS_COMMIT_RANGE | grep -qvE '(\.md)|(\.txt)|(\.png)|(\.jpg)|(\.gif)|^(LICENSE)|^(docs)'
       status_codes=( ${PIPESTATUS[*]} ); git_diff_status=${status_codes[0]}; grep_status=${status_codes[1]}
       if [[ $git_diff_status == 0 && $grep_status == 1 && $TRAVIS_PULL_REQUEST != "false" ]]
       then
-        echo "Only doc files or IDE configurations were updated in PR, not running the CI."
+        echo "Only doc files or images were updated in PR, not running the CI."
         exit
       fi
-  - nvm install 10
+  - nvm install 12
 
 install: true
 
@@ -31,17 +32,15 @@ before_cache:
   - rm -rf $HOME/.gradle/caches/*/fileHashes/
   - rm -rf $HOME/.gradle/caches/*/javaCompile/
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -rf $HOME/.gradle/caches/*/scripts/
   - rm -rf $HOME/.gradle/caches/*/workerMain/
   - rm -rf $HOME/.gradle/caches/*/gc.properties
   - rm -rf $HOME/.gradle/caches/journal-1/
-  - rm -rf node_modules/.cache/uglifyjs-webpack-plugin/
-  - rm -rf node_modules/.cache/terser-webpack-plugin/
 
 cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-    - node_modules
 
 jobs:
   include:
@@ -49,66 +48,53 @@ jobs:
       name: "Prepare Dependencies"
       script:
         - ./gradlew downloadDependencies downloadTestDependencies downloadLinters
-        - npm install
-        - npm update
     - stage: "Lint/Test"
       name: "Lint"
       script:
         - ./gradlew createConfigs testClasses
         - ./gradlew lint --continue
-        - npm install
+        - npm ci
         - npm run lint
     - name: "Component Tests"
       script:
         - ./gradlew createConfigs componentTests
         - ./gradlew jacocoReport
         - ./gradlew generateTypes
-        - npm install
+        - npm ci
         - npm run coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - name: "E2E Tests - Firefox"
       addons:
-        firefox: "66.0"
+        firefox: "76.0"
       services:
         - xvfb
       before_script:
-        - export PATH=$HOME/google-cloud-sdk/bin:$PATH
         - cd $HOME
-        - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-        - curl -fsSL -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.24.0/geckodriver-v0.24.0-linux64.tar.gz
-        - tar -xzf google-cloud-sdk.tar.gz
+        - curl -fsSL -o geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz
         - tar -xzf geckodriver.tar.gz
-        - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
-        - gcloud -q components install app-engine-java
         - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
-        - npm install
+        - npm ci
         - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:
         - ./gradlew e2eTests
     - name: "E2E Tests - Chrome"
       addons:
-        apt:
-          sources:
-            - google-chrome
+        chrome: stable
       services:
         - xvfb
       before_script:
-        - export PATH=$HOME/google-cloud-sdk/bin:$PATH
         - cd $HOME
-        - curl -fsS -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/google-cloud-sdk.tar.gz
-        - curl -fsSL -o chromedriver.zip https://chromedriver.storage.googleapis.com/2.46/chromedriver_linux64.zip
-        - tar -xzf google-cloud-sdk.tar.gz
+        - LATEST_CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE"`
+        - curl -fsSL -o chromedriver.zip "https://chromedriver.storage.googleapis.com/${LATEST_CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
         - unzip chromedriver.zip
-        - ./google-cloud-sdk/install.sh --usage-reporting false --path-update false --command-completion false
         - cd $TRAVIS_BUILD_DIR
-        - gcloud -q components install app-engine-java
         - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
-        - npm install
+        - npm ci
         - npm run build -- --progress=false
         - ./gradlew appengineStart
       script:

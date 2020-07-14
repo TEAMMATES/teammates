@@ -12,13 +12,11 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -29,7 +27,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.CoursesDb;
 
@@ -152,62 +149,6 @@ public final class CoursesLogic {
         if (!isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
-    }
-
-    /**
-     * Returns a list of {@link CourseDetailsBundle} for all
-     * courses a given student is enrolled in.
-     *
-     * @param googleId The Google ID of the student
-     */
-    public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
-                throws EntityDoesNotExistException {
-
-        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
-        if (studentDataList.isEmpty()) {
-            throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
-        }
-
-        List<CourseAttributes> courseList = getCoursesForStudentAccount(googleId);
-        CourseAttributes.sortById(courseList);
-        List<CourseDetailsBundle> courseDetailsList = new ArrayList<>();
-
-        for (CourseAttributes c : courseList) {
-
-            StudentAttributes s = studentsLogic.getStudentForCourseIdAndGoogleId(c.getId(), googleId);
-
-            if (s == null) {
-                //TODO Remove excessive logging after the reason why s can be null is found
-                StringBuilder logMsgBuilder = new StringBuilder();
-                String logMsg = "Student is null in CoursesLogic.getCourseDetailsListForStudent(String googleId)"
-                        + "<br> Student Google ID: "
-                        + googleId + "<br> Course: " + c.getId()
-                        + "<br> All Courses Retrieved using the Google ID:";
-                logMsgBuilder.append(logMsg);
-                for (CourseAttributes course : courseList) {
-                    logMsgBuilder.append("<br>").append(course.getId());
-                }
-                log.severe(logMsgBuilder.toString());
-
-                //TODO Failing might not be the best course of action here.
-                //Maybe throw a custom exception and tell user to wait due to eventual consistency?
-                Assumption.fail("Student should not be null at this point.");
-            }
-
-            // Skip the course existence check since the course ID is obtained from a
-            // valid CourseAttributes resulting from query
-            List<FeedbackSessionAttributes> feedbackSessionList =
-                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.getId(), s.email);
-
-            CourseDetailsBundle cdd = new CourseDetailsBundle(c);
-
-            for (FeedbackSessionAttributes fs : feedbackSessionList) {
-                cdd.feedbackSessions.add(new FeedbackSessionDetailsBundle(fs));
-            }
-
-            courseDetailsList.add(cdd);
-        }
-        return courseDetailsList;
     }
 
     /**
@@ -426,17 +367,6 @@ public final class CoursesLogic {
         }
 
         return getCourseSummary(cd);
-    }
-
-    /**
-     * Returns the {@link CourseSummaryBundle course summary}, including its
-     * feedback sessions using the given {@link InstructorAttributes}.
-     */
-    public CourseSummaryBundle getCourseSummaryWithFeedbackSessionsForInstructor(
-            InstructorAttributes instructor) throws EntityDoesNotExistException {
-        CourseSummaryBundle courseSummary = getCourseSummaryWithoutStats(instructor.courseId);
-        courseSummary.feedbackSessions.addAll(feedbackSessionsLogic.getFeedbackSessionListForInstructor(instructor));
-        return courseSummary;
     }
 
     /**
@@ -731,49 +661,6 @@ public final class CoursesLogic {
         }
 
         return courseSummaryList;
-    }
-
-    /**
-     * Returns a CSV for the details (name, email, status) of all students belonging to a given course.
-     */
-    public String getCourseStudentListAsCsv(String courseId, String googleId) throws EntityDoesNotExistException {
-
-        Map<String, CourseDetailsBundle> courses = getCourseSummariesForInstructor(googleId, false);
-        CourseDetailsBundle course = courses.get(courseId);
-        boolean hasSection = hasIndicatedSections(courseId);
-
-        StringBuilder export = new StringBuilder(100);
-        String courseInfo = "Course ID," + SanitizationHelper.sanitizeForCsv(courseId) + System.lineSeparator()
-                      + "Course Name," + SanitizationHelper.sanitizeForCsv(course.course.getName())
-                      + System.lineSeparator() + System.lineSeparator() + System.lineSeparator();
-        export.append(courseInfo);
-
-        String header = (hasSection ? "Section," : "") + "Team,Full Name,Last Name,Status,Email" + System.lineSeparator();
-        export.append(header);
-
-        for (SectionDetailsBundle section : course.sections) {
-            for (TeamDetailsBundle team : section.teams) {
-                for (StudentAttributes student : team.students) {
-                    String studentStatus = null;
-                    if (student.googleId == null || student.googleId.isEmpty()) {
-                        studentStatus = Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-                    } else {
-                        studentStatus = Const.STUDENT_COURSE_STATUS_JOINED;
-                    }
-
-                    if (hasSection) {
-                        export.append(SanitizationHelper.sanitizeForCsv(section.name)).append(',');
-                    }
-
-                    export.append(SanitizationHelper.sanitizeForCsv(team.name) + ','
-                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.name)) + ','
-                            + SanitizationHelper.sanitizeForCsv(StringHelper.removeExtraSpace(student.lastName)) + ','
-                            + SanitizationHelper.sanitizeForCsv(studentStatus) + ','
-                            + SanitizationHelper.sanitizeForCsv(student.email) + System.lineSeparator());
-                }
-            }
-        }
-        return export.toString();
     }
 
     public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {

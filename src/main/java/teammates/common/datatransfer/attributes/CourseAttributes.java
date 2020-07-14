@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -158,6 +159,28 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
                + " timeZone: " + getTimeZone();
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.id).append(this.name);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            CourseAttributes otherCourse = (CourseAttributes) other;
+            return Objects.equals(this.id, otherCourse.id)
+                    && Objects.equals(this.name, otherCourse.name);
+        } else {
+            return false;
+        }
     }
 
     @Override

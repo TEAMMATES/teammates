@@ -666,27 +666,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals("my question", fqa.questionDetails.getQuestionText());
     }
 
-    private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
-        FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
-
-        List<FeedbackParticipantType> participants = new ArrayList<>();
-        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-        participants.add(FeedbackParticipantType.RECEIVER);
-
-        return FeedbackQuestionAttributes.builder()
-                .withCourseId("testingCourse")
-                .withFeedbackSessionName("testFeedbackSession")
-                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
-                .withRecipientType(FeedbackParticipantType.SELF)
-                .withNumberOfEntitiesToGiveFeedbackTo(1)
-                .withQuestionNumber(1)
-                .withQuestionDetails(questionDetails)
-                .withShowGiverNameTo(new ArrayList<>(participants))
-                .withShowRecipientNameTo(new ArrayList<>(participants))
-                .withShowResponsesTo(new ArrayList<>(participants))
-                .build();
-    }
-
     @Test
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         FeedbackQuestionAttributes.UpdateOptions updateOptions =
@@ -818,4 +797,76 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                     .build();
         });
     }
+
+    @Test
+    public void testEquals() {
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        // When the two feedback questions are copies of each other
+        FeedbackQuestionAttributes feedbackQuestionCopy = getNewFeedbackQuestionAttributes();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionCopy));
+
+        // When the two feedback questions have same values but created at different time
+        FeedbackQuestionAttributes feedbackQuestionSimilar = getNewFeedbackQuestionAttributes();
+
+        assertTrue(feedbackQuestion.equals(feedbackQuestionSimilar));
+
+        // When the two feedback questions are different
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withCourseId("differentCourse")
+                .withFeedbackSessionName("testFeedbackSession")
+                .build();
+
+        assertFalse(feedbackQuestion.equals(feedbackQuestionDifferent));
+
+        // When the other object is of different class
+        assertFalse(feedbackQuestion.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        FeedbackQuestionAttributes feedbackQuestion = getNewFeedbackQuestionAttributes();
+
+        // When the two feedback questions are copies of each other, they should have the same hash code
+        FeedbackQuestionAttributes feedbackQuestionCopy = getNewFeedbackQuestionAttributes();
+
+        assertTrue(feedbackQuestion.hashCode() == feedbackQuestionCopy.hashCode());
+
+        // When the two feedback questions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackQuestionAttributes feedbackQuestionSimilar = getNewFeedbackQuestionAttributes();
+
+        assertTrue(feedbackQuestion.hashCode() == feedbackQuestionSimilar.hashCode());
+
+        // When the two feedback questions are different, they should have different hash code
+        FeedbackQuestionAttributes feedbackQuestionDifferent = FeedbackQuestionAttributes.builder()
+                .withCourseId("differentCourse")
+                .withFeedbackSessionName("testFeedbackSession")
+                .build();
+
+        assertFalse(feedbackQuestion.hashCode() == feedbackQuestionDifferent.hashCode());
+    }
+
+    private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
+        FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
+
+        List<FeedbackParticipantType> participants = new ArrayList<>();
+        participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        participants.add(FeedbackParticipantType.RECEIVER);
+
+        return FeedbackQuestionAttributes.builder()
+                .withCourseId("testingCourse")
+                .withFeedbackSessionName("testFeedbackSession")
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withRecipientType(FeedbackParticipantType.SELF)
+                .withNumberOfEntitiesToGiveFeedbackTo(1)
+                .withQuestionNumber(1)
+                .withQuestionDetails(questionDetails)
+                .withShowGiverNameTo(new ArrayList<>(participants))
+                .withShowRecipientNameTo(new ArrayList<>(participants))
+                .withShowResponsesTo(new ArrayList<>(participants))
+                .build();
+    }
+
 }

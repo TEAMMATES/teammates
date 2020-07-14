@@ -2,8 +2,8 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -48,6 +48,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
         this.giverSection = Const.DEFAULT_SECTION;
         this.recipientSection = Const.DEFAULT_SECTION;
+        this.feedbackResponseId = FeedbackResponse.generateId(feedbackQuestionId, giver, recipient);
     }
 
     public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {
@@ -66,7 +67,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
-                new FeedbackResponseAttributes(fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
+                new FeedbackResponseAttributes(
+                        fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
 
         fra.feedbackResponseId = fr.getId();
         fra.feedbackSessionName = fr.getFeedbackSessionName();
@@ -86,7 +88,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackQuestionType getFeedbackQuestionType() {
-        return responseDetails.questionType;
+        return responseDetails.getQuestionType();
     }
 
     public String getId() {
@@ -168,6 +170,32 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.courseId)
+                .append(this.feedbackQuestionId).append(this.giver).append(this.recipient);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseAttributes otherFeedbackResponse = (FeedbackResponseAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackResponse.courseId)
+                    && Objects.equals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
+                    && Objects.equals(this.giver, otherFeedbackResponse.giver)
+                    && Objects.equals(this.recipient, otherFeedbackResponse.recipient);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void sanitizeForSaving() {
         // nothing to sanitize before saving
     }
@@ -192,19 +220,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return new FeedbackTextResponseDetails(serializedResponseDetails);
         }
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
-    }
-
-    /**
-     * Checks if this object represents a missing response.
-     * A missing response should never be written to the database.
-     * It should only be used as a representation.
-     */
-    public boolean isMissingResponse() {
-        return responseDetails == null;
-    }
-
-    public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
     /**

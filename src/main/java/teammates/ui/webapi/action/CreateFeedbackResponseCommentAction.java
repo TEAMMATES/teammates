@@ -1,106 +1,179 @@
 package teammates.ui.webapi.action;
 
-import java.util.ArrayList;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
 import teammates.ui.webapi.request.FeedbackResponseCommentCreateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Creates a new feedback response comment.
  */
-public class CreateFeedbackResponseCommentAction extends Action {
+public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
     @Override
     protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.PUBLIC;
     }
 
     @Override
     public void checkSpecificAccessControl() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
         String courseId = response.courseId;
         String feedbackSessionName = response.feedbackSessionName;
-
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        String questionId = response.feedbackQuestionId;
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        gateKeeper.verifyAccessible(instructor, session, response.giverSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+            Assumption.assertNotNull(studentAttributes);
+
+            gateKeeper.verifyAnswerableForStudent(question);
+            verifySessionOpenExceptForModeration(session);
+            verifyInstructorCanSeeQuestionIfInModeration(question);
+            verifyNotPreview();
+
+            checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
+
+            validQuestionForCommentInSubmission(question);
+            verifyCommentNotExist(feedbackResponseId);
+            verifyResponseOwnerShipForStudent(studentAttributes, response, question);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            Assumption.assertNotNull(instructorAsFeedbackParticipant);
+
+            gateKeeper.verifyAnswerableForInstructor(question);
+            verifySessionOpenExceptForModeration(session);
+            verifyInstructorCanSeeQuestionIfInModeration(question);
+            verifyNotPreview();
+
+            checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
+
+            validQuestionForCommentInSubmission(question);
+            verifyCommentNotExist(feedbackResponseId);
+            verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
+            break;
+        case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges();
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyAccessible(instructor, session, response.giverSection,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            if (!question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
+                throw new InvalidHttpParameterException("Invalid question type for instructor comment");
+            }
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
     }
 
     @Override
     public ActionResult execute() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
-
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 
         String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
             return new JsonResult(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
         }
-
+        String questionId = response.getFeedbackQuestionId();
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
         String courseId = response.courseId;
+        String email;
+
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        boolean isFromParticipant;
+        boolean isFollowingQuestionVisibility;
+        FeedbackParticipantType commentGiverType;
+        switch (intent) {
+        case STUDENT_SUBMISSION:
+            StudentAttributes student = getStudentOfCourseFromRequest(courseId);
+            email = question.getGiverType() == FeedbackParticipantType.TEAMS
+                    ? student.getTeam() : student.getEmail();
+            isFromParticipant = true;
+            isFollowingQuestionVisibility = true;
+            commentGiverType = question.getGiverType() == FeedbackParticipantType.TEAMS
+                    ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            email = instructorAsFeedbackParticipant.getEmail();
+            isFromParticipant = true;
+            isFollowingQuestionVisibility = true;
+            commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+            break;
+        case INSTRUCTOR_RESULT:
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            email = instructor.getEmail();
+            isFromParticipant = false;
+            isFollowingQuestionVisibility = false;
+            commentGiverType = FeedbackParticipantType.INSTRUCTORS;
+            break;
+        default:
+            throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
+
         String feedbackQuestionId = response.feedbackQuestionId;
         String feedbackSessionName = response.feedbackSessionName;
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder()
                 .withCourseId(courseId)
                 .withFeedbackSessionName(feedbackSessionName)
-                .withCommentGiver(instructor.email)
+                .withCommentGiver(email)
                 .withCommentText(commentText)
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
                 .withGiverSection(response.giverSection)
                 .withReceiverSection(response.recipientSection)
-                .withCommentFromFeedbackParticipant(false)
-                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
-                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCommentFromFeedbackParticipant(isFromParticipant)
+                .withCommentGiverType(commentGiverType)
+                .withVisibilityFollowingFeedbackQuestion(isFollowingQuestionVisibility)
+                .withShowCommentTo(comment.getShowCommentTo())
+                .withShowGiverNameTo(comment.getShowGiverNameTo())
                 .build();
-
-        // Set up visibility settings
-        String showCommentTo = comment.getShowCommentTo();
-        String showGiverNameTo = comment.getShowGiverNameTo();
-        feedbackResponseComment.showCommentTo = new ArrayList<>();
-        if (showCommentTo != null && !showCommentTo.isEmpty()) {
-            String[] showCommentToArray = showCommentTo.split(",");
-            for (String viewer : showCommentToArray) {
-                feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
-        feedbackResponseComment.showGiverNameTo = new ArrayList<>();
-        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
-            String[] showGiverNameToArray = showGiverNameTo.split(",");
-            for (String viewer : showGiverNameToArray) {
-                feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
-            }
-        }
 
         FeedbackResponseCommentAttributes createdComment = null;
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
-            logic.putDocument(createdComment);
         } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {

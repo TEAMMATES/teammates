@@ -1,5 +1,7 @@
 package teammates.test.cases.webapi;
 
+import java.util.ArrayList;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
@@ -9,6 +11,8 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -17,11 +21,12 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.test.driver.AssertHelper;
 import teammates.ui.webapi.action.CreateFeedbackResponseAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.request.FeedbackResponseCreateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link CreateFeedbackResponseAction}.
@@ -143,6 +148,92 @@ public class CreateFeedbackResponseActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyHttpParameterFailure(invalidIntentParams);
+    }
+
+    @Test
+    public void testExecute_studentFeedbackSubmissionMcqGenerateOptionsForTeams_shouldValidateAnswer() throws Exception {
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
+
+        // create a question
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestion(FeedbackQuestionAttributes.builder()
+                .withCourseId(fsa.getCourseId())
+                .withFeedbackSessionName(fsa.getFeedbackSessionName())
+                .withNumberOfEntitiesToGiveFeedbackTo(2)
+                .withQuestionDescription("test")
+                .withQuestionNumber(1)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.STUDENTS)
+                .withQuestionDetails(feedbackMcqQuestionDetails)
+                .withShowResponsesTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .build());
+
+        // send create request
+        FeedbackResponseCreateRequest createRequest = new FeedbackResponseCreateRequest();
+        createRequest.setQuestionType(FeedbackQuestionType.MCQ);
+        createRequest.setRecipientIdentifier(studentAttributes.getEmail());
+        FeedbackMcqResponseDetails feedbackMcqResponseDetails = new FeedbackMcqResponseDetails();
+        feedbackMcqResponseDetails.setAnswer("TEAM_NOT_EXIST");
+        createRequest.setResponseDetails(feedbackMcqResponseDetails);
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fqa.getFeedbackQuestionId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+
+        InvalidHttpRequestBodyException e = assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            loginAsStudent(studentAttributes.getGoogleId());
+            CreateFeedbackResponseAction a = getAction(createRequest, params);
+            getJsonResult(a);
+        });
+        AssertHelper.assertContains(Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION, e.getMessage());
+    }
+
+    @Test
+    public void testExecute_instructorFeedbackSubmissionMcqGenerateOptionsForTeams_shouldValidateAnswer() throws Exception {
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructorAttributes = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        // create a question
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestion(FeedbackQuestionAttributes.builder()
+                .withCourseId(fsa.getCourseId())
+                .withFeedbackSessionName(fsa.getFeedbackSessionName())
+                .withNumberOfEntitiesToGiveFeedbackTo(2)
+                .withQuestionDescription("test")
+                .withQuestionNumber(1)
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withRecipientType(FeedbackParticipantType.INSTRUCTORS)
+                .withQuestionDetails(feedbackMcqQuestionDetails)
+                .withShowResponsesTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .build());
+
+        // send create request
+        FeedbackResponseCreateRequest createRequest = new FeedbackResponseCreateRequest();
+        createRequest.setQuestionType(FeedbackQuestionType.MCQ);
+        createRequest.setRecipientIdentifier(instructorAttributes.getEmail());
+        FeedbackMcqResponseDetails feedbackMcqResponseDetails = new FeedbackMcqResponseDetails();
+        feedbackMcqResponseDetails.setAnswer("TEAM_NOT_EXIST");
+        createRequest.setResponseDetails(feedbackMcqResponseDetails);
+
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fqa.getFeedbackQuestionId(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
+
+        InvalidHttpRequestBodyException e = assertThrows(InvalidHttpRequestBodyException.class, () -> {
+            loginAsInstructor(instructorAttributes.getGoogleId());
+            CreateFeedbackResponseAction a = getAction(createRequest, params);
+            getJsonResult(a);
+        });
+        AssertHelper.assertContains(Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION, e.getMessage());
     }
 
     @Test

@@ -347,7 +347,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Google ID (typical email) should return empty string", "",
                      FieldValidator.getInvalidityInfoForGoogleId(emailAsId));
 
-        String shortEmailAsId = "e@y";
+        String shortEmailAsId = "e@y.c";
         assertEquals("Valid Google ID (short email) should return empty string", "",
                      FieldValidator.getInvalidityInfoForGoogleId(shortEmailAsId));
 
@@ -415,7 +415,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid email (typical) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(typicalEmail));
 
-        String shortEmail = "e@y";
+        String shortEmail = "e@y.c";
         assertEquals("Valid email (short) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(shortEmail));
 
@@ -647,12 +647,16 @@ public class FieldValidatorTest extends BaseTestCase {
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
-        ______TS("success: minimum allowed email format");
+        ______TS("failure: no top level domain");
         email = "a@e";
+        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+
+        ______TS("success: minimum allowed email format");
+        email = "a@e.c";
         assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("success: all allowed special characters");
-        email = "a!#$%&'*/=?^_`{}~@e";
+        email = "a!#$%&'*/=?^_`{}~@e.c";
         assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("failure: invalid starting character");

@@ -12,6 +12,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.UpdateInstructorAction;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
@@ -57,13 +58,13 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been updated.",
-                msg.getMessage());
+        InstructorData response = (InstructorData) actionOutput.getOutput();
 
         InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
+        assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.email);
+        assertEquals(newInstructorEmail, response.getEmail());
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
@@ -81,7 +82,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
@@ -114,13 +115,13 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("The instructor " + newInstructorName + " has been updated.",
-                msg.getMessage());
+        response = (InstructorData) actionOutput.getOutput();
 
         editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.email);
+        assertEquals(newInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.name);
+        assertEquals(newInstructorName, response.getName());
 
         //remove the new instructor entity that was created
         CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
@@ -171,9 +172,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
-
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
         ______TS("instructors of other courses cannot access");
 
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);

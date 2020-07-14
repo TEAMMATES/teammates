@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
-import { HttpRequestService } from '../services/http-request.service';
-import { JoinStatus } from '../types/api-output';
+import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
 
@@ -19,15 +20,19 @@ export class UserJoinPageComponent implements OnInit {
 
   isLoading: boolean = true;
   hasJoined: boolean = false;
+  validUrl: boolean = true;
   entityType: string = '';
   key: string = '';
   institute: string = '';
+  mac: string = '';
   userId: string = '';
+
+  private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private httpRequestService: HttpRequestService,
               private courseService: CourseService,
+              private authService: AuthService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
@@ -35,14 +40,26 @@ export class UserJoinPageComponent implements OnInit {
       this.entityType = queryParams.entitytype;
       this.key = queryParams.key;
       this.institute = queryParams.instructorinstitution;
+      this.mac = queryParams.mac;
 
-      this.courseService.joinCourse(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+      if (this.institute != null && this.mac == null) {
+        this.validUrl = false;
+        return;
+      }
+
+      this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
         this.hasJoined = resp.hasJoined;
         this.userId = resp.userId || '';
         this.isLoading = false;
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 403) {
           this.isLoading = false;
+          const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+          this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+            if (!auth.user) {
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            }
+          });
         } else {
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.error.requestId;
@@ -56,12 +73,8 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-    const paramMap: { [key: string]: string } = {
-      key: this.key,
-      entitytype: this.entityType,
-      instructorinstitution: this.institute,
-    };
-    this.httpRequestService.put('/join', paramMap).subscribe(() => {
+
+    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
       this.router.navigate([`/web/${this.entityType}`]);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);

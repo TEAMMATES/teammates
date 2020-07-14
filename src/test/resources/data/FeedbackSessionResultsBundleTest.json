@@ -187,7 +187,7 @@
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
       "recipientSection": "Section 1",
-      "feedbackResponseId": "response1ForQ1S1C1",
+      "feedbackResponseId": "response2ForQ1S1C1",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "I'm cool'"
@@ -238,6 +238,7 @@
   },
   "feedbackResponseComments": {
     "comment1FromT1C1ToR1Q1S1C1": {
+      "feedbackResponseCommentId": 1,
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",
@@ -256,6 +257,7 @@
       "commentText": "Instructor 1 comment to student 1 self feedback"
     },
     "comment2FromT1C1ToR1Q1S1C1": {
+      "feedbackResponseCommentId": 2,
       "courseId": "idOfTypicalCourse1",
       "feedbackSessionName": "First feedback session",
       "feedbackQuestionId": "1",

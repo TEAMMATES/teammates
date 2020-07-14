@@ -1,0 +1,25 @@
+.align-center {
+  text-align: center;
+}
+
+.table .thead-gray th {
+  color: #495057;
+  background-color: #DADADA;
+}
+
+/*
+Allow only mouse hover events for the element.
+!important is required to override Bootstrap .disabled class matches
+which usually match 2 classes (eg .btn.disabled)
+*/
+.mouse-hover-only {
+  pointer-events: auto !important;
+}
+
+.mouse-hover-only:active {
+  pointer-events: none !important;
+}
+
+.sortable-header {
+  cursor: pointer;
+}

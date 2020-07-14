@@ -262,12 +262,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: googleID belongs to an existing instructor in the course");
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null));
+                () -> accountsLogic.joinCourseForInstructor(
+                        encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("success: instructor joined and new account be created");
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null);
 
         InstructorAttributes joinedInstructor =
                 instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -283,7 +284,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsDb.deleteAccount(loggedInGoogleId);
 
         //Try to join course again, Account object should be recreated
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
@@ -305,7 +306,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         encryptedKey[0] = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -333,7 +334,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         instructorsLogic.createInstructor(newIns);
         encryptedKey[0] = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -353,22 +354,85 @@ public class AccountsLogicTest extends BaseLogicTest {
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         InstructorAttributes[] finalInstructor = new InstructorAttributes[] { joinedInstructor };
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId", null));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId", null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: invalid key");
         String invalidKey = StringHelper.encrypt("invalidKey");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, null));
+                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, null, null));
         assertEquals("No instructor with given registration key: " + invalidKey,
                 ednee.getMessage());
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_validInstitute_shouldPass()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String institute = "National University of Singapore";
+        String[] encryptedKey = new String[] {
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+
+        ______TS("success: instructor with institute joined and new account created");
+
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId,
+                institute, StringHelper.generateSignature(institute));
+
+        InstructorAttributes joinedInstructor =
+                instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
+        assertEquals(loggedInGoogleId, joinedInstructor.googleId);
+
+        AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        assertNotNull(accountCreated);
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_invalidInstituteMac_shouldFail() throws EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String institute = "National University of Singapore";
+        String[] encryptedKey = new String[] {
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+
+        ______TS("failure: institute signature does not match institute provided");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.joinCourseForInstructor(
+                        encryptedKey[0], loggedInGoogleId, institute, StringHelper.generateSignature("NUS")));
+        assertEquals("Institute authentication failed.", ipe.getMessage());
+
+        AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        assertNull(accountCreated);
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_missingInstituteMac_shouldFail() throws EntityDoesNotExistException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String institute = "National University of Singapore";
+        String[] encryptedKey = new String[] {
+                instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+
+        ______TS("failure: institute signature missing");
+
+        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
+                () -> accountsLogic.joinCourseForInstructor(
+                        encryptedKey[0], loggedInGoogleId, institute, null));
+        assertEquals("Institute authentication failed.", ipe.getMessage());
+
+        AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
+        assertNull(accountCreated);
     }
 
     @Test
@@ -389,7 +453,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         // Make instructor account id a student too.
         StudentAttributes student = StudentAttributes
-                .builder(instructor.courseId, "email@com")
+                .builder(instructor.courseId, "email@test.com")
                 .withName(instructor.name)
                 .withSectionName("section")
                 .withTeamName("team")

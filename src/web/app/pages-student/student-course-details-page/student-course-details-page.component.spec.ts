@@ -1,9 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Course, Instructor, JoinState, Student } from '../../../types/api-output';
-import { Gender } from '../../../types/gender';
+import { Course, Gender, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
 
@@ -18,7 +16,6 @@ describe('StudentCourseDetailsPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         TeammatesCommonModule,
-        MatSnackBarModule,
       ],
     })
     .compileComponents();
@@ -51,12 +48,14 @@ describe('StudentCourseDetailsPageComponent', () => {
     };
 
     const instructorDetails: Instructor[] = [{
+      googleId: '',
       courseId: '1.1.c-demo2',
       displayedToStudentsAs: 'Instructor',
       isDisplayedToStudents: true,
       email: '1@1.com',
       name: '1',
       joinState: JoinState.JOINED,
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     }];
 
     const course: Course = {

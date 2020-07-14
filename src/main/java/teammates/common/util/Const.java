@@ -108,8 +108,11 @@ public final class Const {
         public static final String ENCODING = "UTF8";
         public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-        /** This is the limit after which TEAMMATES will send error message.
-         * Must be within the range of int */
+        /**
+         * This is the limit after which TEAMMATES will send error message.
+         *
+         * <p>Must be within the range of int.
+         */
         public static final int MAX_PROFILE_PIC_SIZE = 5000000;
 
         /** e.g. "2014-04-01 11:59 PM UTC" */
@@ -126,87 +129,6 @@ public final class Const {
 
         public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
 
-        @Deprecated
-        public static final List<String> PAGES_REQUIRING_ORIGIN_VALIDATION = Collections.unmodifiableList(
-                Arrays.asList(
-                        ActionURIs.INSTRUCTOR_COURSE_REMIND,
-                        ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_PUBLISH,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS,
-                        ActionURIs.INSTRUCTOR_FEEDBACK_UNPUBLISH));
-
-    }
-
-    /* Text displayed to the user when the mouse hover over certain elements in
-     * the UI.
-     */
-    @Deprecated
-    public static class Tooltips {
-
-        public static final String CLAIMED =
-                "Claimed Contribution: This is the student's own estimation of his/her contributions";
-        public static final String PERCEIVED =
-                "Perceived Contribution: This is the average of what other team members think this student contributed";
-
-        public static final String COURSE_STUDENT_DETAILS = "View the details of the student";
-        public static final String COURSE_STUDENT_EDIT =
-                "Use this to edit the details of this student. <br>To edit multiple students"
-                + " in one go, you can use the enroll page: <br>"
-                + "Simply enroll students using the updated data and existing data will be updated accordingly";
-        public static final String COURSE_STUDENT_REMIND =
-                "Email an invitation to the student requesting him/her to join the course using his/her "
-                + "Google Account. Note: Students can use TEAMMATES without ‘joining’, "
-                + "but a joined student can access extra features e.g. set up a user profile";
-        public static final String COURSE_STUDENT_DELETE =
-                "Delete the student and the corresponding submissions from the course";
-
-        public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
-        public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED =
-                "The list of points that this student received from others";
-
-        public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE =
-                "Not Available: There is no data for this or the data is not enough";
-        public static final String FEEDBACK_CONTRIBUTION_NOT_SURE = "Not sure about the contribution";
-
-        public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
-        public static final String FEEDBACK_SESSION_PUBLISH = "Make session responses available for viewing";
-        public static final String FEEDBACK_SESSION_UNPUBLISH = "Make responses no longer visible";
-        public static final String FEEDBACK_SESSION_AWAITING = "This session is not yet opened";
-
-        public static final String FEEDBACK_SESSION_MODERATE_FEEDBACK = "Edit the responses given by this student";
-
-        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_OPTION =
-                "Respondents will have to distribute the total points specified here among the options, "
-                + "e.g. if you specify 100 points here and there are 3 options, "
-                + "respondents will have to distribute 100 points among 3 options.";
-        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS_RECIPIENT =
-                "Respondents will have to distribute the total points specified here among the recipients, "
-                + "e.g. if you specify 100 points here and there are 3 recipients, "
-                + "respondents will have to distribute 100 points among 3 recipients.";
-        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHOPTION =
-                "The number of points to distribute will vary based on the number of options, "
-                + "e.g. if you specify 100 points here and there are 3 options, "
-                + "the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3).";
-        public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSFOREACHRECIPIENT =
-                "The number of points to distribute will vary based on the number of recipients, "
-                + "e.g. if you specify 100 points here and there are 3 recipients, "
-                + "the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).";
-        public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
-        public static final String FEEDBACK_QUESTION_NUMSCALE_STEP = "Value to be increased/decreased each step";
-        public static final String FEEDBACK_QUESTION_NUMSCALE_MIN = "Minimum acceptable response value";
-        public static final String FEEDBACK_QUESTION_MSQ_ASSIGN_WEIGHTS =
-                "Assign weights to the choices for calculating statistics.";
-        public static final String FEEDBACK_QUESTION_RUBRIC_ASSIGN_WEIGHTS =
-                "Assign weights to the columns for calculating statistics.";
-        public static final String FEEDBACK_QUESTION_MCQ_ASSIGN_WEIGHTS =
-                "Assign weights to the choices for calculating statistics.";
-
-        public static final String COMMENT_ADD = "Add comment";
-        public static final String COMMENT_EDIT = "Edit this comment";
-        public static final String COMMENT_DELETE = "Delete this comment";
-        public static final String COMMENT_DISCARD_CHANGES = "Discard changes to comment";
-
-        public static final String ACTION_NOT_ALLOWED = "You do not have the permissions to access this feature";
     }
 
     public static class FeedbackQuestion {
@@ -268,6 +190,7 @@ public final class Const {
                 + " must be valid non-negative numbers with precision up to 2 decimal places.";
         public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
         public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
+        public static final String MCQ_ERROR_DUPLICATE_MCQ_OPTION = "The Mcq options cannot be duplicate";
 
         // Msq
         public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
@@ -297,7 +220,11 @@ public final class Const {
         public static final String MSQ_ERROR_INVALID_WEIGHT =
                 "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
                 + " must be valid numbers with precision up to 2 decimal places.";
-        public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "None of the above";
+        /**
+         * Special answer of a MSQ question indicating 'None of the above'.
+         */
+        public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "";
+        public static final String MSQ_ERROR_DUPLICATE_MSQ_OPTION = "The Msq options cannot be duplicate";
 
         // Numscale
         public static final String NUMSCALE_ERROR_MIN_MAX =
@@ -339,8 +266,12 @@ public final class Const {
         public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
         public static final String CONST_SUM_ERROR_SOME_UNIQUE =
                 "At least some options must be given a different number of points.";
+        public static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
+        public static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
 
         // Rubric
+        public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
+
         public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
         public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
                 "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
@@ -356,6 +287,9 @@ public final class Const {
                 "The weights for the choices of each Sub-question of a "
                 + Const.FeedbackQuestionTypeNames.RUBRIC
                 + " must be valid numbers with precision up to 2 decimal places.";
+
+        public static final String RUBRIC_EMPTY_ANSWER = "Empty answer.";
+        public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
 
         // Text Question
         public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
@@ -413,6 +347,7 @@ public final class Const {
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
+        public static final String INSTITUTION_MAC = "mac";
         public static final String STUDENTS_ENROLLMENT_INFO = "enrollstudents";
 
         public static final String INSTRUCTOR_IS_DISPLAYED_TO_STUDENT = "instructorisdisplayed";
@@ -615,11 +550,10 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY_EMAIL = "sessionlinksrecoveryemail";
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
+        public static final String EMAIL_TYPE = "emailtype";
+
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
-
-        public static final String SEARCH_STUDENTS = "searchstudents";
-        public static final String SEARCH_FEEDBACK_SESSION_DATA = "searchfeedbacksessiondata";
 
         public static final String ENTITY_TYPE = "entitytype";
 
@@ -670,6 +604,8 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
         public static final String STUDENT_COURSE_JOIN = "/page/studentCourseJoin";
         public static final String STUDENT_COURSE_JOIN_NEW = "/page/studentCourseJoinAuthentication";
+        public static final String INSTRUCTOR_HOME_PAGE = "/page/instructorHomePage";
+        public static final String STUDENT_HOME_PAGE = "/page/studentHomePage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_RESULTS_PAGE = "/page/studentFeedbackResultsPage";
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/instructorFeedbackSubmissionEditPage";
@@ -698,6 +634,7 @@ public final class Const {
         public static final String INSTRUCTOR_SESSIONS_PAGE = INSTRUCTOR_PAGE + "/sessions";
         public static final String INSTRUCTOR_SESSION_SUBMISSION_PAGE = INSTRUCTOR_PAGE + "/sessions/submission";
         public static final String INSTRUCTOR_SESSION_EDIT_PAGE = INSTRUCTOR_PAGE + "/sessions/edit";
+        public static final String INSTRUCTOR_SESSION_RESULTS_PAGE = INSTRUCTOR_PAGE + "/sessions/result";
         public static final String INSTRUCTOR_COURSES_PAGE = INSTRUCTOR_PAGE + "/courses";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = INSTRUCTOR_PAGE + "/courses/details";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/edit";
@@ -724,11 +661,12 @@ public final class Const {
         public static final String LOGOUT = "/logout";
 
         public static final String DATABUNDLE = "/databundle";
+        public static final String DATABUNDLE_DOCUMENTS = "/databundle/documents";
         public static final String EXCEPTION = "/exception";
         public static final String ERROR_REPORT = "/errorreport";
         public static final String AUTH = "/auth";
+        public static final String AUTH_REGKEY = "/auth/regkey";
         public static final String ACCOUNT = "/account";
-        public static final String ACCOUNTS_SEARCH = "/accounts/search";
         public static final String ACCOUNT_RESET = "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
         public static final String RESPONSE_COMMENT = "/responsecomment";
@@ -751,6 +689,9 @@ public final class Const {
         public static final String SESSION_STATS = "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
         public static final String SESSIONS = "/sessions";
+        public static final String SEARCH_COMMENTS = "/search/comments";
+        public static final String SEARCH_INSTRUCTORS = "/search/instructors";
+        public static final String SEARCH_STUDENTS = "/search/students";
         public static final String BIN_SESSION = "/bin/session";
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
@@ -765,44 +706,11 @@ public final class Const {
         public static final String LOCAL_DATE_TIME = "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
         public static final String NATIONALITIES = "/nationalities";
+        public static final String EMAIL = "/email";
 
-        public static final String INSTRUCTOR_COURSES = "/instructor/courses";
-        public static final String INSTRUCTOR_COURSE_DETAILS = "/courses/details";
-
-        public static final String COURSE_STUDENT_DETAILS = "/courses/students/details";
-        public static final String STUDENT_COURSE = "/student/course";
         public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
         public static final String STUDENT_PROFILE = "/student/profile";
-        public static final String STUDENT_COURSES = "/student/courses";
-        public static final String STUDENTS_CSV = "/students/csv";
-        public static final String STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH = "/studentsAndSessionData/search";
-
-        public static final String STUDENT_EDIT_DETAILS = "/students/editDetails";
-        public static final String COURSE_EDIT_DETAILS = "/instructors/course/details";
-        public static final String STUDENT_RECORDS = "/students/records";
-        public static final String COURSE_ENROLL_STUDENTS = "/course/enroll/students";
-    }
-
-    @Deprecated
-    public static class ActionURIs {
-
-        /* _PAGE/Page in the Action URI name means 'show page' */
-
-        public static final String INSTRUCTOR_COURSE_STUDENT_DELETE = "/page/instructorCourseStudentDelete";
-        public static final String INSTRUCTOR_COURSE_REMIND = "/page/instructorCourseRemind";
-        public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
-
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS_PAGE =
-                "/page/instructorFeedbackRemindParticularStudentsPage";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS =
-                "/page/instructorFeedbackRemindParticularStudents";
-        public static final String INSTRUCTOR_FEEDBACK_PUBLISH = "/page/instructorFeedbackPublish";
-        public static final String INSTRUCTOR_FEEDBACK_UNPUBLISH = "/page/instructorFeedbackUnpublish";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_PAGE = "/page/instructorFeedbackResultsPage";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD = "/page/instructorFeedbackResultsDownload";
-
-        public static final String STUDENT_PROFILE_PICTURE = "/page/studentProfilePic";
-
+        public static final String STUDENT_COURSE_LINKS_REGENERATION = "/student/courselinks/regeneration";
     }
 
     public static class CronJobURIs {
@@ -857,29 +765,6 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/studentCourseJoinEmail";
 
-    }
-
-    @Deprecated
-    public static class ViewURIs {
-
-        /* We omit adding the 'page' prefix to views because all of them are "pages" */
-
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION =
-                "/jsp/instructorFeedbackResultsByGiverRecipientQuestion.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION =
-                "/jsp/instructorFeedbackResultsByRecipientGiverQuestion.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT =
-                "/jsp/instructorFeedbackResultsByGiverQuestionRecipient.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER =
-                "/jsp/instructorFeedbackResultsByRecipientQuestionGiver.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp";
-        public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
-        public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
-
-        public static final String MASHUP = "/test/mashup.jsp";
-        public static final String TABLE_SORT = "/test/tableSort.jsp";
     }
 
     /* These are status messages that may be shown to the user */
@@ -1033,6 +918,40 @@ public final class Const {
                         + "It can refer to %s or %s. It was resolved to %s.";
     }
 
+    /**
+     * These are status messages related to students logic that may be shown to the user.
+     */
+    public static class StudentsLogicConst {
+        /**
+         * Error message when trying to create the same team in more than one section.
+         */
+        public static final String ERROR_INVALID_TEAM_NAME =
+                "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+
+        /**
+         * Error message to be appended to the ERROR_INVALID_TEAM_NAME message.
+         */
+        public static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+                "Please use different team names in different sections.";
+
+        /**
+         * Error message when trying to enroll to a section that has maximum capacity.
+         */
+        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+                "You are trying enroll more than %s students in section \"%s\".";
+
+        /**
+         * Error message to be appended to the ERROR_ENROLL_EXCEED_SECTION_LIMIT message.
+         */
+        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+                "To avoid performance problems, please do not enroll more than %s students in a single section.";
+
+        /**
+         * The maximum allowable number of students to be enrolled in a section.
+         */
+        public static final int SECTION_SIZE_LIMIT = 100;
+    }
+
     /* These indicate status of an operation, but they are not shown to the user */
     public static class StatusCodes {
 
@@ -1046,46 +965,11 @@ public final class Const {
         // Error message used across DB level
         public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
 
-        // POST parameter null message
-        public static final String NULL_POST_PARAMETER = "The %s POST parameter is null%n";
-
         // HTTP parameter null message
         public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
 
         // body parameter null message
         public static final String NULL_BODY_PARAMETER = "The body parameter is null";
-    }
-
-    /**
-     * These are constants that may be used in {@link ActivityLogEntry}.
-     */
-    public static class ActivityLog {
-        public static final String TEAMMATESLOG = "TEAMMATESLOG";
-
-        public static final String UNKNOWN = "Unknown";
-
-        public static final String ROLE_ADMIN = "Admin";
-        public static final String ROLE_INSTRUCTOR = "Instructor";
-        public static final String ROLE_STUDENT = "Student";
-        public static final String ROLE_AUTO = "Auto";
-        public static final String ROLE_UNREGISTERED = "Unregistered";
-        public static final String ROLE_MASQUERADE_POSTFIX = "(M)";
-
-        public static final String PREFIX_STUDENT_PAGE = "student";
-        public static final String PREFIX_INSTRUCTOR_PAGE = "instructor";
-        public static final String PREFIX_AUTO_PAGE = "/auto";
-
-        public static final String AUTH_NOT_LOGIN = "Unknown";
-
-        public static final String FIELD_SEPARATOR = "|||";
-        public static final String FIELD_CONNECTOR = "%";
-
-        public static final String TIME_FORMAT_LOGID = "yyyyMMddHHmmssSS";
-
-        public static final String TESTING_DATA_EMAIL_POSTFIX = ".tmt";
-
-        public static final String MESSAGE_ERROR_ACTION_NAME = "Error when getting ActionName for requestUrl : %1$s";
-        public static final String MESSAGE_ERROR_LOG_MESSAGE_FORMAT = "Log message format not as expected: %1$s";
     }
 
 }

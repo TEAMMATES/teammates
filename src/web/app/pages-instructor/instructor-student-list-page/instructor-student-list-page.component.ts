@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { finalize } from 'rxjs/operators';
+import { CourseService, CourseStatistics } from '../../../services/course.service';
+import { InstructorService } from '../../../services/instructor.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentListSectionData, StudentListStudentData } from '../student-list/student-list-section-data';
-
-interface Statistic {
-  numOfStudents: number;
-  numOfSections: number;
-  numOfTeams: number;
-}
 
 interface StudentIndexedData {
   [key: string]: Student[];
@@ -20,10 +16,10 @@ interface StudentIndexedData {
 
 interface CourseTab {
   course: Course;
-  studentListSectionDataList: StudentListSectionData[];
+  studentList: StudentListRowModel[];
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
-  stats?: Statistic;
+  stats: CourseStatistics;
 }
 
 /**
@@ -33,43 +29,48 @@ interface CourseTab {
   selector: 'tm-instructor-student-list-page',
   templateUrl: './instructor-student-list-page.component.html',
   styleUrls: ['./instructor-student-list-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorStudentListPageComponent implements OnInit {
-  user: string = '';
+
   courseTabList: CourseTab[] = [];
 
-  constructor(private httpRequestService: HttpRequestService,
+  constructor(private instructorService: InstructorService,
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
-              private route: ActivatedRoute) {
+              private loadingBarService: LoadingBarService) {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-      this.loadCourses();
-    });
+    this.loadCourses();
   }
 
   /**
    * Loads courses of current instructor.
    */
   loadCourses(): void {
+    this.loadingBarService.showLoadingBar();
     this.courseService.getAllCoursesAsInstructor('active')
+        .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
         .subscribe((courses: Courses) => {
           courses.courses.forEach((course: Course) => {
             const courseTab: CourseTab = {
               course,
-              studentListSectionDataList: [],
+              studentList: [],
               hasTabExpanded: false,
               hasStudentLoaded: false,
+              stats: {
+                numOfSections: 0,
+                numOfStudents: 0,
+                numOfTeams: 0,
+              },
             };
 
             this.courseTabList.push(courseTab);
           });
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -88,63 +89,68 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads students of a specified course.
    */
   loadStudents(courseTab: CourseTab): void {
-    this.studentService.getStudentsFromCourse(courseTab.course.courseId)
+    this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
         .subscribe((students: Students) => {
+          courseTab.studentList = []; // Reset the list of students for the course
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
             const term: string = x.sectionName;
             (acc[term] = acc[term] || []).push(x);
             return acc;
           }, {});
 
-          const teams: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
-            const term: string = x.teamName;
-            (acc[term] = acc[term] || []).push(x);
-            return acc;
-          }, {});
-
-          courseTab.stats = {
-            numOfStudents: students.students.length,
-            numOfSections: Object.keys(sections).length,
-            numOfTeams: Object.keys(teams).length,
-          };
-
           Object.keys(sections).forEach((key: string) => {
             const studentsInSection: Student[] = sections[key];
-
-            const data: StudentListStudentData[] = [];
-            studentsInSection.forEach((student: Student) => {
-              const studentData: StudentListStudentData = {
-                name : student.name,
-                status : student.joinState,
-                email : student.email,
-                team : student.teamName,
+            const studentList: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
+              return {
+                student: studentInSection,
+                isAllowedToModifyStudent: false,
+                isAllowedToViewStudentInSection: false,
               };
-              data.push(studentData);
             });
 
-            this.loadPrivilege(courseTab, key, data);
+            this.loadPrivilege(courseTab, key, studentList);
           });
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+
+          courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListStudentData[]): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: courseTab.course.courseId,
-      sectionname: sectionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      const sectionData: StudentListSectionData = {
-        sectionName,
-        students,
-        isAllowedToViewStudentInSection : instructorPrivilege.canViewStudentInSections,
-        isAllowedToModifyStudent : instructorPrivilege.canModifyStudent,
-      };
+  loadPrivilege(courseTab: CourseTab, sectionName: string, students: StudentListRowModel[]): void {
+    this.instructorService.loadInstructorPrivilege({ sectionName, courseId: courseTab.course.courseId })
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          students.forEach((studentModel: StudentListRowModel) => {
+            if (studentModel.student.sectionName === sectionName) {
+              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+            }
+          });
 
-      courseTab.studentListSectionDataList.push(sectionData);
+          courseTab.studentList.push(...students);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
+  }
+
+  /**
+   * Removes the student from course and update the course statistics.
+   */
+  removeStudentFromCourse(courseTab: CourseTab, studentEmail: string): void {
+    this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe(() => {
+      courseTab.studentList =
+          courseTab.studentList.filter(
+              (studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail);
+
+      const students: Student[] =
+          courseTab.studentList.map((studentModel: StudentListRowModel) => studentModel.student);
+      courseTab.stats = this.courseService.calculateCourseStatistics(students);
+
+      this.statusMessageService
+          .showSuccessToast(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

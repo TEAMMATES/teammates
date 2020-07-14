@@ -232,10 +232,10 @@ public final class FieldValidator {
      * <li>Special characters allowed are ! # $ % & ' * + - / = ? ^ _ ` { } ~
      * <li>Dot can only appear between any 2 characters and cannot appear continuously<br>
      * Domain part:
-     * <li>Only allow letters, digits, hyphen and dot; Must end with letters
+     * <li>Only allow letters, digits, hyphen and dot; Must end with letters; Must have TLD
      */
     public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
-                                            + "@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
+                                            + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
 
     /**
      * Allows English alphabet, numbers, underscore,  dot and hyphen.
@@ -319,7 +319,7 @@ public final class FieldValidator {
         } else if (email.length() > EMAIL_MAX_LENGTH) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
                                             REASON_TOO_LONG, EMAIL_MAX_LENGTH);
-        } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
+        } else if (!isValidEmailAddress(email)) {
             return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
         }
@@ -352,7 +352,7 @@ public final class FieldValidator {
                 !googleId.toLowerCase().endsWith("@gmail.com"));
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(googleId);
 
-        boolean isValidFullEmail = StringHelper.isMatching(googleId, REGEX_EMAIL);
+        boolean isValidFullEmail = isValidEmailAddress(googleId);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
@@ -417,7 +417,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code teamName} is acceptable.
      */
     public static String getInvalidityInfoForTeamName(String teamName) {
-        boolean isValidEmail = StringHelper.isMatching(teamName, REGEX_EMAIL);
+        boolean isValidEmail = isValidEmailAddress(teamName);
         if (isValidEmail) {
             return TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE;
         }

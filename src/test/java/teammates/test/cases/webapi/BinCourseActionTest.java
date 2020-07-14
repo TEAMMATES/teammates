@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.BinCourseAction;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.CourseData;
@@ -84,6 +83,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
+        assertFalse(courseData.getDeletionTimestamp() == 0);
         assertNotNull(logic.getCourse("icdct.tpa.id1").deletedAt);
     }
 
@@ -138,25 +138,10 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
     @Override
     @Test
     protected void testAccessControl() throws Exception {
-        logic.createCourseAndInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId,
-                CourseAttributes.builder("icdat.owncourse")
-                        .withName("New course")
-                        .withTimezone(ZoneId.of("UTC")).build());
-
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, "icdat.owncourse",
+                Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
-
-        verifyInaccessibleWithoutLogin(submissionParams);
-        verifyInaccessibleForUnregisteredUsers(submissionParams);
-        verifyInaccessibleForStudents(submissionParams);
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-
-        // clean up
-        CoursesLogic.inst().deleteCourseCascade("icdat.owncourse");
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, submissionParams);
     }
-
 }

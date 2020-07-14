@@ -13,14 +13,14 @@
               id="studentname"
               formControlName="studentname">
               <div
-                *ngIf="editForm.get('studentname').errors
-                && (editForm.get('studentname').dirty || editForm.get('studentname').touched)"
+                *ngIf="editForm.get('studentname')!.errors
+                && (editForm.get('studentname')!.dirty || editForm.get('studentname')!.touched)"
                 class="invalid-field">
                 <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                <span [hidden]="!editForm.get('studentname').errors.required">
+                <span [hidden]="!editForm.get('studentname')!.errors!.required">
                   {{ displayEmptyFieldMessage('Student Name') }}
                 </span>
-                <span [hidden]="!editForm.get('studentname').errors.maxlength">
+                <span [hidden]="!editForm.get('studentname')!.errors!.maxlength">
                   {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
                 </span>
               </div>
@@ -34,14 +34,14 @@
               id="sectionname"
               formControlName="sectionname">
             <div
-              *ngIf="editForm.get('sectionname').errors
-              && (editForm.get('sectionname').dirty || editForm.get('sectionname').touched)"
+              *ngIf="editForm.get('sectionname')!.errors
+              && (editForm.get('sectionname')!.dirty || editForm.get('sectionname')!.touched)"
               class="invalid-field">
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-              <span [hidden]="!editForm.get('sectionname').errors.required">
+              <span [hidden]="!editForm.get('sectionname')!.errors!.required">
                 {{ displayEmptyFieldMessage('Section Name') }}
               </span>
-              <span [hidden]="!editForm.get('sectionname').errors.maxlength">
+              <span [hidden]="!editForm.get('sectionname')!.errors!.maxlength">
                 {{ displayExceedMaxLengthMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
               </span>
             </div>
@@ -56,14 +56,14 @@
               id="teamname"
               formControlName="teamname">
             <div
-              *ngIf="editForm.get('teamname').errors
-              && (editForm.get('teamname').dirty || editForm.get('teamname').touched)"
+              *ngIf="editForm.get('teamname')!.errors
+              && (editForm.get('teamname')!.dirty || editForm.get('teamname')!.touched)"
               class="invalid-field">
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-              <span [hidden]="!editForm.get('teamname').errors.required">
+              <span [hidden]="!editForm.get('teamname')!.errors!.required">
                 {{ displayEmptyFieldMessage('Team Name') }}
               </span>
-              <span [hidden]="!editForm.get('teamname').errors.maxlength">
+              <span [hidden]="!editForm.get('teamname')!.errors!.maxlength">
                 {{ displayExceedMaxLengthMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
               </span>
             </div>
@@ -77,14 +77,14 @@
               id="newstudentemail"
               formControlName="newstudentemail">
             <div
-              *ngIf="editForm.get('newstudentemail').errors
-              && (editForm.get('newstudentemail').dirty || editForm.get('newstudentemail').touched)"
+              *ngIf="editForm.get('newstudentemail')!.errors
+              && (editForm.get('newstudentemail')!.dirty || editForm.get('newstudentemail')!.touched)"
                 class="invalid-field">
               <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-              <span [hidden]="!editForm.get('newstudentemail').errors.required">
+              <span [hidden]="!editForm.get('newstudentemail')!.errors!.required">
                 {{ displayEmptyFieldMessage('E-mail Address') }}
               </span>
-              <span [hidden]="!editForm.get('newstudentemail').errors.maxlength">
+              <span [hidden]="!editForm.get('newstudentemail')!.errors!.maxlength">
                 {{ displayExceedMaxLengthMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
               </span>
             </div>
@@ -103,7 +103,12 @@
         </div>
         <br>
         <div class="text-center">
-          <input type="submit" class="btn btn-primary" id="button_submit" value="Save Changes">
+          <input
+              type="submit"
+              class="btn btn-primary"
+              id="button_submit"
+              value="Save Changes"
+              [disabled]="!editForm.valid">
         </div>
         <br>
         <br>
@@ -144,11 +149,11 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary"
-                    (click)="resendPastSessionLinks(true); modal.dismiss()">
+                    (click)="submitEditForm(true); modal.dismiss()">
               Yes, save changes and resend links
             </button>
             <button type="button" class="btn btn-primary"
-                    (click)="resendPastSessionLinks(false); modal.dismiss()">
+                    (click)="submitEditForm(false); modal.dismiss()">
               No, just save the changes
             </button>
             <button type="button" class="btn btn-outline-secondary"

@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import teammates.common.util.Const;
 
 /**
@@ -19,6 +21,7 @@ public enum FeedbackConstantSumDistributePointsType {
     /**
      * Gets {@code displayedOption} that is associated with a particular distribute points option.
      */
+    @JsonValue
     public String getDisplayedOption() {
         return displayedOption;
     }

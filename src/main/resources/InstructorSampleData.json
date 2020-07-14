@@ -885,7 +885,7 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 1",
-      "recipientSection": "Tutorial Group 2",
+      "recipientSection": "No specific section",
       "responseDetails": {
         "answer": 4,
         "questionType": "NUMSCALE"
@@ -1192,8 +1192,8 @@
       "feedbackQuestionId": "14",
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
-      "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2",
+      "giverSection": "Tutorial Group 1",
+      "recipientSection": "Tutorial Group 1",
       "responseDetails": {
         "answers": [
           1,
@@ -1224,7 +1224,7 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor@demo.course",
       "giverSection": "Tutorial Group 2",
-      "recipientSection": "Tutorial Group 2",
+      "recipientSection": "No specific section",
       "responseDetails": {
         "answer": 5,
         "questionType": "NUMSCALE"
@@ -2306,7 +2306,7 @@
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
         "questionType": "TEXT",
-        "answer": "Demo_Instructor was the project lead. He put a lot of effort in this project."
+        "answer": "Demo_Instructor was the project lead who put a lot of effort in this project."
       }
     },
     "FS2.Q3.Francis.2": {
@@ -2345,7 +2345,7 @@
       "recipientSection": "Tutorial Group 2",
       "responseDetails": {
         "questionType": "TEXT",
-        "answer": "Demo_Instructor was our team leader. He helped us a lot, especially Charlie."
+        "answer": "Demo_Instructor was our team leader. Demo_Instructor helped us a lot, especially Charlie."
       }
     },
     "FS2.Q3.Gene.2": {

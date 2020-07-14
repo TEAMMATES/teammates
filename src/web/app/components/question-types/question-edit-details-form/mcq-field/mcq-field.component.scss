@@ -1,5 +1,4 @@
 .input-group-addon {
-  cursor: move;
   resize: both;
   padding: .375rem .75rem;
   margin-bottom: 0;
@@ -10,4 +9,8 @@
   text-align: center;
   background-color: #E9ECEF;
   border: 1px solid #CED4DA;
+}
+
+.rich-text-editor {
+  flex: 1 1 0%;
 }

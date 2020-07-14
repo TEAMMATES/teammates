@@ -1,5 +1,7 @@
 package teammates.ui.webapi.output;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
@@ -11,10 +13,17 @@ public class StudentData extends ApiOutput {
     private final String courseId;
 
     private final String name;
-    private final String lastName;
-
+    @Nullable
+    private String googleId;
+    @Nullable
+    private String lastName;
+    @Nullable
     private String comments;
-
+    @Nullable
+    private String key;
+    @Nullable
+    private String institute;
+    @Nullable
     private JoinState joinState;
 
     private final String teamName;
@@ -43,6 +52,10 @@ public class StudentData extends ApiOutput {
         return name;
     }
 
+    public String getGoogleId() {
+        return googleId;
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -51,16 +64,8 @@ public class StudentData extends ApiOutput {
         return comments;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
     public JoinState getJoinState() {
         return joinState;
-    }
-
-    public void setJoinState(JoinState joinState) {
-        this.joinState = joinState;
     }
 
     public String getTeamName() {
@@ -69,5 +74,64 @@ public class StudentData extends ApiOutput {
 
     public String getSectionName() {
         return sectionName;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public void setJoinState(JoinState joinState) {
+        this.joinState = joinState;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
+    /**
+     * Hides last name.
+     */
+    public void hideLastName() {
+        setLastName(null);
+    }
+
+    /**
+     * Hides some attributes to student.
+     */
+    public void hideInformationForStudent() {
+        setComments(null);
+        setJoinState(null);
+    }
+
+    /**
+     * Adds additional information only for search result for admin.
+     * @param key The encrypted key
+     * @param institute The institute of the student
+     * @param googleId The googleId of the student
+     */
+    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+        this.setKey(key);
+        this.setInstitute(institute);
+        this.setGoogleId(googleId);
     }
 }

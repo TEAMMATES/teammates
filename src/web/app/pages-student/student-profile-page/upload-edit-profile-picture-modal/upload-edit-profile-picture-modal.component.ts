@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
-import { Observable } from 'rxjs';
-import { HttpRequestService } from '../../../../services/http-request.service';
 
 /**
  * Student profile page's modal to upload/edit photo.
@@ -18,23 +16,15 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
 
   @ViewChild(ImageCropperComponent) imageCropper!: ImageCropperComponent;
 
-  @Input() profilePicLink!: string;
+  @Input() image!: Blob | null;
 
-  constructor(public activeModal: NgbActiveModal,
-              private httpRequestService: HttpRequestService) { }
+  constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
-    this.getProfilePicture().subscribe((resp: any) => {
-      this.blobToBase64Image(resp);
-    });
-  }
-
-  /**
-   * Gets the profile picture as blob image.
-   */
-  getProfilePicture(): Observable<Blob> {
-    const profilePicEndPoint: string = '/student/profilePic';
-    return this.httpRequestService.get(profilePicEndPoint, {}, 'blob');
+    if (this.image == null) {
+      return;
+    }
+    this.blobToBase64Image(this.image);
   }
 
   /**

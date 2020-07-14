@@ -1,14 +1,15 @@
-<!--TODO: Fix links-->
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Questions</h2>
+  <!-- Section -->
+  <h4 *ngIf="displaySubsection(showQuestion, 0, 10)">Setting Up Questions</h4>
   <!-- Question -->
-  <div class="instr-help-qn0" *ngIf="displaySubsection(showQuestion, 0, 1)" #question>
+  <div class="instr-help-qn-first" *ngIf="displaySubsection(showQuestion, 0, 1)" #question id="{{QuestionsSectionQuestions.ESSAY}}" >
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.ESSAY] = !questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
         Essay Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -26,20 +27,26 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BODY</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                    [formModel]="exampleEssayQuestionModel"
+                    [formMode]="QuestionEditFormMode.EDIT"
+                    [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="{{QuestionsSectionQuestions.SINGLE_ANSWER_MCQ}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
         Multiple Choice (Single Answer) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed1">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -69,7 +76,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                [formModel]="exampleMCQQuestionWithoutWeightsModel"
+                [formMode]="QuestionEditFormMode.EDIT"
+                [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
           <p>
             When you view the results of a multiple-choice (single answer) question, TEAMMATES calculates some statistics about the results collected,
             such as the number of responses for each option, and the percentage of response in which each option was chosen.
@@ -81,26 +94,32 @@
             <strong>Note: </strong> Weights can be assigned for questions with existing questions too. To do that, edit the question that needs weights,
             if there are existing responses for that question, the additional statistics will automatically get calculated for the question.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                [formModel]="exampleMCQQuestionWithWeightsModel"
+                [formMode]="QuestionEditFormMode.EDIT"
+                [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
         Multiple Choice (Multiple Answers) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed2">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
             Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
             <br> The setup and result statistics is similar to the single answer version. See
-            <a (click)="isCollapsed1 = !isCollapsed1" href="#">above</a> for details.
+            <a (click)="jumpTo(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ); questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = true" [routerLink]="">above</a> for details.
           </p>
           <p>
             <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
@@ -113,13 +132,13 @@
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE] = !questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
         Numerical Scale Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed3">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -145,25 +164,40 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleNumericalScaleQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Statistics for numerical scale questions are also provided for instructors.<br>
             TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleNumericalScaleQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
         Distribute Points (Among Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed4">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -189,24 +223,39 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleDistributedPointOptionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             In the results view, TEAMMATES provides statistics on the average number of points each option received.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleDistributePointOptionQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
-        Distribute Points (Among Recepients) Questions
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
+        Distribute Points (Among Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed5">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -230,20 +279,26 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleDistributedPointRecipientModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="{{QuestionsSectionQuestions.CONTRIBUTION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION] = !questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
         Team Contribution Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed6">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -267,7 +322,13 @@
           <p>
             The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleTeamContributionQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
             Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
@@ -468,27 +529,36 @@
           <p>
             The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
             If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
-            <a (click)="undefined" href="#">tips for conducting 'team peer evaluation' sessions</a> section.
+            <button class="btn btn-link" (click)="collapsePeerEvalTips.emit()">tips for conducting 'team peer evaluation' sessions</button> section.
           </p>
           <p>
             The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
             For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalizes it to ‘Equal share’ because in reality that is what the student means.
             ‘Normalize’ here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleTeamContributionQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!-- Question -->
-  <div class="instr-help-qn7" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed7 = !isCollapsed7" [attr.aria-expanded]="!isCollapsed7">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC] = !questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
         Rubric Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed7">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -497,7 +567,12 @@
           <p>
             To respondents, a rubric question will appear as a table that looks similar to the example below. Respondents can choose one answer per row.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-submission-form
+                [formModel]="exampleResponderRubricSubmissionFormModel"
+                [isDisabled]="true"
+            ></tm-question-submission-form>
+          </tm-example-box>
           <p>
             To set up a rubric question:
           </p>
@@ -524,7 +599,13 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-question-edit-form
+                  [formModel]="exampleRubricQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true">
+              </tm-question-edit-form>
+          </tm-example-box>
           <p>
             Result statistics for rubric questions show how often a choice is selected for each sub-question.<br>
             If weights are assigned to the choices, the weights will be used to calculate an average score.
@@ -554,20 +635,29 @@
             which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and
             the response count of that choice, total and average points for the sub-question is calculated for each recipient.
           </p>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleRubricQuestionQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn8" *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
+  <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed8 = !isCollapsed8" [attr.aria-expanded]="!isCollapsed8">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
         Rank (Options) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed8">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -596,20 +686,24 @@
               Specify the feedback path that should be used to generate the appropriate feedback recipients
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-question-edit-form
+                  [formModel]="exampleRankOptionQuestionModel"
+                  [formMode]="QuestionEditFormMode.EDIT"
+                  [isDisplayOnly]="true"
+          ></tm-question-edit-form>
         </div>
       </div>
       <br/>
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn9" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed9 = !isCollapsed9" [attr.aria-expanded]="!isCollapsed9">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
         Rank (Recipients) Questions
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed9">
+    <div *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -633,7 +727,13 @@
               (Optional) Allow respondents to give the same rank to multiple options
             </li>
           </ol>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+            <tm-question-edit-form
+                    [formModel]="exampleRankRecipientQuestionModel"
+                    [formMode]="QuestionEditFormMode.EDIT"
+                    [isDisplayOnly]="true"
+            ></tm-question-edit-form>
+          </tm-example-box>
           <p>
             When viewing the results of a rank recipients question, you will be able to see the following results for each feedback recipient:
           </p>
@@ -662,7 +762,16 @@
               </ul>
             </div>
           </ng-template>
-          <p>EXAMPLE BOX</p>
+          <tm-example-box>
+              <tm-instructor-session-result-question-view
+                  [questions]="exampleRankRecipientQuestions"
+                  [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+                  [session]="exampleFeedbackSession"
+                  [showStatistics]="true" [indicateMissingResponses]="true"
+                  [isDisplayOnly]="true"
+                  [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+              </tm-instructor-session-result-question-view>
+          </tm-example-box>
         </div>
       </div>
       <br/>

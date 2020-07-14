@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
@@ -12,18 +12,32 @@ class AddCourseFormStubComponent {}
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
+  const date1: Date = new Date('2018-11-05T08:15:30');
+  const date2: Date = new Date('2019-02-02T08:15:30');
+  const date3: Date = new Date('2002-11-05T08:15:30');
+  const date4: Date = new Date('2003-11-05T08:15:30');
+  const date5: Date = new Date('2002-12-05T08:15:30');
+  const date6: Date = new Date('2003-12-05T08:15:30');
   const activeCourses: any[] = [
     {
-      id: 'CS3281',
-      name: 'Modifiable Students and Courses',
-      createdAt: '2018-11-05T08:15:30',
+      course: {
+        courseId: 'CS3281',
+        courseName: 'Modifiable Students and Courses',
+        timeZone: 'UTC',
+        creationTimestamp: date1.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: true,
       canModifyStudent: true,
     },
     {
-      id: 'CS3282',
-      name: 'Nothing modifiable',
-      createdAt: '2019-02-02T08:15:30',
+      course: {
+        courseId: 'CS3282',
+        courseName: 'Nothing modifiable',
+        timeZone: 'UTC',
+        creationTimestamp: date2.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: false,
       canModifyStudent: false,
     },
@@ -31,37 +45,51 @@ describe('InstructorCoursesPageComponent', () => {
 
   const archivedCourses: any[] = [
     {
-      id: 'CS2104',
-      name: 'Can modify archived',
-      createdAt: '2002-11-05T08:15:30',
+      course: {
+        courseId: 'CS2104',
+        courseName: 'Can modify archived',
+        timeZone: 'UTC',
+        creationTimestamp: date3.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: true,
     },
     {
-      id: 'CS2106',
-      name: 'Cannot modify archived',
-      createdAt: '2002-11-05T08:15:30',
+      course: {
+        courseId: 'CS2106',
+        courseName: 'Cannot modify archived',
+        timeZone: 'UTC',
+        creationTimestamp: date3.getTime(),
+        deletionTimestamp: 0,
+      },
       canModifyCourse: false,
     },
   ];
 
   const deletedCourses: any[] = [
     {
-      id: 'CS1020',
-      name: 'Can modify deleted',
-      createdAt: '2002-11-05T08:15:30',
-      deletedAt: '2003-11-05T08:15:30',
+      course: {
+        courseId: 'CS1020',
+        courseName: 'Can modify deleted',
+        timeZone: 'UTC',
+        creationTimestamp: date3.getTime(),
+        deletionTimestamp: date4.getTime(),
+      },
       canModifyCourse: true,
     },
     {
-      id: 'CS2010',
-      name: 'Cannot modify deleted',
-      createdAt: '2002-12-05T08:15:30',
-      deletedAt: '2003-12-05T08:15:30',
+      course: {
+        courseId: 'CS2010',
+        courseName: 'Cannot modify deleted',
+        timeZone: 'UTC',
+        creationTimestamp: date5.getTime(),
+        deletionTimestamp: date6.getTime(),
+      },
       canModifyCourse: false,
     },
   ];
 
-  const courseStats: {[key: string]: { [key: string]: number }} = {
+  const courseStats: Record<string, Record<string, number>> = {
     CS3281 : {
       sections: 1,
       teams: 1,
@@ -85,7 +113,7 @@ describe('InstructorCoursesPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         NgbModule,
-        MatSnackBarModule,
+        BrowserAnimationsModule,
       ],
     })
     .compileComponents();

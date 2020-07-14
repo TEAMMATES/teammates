@@ -526,19 +526,49 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
     }
 
     @Test
-    public void testGetPublicProfilePictureUrl() {
-        StudentAttributes studentAttributes = StudentAttributes
-                .builder("course1", "email@email.com")
-                .withName("name 1")
-                .withSectionName("sect 1")
-                .withComment("comment 1")
-                .withTeamName("team 1")
-                .build();
-        String profilePicUrl = Config.getBackEndAppUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withStudentEmail(StringHelper.encrypt("email@email.com"))
-                .withCourseId(StringHelper.encrypt("course1"))
-                .toString();
-        assertEquals(profilePicUrl, studentAttributes.getPublicProfilePictureUrl());
+    public void testEquals() {
+
+        StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());
+
+        // When the two student objects are the exact same copy
+        StudentAttributes studentCopy = student.getCopy();
+
+        assertTrue(student.equals(studentCopy));
+
+        // When the two students have same values but created at different time
+        StudentAttributes studentSimilar = StudentAttributes.valueOf(generateTypicalStudentObject());
+
+        assertTrue(student.equals(studentSimilar));
+
+        // When the two students are different
+        StudentAttributes studentDifferent = generateValidStudentAttributesObject();
+
+        assertFalse(student.equals(studentDifferent));
+
+        // When the other object is of different class
+        assertFalse(student.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+
+        StudentAttributes student = StudentAttributes.valueOf(generateTypicalStudentObject());
+
+        // When the two student objects are the exact same copy, they should have the same hash code
+        StudentAttributes studentCopy = student.getCopy();
+
+        assertTrue(student.hashCode() == studentCopy.hashCode());
+
+        // When the two students have same values but created at different time, they should still have
+        // the same hash code
+        StudentAttributes studentSimilar = StudentAttributes.valueOf(generateTypicalStudentObject());
+
+        assertTrue(student.hashCode() == studentSimilar.hashCode());
+
+        // When the two students are different, they should have different hash code
+        StudentAttributes studentDifferent = generateValidStudentAttributesObject();
+
+        assertFalse(student.hashCode() == studentDifferent.hashCode());
     }
 
     private CourseStudent generateTypicalStudentObject() {

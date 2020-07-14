@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -232,17 +233,22 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
-        String backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
-        while (!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS) && retryLimit > 0) {
-            retryLimit--;
-            print("Re-trying removeAndRestoreDataBundle - " + backDoorOperationStatus);
-            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
+        String backDoorOperationStatus = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        while (retryLimit > 0) {
+            try {
+                backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
+                break;
+            } catch (HttpRequestFailedException e) {
+                print("Re-trying removeAndRestoreDataBundle - " + e);
+                retryLimit--;
+                ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
+                continue;
+            }
         }
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        assertFalse(Const.StatusCodes.BACKDOOR_STATUS_FAILURE.equals(backDoorOperationStatus));
     }
 
-    protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData);
+    protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException;
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;

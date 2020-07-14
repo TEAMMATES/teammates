@@ -7,15 +7,12 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -38,7 +35,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           >
             <img
               class="profile-pic"
-              src="http://localhost:8080/webapi/student/profilePic"
+              src=""
             />
           </div>
         </div>
@@ -46,7 +43,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           class="row profile-pic-row"
         >
           <div
-            class="col-3 cursor-pointer"
+            class="col-md-12 cursor-pointer"
           >
             <button
               class="btn btn-primary upload-edit-photo"
@@ -66,7 +63,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
         </div>
         <form
           class="ng-untouched ng-pristine ng-valid"
-          ng-reflect-form="[object Object]"
           novalidate=""
         >
           <div
@@ -80,7 +76,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentshortname"
               id="studentshortname"
-              ng-reflect-name="studentshortname"
             />
           </div>
           <div
@@ -99,7 +94,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentprofileemail"
               id="studentprofileemail"
-              ng-reflect-name="studentprofileemail"
             />
           </div>
           <div
@@ -113,7 +107,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentprofileinstitute"
               id="studentprofileinstitute"
-              ng-reflect-name="studentprofileinstitute"
             />
           </div>
           <div
@@ -127,7 +120,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentnationality"
               id="studentnationality"
-              ng-reflect-name="studentnationality"
             >
               
             </select>
@@ -145,13 +137,10 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               <input
                 class="student-gender-radio ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="MALE"
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Male
               </label>
@@ -162,13 +151,10 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               <input
                 class="student-gender-radio ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="FEMALE"
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Female
               </label>
@@ -179,13 +165,10 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               <input
                 class="student-gender-radio ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="OTHER"
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Not Specified
               </label>
@@ -202,7 +185,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentprofilemoreinfo"
               id="studentprofilemoreinfo"
-              ng-reflect-name="studentprofilemoreinfo"
               placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
               rows="4"
             >
@@ -238,14 +220,11 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   
 </tm-student-profile-page>
@@ -258,16 +237,14 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
   id=""
   nationalities={[Function Array]}
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
   profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
   <div>
     <h1>
@@ -298,7 +275,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
           class="row profile-pic-row"
         >
           <div
-            class="col-3 cursor-pointer"
+            class="col-md-12 cursor-pointer"
           >
             <button
               class="btn btn-primary upload-edit-photo"
@@ -318,7 +295,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
         </div>
         <form
           class="ng-untouched ng-pristine ng-valid"
-          ng-reflect-form="[object Object]"
           novalidate=""
         >
           <div
@@ -332,7 +308,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentshortname"
               id="studentshortname"
-              ng-reflect-name="studentshortname"
             />
           </div>
           <div
@@ -351,7 +326,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentprofileemail"
               id="studentprofileemail"
-              ng-reflect-name="studentprofileemail"
             />
           </div>
           <div
@@ -365,7 +339,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentprofileinstitute"
               id="studentprofileinstitute"
-              ng-reflect-name="studentprofileinstitute"
             />
           </div>
           <div
@@ -379,17 +352,14 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentnationality"
               id="studentnationality"
-              ng-reflect-name="studentnationality"
             >
               
               <option
-                ng-reflect-value="Derpistan"
                 value="Derpistan"
               >
                  Derpistan 
               </option>
               <option
-                ng-reflect-value="Blablaland"
                 value="Blablaland"
               >
                  Blablaland 
@@ -409,13 +379,10 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               <input
                 class="student-gender-radio ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="MALE"
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Male
               </label>
@@ -426,13 +393,10 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               <input
                 class="student-gender-radio ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="FEMALE"
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Female
               </label>
@@ -443,13 +407,10 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               <input
                 class="student-gender-radio ng-untouched ng-pristine ng-valid"
                 formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="OTHER"
                 type="radio"
               />
               <label
-                class="student-gender-label"
+                class="student-gender-label mt-1"
               >
                 Not Specified
               </label>
@@ -466,7 +427,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="form-control ng-untouched ng-pristine ng-valid"
               formcontrolname="studentprofilemoreinfo"
               id="studentprofilemoreinfo"
-              ng-reflect-name="studentprofilemoreinfo"
               placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
               rows="4"
             >

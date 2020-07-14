@@ -5,11 +5,11 @@
       <div>
         <p>
           Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
-          <br> If you are new to TEAMMATES, our <a routerLink="../getting-started">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
+          <br> If you are new to TEAMMATES, our <a [routerLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
           <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
         </p>
         <div class="row">
-          <div class="offset-md-2 col-md-8">
+          <div class="col-md-9">
             <div class="input-group input-group-lg">
               <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-lg" placeholder="How can we help?" (keyup.enter)="search()">
               <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
@@ -20,29 +20,29 @@
         <hr/>
       </div>
     </div>
-    <div id="{{Sections.students}}">
-      <tm-instructor-help-students-section [key]="key">
+    <div id="{{Sections.students}}" class="section-body">
+      <tm-instructor-help-students-section #studentsHelpSection [key]="key">
       </tm-instructor-help-students-section>
     </div>
-    <div id="{{Sections.courses}}">
-      <tm-instructor-help-courses-section [key]="key">
+    <div id="{{Sections.courses}}" class="section-body">
+      <tm-instructor-help-courses-section #coursesHelpSection [key]="key" (collapseStudentEditDetails)="collapseStudentEditDetails()">
       </tm-instructor-help-courses-section>
     </div>
-    <div id="{{Sections.sessions}}">
-      <tm-instructor-help-sessions-section [key]="key">
+    <div id="{{Sections.sessions}}" class="section-body">
+      <tm-instructor-help-sessions-section #sessionsHelpSection [key]="key">
       </tm-instructor-help-sessions-section>
     </div>
-    <div id="{{Sections.questions}}">
-      <tm-instructor-help-questions-section [key]="key">
+    <div id="{{Sections.questions}}" class="section-body">
+      <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (collapsePeerEvalTips)="collapsePeerEvalTips()">
       </tm-instructor-help-questions-section>
     </div>
   </div>
 
   <div class="side-nav container-fluid">
-    <p>
+    <p><b>
       Browse by topic:
       <br>
-    </p>
+    </b></p>
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
         <a (click)="scroll(Sections.students)" [routerLink]="">Students</a>

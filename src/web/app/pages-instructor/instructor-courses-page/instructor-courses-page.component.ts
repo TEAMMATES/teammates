@@ -3,10 +3,22 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, CourseArchive, JoinState, MessageOutput, Student, Students } from '../../../types/api-output';
+import { TableComparatorService } from '../../../services/table-comparator.service';
+import {
+  Course,
+  CourseArchive,
+  Courses,
+  InstructorPrivilege,
+  JoinState,
+  MessageOutput,
+  Student,
+  Students,
+} from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
   CoursePermanentDeletionConfirmModalComponent,
@@ -15,82 +27,10 @@ import {
   CourseSoftDeletionConfirmModalComponent,
 } from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
-interface ActiveCourse {
-  id: string;
-  name: string;
-  createdAt: string;
+interface CourseModel {
+  course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
-}
-
-interface ArchivedCourse {
-  id: string;
-  name: string;
-  createdAt: string;
-  canModifyCourse: boolean;
-}
-
-interface SoftDeletedCourse {
-  id: string;
-  name: string;
-  createdAt: string;
-  deletedAt: string;
-  canModifyCourse: boolean;
-}
-
-interface InstructorPrivileges {
-  courseLevel: { [key: string]: boolean };
-}
-
-interface Instructor {
-  courseId: string;
-  privileges: InstructorPrivileges;
-}
-
-interface InstructorCourses {
-  activeCourses: ActiveCourse[];
-  archivedCourses: ArchivedCourse[];
-  softDeletedCourses: SoftDeletedCourse[];
-  instructorList: Instructor[];
-}
-/**
- * Sort criteria for the courses table.
- */
-export enum SortBy {
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * Course ID.
-   */
-  COURSE_ID,
-
-  /**
-   * Course Name.
-   */
-  COURSE_NAME,
-
-  /**
-   * Creation Date.
-   */
-  CREATION_DATE,
-}
-
-/**
- * Sort order for the courses table.
- */
-export enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
 }
 
 /**
@@ -100,16 +40,14 @@ export enum SortOrder {
   selector: 'tm-instructor-courses-page',
   templateUrl: './instructor-courses-page.component.html',
   styleUrls: ['./instructor-courses-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorCoursesPageComponent implements OnInit {
 
-  user: string = '';
-
-  activeCourses: ActiveCourse[] = [];
-  archivedCourses: ArchivedCourse[] = [];
-  softDeletedCourses: SoftDeletedCourse[] = [];
-  instructorList: Instructor[] = [];
-  courseStats: { [key: string]: { [key: string]: number } } = {};
+  activeCourses: CourseModel[] = [];
+  archivedCourses: CourseModel[] = [];
+  softDeletedCourses: CourseModel[] = [];
+  courseStats: Record<string, Record<string, number>> = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
   tableSortBy: SortBy = SortBy.NONE;
@@ -121,17 +59,22 @@ export class InstructorCoursesPageComponent implements OnInit {
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
+  isAddNewCourseFormExpanded: boolean = false;
+  isArchivedCourseExpanded: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private modalService: NgbModal) { }
+              private instructorService: InstructorService,
+              private modalService: NgbModal,
+              private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
+      if (queryParams.isAddNewCourse) {
+        this.isAddNewCourseFormExpanded = queryParams.isAddNewCourse;
+      }
       this.loadInstructorCourses();
     });
   }
@@ -140,48 +83,60 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
-    const paramMap: { [key: string]: string } = {
-      user: this.user,
-    };
-    this.httpRequestService.get('/instructor/courses', paramMap).subscribe((resp: InstructorCourses) => {
-      this.activeCourses = resp.activeCourses;
-      this.archivedCourses = resp.archivedCourses;
-      this.softDeletedCourses = resp.softDeletedCourses;
-      this.instructorList = resp.instructorList;
-
-      for (const course of this.activeCourses) {
-        for (const instructor of this.instructorList) {
-          if (course.id === instructor.courseId) {
-            course.canModifyCourse = instructor.privileges.courseLevel.canmodifycourse;
-            course.canModifyStudent = instructor.privileges.courseLevel.canmodifystudent;
-            break;
-          }
-        }
-      }
-
-      for (const course of this.archivedCourses) {
-        for (const instructor of this.instructorList) {
-          if (course.id === instructor.courseId) {
-            course.canModifyCourse = instructor.privileges.courseLevel.canmodifycourse;
-            break;
-          }
-        }
-      }
-
-      for (const course of this.softDeletedCourses) {
-        for (const instructor of this.instructorList) {
-          if (course.id === instructor.courseId) {
-            course.canModifyCourse = instructor.privileges.courseLevel.canmodifycourse;
-            if (!course.canModifyCourse) {
-              this.canDeleteAll = false;
-              this.canRestoreAll = false;
-            }
-            break;
-          }
-        }
+    this.activeCourses = [];
+    this.archivedCourses = [];
+    this.softDeletedCourses = [];
+    this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
+      for (const course of resp.courses) {
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+          const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          this.activeCourses.push(activeCourse);
+        }, (error: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(error.error.message);
+        });
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+
+    this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
+      for (const course of resp.courses) {
+        this.instructorService.loadInstructorPrivilege({
+          courseId: course.courseId,
+        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
+          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+          const archivedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          this.archivedCourses.push(archivedCourse);
+        }, (error: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(error.error.message);
+        });
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+
+    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
+      for (const course of resp.courses) {
+        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
+            .subscribe((instructorPrivilege: InstructorPrivilege) => {
+              const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
+              const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+              const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+              this.softDeletedCourses.push(softDeletedCourse);
+              if (!softDeletedCourse.canModifyCourse) {
+                this.canDeleteAll = false;
+                this.canRestoreAll = false;
+              }
+            }, (error: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(error.error.message);
+            });
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -190,10 +145,10 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   getCourseStats(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    this.studentService.getStudentsFromCourse(courseId).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
       this.courseStats[courseId] = {
         sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
         teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
@@ -202,7 +157,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           .length,
       };
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -211,21 +166,65 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   changeArchiveStatus(courseId: string, toArchive: boolean): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     this.courseService.changeArchiveStatus(courseId, {
       archiveStatus: toArchive,
     }).subscribe((courseArchive: CourseArchive) => {
-      this.loadInstructorCourses();
       if (courseArchive.isArchived) {
-        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been archived.
+        this.changeModelFromActiveToArchived(courseId);
+        this.statusMessageService.showSuccessToast(`The course ${courseId} has been archived.
           It will not appear on the home page anymore.`);
       } else {
-        this.statusMessageService.showSuccessMessage('The course has been unarchived.');
+        this.changeModelFromArchivedToActive(courseId);
+        this.statusMessageService.showSuccessToast('The course has been unarchived.');
       }
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  /**
+   * Moves a course model from active courses list to archived list.
+   * This is to reduce the need to refresh the entire list of courses multiple times.
+   */
+  changeModelFromActiveToArchived(courseId: string): void {
+    const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
+    this.activeCourses = this.removeCourse(this.activeCourses, courseId);
+    if (courseToBeRemoved !== undefined) {
+      this.archivedCourses.push(courseToBeRemoved);
+    }
+  }
+
+  /**
+   * Moves a course model from archived courses list to active list.
+   * This is to reduce the need to refresh the entire list of courses multiple times.
+   */
+  changeModelFromArchivedToActive(courseId: string): void {
+    const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
+    this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
+    if (courseToBeRemoved !== undefined) {
+      this.activeCourses.push(courseToBeRemoved);
+      this.activeCourses.sort(this.sortBy(this.tableSortBy));
+    }
+  }
+
+  /**
+   * Finds and returns a course from the target course list.
+   */
+  findCourse(targetList: CourseModel[], courseId: string): CourseModel | undefined {
+    return targetList.find((model: CourseModel) => {
+      return model.course.courseId === courseId;
+    });
+  }
+
+  /**
+   * Removes a course from the target course list and returns the result list.
+   */
+  removeCourse(targetList: CourseModel[], courseId: string): CourseModel[] {
+    return targetList.filter((model: CourseModel) => {
+      return model.course.courseId !== courseId;
     });
   }
 
@@ -234,19 +233,39 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDelete(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.loadInstructorCourses();
-        this.statusMessageService.showSuccessMessage(
+        this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
+        this.statusMessageService.showSuccessToast(
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
+  }
+
+  /**
+   * Moves an active/archived course to Recycle Bin.
+   * This is to reduce the need to refresh the entire list of courses multiple times.
+   */
+  moveCourseToRecycleBin(courseId: string, deletionTimeStamp: number): void {
+    const activeCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
+    this.activeCourses = this.removeCourse(this.activeCourses, courseId);
+    if (activeCourseToBeRemoved !== undefined) {
+      activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
+      this.softDeletedCourses.push(activeCourseToBeRemoved);
+    } else {
+      const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
+      this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
+      if (archivedCourseToBeRemoved !== undefined) {
+        archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
+        this.softDeletedCourses.push(archivedCourseToBeRemoved);
+      }
+    }
   }
 
   /**
@@ -254,17 +273,17 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onDeletePermanently(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
     const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.loadInstructorCourses();
-        this.statusMessageService.showSuccessMessage(`The course ${courseId} has been permanently deleted.`);
+        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -274,18 +293,15 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onRestore(courseId: string): void {
     if (!courseId) {
-      this.statusMessageService.showErrorMessage(`Course ${courseId} is not found!`);
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      user: this.user,
-    };
-    this.httpRequestService.delete('/bin/course', paramMap).subscribe((resp: MessageOutput) => {
+
+    this.courseService.restoreCourse(courseId).subscribe((resp: MessageOutput) => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage(resp.message);
+      this.statusMessageService.showSuccessToast(resp.message);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -297,15 +313,15 @@ export class InstructorCoursesPageComponent implements OnInit {
     modalRef.componentInstance.isDeleteAll = true;
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
-      this.softDeletedCourses.forEach((courseToDelete: SoftDeletedCourse) => {
-        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.id));
+      this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
+        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
       });
 
       forkJoin(deleteRequests).subscribe(() => {
-        this.loadInstructorCourses();
-        this.statusMessageService.showSuccessMessage('All courses have been permanently deleted.');
+        this.softDeletedCourses = [];
+        this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
 
     }, () => {});
@@ -316,15 +332,15 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   onRestoreAll(): void {
     const restoreRequests: Observable<MessageOutput>[] = [];
-    this.softDeletedCourses.forEach((courseToRestore: SoftDeletedCourse) => {
-      restoreRequests.push(this.courseService.restoreCourse(courseToRestore.id));
+    this.softDeletedCourses.forEach((courseToRestore: CourseModel) => {
+      restoreRequests.push(this.courseService.restoreCourse(courseToRestore.course.courseId));
     });
 
     forkJoin(restoreRequests).subscribe(() => {
       this.loadInstructorCourses();
-      this.statusMessageService.showSuccessMessage('All courses have been restored.');
+      this.statusMessageService.showSuccessToast('All courses have been restored.');
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -342,36 +358,28 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Returns a function to determine the order of sort
    */
   sortBy(by: SortBy):
-      ((a: ActiveCourse , b: ActiveCourse) => number) {
-    return (a: ActiveCourse, b: ActiveCourse): number => {
+      ((a: CourseModel , b: CourseModel) => number) {
+    return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
         case SortBy.COURSE_ID:
-          strA = a.id ? a.id : '';
-          strB = b.id ? b.id : '';
+          strA = a.course.courseId ? a.course.courseId : '';
+          strB = b.course.courseId ? b.course.courseId : '';
           break;
         case SortBy.COURSE_NAME:
-          strA = a.name;
-          strB = b.name;
+          strA = a.course.courseName;
+          strB = b.course.courseName;
           break;
-        case SortBy.CREATION_DATE:
-          strA = a.createdAt;
-          strB = b.createdAt;
+        case SortBy.SESSION_CREATION_DATE:
+          strA = a.course.creationTimestamp.toString();
+          strB = b.course.creationTimestamp.toString();
           break;
         default:
           strA = '';
           strB = '';
       }
-
-      if (this.tableSortOrder === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (this.tableSortOrder === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-
-      return 0;
+      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
     };
   }
 }

@@ -9,30 +9,31 @@
     </div>
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]="searchKey" (keyup.enter)="search()"
-            placeholder="Your search keyword">
+        <input type="text" class="form-control" [ngModel]="searchParams.searchKey"
+          (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="search()">Search</button>
+            <button class="btn btn-primary" (click)="search()"
+                    [disabled]="!(searchParams.isSearchForComments || searchParams.isSearchForStudents) || searchParams.searchKey === ''"
+            >Search</button>
           </div>
+        <div class="input-group mt-md-1">
+          <div class="col-md-3">
+            <input type="checkbox" class="form-check-inline" id="studentsCheckbox" [ngModel]="searchParams.isSearchForStudents"
+              (ngModelChange)="onStudentCheckboxChange($event)">
+            <label class="form-check-label" for="studentsCheckbox"><b>Students</b></label>
+          </div>
+          <div class="col-md-9">
+            <input type="checkbox" class="form-check-inline" id="commentCheckbox" [ngModel]="searchParams.isSearchForComments"
+              (ngModelChange)="onCommentCheckboxChange($event)">
+            <label class="form-check-label" for="commentCheckbox"><b>Questions, responses, comments on responses</b></label>
+          </div>
+          <div class="invalid-field mt-md-1"
+               [hidden]="searchParams.isSearchForComments || searchParams.isSearchForStudents">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp;
+            Please select at least one search type.
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <div class="form-check form-check-inline">
-        <input id="students-check" class="form-check-input" type="checkbox" [(ngModel)]="searchStudents"/>
-        <label class="form-check-label" for="students-check">
-          Students
-        </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input id="search-feedback-sessions-data-check" type="checkbox"
-            class="form-check-input" [(ngModel)]="searchFeedbackSessionData"/>
-        <label class="form-check-label" for="search-feedback-sessions-data-check">
-          Questions, responses, comments on responses
-        </label>
-      </div>
-      <span ngbTooltip="Tick the checkboxes to limit your search to certain categories"
-          class="fas fa-info-circle">
-      </span>
     </div>
   </div>
 </div>

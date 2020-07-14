@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
-import teammates.common.util.Const;
-
 /**
  * Provides additional assertion methods that are often used during testing.
  */
@@ -37,8 +35,7 @@ public final class AssertHelper {
     /**
      * Asserts that the {@link String} {@code superstringActual} contains the exact occurrence of
      * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}.
-     * Display the difference between the two on failure (in
-     * Eclipse).
+     * Display the difference between the two on failure.
      */
     public static void assertContains(List<String> substringsExpected,
             String superstringActual) {
@@ -50,9 +47,8 @@ public final class AssertHelper {
     }
 
     /**
-     * Asserts that the superstringActual contains the exact occurence of
-     * substringExpected. Display the difference between the two on failure (in
-     * Eclipse).
+     * Asserts that the superstringActual contains the exact occurrence of
+     * substringExpected. Display the difference between the two on failure.
      */
     public static void assertContains(String substringExpected,
             String superstringActual) {
@@ -63,8 +59,8 @@ public final class AssertHelper {
 
     /**
      * Asserts that the superstringActual contains the exact occurence of
-     * substringExpected. Display the difference between the two on failure (in
-     * Eclipse) with the specified message.
+     * substringExpected. Display the difference between the two on failure
+     * with the specified message.
      */
     public static void assertContains(String message, String substringExpected,
             String superstringActual) {
@@ -76,8 +72,8 @@ public final class AssertHelper {
     /**
      * Asserts that the stringActual contains the occurence regexExpected.
      * Replaces occurences of {*} at regexExpected to match anything in
-     * stringActual. Tries to display the difference between the two on failure
-     * (in Eclipse). Ignores the tab character (i.e., ignore indentation using
+     * stringActual. Tries to display the difference between the two on failure.
+     * Ignores the tab character (i.e., ignore indentation using
      * tabs) and ignores the newline when comparing.
      */
     public static void assertContainsRegex(String regexExpected,
@@ -91,7 +87,7 @@ public final class AssertHelper {
      * Asserts that the stringActual contains the occurence regexExpected.
      * Replaces occurences of {*} at regexExpected to match anything in
      * stringActual. Tries to display the difference between the two on failure
-     * (in Eclipse) with the specified message.
+     * with the specified message.
      */
     public static void assertContainsRegex(String message,
             String regexExpected, String stringActual) {
@@ -111,59 +107,6 @@ public final class AssertHelper {
                 .replaceAll(Pattern.quote("{*}"), "\\\\E.*?\\\\Q")
                 .replaceAll("[\t\r\n]", "");
         return processedActual.matches("(?s)(?m).*?" + processedRegex + ".*?");
-    }
-
-    /**
-     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
-     * and that the actual log message's ID contains the expected google ID.
-     */
-    public static void assertLogMessageEquals(String expected, String actual) {
-        String expectedGoogleId =
-                expected.split(Pattern.quote(Const.ActivityLog.FIELD_SEPARATOR))[6]; // GoogleId is at position 6
-
-        assertLogMessageEqualsIgnoreLogId(expected, actual);
-        assertLogIdContainsUserId(actual, expectedGoogleId);
-    }
-
-    /**
-     * Assert that the actual log message contains userId in its id field.
-     */
-    public static void assertLogIdContainsUserId(String actualMessage, String userIdentifier) {
-        int endIndex = actualMessage.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
-        String actualId = actualMessage.substring(endIndex + Const.ActivityLog.FIELD_SEPARATOR.length());
-        assertTrue("expected actual message's id to contain " + userIdentifier + " but was " + actualId,
-                actualId.contains(userIdentifier));
-    }
-
-    /**
-     * Assert that the actual log message, excluding its ID, is equal to the expected log message.
-     */
-    public static void assertLogMessageEqualsIgnoreLogId(String expected, String actual) {
-        int endIndex = actual.lastIndexOf(Const.ActivityLog.FIELD_SEPARATOR);
-        String actualLogWithoutId = actual.substring(0, endIndex);
-
-        assertEquals(expected, actualLogWithoutId);
-    }
-
-    /**
-     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
-     * and that the actual log message's ID contains information of the google id of admin.
-     */
-    public static void assertLogMessageEqualsInMasqueradeMode(String expected,
-            String actual, String adminGoogleId) {
-        assertLogMessageEqualsIgnoreLogId(expected, actual);
-        assertLogIdContainsUserId(actual, adminGoogleId);
-    }
-
-    /**
-     * Asserts that the actual log message, excluding its ID, is equal to the expected log message,
-     * and that the actual log message's ID contains information of the specified student email and course ID.
-     */
-    public static void assertLogMessageEqualsForUnregisteredStudentUser(
-            String expected, String actual, String studentEmail, String courseId) {
-        assertLogMessageEqualsIgnoreLogId(expected, actual);
-        assertLogIdContainsUserId(actual,
-                String.join(Const.ActivityLog.FIELD_CONNECTOR, studentEmail, courseId));
     }
 
     /**

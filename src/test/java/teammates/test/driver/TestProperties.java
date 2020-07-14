@@ -11,9 +11,6 @@ import java.util.Properties;
  */
 public final class TestProperties {
 
-    /** The directory where HTML files for testing pages are stored. */
-    public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
-
     /** The directory where HTML files for testing email contents are stored. */
     public static final String TEST_EMAILS_FOLDER = "src/test/resources/emails";
 

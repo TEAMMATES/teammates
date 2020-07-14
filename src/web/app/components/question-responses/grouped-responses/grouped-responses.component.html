@@ -1,21 +1,65 @@
-<div class="row" style="padding-bottom: 20px; border-bottom: 1px solid #dddddd;"
-    *ngIf="responses.length && responses[0].allResponses.length">
+<div class="row" style="border-bottom: 1px solid #DDD;"
+    *ngIf="responses.length && responses[0].allResponses.length && hasRealResponses">
   <div class="col-md-3">
     <div>
-      {{ isGrq ? 'To' : 'From' }}: {{ responses[0].allResponses[0][isGrq ? 'recipient' : 'giver']}}
+      {{ isGrq ? 'To' : 'From' }}:
+      <tm-student-name-with-photo [name]="responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']"
+                       [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']]"
+                       [courseId]="session.courseId"
+      ></tm-student-name-with-photo>
+      {{ teamInfo[isGrq ? 'recipient' : 'giver'] }}
     </div>
     <div class="top-padded">
-      {{ isGrq ? 'From' : 'To' }}: {{ responses[0].allResponses[0][isGrq ? 'giver' : 'recipient']}}
+      {{ isGrq ? 'From' : 'To' }}:
+      <tm-student-name-with-photo [name]="this.responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']"
+                       [email]="userToEmail[responses[0].allResponses[0][this.isGrq ? 'giver' : 'recipient']]"
+                       [courseId]="session.courseId"
+      ></tm-student-name-with-photo>
+      {{ teamInfo[isGrq ? 'giver' : 'recipient'] }}
+    </div>
+    <div class="top-padded">
+      <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session"
+                                     [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"
+                                     [isGiverInstructor]="responses[0].feedbackQuestion.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
     </div>
   </div>
   <div class="col-md-9">
     <div *ngFor="let response of responses">
       <div class="card bottom-padded">
         <div class="card-header bg-info text-white">
-          <tm-question-text-with-info [questionNumber]="response.questionNumber" [questionDetails]="response.questionDetails"></tm-question-text-with-info>
+          <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <tm-single-response [responseDetails]="response.allResponses[0].responseDetails" [questionDetails]="response.questionDetails"></tm-single-response>
+          <div class="row" style="margin: 0;">
+            <tm-single-response
+                    [class.color-neutral]="response.allResponses[0].isMissingResponse"
+                    [responseDetails]="response.allResponses[0].responseDetails"
+                    [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+            <button (click)="toggleAddComment(response.allResponses[0].responseId)"
+                    *ngIf="response.feedbackQuestion.questionType !== 'CONTRIB'"
+                    ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm comment-button">
+              <i class="fas fa-comment"></i>
+            </button>
+          </div>
+          <tm-comment-row *ngIf="response.allResponses[0].participantComment"
+                          [model]="response.allResponses[0].participantComment | commentToCommentRowModel: session.timeZone"
+                          [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
+                          [isDisabled]="true" [isVisibilityOptionEnabled]="false"
+                          [mode]="CommentRowMode.EDIT"
+                          [isFeedbackParticipantComment]="true"
+                          [shouldHideDeleteButton]="true"
+                          [shouldHideEditButton]="true"
+          ></tm-comment-row>
+          <br/>
+          <tm-comment-table *ngIf="!response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'"
+                            [model]="instructorCommentTableModel[response.allResponses[0].responseId]"
+                            [questionShowResponsesTo]="response.feedbackQuestion.showResponsesTo"
+                            [response]="response.allResponses[0]"
+                            (modelChange)="triggerModelChangeForSingleResponse(response.allResponses[0].responseId, $event)"
+                            (updateCommentEvent)="triggerUpdateCommentEvent(response.allResponses[0].responseId, $event)"
+                            (deleteCommentEvent)="triggerDeleteCommentEvent(response.allResponses[0].responseId, $event)"
+                            (saveNewCommentEvent)="triggerSaveNewCommentEvent(response.allResponses[0].responseId)"
+          ></tm-comment-table>
         </div>
       </div>
     </div>

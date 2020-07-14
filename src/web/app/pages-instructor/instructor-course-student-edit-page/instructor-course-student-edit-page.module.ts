@@ -1,23 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { InstructorCourseStudentEditFormModule } from './instructor-course-student-edit-form.module';
 import { InstructorCourseStudentEditPageComponent } from './instructor-course-student-edit-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorCourseStudentEditPageComponent,
+  },
+];
 
 /**
  * Module for instructor course student edit page.
  */
 @NgModule({
-  declarations: [
-    InstructorCourseStudentEditPageComponent,
-  ],
-  exports: [
-    InstructorCourseStudentEditPageComponent,
-  ],
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
+    InstructorCourseStudentEditFormModule,
+    RouterModule.forChild(routes),
   ],
 })
 export class InstructorCourseStudentEditPageModule { }

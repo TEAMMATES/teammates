@@ -1,7 +1,7 @@
 <h1>Home</h1>
 <div class="card bg-light mb-4">
   <div class="card-body">
-    <div class="form-group">
+    <div class="form-row">
       <div class="input-group">
         <input type="text" class="form-control" [(ngModel)]="studentSearchkey" (keyup.enter)="search()"
                placeholder="e.g. Charles Shultz, charles@gmail.com">
@@ -13,18 +13,20 @@
   </div>
 </div>
 
-<ng-template #noCourseMessage class="bg-light-blue">
-  New to TEAMMATES? You may wish to have a look at our <a routerLink="/web/front/help/instructor">Getting Started Guide</a>.
-  A video tour is also available in our <a routerLink="/web">home page</a>.
-</ng-template>
+<div class="card bg-light" style="margin-bottom: 20px;" *ngIf="isNewUser">
+  <div class="card-body">
+    New to TEAMMATES? You may wish to have a look at our <a href="/web/instructor/getting-started" target="_blank" rel="noopener noreferrer">Getting Started Guide</a>.
+    A video tour is also available in our <a href="/web" target="_blank" rel="noopener noreferrer">home page</a>.
+  </div>
+</div>
 
-<div class="row height-60px">
+<div class="row mb-3">
   <div class="col-4">
-    <a routerLink="/web/instructor/courses" class="btn btn-primary text-white">Add New Course</a>
+    <a routerLink="/web/instructor/courses" class="btn btn-primary text-white" [queryParams]="{isAddNewCourse: true}">Add New Course</a>
   </div>
   <div class="col-8" *ngIf="courseTabModels.length > 0">
     <div class="float-right">
-      <h5 class="d-inline"><strong> Sort By: </strong></h5>
+      <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
         <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
@@ -34,14 +36,14 @@
   </div>
 </div>
 
-<div *ngIf="courseTabModels.length > 0; else noCourseMessage">
-  <div class="card margin-bottom-15px" *ngFor="let courseTabModel of courseTabModels; let idx = index">
+<div *ngIf="courseTabModels.length > 0">
+  <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
     <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(courseTabModel);">
       <div class="row">
-        <div class="col-6">
+        <div class="course-header col-md-6">
           <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
         </div>
-        <div class="col-sm-6">
+        <div class="btn-toolbar col-md-6">
           <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
             <span ngbDropdown class="padding-right-10px">
               <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
@@ -95,7 +97,8 @@
                 </ng-container>
               </div>
             </span>
-
+          </div>
+          <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
             <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
             <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
           </div>
@@ -139,7 +142,7 @@
       </div>
     </ng-template>
 
-    <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded">
+    <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
       <tm-sessions-table
           [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
           [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
@@ -149,6 +152,7 @@
           (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
           (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
           (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+          (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
           (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
           (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
     </div>

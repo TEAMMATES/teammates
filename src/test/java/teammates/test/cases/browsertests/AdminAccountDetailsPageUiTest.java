@@ -11,7 +11,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AdminAccountDetailsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#ADMIN_ACCOUNT_DETAILS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#ADMIN_ACCOUNTS_PAGE}.
  */
 @Priority(1)
 public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {
@@ -50,14 +50,14 @@ public class AdminAccountDetailsPageUiTest extends BaseE2ETestCase {
         String courseId = "AAMgtUiT.CS2104";
 
         detailsPage.clickRemoveInstructorFromCourse(courseId)
-            .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
+                .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
         assertNull(BackDoor.getInstructorByGoogleId(googleId, courseId));
 
         ______TS("action: remove student from course");
 
         courseId = "AAMgtUiT.CS1101";
         detailsPage.clickRemoveStudentFromCourse(courseId)
-            .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_DELETED);
+                .waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.STUDENT_DELETED);
         assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
         detailsPage.verifyHtmlMainContent("/adminAccountDetailsRemoveStudent.html");
     }

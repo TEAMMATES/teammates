@@ -4,10 +4,8 @@ import {
   FeedbackMsqResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
-import { NO_VALUE } from '../../../../types/feedback-response-details';
+import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedback-response-details';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-
-const NONE_OF_THE_ABOVE: string = 'None of the above';
 
 /**
  * The Msq question submission form for a recipient.
@@ -35,7 +33,8 @@ export class MsqQuestionEditAnswerFormComponent
 
   // sync the internal status with the input data
   ngOnChanges(): void {
-    if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
+    this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
+    if (!this.isNoneOfTheAboveEnabled) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
             = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
@@ -47,30 +46,20 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Removes the "None of the above" option in an answers list if it's present
-   * then returns the altered list.
-   */
-  disableNoneOfTheAboveOption(answers: string[]): string[] {
-    if (this.isNoneOfTheAboveEnabled) {
-      const newAnswers: string[] = answers.slice();
-      newAnswers.splice(0 , 1);
-      return newAnswers;
-    }
-    return answers;
-  }
-
-  /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    let newAnswers: string[] = this.responseDetails.answers.slice();
-    newAnswers = this.disableNoneOfTheAboveOption(newAnswers);
+    let newAnswers: string[] = [];
+    if (!this.isNoneOfTheAboveEnabled) {
+      newAnswers = this.responseDetails.answers.slice();
+    }
     const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
     if (indexInResponseArray > -1) {
       newAnswers.splice(indexInResponseArray, 1);
     } else {
-      newAnswers.push(this.questionDetails.msqChoices[index]);
+      newAnswers.unshift(this.questionDetails.msqChoices[index]);
     }
+
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
@@ -80,14 +69,33 @@ export class MsqQuestionEditAnswerFormComponent
   updateIsOtherOption(): void {
     const fieldsToUpdate: any = {};
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
-    fieldsToUpdate.answers = this.disableNoneOfTheAboveOption(this.responseDetails.answers);
-    if (!fieldsToUpdate.isOther) {
-      fieldsToUpdate.otherFieldContent = '';
-    } else {
+    fieldsToUpdate.answers = this.responseDetails.answers;
+    if (this.isNoneOfTheAboveEnabled) {
+      fieldsToUpdate.answers = [];
+    }
+    if (fieldsToUpdate.isOther) {
+      // create a placeholder for other answer
+      fieldsToUpdate.answers.push('');
       setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
         (this.inputTextBoxOther as ElementRef).nativeElement.focus();
       }, 0);
+    } else {
+      // remove other answer (last element) from the answer list
+      fieldsToUpdate.answers.splice(-1, 1);
+      fieldsToUpdate.otherFieldContent = '';
     }
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
+  }
+
+  /**
+   * Updates other answer field.
+   */
+  updateOtherAnswerField($event: string): void {
+    const fieldsToUpdate: any = {};
+    // we shall update both the other field content and the answer list
+    fieldsToUpdate.otherFieldContent = $event;
+    fieldsToUpdate.answers = this.responseDetails.answers.slice();
+    fieldsToUpdate.answers[fieldsToUpdate.answers.length - 1] = $event;
     this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
@@ -95,25 +103,18 @@ export class MsqQuestionEditAnswerFormComponent
    * Checks if None of the above checkbox is enabled.
    */
   get isNoneOfTheAboveEnabled(): boolean {
-    return this.responseDetails.answers[0] === NONE_OF_THE_ABOVE;
+    return !this.responseDetails.isOther && this.responseDetails.answers.length === 1
+        && this.responseDetails.answers[0] === MSQ_ANSWER_NONE_OF_THE_ABOVE;
   }
 
   /**
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
-    let newAnswers: string[] = this.responseDetails.answers.slice();
-    const fieldsToUpdate: any = {};
-    if (this.isNoneOfTheAboveEnabled) {
-      newAnswers.splice(0, 1);
-    } else {
-      this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      newAnswers = [];
-      fieldsToUpdate.isOther = false;
-      fieldsToUpdate.otherFieldContent = '';
-      newAnswers[0] = NONE_OF_THE_ABOVE;
-    }
-    fieldsToUpdate.answers = newAnswers;
-    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
+    this.triggerResponseDetailsChangeBatch({
+      answers: this.isNoneOfTheAboveEnabled ? [] : [MSQ_ANSWER_NONE_OF_THE_ABOVE],
+      isOther: false,
+      otherFieldContent: '',
+    });
   }
 }

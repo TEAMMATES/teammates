@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import {
-  FeedbackConstantSumQuestionDetails,
-  FeedbackConstantSumResponseDetails,
-} from '../../../../types/api-output';
-import {
-  DEFAULT_CONSTSUM_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { QuestionResponse } from './question-response';
@@ -21,10 +18,10 @@ export class ConstsumQuestionResponseComponent
     extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>
     implements OnInit {
 
-  optionToAnswer: { [key: string]: number } = {};
+  optionToAnswer: Record<string, number> = {};
 
   constructor() {
-    super(DEFAULT_CONSTSUM_RESPONSE_DETAILS(), DEFAULT_CONSTSUM_QUESTION_DETAILS());
+    super(DEFAULT_CONSTSUM_RESPONSE_DETAILS(), DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
   ngOnInit(): void {

@@ -83,7 +83,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
                 course.getId(), randomSessionName), output.getMessage());
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, result.getStatusCode());
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
 
         ______TS("non existent course id");
 
@@ -101,7 +101,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
                 randomCourseId, session.getFeedbackSessionName()), output.getMessage());
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, result.getStatusCode());
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 }

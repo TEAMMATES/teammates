@@ -11,7 +11,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-rank-options-question-edit-details-form',
   templateUrl: './rank-options-question-edit-details-form.component.html',
-  styleUrls: ['./rank-options-question-edit-details-form.component.scss'],
+  styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class RankOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {
@@ -33,6 +33,10 @@ export class RankOptionsQuestionEditDetailsFormComponent
    * Reorders the list on dragging the Rank options.
    */
   onRankOptionDropped(event: CdkDragDrop<string[]>): void {
+    if (!this.isEditable) {
+      return;
+    }
+
     const newOptions: string[] = this.model.options.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
     this.triggerModelChange('options', newOptions);
@@ -41,8 +45,8 @@ export class RankOptionsQuestionEditDetailsFormComponent
   /**
    * Tracks the Rank option by index.
    */
-  trackRankOption(index: number, item: string[]): string {
-    return item[index];
+  trackRankOption(index: number): string {
+    return index.toString();
   }
 
   /**
@@ -51,10 +55,14 @@ export class RankOptionsQuestionEditDetailsFormComponent
   onRankOptionDeleted(event: number): void {
     const newOptions: string[] = this.model.options.slice();
     newOptions.splice(event, 1);
-    this.triggerModelChange('options', newOptions);
-    if (this.model.maxOptionsToBeRanked > this.model.options.length) {
-      this.triggerModelChange('maxOptionsToBeRanked', this.model.options.length);
-    }
+
+    this.triggerModelChangeBatch({
+      options: newOptions,
+      minOptionsToBeRanked: this.model.minOptionsToBeRanked > newOptions.length
+          ? newOptions.length : this.model.minOptionsToBeRanked,
+      maxOptionsToBeRanked: this.model.maxOptionsToBeRanked > newOptions.length
+          ? newOptions.length : this.model.maxOptionsToBeRanked,
+    });
   }
 
   /**
@@ -69,17 +77,25 @@ export class RankOptionsQuestionEditDetailsFormComponent
   /**
    * Assigns a default value to minOptionsToBeRanked when checkbox is clicked.
    */
-  triggerMinOptionsToBeRankedChange(event: any): void {
-    const minOptionsToBeRanked: number = event.target.checked ? 1 : NO_VALUE;
+  triggerMinOptionsToBeRankedChange(checked: boolean): void {
+    const minOptionsToBeRanked: number = checked ? 1 : NO_VALUE;
     this.triggerModelChange('minOptionsToBeRanked', minOptionsToBeRanked);
   }
 
   /**
    * Assigns a default value to maxOptionsToBeRanked when checkbox is clicked.
    */
-  triggerMaxOptionsToBeRankedChange(event: any): void {
-    const maxOptionsToBeRanked: number = event.target.checked ? 1 : NO_VALUE;
-    this.triggerModelChange('maxOptionsToBeRanked', maxOptionsToBeRanked);
+  triggerMaxOptionsToBeRankedChange(checked: boolean): void {
+    if (!checked) {
+      this.triggerModelChange('maxOptionsToBeRanked', NO_VALUE);
+      return;
+    }
+
+    if (this.isMinOptionsToBeRankedEnabled) {
+      this.triggerModelChange('maxOptionsToBeRanked', this.model.minOptionsToBeRanked);
+    } else {
+      this.triggerModelChange('maxOptionsToBeRanked', 1);
+    }
   }
 
   /**
@@ -99,22 +115,22 @@ export class RankOptionsQuestionEditDetailsFormComponent
   /**
    * Displays minOptionsToBeRanked value.
    */
-  get displayValueForMinOptionsToBeRanked(): number {
-    return this.model.minOptionsToBeRanked === NO_VALUE ? 1 : this.model.minOptionsToBeRanked;
+  get displayValueForMinOptionsToBeRanked(): any {
+    return this.isMinOptionsToBeRankedEnabled ? this.model.minOptionsToBeRanked : '';
   }
 
   /**
    * Displays minOptionsToBeRanked value.
    */
-  get displayValueForMaxOptionsToBeRanked(): number {
-    return this.model.maxOptionsToBeRanked === NO_VALUE ? 1 : this.model.maxOptionsToBeRanked;
+  get displayValueForMaxOptionsToBeRanked(): any {
+    return this.isMaxOptionsToBeRankedEnabled ? this.model.maxOptionsToBeRanked : '';
   }
 
   /**
    * Returns the maximum possible value for minOptionsToBeRanked.
    */
   get maxMinOptionsValue(): number {
-    return this.model.maxOptionsToBeRanked === NO_VALUE ? this.model.options.length : this.model.maxOptionsToBeRanked;
+    return this.isMaxOptionsToBeRankedEnabled ? this.model.maxOptionsToBeRanked : this.model.options.length;
   }
 
 }

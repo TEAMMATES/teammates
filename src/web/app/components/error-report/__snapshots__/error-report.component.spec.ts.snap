@@ -4,8 +4,8 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
 <tm-error-report
   content=""
   errorMessage=""
+  errorReportService={[Function ErrorReportService]}
   errorReportSubmitted="false"
-  httpRequestService={[Function HttpRequestService]}
   requestId=""
   sendButtonEnabled={[Function Boolean]}
   subject={[Function String]}
@@ -44,8 +44,6 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
       <input
         class="form-control ng-untouched ng-pristine ng-valid"
         disabled=""
-        ng-reflect-is-disabled="true"
-        ng-reflect-model=""
         type="text"
       />
     </div>
@@ -61,7 +59,6 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
       </em>
       <input
         class="form-control ng-untouched ng-pristine ng-valid"
-        ng-reflect-model="User-submitted Error Report"
         type="text"
       />
     </div>
@@ -73,7 +70,6 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
       </label>
       <textarea
         class="form-control ng-untouched ng-pristine ng-valid"
-        ng-reflect-model=""
         placeholder="Tell us the steps you took that led you to this error page"
       />
     </div>

@@ -23,17 +23,17 @@
       <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_NAME && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
       <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_NAME && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
     </th>
-    <th (click)="sortStudentsTableRows(SortBy.STUDENT_EMAIL)" class="clickable">
+    <th (click)="sortStudentsTableRows(SortBy.EMAIL)" class="clickable">
       Email
-      <span *ngIf="studentListInfoTableSortBy !== SortBy.STUDENT_EMAIL"><i class="fas fa-sort"></i></span>
-      <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-      <span *ngIf="studentListInfoTableSortBy === SortBy.STUDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.EMAIL"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.EMAIL && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.EMAIL && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
     </th>
-    <th (click)="sortStudentsTableRows(SortBy.HAS_SUBMITTED_SESSION)" class="clickable" *ngIf="shouldDisplayHasSubmittedSessionColumn">
+    <th (click)="sortStudentsTableRows(SortBy.SESSION_COMPLETION_STATUS)" class="clickable" *ngIf="shouldDisplayHasSubmittedSessionColumn">
       Submitted?
-      <span *ngIf="studentListInfoTableSortBy !== SortBy.HAS_SUBMITTED_SESSION"><i class="fas fa-sort"></i></span>
-      <span *ngIf="studentListInfoTableSortBy === SortBy.HAS_SUBMITTED_SESSION && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-      <span *ngIf="studentListInfoTableSortBy === SortBy.HAS_SUBMITTED_SESSION && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+      <span *ngIf="studentListInfoTableSortBy !== SortBy.SESSION_COMPLETION_STATUS"><i class="fas fa-sort"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS && studentListInfoTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+      <span *ngIf="studentListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS && studentListInfoTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
     </th>
   </tr>
   <tr [ngClass]="{'bg-warning': shouldDisplayHasSubmittedSessionColumn && !studentListInfoTableRowModel.hasSubmittedSession}" *ngFor="let studentListInfoTableRowModel of studentListInfoTableRowModels">

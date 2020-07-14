@@ -3,6 +3,16 @@
  */
 export enum FormValidator {
   /**
+   * Max length for the 'Course ID' field.
+   */
+  COURSE_ID_MAX_LENGTH = 40,
+
+  /**
+   * Max length for the 'Course Name' field.
+   */
+  COURSE_NAME_MAX_LENGTH = 64,
+
+  /**
    * Max length for the 'Student Name` field.
    */
   STUDENT_NAME_MAX_LENGTH = 100,

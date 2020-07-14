@@ -73,11 +73,12 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         ______TS("success: search for comments in instructor's course; query string matches some comments");
 
         bundle = commentsDb.search("\"self feedback\"", instructors);
-        verifySearchResults(bundle, frc1I1Q1S1C1, frc1I1Q2S1C1, frc1I1Q3S1C1);
+        verifySearchResults(bundle, frc1I1Q1S1C1, frc1I1Q3S1C1);
 
         ______TS("success: search for comments in instructor's course; confirms query string is case insensitive");
 
-        bundle = commentsDb.search("\"Instructor 1 COMMENT to student 2 self feedback Question 2\"", instructors);
+        bundle = commentsDb.search("\"Instructor 1 comment to response from "
+                + "student 2 to student 5 in feedback Question 2\"", instructors);
         verifySearchResults(bundle, frc1I1Q2S1C1);
 
         ______TS("success: search for comments using feedbackSessionName");

@@ -46,7 +46,7 @@ public class PublishFeedbackSessionAction extends Action {
 
             return new JsonResult(new FeedbackSessionData(publishFeedbackSession));
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

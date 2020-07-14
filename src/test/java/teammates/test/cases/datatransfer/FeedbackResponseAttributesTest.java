@@ -71,7 +71,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals("giver", fra.getGiver());
         assertEquals("recipient", fra.getRecipient());
 
-        assertNull(fra.getId());
+        assertEquals("1%giver%recipient", fra.getId());
         assertNull(fra.getCourseId());
         assertNull(fra.getFeedbackSessionName());
         assertEquals(Const.DEFAULT_SECTION, fra.getGiverSection());
@@ -167,7 +167,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
 
-        ((FeedbackTextResponseDetails) fra2.responseDetails).answer = "My second answer";
+        ((FeedbackTextResponseDetails) fra2.responseDetails).setAnswer("My second answer");
         assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
         assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
 
@@ -182,7 +182,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseDetails frdDeep = fra.getResponseDetails();
 
-        ((FeedbackTextResponseDetails) fra.responseDetails).answer = "My second answer";
+        ((FeedbackTextResponseDetails) fra.responseDetails).setAnswer("My second answer");
         assertEquals(frdDeep.getAnswerString(), "My original answer");
     }
 
@@ -195,7 +195,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackTextResponseDetails updatedDetails = new FeedbackTextResponseDetails("Updated answer");
         fra.setResponseDetails(updatedDetails);
-        updatedDetails.answer = "Modified deep copy answer";
+        updatedDetails.setAnswer("Modified deep copy answer");
 
         assertEquals(updatedDetails.getAnswerString(), "Modified deep copy answer");
         assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");
@@ -256,5 +256,91 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertThrows(AssertionError.class, () ->
                 FeedbackResponseAttributes.updateOptionsBuilder("id")
                         .withResponseDetails(null));
+    }
+
+    @Test
+    public void testEquals() {
+        FeedbackResponseAttributes feedbackResponse =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        // When the two feedback sessions are exact copies
+        FeedbackResponseAttributes feedbackResponseCopy = new FeedbackResponseAttributes(feedbackResponse);
+
+        assertTrue(feedbackResponse.equals(feedbackResponseCopy));
+
+        // When the two feedback sessions have same values but created at different time
+        FeedbackResponseAttributes feedbackResponseSimilar =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertTrue(feedbackResponse.equals(feedbackResponseSimilar));
+
+        // When the two feedback sessions are different
+        FeedbackResponseAttributes feedbackResponseDifferent =
+                FeedbackResponseAttributes.builder("differentId", "different@email.com", "different@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertFalse(feedbackResponse.equals(feedbackResponseDifferent));
+
+        // When the other object is of different class
+        assertFalse(feedbackResponse.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        FeedbackResponseAttributes feedbackResponse =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        // When the two feedback sessions are exact copies, they should have the same hash code
+        FeedbackResponseAttributes feedbackResponseCopy = new FeedbackResponseAttributes(feedbackResponse);
+
+        assertTrue(feedbackResponse.hashCode() == feedbackResponseCopy.hashCode());
+
+        // When the two feedback sessions have same values but created at different time,
+        // they should still have the same hash code
+        FeedbackResponseAttributes feedbackResponseSimilar =
+                FeedbackResponseAttributes.builder("questionId", "giver@email.com", "recipient@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertTrue(feedbackResponse.hashCode() == feedbackResponseSimilar.hashCode());
+
+        // When the two feedback sessions are different, they should have different hash code
+        FeedbackResponseAttributes feedbackResponseDifferent =
+                FeedbackResponseAttributes.builder("differentId", "different@email.com", "different@email.com")
+                .withFeedbackSessionName("Session1")
+                .withCourseId("CS3281")
+                .withGiverSection("giverSection")
+                .withRecipientSection("recipientSection")
+                .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
+                .build();
+
+        assertFalse(feedbackResponse.hashCode() == feedbackResponseDifferent.hashCode());
     }
 }

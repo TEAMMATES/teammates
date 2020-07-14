@@ -12,7 +12,7 @@
             <label>Name</label>
           </div>
           <div class="col-8">
-            <span>{{course.courseName}}</span>
+            <span id="course-name">{{course.courseName}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -20,7 +20,7 @@
             <label>ID</label>
           </div>
           <div class="col-8">
-            <span>{{course.courseId}}</span>
+            <span id="course-id">{{course.courseId}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -28,7 +28,7 @@
             <label>Timezone</label>
           </div>
           <div class="col-8">
-            <span>{{course.timeZone}}</span>
+            <span id="time-zone">{{course.timeZone}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -36,7 +36,7 @@
             <label>Created at</label>
           </div>
           <div class="col-8">
-            <span>{{course.creationTimestamp | formatDateDetail: course.timeZone}}</span>
+            <span id="created-date">{{course.creationTimestamp | formatDateDetail: course.timeZone}}</span>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
     <div class="col-12">
       <div class="row">
         <div class="col-12">
-          <table class="table table-striped">
+          <table id="instructor-table" class="table table-striped">
             <thead>
             <tr>
               <th class="font-weight-bold">Name</th>
@@ -62,7 +62,9 @@
             <tbody>
             <tr *ngFor="let instructorDetail of instructorDetails">
               <td>{{instructorDetail.name}}</td>
-              <td>{{instructorDetail.email}}</td>
+              <td>
+                <a href="mailto:{{instructorDetail.email}}">{{instructorDetail.email}}</a>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -84,7 +86,7 @@
             <label>Name</label>
           </div>
           <div class="col-8">
-            <span>{{student.name}}</span>
+            <span id="student-name">{{student.name}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -92,7 +94,7 @@
             <label>Section</label>
           </div>
           <div class="col-8">
-            <span>{{student.sectionName}}</span>
+            <span id="student-section">{{student.sectionName}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -100,7 +102,7 @@
             <label>Team</label>
           </div>
           <div class="col-8">
-            <span>{{student.teamName}}</span>
+            <span id="student-team">{{student.teamName}}</span>
           </div>
         </div>
         <div class="form-group row">
@@ -108,10 +110,23 @@
             <label>Email</label>
           </div>
           <div class="col-8">
-            <span>{{student.email}}</span>
+            <span id="student-email">{{student.email}}</span>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="card bg-light mb-4">
+  <div class="card-body">
+    <h5 class="d-inline"><strong> Sort By: </strong></h5>
+    <div class="btn-group" data-toggle="buttons">
+      <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_NAME)" (click)="sortTeammatesBy(SortBy.STUDENT_NAME)">Name</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.EMAIL)" (click)="sortTeammatesBy(SortBy.EMAIL)">Email</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
+      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
     </div>
   </div>
 </div>
@@ -120,26 +135,28 @@
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Team Profiles</h4>
   </div>
-  <div class="row" *ngFor="let teammateProfile of teammateProfiles">
+  <div class="row" *ngFor="let teammateProfile of teammateProfiles; let i = index">
     <div class="col-12">
       <div class="row">
         <div class="col-md-2 col-3">
           <img src="{{teammateProfile.photoUrl}}"
                class="profile-pic float-left" (error)="setDefaultPic(teammateProfile)">
         </div>
-        <div class="col-md-10 col-sm-9 col-8">
-          <table class="table table-striped">
+        <div class="col-md-10 col-9">
+          <table id="teammates-table-{{ i }}" class="table table-striped">
             <tbody>
             <tr>
               <td class="font-weight-bold">Name</td>
               <td>
-                <span>{{teammateProfile.studentProfile.shortName}}</span>
+                <span>
+                  {{teammateProfile.studentProfile.shortName}}
+                </span>
               </td>
             </tr>
             <tr>
               <td class="font-weight-bold">Email</td>
               <td>
-                <span>{{teammateProfile.studentProfile.email}}</span>
+                <a href="mailto:{{teammateProfile.studentProfile.email}}">{{teammateProfile.studentProfile.email}}</a>
               </td>
             </tr>
             <tr>

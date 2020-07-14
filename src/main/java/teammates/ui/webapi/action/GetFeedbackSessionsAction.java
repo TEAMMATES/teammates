@@ -25,6 +25,10 @@ public class GetFeedbackSessionsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (!(entityType.equals(Const.EntityType.STUDENT) || entityType.equals(Const.EntityType.INSTRUCTOR))) {

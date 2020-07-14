@@ -32,12 +32,13 @@ public class ActionFactory {
         map(ResourceURIs.DATABUNDLE, POST, PutDataBundleAction.class);
         // Even though this is a DELETE action, PUT is used as DELETE does not allow usage of response body
         map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
+        map(ResourceURIs.DATABUNDLE_DOCUMENTS, PUT, PutDataBundleDocumentsAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
         map(ResourceURIs.AUTH, GET, GetAuthInfoAction.class);
-        map(ResourceURIs.ACCOUNTS_SEARCH, GET, SearchAccountsAction.class);
+        map(ResourceURIs.AUTH_REGKEY, GET, GetRegkeyValidityAction.class);
         map(ResourceURIs.ACCOUNT, GET, GetAccountAction.class);
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
@@ -58,6 +59,7 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, GET, GetInstructorPrivilegeAction.class);
         map(ResourceURIs.INSTRUCTOR_PRIVILEGE, PUT, UpdateInstructorPrivilegeAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, POST, CreateFeedbackResponseCommentAction.class);
+        map(ResourceURIs.RESPONSE_COMMENT, GET, GetFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, PUT, UpdateFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
@@ -71,6 +73,12 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT, DELETE, DeleteStudentAction.class);
         map(ResourceURIs.STUDENT, GET, GetStudentAction.class);
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
+
+        //SEARCH APIs
+        map(ResourceURIs.SEARCH_COMMENTS, GET, SearchCommentsAction.class);
+        map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
+        map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
+        map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
@@ -86,6 +94,7 @@ public class ActionFactory {
         map(ResourceURIs.SESSIONS, GET, GetFeedbackSessionsAction.class);
         map(ResourceURIs.BIN_SESSION, PUT, BinFeedbackSessionAction.class);
         map(ResourceURIs.BIN_SESSION, DELETE, RestoreFeedbackSessionAction.class);
+        map(ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION, POST, RegenerateStudentCourseLinksAction.class);
         map(ResourceURIs.QUESTIONS, GET, GetFeedbackQuestionsAction.class);
         map(ResourceURIs.QUESTION, POST, CreateFeedbackQuestionAction.class);
         map(ResourceURIs.QUESTION, PUT, UpdateFeedbackQuestionAction.class);
@@ -102,24 +111,13 @@ public class ActionFactory {
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
         map(ResourceURIs.JOIN_REMIND, POST, SendJoinReminderEmailAction.class);
-        map(ResourceURIs.COURSE_ENROLL_STUDENTS, GET, GetCourseEnrollStudentsAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSES, GET, GetInstructorCoursesAction.class);
-        map(ResourceURIs.COURSE_STUDENT_DETAILS, GET, GetCourseStudentDetailsAction.class);
-        map(ResourceURIs.STUDENT_COURSE, GET, StudentGetCourseDetailsAction.class);
         map(ResourceURIs.STUDENT_PROFILE, GET, GetStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE, PUT, UpdateStudentProfileAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, GET, GetStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, POST, PostStudentProfilePictureAction.class);
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, DELETE, DeleteStudentProfilePictureAction.class);
-        map(ResourceURIs.STUDENT_COURSES, GET, GetStudentCoursesAction.class);
-        map(ResourceURIs.STUDENTS_CSV, GET, GetStudentsAsCsvAction.class);
-        map(ResourceURIs.STUDENTS_AND_FEEDBACK_SESSION_DATA_SEARCH, GET, SearchStudentsAndFeedbackSessionDataAction.class);
-        map(ResourceURIs.STUDENT_EDIT_DETAILS, GET, GetStudentEditDetailsAction.class);
-        map(ResourceURIs.COURSE_EDIT_DETAILS, GET, GetCourseEditDetailsAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
-        map(ResourceURIs.STUDENT_RECORDS, GET, GetStudentRecordsAction.class);
-        map(ResourceURIs.INSTRUCTOR_COURSE_DETAILS, GET, GetInstructorCourseDetailsAction.class);
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {

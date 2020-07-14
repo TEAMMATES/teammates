@@ -11,6 +11,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Get the recipients of a feedback question.
@@ -59,23 +60,18 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
 
-        String giverEmail;
-        String giverTeam;
         Map<String, String> recipient;
 
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(question.getCourseId());
 
-            giverEmail = studentAttributes.getEmail();
-            giverTeam = studentAttributes.getTeam();
-            recipient = logic.getRecipientsOfQuestionForStudent(question, giverEmail, giverTeam);
+            recipient = logic.getRecipientsOfQuestion(question, null, studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(question.getCourseId());
 
-            giverEmail = instructorAttributes.getEmail();
-            recipient = logic.getRecipientsOfQuestionForInstructor(question, giverEmail);
+            recipient = logic.getRecipientsOfQuestion(question, instructorAttributes, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

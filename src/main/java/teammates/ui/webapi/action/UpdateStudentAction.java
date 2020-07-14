@@ -14,7 +14,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.api.EmailGenerator;
+import teammates.common.util.Templates;
 import teammates.ui.webapi.request.StudentUpdateRequest;
 
 /**
@@ -53,11 +53,17 @@ public class UpdateStudentAction extends Action {
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
+        StudentAttributes studentToUpdate = StudentAttributes.builder(courseId, updateRequest.getEmail())
+                .withName(updateRequest.getName())
+                .withSectionName(updateRequest.getSection())
+                .withTeamName(updateRequest.getTeam())
+                .withComment(updateRequest.getComments())
+                .build();
+
         boolean emailSent = false;
 
         try {
-            logic.validateSectionsAndTeams(Arrays.asList(student), student.course);
-            logic.validateTeams(Arrays.asList(student), student.course);
+            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.course);
             logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())
@@ -95,8 +101,8 @@ public class UpdateStudentAction extends Action {
      * @return The true if email was sent successfully or false otherwise.
      */
     private boolean sendEmail(String courseId, String studentEmail) {
-        EmailWrapper email =
-                new EmailGenerator().generateFeedbackSessionSummaryOfCourse(courseId, studentEmail);
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
+                                courseId, studentEmail, Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();
     }

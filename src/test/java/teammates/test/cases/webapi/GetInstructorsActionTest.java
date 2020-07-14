@@ -11,11 +11,12 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetInstructorsAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.InstructorData;
+import teammates.ui.webapi.output.InstructorPermissionRole;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.output.JoinState;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetInstructorsAction}.
@@ -79,7 +80,9 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         assertEquals("instructorNotYetJoinedCourse1@email.tmt", typicalInstructor.getEmail());
         assertEquals("Instructor Not Yet Joined Course 1", typicalInstructor.getName());
         assertEquals("Instructor", typicalInstructor.getDisplayedToStudentsAs());
+        assertNull(typicalInstructor.getRole());
         assertNull(typicalInstructor.getIsDisplayedToStudents());
+        assertNull(typicalInstructor.getGoogleId());
         assertNull(typicalInstructor.getJoinState()); // information is hidden
     }
 
@@ -105,10 +108,12 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         // without information hiding, it is still 5
         assertEquals(5, instructors.size());
         InstructorData typicalInstructor = instructors.get(0);
+        assertEquals("idOfHelperOfCourse1", typicalInstructor.getGoogleId());
         assertEquals("idOfTypicalCourse1", typicalInstructor.getCourseId());
         assertEquals("helper@course1.tmt", typicalInstructor.getEmail());
         assertEquals("Helper Course1", typicalInstructor.getName());
         assertEquals("Helper", typicalInstructor.getDisplayedToStudentsAs());
+        assertEquals(InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM, typicalInstructor.getRole());
         assertFalse(typicalInstructor.getIsDisplayedToStudents());
         assertEquals(JoinState.JOINED, typicalInstructor.getJoinState());
     }

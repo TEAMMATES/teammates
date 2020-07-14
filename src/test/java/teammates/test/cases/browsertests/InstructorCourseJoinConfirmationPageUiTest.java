@@ -13,7 +13,7 @@ import teammates.test.pageobjects.InstructorCourseJoinConfirmationPage;
 import teammates.test.pageobjects.InstructorHomePage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_JOIN}.
+ * SUT: {@link Const.LegacyURIs#INSTRUCTOR_COURSE_JOIN}.
  */
 public class InstructorCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
 

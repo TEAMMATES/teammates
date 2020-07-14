@@ -16,7 +16,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for rubric questions.
  */
 public class FeedbackRubricQuestionUiTest extends BaseFeedbackQuestionUiTest {
@@ -775,7 +775,7 @@ public class FeedbackRubricQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
             String instructorName, String fsName, boolean needAjax, String viewType) {
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
                     .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                     .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

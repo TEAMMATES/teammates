@@ -52,4 +52,12 @@ public class StudentProfileData extends ApiOutput {
     public String getName() {
         return name;
     }
+
+    /**
+     * Hides certain fields when profile is requested by another student.
+     */
+    public void hideInformationWhenViewedByOtherStudent() {
+        this.email = null;
+        this.shortName = null;
+    }
 }

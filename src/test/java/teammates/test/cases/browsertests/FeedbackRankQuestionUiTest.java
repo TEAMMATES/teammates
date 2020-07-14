@@ -17,7 +17,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for rank questions.
  * TODO: Backend validation. Blocked by #8646
  */
@@ -733,7 +733,7 @@ public class FeedbackRankQuestionUiTest extends BaseFeedbackQuestionUiTest {
 
     private InstructorFeedbackResultsPage loginToInstructorFeedbackResultsPageWithViewType(
             String instructorName, String fsName, boolean needAjax, String viewType) {
-        AppUrl resultsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl resultsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                     .withUserId(testData.instructors.get(instructorName).googleId)
                     .withCourseId(testData.feedbackSessions.get(fsName).getCourseId())
                     .withSessionName(testData.feedbackSessions.get(fsName).getFeedbackSessionName());

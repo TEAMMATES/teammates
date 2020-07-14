@@ -18,6 +18,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.request.FeedbackResponseCreateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Create a feedback response.
@@ -49,15 +50,12 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForStudent(
-                            feedbackQuestion, studentAttributes.getEmail(), studentAttributes.getTeam());
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForInstructor(feedbackQuestion, instructorAttributes.getEmail());
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -83,11 +81,15 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             giverIdentifier = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    studentAttributes.getEmail(), studentAttributes.getTeam());
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    instructorAttributes.getEmail(), null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -98,7 +100,7 @@ public class CreateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
                 FeedbackResponseAttributes
                         .builder(feedbackQuestion.getId(), giverIdentifier, createRequest.getRecipientIdentifier())
                 .withGiverSection(giverSection)
-                .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(),
+                .withRecipientSection(getRecipientSection(feedbackQuestion.getCourseId(), feedbackQuestion.getGiverType(),
                         feedbackQuestion.getRecipientType(), createRequest.getRecipientIdentifier()))
                 .withCourseId(feedbackQuestion.getCourseId())
                 .withFeedbackSessionName(feedbackQuestion.getFeedbackSessionName())

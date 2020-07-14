@@ -1,56 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TableComparatorService } from '../../../../services/table-comparator.service';
+import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { StudentListInfoTableRowModel } from './student-list-info-table-model';
-
-/**
- * Sort criteria for the student list info table.
- */
-enum SortBy {
-
-  /**
-   * Nothing.
-   */
-  NONE,
-
-  /**
-   * The name of the student's section.
-   */
-  SECTION_NAME,
-
-  /**
-   * The name of the student's team.
-   */
-  TEAM_NAME,
-
-  /**
-   * The name of the student.
-   */
-  STUDENT_NAME,
-
-  /**
-   * The email of the student.
-   */
-  STUDENT_EMAIL,
-
-  /**
-   * The status of the student's feedback submission.
-   */
-  HAS_SUBMITTED_SESSION,
-}
-
-/**
- * Sort order for the sessions table.
- */
-enum SortOrder {
-  /**
-   * Descending sort order.
-   */
-  DESC,
-
-  /**
-   * Ascending sort order
-   */
-  ASC,
-}
 
 /**
  * Student list for users to make selection.
@@ -78,7 +29,7 @@ export class StudentListInfoTableComponent implements OnInit {
   studentListInfoTableSortBy: SortBy = SortBy.NONE;
   studentListInfoTableSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor() { }
+  constructor(private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
   }
@@ -134,11 +85,11 @@ export class StudentListInfoTableComponent implements OnInit {
           strA = a.name;
           strB = b.name;
           break;
-        case SortBy.STUDENT_EMAIL:
+        case SortBy.EMAIL:
           strA = a.email;
           strB = b.email;
           break;
-        case SortBy.HAS_SUBMITTED_SESSION:
+        case SortBy.SESSION_COMPLETION_STATUS:
           strA = a.hasSubmittedSession.toString();
           strB = b.hasSubmittedSession.toString();
           break;
@@ -146,13 +97,7 @@ export class StudentListInfoTableComponent implements OnInit {
           strA = '';
           strB = '';
       }
-      if (order === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (order === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-      return 0;
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 

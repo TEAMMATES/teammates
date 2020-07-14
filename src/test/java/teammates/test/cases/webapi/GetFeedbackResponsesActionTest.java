@@ -13,13 +13,15 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.action.GetFeedbackResponsesAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.output.FeedbackResponsesData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetFeedbackResponsesAction}.
@@ -85,7 +87,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    protected void testExecute_studentSubmission_shouldGetResponseSuccessfully() {
+    protected void testExecute_studentSubmission_shouldGetResponseSuccessfully() throws InvalidParametersException {
         loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] params = {
@@ -104,7 +106,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    protected void testExecute_instructorSubmission_shouldGetResponseSuccessfully() {
+    protected void testExecute_instructorSubmission_shouldGetResponseSuccessfully() throws InvalidParametersException {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] params = {
@@ -233,8 +235,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn1InSession1InCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(studentAccessOtherStudentsParams).checkAccessControl());
+        verifyCannotAccess(studentAccessOtherStudentsParams);
 
         ______TS("instructor access other instructor's response from different course");
         loginAsInstructor(instructor1OfCourse2.getGoogleId());
@@ -252,12 +253,13 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         return (FeedbackResponsesData) actualResult.getOutput();
     }
 
-    private void verifyFeedbackResponseEquals(FeedbackResponseAttributes expected, FeedbackResponseData actual) {
-        assertEquals(expected.getId(), actual.getFeedbackResponseId());
+    private void verifyFeedbackResponseEquals(FeedbackResponseAttributes expected, FeedbackResponseData actual)
+            throws InvalidParametersException {
+        assertEquals(expected.getId(), StringHelper.decrypt(actual.getFeedbackResponseId()));
         assertEquals(expected.getGiver(), actual.getGiverIdentifier());
         assertEquals(expected.getRecipient(), actual.getRecipientIdentifier());
         assertEquals(expected.getResponseDetails().getAnswerString(), actual.getResponseDetails().getAnswerString());
-        assertEquals(expected.getResponseDetails().questionType, actual.getResponseDetails().questionType);
+        assertEquals(expected.getResponseDetails().getQuestionType(), actual.getResponseDetails().getQuestionType());
         assertEquals(JsonUtils.toJson(expected.getResponseDetails()),
                 JsonUtils.toJson(actual.getResponseDetails()));
     }

@@ -1,0 +1,14 @@
+.loader-bar-visible {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  opacity: 1;
+  z-index: 2000;
+}
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
+::ng-deep .progress {
+  border-radius: 0;
+  height: .25rem;
+}
+/* stylelint-enable */

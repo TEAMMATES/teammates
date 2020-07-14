@@ -179,9 +179,9 @@
       "googleId": "FSRTest.student1InCourse1",
       "email": "FSRTest.student1InCourse1@gmail.tmt",
       "course": "FSRTest.idOfTypicalCourse1",
-      "name": "student1 In Course1</td></div>'\"",
+      "name": "student1 In Course1",
       "comments": "comment for student1InCourse1",
-      "team": "Team 1.1</td></div>'\"",
+      "team": "Team 1.1",
       "section": "Section A"
     },
     "student2InCourse1": {
@@ -190,7 +190,7 @@
       "course": "FSRTest.idOfTypicalCourse1",
       "name": "student2 In Course1",
       "comments": "",
-      "team": "Team 1.1</td></div>'\"",
+      "team": "Team 1.1",
       "section": "Section A"
     },
     "student3InCourse1": {
@@ -581,8 +581,8 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "giver": "Team 1.1</td></div>'\"",
-      "recipient": "Team 1.1</td></div>'\"",
+      "giver": "Team 1.1",
+      "recipient": "FSRTest.sudent1inCourse1@gmail.tmt",
       "giverSection": "Section A",
       "recipientSection": "Section A",
       "responseDetails": {
@@ -594,7 +594,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "giver": "Team 1.1</td></div>'\"",
+      "giver": "Team 1.1",
       "recipient": "FSRTest.student4InCourse1@gmail.tmt",
       "giverSection": "Section A",
       "recipientSection": "Section B",
@@ -607,7 +607,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
-      "giver": "Team 1.1</td></div>'\"",
+      "giver": "Team 1.1",
       "recipient": "Team 1.2",
       "giverSection": "Section A",
       "recipientSection": "Section B",
@@ -621,7 +621,7 @@
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
       "giver": "Team 1.2",
-      "recipient": "Team 1.1</td></div>'\"",
+      "recipient": "Team 1.1",
       "giverSection": "Section B",
       "recipientSection": "Section A",
       "responseDetails": {

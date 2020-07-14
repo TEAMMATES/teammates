@@ -1,9 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule, Routes } from '@angular/router';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { Pipes } from '../../pipes/pipes.module';
 import { StudentHomePageComponent } from './student-home-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: StudentHomePageComponent,
+  },
+];
 
 /**
  * Module for student home page.
@@ -17,9 +25,10 @@ import { StudentHomePageComponent } from './student-home-page.component';
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    NgbModule,
+    RouterModule.forChild(routes),
+    NgbTooltipModule,
     Pipes,
+    TeammatesCommonModule,
   ],
 })
 export class StudentHomePageModule { }

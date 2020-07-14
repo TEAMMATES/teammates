@@ -2,9 +2,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { StudentHomePageComponent } from './student-home-page.component';
 
-import { MatSnackBarModule } from '@angular/material';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
 
@@ -23,7 +29,7 @@ describe('StudentHomePageComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         RouterTestingModule,
-        MatSnackBarModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();
@@ -44,104 +50,135 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap with no feedback sessions', () => {
-    const studentName: string = '';
     const studentCourse: any = {
       course: {
-        id: 'CS3281',
-        name: 'Thematic Systems',
+        courseId: 'CS3281',
+        courseName: 'Thematic Systems',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
       },
       feedbackSessions: [],
     };
-    component.user = studentName;
     component.courses = [studentCourse];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with all feedback sessions over 2 courses', () => {
-    const studentName: string = 'John Doe';
     const studentCourseA: any = {
       course: {
-        id: 'CS2103',
-        name: 'Software Engineering',
+        courseId: 'CS2103',
+        courseName: 'Software Engineering',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
       },
       feedbackSessions: [
         {
-          feedbackSession: {
+          session: {
             feedbackSessionName: 'First Session',
             courseId: 'CS2103',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
           },
+          isOpened: true,
+          isWaitingToOpen: true,
+          isPublished: true,
+          isSubmitted: true,
         },
         {
-          feedbackSession: {
+          session: {
             feedbackSessionName: 'Second Session',
             courseId: 'CS2103',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
           },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: false,
         },
       ],
     };
 
     const studentCourseB: any = {
       course: {
-        id: 'CS2102',
-        name: 'Databases',
+        courseId: 'CS2102',
+        courseName: 'Databases',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
       },
       feedbackSessions: [
         {
-          feedbackSession: {
+          session: {
             feedbackSessionName: 'Third Session',
             courseId: 'CS2102',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
           },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
         },
         {
-          feedbackSession: {
+          session: {
             feedbackSessionName: 'Fourth Session',
             courseId: 'CS2102',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
           },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
         },
       ],
     };
 
-    const publishedSessionInfoMap: any = {
-      endTime: '1200',
-      isOpened: true,
-      isWaitingToOpen: true,
-      isPublished: true,
-      isSubmitted: true,
-    };
-
-    const unpublishedSessionInfoMap: any = {
-      endTime: '1200',
-      isOpened: true,
-      isWaitingToOpen: false,
-      isPublished: false,
-      isSubmitted: false,
-    };
-
-    const submittedSessionInfoMap: any = {
-      endTime: '1200',
-      isOpened: true,
-      isWaitingToOpen: false,
-      isPublished: false,
-      isSubmitted: true,
-    };
-
-    const concludedSessionInfoMap: any = {
-      endTime: '1200',
-      isOpened: false,
-      isWaitingToOpen: false,
-      isPublished: false,
-      isSubmitted: true,
-    };
-
-    component.user = studentName;
     component.courses = [studentCourseA, studentCourseB];
-    component.sessionsInfoMap = {
-      'CS2103%First Session': publishedSessionInfoMap,
-      'CS2103%Second Session': unpublishedSessionInfoMap,
-      'CS2102%Third Session': submittedSessionInfoMap,
-      'CS2102%Fourth Session': concludedSessionInfoMap,
-    };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

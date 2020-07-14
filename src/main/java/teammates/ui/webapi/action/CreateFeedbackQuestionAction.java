@@ -4,6 +4,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -57,8 +59,15 @@ public class CreateFeedbackQuestionAction extends Action {
             throw new InvalidHttpRequestBodyException(err);
         }
         // validate questions (question details)
-        List<String> questionDetailsErrors =
-                attributes.getQuestionDetails().validateQuestionDetails(attributes.getCourseId());
+        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetails();
+        if (questionDetails instanceof FeedbackMsqQuestionDetails) {
+            FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
+            int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
+                    attributes.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
+            msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
+            questionDetails = msqQuestionDetails;
+        }
+        List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
         if (!questionDetailsErrors.isEmpty()) {
             throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
         }

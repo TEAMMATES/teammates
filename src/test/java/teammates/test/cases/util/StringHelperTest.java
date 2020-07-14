@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.crypto.Cipher;
+import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.testng.annotations.Test;
@@ -127,6 +128,15 @@ public class StringHelperTest extends BaseTestCase {
         cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
         byte[] encrypted = cipher.doFinal(plaintext.getBytes());
         return StringHelper.byteArrayToHexString(encrypted);
+    }
+
+    private static String generateSignature(String data) throws Exception {
+        SecretKeySpec signingKey =
+                new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "HmacSHA1");
+        Mac mac = Mac.getInstance("HmacSHA1");
+        mac.init(signingKey);
+        byte[] value = mac.doFinal(data.getBytes());
+        return StringHelper.byteArrayToHexString(value);
     }
 
     @Test
@@ -296,50 +306,6 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testCsvToHtmlTable() {
-        String csvText = "ColHeader1, ColHeader2, ColHeader3, ColHeader4" + System.lineSeparator()
-                         + "\"Data 1-1\", \"Data 1\"\"2\", \"Data 1,3\", \"Data 1\"\"\"\"4\"" + System.lineSeparator()
-                         + "Data 2-1, Data 2-2, Data 2-3, \"Data 2-4\"\"\"" + System.lineSeparator()
-                         + "Data 3-1, Data 3-2, Data 3-3, Data 3-4" + System.lineSeparator()
-                         + ",,," + System.lineSeparator()
-                         + ",,,Data 5-4" + System.lineSeparator();
-        String htmlText = StringHelper.csvToHtmlTable(csvText);
-        String expectedHtmlText = "<table class=\"table table-bordered table-striped table-condensed\">"
-                                      + "<tr>"
-                                          + "<td>ColHeader1</td>"
-                                          + "<td> ColHeader2</td>"
-                                          + "<td> ColHeader3</td>"
-                                          + "<td>ColHeader4</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td>Data 1-1</td>"
-                                          + "<td> Data 1&quot;2</td>"
-                                          + "<td> Data 1,3</td>"
-                                          + "<td>Data 1&quot;&quot;4</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td>Data 2-1</td>"
-                                          + "<td> Data 2-2</td>"
-                                          + "<td> Data 2-3</td>"
-                                          + "<td>Data 2-4&quot;</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td>Data 3-1</td>"
-                                          + "<td> Data 3-2</td>"
-                                          + "<td> Data 3-3</td>"
-                                          + "<td>Data 3-4</td>"
-                                      + "</tr>"
-                                      + "<tr>"
-                                          + "<td></td>"
-                                          + "<td></td>"
-                                          + "<td></td>"
-                                          + "<td>Data 5-4</td>"
-                                      + "</tr>"
-                                  + "</table>";
-        assertEquals(expectedHtmlText, htmlText);
-    }
-
-    @Test
     public void testTrim() {
         String[] input = {"  apple tea", "banana  ", "   carrot cake      ", "magnesium & hydroxide     -"};
         String[] expected = {"apple tea", "banana", "carrot cake", "magnesium & hydroxide     -"};
@@ -411,5 +377,29 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(StringHelper.extractContentFromQuotedString("data without quotes"), "data without quotes");
         assertEquals(StringHelper.extractContentFromQuotedString(null), null);
         assertEquals(StringHelper.extractContentFromQuotedString(""), "");
+    }
+
+    @Test
+    public void testSignatureGeneration() throws Exception {
+        String data1 = "National University of Singapore";
+        String data2 = "Nanyang Technological University";
+
+        assertEquals(generateSignature(data1), StringHelper.generateSignature(data1));
+
+        assertNotEquals(StringHelper.generateSignature(data1), StringHelper.generateSignature(data2));
+    }
+
+    @Test
+    public void testSignatureVerification() {
+        String valid = "National University of Singapore";
+        String invalid = "Nanyang Technological University";
+        String signature = StringHelper.generateSignature(valid);
+
+        assertTrue(StringHelper.isCorrectSignature(valid, signature));
+
+        assertFalse(StringHelper.isCorrectSignature(valid, invalid));
+        assertFalse(StringHelper.isCorrectSignature(valid, null));
+        assertFalse(StringHelper.isCorrectSignature(null, signature));
+        assertFalse(StringHelper.isCorrectSignature(invalid, signature));
     }
 }

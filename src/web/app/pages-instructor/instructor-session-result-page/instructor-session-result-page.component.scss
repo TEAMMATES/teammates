@@ -1,3 +1,27 @@
 .top-padded {
   margin-top: 20px;
 }
+
+.info-card-padding {
+  padding: 40px 40px 15px;
+}
+
+.action-btn {
+  margin-bottom: 15px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.expand-btn {
+  width: 100%;
+}
+
+@media print {
+  .action-btn {
+    display: none;
+  }
+}
+
+.action-btn-group {
+  max-width: 600px;
+}

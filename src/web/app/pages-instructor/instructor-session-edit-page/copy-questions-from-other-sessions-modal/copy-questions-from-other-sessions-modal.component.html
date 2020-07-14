@@ -15,11 +15,11 @@
           <span *ngIf="candidatesSortBy === SortBy.COURSE_ID && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
           <span *ngIf="candidatesSortBy === SortBy.COURSE_ID && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
         </th>
-        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.FEEDBACK_SESSION_NAME)">
+        <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.SESSION_NAME)">
           Session Name
-          <span *ngIf="candidatesSortBy !== SortBy.FEEDBACK_SESSION_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="candidatesSortBy === SortBy.FEEDBACK_SESSION_NAME && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="candidatesSortBy === SortBy.FEEDBACK_SESSION_NAME && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span *ngIf="candidatesSortBy !== SortBy.SESSION_NAME"><i class="fas fa-sort"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.SESSION_NAME && candidatesSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+          <span *ngIf="candidatesSortBy === SortBy.SESSION_NAME && candidatesSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
         </th>
         <th class="sortable-header" (click)="sortQuestionToCopyCandidates(SortBy.QUESTION_TYPE)">
           Question Type

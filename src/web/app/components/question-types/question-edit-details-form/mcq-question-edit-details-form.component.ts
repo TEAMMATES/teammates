@@ -1,9 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import {
-  FeedbackMcqQuestionDetails,
-  FeedbackParticipantType,
-} from '../../../../types/api-output';
+import { FeedbackMcqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
@@ -13,7 +10,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-mcq-question-edit-details-form',
   templateUrl: './mcq-question-edit-details-form.component.html',
-  styleUrls: ['./mcq-question-edit-details-form.component.scss'],
+  styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class McqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
@@ -21,6 +18,13 @@ export class McqQuestionEditDetailsFormComponent
   readonly PARTICIPANT_TYPES: string[] = [FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
     FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.INSTRUCTORS];
+
+  // Used to store and restore user input when user toggles generate option
+  storageModel: FeedbackMcqQuestionDetails = {
+    ...DEFAULT_MCQ_QUESTION_DETAILS(),
+    numOfMcqChoices: 2,
+    mcqChoices: [' ', ' '],
+  };
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
@@ -30,6 +34,10 @@ export class McqQuestionEditDetailsFormComponent
    * Reorders the list on dragging the Mcq options.
    */
   onMcqOptionDropped(event: CdkDragDrop<string[]>): void {
+    if (!this.isEditable) {
+      return;
+    }
+
     const newWeights: number[] = this.model.mcqWeights.slice();
     const newOptions: string[] = this.model.mcqChoices.slice();
     moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
@@ -95,49 +103,56 @@ export class McqQuestionEditDetailsFormComponent
   /**
    * Tracks the Mcq option by index.
    */
-  trackMcqOption(index: number, item: string[]): string {
-    return item[index];
+  trackMcqOption(index: number): string {
+    return index.toString();
   }
 
   /**
    * Tracks the Mcq weight by index.
    */
-  trackMcqWeight(index: number, item: number[]): number {
-    return item[index];
+  trackMcqWeight(index: number): string {
+    return index.toString();
   }
 
   /**
    * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
-  triggerWeightsColumn(event: any): void {
-    const fieldsToUpdate: any = {};
-    if (!event.target.checked) {
-      fieldsToUpdate.hasAssignedWeights = false;
-      fieldsToUpdate.mcqWeights = [];
-      fieldsToUpdate.mcqOtherWeight = 0;
-    } else {
-      fieldsToUpdate.hasAssignedWeights = true;
-      fieldsToUpdate.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
-    }
-    this.triggerModelChangeBatch(fieldsToUpdate);
+  triggerWeightsColumn(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      mcqWeights: checked ? Array(this.model.numOfMcqChoices).fill(0) : [],
+      mcqOtherWeight: 0,
+      hasAssignedWeights: checked,
+    });
   }
 
   /**
-   * Triggers the display of the weight for the other option.
+   * Triggers the setting of choosing other option.
    */
-  triggerOtherWeight(event: any): void {
-    if (!event.target.checked) {
-      this.triggerModelChange('mcqOtherWeight', 0);
-    }
+  triggerOtherEnabled(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      otherEnabled: checked,
+      mcqOtherWeight: 0,
+    });
   }
 
   /**
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
-  triggerGeneratedOptionsChange(event: any): void {
-    const feedbackParticipantType: FeedbackParticipantType
-        = event.target.checked ? FeedbackParticipantType.STUDENTS : FeedbackParticipantType.NONE;
-    this.triggerModelChange('generateOptionsFor', feedbackParticipantType);
+  triggerGeneratedOptionsChange(checked: boolean): void {
+    if (checked) {
+      this.storageModel = this.model;
+      this.triggerModelChangeBatch({
+        generateOptionsFor: FeedbackParticipantType.STUDENTS,
+        numOfMcqChoices: 0,
+        mcqChoices: [],
+        otherEnabled: false,
+        hasAssignedWeights: false,
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+      });
+    } else {
+      this.triggerModelChangeBatch(this.storageModel);
+    }
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { MasqueradeModeService } from '../../services/masquerade-mode.service';
 import { AuthInfo } from '../../types/api-output';
 
 /**
@@ -62,13 +63,17 @@ export class StaticPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private masqueradeModeService: MasqueradeModeService) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
         this.user = res.user.id;
+        if (res.masquerade) {
+          this.user += ' (M)';
+          this.masqueradeModeService.setMasqueradeUser(res.user.id);
+        }
         this.institute = res.institute;
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
@@ -79,7 +84,10 @@ export class StaticPageComponent implements OnInit {
       }
       this.isFetchingAuthDetails = false;
     }, () => {
-      // TODO
+      this.isInstructor = false;
+      this.isStudent = false;
+      this.isAdmin = false;
+      this.isFetchingAuthDetails = false;
     });
   }
 

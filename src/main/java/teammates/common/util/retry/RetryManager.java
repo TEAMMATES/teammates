@@ -63,7 +63,7 @@ public final class RetryManager {
     /**
      * Runs {@code task}, retrying if needed using exponential backoff, until task is successful.
      *
-     * @returns {@code task} result or null if none.
+     * @return {@code task} result or null if none.
      * @throws E if encountered while running or evaluating {@code task}.
      * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */
@@ -74,7 +74,7 @@ public final class RetryManager {
     /**
      * Runs {@code task}, retrying if needed using exponential backoff, until task returns a non-null result.
      *
-     * @returns {@code task} result or null if none.
+     * @return {@code task} result or null if none.
      * @throws E if encountered while running or evaluating {@code task}.
      * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */
@@ -87,7 +87,7 @@ public final class RetryManager {
      * Runs {@code task}, retrying if needed using exponential backoff, until no exceptions of the specified
      * {@code recognizedExceptionTypes} are caught.
      *
-     * @returns {@code task} result or null if none.
+     * @return {@code task} result or null if none.
      * @throws E if encountered while running or evaluating {@code task}.
      * @throws MaximumRetriesExceededException if maximum retries are exceeded.
      */

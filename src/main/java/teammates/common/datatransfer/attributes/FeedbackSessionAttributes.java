@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Assumption;
@@ -368,6 +369,31 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.courseId)
+                .append(this.instructions).append(this.creatorEmail);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackSessionAttributes otherFeedbackSession = (FeedbackSessionAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherFeedbackSession.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackSession.courseId)
+                    && Objects.equals(this.instructions, otherFeedbackSession.instructions)
+                    && Objects.equals(this.creatorEmail, otherFeedbackSession.creatorEmail);
+        } else {
+            return false;
+        }
     }
 
     /**

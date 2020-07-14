@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchService should join instructors accurately when calling as admin 1`] = `
+Object {
+  "courseId": "dog.gma-demo",
+  "courseJoinLink": "http://localhost:4200/web/join?entitytype=instructor",
+  "courseName": "Sample Course 101",
+  "email": "dog@gmail.com",
+  "googleId": "test@example.com",
+  "homePageLink": "/web/instructor/home?user=test%40example.com",
+  "institute": "",
+  "manageAccountLink": "/web/admin/accounts?instructorid=test%40example.com",
+  "name": "Hi",
+  "showLinks": false,
+}
+`;

@@ -25,11 +25,7 @@ export class RankOptionsQuestionEditAnswerFormComponent
     super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(), DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS());
   }
 
-  ngOnInit(): void {
-    if (this.responseDetails.answers.length !== this.questionDetails.options.length) {
-      this.responseDetails.answers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
-    }
-  }
+  ngOnInit(): void {}
 
   /**
    * Populates the possible Ranks that can be assigned.
@@ -55,7 +51,12 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Assigns a Rank to the option specified by index.
    */
   triggerResponse(index: number, event: any): void {
-    const newAnswers: number[] = this.responseDetails.answers.slice();
+    let newAnswers: number[] = this.responseDetails.answers.slice();
+    if (newAnswers.length !== this.questionDetails.options.length) {
+      // initialize answers array on the fly
+      newAnswers = Array(this.questionDetails.options.length).fill(RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
+    }
+
     newAnswers[index] = event;
     this.triggerResponseDetailsChange('answers', newAnswers);
   }

@@ -225,7 +225,7 @@ public class TaskQueuer {
 
         int numberOfEmailsSent = 0;
         for (EmailWrapper email : emails) {
-            long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
+            long emailDelayTimer = (long) numberOfEmailsSent * (long) emailIntervalMillis;
             scheduleEmailForSending(email, emailDelayTimer);
             numberOfEmailsSent++;
         }

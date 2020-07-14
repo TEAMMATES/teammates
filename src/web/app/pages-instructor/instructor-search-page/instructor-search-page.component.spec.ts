@@ -1,19 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
-import { InstructorSearchPageComponent, SearchStudentsTable } from './instructor-search-page.component';
-
-@Component({ selector: 'tm-instructor-search-bar', template: '' })
-class InstructorSearchBarStubComponent {
-  @Input() searchKey: string = '';
-}
-@Component({ selector: 'tm-student-result-table', template: '' })
-class StudentResultTableStubComponent {
-  @Input() studentTables: SearchStudentsTable[] = [];
-}
+import { InstructorSearchPageComponent } from './instructor-search-page.component';
+import { InstructorSearchPageModule } from './instructor-search-page.module';
 
 describe('InstructorSearchPageComponent', () => {
   let component: InstructorSearchPageComponent;
@@ -21,15 +12,10 @@ describe('InstructorSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorSearchPageComponent,
-        InstructorSearchBarStubComponent,
-        StudentResultTableStubComponent,
-      ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        MatSnackBarModule,
+        InstructorSearchPageModule,
       ],
     })
     .compileComponents();
@@ -50,50 +36,66 @@ describe('InstructorSearchPageComponent', () => {
   });
 
   it('should snap with a search key', () => {
-    component.searchKey = 'TEST';
+    component.searchParams.searchKey = 'TEST';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with a student table', () => {
-    component.studentTables = [
+    component.studentsListRowTables = [
       {
-        courseId: 'test.tes-demo',
-        sections: [
+        courseId: 'test-exa.demo',
+        students: [
           {
-            sectionName: 'Tutorial Group 1',
+            student: {
+              name: 'tester',
+              teamName: 'Team 1',
+              email: 'tester@tester.com',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
             isAllowedToViewStudentInSection: true,
             isAllowedToModifyStudent: true,
-            students: [
-              {
-                name: 'Alice Betsy',
-                email: 'alice.b.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Benny Charles',
-                email: 'benny.c.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Danny Engrid',
-                email: 'danny.e.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-              {
-                name: 'Emma Farrell',
-                email: 'emma.f.tmms@gmail.tmt',
-                status: JoinState.JOINED,
-                team: 'Team 1',
-              },
-            ],
+          },
+          {
+            student: {
+              name: 'Benny Charles',
+              teamName: 'Team 1',
+              email: 'benny.c.tmms@gmail.tmt',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
+          },
+          {
+            student: {
+              name: 'Alice Betsy',
+              teamName: 'Team 1',
+              email: 'alice.b.tmms@gmail.tmt',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
+          },
+          {
+            student: {
+              name: 'Danny Engrid',
+              teamName: 'Team 1',
+              email: 'danny.e.tmms@gmail.tmt',
+              joinState: JoinState.JOINED,
+              sectionName: 'Tutorial Group 1',
+              courseId: 'test-exa.demo',
+            },
+            isAllowedToViewStudentInSection: true,
+            isAllowedToModifyStudent: true,
           },
         ],
-      },
-    ];
+      }];
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

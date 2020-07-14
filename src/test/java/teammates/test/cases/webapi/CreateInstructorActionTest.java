@@ -12,6 +12,7 @@ import teammates.common.util.TaskWrapper;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.CreateInstructorAction;
 import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.MessageOutput;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
@@ -59,15 +60,15 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, newInstructorName,
-                newInstructorEmail), msg.getMessage());
+        InstructorData response = (InstructorData) actionOutput.getOutput();
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 
         InstructorAttributes instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
+        assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, instructorAdded.email);
+        assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
@@ -84,7 +85,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_CONFLICT, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         assertEquals("An instructor with the same email address already exists in the course.",
                 msg.getMessage());
 
@@ -127,15 +128,15 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals(String.format(Const.StatusMessages.COURSE_INSTRUCTOR_ADDED, newInstructorName,
-                newInstructorEmail), msg.getMessage());
+        response = (InstructorData) actionOutput.getOutput();
 
         assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
 
         instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
+        assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, instructorAdded.email);
+        assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
@@ -155,12 +156,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         ______TS("only instructors of the same course can access");
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
-
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
 
         // remove the newly added instructor
         InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");

@@ -18,9 +18,14 @@ import {
   VisibilityTypeNamePipe,
 } from './visibility-setting.pipe';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
+
 describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;
   let fixture: ComponentFixture<QuestionEditFormComponent>;
+
+  mockTinyMceUuid();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,6 +46,7 @@ describe('QuestionEditFormComponent', () => {
         QuestionEditDetailsFormModule,
         NgbModule,
         VisibilityMessagesModule,
+        BrowserAnimationsModule,
       ],
     })
     .compileComponents();
@@ -54,5 +60,9 @@ describe('QuestionEditFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should snap with default view', () => {
+    expect(fixture).toMatchSnapshot();
   });
 });

@@ -1,15 +1,15 @@
 package teammates.test.cases.automated;
 
+import java.util.Set;
+
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.automated.FeedbackSessionUpdateRespondentWorkerAction;
 
 /**
@@ -17,8 +17,6 @@ import teammates.ui.automated.FeedbackSessionUpdateRespondentWorkerAction;
  */
 public class FeedbackSessionUpdateRespondentWorkerActionTest
         extends BaseAutomatedActionTest<FeedbackSessionUpdateRespondentWorkerAction> {
-
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -103,22 +101,32 @@ public class FeedbackSessionUpdateRespondentWorkerActionTest
     }
 
     private void verifyRespondentInSessionRespondentsList(FeedbackSessionAttributes session, String respondentEmail,
-            boolean isInstructor) throws EntityDoesNotExistException {
-        FeedbackSessionResponseStatus responseStatus =
-                fsLogic.getFeedbackSessionResponseStatus(session.getFeedbackSessionName(), session.getCourseId());
-        assertFalse(responseStatus.getStudentsWhoDidNotRespond().contains(respondentEmail));
-        if (!isInstructor) {
-            assertTrue(responseStatus.getStudentsWhoResponded().contains(respondentEmail));
+            boolean isInstructor) {
+        FeedbackSessionAttributes sessionInDb =
+                logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
+
+        Set<String> respondingStudentList = sessionInDb.getRespondingStudentList();
+        Set<String> respondingInstructorList = sessionInDb.getRespondingInstructorList();
+        if (isInstructor) {
+            assertFalse(respondingStudentList.contains(respondentEmail));
+            assertTrue(respondingInstructorList.contains(respondentEmail));
+        } else {
+            assertTrue(respondingStudentList.contains(respondentEmail));
+            assertFalse(respondingInstructorList.contains(respondentEmail));
         }
     }
 
     private void verifyRespondentNotInSessionRespondentsList(FeedbackSessionAttributes session, String respondentEmail,
-            boolean isInstructor) throws EntityDoesNotExistException {
-        FeedbackSessionResponseStatus responseStatus =
-                fsLogic.getFeedbackSessionResponseStatus(session.getFeedbackSessionName(), session.getCourseId());
-        assertTrue(responseStatus.getStudentsWhoDidNotRespond().contains(respondentEmail));
-        if (!isInstructor) {
-            assertFalse(responseStatus.getStudentsWhoResponded().contains(respondentEmail));
+            boolean isInstructor) {
+        FeedbackSessionAttributes sessionInDb =
+                logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
+
+        Set<String> respondingStudentList = sessionInDb.getRespondingStudentList();
+        Set<String> respondingInstructorList = sessionInDb.getRespondingInstructorList();
+        if (isInstructor) {
+            assertFalse(respondingInstructorList.contains(respondentEmail));
+        } else {
+            assertFalse(respondingStudentList.contains(respondentEmail));
         }
     }
 

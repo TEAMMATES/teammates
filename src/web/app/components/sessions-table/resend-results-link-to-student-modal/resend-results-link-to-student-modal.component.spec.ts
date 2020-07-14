@@ -3,8 +3,6 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { MatSnackBarModule } from '@angular/material';
 import { StudentListInfoTableComponent } from '../student-list-info-table/student-list-info-table.component';
 import { ResendResultsLinkToStudentModalComponent } from './resend-results-link-to-student-modal.component';
 
@@ -25,7 +23,6 @@ describe('ResendResultsLinkToStudentModalComponent', () => {
       imports: [
         HttpClientTestingModule,
         FormsModule,
-        MatSnackBarModule,
       ],
       providers: [NgbActiveModal],
     })

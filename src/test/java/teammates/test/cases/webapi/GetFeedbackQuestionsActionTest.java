@@ -1,23 +1,27 @@
 package teammates.test.cases.webapi;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.action.GetFeedbackQuestionsAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackQuestionsData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetFeedbackQuestionsAction}.
@@ -95,6 +99,86 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
                 typicalResponse.getShowGiverNameTo());
         assertEquals(Arrays.asList(FeedbackVisibilityType.INSTRUCTORS),
                 typicalResponse.getShowRecipientNameTo());
+    }
+
+    @Test
+    public void testExecute_studentFeedbackSubmissionMcqGenerateOptionsForTeams_shouldReturnGeneratedFields()
+            throws Exception {
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(studentAttributes.getGoogleId());
+
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        logic.createFeedbackQuestion(FeedbackQuestionAttributes.builder()
+                .withCourseId(fsa.getCourseId())
+                .withFeedbackSessionName(fsa.getFeedbackSessionName())
+                .withNumberOfEntitiesToGiveFeedbackTo(2)
+                .withQuestionDescription("test")
+                .withQuestionNumber(1)
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.STUDENTS)
+                .withQuestionDetails(feedbackMcqQuestionDetails)
+                .withShowResponsesTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .build());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, fsa.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+        GetFeedbackQuestionsAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
+
+        assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
+                ((FeedbackMcqQuestionDetails)
+                        feedbackQuestionsResponse.getQuestions().get(0).getQuestionDetails()).getMcqChoices());
+    }
+
+    @Test
+    public void testExecute_instructorFeedbackSubmissionMcqGenerateOptionsForTeams_shouldReturnGeneratedFields()
+            throws Exception {
+        FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+
+        FeedbackMcqQuestionDetails feedbackMcqQuestionDetails = new FeedbackMcqQuestionDetails();
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.TEAMS);
+        logic.createFeedbackQuestion(FeedbackQuestionAttributes.builder()
+                .withCourseId(fsa.getCourseId())
+                .withFeedbackSessionName(fsa.getFeedbackSessionName())
+                .withNumberOfEntitiesToGiveFeedbackTo(2)
+                .withQuestionDescription("test")
+                .withQuestionNumber(1)
+                .withGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withRecipientType(FeedbackParticipantType.INSTRUCTORS)
+                .withQuestionDetails(feedbackMcqQuestionDetails)
+                .withShowResponsesTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .build());
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, fsa.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
+        };
+        GetFeedbackQuestionsAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
+
+        assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
+                ((FeedbackMcqQuestionDetails)
+                        feedbackQuestionsResponse.getQuestions().get(0).getQuestionDetails()).getMcqChoices());
     }
 
     @Override

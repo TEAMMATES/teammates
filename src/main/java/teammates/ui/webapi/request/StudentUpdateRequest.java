@@ -1,5 +1,6 @@
 package teammates.ui.webapi.request;
 
+import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -46,7 +47,7 @@ public class StudentUpdateRequest extends BasicRequest {
     }
 
     public String getSection() {
-        return this.section;
+        return this.section.isEmpty() ? Const.DEFAULT_SECTION : this.section;
     }
 
     public String getComments() {
