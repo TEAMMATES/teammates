@@ -109,7 +109,7 @@
           <div class="col-md-2 text-md-right font-bold">
             Instructions
           </div>
-          <div class="col-md-4 text-md-left" ngbTooltip="Enter instructions for this feedback session. e.g. Avoid comments which are too critical. It will be displayed at the top of the page when users respond to the session.">
+          <div class="col-md-10 text-md-left" ngbTooltip="Enter instructions for this feedback session. e.g. Avoid comments which are too critical. It will be displayed at the top of the page when users respond to the session.">
             <tm-rich-text-editor [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable"></tm-rich-text-editor>
           </div>
         </div>
