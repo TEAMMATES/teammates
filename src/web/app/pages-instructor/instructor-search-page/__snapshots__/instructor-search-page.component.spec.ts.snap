@@ -395,13 +395,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </a>
                         
                         
-                        
                         <button
                           class="btn btn-light btn-sm mr-2"
                         >
                           Delete
                         </button>
-                        
                         
                         <a
                           class="btn btn-light btn-sm mr-2"
@@ -479,13 +477,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </a>
                         
                         
-                        
                         <button
                           class="btn btn-light btn-sm mr-2"
                         >
                           Delete
                         </button>
-                        
                         
                         <a
                           class="btn btn-light btn-sm mr-2"
@@ -563,13 +559,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </a>
                         
                         
-                        
                         <button
                           class="btn btn-light btn-sm mr-2"
                         >
                           Delete
                         </button>
-                        
                         
                         <a
                           class="btn btn-light btn-sm mr-2"
@@ -647,13 +641,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </a>
                         
                         
-                        
                         <button
                           class="btn btn-light btn-sm mr-2"
                         >
                           Delete
                         </button>
-                        
                         
                         <a
                           class="btn btn-light btn-sm mr-2"

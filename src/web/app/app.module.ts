@@ -13,7 +13,6 @@ import { ErrorReportModule } from "./components/error-report/error-report.module
 import { LoaderBarModule } from "./components/loader-bar/loader-bar.module";
 import { LoadingSpinnerComponent } from "./components/loading-spinner/loading-spinner.component";
 import { SimpleModalModule } from "./components/simple-modal/simple-modal.module";
-import { StatusMesssageModalModule } from "./components/status-message/status-messsage-modal/status-messsage-modal.module";
 import { ToastModule } from "./components/toast/toast.module";
 import { ClickOutsideDirective, PageComponent } from "./page.component";
 import { AdminPageComponent } from "./pages-admin/admin-page.component";
@@ -126,7 +125,6 @@ const routes: Routes = [
     HttpClientModule,
     NgbDropdownModule,
     RouterModule.forRoot(routes),
-    StatusMesssageModalModule,
     ErrorReportModule,
     ToastModule,
     LoaderBarModule,

@@ -20,10 +20,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   formMode={[Function Number]}
   formModelChange={[Function EventEmitter]}
   isDisplayOnly="false"
-  modalService={[Function NgbModal]}
   model={[Function Object]}
   numOfQuestions="0"
   saveExistingQuestionEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
 >
   <div
@@ -85,7 +85,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               />
                Delete
             </button>
-            
             <button
               class="btn btn-primary btn-sm"
               container="body"

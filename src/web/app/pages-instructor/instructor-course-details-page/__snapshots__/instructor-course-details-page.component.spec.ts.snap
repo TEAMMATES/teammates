@@ -529,13 +529,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </button>
                   
                   
-                  
                   <button
                     class="btn btn-light btn-sm mr-2"
                   >
                     Delete
                   </button>
-                  
                   
                   <a
                     class="btn btn-light btn-sm mr-2"
