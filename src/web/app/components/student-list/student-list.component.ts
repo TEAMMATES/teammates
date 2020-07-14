@@ -91,7 +91,7 @@ export class StudentListComponent implements OnInit {
         'Confirm sending join requests', SimpleModalType.INFO, modalContent);
     modalRef.result.then(() => {
       this.remindStudentFromCourse(studentModel.student.email);
-    });
+    }, () => {});
   }
 
   /**
@@ -106,7 +106,7 @@ export class StudentListComponent implements OnInit {
         'Confirm deletion', SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       this.removeStudentFromCourse(studentModel.student.email);
-    });
+    }, () => {});
   }
 
   /**

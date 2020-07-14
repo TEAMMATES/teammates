@@ -139,7 +139,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    });
+    }, () => {});
   }
 
   /**
@@ -161,7 +161,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    });
+    }, () => {});
   }
   /**
    * Loads courses of current instructor.

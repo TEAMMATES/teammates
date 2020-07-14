@@ -143,7 +143,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
           'Confirm Deletion', SimpleModalType.WARNING, modalContent);
       modalRef.result.then(() => {
         this.deleteExistingResponses(resendPastLinksModal);
-      });
+      }, () => {});
     } else if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {
