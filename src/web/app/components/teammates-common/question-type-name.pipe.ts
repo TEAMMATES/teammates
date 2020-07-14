@@ -26,6 +26,14 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Multiple-choice (multiple answers) question';
       case FeedbackQuestionType.RANK_OPTIONS:
         return 'Rank (options) question';
+      case FeedbackQuestionType.RANK_RECIPIENTS:
+        return 'Rank (recipients) question';
+      case FeedbackQuestionType.RUBRIC:
+        return 'Rubric question';
+      case FeedbackQuestionType.CONSTSUM_OPTIONS:
+        return 'Distribute points (among options) question';
+      case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
+        return 'Distribute points (among recipients) question';
       default:
         return 'Unknown';
     }

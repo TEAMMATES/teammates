@@ -12,10 +12,13 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.request.FeedbackResponseUpdateRequest;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Updates a feedback response.
@@ -29,7 +32,13 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
     @Override
     public void checkSpecificAccessControl() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
@@ -50,15 +59,14 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForStudent(
-                            feedbackQuestion, studentAttributes.getEmail(), studentAttributes.getTeam());
+                    logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             recipientsOfTheQuestion =
-                    logic.getRecipientsOfQuestionForInstructor(feedbackQuestion, instructorAttributes.getEmail());
+                    logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             break;
         case INSTRUCTOR_RESULT:
         case STUDENT_RESULT:
@@ -75,7 +83,13 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
     @Override
     public ActionResult execute() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackResponse.feedbackQuestionId);
 
@@ -89,11 +103,15 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
                     feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    studentAttributes.getEmail(), studentAttributes.getTeam());
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
+            logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
+                    instructorAttributes.getEmail(), null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -104,7 +122,7 @@ public class UpdateFeedbackResponseAction extends BasicFeedbackSubmissionAction 
         feedbackResponse.giverSection = giverSection;
         feedbackResponse.recipient = updateRequest.getRecipientIdentifier();
         feedbackResponse.recipientSection =
-                getRecipientSection(feedbackQuestion.getCourseId(),
+                getRecipientSection(feedbackQuestion.getCourseId(), feedbackQuestion.getGiverType(),
                         feedbackQuestion.getRecipientType(), updateRequest.getRecipientIdentifier());
         feedbackResponse.responseDetails = updateRequest.getResponseDetails();
 

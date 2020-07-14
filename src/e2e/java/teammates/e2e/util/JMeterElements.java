@@ -6,6 +6,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.CSVDataSet;
 import org.apache.jmeter.config.ConfigTestElement;
+import org.apache.jmeter.control.ForeachController;
+import org.apache.jmeter.control.GenericController;
 import org.apache.jmeter.control.LoopController;
 import org.apache.jmeter.control.OnceOnlyController;
 import org.apache.jmeter.control.gui.LoopControlPanel;
@@ -22,6 +24,7 @@ import org.apache.jmeter.protocol.http.gui.CookiePanel;
 import org.apache.jmeter.protocol.http.gui.HeaderPanel;
 import org.apache.jmeter.protocol.http.sampler.HTTPSampler;
 import org.apache.jmeter.protocol.http.sampler.HTTPSamplerProxy;
+import org.apache.jmeter.protocol.http.util.HTTPArgument;
 import org.apache.jmeter.testbeans.gui.TestBeanGUI;
 import org.apache.jmeter.testelement.TestElement;
 import org.apache.jmeter.testelement.TestPlan;
@@ -150,6 +153,29 @@ public final class JMeterElements {
     }
 
     /**
+     * Returns a HTTP Request Defaults element that sets the default values for the HTTP Request elements.
+     * @param argumentsMap parameters of the request
+     */
+    public static ConfigTestElement defaultSampler(Map<String, String> argumentsMap) {
+        ConfigTestElement defaultSampler = new ConfigTestElement();
+
+        defaultSampler.setName("HTTP Request Defaults");
+
+        Arguments arguments = new Arguments();
+        argumentsMap.forEach((String k, String v) -> {
+            arguments.addArgument(new HTTPArgument(k, v));
+        });
+
+        defaultSampler.setProperty(new TestElementProperty(HTTPSampler.ARGUMENTS, arguments));
+
+        defaultSampler.setEnabled(true);
+        defaultSampler.setProperty(TestElement.TEST_CLASS, ConfigTestElement.class.getName());
+        defaultSampler.setProperty(TestElement.GUI_CLASS, HttpDefaultsGui.class.getName());
+
+        return defaultSampler;
+    }
+
+    /**
      * Overloaded method that returns a HTTP Request Defaults element that listens to the server at "localhost:8080".
      */
     public static ConfigTestElement defaultSampler() {
@@ -177,6 +203,19 @@ public final class JMeterElements {
     }
 
     /**
+     * Returns a Generic Controller element that processes the controller(s) inside it without additional effects.
+     */
+    public static GenericController genericController() {
+        GenericController genericController = new GenericController();
+
+        genericController.setName("Generic Controller");
+        genericController.setProperty(TestElement.TEST_CLASS, GenericController.class.getName());
+        genericController.setProperty(TestElement.GUI_CLASS, GenericController.class.getName());
+
+        return genericController;
+    }
+
+    /**
      * Returns a Once Only Controller element that processes the controller(s) inside it only once per thread.
      */
     public static OnceOnlyController onceOnlyController() {
@@ -187,6 +226,21 @@ public final class JMeterElements {
         onceOnlyController.setProperty(TestElement.GUI_CLASS, OnceOnlyControllerGui.class.getName());
 
         return onceOnlyController;
+    }
+
+    /**
+     * Returns a For Each Controller element that processes the controller(s) inside it for each list variables.
+     */
+    public static ForeachController foreachController(String inputVarible, String returnVal) {
+        ForeachController foreachController = new ForeachController();
+
+        foreachController.setName("For Each Controller");
+        foreachController.setProperty(TestElement.TEST_CLASS, GenericController.class.getName());
+        foreachController.setProperty(TestElement.GUI_CLASS, GenericController.class.getName());
+        foreachController.setInputVal(inputVarible);
+        foreachController.setReturnVal(returnVal);
+
+        return foreachController;
     }
 
     /**
@@ -259,7 +313,7 @@ public final class JMeterElements {
     }
 
     /**
-     * Returns a HTTP Request element with a GET method to the endpoint specified by {@path}.
+     * Returns a HTTP Request element with a GET method to the endpoint specified by {@code path}.
      */
     public static HTTPSamplerProxy httpGetSampler(String path) {
         return httpSampler(path, HttpGet.METHOD_NAME, null);

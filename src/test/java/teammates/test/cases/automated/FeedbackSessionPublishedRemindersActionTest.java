@@ -67,7 +67,7 @@ public class FeedbackSessionPublishedRemindersActionTest
                         .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
                         .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                         .build());
-        fsLogic.publishFeedbackSession(session3);
+        fsLogic.publishFeedbackSession(session3.getFeedbackSessionName(), session3.getCourseId());
         session3.setResultsVisibleFromTime(
                 fsLogic.getFeedbackSession(session3.getFeedbackSessionName(), session3.getCourseId())
                         .getResultsVisibleFromTime());
@@ -80,7 +80,7 @@ public class FeedbackSessionPublishedRemindersActionTest
 
         ______TS("1 session unpublished manually");
 
-        fsLogic.unpublishFeedbackSession(session3);
+        fsLogic.unpublishFeedbackSession(session3.getFeedbackSessionName(), session3.getCourseId());
 
         action = getAction();
         action.execute();

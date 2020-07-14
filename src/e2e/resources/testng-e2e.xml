@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="e2e-tests" parallel="tests" thread-count="2">
     <listeners>
         <listener class-name="teammates.e2e.util.PriorityInterceptor" />
@@ -12,6 +12,10 @@
             <class name="teammates.e2e.cases.e2e.SystemErrorEmailReportE2ETest" />
             <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
             <class name="teammates.e2e.cases.e2e.AdminHomePageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.AdminSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.InstructorCourseEditPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.InstructorCourseEnrollPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.InstructorCoursesPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentHomePageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentProfilePageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentCourseDetailsPageE2ETest" />

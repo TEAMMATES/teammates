@@ -56,6 +56,9 @@ public class GetStudentProfileAction extends Action {
             studentId = userInfo.id;
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+            if (student == null) {
+                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+            }
             studentId = student.getGoogleId();
         }
 
@@ -73,6 +76,11 @@ public class GetStudentProfileAction extends Action {
         }
 
         StudentProfileData output = new StudentProfileData(name, studentProfile);
+        // If student requesting and is not the student's own profile, hide some fields
+        if (userInfo.isStudent && !userInfo.isInstructor && !studentId.equals(userInfo.id)) {
+            output.hideInformationWhenViewedByOtherStudent();
+        }
+
         return new JsonResult(output);
     }
 }

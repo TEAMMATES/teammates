@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.collections.Lists;
@@ -49,6 +50,12 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         frcasData.add(frcaData);
         frcasData.add(anotherFrcaData);
+    }
+
+    @AfterMethod
+    public void afterMethod() throws Exception {
+        frcDb.deleteFeedbackResponseComment(frcaData.getId());
+        frcDb.deleteFeedbackResponseComment(anotherFrcaData.getId());
     }
 
     @Test
@@ -603,21 +610,37 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
     private void verifyListsContainSameResponseCommentAttributes(
             List<FeedbackResponseCommentAttributes> expectedFrcas,
             List<FeedbackResponseCommentAttributes> actualFrcas) {
-
-        for (FeedbackResponseCommentAttributes frca : expectedFrcas) {
-            frca.feedbackQuestionId = "";
-            frca.feedbackResponseId = "";
-            frca.setId(0L);
-        }
-
-        for (FeedbackResponseCommentAttributes frca : actualFrcas) {
-            frca.feedbackQuestionId = "";
-            frca.feedbackResponseId = "";
-            frca.setId(0L);
-        }
-
         AssertHelper.assertSameContentIgnoreOrder(expectedFrcas, actualFrcas);
+    }
 
+    @Test
+    public void testGetFeedbackResponseCommentsForQuestion_typicalCase_shouldQueryCorrectly() {
+        FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        frc = frcDb.getFeedbackResponseComment(frc.getCourseId(), frc.getCreatedAt(), frc.getCommentGiver());
+        List<FeedbackResponseCommentAttributes> comments =
+                frcDb.getFeedbackResponseCommentsForQuestion(frc.getFeedbackQuestionId());
+        assertEquals(1, comments.size());
+
+        comments = frcDb.getFeedbackResponseCommentsForQuestion("not_exist");
+        assertEquals(0, comments.size());
+    }
+
+    @Test
+    public void testGetFeedbackResponseCommentsForQuestionInSection_typicalCase_shouldQueryCorrectly() {
+        FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        frc = frcDb.getFeedbackResponseComment(frc.getCourseId(), frc.getCreatedAt(), frc.getCommentGiver());
+        List<FeedbackResponseCommentAttributes> comments =
+                frcDb.getFeedbackResponseCommentsForQuestionInSection(frc.getFeedbackQuestionId(), "Section 1");
+        assertEquals(1, comments.size());
+
+        comments = frcDb.getFeedbackResponseCommentsForQuestionInSection(frc.getFeedbackQuestionId(), "not_exist");
+        assertEquals(0, comments.size());
+
+        comments = frcDb.getFeedbackResponseCommentsForQuestionInSection("not_exist", "Section 1");
+        assertEquals(0, comments.size());
+
+        comments = frcDb.getFeedbackResponseCommentsForQuestionInSection("not_exist", "not_exist");
+        assertEquals(0, comments.size());
     }
 
 }

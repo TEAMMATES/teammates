@@ -2,50 +2,95 @@
 
 exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll="false"
   canRestoreAll="false"
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
-    class="course-section"
-  >
-    <tm-add-course-form />
+  <div>
+    <button
+      class="btn btn-primary"
+      id="btn-add-course"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
+    <h3>
+      Active courses
+    </h3>
     <div
-      class="table-responsive"
+      class="table table-responsive"
     >
       <table
         class="table table-striped table-bordered margin-0"
+        id="active-courses-table"
       >
         <thead>
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+              id="sort-course-id"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+              id="sort-course-name"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+              id="sort-creation-date"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -69,7 +114,9 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         <tbody>
           
           <tr>
-            <td>
+            <td
+              id="course-id-0"
+            >
               CS3281
             </td>
             <td>
@@ -77,8 +124,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             </td>
             <td
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
                5 Nov 2018 
             </td>
@@ -116,9 +161,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               
               <button
                 class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Enroll student into the course"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/enroll"
+                id="btn-enroll-0"
                 ngbtooltip="Enroll student into the course"
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
@@ -127,50 +170,65 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </button>
               
               
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  id="btn-other-actions-0"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-archive-0"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-soft-delete-0"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </button>
+                  
+                  
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td
+              id="course-id-1"
+            >
               CS3282
             </td>
             <td>
@@ -178,8 +236,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             </td>
             <td
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
                2 Feb 2019 
             </td>
@@ -218,52 +274,65 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               
               <button
                 class="btn btn-light btn-sm disabled"
+                id="btn-enroll-disabled-1"
               >
                  Enroll 
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  id="btn-other-actions-1"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-archive-1"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item disabled"
+                    id="btn-soft-delete-disabled-1"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -279,100 +348,34 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
        Archived Courses 
     </h2>
     <div
-      class="table-responsive"
+      class="card top-padded"
     >
-      <table
-        class="table table-striped table-bordered margin-0"
+      <div
+        class="card-header archive-course-header bg-info"
+        id="archived-table-heading"
       >
-        <thead>
-          <tr
-            class="bg-info text-white"
+        <div
+          class="row text-white align-items-center"
+        >
+          <div
+            class="col-6"
           >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              CS2104
-            </td>
-            <td>
-              Can modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-              >
-                 Unarchive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              CS2106
-            </td>
-            <td>
-              Cannot modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-              >
-                 Unarchive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <b>
+              Archive
+            </b>
+          </div>
+          <div
+            class="col-6 text-right"
+          >
+            
+            <i
+              class="fas fa-chevron-down"
+            />
+            
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div><div
     class="row course-section margin-top-30px"
@@ -392,7 +395,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="card bg-light top-padded"
       >
         <div
-          class="card-header bg-secondary recycle-bin-header"
+          class="card-header recycle-bin-header"
+          id="deleted-table-heading"
         >
           <div
             class="row align-items-center"
@@ -444,50 +448,95 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 
 exports[`InstructorCoursesPageComponent should snap with all courses in course stats 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
-    class="course-section"
-  >
-    <tm-add-course-form />
+  <div>
+    <button
+      class="btn btn-primary"
+      id="btn-add-course"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
+    <h3>
+      Active courses
+    </h3>
     <div
-      class="table-responsive"
+      class="table table-responsive"
     >
       <table
         class="table table-striped table-bordered margin-0"
+        id="active-courses-table"
       >
         <thead>
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+              id="sort-course-id"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+              id="sort-course-name"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+              id="sort-creation-date"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -511,7 +560,9 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         <tbody>
           
           <tr>
-            <td>
+            <td
+              id="course-id-0"
+            >
               CS3281
             </td>
             <td>
@@ -519,8 +570,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             </td>
             <td
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
                5 Nov 2018 
             </td>
@@ -558,9 +607,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <button
                 class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Enroll student into the course"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/enroll"
+                id="btn-enroll-0"
                 ngbtooltip="Enroll student into the course"
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
@@ -569,50 +616,65 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </button>
               
               
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  id="btn-other-actions-0"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-archive-0"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-soft-delete-0"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </button>
+                  
+                  
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td
+              id="course-id-1"
+            >
               CS3282
             </td>
             <td>
@@ -620,8 +682,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             </td>
             <td
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
                2 Feb 2019 
             </td>
@@ -660,52 +720,65 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <button
                 class="btn btn-light btn-sm disabled"
+                id="btn-enroll-disabled-1"
               >
                  Enroll 
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  id="btn-other-actions-1"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-archive-1"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item disabled"
+                    id="btn-soft-delete-disabled-1"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>
@@ -721,100 +794,34 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
        Archived Courses 
     </h2>
     <div
-      class="table-responsive"
+      class="card top-padded"
     >
-      <table
-        class="table table-striped table-bordered margin-0"
+      <div
+        class="card-header archive-course-header bg-info"
+        id="archived-table-heading"
       >
-        <thead>
-          <tr
-            class="bg-info text-white"
+        <div
+          class="row text-white align-items-center"
+        >
+          <div
+            class="col-6"
           >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>
-              CS2104
-            </td>
-            <td>
-              Can modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-              >
-                 Unarchive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            <td>
-              CS2106
-            </td>
-            <td>
-              Cannot modify archived
-            </td>
-            <td
-              container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Tue, 05 Nov 2002, 8:15AM"
-            >
-               5 Nov 2002 
-            </td>
-            <td
-              class="text-center"
-            >
-              <button
-                class="btn btn-light btn-sm"
-              >
-                 Unarchive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <b>
+              Archive
+            </b>
+          </div>
+          <div
+            class="col-6 text-right"
+          >
+            
+            <i
+              class="fas fa-chevron-down"
+            />
+            
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div><div
     class="row course-section margin-top-30px"
@@ -834,7 +841,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="card bg-light top-padded"
       >
         <div
-          class="card-header bg-secondary recycle-bin-header"
+          class="card-header recycle-bin-header"
+          id="deleted-table-heading"
         >
           <div
             class="row align-items-center"
@@ -852,7 +860,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <button
                 class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Restore all deleted courses an"
+                id="btn-restore-all"
                 ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
               >
                 <i
@@ -865,7 +873,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <button
                 class="btn btn-light btn-sm text-danger"
-                ng-reflect-ngb-tooltip="Permanently delete all courses"
+                id="btn-delete-all"
                 ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
               >
                 <i
@@ -892,142 +900,137 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 
 exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
-    class="course-section"
-  >
-    <tm-add-course-form />
-  </div><div
-    class="course-section"
-  >
-    <h2>
-      Active Courses
-    </h2>
-    <div
-      class="table-responsive"
+  <div>
+    <button
+      class="btn btn-primary"
+      id="btn-add-course"
     >
-      <table
-        class="table table-striped table-bordered margin-0"
-      >
-        <thead>
-          <tr
-            class="bg-primary text-white"
-          >
-            <th>
-              Course ID
-            </th>
-            <th>
-              Course Name
-            </th>
-            <th>
-              Creation Date
-            </th>
-            <th>
-              Sections
-            </th>
-            <th>
-              Teams
-            </th>
-            <th>
-              Total Students
-            </th>
-            <th>
-              Total Unregistered
-            </th>
-            <th
-              class="text-center"
-            >
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
-        <tbody>
-          
-          <tr>
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-            <td />
-          </tr>
-        </tbody>
-      </table>
-      
-      <p>
-        No records found.
-      </p>
-    </div>
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div
+    class="alert alert-warning margin-top-30px"
+    role="alert"
+  >
+     You do not seem to have any active courses. Use the button above to create a new course. 
   </div>
 </tm-instructor-courses-page>
 `;
 
 exports[`InstructorCoursesPageComponent should snap with no courses in course stats 1`] = `
 <tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
-  instructorList={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  user="undefined"
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
 >
-  <div
-    class="course-section"
-  >
-    <tm-add-course-form />
+  <div>
+    <button
+      class="btn btn-primary"
+      id="btn-add-course"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
   </div><div
     class="course-section"
   >
-    <h2>
-      Active Courses
-    </h2>
+    <h3>
+      Active courses
+    </h3>
     <div
-      class="table-responsive"
+      class="table table-responsive"
     >
       <table
         class="table table-striped table-bordered margin-0"
+        id="active-courses-table"
       >
         <thead>
           <tr
             class="bg-primary text-white"
           >
-            <th>
-              Course ID
+            <th
+              class="sortable-header"
+              id="sort-course-id"
+            >
+               Course ID 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Course Name
+            <th
+              class="sortable-header"
+              id="sort-course-name"
+            >
+               Course Name 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
-            <th>
-              Creation Date
+            <th
+              class="sortable-header"
+              id="sort-creation-date"
+            >
+               Creation Date 
+              
+              <span>
+                <i
+                  class="fas fa-sort"
+                />
+              </span>
+              
+              
             </th>
             <th>
               Sections
@@ -1051,7 +1054,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
         <tbody>
           
           <tr>
-            <td>
+            <td
+              id="course-id-0"
+            >
               CS3281
             </td>
             <td>
@@ -1059,8 +1064,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             </td>
             <td
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Mon, 05 Nov 2018, 8:15AM"
             >
                5 Nov 2018 
             </td>
@@ -1070,7 +1073,19 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <a
                   href="null"
                 >
-                   show 
+                   Show 
+                </a>
+              </span>
+              
+            </td>
+            <td>
+              
+              <span>
+                <a
+                  href="null"
+                  id="show-statistics-0"
+                >
+                   Show 
                 </a>
               </span>
               
@@ -1081,7 +1096,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <a
                   href="null"
                 >
-                   show 
+                   Show 
                 </a>
               </span>
               
@@ -1092,18 +1107,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <a
                   href="null"
                 >
-                   show 
-                </a>
-              </span>
-              
-            </td>
-            <td>
-              
-              <span>
-                <a
-                  href="null"
-                >
-                   show 
+                   Show 
                 </a>
               </span>
               
@@ -1114,9 +1118,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
               <button
                 class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Enroll student into the course"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/enroll"
+                id="btn-enroll-0"
                 ngbtooltip="Enroll student into the course"
                 routerlink="/web/instructor/courses/enroll"
                 tabindex="0"
@@ -1125,50 +1127,65 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               </button>
               
               
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Delete the course and its corr"
-                ngbtooltip="Delete the course and its corresponding students and sessions"
-              >
-                 Delete 
-              </button>
-              
-              
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  id="btn-other-actions-0"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-archive-0"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-soft-delete-0"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </button>
+                  
+                  
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td
+              id="course-id-1"
+            >
               CS3282
             </td>
             <td>
@@ -1176,8 +1193,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
             </td>
             <td
               container="body"
-              ng-reflect-container="body"
-              ng-reflect-ngb-tooltip="Sat, 02 Feb 2019, 8:15AM"
             >
                2 Feb 2019 
             </td>
@@ -1187,7 +1202,19 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <a
                   href="null"
                 >
-                   show 
+                   Show 
+                </a>
+              </span>
+              
+            </td>
+            <td>
+              
+              <span>
+                <a
+                  href="null"
+                  id="show-statistics-1"
+                >
+                   Show 
                 </a>
               </span>
               
@@ -1198,7 +1225,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <a
                   href="null"
                 >
-                   show 
+                   Show 
                 </a>
               </span>
               
@@ -1209,18 +1236,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <a
                   href="null"
                 >
-                   show 
-                </a>
-              </span>
-              
-            </td>
-            <td>
-              
-              <span>
-                <a
-                  href="null"
-                >
-                   show 
+                   Show 
                 </a>
               </span>
               
@@ -1232,52 +1248,65 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
               <button
                 class="btn btn-light btn-sm disabled"
+                id="btn-enroll-disabled-1"
               >
                  Enroll 
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="View, edit and send invitation"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/detail"
-                ngbtooltip="View, edit and send invitation emails to the students in the course"
-                routerlink="/web/instructor/courses/details"
-                tabindex="0"
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
               >
-                 View 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Edit Course information and in"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="/web/instructor/courses/edit"
-                ngbtooltip="Edit Course information and instructor list"
-                routerlink="/web/instructor/courses/edit"
-                tabindex="0"
-              >
-                 Edit 
-              </button>
-              <button
-                class="btn btn-light btn-sm"
-                ng-reflect-ngb-tooltip="Archive the course so that it "
-                ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                  access it from the 'Courses' tab)"
-              >
-                 Archive 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                 Delete 
-              </button>
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                  id="btn-other-actions-1"
+                  ngbdropdowntoggle=""
+                >
+                  Other Actions
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="View, edit and send invitation emails to the students in the course"
+                    routerlink="/web/instructor/courses/details"
+                    tabindex="0"
+                  >
+                     View 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    ngbtooltip="Edit Course information and instructor list"
+                    routerlink="/web/instructor/courses/edit"
+                    tabindex="0"
+                  >
+                     Edit 
+                  </button>
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item clickable"
+                    id="btn-archive-1"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </button>
+                  
+                  
+                  <button
+                    class="btn btn-primary btn-sm dropdown-item disabled"
+                    id="btn-soft-delete-disabled-1"
+                  >
+                     Delete 
+                  </button>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
-        <tbody>
-          
-        </tbody>
+        
       </table>
       
     </div>

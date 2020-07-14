@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -12,6 +13,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -25,9 +27,6 @@ import teammates.storage.api.StudentsDb;
  * @see StudentsDb
  */
 public final class StudentsLogic {
-
-    private static final int SECTION_SIZE_LIMIT = 100;
-
     private static StudentsLogic instance = new StudentsLogic();
 
     private static final StudentsDb studentsDb = new StudentsDb();
@@ -206,8 +205,27 @@ public final class StudentsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resting google ID shall not cause: " + e.getMessage());
+            Assumption.fail("Resetting google ID shall not cause: " + e.getMessage());
         }
+    }
+
+    /**
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
+     * @return the student attributes with the new registration key.
+     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, RegenerateStudentException {
+
+        StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
+        if (originalStudent == null) {
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
+        }
+
+        return studentsDb.regenerateEntityKey(originalStudent);
     }
 
     /**
@@ -286,27 +304,35 @@ public final class StudentsLogic {
             if (currentStudent.section.equals(previousStudent.section)) {
                 studentsCount++;
             } else {
-                if (studentsCount > SECTION_SIZE_LIMIT) {
+                if (studentsCount > Const.StudentsLogicConst.SECTION_SIZE_LIMIT) {
                     invalidSectionList.add(previousStudent.section);
                 }
                 studentsCount = 1;
             }
 
-            if (i == mergedList.size() - 1 && studentsCount > SECTION_SIZE_LIMIT) {
+            if (i == mergedList.size() - 1 && studentsCount > Const.StudentsLogicConst.SECTION_SIZE_LIMIT) {
                 invalidSectionList.add(currentStudent.section);
             }
         }
 
-        StringBuilder errorMessage = new StringBuilder();
+        StringJoiner errorMessage = new StringJoiner(" ");
         for (String section : invalidSectionList) {
-            errorMessage.append(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, section));
+            errorMessage.add(String.format(
+                    Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                    Const.StudentsLogicConst.SECTION_SIZE_LIMIT, section));
+        }
+
+        if (!invalidSectionList.isEmpty()) {
+            errorMessage.add(String.format(
+                    Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                    Const.StudentsLogicConst.SECTION_SIZE_LIMIT));
         }
 
         return errorMessage.toString();
     }
 
     private String getTeamInvalidityInfo(List<StudentAttributes> mergedList) {
-
+        StringJoiner errorMessage = new StringJoiner(" ");
         StudentAttributes.sortByTeamName(mergedList);
 
         List<String> invalidTeamList = new ArrayList<>();
@@ -316,18 +342,18 @@ public final class StudentsLogic {
             if (currentStudent.team.equals(previousStudent.team)
                     && !currentStudent.section.equals(previousStudent.section)
                     && !invalidTeamList.contains(currentStudent.team)) {
+
+                errorMessage.add(String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME,
+                        currentStudent.team,
+                        SanitizationHelper.sanitizeForHtml(previousStudent.section),
+                        SanitizationHelper.sanitizeForHtml(currentStudent.section)));
+
                 invalidTeamList.add(currentStudent.team);
             }
         }
 
-        StringBuilder errorMessage = new StringBuilder(100);
-        for (String team : invalidTeamList) {
-            errorMessage.append(String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT,
-                                              SanitizationHelper.sanitizeForHtml(team)));
-        }
-
-        if (errorMessage.length() != 0) {
-            errorMessage.append("Please use the enroll page to edit multiple students");
+        if (!invalidTeamList.isEmpty()) {
+            errorMessage.add(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME_INSTRUCTION);
         }
 
         return errorMessage.toString();

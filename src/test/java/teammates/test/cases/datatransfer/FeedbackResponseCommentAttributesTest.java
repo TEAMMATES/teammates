@@ -259,28 +259,6 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testConvertCommentTextToStringForCsv() {
-        String text = "aaa , bb\"b, c\"\"cc <image src=\"http://test.com/test.png\"></image> hello";
-        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
-                .builder()
-                .withCommentText(text)
-                .build();
-        String commentText = feedbackAttributes.getCommentAsCsvString();
-        assertEquals("\"aaa , bb\"\"b, c\"\"\"\"cc hello Images Link: http://test.com/test.png \"", commentText);
-    }
-
-    @Test
-    public void testConvertCommentTextToStringForHtml() {
-        String text = "<script>alert('injected');</script> <image src=\"http://test.com/test.png\"></image> hello";
-        FeedbackResponseCommentAttributes feedbackAttributes = FeedbackResponseCommentAttributes
-                .builder()
-                .withCommentText(text)
-                .build();
-        String commentText = feedbackAttributes.getCommentAsHtmlString();
-        assertEquals("hello Images Link: http:&#x2f;&#x2f;test.com&#x2f;test.png ", commentText);
-    }
-
-    @Test
     public void testUpdateOptions_withTypicalUpdateOptions_shouldUpdateAttributeCorrectly() {
         Instant lastEditorAt = Instant.now();
         FeedbackResponseCommentAttributes.UpdateOptions updateOptions =
@@ -362,5 +340,74 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
         assertThrows(AssertionError.class, () ->
                 FeedbackResponseCommentAttributes.updateOptionsBuilder(123L)
                         .withReceiverSection(null));
+    }
+
+    @Test
+    public void testEquals() {
+        FeedbackResponseCommentAttributes feedbackResponseComment =
+                generateTypicalFeedbackResponseCommentAttributesObject();
+
+        // When the two feedback response comments have same values
+        FeedbackResponseCommentAttributes feedbackResponseCommentSimilar =
+                generateTypicalFeedbackResponseCommentAttributesObject();
+
+        assertTrue(feedbackResponseComment.equals(feedbackResponseCommentSimilar));
+
+        // When the two feedback response comments are different
+        FeedbackResponseCommentAttributes feedbackResponseCommentDifferent =
+                generateValidFeedbackResponseCommentAttributesObject();
+
+        assertFalse(feedbackResponseComment.equals(feedbackResponseCommentDifferent));
+
+        // When the other object is of different class
+        assertFalse(feedbackResponseComment.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        FeedbackResponseCommentAttributes feedbackResponseComment =
+                generateTypicalFeedbackResponseCommentAttributesObject();
+
+        // When the two feedback response comments have same values, they should have the same hash code
+        FeedbackResponseCommentAttributes feedbackResponseCommentSimilar =
+                generateTypicalFeedbackResponseCommentAttributesObject();
+
+        assertTrue(feedbackResponseComment.equals(feedbackResponseCommentSimilar));
+
+        // When the two feedback response comments are different, they should have different hash code
+        FeedbackResponseCommentAttributes feedbackResponseCommentDifferent =
+                generateValidFeedbackResponseCommentAttributesObject();
+
+        assertFalse(feedbackResponseComment.hashCode() == feedbackResponseCommentDifferent.hashCode());
+    }
+
+    private static FeedbackResponseCommentAttributes generateValidFeedbackResponseCommentAttributesObject() {
+        return FeedbackResponseCommentAttributes.builder()
+                .withCourseId("courseId")
+                .withFeedbackSessionName("validSessionName")
+                .withCommentGiver("giver@email.com")
+                .withFeedbackResponseId("responseId")
+                .withFeedbackQuestionId("questionId")
+                .withGiverSection("testSection")
+                .withReceiverSection("testSection")
+                .build();
+    }
+
+    private static FeedbackResponseCommentAttributes generateTypicalFeedbackResponseCommentAttributesObject() {
+        return FeedbackResponseCommentAttributes.builder()
+                .withCourseId("courseId")
+                .withFeedbackSessionName("sessionName")
+                .withCommentGiver("giver@email.com")
+                .withCommentText("testComment")
+                .withFeedbackResponseId("responseId")
+                .withFeedbackQuestionId("questionId")
+                .withGiverSection("testSection")
+                .withReceiverSection("testSection")
+                .withCommentGiverType(FeedbackParticipantType.STUDENTS)
+                .withVisibilityFollowingFeedbackQuestion(true)
+                .withShowCommentTo(new ArrayList<>())
+                .withShowGiverNameTo(new ArrayList<>())
+                .withCommentFromFeedbackParticipant(true)
+                .build();
     }
 }

@@ -4,10 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
@@ -178,43 +175,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * Converts comment text in form of string for csv i.e if it contains image, changes it into link.
-     *
-     * @return Comment in form of string
-     */
-    public String getCommentAsCsvString() {
-        String htmlText = commentText;
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        convertImageToLinkInComment(comment, htmlText);
-        return SanitizationHelper.sanitizeForCsv(comment.toString());
-    }
-
-    /**
-     * Converts comment text in form of string.
-     *
-     * @return Comment in form of string
-     */
-    public String getCommentAsHtmlString() {
-        String htmlText = commentText;
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        convertImageToLinkInComment(comment, htmlText);
-        return SanitizationHelper.sanitizeForHtml(comment.toString());
-    }
-
-    // Converts image in comment text to link.
-    private void convertImageToLinkInComment(StringBuilder comment, String htmlText) {
-        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
-            comment.append(" Images Link: ");
-            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
-            for (Element element : ele) {
-                comment.append(element.absUrl("src") + ' ');
-            }
-        }
-    }
-
-    /**
      * Use only to match existing and known Comment.
      */
     public void setId(Long id) {
@@ -273,6 +233,38 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + ", isVisibilityFollowingFeedbackQuestion = " + isVisibilityFollowingFeedbackQuestion
                 + ", isCommentFromFeedbackParticipant = " + isCommentFromFeedbackParticipant
                 + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.feedbackQuestionId)
+                .append(this.feedbackResponseId).append(this.courseId)
+                .append(this.commentGiver).append(this.commentText)
+                .append(this.giverSection).append(this.receiverSection);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseCommentAttributes otherCommentAttributes =
+                    (FeedbackResponseCommentAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && Objects.equals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && Objects.equals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && Objects.equals(this.courseId, otherCommentAttributes.courseId)
+                    && Objects.equals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && Objects.equals(this.commentText, otherCommentAttributes.commentText)
+                    && Objects.equals(this.giverSection, otherCommentAttributes.giverSection)
+                    && Objects.equals(this.receiverSection, otherCommentAttributes.receiverSection);
+        } else {
+            return false;
+        }
     }
 
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {

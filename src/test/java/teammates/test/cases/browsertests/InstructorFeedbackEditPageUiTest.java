@@ -30,7 +30,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
  */
 @Priority(-1)
 public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {

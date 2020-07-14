@@ -1,9 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import {
-  FeedbackMcqQuestionDetails,
-  FeedbackParticipantType,
-} from '../../../../types/api-output';
+import { FeedbackMcqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
@@ -13,7 +10,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-mcq-question-edit-details-form',
   templateUrl: './mcq-question-edit-details-form.component.html',
-  styleUrls: ['./mcq-question-edit-details-form.component.scss'],
+  styleUrls: ['./mcq-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class McqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
@@ -21,6 +18,13 @@ export class McqQuestionEditDetailsFormComponent
   readonly PARTICIPANT_TYPES: string[] = [FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
     FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.INSTRUCTORS];
+
+  // Used to store and restore user input when user toggles generate option
+  storageModel: FeedbackMcqQuestionDetails = {
+    ...DEFAULT_MCQ_QUESTION_DETAILS(),
+    numOfMcqChoices: 2,
+    mcqChoices: [' ', ' '],
+  };
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
@@ -30,89 +34,124 @@ export class McqQuestionEditDetailsFormComponent
    * Reorders the list on dragging the Mcq options.
    */
   onMcqOptionDropped(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.model.mcqChoices, event.previousIndex, event.currentIndex);
-    moveItemInArray(this.model.mcqWeights, event.previousIndex, event.currentIndex);
+    if (!this.isEditable) {
+      return;
+    }
+
+    const newWeights: number[] = this.model.mcqWeights.slice();
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    moveItemInArray(newOptions, event.previousIndex, event.currentIndex);
+    moveItemInArray(newWeights, event.previousIndex, event.currentIndex);
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.mcqChoices = newOptions;
+    fieldsToUpdate.mcqWeights = newWeights;
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Increases number of Mcq options.
    */
   increaseNumberOfOptions(): void {
-    this.model.numOfMcqChoices += 1;
-    this.model.mcqChoices.push('');
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices + 1;
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    newOptions.push('');
+    fieldsToUpdate.mcqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      this.model.mcqWeights.push(0);
+      const newWeights: number[] = this.model.mcqWeights.slice();
+      newWeights.push(0);
+      fieldsToUpdate.mcqWeights = newWeights;
     }
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Deletes a Mcq option.
    */
   onMcqOptionDeleted(event: number): void {
-    this.model.numOfMcqChoices -= 1;
-    this.model.mcqChoices.splice(event, 1);
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.numOfMcqChoices = this.model.numOfMcqChoices - 1;
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    newOptions.splice(event, 1);
+    fieldsToUpdate.mcqChoices = newOptions;
     if (this.model.hasAssignedWeights) {
-      this.model.mcqWeights.splice(event, 1);
+      const newWeights: number[] = this.model.mcqWeights.slice();
+      newWeights.splice(event, 1);
+      fieldsToUpdate.mcqWeights = newWeights;
     }
+    this.triggerModelChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Displays new Mcq option at specified index.
    */
   onMcqOptionEntered(event: string, index: number): void {
-    this.model.mcqChoices[index] = event;
+    const newOptions: string[] = this.model.mcqChoices.slice();
+    newOptions[index] = event;
+    this.triggerModelChange('mcqChoices', newOptions);
   }
 
   /**
    * Displays new Mcq weight at specified index.
    */
   onMcqWeightEntered(event: number, index: number): void {
-    this.model.mcqWeights[index] = event;
+    const newWeights: number[] = this.model.mcqWeights.slice();
+    newWeights[index] = event;
+    this.triggerModelChange('mcqWeights', newWeights);
   }
 
   /**
    * Tracks the Mcq option by index.
    */
-  trackMcqOption(index: number, item: string[]): string {
-    return item[index];
+  trackMcqOption(index: number): string {
+    return index.toString();
   }
 
   /**
    * Tracks the Mcq weight by index.
    */
-  trackMcqWeight(index: number, item: number[]): number {
-    return item[index];
+  trackMcqWeight(index: number): string {
+    return index.toString();
   }
 
   /**
    * Triggers the display of the weight column for the Mcq options if weights option is checked/unchecked.
    */
-  triggerWeightsColumn(event: any): void {
-    if (!event.target.checked) {
-      this.model.mcqWeights = [];
-      this.model.mcqOtherWeight = 0;
-    } else {
-      this.model.mcqWeights = Array(this.model.numOfMcqChoices).fill(0);
-    }
+  triggerWeightsColumn(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      mcqWeights: checked ? Array(this.model.numOfMcqChoices).fill(0) : [],
+      mcqOtherWeight: 0,
+      hasAssignedWeights: checked,
+    });
   }
 
   /**
-   * Triggers the display of the weight for the other option.
+   * Triggers the setting of choosing other option.
    */
-  triggerOtherWeight(event: any): void {
-    if (!event.target.checked) {
-      this.model.mcqOtherWeight = 0;
-    }
+  triggerOtherEnabled(checked: boolean): void {
+    this.triggerModelChangeBatch({
+      otherEnabled: checked,
+      mcqOtherWeight: 0,
+    });
   }
 
   /**
    * Assigns a default value to generateOptionsFor when checkbox is clicked.
    */
-  triggerGeneratedOptionsChange(event: any): void {
-    if (!event.target.checked) {
-      this.model.generateOptionsFor = FeedbackParticipantType.NONE;
+  triggerGeneratedOptionsChange(checked: boolean): void {
+    if (checked) {
+      this.storageModel = this.model;
+      this.triggerModelChangeBatch({
+        generateOptionsFor: FeedbackParticipantType.STUDENTS,
+        numOfMcqChoices: 0,
+        mcqChoices: [],
+        otherEnabled: false,
+        hasAssignedWeights: false,
+        mcqWeights: [],
+        mcqOtherWeight: 0,
+      });
     } else {
-      this.model.generateOptionsFor = FeedbackParticipantType.STUDENTS;
+      this.triggerModelChangeBatch(this.storageModel);
     }
   }
 

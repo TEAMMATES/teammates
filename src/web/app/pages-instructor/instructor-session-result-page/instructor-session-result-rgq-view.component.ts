@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { SectionTabModel } from './instructor-session-result-page.component';
 import { InstructorSessionResultView } from './instructor-session-result-view';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 
@@ -9,24 +11,17 @@ import { InstructorSessionResultViewType } from './instructor-session-result-vie
   selector: 'tm-instructor-session-result-rgq-view',
   templateUrl: './instructor-session-result-rgq-view.component.html',
   styleUrls: ['./instructor-session-result-rgq-view.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorSessionResultRgqViewComponent extends InstructorSessionResultView {
 
   @Output()
   loadSection: EventEmitter<string> = new EventEmitter();
 
+  @Input() responses: Record<string, SectionTabModel> = {};
+
   constructor() {
     super(InstructorSessionResultViewType.RGQ);
-  }
-
-  /**
-   * Expands the tab of the specified section.
-   */
-  expandSectionTab(sectionName: string, section: any): void {
-    section.isTabExpanded = !section.isTabExpanded;
-    if (section.isTabExpanded) {
-      this.loadSection.emit(sectionName);
-    }
   }
 
 }

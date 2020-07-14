@@ -77,9 +77,21 @@ public class Browser {
      * Waits for the page to load. This includes all AJAX requests and Angular animations in the page.
      */
     public void waitForPageLoad() {
+        waitForPageLoad(false);
+    }
+
+    /**
+     * Waits for the page to load. This includes all AJAX requests and Angular animations in the page.
+     *
+     * @param excludeToast Set this to true if toast message's disappearance should not be counted
+     *         as criteria for page load's completion.
+     */
+    public void waitForPageLoad(boolean excludeToast) {
         WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
         wait.until(driver -> {
-            return "complete".equals(((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT));
+            return "complete".equals(
+                    ((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT, excludeToast ? 1 : 0)
+            );
         });
     }
 

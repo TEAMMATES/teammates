@@ -1,0 +1,5 @@
+<a [routerLink]="isGiverInstructor ? '/web/instructor/sessions/submission' : '/web/sessions/submission'"
+   [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: relatedGiverEmail, moderatedquestionId: moderatedQuestionId}"
+   class="btn btn-light btn-sm btn-border">
+  Moderate response
+</a>

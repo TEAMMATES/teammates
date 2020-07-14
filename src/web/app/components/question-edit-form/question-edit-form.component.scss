@@ -1,6 +1,6 @@
 .question-number-select {
-  height: 28px;
-  width: 50px;
+  height: 32px;
+  width: auto;
   display: inline;
   margin-left: 6px;
   margin-right: 5px;
@@ -35,6 +35,10 @@
   margin-top: 15px;
 }
 
+.margin-right-5px {
+  margin-right: 5px;
+}
+
 .visibility-title,
 .feedback-path-title {
   color: #2AABD2;
@@ -56,4 +60,21 @@
 
 .background-color-warning {
   background-color: #FCF8E3;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.collapse-caret {
+  margin-right: 5px;
+}
+
+.collapse-qn-description {
+  font-weight: 300;
+  margin-left: 35px;
+}
+
+.white-space-normal {
+  white-space: normal;
 }

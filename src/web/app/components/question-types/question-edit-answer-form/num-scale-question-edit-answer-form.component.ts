@@ -59,4 +59,19 @@ export class NumScaleQuestionEditAnswerFormComponent
     return `${possibleValuesString}]`;
   }
 
+  /**
+   * Checks if the answer value is a valid value in question possible values.
+   */
+  isValidPossibleValue(value: number): boolean {
+    const minValue: number = this.questionDetails.minScale;
+    const maxValue: number = this.questionDetails.maxScale;
+    const increment: number = this.questionDetails.step;
+
+    if (isNaN(value)) {
+      return false;
+    }
+
+    return value >= minValue && value <= maxValue && (value - minValue) % increment === 0;
+  }
+
 }

@@ -36,21 +36,20 @@ public class UnpublishFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
-
         try {
-            logic.unpublishFeedbackSession(session);
-            if (session.isPublishedEmailEnabled()) {
-                taskQueuer.scheduleFeedbackSessionUnpublishedEmail(session.getCourseId(), session.getFeedbackSessionName());
+            FeedbackSessionAttributes unpublishFeedbackSession =
+                    logic.unpublishFeedbackSession(feedbackSessionName, courseId);
+
+            if (unpublishFeedbackSession.isPublishedEmailEnabled()) {
+                taskQueuer.scheduleFeedbackSessionUnpublishedEmail(unpublishFeedbackSession.getCourseId(),
+                        unpublishFeedbackSession.getFeedbackSessionName());
             }
+
+            return new JsonResult(new FeedbackSessionData(unpublishFeedbackSession));
         } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-
-        session = logic.getFeedbackSession(feedbackSessionName, courseId);
-        return new JsonResult(new FeedbackSessionData(session));
     }
-
 }

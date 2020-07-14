@@ -11,8 +11,11 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Delete a feedback response.
@@ -26,7 +29,13 @@ public class DeleteFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
     @Override
     public void checkSpecificAccessControl() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
@@ -75,7 +84,13 @@ public class DeleteFeedbackResponseAction extends BasicFeedbackSubmissionAction 
 
     @Override
     public ActionResult execute() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         logic.deleteFeedbackResponseCascade(feedbackResponse.getId());

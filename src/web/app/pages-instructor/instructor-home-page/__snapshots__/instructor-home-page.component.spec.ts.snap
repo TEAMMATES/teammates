@@ -9,16 +9,19 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user="undefined"
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -29,14 +32,13 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -53,35 +55,21 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
       </a>
     </div>
     
-  </div> New to TEAMMATES? You may wish to have a look at our <a
-    href="/web/front/help/instructor"
-    ng-reflect-router-link="/web/front/help/instructor"
-    routerlink="/web/front/help/instructor"
-  >
-    Getting Started Guide
-  </a>. A video tour is also available in our <a
-    href="/web"
-    ng-reflect-router-link="/web"
-    routerlink="/web"
-  >
-    home page
-  </a>.
-  
+  </div>
 </tm-instructor-home-page>
 `;
 
@@ -94,16 +82,19 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user={[Function String]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -114,14 +105,13 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -138,15 +128,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
@@ -159,13 +148,11 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -192,7 +179,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -201,15 +188,17 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           class="row"
         >
           <div
-            class="col-6"
+            class="course-header col-md-6"
           >
             <b>
               [CS3281]: Thematic Systems
             </b>
           </div>
           <div
-            class="col-sm-6"
+            class="btn-toolbar col-md-6"
           >
+            
+             Error loading feedback sessions. Click here to retry. 
             
              Error loading feedback sessions. Click here to retry. 
           </div>
@@ -220,19 +209,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       
       
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
+        <tm-sessions-table>
           
           <div
             class="no-session-message"
+            style=""
           >
              There are no feedback sessions in this course. 
           </div>
@@ -253,16 +237,19 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user=""
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -273,14 +260,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -297,15 +283,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
@@ -318,13 +303,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -351,7 +334,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -360,14 +343,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           class="row"
         >
           <div
-            class="col-6"
+            class="course-header col-md-6"
           >
             <b>
               [CS3281]: Thematic Systems
             </b>
           </div>
           <div
-            class="col-sm-6"
+            class="btn-toolbar col-md-6"
           >
             
             <div
@@ -380,7 +363,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -388,16 +371,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
@@ -407,9 +387,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
                     ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
@@ -424,7 +401,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -432,14 +409,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -454,7 +428,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -462,14 +436,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
                     ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
@@ -484,7 +455,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -492,11 +463,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -504,9 +474,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -516,7 +483,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -524,6 +490,11 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
               
               
               <i
@@ -538,19 +509,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       
       
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models="[object Object]"
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
+        <tm-sessions-table>
           
           <div
             class="row"
+            style=""
           >
             <div
               class="col-12"
@@ -559,9 +525,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
               >
                 <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
+                  <tr>
                     
                     <th
                       class="sortable-header"
@@ -570,7 +534,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       
                       <span
                         class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
                       >
                         <i
                           class="fas fa-sort"
@@ -587,7 +550,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       
                       <span
                         class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
                       >
                         <i
                           class="fas fa-sort"
@@ -604,7 +566,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       
                       <span
                         class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
                       >
                         <i
                           class="fas fa-sort"
@@ -621,8 +582,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     </th>
                     <th
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
                       ngbtooltip="Number of students submitted / Class size"
                     >
                       <span
@@ -648,8 +607,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:43 AM +07"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -661,8 +618,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Mon, 19 Jan 1970, 06:46 AM +07"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -673,8 +628,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The feedback session has been "
                     >
                       <span
                         class="tool-tip-decorate"
@@ -685,8 +638,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     <td
                       class="tool-tip-decorate"
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The responses for this session"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -707,7 +658,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     >
                       <button
                         class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
                         ngbtooltip="Edit feedback session details"
                         type="button"
                       >
@@ -715,7 +665,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </button>
                       <button
                         class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
                         ngbtooltip="Delete the feedback session"
                         type="button"
                       >
@@ -723,7 +672,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </button>
                       <button
                         class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
                         ngbtooltip="Copy feedback session details"
                         type="button"
                       >
@@ -732,7 +680,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
                         ngbtooltip="Start submitting feedback"
                         type="button"
                       >
@@ -740,7 +687,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </button>
                       <div
                         class="d-inline-block dropdown"
-                        ng-reflect-ngb-tooltip="View the submitted responses f"
                         ngbdropdown=""
                         ngbtooltip="View the submitted responses for this feedback session"
                       >
@@ -755,7 +701,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <div
                           class="dropdown-menu"
                           ngbdropdownmenu=""
-                          x-placement="bottom-left"
+                          x-placement="bottom"
                         >
                           <button
                             class="dropdown-item clickable"
@@ -767,9 +713,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             class="dropdown-item clickable"
                             container="body"
                             disabled=""
-                            ng-reflect-container="body"
-                            ng-reflect-ngb-tooltip="Make session responses availab"
-                            ng-reflect-placement="left"
                             ngbtooltip="Make session responses available for viewing"
                             placement="left"
                           >
@@ -787,7 +730,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       </div>
                       <div
                         class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
                         ngbdropdown=""
                         ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                       >
@@ -821,16 +763,19 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user=""
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -841,14 +786,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -865,15 +809,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
@@ -886,13 +829,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -919,7 +860,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -928,14 +869,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           class="row"
         >
           <div
-            class="col-6"
+            class="course-header col-md-6"
           >
             <b>
               [CS3281]: Thematic Systems
             </b>
           </div>
           <div
-            class="col-sm-6"
+            class="btn-toolbar col-md-6"
           >
             
             <div
@@ -948,7 +889,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -956,15 +897,12 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
                     ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
@@ -979,7 +917,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -987,14 +925,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -1009,7 +944,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -1017,14 +952,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
                     ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
@@ -1039,7 +971,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1047,11 +979,10 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1059,9 +990,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -1070,6 +998,11 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
               
               
               <i
@@ -1084,19 +1017,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       
       
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models="[object Object],[object Object"
-          ng-reflect-sessions-table-row-models-sort-by="3"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
+        <tm-sessions-table>
           
           <div
             class="row"
+            style=""
           >
             <div
               class="col-12"
@@ -1105,9 +1033,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
               >
                 <thead>
-                  <tr
-                    ng-reflect-ng-class="[object Object]"
-                  >
+                  <tr>
                     
                     <th
                       class="sortable-header"
@@ -1116,7 +1042,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       
                       <span
                         class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
                       >
                         <i
                           class="fas fa-sort"
@@ -1133,7 +1058,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       
                       <span
                         class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
                       >
                         <i
                           class="fas fa-sort"
@@ -1150,7 +1074,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       
                       <span
                         class="text-secondary"
-                        ng-reflect-ng-class="[object Object]"
                       >
                         <i
                           class="fas fa-sort"
@@ -1167,8 +1090,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     </th>
                     <th
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Number of students submitted /"
                       ngbtooltip="Number of students submitted / Class size"
                     >
                       <span
@@ -1194,8 +1115,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1207,8 +1126,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1219,8 +1136,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The feedback session has been "
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1231,8 +1146,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <td
                       class="tool-tip-decorate"
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The responses for this session"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1254,7 +1167,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
                         ngbtooltip="Edit feedback session details"
                         type="button"
                       >
@@ -1263,7 +1175,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
                         ngbtooltip="Delete the feedback session"
                         type="button"
                       >
@@ -1271,7 +1182,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </button>
                       <button
                         class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
                         ngbtooltip="Copy feedback session details"
                         type="button"
                       >
@@ -1280,7 +1190,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
                         ngbtooltip="Start submitting feedback"
                         type="button"
                       >
@@ -1288,7 +1197,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </button>
                       <div
                         class="d-inline-block dropdown"
-                        ng-reflect-ngb-tooltip="View the submitted responses f"
                         ngbdropdown=""
                         ngbtooltip="View the submitted responses for this feedback session"
                       >
@@ -1303,7 +1211,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <div
                           class="dropdown-menu"
                           ngbdropdownmenu=""
-                          x-placement="bottom-left"
+                          x-placement="bottom"
                         >
                           <button
                             class="dropdown-item clickable"
@@ -1315,9 +1223,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             class="dropdown-item clickable"
                             container="body"
                             disabled=""
-                            ng-reflect-container="body"
-                            ng-reflect-ngb-tooltip="Make responses no longer visib"
-                            ng-reflect-placement="left"
                             ngbtooltip="Make responses no longer visible"
                             placement="left"
                           >
@@ -1340,7 +1245,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </div>
                       <div
                         class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
                         ngbdropdown=""
                         ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                       >
@@ -1361,8 +1265,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1374,8 +1276,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="Thu, 01 Jan 1970, 07:30 AM +07"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1386,8 +1286,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     
                     <td
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The feedback session has been "
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1398,8 +1296,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <td
                       class="tool-tip-decorate"
                       container="body"
-                      ng-reflect-container="body"
-                      ng-reflect-ngb-tooltip="The responses for this session"
                     >
                       <span
                         class="tool-tip-decorate"
@@ -1421,7 +1317,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Edit feedback session details"
                         ngbtooltip="Edit feedback session details"
                         type="button"
                       >
@@ -1430,7 +1325,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Delete the feedback session"
                         ngbtooltip="Delete the feedback session"
                         type="button"
                       >
@@ -1438,7 +1332,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </button>
                       <button
                         class="btn btn-light btn-sm"
-                        ng-reflect-ngb-tooltip="Copy feedback session details"
                         ngbtooltip="Copy feedback session details"
                         type="button"
                       >
@@ -1447,7 +1340,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       <button
                         class="btn btn-light btn-sm"
                         disabled=""
-                        ng-reflect-ngb-tooltip="Start submitting feedback"
                         ngbtooltip="Start submitting feedback"
                         type="button"
                       >
@@ -1455,7 +1347,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </button>
                       <div
                         class="d-inline-block dropdown"
-                        ng-reflect-ngb-tooltip="View the submitted responses f"
                         ngbdropdown=""
                         ngbtooltip="View the submitted responses for this feedback session"
                       >
@@ -1470,7 +1361,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <div
                           class="dropdown-menu"
                           ngbdropdownmenu=""
-                          x-placement="bottom-left"
+                          x-placement="bottom"
                         >
                           <button
                             class="dropdown-item clickable"
@@ -1482,9 +1373,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             class="dropdown-item clickable"
                             container="body"
                             disabled=""
-                            ng-reflect-container="body"
-                            ng-reflect-ngb-tooltip="Make session responses availab"
-                            ng-reflect-placement="left"
                             ngbtooltip="Make session responses available for viewing"
                             placement="left"
                           >
@@ -1502,7 +1390,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                       </div>
                       <div
                         class="d-inline-block"
-                        ng-reflect-ngb-tooltip="Send e-mails to remind student"
                         ngbdropdown=""
                         ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
                       >
@@ -1536,16 +1423,19 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user={[Function String]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -1556,14 +1446,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1580,15 +1469,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
@@ -1601,13 +1489,11 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -1634,7 +1520,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -1643,14 +1529,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           class="row"
         >
           <div
-            class="col-6"
+            class="course-header col-md-6"
           >
             <b>
               [CS3281]: Thematic Systems
             </b>
           </div>
           <div
-            class="col-sm-6"
+            class="btn-toolbar col-md-6"
           >
             
             <div
@@ -1663,7 +1549,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -1671,16 +1557,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
@@ -1690,9 +1573,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
                     ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
@@ -1707,7 +1587,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -1715,14 +1595,11 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -1737,7 +1614,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -1745,14 +1622,11 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
                     ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
@@ -1767,7 +1641,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1775,11 +1649,10 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1787,9 +1660,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -1799,7 +1669,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -1807,6 +1676,11 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
               
               <i
                 class="fas fa-chevron-down"
@@ -1834,16 +1708,19 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user=""
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -1854,14 +1731,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1878,15 +1754,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
@@ -1899,13 +1774,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -1932,7 +1805,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -1941,14 +1814,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           class="row"
         >
           <div
-            class="col-6"
+            class="course-header col-md-6"
           >
             <b>
               [CS3281]: Thematic Systems
             </b>
           </div>
           <div
-            class="col-sm-6"
+            class="btn-toolbar col-md-6"
           >
             
             <div
@@ -1961,7 +1834,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -1969,16 +1842,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
@@ -1988,9 +1858,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
                     ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
@@ -2005,7 +1872,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -2013,14 +1880,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -2035,7 +1899,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -2043,14 +1907,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
                     ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
@@ -2065,7 +1926,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2073,11 +1934,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2085,9 +1945,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -2097,7 +1954,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2105,6 +1961,11 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
               
               
               <i
@@ -2119,19 +1980,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       
       
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
+        <tm-sessions-table>
           
           <div
             class="no-session-message"
+            style=""
           >
              There are no feedback sessions in this course. 
           </div>
@@ -2152,16 +2008,19 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   courseTabModels={[Function Array]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  httpRequestService={[Function HttpRequestService]}
+  hasCoursesLoaded="false"
   instructorCoursesSortBy={[Function Number]}
+  instructorService={[Function InstructorService]}
+  isNewUser="false"
+  loadingBarService={[Function LoadingBarService]}
+  modalService={[Function NgbModal]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
   router={[Function Router]}
   statusMessageService={[Function StatusMessageService]}
   studentSearchkey=""
-  timezoneService={[Function TimezoneService]}
-  user=""
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
@@ -2172,14 +2031,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       class="card-body"
     >
       <div
-        class="form-group"
+        class="form-row"
       >
         <div
           class="input-group"
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            ng-reflect-model=""
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -2196,15 +2054,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       </div>
     </div>
   </div><div
-    class="row height-60px"
+    class="row mb-3"
   >
     <div
       class="col-4"
     >
       <a
         class="btn btn-primary text-white"
-        href="/web/instructor/courses"
-        ng-reflect-router-link="/web/instructor/courses"
+        href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
         Add New Course
@@ -2217,13 +2074,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <div
         class="float-right"
       >
-        <h5
+        <strong
           class="d-inline"
         >
-          <strong>
-             Sort By: 
-          </strong>
-        </h5>
+           Sort By: 
+        </strong>
         <div
           class="btn-group"
           data-toggle="buttons"
@@ -2250,7 +2105,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   </div><div>
     
     <div
-      class="card margin-bottom-15px"
+      class="card"
     >
       <div
         class="card-header bg-primary text-white course-tab-header"
@@ -2259,14 +2114,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           class="row"
         >
           <div
-            class="col-6"
+            class="course-header col-md-6"
           >
             <b>
               [CS3243]: Introduction to AI
             </b>
           </div>
           <div
-            class="col-sm-6"
+            class="btn-toolbar col-md-6"
           >
             
             <div
@@ -2279,7 +2134,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Students 
@@ -2287,16 +2142,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   
                   
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Enroll student into the course"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/enroll"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
                   >
@@ -2306,9 +2158,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="View, edit and send invitation"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/detail"
                     ngbtooltip="View, edit and send invitation emails to the students in the course"
                     routerlink="/web/instructor/courses/details"
                   >
@@ -2323,7 +2172,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Instructors 
@@ -2331,14 +2180,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -2353,7 +2199,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Sessions 
@@ -2361,14 +2207,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Add a feedback session for the"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/sessions"
                     ngbtooltip="Add a feedback session for the course"
                     routerlink="/web/instructor/sessions"
                   >
@@ -2383,7 +2226,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <button
                   aria-expanded="false"
                   aria-haspopup="true"
-                  class="btn btn-secondary btn-sm dropdown-toggle"
+                  class="btn btn-light btn-sm dropdown-toggle"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2391,11 +2234,10 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="dropdown-menu"
                   ngbdropdownmenu=""
-                  x-placement="bottom-left"
+                  x-placement="bottom"
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Archive the course so that it "
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2403,9 +2245,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    ng-reflect-ngb-tooltip="Edit course information and in"
-                    ng-reflect-query-params="[object Object]"
-                    ng-reflect-router-link="/web/instructor/courses/edit"
                     ngbtooltip="Edit course information and instructor list"
                     routerlink="/web/instructor/courses/edit"
                   >
@@ -2415,7 +2254,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
-                    ng-reflect-ngb-tooltip="Delete the course and its corr"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2423,6 +2261,11 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   
                 </div>
               </span>
+            </div>
+            
+            <div
+              class="float-right"
+            >
               
               
               <i
@@ -2437,19 +2280,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       
       
       <div
-        class="card-body padding-0"
+        class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+        style=""
       >
-        <tm-sessions-table
-          ng-reflect-columns-to-show="1,2"
-          ng-reflect-course-candidates="[object Object]"
-          ng-reflect-header-color-scheme="1"
-          ng-reflect-sessions-table-row-models=""
-          ng-reflect-sessions-table-row-models-sort-by="0"
-          ng-reflect-sessions-table-row-models-sort-order="1"
-        >
+        <tm-sessions-table>
           
           <div
             class="no-session-message"
+            style=""
           >
              There are no feedback sessions in this course. 
           </div>

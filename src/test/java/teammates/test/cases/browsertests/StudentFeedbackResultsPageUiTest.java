@@ -15,7 +15,7 @@ import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_FEEDBACK_RESULTS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#STUDENT_SESSION_RESULTS_PAGE}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseE2ETestCase {
     private StudentFeedbackResultsPage resultsPage;

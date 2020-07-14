@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { MasqueradeModeService } from '../../services/masquerade-mode.service';
 import { AuthInfo } from '../../types/api-output';
 
 /**
@@ -36,14 +37,19 @@ export class StudentPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService) {}
+  constructor(private route: ActivatedRoute, private authService: AuthService,
+              private masqueradeModeService: MasqueradeModeService) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
         if (res.user) {
-          this.user = res.user.id + (res.masquerade ? ' (M)' : '');
+          this.user = res.user.id;
+          if (res.masquerade) {
+            this.user += ' (M)';
+            this.masqueradeModeService.setMasqueradeUser(res.user.id);
+          }
           this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
@@ -53,7 +59,10 @@ export class StudentPageComponent implements OnInit {
         }
         this.isFetchingAuthDetails = false;
       }, () => {
-        // TODO
+        this.isInstructor = false;
+        this.isStudent = false;
+        this.isAdmin = false;
+        this.isFetchingAuthDetails = false;
       });
     });
   }

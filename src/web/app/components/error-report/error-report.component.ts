@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { ErrorReportService } from '../../../services/error-report.service';
 import { ErrorReportRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -20,7 +20,7 @@ export class ErrorReportComponent implements OnInit {
   sendButtonEnabled: boolean = true;
   errorReportSubmitted: boolean = false;
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  constructor(private errorReportService: ErrorReportService) {}
 
   ngOnInit(): void {
   }
@@ -36,7 +36,7 @@ export class ErrorReportComponent implements OnInit {
     };
 
     this.sendButtonEnabled = false;
-    this.httpRequestService.post('/errorreport', {}, request).subscribe(() => {
+    this.errorReportService.sendErrorReport({ request }).subscribe(() => {
       this.errorReportSubmitted = true;
     }, (res: ErrorMessageOutput) => {
       this.sendButtonEnabled = true;

@@ -14,17 +14,15 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 export class NumScaleQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
 
+  Math: typeof Math = Math;
+
   constructor() {
     super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
   }
 
-  get maxScaleValue(): number {
-    if (this.model.maxScale <= this.model.minScale) {
-      this.model.maxScale = this.model.minScale + this.model.step;
-    }
-    return this.model.maxScale;
-  }
-
+  /**
+   * Checks if the interval between min and max is divisible by the step count.
+   */
   get isIntervalDivisible(): boolean {
     if (this.model.step <= 0) {
       return false;
@@ -33,6 +31,9 @@ export class NumScaleQuestionEditDetailsFormComponent
     return largestValueInRange === this.model.maxScale;
   }
 
+  /**
+   * Returns the number of possible values acceptable as answers.
+   */
   get numberOfPossibleValues(): number {
     const minValue: number = this.model.minScale;
     const maxValue: number = this.model.maxScale;
@@ -42,6 +43,9 @@ export class NumScaleQuestionEditDetailsFormComponent
     return Math.floor(parseFloat(num.toFixed(3)));
   }
 
+  /**
+   * Returns the possible answers for the given max and min values.
+   */
   get possibleValues(): string {
 
     if (this.numberOfPossibleValues > 6) {

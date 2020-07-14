@@ -1,13 +1,13 @@
 <div class="card bg-light top-padded">
-  <div class="card-body padded">
+  <div class="card-body">
     <p class="text-muted">
       Tips: Surround key word to search a whole string or string contains punctuation like "-" "."
     </p>
 
     <div class="input-group">
-      <input type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
+      <input id="search-box" type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()">
         <div class="input-group-append">
-          <button class="btn btn-secondary" (click)="search()">Search</button>
+          <button id="search-button" class="btn btn-primary" (click)="search()">Search</button>
         </div>
     </div>
   </div>
@@ -17,13 +17,13 @@
   <div class="card-header bg-primary text-white">
     <strong>Instructors Found</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
+      <button id="show-instructor-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
+      <button id="hide-instructor-links" class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
     </span>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped data-table">
+    <table id="search-table-instructor" class="table table-striped data-table">
       <thead>
         <tr>
           <th>Course</th>
@@ -34,18 +34,31 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let instructor of instructors">
+        <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
-            <td>{{ instructor.courseId }}</td> <!-- TODO: tooltip course name -->
+            <td>
+              <span [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
+              <br>
+              <div class="col-sm-1">
+                <button *ngIf="!instructor.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                </button>
+                <button *ngIf="instructor.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                </button>
+              </div>
+            </td>
             <td>{{ instructor.name }}</td>
-            <td><a href="{{ instructor.homePageLink }}">{{ instructor.googleId }}</a></td>
+            <td><a href="{{ instructor.homePageLink }}" (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
+              {{ instructor.googleId }}</a></td>
             <td>{{ instructor.institute }}</td>
             <td>
-              <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink">
+              <a href="{{ instructor.manageAccountLink }}" *ngIf="instructor.manageAccountLink"
+                 (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
+              <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
@@ -74,13 +87,13 @@
   <div class="card-header bg-primary text-white">
     <strong>Students Found</strong>
     <span class="float-sm-right">
-      <button class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
-      <button class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
+      <button id="show-student-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
+      <button id="hide-student-links" class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
     </span>
   </div>
 
   <div class="table-responsive">
-    <table class="table table-striped data-table">
+    <table class="table table-striped data-table" id="search-table-student">
       <thead>
         <tr>
           <th>Course [Section] (Team)</th>
@@ -92,45 +105,67 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let student of students">
+        <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
-            <td>{{ student.courseId }} [{{ student.section }}] ({{ student.team }})</td> <!-- TODO: tooltip course name -->
+            <td>
+              <span [ngbTooltip]="student.courseName">
+                {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
+              </span>
+              <br>
+              <div class="col-sm-1">
+                <button *ngIf="!student.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
+                </button>
+                <button *ngIf="student.showLinks" class="btn">
+                  <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
+                </button>
+              </div>
+            </td>
             <td>{{ student.name }}</td>
-            <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId">{{ student.googleId }}</a></td>
+            <td><a href="{{ student.homePageLink }}" *ngIf="student.googleId"
+                   (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
+              {{ student.googleId }}</a></td>
             <td>{{ student.institute }}</td>
             <td>{{ student.comments }}</td>
             <td>
-              <a href="{{ student.manageAccountLink }}" *ngIf="student.googleId && student.manageAccountLink">
+              <a href="{{ student.manageAccountLink }}" *ngIf="student.googleId && student.manageAccountLink"
+                 (click)="$event.stopPropagation()" target="_blank" rel="noopener noreferrer">
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
+              <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
+              <br>
+              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
             </td>
           </tr>
-          <tr *ngIf="student.showLinks">
+          <tr>
             <td colspan="6">
-              <ul class="list-group">
+              <ul class="list-group" *ngIf="student.showLinks" @collapseAnim>
                 <li class="list-group-item list-group-item-success has-success">
                   <strong>Email</strong>
                   <input [value]="student.email" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-info">
                   <strong>Course Join Link</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openCourseJoinEmail(student.courseId, student.email)">Send mail</button>
                   <input [value]="student.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let openFs of student.openSessions | keyvalue">
-                  <strong>{{ openFs.key }}</strong>
-                  <input [value]="openFs.value" readonly class="form-control">
+                  <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, openFs.key)">Send mail</button>
+                  <input [value]="openFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-danger" *ngFor="let notOpenFs of student.notOpenSessions | keyvalue">
-                  <strong>{{ notOpenFs.key }}</strong>
-                  <input [value]="notOpenFs.value" readonly class="form-control">
+                  <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, notOpenFs.key)">Send mail</button>
+                  <input [value]="notOpenFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-success" *ngFor="let publishedFs of student.publishedSessions | keyvalue">
-                  <strong>{{ publishedFs.key }}</strong>
-                  <input [value]="publishedFs.value" readonly class="form-control">
+                  <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
+                  <button type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, publishedFs.key)">Send mail</button>
+                  <input [value]="publishedFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
               </ul>
             </td>

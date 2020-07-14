@@ -175,10 +175,10 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         };
 
         verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyAccessibleForAdmin(submissionParams);
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForInstructors(submissionParams);
-        verifyInaccessibleForAdmin(submissionParams);
     }
 
     @Test
@@ -213,6 +213,24 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         };
 
         verifyCanAccess(params);
+
+        ______TS("StudentInstructor cannot access student identity's course with instructor privileges");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalCourse2.getId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
+        };
+
+        verifyCannotAccess(params);
+
+        ______TS("StudentInstructor cannot access instructor identity's course with student privileges");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        verifyCannotAccess(params);
     }
 
 }

@@ -434,4 +434,77 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder("courseId", "googleId")
                         .withRole(null));
     }
+
+    @Test
+    public void testEquals() {
+        String googleId = "valid.googleId";
+        String courseId = "courseId";
+        String name = "name";
+        String email = "email@google.com";
+        String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId(googleId)
+                .withRole(roleName)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
+
+        // When the two instructors have same values
+        InstructorAttributes instructorCopy = instructor.getCopy();
+
+        assertTrue(instructor.equals(instructorCopy));
+
+        // When the two instructors are different
+        InstructorAttributes instructorDifferent = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId("DifferentID")
+                .withRole(roleName)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
+
+        assertFalse(instructor.equals(instructorDifferent));
+
+        // When the other object is of different class
+        assertFalse(instructor.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        String googleId = "valid.googleId";
+        String courseId = "courseId";
+        String name = "name";
+        String email = "email@google.com";
+        String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        String displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        InstructorPrivileges privileges =
+                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
+        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId(googleId)
+                .withRole(roleName)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
+
+        // When the two instructors have same values, they should have the same hash code
+        InstructorAttributes instructorCopy = instructor.getCopy();
+
+        assertTrue(instructor.hashCode() == instructorCopy.hashCode());
+
+        // When the two instructors are different, they should have different hash code
+        InstructorAttributes instructorDifferent = InstructorAttributes.builder(courseId, email)
+                .withName(name)
+                .withGoogleId("DifferentID")
+                .withRole(roleName)
+                .withDisplayedName(displayedName)
+                .withPrivileges(privileges)
+                .build();
+
+        assertFalse(instructor.hashCode() == instructorDifferent.hashCode());
+    }
 }

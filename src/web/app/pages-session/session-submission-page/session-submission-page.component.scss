@@ -5,6 +5,12 @@
   box-shadow: 0 0 0 0;
 }
 
-.unanswered-exclamation-mark {
-  font-size: 200%;
+@media (min-width: 768px) {
+  .col-md-3 {
+    text-align: right;
+  }
+
+  .col-md-6 {
+    text-align: left;
+  }
 }

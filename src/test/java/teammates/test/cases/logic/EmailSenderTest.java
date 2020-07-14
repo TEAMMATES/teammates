@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.resource.Email;
-import com.sendgrid.Mail;
+import com.sendgrid.helpers.mail.Mail;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;

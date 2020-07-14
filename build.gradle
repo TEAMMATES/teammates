@@ -1,5 +1,3 @@
-apply plugin: "eclipse"
-apply plugin: "eclipse-wtp"
 apply plugin: "idea"
 
 apply plugin: "war"
@@ -14,10 +12,10 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.20"
-def pmdVersion = "6.14.0"
-def spotbugsVersion = "3.1.12"
-def jacocoVersion = "0.8.3"
+def checkstyleVersion = "8.33"
+def pmdVersion = "6.24.0"
+def spotbugsVersion = "4.0.6"
+def jacocoVersion = "0.8.5"
 
 buildscript {
     repositories {
@@ -27,9 +25,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:1.3.5"
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.9"
-        classpath "cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.14.505"
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.3.0"
+        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.4.3"
+        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
+            exclude group: "org.gradle"
+        }
+        classpath "com.google.guava:guava:29.0-jre"
     }
 }
 
@@ -42,7 +43,7 @@ repositories {
 }
 
 def objectify = "com.googlecode.objectify:objectify:5.1.22"
-def testng = "org.testng:testng:6.14.3"
+def testng = "org.testng:testng:7.2.0"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -52,50 +53,53 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    compile("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
+    implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
 
     // This dependency needs to be resolved individually
     // because the main dependency (appengine-gcs-client) does not have its transitive dependencies up-to-date
-    compile("com.google.appengine.tools:appengine-gcs-client:0.8") {
+    implementation("com.google.appengine.tools:appengine-gcs-client:0.8.1") {
         // Use the newer servlet library instead
         exclude group: "javax.servlet", module: "servlet-api"
     }
-    compile("com.google.api-client:google-api-client-appengine:1.28.0") {
+    implementation("com.google.api-client:google-api-client-appengine:1.30.9") {
         // Use the newer servlet library instead
         exclude group: "javax.servlet", module: "servlet-api"
     }
-    compile("com.google.apis:google-api-services-storage:v1-rev20190426-1.28.0")
+    implementation("com.google.apis:google-api-services-storage:v1-rev20200430-1.30.9")
 
-    compile("com.google.code.gson:gson:2.8.5")
-    compile("com.google.guava:guava:27.1-jre")
-    compile(objectify)
-    compile("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20190503.1")
-    compile("com.mailjet:mailjet-client:4.2.1")
-    compile("com.sendgrid:sendgrid-java:4.3.0")
-    compile("com.sun.jersey:jersey-client:1.19.4")
-    compile("com.sun.jersey:jersey-core:1.19.4")
-    compile("com.sun.jersey.contribs:jersey-multipart:1.19.4")
-    compile("javax.servlet:javax.servlet-api:3.1.0")
-    compile("org.jsoup:jsoup:1.11.3")
+    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.google.guava:guava:29.0-jre")
+    implementation(objectify)
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20200615.1")
+    implementation("com.mailjet:mailjet-client:4.5.0")
+    implementation("com.sendgrid:sendgrid-java:4.6.0")
+    implementation("com.sun.jersey:jersey-client:1.19.4")
+    implementation("com.sun.jersey:jersey-core:1.19.4")
+    implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
+    implementation("javax.servlet:javax.servlet-api:3.1.0")
+    implementation("org.jsoup:jsoup:1.13.1")
 
     testAnnotationProcessor(testng)
 
-    testCompile("com.google.appengine:appengine-api-stubs:${appengineVersion}")
-    testCompile("com.google.appengine:appengine-remote-api:${appengineVersion}")
-    testCompile("com.google.appengine:appengine-testing:${appengineVersion}")
-    testCompile("com.tngtech.archunit:archunit:0.10.2")
-    testCompile("org.httpunit:httpunit:1.7.3")
-    testCompile("org.seleniumhq.selenium:selenium-java:3.141.59")
-    testCompile(testng)
+    testImplementation("com.google.appengine:appengine-api-stubs:${appengineVersion}")
+    testImplementation("com.google.appengine:appengine-remote-api:${appengineVersion}")
+    testImplementation("com.google.appengine:appengine-testing:${appengineVersion}")
+    testImplementation("com.tngtech.archunit:archunit:0.11.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testImplementation(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
-    testCompile("com.google.api-client:google-api-client:1.28.0")
+    testImplementation("com.google.api-client:google-api-client:1.30.9")
     // For supporting authorization code flow locally
-    testCompile("com.google.oauth-client:google-oauth-client-jetty:1.28.0")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.30.6")
     // For using Gmail API
-    testCompile("com.google.apis:google-api-services-gmail:v1-rev20190422-1.28.0")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20200601-1.30.9")
     // For using JMeter APIs
-    testCompile("org.apache.jmeter:ApacheJMeter_core:5.1.1")
-    testCompile("org.apache.jmeter:ApacheJMeter_http:5.1.1")
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.3") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.3") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
 
 }
 
@@ -152,21 +156,41 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
+    excludeClassPatterns = [
+        "teammates.ui.webapi.output.**Builder"
+    ]
+    excludeClasses = [
+        "teammates.ui.webapi.output.SessionResultsData\$NameInfo"
+    ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.request.**"
+        "teammates.ui.webapi.request.**",
+        "teammates.common.util.EmailType"
     ]
     outputFile = "src/web/types/api-request.ts"
 }
 
+task generateApiEndpoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
+    classPatterns = [
+        "teammates.ui.webapi.endpoints.**"
+    ]
+    jsonLibrary = 'jackson2'
+    jackson2Configuration = [
+        'enumsUsingToString': true
+    ]
+    outputFile = "src/web/types/api-endpoints.ts"
+}
+
 generateApiOutputFormat.dependsOn classes
 generateApiRequestFormat.dependsOn classes
+generateApiEndpoints.dependsOn classes
 
 task generateTypes {
     dependsOn generateApiOutputFormat
     dependsOn generateApiRequestFormat
+    dependsOn generateApiEndpoints
 }
 
 // SETUP TASKS
@@ -196,102 +220,7 @@ task createConfigs {
     }
 }
 
-import org.gradle.plugins.ide.eclipse.model.SourceFolder
-
-eclipse {
-    project {
-        natures "org.eclipse.jdt.core.javanature", "org.eclipse.buildship.core.gradleprojectnature", "org.eclipse.wst.jsdt.core.jsNature"
-        buildCommand "org.eclipse.jdt.core.javabuilder"
-        buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
-        buildCommand "org.eclipse.wst.validation.validationbuilder"
-        buildCommand "com.google.cloud.tools.eclipse.appengine.standard.java8.appengineWeb"
-
-        // Exclude the CLI and IntelliJ build directories
-        // Gradle Eclipse plugin does not support generation of resource filters yet
-        // Use the method lined out in https://discuss.gradle.org/t/eclipse-pluging-adding-resource-filters/5408/2
-        file {
-            withXml { xmlProvider ->
-                Node node = xmlProvider.asNode().filteredResources[0]
-                ['build', 'out'].each { folder ->
-                    Node filter = node.appendNode('filter')
-                    filter.appendNode('id', folder.hashCode())
-                    filter.appendNode('name', '')
-                    filter.appendNode('type', 10)
-                    Node matcher = filter.appendNode('matcher')
-                    matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
-                    matcher.appendNode('arguments', "1.0-name-matches-false-false-${folder}")
-                }
-            }
-        }
-    }
-    classpath {
-        containers "org.eclipse.buildship.core.gradleclasspathcontainer",
-                   "org.eclipse.jst.server.core.container/com.google.cloud.tools.eclipse.appengine.standard.runtimeClasspathProvider/App Engine Standard Runtime"
-        defaultOutputDir = file("build-eclipse/classes")
-        file {
-            whenMerged { cp ->
-                cp.entries.findAll {
-                    it instanceof SourceFolder && !it.path.startsWith("src/main/")
-                }*.output = "build-eclipse/test-classes"
-            }
-        }
-    }
-    wtp {
-        facet {
-            facets = []
-            facet name: "jst.web", version: "3.1"
-            facet name: "jst.java", version: "1.8"
-            facet name: "wst.jsdt.web", version: "1.0"
-            facet name: "com.google.cloud.tools.eclipse.appengine.facets.standard", version: "JRE8"
-        }
-    }
-}
-
-eclipseProject {
-    onlyIf {
-        !(new File(".project")).exists()
-    }
-}
-
-eclipseClasspath {
-    onlyIf {
-        !(new File(".classpath")).exists()
-    }
-}
-
-task createEclipseLaunches {
-    doLast {
-        def templatesToCopy = [
-                ".templates/eclipseLaunches/All tests.launch.xml",
-                ".templates/eclipseLaunches/Component tests.launch.xml",
-                ".templates/eclipseLaunches/Failed tests.launch.xml",
-                ".templates/eclipseLaunches/E2E tests.launch.xml"
-        ]
-        templatesToCopy.findAll {
-            !(new File(it.replace(".templates/eclipseLaunches", ".launches").replace(".xml", ""))).exists()
-        }.each { filename ->
-            copy {
-                from filename
-                into ".launches"
-                rename '(.*).xml', '$1'
-            }
-            filename = filename.replace(".templates/eclipseLaunches", ".launches").replace(".xml", "")
-            def fileContents = new File(filename).getText("UTF-8")
-            def projectName = "${projectDir}".replaceAll(/.*(\/|\\)/, "")
-            new File(filename).text = new File(filename).getText("UTF-8").replaceAll(/\$\{project\.name\}/, projectName)
-        }
-    }
-}
-
-task setupEclipse {
-    description "Sets up the Eclipse-specific configurations for the project."
-    group "Setup"
-    dependsOn eclipseClasspath, eclipseProject, createEclipseLaunches
-}
-
-String intellijSetupGroup = 'IntelliJ IDEA Setup'
-
-// IntelliJ Project Setup
+// IDE SETUP TASKS (MAINTENANCE MODE ONLY)
 
 // Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
 // IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
@@ -303,90 +232,20 @@ if (System.getProperty('idea.paths.selector') != null) {
 
 idea {
     module {
-        // Exclude the CLI and Eclipse build directories
-        excludeDirs += [file('build'), file('build-eclipse')]
+        // Exclude the CLI build directory
+        excludeDirs += [file('build')]
     }
-}
-
-task setupIntellijRunConfigs(type: Copy) {
-    description 'Sets up the run configurations in the IntelliJ project.'
-    group intellijSetupGroup
-    doFirst {
-        if (!file('.idea').exists()) {
-            throw new GradleException('Please import the project into IntelliJ first.')
-        }
-    }
-    from '.templates/ideaRunConfigurations'
-    into '.idea/runConfigurations'
-}
-
-task setupIntellij {
-    description 'Sets up the IntelliJ-specific configurations for the project.'
-    group intellijSetupGroup
-    dependsOn setupIntellijRunConfigs
-}
-
-// IntelliJ project static analysis plugins setup
-
-task copyStylelintConfiguration {
-    // Cannot use copy task directly when copying to project root on Windows due to the
-    // file-locking mechanism interfering with the way inputs and outputs are monitored
-    // (see https://issues.gradle.org/browse/GRADLE-3002).
-    // We use the copy method instead, which works because it does not do incremental
-    // building (inputs and outputs are not monitored).
-    group intellijSetupGroup
-    doLast {
-        copy {
-            from 'static-analysis/teammates-stylelint.yml'
-            into projectDir
-            rename { '.stylelintrc.yml' }
-        }
-    }
-}
-
-task copyIntelliJProjectPluginsSettings(type: Copy) {
-    group intellijSetupGroup
-    from '.templates/ideaPlugins'
-    into '.idea'
-    mustRunAfter copyStylelintConfiguration
-}
-
-task syncIntelliJCheckStyleVersion {
-    description 'Syncs the CheckStyle-IDEA version to the same with the build script.' +
-            'Also executes automatically during configuration phase'
-    group intellijSetupGroup
-
-    if (file('.idea/checkstyle-idea.xml').exists()) {
-        String filePath = '.idea/checkstyle-idea.xml'
-        Node xml = new XmlParser().parse(filePath)
-        Node checkStyleComponent = (Node) (xml.component.find { it.@name == 'CheckStyle-IDEA' })
-        Node checkStyleConfigurationMap = (Node) (checkStyleComponent.option.find { it.@name == 'configuration' })
-        Node checkStyleVersionEntry =
-                (Node) (checkStyleConfigurationMap.map.entry.find { it.@key == 'checkstyle-version' })
-
-        checkStyleVersionEntry.@value = checkstyleVersion
-
-        writeXmlToPath(xml, filePath)
-    }
-}
-
-task setupIntellijStaticAnalysis {
-    description 'Sets up the static analysis plugins in the IntelliJ project.'
-    group intellijSetupGroup
-
-    dependsOn copyStylelintConfiguration, copyIntelliJProjectPluginsSettings
-    finalizedBy syncIntelliJCheckStyleVersion
 }
 
 task downloadDependencies {
     doFirst {
-        configurations.compile.resolve()
+        configurations.compileClasspath.resolve()
     }
 }
 
 task downloadTestDependencies {
     doFirst {
-        configurations.testCompile.resolve()
+        configurations.testCompileClasspath.resolve()
     }
 }
 
@@ -401,7 +260,20 @@ task downloadLinters {
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+processTestResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 appengine {
+    tools {
+        if (project.properties['cloud.sdk.home'] != null) {
+            cloudSdkHome = project.properties['cloud.sdk.home']
+        }
+    }
     run {
         port = 8080
         jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
@@ -409,6 +281,7 @@ appengine {
                 // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
                 "-Ddatastore.backing_store=../../appengine-generated/local_db.bin",
                 "-Dblobstore.backing_store=../../appengine-generated"]
+        automaticRestart = true
     }
     deploy {
         String buildPropertiesPath = "${projectDir}/src/main/resources/build.properties"
@@ -419,17 +292,11 @@ appengine {
                 props.load(it)
             }
         }
-        project = propsExists ? props['app.id'] : null
+        projectId = propsExists ? props['app.id'] : null
         version = propsExists ? props['app.version'] : null
         stopPreviousVersion = false
         promote = false
     }
-}
-
-task appengineDeployAll {
-    description "Deploy an App Engine application and all its extended configurations"
-    group "App Engine Standard environment"
-    dependsOn appengineDeploy, appengineDeployIndex, appengineDeployCron, appengineDeployQueue
 }
 
 // STATIC ANALYSIS TASKS
@@ -444,7 +311,7 @@ checkstyle {
 pmd {
     toolVersion = pmdVersion
     consoleOutput = true
-    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmd-6.14.0.xml", "static-analysis/teammates-pmdMain.xml")
+    ruleSetFiles = files("static-analysis/teammates-pmd.xml", "static-analysis/teammates-pmdMain.xml")
     ruleSets = []
 }
 
@@ -454,11 +321,11 @@ spotbugs {
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
 }
 
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     reports {
         xml.enabled = false
         html.enabled = false
-        emacs.enabled = true
+        text.enabled = true
     }
 }
 
@@ -468,10 +335,10 @@ spotbugsMain {
 
 task printSpotbugsMainViolations {
     onlyIf {
-        file("${buildDir}/reports/spotbugs/main.emacs").exists()
+        file("${buildDir}/reports/spotbugs/main.txt").exists()
     }
     doFirst {
-        print new File("${buildDir}/reports/spotbugs/main.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/main.txt").getText("UTF-8")
     }
 }
 
@@ -481,10 +348,10 @@ spotbugsTest {
 
 task printSpotbugsTestViolations {
     onlyIf {
-        file("${buildDir}/reports/spotbugs/test.emacs").exists()
+        file("${buildDir}/reports/spotbugs/test.txt").exists()
     }
     doFirst {
-        print new File("${buildDir}/reports/spotbugs/test.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/test.txt").getText("UTF-8")
     }
 }
 
@@ -506,38 +373,7 @@ def checkTestNgFailureClosure = { descriptor, result ->
     }
 }
 
-task architectureTest(type: Test) {
-    useTestNG()
-    options.suites "src/test/resources/testng-architecture.xml"
-    options.useDefaultListeners = true
-    ignoreFailures false
-    maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
-
-architectureTest.dependsOn testClasses
-architectureTest.shouldRunAfter lintMain, lintTest
-
-task lint {
-    description "Runs the entire static analysis tasks for back-end."
-    group "Static analysis"
-    dependsOn lintMain, lintTest, architectureTest
-}
-
-// TEST TASKS
-
-def numOfTestRetries = 3
-def isTravis = System.getenv("TRAVIS") != null
-def isAppVeyor = System.getenv("APPVEYOR") != null
-
 // Displays full exception; to be run after the test fails after the last retry
-// For HTML tests, the exception is displayed in diff form instead of the extremely verbose full exception message
 def afterTestClosure = { descriptor, result ->
     if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
         println ""
@@ -572,6 +408,37 @@ def afterTestClosure = { descriptor, result ->
         }
     }
 }
+
+task architectureTest(type: Test) {
+    useTestNG()
+    options.suites "src/test/resources/testng-architecture.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
+}
+
+architectureTest.dependsOn testClasses
+architectureTest.shouldRunAfter lintMain, lintTest
+
+task lint {
+    description "Runs the entire static analysis tasks for back-end."
+    group "Static analysis"
+    dependsOn lintMain, lintTest, architectureTest
+}
+
+// TEST TASKS
+
+def numOfTestRetries = 3
+def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
 
 test {
     useTestNG()
@@ -612,7 +479,6 @@ task lnpTests(type: Test) {
     }
     afterTest { TestDescriptor td ->
         if (outputCache.size() > 0) {
-            println()
             println(" L&P results for ${td.className}:")
             outputCache.each { print(" > $it") }
         }

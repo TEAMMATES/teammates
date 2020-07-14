@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.zone.ZoneRulesProvider;
+import java.util.Locale;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.SystemParams;
@@ -302,7 +303,7 @@ public final class TimeHelper {
      * @throws AssertionError if there is a parsing error
      */
     public static Instant parseInstant(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT, Locale.ROOT);
         try {
             return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
         } catch (DateTimeParseException e) {

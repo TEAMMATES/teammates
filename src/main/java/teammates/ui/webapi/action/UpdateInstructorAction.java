@@ -11,6 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
@@ -45,8 +46,9 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
+            InstructorAttributes updatedInstructor;
             if (instructorRequest.getId() == null) {
-                logic.updateInstructor(
+                updatedInstructor = logic.updateInstructor(
                         InstructorAttributes
                                 .updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorRequest.getEmail())
                                 .withName(instructorToEdit.name)
@@ -56,7 +58,7 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
                                 .withRole(instructorToEdit.role)
                                 .build());
             } else {
-                logic.updateInstructorCascade(
+                updatedInstructor = logic.updateInstructorCascade(
                         InstructorAttributes
                                 .updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorRequest.getId())
                                 .withEmail(instructorToEdit.email)
@@ -67,14 +69,12 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
                                 .withRole(instructorToEdit.role)
                                 .build());
             }
+            return new JsonResult(new InstructorData(updatedInstructor));
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         }
-
-        return new JsonResult("The instructor " + instructorRequest.getName()
-                + " has been updated.", HttpStatus.SC_OK);
     }
 
     /**
@@ -111,10 +111,8 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
      * using request parameters.
      * This includes basic information as well as custom privileges (if applicable).
      *
-     * @param courseId        Id of the course the instructor is being added to.
-     * @param instructorId    Id of the instructor.
-     * @param instructorName  Name of the instructor.
-     * @param instructorEmail Email of the instructor.
+     * @param courseId  Id of the course the instructor is being added to.
+     * @param instructorRequest create request.
      * @return The updated instructor with all relevant info filled in.
      */
     private InstructorAttributes extractUpdatedInstructor(String courseId, InstructorCreateRequest instructorRequest) {

@@ -21,7 +21,11 @@ import {
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
 } from './api-output';
-import { CONTRIBUTION_POINT_NOT_SUBMITTED } from './feedback-response-details';
+import {
+  CONTRIBUTION_POINT_NOT_SUBMITTED,
+  NO_VALUE,
+  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
+} from './feedback-response-details';
 
 /**
  * Structure for default text question details.
@@ -70,19 +74,37 @@ export const DEFAULT_CONTRIBUTION_RESPONSE_DETAILS: () => FeedbackContributionRe
     };
 
 /**
- * Structure for default constant sum question details.
+ * Structure for default constant sum (among options) question details.
  */
-export const DEFAULT_CONSTSUM_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
+export const DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
     (): FeedbackConstantSumQuestionDetails => {
       return {
-        numOfConstSumOptions: 0,
+        numOfConstSumOptions: 2,
         constSumOptions: ['', ''],
         distributeToRecipients: false,
         pointsPerOption: false,
         forceUnevenDistribution: false,
         distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
         points: 100,
-        questionType: FeedbackQuestionType.CONSTSUM,
+        questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
+        questionText: '',
+      };
+    };
+
+/**
+ * Structure for default constant sum (among recipient) question details.
+ */
+export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
+    (): FeedbackConstantSumQuestionDetails => {
+      return {
+        numOfConstSumOptions: 0,
+        constSumOptions: [],
+        distributeToRecipients: true,
+        pointsPerOption: false,
+        forceUnevenDistribution: false,
+        distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
+        points: 100,
+        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
         questionText: '',
       };
     };
@@ -118,7 +140,7 @@ export const DEFAULT_NUMSCALE_QUESTION_DETAILS: () => FeedbackNumericalScaleQues
 export const DEFAULT_NUMSCALE_RESPONSE_DETAILS: () => FeedbackNumericalScaleResponseDetails =
     (): FeedbackNumericalScaleResponseDetails => {
       return {
-        answer: 0,
+        answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
         questionType: FeedbackQuestionType.NUMSCALE,
       };
     };
@@ -221,8 +243,8 @@ export const DEFAULT_RUBRIC_RESPONSE_DETAILS: () => FeedbackRubricResponseDetail
 export const DEFAULT_RANK_OPTIONS_QUESTION_DETAILS: () => FeedbackRankOptionsQuestionDetails =
     (): FeedbackRankOptionsQuestionDetails => {
       return {
-        minOptionsToBeRanked: Number.MIN_VALUE,
-        maxOptionsToBeRanked: Number.MIN_VALUE,
+        minOptionsToBeRanked: NO_VALUE,
+        maxOptionsToBeRanked: NO_VALUE,
         areDuplicatesAllowed: false,
         options: [],
         questionType: FeedbackQuestionType.RANK_OPTIONS,
@@ -247,8 +269,8 @@ export const DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS: () => FeedbackRankOptionsRes
 export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipientsQuestionDetails =
     (): FeedbackRankRecipientsQuestionDetails => {
       return {
-        minOptionsToBeRanked: Number.MIN_VALUE,
-        maxOptionsToBeRanked: Number.MIN_VALUE,
+        minOptionsToBeRanked: NO_VALUE,
+        maxOptionsToBeRanked: NO_VALUE,
         areDuplicatesAllowed: false,
         questionType: FeedbackQuestionType.RANK_RECIPIENTS,
         questionText: '',
@@ -261,7 +283,7 @@ export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipie
 export const DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS: () => FeedbackRankRecipientsResponseDetails =
     (): FeedbackRankRecipientsResponseDetails => {
       return {
-        answer: 0,
+        answer: RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
         questionType: FeedbackQuestionType.RANK_RECIPIENTS,
       };
     };

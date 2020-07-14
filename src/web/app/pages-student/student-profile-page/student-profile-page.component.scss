@@ -13,7 +13,6 @@ select {
 
 .student-gender-radio {
   margin-right: 5px;
-  margin-top: 5px;
 }
 
 .student-gender-label {
@@ -26,11 +25,11 @@ select {
   color: grey;
 }
 
-/deep/.modal-content {
+::ng-deep.modal-content {
   padding: 0 !important;
 }
 
-/deep/.close:focus {
+::ng-deep.close:focus {
   outline: 0;
 }
 

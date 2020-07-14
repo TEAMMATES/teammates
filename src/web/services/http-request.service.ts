@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders, HttpParameterCodec, HttpParams } from '@angula
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { MasqueradeModeService } from './masquerade-mode.service';
 
 /**
  * Custom HttpParameter encoder, implements the default parameter encoder, to support encoding
@@ -53,17 +55,23 @@ export class HttpRequestService {
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private masqueradeModeService: MasqueradeModeService) {}
 
   /**
    * Builds an HttpParams object from a standard key-value mapping.
+   *
+   * <p>Add the current masquerading user info to the params also.
    */
-  buildParams(paramsMap: { [key: string]: string }): HttpParams {
+  buildParams(paramsMap: Record<string, string>): HttpParams {
     let params: HttpParams = new HttpParams({ encoder: new CustomEncoder() });
     for (const key of Object.keys(paramsMap)) {
       if (paramsMap[key]) {
         params = params.append(key, paramsMap[key]);
       }
+    }
+
+    if (this.masqueradeModeService.isInMasqueradingMode() && params.keys().indexOf('user') === -1) {
+      params = params.append('user', this.masqueradeModeService.getMasqueradeUser());
     }
     return params;
   }
@@ -71,41 +79,58 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get(endpoint: string, paramsMap: { [key: string]: string } = {},
+  get(endpoint: string, paramsMap: Record<string, string> = {},
       responseType: any = 'json' as 'text'): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    return this.httpClient.get(`${this.backendUrl}/webapi${endpoint}`, { params, responseType, withCredentials });
+    const headers: HttpHeaders = new HttpHeaders({ 'ngsw-bypass': 'true' });
+    return this.httpClient.get(
+        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
+        { params, headers, responseType, withCredentials },
+    );
   }
 
   /**
    * Executes POST request.
    */
-  post(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
+  post(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
-    return this.httpClient.post(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
+    headers.set('ngsw-bypass', 'true');
+    return this.httpClient.post(
+        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`, body,
+        { params, headers, withCredentials },
+    );
   }
 
   /**
    * Executes PUT request.
    */
-  put(endpoint: string, paramsMap: { [key: string]: string } = {}, body: any = null): Observable<any> {
+  put(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
-    return this.httpClient.put(`${this.backendUrl}/webapi${endpoint}`, body, { params, headers, withCredentials });
+    headers.set('ngsw-bypass', 'true');
+    return this.httpClient.put(
+        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
+        body,
+        { params, headers, withCredentials },
+    );
   }
 
   /**
    * Executes DELETE request.
    */
-  delete(endpoint: string, paramsMap: { [key: string]: string } = {}): Observable<any> {
+  delete(endpoint: string, paramsMap: Record<string, string> = {}): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getCsrfHeader();
-    return this.httpClient.delete(`${this.backendUrl}/webapi${endpoint}`, { params, headers, withCredentials });
+    headers.set('ngsw-bypass', 'true');
+    return this.httpClient.delete(
+        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
+        { params, headers, withCredentials },
+    );
   }
 
   private getCsrfHeader(): HttpHeaders {

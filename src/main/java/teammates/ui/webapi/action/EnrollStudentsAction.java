@@ -1,14 +1,13 @@
 package teammates.ui.webapi.action;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -28,10 +27,6 @@ import teammates.ui.webapi.request.StudentsEnrollRequest;
  * <p>Return all students who are successfully enrolled.
  */
 public class EnrollStudentsAction extends Action {
-
-    private static final String ERROR_MESSAGE_SAME_TEAM_IN_DIFFERENT_SECTION =
-            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                    + " Please use different team names in different sections";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -65,8 +60,13 @@ public class EnrollStudentsAction extends Action {
                     .build());
         });
 
+        try {
+            logic.validateSectionsAndTeams(studentsToEnroll, courseId);
+        } catch (EnrollException e) {
+            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+        }
+
         List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
-        validateTeamName(existingStudents, studentsToEnroll);
 
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
@@ -101,21 +101,5 @@ public class EnrollStudentsAction extends Action {
             }
         });
         return new JsonResult(new StudentsData(enrolledStudents));
-    }
-
-    private void validateTeamName(List<StudentAttributes> existingStudents, List<StudentAttributes> studentsToEnroll) {
-        Map<String, String> teamInSection = new HashMap<>();
-        for (StudentAttributes existingStudent : existingStudents) {
-            teamInSection.put(existingStudent.getTeam(), existingStudent.getSection());
-        }
-        for (StudentAttributes studentToEnroll : studentsToEnroll) {
-            if (teamInSection.containsKey(studentToEnroll.getTeam())
-                    && !teamInSection.get(studentToEnroll.getTeam()).equals(studentToEnroll.getSection())) {
-                throw new InvalidHttpRequestBodyException(String.format(ERROR_MESSAGE_SAME_TEAM_IN_DIFFERENT_SECTION,
-                        studentToEnroll.getTeam(), teamInSection.get(studentToEnroll.getTeam()),
-                        studentToEnroll.getSection()));
-            }
-            teamInSection.put(studentToEnroll.getTeam(), studentToEnroll.getSection());
-        }
     }
 }

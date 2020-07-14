@@ -1,157 +1,83 @@
-<h1> Student List</h1>
+<h1>Student List</h1>
+<p>
+  This page gives the student details for all your courses. Expand the cards below to view your students.
+  Use the <a routerLink="/web/instructor/search">search function</a> if you need to filter for a specific
+  student.
+</p>
+<hr/>
 
-<div class="card bg-light mb-4 pb-3">
-  <div class="card-body">
-    <div class="form-group">
-      <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]="searchQuery" (keyup.enter)="search()"
-               placeholder="Charlie Barnes">
-        <div class="input-group-append">
-          <button class="btn btn-primary" (click)="search()">Search</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<h2> Filter Students </h2>
-<div class="section pb-3"*ngIf="courses">
-  <div class="card">
-    <div class="card-body fill-plain">
-      <div class="form form-horizontal">
-        <div class="checkbox-outer-div pb-3">
-          <input type="checkbox"
-                 (change)="toggleDisplayArchive()"
-                 [checked]="isDisplayArchive">
-          <label class="ml-1"> Display Archived Courses </label>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-3 float-left">
-            <div class="text-color-primary pb-3">
-              <strong> Courses </strong>
-            </div>
-            <div class="checkbox-outer-div pb-3">
-              <input type="checkbox"
-                     (change)="toggleAllPresentCoursesStateAtInput(!isAllPresentCoursesChecked)"
-                     [checked]="isAllPresentCoursesChecked">
-              <label class="ml-1"><strong> Select All </strong></label>
-            </div>
-            <div class="checkbox-outer-div" *ngFor="let course of courses"
-                 [hidden]="(!isDisplayArchive && course.isArchived)">
-              <input type="checkbox"
-                     (change)="toggleCourseStateAtInput(course)"
-                     [checked]="course.isChecked">
-              <label class="ml-1">
-                [{{course.id}}]: {{course.name}}
-              </label>
+<ng-container>
+  <div *ngFor="let courseTab of courseTabList">
+    <div class="card">
+      <div class="card-header justify-content-between course-card-header cursor-pointer"
+        (click)="toggleCard(courseTab)">
+        <div class="row course-card-content">
+          <div class="col-sm-11">
+            <div class="course-card-header-text">
+              <i class="fas fa-chalkboard-teacher"
+                style="color: white;"></i>&nbsp;[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}
             </div>
           </div>
+          <div class="col-sm-1">
+            <button *ngIf="!courseTab.hasTabExpanded"
+              class="btn float-right"><i class="fas fa-chevron-circle-down fa-lg"
+              style="color: white;"></i></button>
+            <button *ngIf="courseTab.hasTabExpanded"
+              class="btn float-right"><i class="fas fa-chevron-circle-up fa-lg" style="color: white;"></i></button>
+          </div>
+        </div>
+      </div>
 
-          <div class="col-sm-3 float-left">
-            <ng-container *ngIf="courseDetailsList.length">
-              <div class="text-color-primary pb-3">
-                <strong> Sections </strong>
-              </div>
-              <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
-                <input type="checkbox"
-                       (change)="toggleAllPresentSectionDetailsState(!isAllPresentSectionDetailsChecked)"
-                       [checked]="isAllPresentSectionDetailsChecked">
-                <label class="ml-1"><strong> Select All </strong></label>
-              </div>
-              <ng-container *ngFor="let courseDetails of courseDetailsList">
-                <div class="checkbox-outer-div" *ngFor="let section of courseDetails.sections" [hidden]="!courseDetails.isChecked">
-                  <input type="checkbox" [checked]="section.isChecked" (change)="toggleSectionState(section)">
-                  <label class="ml-1">
-                    [{{courseDetails.id}}]: {{section.name}}
-                  </label>
+      <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
+        <div class="card-body">
+          <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
+            <div class="card-deck" *ngIf="courseTab.stats">
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">{{courseTab.stats.numOfStudents}}</h3>
+                  <h5 class="card-text">Students</h5>
                 </div>
-              </ng-container>
-            </ng-container>
-          </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">{{courseTab.stats.numOfSections}}</h3>
+                  <h5 class="card-text">Sections</h5>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <h3 class="card-title">{{courseTab.stats.numOfTeams}}</h3>
+                  <h5 class="card-text">Teams</h5>
+                </div>
+              </div>
+            </div>
 
-          <div class="col-sm-3 float-left">
-            <ng-container *ngIf="courseDetailsList.length">
-              <div class="text-color-primary pb-3">
-                <strong> Teams </strong>
-              </div>
-              <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
-                <input type="checkbox"
-                       (change)="toggleAllPresentTeamDetailsState(!isAllPresentTeamDetailsChecked)"
-                       [checked]="isAllPresentTeamDetailsChecked">
-                <label class="ml-1"><strong> Select All </strong></label>
-              </div>
-              <ng-container *ngFor="let courseDetails of courseDetailsList">
-                <ng-container *ngFor="let section of courseDetails.sections">
-                  <div class="checkbox-outer-div" *ngFor="let team of section.teams" [hidden]="!section.isChecked" >
-                    <input type="checkbox" [checked]="team.isChecked" (change)="toggleTeamState(team)">
-                    <label class="ml-1">
-                      [{{courseDetails.id}}]: {{team.name}}
-                    </label>
-                  </div>
-                </ng-container>
-              </ng-container>
-            </ng-container>
-          </div>
+            <hr/>
 
-          <div class="col-sm-3 float-left">
-            <ng-container *ngIf="courseDetailsList.length">
-              <div class="text-color-primary pb-3">
-                <strong> Students </strong>
-              </div>
-              <div class="checkbox-outer-div pb-3" [hidden]="!isAnyPresentCoursesChecked">
-                <input type="checkbox"
-                       (change)="toggleAllPresentStudentDetailsState(!isAllPresentStudentDetailsChecked)"
-                       [checked]="isAllPresentStudentDetailsChecked">
-                <label class="ml-1"><strong> Show Emails </strong></label>
-              </div>
-              <ng-container *ngFor="let courseDetails of courseDetailsList">
-                <ng-container *ngFor="let section of courseDetails.sections">
-                  <ng-container *ngFor="let team of section.teams">
-                    <div class="checkbox-outer-div" *ngFor="let student of team.students" [hidden]="!team.isChecked">
-                      <input type="checkbox" [(ngModel)]="student.isChecked">
-                      <label class="ml-1">
-                        {{student.email}}
-                      </label>
-                    </div>
-                  </ng-container>
-                </ng-container>
-              </ng-container>
-            </ng-container>
-          </div>
+            <button class="btn btn-success"
+              routerLink="/web/instructor/courses/enroll"
+              [queryParams]="{courseid: courseTab.course.courseId}">
+            Enroll Students
+            </button>
+            <br/><br/>
+            <tm-student-list
+                [courseId]="courseTab.course.courseId"
+                [students]="courseTab.studentList" [useGrayHeading]="false"
+                [enableRemindButton]="true"
+                (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+            </tm-student-list>
+          </ng-container>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
-<ng-container *ngIf="courses && courses.length" >
-  <div class="p-2">
-    <div *ngFor="let course of courses" class="card border mb-3 p-0"
-         [hidden]="(!course.isChecked) && (!isDisplayArchive) && course.isArchived">
-      <div class="card-header font-weight-bold"
-           [ngClass]="{'text-dark-blue bg-light-blue ': !course.isArchived, 'bg-light-grey': course.isArchived}"
-           (click)="toggleCourseStateAtInput(course)">
-        <strong>[{{course.id}}]:</strong> {{course.name}}
-        <div class="arrow-sign">
-          <button class="btn btn-info btn-xs"
-                  routerLink="/web/instructor/courses/enroll"
-                  [queryParams]="{courseid: course.id}">
-            Enroll
-          </button>
-          <i class="fas fa-chevron-up pl-3" [hidden]="!course.isChecked"></i>
-          <i class="fas fa-chevron-down pl-3" [hidden]="course.isChecked"></i>
-        </div>
-      </div>
-      <div class="card-body p-0">
-        <tm-student-list
-            [courseId]="course.id"
-            [useGrayHeading]="true"
-            [sections]="getStudentListSectionDataForCourse(course.id)"
-            [listOfStudentsToHide]="getStudentsToHide(course.id)"
-            [isHideTableHead]="!course.isChecked"
-        >
-        </tm-student-list>
-      </div>
+      <ng-template #noStudentsTemplate>
+        <h5>There are no students in this course.</h5>
+        <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
+          Enroll Students
+        </button>
+      </ng-template>
+
     </div>
+    <br/>
   </div>
 </ng-container>

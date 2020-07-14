@@ -1,11 +1,11 @@
 <div class="modal-header text-white"
-     [ngClass]="{'bg-danger': failToSaveQuestions.length !== 0, 'bg-success': failToSaveQuestions.length === 0}">
+     [ngClass]="{'bg-danger': hasFailToSaveQuestions, 'bg-success': !hasFailToSaveQuestions}">
   <h5 class="modal-title">
-        <span *ngIf="failToSaveQuestions.length === 0">
+        <span *ngIf="!hasFailToSaveQuestions">
           <i class="fas fa-check-circle"></i> All responses submitted successfully!
         </span>
-    <span *ngIf="failToSaveQuestions.length !== 0">
-          <i class="fas fa-exclamation-circle"></i> Some questions do not saved!
+    <span *ngIf="hasFailToSaveQuestions">
+          <i class="fas fa-exclamation-circle"></i> Some questions were not saved!
         </span>
   </h5>
   <button type="button" class="close" (click)="activeModal.dismiss()">
@@ -14,14 +14,18 @@
 </div>
 <div class="modal-body">
   <p *ngIf="notYetAnsweredQuestions.length !== 0">
-    <span class="unanswered-exclamation-mark"> &#10071; </span> Note that some questions are yet to be answered.
+    <i class="fas fa-exclamation"></i> Note that some questions are yet to be answered.
     They are: {{ notYetAnsweredQuestions }}.
   </p>
-  <p *ngIf="failToSaveQuestions.length !== 0" class="text-danger">
+  <div *ngIf="hasFailToSaveQuestions" class="text-danger">
     <i class="fas fa-exclamation"></i> Some answers to questions are not saved due to errors.
-    Those questions are: {{ failToSaveQuestions }}. Refreshing the page and submit again might solve the problem.
-  </p>
-  <p *ngIf="failToSaveQuestions.length === 0">
+    <ul>
+      <li *ngFor="let question of failToSaveQuestions | keyvalue">
+        Question {{ question.key }}:  {{ question.value }}
+      </li>
+    </ul>
+  </div>
+  <p *ngIf="!hasFailToSaveQuestions">
     All your responses have been successfully recorded! You may now leave this page.
   </p>
   <p>
@@ -34,6 +38,6 @@
 <div class="modal-footer">
   <button type="button" class="btn"
           [ngClass]="
-                {'btn-danger': failToSaveQuestions.length !== 0, 'btn-success': failToSaveQuestions.length === 0}"
+                {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"
           (click)="activeModal.close()">OK</button>
 </div>

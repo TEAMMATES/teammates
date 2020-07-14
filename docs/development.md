@@ -50,9 +50,7 @@ To stop the dev server, press `Ctrl + C`.
 
 Back-end dev server is the Google App Engine-based server handling all the business logic, including data storage.
 
-### With command line
-
-#### Starting the dev server
+### Starting the dev server
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
@@ -68,36 +66,14 @@ run the following command instead:
 
 The dev server URL will be `http://localhost:8080` as specified in `build.gradle`.
 
-#### Stopping the dev server
+### Stopping the dev server
 
 If you started the server in the background, run the following command to stop it:
 ```sh
 ./gradlew appengineStop
 ```
 
-If the server is running in the foreground, press `Ctrl + C` to stop it or run the above command in a new console.
-
-### With Eclipse
-
-#### Starting the dev server
-
-Right-click on the project folder and choose `Run As → App Engine`.<br>
-After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-The dev server URL will be given at the console output, e.g. `http://localhost:8080`.
-
-#### Stopping the dev server
-
-Click the "Terminate" icon on the Eclipse console.
-
-### With IntelliJ
-
-#### Starting the dev server
-
-Go to `Run → Run...` and select `Google App Engine Standard Local Server` in the pop-up box.
-
-#### Stopping the dev server
-
-Go to `Run → Stop 'Google App Engine Standard Local Server'`.
+If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
 
 ## Building front-end files
 
@@ -222,9 +198,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 
 ### Running the tests
 
-- Other than component tests and E2E tests, there are also:
-  - **Failed tests**: The failed tests from the previous run. The configuration file is auto-generated and can be found in `test-output/testng-failed.xml`.
-  - **All tests**: In IDEs, an additional configuration to run both component tests and E2E tests simultaneously are provided.
 - When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
 
 #### Running the tests with command line
@@ -260,33 +233,6 @@ You can generate the coverage data with `jacocoReport` task after running tests,
 ./gradlew appengineRun componentTests jacocoReport
 ```
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
-
-#### Running the tests with Eclipse
-
-Only back-end component tests and E2E tests are supported.
-
-Run tests using the configurations available under the green `Run` button on the Eclipse toolbar.
-
-Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
-
-To run individual tests, right-click on the test files on the project explorer and choose `Run As → TestNG Test`.
-
-To generate code coverage data:
-- You need [EclEmma Java Code Coverage plugin](https://marketplace.eclipse.org/content/eclemma-java-code-coverage).
-- Choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite. The coverage will be reported in Eclipse after the test run is over.
-
-#### Running the tests with IntelliJ
-
-Only back-end component tests and E2E tests are supported.
-
-Run tests using the configurations available under `Run → Run...`.
-
-To run individual tests, right-click on the test files on the project explorer and choose `Run`.
-
-To measure code coverage, use `Run → Run... → CI Tests → ▶ → Cover `.
-
-Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use IntelliJ IDEA's code coverage runner.
-You can further configure your code coverage settings by referring to [IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/code-coverage.html).
 
 ### Testing against production server
 
@@ -345,7 +291,6 @@ There are several files used to configure various aspects of the system.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
 * `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
-* `.stylelintrc`: Equivalent to `static-analysis/teammates-stylelint.yml`, currently only used for Stylelint integration in IntelliJ.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.

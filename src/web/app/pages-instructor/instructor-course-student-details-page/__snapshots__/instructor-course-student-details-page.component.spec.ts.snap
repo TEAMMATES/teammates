@@ -2,11 +2,11 @@
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-details-page
-  httpRequestService={[Function HttpRequestService]}
   photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
 >
   
 </tm-instructor-course-student-details-page>
@@ -14,24 +14,16 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
 
 exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
 <tm-instructor-course-student-details-page
-  httpRequestService={[Function HttpRequestService]}
   photoUrl={[Function String]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfile={[Function Object]}
-  user="undefined"
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
 >
   <h1>
     firstName
-  </h1><tm-student-profile
-    ng-reflect-photo-url="http://localhost:8080/webapi/s"
-    ng-reflect-student-profile="[object Object]"
-  /><tm-course-related-info
-    ng-reflect-student="[object Object]"
-  /><tm-more-info
-    ng-reflect-more-info-text="I have more info here"
-    ng-reflect-student-name="firstName"
-  />
+  </h1><tm-student-profile /><tm-course-related-info /><tm-more-info />
 </tm-instructor-course-student-details-page>
 `;

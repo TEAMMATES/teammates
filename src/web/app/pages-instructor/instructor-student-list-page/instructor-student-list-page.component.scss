@@ -1,47 +1,18 @@
-.bg-light-blue {
-  background-color: #CCE5FF;
+.course-card-header {
+  background-color: #005CBF;
+  color: white;
 }
 
-.bg-light-grey {
-  background-color: #E8E8E8;
+.course-card-header-text {
+  font-size: 1rem;
 }
 
-.border-light-blue {
-  border-color: #CCE5FF;
-}
-
-.text-dark-blue {
-  color: #007BFF;
-}
-
-.fill-plain {
-  background-color: #EAEFF5;
-}
-
-.checkbox-outer-div {
-  margin-left: 20px;
-}
-
-.checkbox-outer-div input[type="checkbox"] {
-  margin-left: -20px;
+.course-card-content {
   margin-top: 5px;
-  display: inline;
 }
 
-.checkbox-outer-div label {
-  display: inline;
-}
-
-.card-header {
-  cursor: pointer;
-}
-
-.arrow-sign {
-  float: right;
-  display: inline;
+.course-card-statistic-text {
   text-align: right;
-}
-
-.text-color-primary {
-  color: #428BCA;
+  padding-top: 10px;
+  font-size: 1.1em;
 }

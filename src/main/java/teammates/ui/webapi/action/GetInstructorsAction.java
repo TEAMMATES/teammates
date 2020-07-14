@@ -11,6 +11,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.InstructorsData;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * Get a list of instructors of a course.
@@ -24,6 +25,10 @@ public class GetInstructorsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
@@ -64,8 +69,10 @@ public class GetInstructorsAction extends Action {
 
             // hide information
             data.getInstructors().forEach(i -> {
+                i.setGoogleId(null);
                 i.setJoinState(null);
                 i.setIsDisplayedToStudents(null);
+                i.setRole(null);
             });
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding

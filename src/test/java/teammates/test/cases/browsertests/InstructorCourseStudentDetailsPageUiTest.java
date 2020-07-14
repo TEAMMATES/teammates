@@ -8,7 +8,7 @@ import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE}.
  */
 public class InstructorCourseStudentDetailsPageUiTest extends BaseE2ETestCase {
 

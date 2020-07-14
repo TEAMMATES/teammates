@@ -57,6 +57,7 @@ public class CreateAccountAction extends Action {
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
                 .withInstructorInstitution(instructorInstitution)
+                .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
                 .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(

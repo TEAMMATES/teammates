@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -15,6 +14,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
@@ -35,9 +35,9 @@ public abstract class Action {
     protected EmailGenerator emailGenerator = new EmailGenerator();
     protected TaskQueuer taskQueuer = new TaskQueuer();
     protected EmailSender emailSender = new EmailSender();
+    protected RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
 
     protected HttpServletRequest req;
-    protected HttpServletResponse resp;
     protected UserInfo userInfo;
     protected AuthType authType;
 
@@ -47,9 +47,8 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    protected void init(HttpServletRequest req, HttpServletResponse resp) {
+    protected void init(HttpServletRequest req) {
         this.req = req;
-        this.resp = resp;
         initAuthInfo();
     }
 
@@ -67,6 +66,10 @@ public abstract class Action {
 
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
+    }
+
+    public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
+        this.recaptchaVerifier = recaptchaVerifier;
     }
 
     public boolean isMasqueradeMode() {
@@ -94,6 +97,7 @@ public abstract class Action {
     private void initAuthInfo() {
         if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
+            userInfo = new UserInfo(getRequestParamValue(Const.ParamsNames.USER_ID));
             return;
         }
 

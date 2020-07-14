@@ -2,20 +2,20 @@
   <td>
     <div class="radio" *ngFor="let num of questionDetails.mcqChoices; let i = index;">
       <label class="margin-right-15px">
-        <input type="radio" class="margin-right-15px" name="check-{{ id }}" [checked]="isMcqOptionSelected[i]"
-        (click)="updateSelectedMcqOption(i)">
-         <strong>{{ questionDetails.mcqChoices[i] }}</strong>
+        <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
+               (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
+        <span class="option-text" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
       </label>
     </div>
     <div class="radio" *ngIf="questionDetails.otherEnabled">
       <label class="margin-right-15px">
-        <input type="radio" class="margin-right-15px" name="check-{{ id }}" [checked]="responseDetails.isOther"
-        (click)="updateIsOtherOption()">
+        <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="responseDetails.isOther"
+               (click)="updateIsOtherOption()" [disabled]="isDisabled">
         <strong>Other</strong>
       </label>
-      <input class="form-control" type="text" [disabled]="!responseDetails.isOther"
-             [(ngModel)]="responseDetails.otherFieldContent" #otherText
-             (blur)="updateOtherOptionText(otherText.value)">
+      <input  #inputTextBoxOther class="form-control" style="display: inline; width: 60%;" type="text" [disabled]="!responseDetails.isOther || isDisabled"
+             [ngModel]="responseDetails.otherFieldContent"
+             (ngModelChange)="triggerResponseDetailsChange('otherFieldContent', $event)">
     </div>
   </td>
 </tr>

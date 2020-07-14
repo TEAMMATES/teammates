@@ -1,10 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpRequestService } from '../../../../services/http-request.service';
-import { StatusMessageService } from '../../../../services/status-message.service';
-import { FeedbackSessionStudentRemindRequest } from '../../../../types/api-request';
-import { StudentStatusTableRowModel } from '../sessions-table-model';
-import { StudentListInfoBaseModalComponent } from '../student-list-info-base-modal.component';
+import { StudentListInfoTableRowModel } from '../student-list-info-table/student-list-info-table-model';
 
 /**
  * Re-send results link to students modal.
@@ -14,57 +10,25 @@ import { StudentListInfoBaseModalComponent } from '../student-list-info-base-mod
   templateUrl: './resend-results-link-to-student-modal.component.html',
   styleUrls: ['./resend-results-link-to-student-modal.component.scss'],
 })
-export class ResendResultsLinkToStudentModalComponent extends StudentListInfoBaseModalComponent implements OnInit {
+export class ResendResultsLinkToStudentModalComponent implements OnInit {
 
-  @Input()
+  // values below will be injected by other component
   courseId: string = '';
-
-  @Input()
   feedbackSessionName: string = '';
+  studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
 
-  checkAll: boolean = false;
-
-  constructor(public activeModal: NgbActiveModal, httpRequestService: HttpRequestService,
-              statusMessageService: StatusMessageService) {
-    super(httpRequestService, statusMessageService);
+  constructor(public activeModal: NgbActiveModal) {
   }
 
   ngOnInit(): void {
-    this.initializeStudentsStatusTable();
   }
 
   /**
-   * Gets a list of students' response details.
+   * Collates a list of selected students with selected status.
    */
-  initializeStudentsStatusTable(): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: this.courseId,
-      fsname: this.feedbackSessionName,
-    };
-
-    this.getStudentStatusTableRowModel(paramMap, this.studentStatusTableRows);
-  }
-
-  /**
-   * Bind individual checkboxes to all submitted and all yet submitted students checkbox.
-   */
-  bindSelectedCheckboxes(): void {
-    this.checkAll = this.studentStatusTableRows.every((tableRow: StudentStatusTableRowModel) => {
-      return tableRow.isChecked;
-    });
-  }
-
-  /**
-   * Check all students checkbox to all students.
-   */
-  checkAllStudentsHandler(): void {
-    this.checkAllStudents(this.studentStatusTableRows, this.checkAll);
-  }
-
-  /**
-   * Collates a list of selected students with selected checkbox.
-   */
-  collateStudentsToSendHandler(): FeedbackSessionStudentRemindRequest {
-    return this.collateStudentsToSend(this.studentStatusTableRows);
+  collateStudentsToSendHandler(): StudentListInfoTableRowModel[] {
+    return this.studentListInfoTableRowModels
+        .map((model: StudentListInfoTableRowModel) => Object.assign({}, model))
+        .filter((model: StudentListInfoTableRowModel) => model.isSelected);
   }
 }

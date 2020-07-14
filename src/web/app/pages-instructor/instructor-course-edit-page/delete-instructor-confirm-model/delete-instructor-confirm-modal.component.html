@@ -1,0 +1,20 @@
+<div class="modal-header alert-danger">
+  <h4 class="modal-title icon-danger">Confirm deleting instructor</h4>
+  <button class="close" data-dismiss="modal" aria-hidden="true" (click)="activeModal.dismiss()">×</button>
+</div>
+<div class="modal-body">
+  <span *ngIf="isDeletingSelf">
+    Are you sure you want to delete your instructor role from the course {{ instructorToDelete.courseId }}?
+    You will not be able to access the course anymore.
+  </span>
+  <span *ngIf="!isDeletingSelf">
+    Are you sure you want to delete the instructor {{ instructorToDelete.name }} from the course {{ instructorToDelete.courseId }}?
+    He/she will not be able to access the course anymore.
+  </span>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss()">No, cancel the operation</button>
+  <button type="button" class="btn btn-danger modal-btn-ok" (click)="activeModal.close()">
+    Yes
+  </button>
+</div>

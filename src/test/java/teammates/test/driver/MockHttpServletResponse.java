@@ -1,7 +1,9 @@
 package teammates.test.driver;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
@@ -19,10 +21,11 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
     private int statusCode = HttpStatus.SC_OK;
     private String redirectUrl;
+    private List<Cookie> cookies = new ArrayList<>();
 
     @Override
     public void addCookie(Cookie cookie) {
-        // not used
+        this.cookies.add(cookie);
     }
 
     @Override
@@ -207,6 +210,10 @@ public class MockHttpServletResponse implements HttpServletResponse {
     @Override
     public Locale getLocale() {
         return null;
+    }
+
+    public List<Cookie> getCookies() {
+        return this.cookies;
     }
 
 }

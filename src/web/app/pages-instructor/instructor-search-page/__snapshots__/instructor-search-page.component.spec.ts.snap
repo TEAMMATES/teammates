@@ -2,50 +2,790 @@
 
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
-  fbSessionDataTables={[Function Array]}
-  httpRequestService={[Function HttpRequestService]}
+  commentTables={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
-  searchKey={[Function String]}
+  searchParams={[Function Object]}
+  searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
-  studentTables={[Function Array]}
-  user="undefined"
+  studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-key="TEST"
-  />
+  <tm-instructor-search-bar>
+    <div
+      class="card bg-light mb-4"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="text-muted"
+        >
+           Search Tips:
+          <br />
+          <ul>
+            <li>
+              Put more keywords to search for more precise results.
+            </li>
+            <li>
+              Put quotation marks around words 
+              <b>
+                "[any word]"
+              </b>
+               to search for an exact phrase in an exact order.
+            </li>
+          </ul>
+        </div>
+        <div
+          class="form-group"
+        >
+          <div
+            class="input-group"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              placeholder="Your search keyword"
+              type="text"
+            />
+            <div
+              class="input-group-append"
+            >
+              <button
+                class="btn btn-primary"
+              >
+                Search
+              </button>
+            </div>
+            <div
+              class="input-group mt-md-1"
+            >
+              <div
+                class="col-md-3"
+              >
+                <input
+                  class="form-check-inline ng-untouched ng-pristine ng-valid"
+                  id="studentsCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  class="form-check-label"
+                  for="studentsCheckbox"
+                >
+                  <b>
+                    Students
+                  </b>
+                </label>
+              </div>
+              <div
+                class="col-md-9"
+              >
+                <input
+                  class="form-check-inline ng-untouched ng-pristine ng-valid"
+                  id="commentCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  class="form-check-label"
+                  for="commentCheckbox"
+                >
+                  <b>
+                    Questions, responses, comments on responses
+                  </b>
+                </label>
+              </div>
+              <div
+                class="invalid-field mt-md-1"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                   Please select at least one search type. 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-instructor-search-bar>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
-  fbSessionDataTables={[Function Array]}
-  httpRequestService={[Function HttpRequestService]}
+  commentTables={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
-  searchKey=""
+  searchParams={[Function Object]}
+  searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
-  studentTables={[Function Array]}
-  user="undefined"
+  studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-key=""
-  /><tm-student-result-table
-    ng-reflect-student-tables="[object Object]"
-  />
+  <tm-instructor-search-bar>
+    <div
+      class="card bg-light mb-4"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="text-muted"
+        >
+           Search Tips:
+          <br />
+          <ul>
+            <li>
+              Put more keywords to search for more precise results.
+            </li>
+            <li>
+              Put quotation marks around words 
+              <b>
+                "[any word]"
+              </b>
+               to search for an exact phrase in an exact order.
+            </li>
+          </ul>
+        </div>
+        <div
+          class="form-group"
+        >
+          <div
+            class="input-group"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              placeholder="Your search keyword"
+              type="text"
+            />
+            <div
+              class="input-group-append"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+              >
+                Search
+              </button>
+            </div>
+            <div
+              class="input-group mt-md-1"
+            >
+              <div
+                class="col-md-3"
+              >
+                <input
+                  class="form-check-inline ng-untouched ng-pristine ng-valid"
+                  id="studentsCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  class="form-check-label"
+                  for="studentsCheckbox"
+                >
+                  <b>
+                    Students
+                  </b>
+                </label>
+              </div>
+              <div
+                class="col-md-9"
+              >
+                <input
+                  class="form-check-inline ng-untouched ng-pristine ng-valid"
+                  id="commentCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  class="form-check-label"
+                  for="commentCheckbox"
+                >
+                  <b>
+                    Questions, responses, comments on responses
+                  </b>
+                </label>
+              </div>
+              <div
+                class="invalid-field mt-md-1"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                   Please select at least one search type. 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-instructor-search-bar><tm-student-result-table>
+    <div
+      class="card border border-primary mb-4"
+    >
+      <div
+        class="card-header text-white bg-primary font-weight-bold"
+      >
+        Students
+      </div>
+      <div
+        class="card-body p-3"
+      >
+        
+        <div
+          class="card border border-light-blue mb-3"
+        >
+          <div
+            class="card-header text-dark-blue bg-light-blue font-weight-bold"
+          >
+            [test-exa.demo]
+          </div>
+          <div
+            class="card-body p-0"
+          >
+            <tm-student-list>
+              <div
+                class="table-responsive"
+              >
+                <table
+                  class="table table-bordered table-striped m-0"
+                >
+                  <thead
+                    class="thead-gray"
+                  >
+                    <tr>
+                      <th>
+                        Photo
+                      </th>
+                      
+                      <th
+                        class="sortable-header"
+                      >
+                         Section 
+                        
+                        <span>
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                        
+                        
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Team 
+                        
+                        <span>
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                        
+                        
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Student Name 
+                        
+                        <span>
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                        
+                        
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Status 
+                        
+                        <span>
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                        
+                        
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                         Email 
+                        
+                        <span>
+                          <i
+                            class="fas fa-sort"
+                          />
+                        </span>
+                        
+                        
+                      </th>
+                      <th>
+                        Action(s)
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr
+                      s=""
+                    >
+                      <td
+                        class="align-center"
+                      >
+                        <tm-view-photo-popover>
+                          
+                          
+                          
+                          <a
+                            href="/"
+                            queryparamshandling="preserve"
+                            role="button"
+                          >
+                             View Photo 
+                          </a>
+                          
+                          
+                          
+                        </tm-view-photo-popover>
+                      </td>
+                      
+                      <td>
+                        Tutorial Group 1
+                      </td>
+                      <td>
+                        Team 1
+                      </td>
+                      <td>
+                        tester
+                      </td>
+                      <td
+                        class="align-center"
+                      >
+                        Joined
+                      </td>
+                      <td>
+                        tester@tester.com
+                      </td>
+                      <td
+                        class="no-print align-center"
+                      >
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           View
+                        </a>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           Edit
+                        </a>
+                        
+                        
+                        
+                        <button
+                          class="btn btn-light btn-sm mr-2"
+                        >
+                          Delete
+                        </button>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           All Records
+                        </a>
+                        
+                      </td>
+                    </tr>
+                    <tr
+                      s=""
+                    >
+                      <td
+                        class="align-center"
+                      >
+                        <tm-view-photo-popover>
+                          
+                          
+                          
+                          <a
+                            href="/"
+                            queryparamshandling="preserve"
+                            role="button"
+                          >
+                             View Photo 
+                          </a>
+                          
+                          
+                          
+                        </tm-view-photo-popover>
+                      </td>
+                      
+                      <td>
+                        Tutorial Group 1
+                      </td>
+                      <td>
+                        Team 1
+                      </td>
+                      <td>
+                        Benny Charles
+                      </td>
+                      <td
+                        class="align-center"
+                      >
+                        Joined
+                      </td>
+                      <td>
+                        benny.c.tmms@gmail.tmt
+                      </td>
+                      <td
+                        class="no-print align-center"
+                      >
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           View
+                        </a>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           Edit
+                        </a>
+                        
+                        
+                        
+                        <button
+                          class="btn btn-light btn-sm mr-2"
+                        >
+                          Delete
+                        </button>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           All Records
+                        </a>
+                        
+                      </td>
+                    </tr>
+                    <tr
+                      s=""
+                    >
+                      <td
+                        class="align-center"
+                      >
+                        <tm-view-photo-popover>
+                          
+                          
+                          
+                          <a
+                            href="/"
+                            queryparamshandling="preserve"
+                            role="button"
+                          >
+                             View Photo 
+                          </a>
+                          
+                          
+                          
+                        </tm-view-photo-popover>
+                      </td>
+                      
+                      <td>
+                        Tutorial Group 1
+                      </td>
+                      <td>
+                        Team 1
+                      </td>
+                      <td>
+                        Alice Betsy
+                      </td>
+                      <td
+                        class="align-center"
+                      >
+                        Joined
+                      </td>
+                      <td>
+                        alice.b.tmms@gmail.tmt
+                      </td>
+                      <td
+                        class="no-print align-center"
+                      >
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           View
+                        </a>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           Edit
+                        </a>
+                        
+                        
+                        
+                        <button
+                          class="btn btn-light btn-sm mr-2"
+                        >
+                          Delete
+                        </button>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           All Records
+                        </a>
+                        
+                      </td>
+                    </tr>
+                    <tr
+                      s=""
+                    >
+                      <td
+                        class="align-center"
+                      >
+                        <tm-view-photo-popover>
+                          
+                          
+                          
+                          <a
+                            href="/"
+                            queryparamshandling="preserve"
+                            role="button"
+                          >
+                             View Photo 
+                          </a>
+                          
+                          
+                          
+                        </tm-view-photo-popover>
+                      </td>
+                      
+                      <td>
+                        Tutorial Group 1
+                      </td>
+                      <td>
+                        Team 1
+                      </td>
+                      <td>
+                        Danny Engrid
+                      </td>
+                      <td
+                        class="align-center"
+                      >
+                        Joined
+                      </td>
+                      <td>
+                        danny.e.tmms@gmail.tmt
+                      </td>
+                      <td
+                        class="no-print align-center"
+                      >
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           View
+                        </a>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           Edit
+                        </a>
+                        
+                        
+                        
+                        <button
+                          class="btn btn-light btn-sm mr-2"
+                        >
+                          Delete
+                        </button>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           All Records
+                        </a>
+                        
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tm-student-list>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-student-result-table>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
-  fbSessionDataTables={[Function Array]}
-  httpRequestService={[Function HttpRequestService]}
+  commentTables={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
   route={[Function ActivatedRoute]}
-  searchKey=""
+  searchParams={[Function Object]}
+  searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
-  studentTables={[Function Array]}
-  user="undefined"
+  studentsListRowTables={[Function Array]}
 >
-  <tm-instructor-search-bar
-    ng-reflect-search-key=""
-  />
+  <tm-instructor-search-bar>
+    <div
+      class="card bg-light mb-4"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="text-muted"
+        >
+           Search Tips:
+          <br />
+          <ul>
+            <li>
+              Put more keywords to search for more precise results.
+            </li>
+            <li>
+              Put quotation marks around words 
+              <b>
+                "[any word]"
+              </b>
+               to search for an exact phrase in an exact order.
+            </li>
+          </ul>
+        </div>
+        <div
+          class="form-group"
+        >
+          <div
+            class="input-group"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              placeholder="Your search keyword"
+              type="text"
+            />
+            <div
+              class="input-group-append"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+              >
+                Search
+              </button>
+            </div>
+            <div
+              class="input-group mt-md-1"
+            >
+              <div
+                class="col-md-3"
+              >
+                <input
+                  class="form-check-inline ng-untouched ng-pristine ng-valid"
+                  id="studentsCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  class="form-check-label"
+                  for="studentsCheckbox"
+                >
+                  <b>
+                    Students
+                  </b>
+                </label>
+              </div>
+              <div
+                class="col-md-9"
+              >
+                <input
+                  class="form-check-inline ng-untouched ng-pristine ng-valid"
+                  id="commentCheckbox"
+                  type="checkbox"
+                />
+                <label
+                  class="form-check-label"
+                  for="commentCheckbox"
+                >
+                  <b>
+                    Questions, responses, comments on responses
+                  </b>
+                </label>
+              </div>
+              <div
+                class="invalid-field mt-md-1"
+                hidden=""
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-exclamation-circle"
+                />
+                   Please select at least one search type. 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tm-instructor-search-bar>
 </tm-instructor-search-page>
 `;

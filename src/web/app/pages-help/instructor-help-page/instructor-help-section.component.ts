@@ -11,7 +11,7 @@ interface QuestionDetail {
 /**
  * Base section for instructor help page.
  */
-export class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
+export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: String;
   @ViewChildren('question') questionHTML !: QueryList<ElementRef>;
@@ -20,7 +20,7 @@ export class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterV
   searchedTerms: number;
   questionDetails: QuestionDetail[];
 
-  constructor() {
+  protected constructor() {
     this.key = '';
     this.showQuestion = [];
     this.searchedTerms = -1;
@@ -109,4 +109,6 @@ export class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterV
     return questionsToDisplay.length === 0 || questionsToDisplay.slice(firstPoint, lastPoint)
         .reduce((x: any, y: any) => x || y, false);
   }
+
+  abstract expand(questionId: string): void;
 }

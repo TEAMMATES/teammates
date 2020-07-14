@@ -15,7 +15,7 @@ import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
- * SUT: {@link Const.ActionURIs#INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_SUBMISSION_PAGE}.
  */
 public class InstructorFeedbackSubmitPageUiTest extends BaseE2ETestCase {
     private FeedbackSubmitPage submitPage;
@@ -260,9 +260,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                         fqMsq.getId(), "IFSubmitUiT.instr@gmail.tmt",
                         "IFSubmitUiT.instr2@gmail.tmt").getResponseDetails();
 
-        assertFalse(frMsq.contains("UI"));
-        assertTrue(frMsq.contains("Algo"));
-        assertFalse(frMsq.contains("Design"));
+        assertFalse(frMsq.getAnswers().contains("UI"));
+        assertTrue(frMsq.getAnswers().contains("Algo"));
+        assertFalse(frMsq.getAnswers().contains("Design"));
 
         FeedbackNumericalScaleResponseDetails frNumscale =
                 (FeedbackNumericalScaleResponseDetails) BackDoor.getFeedbackResponse(

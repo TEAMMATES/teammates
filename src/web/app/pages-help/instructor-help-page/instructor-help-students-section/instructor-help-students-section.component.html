@@ -1,15 +1,15 @@
 <div>
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Students</h2>
   <!-- Section -->
-  <h3 *ngIf="displaySubsection(showQuestion, 0, 3)">Student Records</h3>
+  <h4 *ngIf="displaySubsection(showQuestion, 0, 3)">Student Records</h4>
   <!-- Question -->
-  <div class="instr-help-qn0" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question>
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="{{StudentsSectionQuestions.STUDENT_VIEW_PROFILE}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]">
       How do I view a student's profile?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>To view the profile of Student A from Course B:</p>
@@ -56,11 +56,11 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn1" *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
-    <p><button type="button" class="btn btn-outline-primary" (click)="isCollapsed1 = !isCollapsed1" [attr.aria-expanded]="!isCollapsed1">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="{{StudentsSectionQuestions.STUDENT_EDIT_DETAILS}}">
+    <p><button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]">
       How do I edit a student's details after enrolling the student?
     </button></p>
-    <div [ngbCollapse]="!isCollapsed1">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -95,13 +95,13 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn2" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[2]" #question id="{{StudentsSectionQuestions.STUDENT_VIEW_RESPONSES}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed2 = !isCollapsed2" [attr.aria-expanded]="!isCollapsed2">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]">
       How do I view all the responses a student has given and received?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed2">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -122,15 +122,15 @@
     </div>
   </div>
   <!-- Section -->
-  <h3 *ngIf="displaySubsection(showQuestion, 3, 5)">Finding Students</h3>
+  <h4 *ngIf="displaySubsection(showQuestion, 3, 5)">Finding Students</h4>
   <!--Question -->
-  <div class="instr-help-qn3" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="{{StudentsSectionQuestions.STUDENT_SEARCH}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed3 = !isCollapsed3" [attr.aria-expanded]="!isCollapsed3">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
       How do I search for a student in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed3">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -162,14 +162,14 @@
             If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
           </p>
           <tm-example-box>
-            <tm-student-result-table [studentTables]="exampleSingleStudentResultTables"></tm-student-result-table>
+            <tm-student-result-table [studentTables]="exampleSingleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
           </tm-example-box>
           <p>
             You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
             For example, if you search for <code>alice Section A Team B jack@email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
           </p>
           <tm-example-box>
-            <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables"></tm-student-result-table>
+            <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
           </tm-example-box>
         </div>
       </div>
@@ -177,13 +177,13 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn4" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="{{StudentsSectionQuestions.STUDENT_EMAIL}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed4 = !isCollapsed4" [attr.aria-expanded]="!isCollapsed4">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL]">
       How do I email a student or students in my course?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed4">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <ol>
@@ -204,15 +204,15 @@
     </div>
   </div>
   <!-- Section -->
-  <h3 *ngIf="displaySubsection(showQuestion, 5, 7)">Student Accounts</h3>
+  <h4 *ngIf="displaySubsection(showQuestion, 5, 7)">Student Accounts</h4>
   <!--Question-->
-  <div class="instr-help-qn5" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="{{StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed5 = !isCollapsed5" [attr.aria-expanded]="!isCollapsed5">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]">
       Is it compulsory for students to use Google accounts?
       </button>
     </p>
-    <div id="answer5" [ngbCollapse]="!isCollapsed5">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -225,13 +225,13 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn6" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="{{StudentsSectionQuestions.STUDENT_CHANGE_ID}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed6 = !isCollapsed6" [attr.aria-expanded]="!isCollapsed6">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID] = !questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]" [attr.aria-expanded]="!questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]">
       How do I change the Google ID associated with a student?
       </button>
     </p>
-    <div [ngbCollapse]="!isCollapsed6">
+    <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>

@@ -2,6 +2,8 @@ package teammates.ui.webapi.request;
 
 import javax.annotation.Nullable;
 
+import teammates.ui.webapi.output.InstructorPermissionRole;
+
 /**
  * The create request for an instructor to be created.
  */
@@ -11,7 +13,7 @@ public class InstructorCreateRequest extends BasicRequest {
 
     private String name;
     private String email;
-    private String roleName;
+    private InstructorPermissionRole role;
 
     @Nullable
     private String displayName;
@@ -22,7 +24,7 @@ public class InstructorCreateRequest extends BasicRequest {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.roleName = roleName;
+        this.role = InstructorPermissionRole.getEnum(roleName);
         this.displayName = displayName;
         this.isDisplayedToStudent = isDisplayedToStudent;
     }
@@ -31,7 +33,7 @@ public class InstructorCreateRequest extends BasicRequest {
     public void validate() {
         assertTrue(name != null, "name cannot be null");
         assertTrue(email != null, "email cannot be null");
-        assertTrue(roleName != null, "role name cannot be null");
+        assertTrue(role != null, "role name cannot be null");
         assertTrue(isDisplayedToStudent != null, "displayed to student boolean cannot be null");
     }
 
@@ -48,7 +50,7 @@ public class InstructorCreateRequest extends BasicRequest {
     }
 
     public String getRoleName() {
-        return roleName;
+        return role.getRoleName();
     }
 
     public String getDisplayName() {

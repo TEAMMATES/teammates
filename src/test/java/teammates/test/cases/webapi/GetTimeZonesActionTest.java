@@ -38,14 +38,12 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
         // Only check that the version number is returned, and some sample values for timezone offset
         assertNotNull(output.getVersion());
 
-        /**
-         * There is a quirk in the ETC/GMT time zones due to the tzdb using POSIX-style signs in the zone names and the
-         * output abbreviations. POSIX has positive signs west of Greenwich, while we are used to positive signs east
-         * of Greenwich in practice. For example, TZ='Etc/GMT+8' uses the abbreviation "GMT+8" and corresponds to 8
-         * hours behind UTC (i.e. west of Greenwich) even though many people would expect it to mean 8 hours ahead of
-         * UTC (i.e. east of Greenwich; like Singapore or China).
-         * (adapted from tzdb table comments)
-         */
+        // There is a quirk in the ETC/GMT time zones due to the tzdb using POSIX-style signs in the zone names and the
+        // output abbreviations. POSIX has positive signs west of Greenwich, while we are used to positive signs east
+        // of Greenwich in practice. For example, TZ='Etc/GMT+8' uses the abbreviation "GMT+8" and corresponds to 8
+        // hours behind UTC (i.e. west of Greenwich) even though many people would expect it to mean 8 hours ahead of
+        // UTC (i.e. east of Greenwich; like Singapore or China).
+        // (adapted from tzdb table comments)
         assertEquals(8 * 60 * 60, output.getOffsets().get("Etc/GMT-8").intValue());
         assertEquals(-5 * 60 * 60, output.getOffsets().get("Etc/GMT+5").intValue());
         assertEquals(11 * 60 * 60, output.getOffsets().get("Etc/GMT-11").intValue());

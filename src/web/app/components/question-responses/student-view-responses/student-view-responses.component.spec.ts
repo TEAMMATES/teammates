@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { CommentBoxModule } from '../../comment-box/comment-box.module';
 import { SingleResponseModule } from '../single-response/single-response.module';
 import { StudentViewResponsesComponent } from './student-view-responses.component';
 
@@ -10,7 +11,7 @@ describe('StudentViewResponsesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [StudentViewResponsesComponent],
-      imports: [SingleResponseModule],
+      imports: [SingleResponseModule, CommentBoxModule],
     })
     .compileComponents();
   }));

@@ -213,6 +213,56 @@ public class AccountAttributesTest extends BaseAttributesTest {
     }
 
     @Test
+    public void testEquals() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        AccountAttributes accountCopy = account.getCopy();
+
+        // When the two accounts are exact copy of each other
+        assertTrue(account.equals(accountCopy));
+
+        // When the two accounts have same values but created at different time
+        AccountAttributes accountSimilar = createValidAccountAttributesObject();
+
+        assertTrue(account.equals(accountSimilar));
+
+        // When the two accounts are different
+        AccountAttributes accountDifferent = AccountAttributes.builder("another")
+                .withName("Another Name")
+                .withEmail("Another Email")
+                .withInstitute("Another Institute")
+                .withIsInstructor(false)
+                .build();
+
+        assertFalse(account.equals(accountDifferent));
+
+        // When the other object is of different class
+        assertFalse(account.equals(3));
+    }
+
+    @Test
+    public void testHashCode() {
+        AccountAttributes account = createValidAccountAttributesObject();
+        AccountAttributes accountCopy = account.getCopy();
+        // When the two accounts are exact copy of each other, they should have the same hash code
+        assertTrue(account.hashCode() == accountCopy.hashCode());
+
+        // When the two accounts have same values but created at different time,
+        // they should have the same hash code
+        AccountAttributes accountSimilar = createValidAccountAttributesObject();
+        assertTrue(account.hashCode() == accountSimilar.hashCode());
+
+        // When the two accounts have different values, they should have different hash code
+        AccountAttributes accountDifferent = AccountAttributes.builder("another")
+                .withName("Another Name")
+                .withEmail("Another Email")
+                .withInstitute("Another Institute")
+                .withIsInstructor(false)
+                .build();
+
+        assertFalse(account.hashCode() == accountDifferent.hashCode());
+    }
+
+    @Test
     public void testUpdateOptionsBuilder_withNullInput_shouldFailWithAssertionError() {
         assertThrows(AssertionError.class, () ->
                 AccountAttributes.updateOptionsBuilder(null));

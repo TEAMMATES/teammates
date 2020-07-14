@@ -132,7 +132,16 @@ public class StudentsLogicTest extends BaseLogicTest {
         }
         EnrollException ee = assertThrows(EnrollException.class,
                 () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
-        assertEquals(String.format(Const.StatusMessages.SECTION_QUOTA_EXCEED, "Section 1"), ee.getMessage());
+
+        String expectedInvalidSectionError =
+                String.format(
+                        Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                        Const.StudentsLogicConst.SECTION_SIZE_LIMIT, "Section 1")
+                        + " "
+                        + String.format(Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                        Const.StudentsLogicConst.SECTION_SIZE_LIMIT);
+
+        assertEquals(expectedInvalidSectionError, ee.getMessage());
 
         ______TS("Failure case: invalid team");
 
@@ -152,10 +161,13 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withComment("")
                 .build());
         ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
-        assertEquals(
-                String.format(Const.StatusMessages.TEAM_INVALID_SECTION_EDIT, "Team 1.1")
-                        + "Please use the enroll page to edit multiple students",
-                ee.getMessage());
+
+        String expectedInvalidTeamError =
+                String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")
+                + " "
+                + Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME_INSTRUCTION;
+
+        assertEquals(expectedInvalidTeamError, ee.getMessage());
     }
 
     @Test
@@ -272,6 +284,29 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // response should not exist
         assertNull(responseToBeDeleted);
+    }
+
+    @Test
+    public void testRegenerateStudentRegistrationKey() throws Exception {
+        ______TS("typical regeneration of course student's registration key");
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        verifyPresentInDatastore(student1InCourse1);
+
+        StudentAttributes updatedStudent =
+                        studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, student1InCourse1.email);
+
+        assertNotEquals(student1InCourse1.getKey(), updatedStudent.getKey());
+
+        ______TS("non-existent student");
+
+        String nonExistentEmail = "non-existent@email";
+        assertNull(logic.getStudentForEmail(student1InCourse1.course, nonExistentEmail));
+
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, nonExistentEmail));
+        assertEquals("Student does not exist: [" + student1InCourse1.course + "/" + nonExistentEmail + "]",
+                      ednee.getMessage());
     }
 
     private void testGetStudentForEmail() {

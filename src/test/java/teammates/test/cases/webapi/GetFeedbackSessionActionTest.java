@@ -5,15 +5,18 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.action.GetFeedbackSessionAction;
-import teammates.ui.webapi.action.Intent;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
 import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
+import teammates.ui.webapi.request.Intent;
 
 /**
  * SUT: {@link GetFeedbackSessionAction}.
@@ -33,6 +36,8 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     @Override
     @Test
     protected void testExecute() throws Exception {
+        // TODO: Add test cases
+
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -103,7 +108,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsInstructor(instructor1OfCourse1.googleId);
         verifyCannotAccess(submissionParams);
 
-        ______TS("only instructors of the same course can access");
+        ______TS("only instructors of the same course can access full detail");
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
@@ -113,5 +118,126 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
+
+        ______TS("only students of the same course can access student result");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
+        };
+
+        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
+        verifyInaccessibleForStudentsOfOtherCourse(submissionParams);
+
+        ______TS("only instructors of the same course can access instructor result");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+        };
+
+        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
+        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyInaccessibleForStudents(submissionParams);
+    }
+
+    @Test
+    protected void testAccessControl_studentResult() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        Intent intent = Intent.STUDENT_SUBMISSION;
+        String[] params = generateParameters(feedbackSession, intent, "", "", "");
+
+        ______TS("Typical unauthorized cases");
+
+        verifyInaccessibleWithoutLogin(params);
+        String unregUserId = "unreg.user";
+        loginAsUnregistered(unregUserId);
+        verifyCannotAccess(params);
+
+        ______TS("student can access his own course session");
+
+        verifyAccessibleForStudentsOfTheSameCourse(params);
+
+        ______TS("Instructor cannot directly get student session");
+
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        verifyCannotAccess(params);
+
+        ______TS("student cannot access other course session");
+        FeedbackSessionAttributes otherCourseFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse2");
+        params = generateParameters(otherCourseFeedbackSession, intent, "", "", "");
+        verifyCannotAccess(params);
+
+        ______TS("Instructor with correct privilege moderate student session");
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+        params = generateParameters(feedbackSession, intent, "", student1InCourse1.email, "");
+
+        verifyInaccessibleForInstructorsOfOtherCourses(params);
+        verifyInaccessibleForStudents(params);
+
+        InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
+        loginAsInstructor(helperOfCourse1.googleId);
+        verifyCannotAccess(params);
+
+        grantInstructorWithSectionPrivilege(helperOfCourse1,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                new String[] {"Section 1"});
+        verifyCanAccess(params);
+        verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, params);
+
+        ______TS("Instructor preview student session");
+        params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.email);
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+    }
+
+    @Test
+    protected void testAccessControl_fullDetail() {
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        String[] params = generateParameters(feedbackSession, Intent.FULL_DETAIL, "", "", "");
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(params);
+    }
+
+    @Test
+    protected void testAccessControl_instructorResult() throws InvalidParametersException, EntityDoesNotExistException {
+        FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
+        Intent intent = Intent.INSTRUCTOR_RESULT;
+        String[] params = generateParameters(feedbackSession, intent, "", "", "");
+        ______TS("Only instructor with correct privilege can access");
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, params
+        );
+
+        ______TS("Instructor moderates instructor submission with correct privilege will pass");
+
+        InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
+        params = generateParameters(feedbackSession, intent, "", instructor1OfCourse1.email, "");
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+
+        ______TS("Instructor preview instructor result with correct privilege will pass");
+
+        String[] previewInstructorSubmissionParams =
+                generateParameters(feedbackSession, intent,
+                        "", "", instructor1OfCourse1.email);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
+    }
+
+    private String[] generateParameters(FeedbackSessionAttributes session, Intent intent,
+                                        String regKey, String moderatedPerson, String previewPerson) {
+        return new String[] {
+                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, intent.toString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, moderatedPerson,
+                Const.ParamsNames.PREVIEWAS, previewPerson,
+                Const.ParamsNames.REGKEY, regKey,
+        };
     }
 }

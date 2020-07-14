@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from '../../../environments/environment';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { SessionLinksRecoveryResponse } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -28,7 +28,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 
-  constructor(private httpRequestService: HttpRequestService,
+  constructor(private feedbackSessionsService: FeedbackSessionsService,
               private statusMessageService: StatusMessageService,
               private formBuilder: FormBuilder) {}
 
@@ -48,24 +48,21 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
     }
 
     if (!this.formSessionLinksRecovery.valid || this.captchaResponse === undefined) {
-      this.statusMessageService.showErrorMessage(
+      this.statusMessageService.showErrorToast(
           'Please enter a valid email address and click the reCAPTCHA before submitting.');
       return;
     }
 
-    const paramsMap: { [key: string]: string } = {
-      sessionlinksrecoveryemail: sessionLinksRecoveryForm.controls.email.value,
-      captcharesponse: this.captchaResponse,
-    };
-
-    this.httpRequestService.post('/sessionlinksrecovery', paramsMap)
-      .subscribe((resp: SessionLinksRecoveryResponse) => {
-        resp.isEmailSent
-            ? this.statusMessageService.showSuccessMessage(resp.message)
-            : this.statusMessageService.showErrorMessage(resp.message);
-      }, (response: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(response.error.message);
-      });
+    this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
+      sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls.email.value,
+      captchaResponse: this.captchaResponse,
+    }).subscribe((resp: SessionLinksRecoveryResponse) => {
+      resp.isEmailSent
+            ? this.statusMessageService.showSuccessToast(resp.message)
+            : this.statusMessageService.showErrorToast(resp.message);
+    }, (response: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(response.error.message);
+    });
     this.resetFormGroups();
   }
 

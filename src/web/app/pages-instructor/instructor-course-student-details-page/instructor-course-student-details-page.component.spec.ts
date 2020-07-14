@@ -1,11 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Gender } from '../../../types/gender';
-import { StudentAttributes } from '../student-profile/student-attributes';
-import { StudentProfile } from '../student-profile/student-profile';
+import { Gender, JoinState, Student, StudentProfile } from '../../../types/api-output';
 import {
   InstructorCourseStudentDetailsPageComponent,
 } from './instructor-course-student-details-page.component';
@@ -19,14 +16,15 @@ class StudentProfileStubComponent {
 }
 @Component({ selector: 'tm-course-related-info', template: '' })
 class CourseRelatedInfoStubComponent {
-  @Input() student: StudentAttributes = {
+  @Input() student: Student = {
     email: '',
-    course: '',
+    courseId: '',
     name: '',
     lastName: '',
     comments: '',
-    team: '',
-    section: '',
+    teamName: '',
+    sectionName: '',
+    joinState: JoinState.JOINED,
   };
 }
 @Component({ selector: 'tm-more-info', template: '' })
@@ -50,7 +48,6 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
-        MatSnackBarModule,
       ],
     })
     .compileComponents();
@@ -73,21 +70,22 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
   it('should snap with populated student', () => {
     component.student = {
       email: 'studentEmail@email.com',
-      course: 'CS3281',
+      courseId: 'CS3281',
       name: 'firstName',
       lastName: 'lastName',
       comments: 'This is a comment',
-      team: 'myTeam',
-      section: 'mySection',
+      teamName: 'myTeam',
+      sectionName: 'mySection',
+      joinState: JoinState.JOINED,
     };
     component.studentProfile = {
+      name: 'name',
       shortName: 'shortName',
       email: 'profileEmail@email.com',
       institute: 'NUS',
       nationality: 'Indian',
       gender: Gender.MALE,
       moreInfo: 'I have more info here',
-      pictureKey: 'pictureKey',
     };
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

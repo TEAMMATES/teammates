@@ -1,6 +1,11 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, Subject } from 'rxjs';
 import { StatusMessage } from '../app/components/status-message/status-message';
+import {
+  StatusMessageModalComponent,
+} from '../app/components/status-message/status-messsage-modal/status-message-modal.component';
+import { Toast } from '../app/components/toast/toast';
 
 /**
  * Handles operations related to status message provision.
@@ -10,59 +15,74 @@ import { StatusMessage } from '../app/components/status-message/status-message';
 })
 export class StatusMessageService {
 
-  constructor(private snackBar: MatSnackBar) {}
+  private toast: Subject<Toast> = new Subject();
+
+  constructor(private modalService: NgbModal) {}
+
+  getToastEvent(): Observable<any> {
+    return this.toast.asObservable();
+  }
 
   /**
-   * Shows a success message on the page.
+   * Shows a success toast on the page.
    */
-  showSuccessMessage(message: string): void {
-    this.showMessage({
+  showSuccessToast(message: string, delay: number = 5000): void {
+    this.showToast(message, 'bg-success text-light', delay);
+  }
+
+  /**
+   * Shows a warning toast on the page.
+   */
+  showWarningToast(message: string, delay: number = 5000): void {
+    this.showToast(message, 'bg-warning', delay);
+  }
+
+  /**
+   * Shows an error toast on the page.
+   */
+  showErrorToast(message: string, delay: number = 10000): void {
+    this.showToast(message, 'bg-danger text-light', delay);
+  }
+
+  private showToast(message: string, classes: string, delay: number): void {
+    this.toast.next({
       message,
-      color: 'snackbar-success',
+      classes,
+      delay,
+      autohide: true,
     });
   }
 
   /**
-   * Shows a warning message on the page.
+   * Shows a success toast containing HTML on the page
    */
-  showWarningMessage(message: string): void {
-    this.showMessage({
-      message,
-      color: 'snackbar-warning',
+  showSuccessToastTemplate(template: TemplateRef<any>, delay: number = 5000): void {
+    this.showToastTemplate(template, 'bg-success text-light', delay);
+  }
+
+  private showToastTemplate(template: TemplateRef<any>, classes: string, delay: number): void {
+    this.toast.next({
+      classes,
+      delay,
+      message: template,
+      autohide: true,
     });
   }
 
   /**
-   * Shows an error message on the page.
+   * Shows a warning message modal on the page that must be acknowledged.
    */
-  showErrorMessage(message: string): void {
-    this.showMessage({
-      message,
-      color: 'snackbar-danger',
-    });
+  showWarningModal(title: string, subtitle: string, message: string): NgbModalRef {
+    return this.showMessageModal(title, subtitle, { message, color: 'warning' });
   }
 
-  private showMessage(message: StatusMessage): void {
-    this.snackBar.open(message.message, '', {
-      duration: 10000,
-      verticalPosition: 'top',
-      panelClass: ['snackbar', message.color],
-    });
-  }
-
-  /**
-   * Shows a success message containing HTML on the page
-   */
-  showSuccessMessageTemplate(template: TemplateRef<any>): void {
-    this.showTemplate(template, 'snackbar-success');
-  }
-
-  private showTemplate(template: TemplateRef<any>, color: string): void {
-    this.snackBar.openFromTemplate(template, {
-      duration: 10000,
-      verticalPosition: 'top',
-      panelClass: ['snackbar', color],
-    });
+  private showMessageModal(title: string, subtitle: string, message: StatusMessage): NgbModalRef {
+    const activeModal: NgbModalRef = this.modalService.open(StatusMessageModalComponent);
+    activeModal.componentInstance.title = title;
+    activeModal.componentInstance.subtitle = subtitle;
+    activeModal.componentInstance.message = message.message;
+    activeModal.componentInstance.color = message.color;
+    return activeModal;
   }
 
 }

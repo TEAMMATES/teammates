@@ -17,7 +17,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
- * SUT: {@link Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE},
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
  *      specifically for multiple choice (single answer) questions.
  */
 public class FeedbackMcqQuestionUiTest extends BaseFeedbackQuestionUiTest {
@@ -731,7 +731,7 @@ public class FeedbackMcqQuestionUiTest extends BaseFeedbackQuestionUiTest {
     @Test(priority = 1)
     public void testMcqWeightsFeature_instructorResultsPageQuestionView_showStatistics() throws Exception {
         // Create the Action URI for 'MCQ Weights Session' to show the result page.
-        AppUrl editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        AppUrl editUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId("FMcqQnUiT.instructor")
                 .withCourseId("FMcqQnUiT.CS2104")
                 .withSessionName(testData.feedbackSessions.get("mcqSession").getFeedbackSessionName())

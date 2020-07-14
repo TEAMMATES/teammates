@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 import { default as timezone } from '../data/timezone.json';
 import { HttpRequestService } from './http-request.service';
 
-import { LocalDateTimeAmbiguityStatus, LocalDateTimeInfo } from '../types/api-output';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import { LocalDateTimeAmbiguityStatus, LocalDateTimeInfo, TimeZones } from '../types/api-output';
 
 /**
  * The date time format used in date time resolution.
@@ -29,10 +30,11 @@ export interface TimeResolvingResult {
 export class TimezoneService {
 
   tzVersion: string = '';
-  tzOffsets: { [key: string]: number } = {};
+  tzOffsets: Record<string, number> = {};
+  guessedTimezone: string = '';
 
   // These short timezones are not supported by Java
-  private readonly badZones: { [key: string]: boolean } = {
+  private readonly badZones: Record<string, boolean> = {
     EST: true, 'GMT+0': true, 'GMT-0': true, HST: true, MST: true, ROC: true,
   };
 
@@ -46,6 +48,7 @@ export class TimezoneService {
           const offset: number = moment.tz.zone(tz).utcOffset(d) * -1;
           this.tzOffsets[tz] = offset;
         });
+    this.guessedTimezone = moment.tz.guess();
   }
 
   /**
@@ -58,8 +61,15 @@ export class TimezoneService {
   /**
    * Gets the mapping of time zone ID to offset values.
    */
-  getTzOffsets(): { [key: string]: number } {
+  getTzOffsets(): Record<string, number> {
     return this.tzOffsets;
+  }
+
+  /**
+   * Guesses the timezone based on the web browser's settings.
+   */
+  guessTimezone(): string {
+    return this.guessedTimezone;
   }
 
   /**
@@ -69,12 +79,27 @@ export class TimezoneService {
     return this.badZones[tz];
   }
 
+  getTimeZone(): Observable<TimeZones> {
+    return this.httpRequestService.get(ResourceEndpoints.TIMEZONE);
+  }
+
+  formatToString(timestamp: number, timeZone: string, format: string): string {
+    return moment(timestamp).tz(timeZone).format(format);
+  }
+
+  getMomentInstance(timestamp: number | null, timeZone: string): any {
+    if (!timestamp) {
+      return moment.tz(timeZone);
+    }
+    return moment(timestamp).tz(timeZone);
+  }
+
   /**
    * Gets the resolved UNIX timestamp from a local data time with time zone.
    */
   getResolvedTimestamp(localDateTime: string, timeZone: string, fieldName: string): Observable<TimeResolvingResult> {
-    const params: { [key: string]: string } = { localdatetime: localDateTime, timezone: timeZone };
-    return this.httpRequestService.get('/localdatetime', params).pipe(
+    const params: Record<string, string> = { localdatetime: localDateTime, timezone: timeZone };
+    return this.httpRequestService.get(ResourceEndpoints.LOCAL_DATE_TIME, params).pipe(
         map((info: LocalDateTimeInfo) => {
           const resolvingResult: TimeResolvingResult = {
             timestamp: info.resolvedTimestamp,

@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StatusMessageComponent should show all three messages 1`] = `
+<tm-status-message
+  messages={[Function Array]}
+>
+  <div
+    class="alert alert-black"
+  >
+    <button
+      class="close"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <div
+      style="padding-right: 30px;"
+    >
+      a
+    </div>
+  </div><div
+    class="alert alert-red"
+  >
+    <button
+      class="close"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <div
+      style="padding-right: 30px;"
+    >
+      b
+    </div>
+  </div><div
+    class="alert alert-green"
+  >
+    <button
+      class="close"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <div
+      style="padding-right: 30px;"
+    >
+      c
+    </div>
+  </div>
+</tm-status-message>
+`;
+
+exports[`StatusMessageComponent should snap with default view 1`] = `
+<tm-status-message
+  messages={[Function Array]}
+>
+  
+</tm-status-message>
+`;

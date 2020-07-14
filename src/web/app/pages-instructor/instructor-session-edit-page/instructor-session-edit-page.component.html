@@ -1,7 +1,13 @@
 <tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 
-<div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" class="margin-top-30px">
+<div class="offset-md-10 margin-vertical-20px">
+  <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
+    {{isAllCollapsed ? "Expand" : "Collapse" }} All
+  </button>
+</div>
+
+<div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
   <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
                          [numOfQuestions]="questionEditFormModels.length"
                          (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
@@ -18,15 +24,18 @@
       <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
       <div ngbDropdownMenu>
         <button class="dropdown-item" (click)="templateQuestionModalHandler()">Choose from template questions</button>
-        <button class="dropdown-item" *ngFor="let questionType of FeedbackQuestionType | enumToArray"
-                (click)="populateAndShowNewQuestionForm(questionType)">
-          {{ questionType | questionTypeName }}
-        </button>
+        <div class="dropdown-divider"></div>
+        <ng-container *ngFor="let questionType of FeedbackQuestionType | enumToArray">
+          <button class="dropdown-item" *ngIf="questionType !== FeedbackQuestionType.CONSTSUM"
+                  (click)="populateAndShowNewQuestionForm(questionType)">
+            {{ questionType | questionTypeName }}
+          </button>
+        </ng-container>
       </div>
     </div>
     <button type="button" class="btn btn-link" (click)="questionsHelpHandler()"><i class="fas fa-info-circle"></i></button>
     <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()">Copy Question</button>&nbsp;
-    <button class="btn btn-primary" (click)="doneEditingHandler()">Done Editing</button>
+    <button class="btn btn-primary" (click)="doneEditingHandler(pageNotSavedModal)">Done Editing</button>
   </div>
 </div>
 <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
@@ -36,7 +45,6 @@
                        (createNewQuestionEvent)="createNewQuestionHandler()"
                        [(formModel)]="newQuestionEditFormModel"
 ></tm-question-edit-form>
-
 <br/>
 <div class="card">
   <div class="card-body background-color-light-blue text-center">
@@ -59,3 +67,19 @@
     </div>
   </div>
 </div>
+<ng-template #pageNotSavedModal let-modal>
+  <div class="modal-header bg-warning">
+    <h5 class="modal-title text-white"><i class="fas fa-exclamation-circle"></i> Warning: Unsaved field(s).</h5>
+    <button type="button" class="close" (click)="modal.dismiss()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
+    <p>Are you sure you want to continue?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
+    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
+  </div>
+</ng-template>

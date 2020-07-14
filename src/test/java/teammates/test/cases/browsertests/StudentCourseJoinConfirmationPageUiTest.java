@@ -14,9 +14,7 @@ import teammates.test.pageobjects.StudentCourseJoinConfirmationPage;
 import teammates.test.pageobjects.StudentHomePage;
 
 /**
- * SUT: {@link Const.ActionURIs#STUDENT_COURSE_JOIN},
- *      {@link Const.ActionURIs#STUDENT_COURSE_JOIN_AUTHENTICATED},
- *      {@link Const.ActionURIs#STUDENT_COURSE_JOIN_NEW}.
+ * SUT: {@link Const.WebPageURIs#JOIN_PAGE}.
  */
 public class StudentCourseJoinConfirmationPageUiTest extends BaseE2ETestCase {
     private StudentCourseJoinConfirmationPage confirmationPage;

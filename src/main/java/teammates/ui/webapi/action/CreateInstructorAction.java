@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.request.InstructorCreateRequest;
 
 /**
@@ -45,20 +46,16 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
 
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
-            logic.createInstructor(instructorToAdd);
+            InstructorAttributes createdInstructor = logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
                     userInfo.id, instructorToAdd.email, instructorToAdd.courseId, null, false);
-
+            return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {
             return new JsonResult("An instructor with the same email address already exists in the course.",
                     HttpStatus.SC_CONFLICT);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-
-        return new JsonResult("The instructor " + instructorToAdd.name + " has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to "
-                + instructorToAdd.email + " in a few minutes.", HttpStatus.SC_OK);
 
     }
 
