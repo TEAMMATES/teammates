@@ -13,6 +13,7 @@ import { FeedbackResponsesService } from '../../../services/feedback-responses.s
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -24,7 +25,8 @@ import {
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
-  FeedbackResponse, FeedbackResponseComment,
+  FeedbackResponse,
+  FeedbackResponseComment,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
   Instructor,
@@ -40,22 +42,9 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  FeedbackSessionClosedModalComponent,
-} from './feedback-session-closed-modal/feedback-session-closed-modal.component';
-import {
-  FeedbackSessionClosingSoonModalComponent,
-} from './feedback-session-closing-soon-modal/feedback-session-closing-soon-modal.component';
-import {
-  FeedbackSessionDeletedModalComponent,
-} from './feedback-session-deleted-modal/feedback-session-deleted-modal.component';
-import {
-  FeedbackSessionNotOpenModalComponent,
-} from './feedback-session-not-open-modal/feedback-session-not-open-modal.component';
-import {
-  SavingCompleteModalComponent,
-} from './saving-complete-modal/saving-complete-modal.component';
+import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 
 interface FeedbackQuestionsResponse {
   questions: FeedbackQuestion[];
@@ -122,6 +111,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private studentService: StudentService,
               private instructorService: InstructorService,
               private modalService: NgbModal,
+              private simpleModalService: SimpleModalService,
               private pageScrollService: PageScrollService,
               private authService: AuthService,
               private navigationService: NavigationService,
@@ -268,20 +258,31 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
           // don't show alert modal in moderation
       if (!this.moderatedPerson) {
+        let modalContent: string;
         switch (feedbackSession.submissionStatus) {
           case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
             this.isSubmissionFormsDisabled = true;
-            this.modalService.open(FeedbackSessionNotOpenModalComponent);
+            modalContent = `<p><strong>The feedback session is currently not open for submissions.</strong></p>
+                <p>You can view the questions and any submitted responses
+                for this feedback session but cannot submit new responses.</p>`;
+            this.simpleModalService.openInformationModal(
+                'Feedback Session Not Open', SimpleModalType.WARNING, modalContent);
             break;
           case FeedbackSessionSubmissionStatus.OPEN:
             // closing in 15 minutes
             if (feedbackSession.submissionEndTimestamp - Date.now() < 15 * 60 * 1000) {
-              this.modalService.open(FeedbackSessionClosingSoonModalComponent);
+              modalContent = 'Warning: you have less than 15 minutes before the submission deadline expires!';
+              this.simpleModalService.openInformationModal(
+                  'Feedback Session Will Be Closing Soon!', SimpleModalType.WARNING, modalContent);
             }
             break;
           case FeedbackSessionSubmissionStatus.CLOSED:
             this.isSubmissionFormsDisabled = true;
-            this.modalService.open(FeedbackSessionClosedModalComponent);
+            modalContent = `<p><strong>Feedback Session is Closed</strong></p>
+                <p>You can view the questions and any submitted responses
+                for this feedback session but cannot submit new responses.</p>`;
+            this.simpleModalService.openInformationModal(
+                'Feedback Session Closed', SimpleModalType.WARNING, modalContent);
             break;
           case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
           default:
@@ -291,7 +292,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       this.loadFeedbackQuestions();
     }, (resp: ErrorMessageOutput) => {
       if (resp.status === 404) {
-        this.modalService.open(FeedbackSessionDeletedModalComponent);
+        this.simpleModalService.openInformationModal('Feedback Session Deleted!', SimpleModalType.DANGER,
+            'The feedback session has been permanently deleted and is no longer accessible.');
       }
       this.statusMessageService.showErrorToast(resp.error.message);
     });
