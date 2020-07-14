@@ -6,37 +6,25 @@ import { ResourceEndpoints } from '../types/api-endpoints';
 import { MasqueradeModeService } from './masquerade-mode.service';
 
 /**
- * Custom HttpParameter encoder, implements the default parameter encoder, to support encoding
- * and decoding of plus sign
+ * This encoder was created to support encoding and decoding of plus (+) signs.
+ *
+ * Angular will ignore the encoding for plus signs. Refer to:
+ * https://github.com/angular/angular/blob/8.0.0/packages/common/http/src/params.ts#L33
  */
 class CustomEncoder implements HttpParameterCodec {
 
-  /**
-   * angular will ignore the encoding for plus sign, so override the default angular encoder
-   * to enable the encoding for plus sign. Refer to:
-   * https://github.com/angular/angular/blob/8.0.0/packages/common/http/src/params.ts#L33
-   */
   encodeKey(key: string): string {
     return encodeURIComponent(key);
   }
 
-  /**
-   * the same reason as encode key above.
-   */
   encodeValue(value: string): string {
     return encodeURIComponent(value);
   }
 
-  /**
-   * the same as angular's default encoder.
-   */
   decodeKey(key: string): string {
     return decodeURIComponent(key);
   }
 
-  /**
-   * the same as angular's default encoder.
-   */
   decodeValue(value: string): string {
     return decodeURIComponent(value);
   }

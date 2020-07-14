@@ -14,7 +14,7 @@ describe('Custom Url Serializer', () => {
     expect(url).toEqual('/localhost:8080/web/instructor/sessions/edit?courseid=C01&fsname=test%20session');
   });
 
-  it('should reserve the plus sign in the url using custom url serializer', () => {
+  it('should preserve the plus sign in the url using custom url serializer', () => {
     serializer = new CustomUrlSerializer();
     const urlTree: UrlTree =
         serializer.parse('/localhost:8080/web/instructor/sessions/edit?courseid=C01&fsname=test+session');
