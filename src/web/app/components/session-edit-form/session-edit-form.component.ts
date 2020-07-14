@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
   Course,
   FeedbackSessionPublishStatus,
@@ -12,6 +13,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
@@ -103,7 +105,7 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private modalService: NgbModal, private navigationService: NavigationService) { }
+  constructor(private simpleModalService: SimpleModalService, private navigationService: NavigationService) { }
 
   ngOnInit(): void {
   }
@@ -207,10 +209,11 @@ export class SessionEditFormComponent implements OnInit {
   /**
    * Handles delete current feedback session button click event.
    */
-  deleteHandler(modal: any): void {
-    this.modalService.open(modal).result.then(() => {
-      this.deleteExistingSessionEvent.emit();
-    }, () => {});
+  deleteHandler(): void {
+    this.simpleModalService.openConfirmationModal('Warning: The session will be moved to the recycle bin.',
+        SimpleModalType.WARNING, 'Are you sure you want to continue?').result.then(() => {
+          this.deleteExistingSessionEvent.emit();
+        }, () => {});
   }
 
   /**
