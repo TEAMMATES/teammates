@@ -116,7 +116,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   };
 
   // to get the original session model on discard changes
-  feedbackSessionModelBeforeEditing: SessionEditFormModel = this.sessionEditFormModel;
+  feedbackSessionModelBeforeEditing: SessionEditFormModel = JSON.parse(JSON.stringify(this.sessionEditFormModel));
 
   // to get the original question model
   feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
@@ -337,7 +337,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   editExistingSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
-    this.feedbackSessionModelBeforeEditing = this.sessionEditFormModel;
+    this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
 
     forkJoin([
       this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
@@ -391,7 +391,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelEditingSessionHandler(): void {
-    this.sessionEditFormModel = this.feedbackSessionModelBeforeEditing;
+    this.sessionEditFormModel = JSON.parse(JSON.stringify(this.feedbackSessionModelBeforeEditing));
   }
 
   /**
