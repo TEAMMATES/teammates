@@ -209,7 +209,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String sectionInMaxCapacity = "sectionInMaxCapacity";
 
         StudentAttributes studentToJoinMaxSection = StudentAttributes
-                .builder(courseId, "studentToJoinMaxSection@com")
+                .builder(courseId, "studentToJoinMaxSection@test.com")
                 .withName("studentToJoinMaxSection ")
                 .withSectionName("RandomUniqueSection")
                 .withTeamName("RandomUniqueTeamName")
@@ -220,7 +220,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
             StudentAttributes addedStudent = StudentAttributes
-                    .builder(courseId, i + "email@com")
+                    .builder(courseId, i + "email@test.com")
                     .withName("Name " + i)
                     .withSectionName(sectionInMaxCapacity)
                     .withTeamName("Team " + i)

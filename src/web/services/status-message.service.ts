@@ -49,6 +49,7 @@ export class StatusMessageService {
       message,
       classes,
       delay,
+      autohide: true,
     });
   }
 
@@ -64,6 +65,7 @@ export class StatusMessageService {
       classes,
       delay,
       message: template,
+      autohide: true,
     });
   }
 

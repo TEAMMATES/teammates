@@ -19,6 +19,20 @@ export class ToastComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnChanges(): void {
+    // reset autohide timing
+    this.setAutohide(false);
+    setTimeout(() => {
+      this.setAutohide(true);
+    }, 100);
+  }
+
+  setAutohide(status: boolean): void {
+    if (this.toast) {
+      this.toast.autohide = status;
+    }
+  }
+
   /**
    * Removes the toast from view.
    */
