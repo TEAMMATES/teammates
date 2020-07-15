@@ -37,7 +37,7 @@
   </div>
 
   <div class="card-body" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
-    <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT">
+    <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
       <label class="col-sm-3 control-label">
         Google ID:
       </label>

@@ -77,9 +77,9 @@ public class GetInstructorsAction extends Action {
             });
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
-            // adds googleId if caller is course co-owner or admin
-            if (userInfo.isAdmin || logic.getInstructorForGoogleId(courseId, userInfo.getId()).getRole().equals(
-                    Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)) {
+            // adds googleId if caller is admin or has the appropriate privilege to modify instructor
+            if (userInfo.isAdmin || logic.getInstructorForGoogleId(courseId, userInfo.getId()).getPrivileges()
+                    .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
                 for (InstructorAttributes instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
