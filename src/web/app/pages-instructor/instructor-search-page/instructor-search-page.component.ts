@@ -59,10 +59,10 @@ export class InstructorSearchPageComponent implements OnInit {
     forkJoin([
       this.searchParams.isSearchForComments
           ? this.searchService.searchComment(this.searchParams.searchKey)
-          : of() as Observable<InstructorSearchResult>,
+          : of({}) as Observable<InstructorSearchResult>,
       this.searchParams.isSearchForStudents
           ? this.searchService.searchInstructor(this.searchParams.searchKey)
-          : of() as Observable<InstructorSearchResult>,
+          : of({}) as Observable<InstructorSearchResult>,
     ]).pipe(
         finalize(() => this.loadingBarService.hideLoadingBar()),
     ).subscribe((resp: InstructorSearchResult[]) => {

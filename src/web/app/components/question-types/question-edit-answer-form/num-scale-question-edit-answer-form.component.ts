@@ -71,7 +71,11 @@ export class NumScaleQuestionEditAnswerFormComponent
       return false;
     }
 
-    return value >= minValue && value <= maxValue && (value - minValue) % increment === 0;
+    if (value < minValue || value > maxValue) {
+      return false;
+    }
+
+    return +((value - minValue) / increment).toFixed(6) % 1 === 0;
   }
 
 }
