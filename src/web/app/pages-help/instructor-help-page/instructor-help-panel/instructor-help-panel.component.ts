@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { collapseAnim } from './collapse-anim';
 
 /**
@@ -27,7 +27,7 @@ export class InstructorHelpPanelComponent implements OnInit {
     this.isPanelExpandedChange.emit(value);
   }
 
-  constructor() { }
+  constructor(public elementRef: ElementRef) { }
 
   ngOnInit(): void {
   }

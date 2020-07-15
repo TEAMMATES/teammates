@@ -63,7 +63,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   private generateTerms(): void {
     this.questionHtml.forEach((question: InstructorHelpPanelComponent) => {
       const id: string = question.id;
-      const text: string = question.headerText || '';
+      const text: string = question.elementRef.nativeElement.textContent || '';
 
         // filter small words away
       let keywords: string[] = text.split(' ').filter((word: string) => word.length > 3);
@@ -73,7 +73,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
         // remove punctuation
       keywords = keywords.map((word: string) =>
-        word.replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, ''));
+        word.replace(/\b[-.,()?&$#!\[\]{}"']+\B|\B[-.,()&?$#!\[\]{}"']+\b/g, ''));
 
       const newQuestion: QuestionDetail = {
         id,
@@ -90,11 +90,16 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   private filterFaq(searchTerm: string): void {
     this.showQuestion = [];
+    const searchTermSplit: string[] = searchTerm.split(' ')
+        .filter((term: string) => term.length > 3);
     for (const questionDetail of this.questionDetails) {
       const id: string = questionDetail.id;
       const terms: string[] = questionDetail.keywords;
 
-      if (terms.includes(searchTerm)) {
+      if (!searchTermSplit.length) {
+        this.showQuestion.push(id);
+      } else if (terms.find((keyword: string) =>
+          searchTermSplit.find((term: string) => keyword.includes(term)))) {
         this.showQuestion.push(id);
       }
     }
