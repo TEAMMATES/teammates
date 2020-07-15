@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParameterCodec, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
@@ -11,22 +11,22 @@ import { MasqueradeModeService } from './masquerade-mode.service';
  * Angular will ignore the encoding for plus signs. Refer to:
  * https://github.com/angular/angular/blob/8.0.0/packages/common/http/src/params.ts#L33
  */
-class CustomEncoder implements HttpParameterCodec {
-
-  encodeKey(key: string): string {
-    return encodeURIComponent(key);
-  }
+class CustomEncoder extends HttpUrlEncodingCodec {
 
   encodeValue(value: string): string {
-    return encodeURIComponent(value);
+    return this.standardEncoding(value);
   }
 
-  decodeKey(key: string): string {
-    return decodeURIComponent(key);
-  }
-
-  decodeValue(value: string): string {
-    return decodeURIComponent(value);
+  standardEncoding(v: string): string {
+    return encodeURIComponent(v)
+        .replace(/%40/gi, '@')
+        .replace(/%3A/gi, ':')
+        .replace(/%24/gi, '$')
+        .replace(/%2C/gi, ',')
+        .replace(/%3B/gi, ';')
+        .replace(/%3D/gi, '=')
+        .replace(/%3F/gi, '?')
+        .replace(/%2F/gi, '/');
   }
 }
 
