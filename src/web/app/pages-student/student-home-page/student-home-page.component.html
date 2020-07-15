@@ -19,7 +19,7 @@
       <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
         <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
         <span class="float-sm-right">
-          <a routerLink="../course" [queryParams]="{courseid: course.courseId}"
+          <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
              class="btn btn-light btn-sm button" ngbTooltip='View and edit information regarding your team'>
             View team
           </a>
@@ -56,7 +56,7 @@
               </td>
               <td>
                 <a [ngClass]="{'disabled' : !session.isPublished}"
-                   routerLink="../sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                   routerLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                    class="btn btn-light btn-sm" ngbTooltip='View the submitted responses for this feedback session'>
                   View Responses
                 </a> &nbsp;
@@ -64,19 +64,19 @@
                   Start Submission
                 </a>
                 <a *ngIf="session.isOpened && !session.isSubmitted"
-                   routerLink="../sessions/submission"
+                   routerLink="/web/student/sessions/submission"
                    [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                    class="btn btn-light btn-sm" ngbTooltip='Start submitting feedback'>
                   Start Submission
                 </a>
                 <a *ngIf="session.isOpened && session.isSubmitted"
-                   routerLink="../sessions/submission"
+                   routerLink="/web/student/sessions/submission"
                    [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                    class="btn btn-light btn-sm" ngbTooltip='Edit submitted feedback'>
                   Edit Submission
                 </a>
                 <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
-                   routerLink="../sessions/submission"
+                   routerLink="/web/student/sessions/submission"
                    [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
                    class="btn btn-light btn-sm" ngbTooltip='View submitted feedback'>
                   View Submission

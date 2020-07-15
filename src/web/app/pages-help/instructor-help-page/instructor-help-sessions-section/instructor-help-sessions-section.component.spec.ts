@@ -18,11 +18,12 @@ import {
   SessionsRecycleBinTableModule,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
 import {
-  InstructorSearchPageModule,
-} from '../../../pages-instructor/instructor-search-page/instructor-search-page.module';
-import { InstructorSessionResultPageModule,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
-import { ExampleBoxComponent } from '../example-box/example-box.component';
+  InstructorSearchComponentsModule,
+} from '../../../pages-instructor/instructor-search-page/instructor-search-components.module';
+import {
+  InstructorSessionResultViewModule,
+} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
+import { ExampleBoxModule } from '../example-box/example-box.module';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
 describe('InstructorHelpSessionsSectionComponent', () => {
@@ -31,12 +32,12 @@ describe('InstructorHelpSessionsSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpSessionsSectionComponent, ExampleBoxComponent],
+      declarations: [InstructorHelpSessionsSectionComponent],
       imports: [
-        CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule,
+        CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule, ExampleBoxModule,
         RouterTestingModule, NgxPageScrollCoreModule,
         SessionEditFormModule, SessionsRecycleBinTableModule,
-        InstructorSearchPageModule, InstructorSessionResultPageModule, QuestionTextWithInfoModule,
+        InstructorSearchComponentsModule, InstructorSessionResultViewModule, QuestionTextWithInfoModule,
         SingleStatisticsModule, StudentViewResponsesModule],
     })
     .compileComponents();

@@ -106,7 +106,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
     
     <div
       class="ng-trigger ng-trigger-collapseAnim"
-      style="overflow:hidden;0:overflow;"
+      style=""
     >
       <div
         class="card-body"
@@ -161,18 +161,18 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="col-md-10"
                 >
                   <tm-rich-text-editor
-                    minheightinpx="80"
+                    minheightinpx="100"
                     ngbtooltip="Please enter the description of the question."
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
                     <editor
                       class="editor editor-disabled ng-untouched ng-pristine ng-valid"
                       placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
-                      style="min-height: 80px;"
                     >
                       
-                      <div
+                      <textarea
                         id="tiny-angular_031577836800000"
+                        style="visibility: hidden;"
                       />
                     </editor>
                   </tm-rich-text-editor>
@@ -240,7 +240,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <button
               aria-expanded="false"
               aria-haspopup="true"
-              class="btn btn-light dropdown-toggle"
+              class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
               ngbdropdowntoggle=""
             >
@@ -354,7 +354,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <button
               aria-expanded="false"
               aria-haspopup="true"
-              class="btn btn-light dropdown-toggle"
+              class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
               ngbdropdowntoggle=""
             >

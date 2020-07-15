@@ -3,13 +3,13 @@
   <!--Section-->
   <h4 *ngIf="displaySubsection(showQuestion, 0, 4)">Setting Up Sessions</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="tips-for-conducting-peer-eval">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="{{SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isPeerEvalTipsCollapsed = !isPeerEvalTipsCollapsed" [attr.aria-expanded]="!isPeerEvalTipsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL] = !questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]">
         Tips for conducting team peer evaluation sessions
       </button>
     </p>
-    <div *ngIf="isPeerEvalTipsCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -59,11 +59,11 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isNewFeedbackSessionCollapsed = !isNewFeedbackSessionCollapsed" [attr.aria-expanded]="!isNewFeedbackSessionCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]">
         How do I create and schedule a new feedback session?
       </button>
     </p>
-    <div *ngIf="isNewFeedbackSessionCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
@@ -148,13 +148,13 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question id="session-questions">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question id="{{SessionsSectionQuestions.SESSION_QUESTIONS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isAddQuestionsCollapsed = !isAddQuestionsCollapsed" [attr.aria-expanded]="!isAddQuestionsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
         How do I add questions to a session?
       </button>
     </p>
-    <div *ngIf="isAddQuestionsCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -249,13 +249,13 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="session-preview">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="{{SessionsSectionQuestions.SESSION_PREVIEW}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isPreviewCollapsed = !isPreviewCollapsed" [attr.aria-expanded]="!isPreviewCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
         How do I preview a session?
       </button>
     </p>
-    <div *ngIf="isPreviewCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -298,13 +298,13 @@
   <!--Section-->
   <h4 *ngIf="displaySubsection(showQuestion, 4, 7)">Managing Session Responses</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="session-cannot-submit">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="{{SessionsSectionQuestions.SESSION_CANNOT_SUBMIT}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isCannotSubmitCollapsed = !isCannotSubmitCollapsed" [attr.aria-expanded]="!isCannotSubmitCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]">
         What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
       </button>
     </p>
-    <div *ngIf="isCannotSubmitCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -315,7 +315,7 @@
               Ask the student to view the submission page and send you his/her answers to the session questions.
             </li>
             <li>
-              <a (click)="jumpTo('session-view-results'); isViewResultsCollapsed = true" [routerLink]="">View the results</a> of the session.
+              <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [routerLink]="">View the results</a> of the session.
             </li>
             <li>
               Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -333,13 +333,13 @@
     </div>
   </div>
   <!--Question-->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="session-view-results">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="{{SessionsSectionQuestions.SESSION_VIEW_RESULTS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isViewResultsCollapsed = !isViewResultsCollapsed" [attr.aria-expanded]="!isViewResultsCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
         How do I view the results of my session?
       </button>
     </p>
-    <div *ngIf="isViewResultsCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -469,11 +469,11 @@
   <!--Question-->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isViewAllResponsesCollapsed = !isViewAllResponsesCollapsed" [attr.aria-expanded]="!isViewAllResponsesCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES] = !questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
         How do I view all the responses a student has given and received?
       </button>
     </p>
-    <div *ngIf="isViewAllResponsesCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -496,17 +496,17 @@
   <!--Section-->
   <h4 *ngIf="displaySubsection(showQuestion, 7, 10)">Adding Comments to Responses</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="session-add-comments">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="{{SessionsSectionQuestions.SESSION_ADD_COMMENTS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isAddCommentCollapsed = !isAddCommentCollapsed" [attr.aria-expanded]="!isAddCommentCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
         How do I create a comment on a response?
       </button>
     </p>
-    <div *ngIf="isAddCommentCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
-            While <a (click)="jumpTo('session-view-results'); isViewResultsCollapsed = true" [routerLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
+            While <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [routerLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
           </p>
           <p>
             To create comments on a response in a session:
@@ -548,11 +548,11 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isEditDelCommentCollapsed = !isEditDelCommentCollapsed" [attr.aria-expanded]="!isEditDelCommentCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT] = !questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]">
         How do I edit or delete a comment on a response?
       </button>
     </p>
-    <div *ngIf="isEditDelCommentCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -560,7 +560,7 @@
           </p>
           <ol>
             <li>
-              Navigate to the page where you <a (click)="jumpTo('session-add-comments'); isAddCommentCollapsed = true" [routerLink]="">added the comment</a> that you want to edit or delete.
+              Navigate to the page where you <a (click)="jumpTo(SessionsSectionQuestions.SESSION_ADD_COMMENTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = true" [routerLink]="">added the comment</a> that you want to edit or delete.
             </li>
             <li>
               Hover over the comment which you want to edit or delete.
@@ -582,13 +582,13 @@
     </div>
   </div>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
+  <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="{{SessionsSectionQuestions.SESSION_SEARCH}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isSearchCollapsed = !isSearchCollapsed" [attr.aria-expanded]="!isSearchCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]">
         How do I search for a feedback session question, response or comment on a response?
       </button>
     </p>
-    <div *ngIf="isSearchCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
@@ -621,13 +621,13 @@
   <!--Section-->
   <h4 *ngIf="displaySubsection(showQuestion, 10, 14)">Restoring Deleted Sessions</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question id="view-deleted-session">
+  <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question id="{{SessionsSectionQuestions.VIEW_DELETED_SESSION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isViewDeletedCollapsed = !isViewDeletedCollapsed" [attr.aria-expanded]="!isViewDeletedCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
         How do I view sessions I have deleted?
       </button>
     </p>
-    <div *ngIf="isViewDeletedCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
@@ -642,7 +642,7 @@
           </tm-example-box>
           <p>
             The feedback sessions you have previously deleted are listed here.
-            In order to access information in a deleted session, <a (click)="jumpTo('restore-session'); isRestoreSessionCollapsed = true" [routerLink]="">restore the session</a>.
+            In order to access information in a deleted session, <a (click)="jumpTo(SessionsSectionQuestions.RESTORE_SESSION); questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true" [routerLink]="">restore the session</a>.
           </p>
         </div>
       </div>
@@ -650,17 +650,17 @@
     </div>
   </div>
   <!-- Question -->
-  <div *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="restore-session">
+  <div *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="{{SessionsSectionQuestions.RESTORE_SESSION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isRestoreSessionCollapsed = !isRestoreSessionCollapsed" [attr.aria-expanded]="!isRestoreSessionCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
         How do I restore a deleted session?
       </button>
     </p>
-    <div *ngIf="isRestoreSessionCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
-            To restore a deleted feedback session, first <a (click)="jumpTo('view-deleted-session'); isViewDeletedCollapsed = true" [routerLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+            To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
           </p>
           <tm-example-box>
@@ -680,15 +680,15 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[12]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isDelSessionCollapsed = !isDelSessionCollapsed" [attr.aria-expanded]="!isDelSessionCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
         How do I permanently delete a session?
       </button>
     </p>
-    <div *ngIf="isDelSessionCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
-            To permanently delete a feedback session, first <a (click)="jumpTo('view-deleted-session'); isViewDeletedCollapsed = true" [routerLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+            To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
             Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
           </p>
           <tm-example-box>
@@ -708,15 +708,15 @@
   <!-- Question -->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="isRestoreDelAllCollapsed = !isRestoreDelAllCollapsed" [attr.aria-expanded]="!isRestoreDelAllCollapsed">
+      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL] = !questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
         How do I restore/delete all sessions from Recycle Bin?
       </button>
     </p>
-    <div *ngIf="isRestoreDelAllCollapsed" @collapseAnim>
+    <div *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" @collapseAnim>
       <div class="card">
         <div class="card-body">
           <p>
-            First <a (click)="jumpTo('view-deleted-session'); isViewDeletedCollapsed = true" [routerLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
+            First <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
             To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
             to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
           </p>

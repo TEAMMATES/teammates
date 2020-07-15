@@ -56,7 +56,7 @@
             <select id="time-zone" class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
               device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
               [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
-              <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+              <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
             </select>
             <span class="input-group-btn">
               <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
@@ -77,7 +77,7 @@
   </div>
 </div>
 <div class="right top-padded">
-  <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
+  <a class="small" routerLink="/web/instructor/help" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}" rel="noopener noreferrer" target="_blank">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
     More about configuring access permissions
   </a>
