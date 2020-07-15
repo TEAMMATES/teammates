@@ -101,7 +101,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
@@ -237,7 +237,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
