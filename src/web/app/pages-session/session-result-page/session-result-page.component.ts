@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -51,6 +52,8 @@ export class SessionResultPageComponent implements OnInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
+
+  isFeedbackSessionResultsLoading: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -119,6 +122,7 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadFeedbackSession(): void {
+    this.isFeedbackSessionResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
@@ -136,14 +140,17 @@ export class SessionResultPageComponent implements OnInit {
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.STUDENT_RESULT,
         key: this.regKey,
-      }).subscribe((sessionResults: SessionResults) => {
-        this.questions = sessionResults.questions.sort(
-            (a: QuestionOutput, b: QuestionOutput) =>
-                a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      })
+          .pipe(finalize(() => this.isFeedbackSessionResultsLoading = false))
+          .subscribe((sessionResults: SessionResults) => {
+            this.questions = sessionResults.questions.sort(
+                (a: QuestionOutput, b: QuestionOutput) =>
+                    a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
     }, (resp: ErrorMessageOutput) => {
+      this.isFeedbackSessionResultsLoading = false;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }

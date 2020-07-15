@@ -110,6 +110,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
 
+  isFeedbackSessionQuestionsLoading: boolean = false;
+
   private backendUrl: string = environment.backendUrl;
 
   constructor(private route: ActivatedRoute,
@@ -301,6 +303,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads feedback questions to submit.
    */
   loadFeedbackQuestions(): void {
+    this.isFeedbackSessionQuestionsLoading = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
@@ -308,35 +311,36 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
       previewAs: this.previewAsPerson,
-    }).subscribe((response: FeedbackQuestionsResponse) => {
-      response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
-        const model: QuestionSubmissionFormModel = {
-          feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
+    }).pipe(finalize(() => this.isFeedbackSessionQuestionsLoading = false))
+        .subscribe((response: FeedbackQuestionsResponse) => {
+          response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
+            const model: QuestionSubmissionFormModel = {
+              feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
 
-          questionNumber: feedbackQuestion.questionNumber,
-          questionBrief: feedbackQuestion.questionBrief,
-          questionDescription: feedbackQuestion.questionDescription,
+              questionNumber: feedbackQuestion.questionNumber,
+              questionBrief: feedbackQuestion.questionBrief,
+              questionDescription: feedbackQuestion.questionDescription,
 
-          giverType: feedbackQuestion.giverType,
-          recipientType: feedbackQuestion.recipientType,
-          recipientList: [],
-          recipientSubmissionForms: [],
+              giverType: feedbackQuestion.giverType,
+              recipientType: feedbackQuestion.recipientType,
+              recipientList: [],
+              recipientSubmissionForms: [],
 
-          questionType: feedbackQuestion.questionType,
-          questionDetails: feedbackQuestion.questionDetails,
+              questionType: feedbackQuestion.questionType,
+              questionDetails: feedbackQuestion.questionDetails,
 
-          numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-          customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
-                  ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo : 0,
+              numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+              customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo
+                      ? feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo : 0,
 
-          showGiverNameTo: feedbackQuestion.showGiverNameTo,
-          showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-          showResponsesTo: feedbackQuestion.showResponsesTo,
-        };
-        this.questionSubmissionForms.push(model);
-        this.loadFeedbackQuestionRecipientsForQuestion(model);
-      });
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+              showGiverNameTo: feedbackQuestion.showGiverNameTo,
+              showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+              showResponsesTo: feedbackQuestion.showResponsesTo,
+            };
+            this.questionSubmissionForms.push(model);
+            this.loadFeedbackQuestionRecipientsForQuestion(model);
+          });
+        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
