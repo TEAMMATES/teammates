@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
 import teammates.e2e.pageobjects.InstructorHomePage;
@@ -52,10 +53,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .withUserId(instructors[3].googleId)
                 .withCourseId(course.getId());
         editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
-        editPage.waitForPageToLoad();
 
         editPage.verifyCourseDetails(course);
-
         editPage.verifyInstructorDetails(instructors[0]);
         editPage.verifyInstructorDetails(instructors[1]);
         editPage.verifyInstructorDetails(instructors[2]);
@@ -93,11 +92,14 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(1, instructors[0]);
-        editPage.waitForPageToLoad();
+        ThreadHelper.waitFor(100);
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        ThreadHelper.waitFor(100);
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        ThreadHelper.waitFor(100);
         editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+        ThreadHelper.waitFor(100);
         editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
