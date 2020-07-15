@@ -5,7 +5,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  loadingBarService={[Function LoadingBarService]}
+  isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
@@ -16,7 +16,21 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   studentFeedbackSessionStatusSubmitted={[Function String]}
   timezoneService={[Function TimezoneService]}
 >
-  <div
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div
     class="card bg-light top-padded"
   >
     
@@ -332,7 +346,7 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  loadingBarService={[Function LoadingBarService]}
+  isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
@@ -343,7 +357,21 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   studentFeedbackSessionStatusSubmitted={[Function String]}
   timezoneService={[Function TimezoneService]}
 >
-  <div>
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div>
      You are not enrolled in any courses. Please refer to the 
     <a
       href="/web/student/help"
@@ -362,7 +390,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  loadingBarService={[Function LoadingBarService]}
+  isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
@@ -373,7 +401,21 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   studentFeedbackSessionStatusSubmitted={[Function String]}
   timezoneService={[Function TimezoneService]}
 >
-  <div
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div
     class="card bg-light top-padded"
   >
     

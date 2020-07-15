@@ -10,6 +10,7 @@ import {
 } from '../../../types/api-output';
 import { StudentHomePageComponent } from './student-home-page.component';
 
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
@@ -30,6 +31,7 @@ describe('StudentHomePageComponent', () => {
         NgbModule,
         RouterTestingModule,
         TeammatesCommonModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();

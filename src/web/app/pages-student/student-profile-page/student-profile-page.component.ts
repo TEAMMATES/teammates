@@ -13,7 +13,7 @@ import { StudentProfileService } from '../../../services/student-profile.service
 import { ErrorMessageOutput } from '../../error-message-output';
 
 import { from, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { NationalitiesService } from '../../../services/nationalities.service';
 import {
   UploadEditProfilePictureModalComponent,
@@ -37,6 +37,9 @@ export class StudentProfilePageComponent implements OnInit {
   nationalities?: string[];
   profilePicLink!: string;
   defaultPictureLink: string = '/assets/images/profile_picture_default.png';
+
+  isLoadingStudentProfile: boolean = false;
+  isSavingProfileEdit: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -66,6 +69,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Loads the student profile details for this page.
    */
   loadStudentProfile(): void {
+    this.isLoadingStudentProfile = true;
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
         this.id = auth.user.id;
@@ -73,17 +77,20 @@ export class StudentProfilePageComponent implements OnInit {
         this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?user=${this.id}`;
 
         // retrieve profile once we have the student's googleId
-        this.studentProfileService.getStudentProfile().subscribe((response: StudentProfile) => {
-          if (response) {
-            this.student = response;
-            this.name = response.name;
-            this.initStudentProfileForm(this.student);
-          } else {
-            this.statusMessageService.showErrorToast('Error retrieving student profile');
-          }
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(response.error.message);
-        });
+        this.studentProfileService.getStudentProfile()
+            .pipe(finalize(() => this.isLoadingStudentProfile = false))
+            .subscribe((response: StudentProfile) => {
+              if (response) {
+                this.student = response;
+                this.name = response.name;
+                this.initStudentProfileForm(this.student);
+              } else {
+                this.statusMessageService.showErrorToast('Error retrieving student profile');
+              }
+            }, (response: ErrorMessageOutput) => {
+              this.isLoadingStudentProfile = false;
+              this.statusMessageService.showErrorToast(response.error.message);
+            });
       }
     });
   }
@@ -158,6 +165,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
+    this.isSavingProfileEdit = true;
     this.studentProfileService.updateStudentProfile(this.id, {
       shortName: this.editForm.controls.studentshortname.value,
       email: this.editForm.controls.studentprofileemail.value,
@@ -166,7 +174,7 @@ export class StudentProfilePageComponent implements OnInit {
       gender: this.editForm.controls.studentgender.value,
       moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
       existingNationality: this.editForm.controls.existingNationality.value,
-    }).subscribe((response: MessageOutput) => {
+    }).pipe(finalize(() => this.isSavingProfileEdit = false)).subscribe((response: MessageOutput) => {
       if (response) {
         this.statusMessageService.showSuccessToast(response.message);
       }

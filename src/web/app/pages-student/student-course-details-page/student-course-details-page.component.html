@@ -1,10 +1,9 @@
 <h1 class="page-title" *ngIf="course"> {{course.courseName}}</h1>
-
-<div class="section" *ngIf="course">
+<div class="section" *ngIf="isLoadingCourse || course">
   <div class="col-sm-12">
     <h4 class="font-weight-bold">Course</h4>
   </div>
-  <div class="card border-primary">
+  <div *tmIsLoading="isLoadingCourse" class="card border-primary">
     <div class="card-body fill-plain">
       <div class="form form-horizontal">
         <div class="form-group row">
@@ -44,12 +43,12 @@
   </div>
 </div>
 
-<div class="section" *ngIf="instructorDetails && instructorDetails.length">
-  <div class="col-sm-12">
+<div class="section">
+  <div class="col-sm-12" *ngIf="isLoadingInstructor || instructorDetails.length">
     <h4 class="font-weight-bold">Instructors</h4>
   </div>
-  <div class="row">
-    <div class="col-12">
+  <div class="row" *tmIsLoading="isLoadingInstructor">
+    <div class="col-12" *ngIf="instructorDetails && instructorDetails.length">
       <div class="row">
         <div class="col-12">
           <table id="instructor-table" class="table table-striped">
@@ -74,12 +73,12 @@
   </div>
 </div>
 
-<div class="section" *ngIf="student">
-  <div class="col-sm-12">
+<div class="section">
+  <div class="col-sm-12" *ngIf="isLoadingStudent || student">
     <h4 class="font-weight-bold">Self</h4>
   </div>
-  <div class="card border-primary">
-    <div class="card-body fill-plain">
+  <div class="card border-primary" *tmIsLoading="isLoadingStudent">
+    <div class="card-body fill-plain" *ngIf="student">
       <div class="form form-horizontal">
         <div class="form-group row">
           <div class="col-4 text-right">
@@ -118,7 +117,7 @@
   </div>
 </div>
 
-<div class="card bg-light mb-4">
+<div *ngIf="!isLoadingTeammates && teammateProfiles.length" class="card bg-light mb-4">
   <div class="card-body">
     <h5 class="d-inline"><strong> Sort By: </strong></h5>
     <div class="btn-group" data-toggle="buttons">
@@ -131,54 +130,58 @@
   </div>
 </div>
 
-<div class="section" *ngIf="teammateProfiles.length">
-  <div class="col-sm-12">
+<div class="section">
+  <div class="col-sm-12" *ngIf="isLoadingTeammates || teammateProfiles.length">
     <h4 class="font-weight-bold">Team Profiles</h4>
   </div>
-  <div class="row" *ngFor="let teammateProfile of teammateProfiles; let i = index">
-    <div class="col-12">
-      <div class="row">
-        <div class="col-md-2 col-3">
-          <img src="{{teammateProfile.photoUrl}}"
-               class="profile-pic float-left" (error)="setDefaultPic(teammateProfile)">
-        </div>
-        <div class="col-md-10 col-9">
-          <table id="teammates-table-{{ i }}" class="table table-striped">
-            <tbody>
-            <tr>
-              <td class="font-weight-bold">Name</td>
-              <td>
-                <span>
-                  {{teammateProfile.studentProfile.shortName}}
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="font-weight-bold">Email</td>
-              <td>
-                <a href="mailto:{{teammateProfile.studentProfile.email}}">{{teammateProfile.studentProfile.email}}</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="font-weight-bold">Gender</td>
-              <td>
-                <span>{{teammateProfile.studentProfile.gender}}</span>
-              </td>
-            </tr>
-            <tr>
-              <td class="font-weight-bold">Institution</td>
-              <td>
-                <span>{{teammateProfile.studentProfile.institute}}</span>
-              </td>
-            </tr>
-            <tr>
-              <td class="font-weight-bold">Nationality</td>
-              <td>
-                <span>{{teammateProfile.studentProfile.nationality}}</span>
-              </td>
-            </tr>
-            </tbody>
-          </table>
+  <div *tmIsLoading="isLoadingTeammates">
+    <div *ngIf="teammateProfiles.length">
+      <div class="row" *ngFor="let teammateProfile of teammateProfiles; let i = index">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-md-2 col-3">
+              <img src="{{teammateProfile.photoUrl}}"
+                   class="profile-pic float-left" (error)="setDefaultPic(teammateProfile)">
+            </div>
+            <div class="col-md-10 col-9">
+              <table id="teammates-table-{{ i }}" class="table table-striped">
+                <tbody>
+                <tr>
+                  <td class="font-weight-bold">Name</td>
+                  <td>
+                  <span>
+                    {{teammateProfile.studentProfile.shortName}}
+                  </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Email</td>
+                  <td>
+                    <a href="mailto:{{teammateProfile.studentProfile.email}}">{{teammateProfile.studentProfile.email}}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Gender</td>
+                  <td>
+                    <span>{{teammateProfile.studentProfile.gender}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Institution</td>
+                  <td>
+                    <span>{{teammateProfile.studentProfile.institute}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="font-weight-bold">Nationality</td>
+                  <td>
+                    <span>{{teammateProfile.studentProfile.nationality}}</span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>

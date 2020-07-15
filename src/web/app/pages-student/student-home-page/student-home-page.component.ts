@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
@@ -52,13 +51,13 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
   courses: StudentCourse[] = [];
+  isCoursesLoading: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private timezoneService: TimezoneService,
-              private loadingBarService: LoadingBarService) {
+              private timezoneService: TimezoneService) {
     this.timezoneService.getTzVersion();
   }
 
@@ -72,15 +71,11 @@ export class StudentHomePageComponent implements OnInit {
    * Gets the courses and feedback sessions involving the student.
    */
   getStudentCourses(): void {
-    this.loadingBarService.showLoadingBar();
+    this.isCoursesLoading = true;
     this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
-      if (resp.courses.length === 0) {
-        this.loadingBarService.hideLoadingBar();
-        return;
-      }
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
-          .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
+          .pipe(finalize(() => this.isCoursesLoading = false))
           .subscribe((fss: FeedbackSessions) => {
             const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 

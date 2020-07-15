@@ -7,6 +7,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from '../../../environments/environment.prod';
 import { Gender } from '../../../types/api-output';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentProfilePageComponent } from './student-profile-page.component';
 
@@ -25,6 +27,8 @@ describe('StudentProfilePageComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         TeammatesCommonModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
       ],
     })
     .compileComponents();
