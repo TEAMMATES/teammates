@@ -99,7 +99,6 @@ describe('AddCourseFormComponent', () => {
     component.newCourseName = testCourseName;
     component.onSubmit();
     fixture.detectChanges();
-    expect(spyStatusMessageService.showSuccessToastTemplate).toHaveBeenCalled();
     expect(component.course).toEqual(testCourse);
   });
 });

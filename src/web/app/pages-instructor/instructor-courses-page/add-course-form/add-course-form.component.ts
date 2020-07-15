@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -18,13 +18,12 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
 
   timezones: string[] = [];
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
-  course!: Course;
+  course?: Course;
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
@@ -69,7 +68,6 @@ export class AddCourseFormComponent implements OnInit {
     }).subscribe((course: Course) => {
       this.courseAdded.emit();
       this.course = course;
-      this.statusMessageService.showSuccessToastTemplate(this.newCourseMessageTemplate);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });

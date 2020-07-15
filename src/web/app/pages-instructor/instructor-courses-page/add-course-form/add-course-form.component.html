@@ -44,9 +44,12 @@
   </div>
 </div>
 
-<ng-template #newCourseMessageTemplate>
-  The course has been added. Click <a routerLink="/web/instructor/courses/enroll" [queryParams]="{ courseid: course.courseId }">here</a>
-  to add students to the course or click <a routerLink="/web/instructor/courses/edit" [queryParams]="{ courseid: course.courseId }">here</a>
-  to add other instructors.<br>If you don't see the course in the list below,
-  please refresh the page after a few moments.
-</ng-template>
+<div *ngIf="course" class="card" style="margin-top: 20px;">
+  <div class="card-body bg-light">
+    The course has been added. Click <a routerLink="/web/instructor/courses/enroll" [queryParams]="{ courseid: course.courseId }">here</a>
+    to add students to the course or click <a routerLink="/web/instructor/courses/edit" [queryParams]="{ courseid: course.courseId }">here</a>
+    to add other instructors.
+    <br>
+    If you do not see the course in the list below, please refresh the page after a few moments.
+  </div>
+</div>
