@@ -3,512 +3,334 @@
   <!-- Section -->
   <h4 *ngIf="displaySubsection(0, 5)">Enrolling Students in Courses</h4>
   <!-- Question -->
-  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)" #question id="{{CoursesSectionQuestions.COURSE_ADD_STUDENTS}}">
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)"
+                            [id]="CoursesSectionQuestions.COURSE_ADD_STUDENTS"
+                            headerText="How do I add students to a course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]= !questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
-      How do I add students to a course?
-      </button>
+      There are two ways to enroll students in a course:
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            There are two ways to enroll students in a course:
-          </p>
-          <ul>
-            <li>
-              From the <b>Home</b> page, click on the <button class="btn btn-primary btn-sm">Students</button> button of the corresponding course, and choose <b>Enroll</b>.
-            </li>
-            <li>
-              From the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm">Enroll</button> button of the corresponding course.
-            </li>
-          </ul>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <ul>
+      <li>
+        From the <b>Home</b> page, click on the <button class="btn btn-primary btn-sm">Students</button> button of the corresponding course, and choose <b>Enroll</b>.
+      </li>
+      <li>
+        From the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm">Enroll</button> button of the corresponding course.
+      </li>
+    </ul>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)" #question id="{{CoursesSectionQuestions.SIZE_LIMIT}}">
-    <p><button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT] = !questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
-      Is there a size limit for a course?
-    </button></p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS); questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true" [routerLink]="">divided into sections</a>.<br>
-            TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)"
+                            [id]="CoursesSectionQuestions.SIZE_LIMIT"
+                            headerText="Is there a size limit for a course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
+    <p>
+      No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS); questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true" [routerLink]="">divided into sections</a>.<br>
+      TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)" #question id="{{CoursesSectionQuestions.NO_TEAMS}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)"
+                            [id]="CoursesSectionQuestions.NO_TEAMS"
+                            headerText="What should I do if my course doesn’t have teams?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS] = !questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
-      What should I do if my course doesn’t have teams?
-      </button>
+      When you enroll students in a course, TEAMMATES requires you to specify a <b>Team</b> for each student.<br>
+      If your class does not use groups or teams, simply provide a dummy value in the Team column.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            When you enroll students in a course, TEAMMATES requires you to specify a <b>Team</b> for each student.<br>
-            If your class does not use groups or teams, simply provide a dummy value in the Team column.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.SECTIONS)" #question id="{{CoursesSectionQuestions.SECTIONS}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SECTIONS)"
+                            [id]="CoursesSectionQuestions.SECTIONS"
+                            headerText="What are sections meant for?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.SECTIONS] = !questionsToCollapsed[CoursesSectionQuestions.SECTIONS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
-      What are sections meant for?
-      </button>
+      Sections are used to organize students in courses with significantly large numbers of students.
+      It is mandatory for courses with more than 100 students to organize students into sections.
+      Courses with less than 100 students do not need to be split into sections.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            Sections are used to organize students in courses with significantly large numbers of students.
-            It is mandatory for courses with more than 100 students to organize students into sections.
-            Courses with less than 100 students do not need to be split into sections.
-          </p>
-          <p>
-            Section information is used to paginate the downloadable report of a session's results.
-            When you download the results of a session as an Excel spreadsheet, each section will be given its own page in the file.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
-    <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)" #question id="{{CoursesSectionQuestions.ENROLL_SECTIONS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = !questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
-      How do I enroll students into sections?
-      </button>
+      Section information is used to paginate the downloadable report of a session's results.
+      When you download the results of a session as an Excel spreadsheet, each section will be given its own page in the file.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
-            To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm" type="button">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question class="instr-help-qn-last" [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)"
+                            [id]="CoursesSectionQuestions.ENROLL_SECTIONS"
+                            headerText="How do I enroll students into sections?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
+    <p>
+      To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
+      To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm" type="button">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
+    </p>
+  </tm-instructor-help-panel>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(5, 9)">Adding Instructors to Courses</h4>
   <!--Question -->
-  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)" #question id="{{CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR}}">
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)"
+                            [id]="CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR"
+                            headerText="How do I add instructors to my course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
-      How do I add instructors to my course?
-      </button>
+      From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page, which will look similar to the example below.<br>
+      Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page, which will look similar to the example below.<br>
-            Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
-          </p>
-          <p>
-            To add an instructor:
-          </p>
-          <ol>
-            <li>
-              Click the <button class="btn btn-primary btn-sm" type="button">Add New Instructor</button> button at the bottom of the page. A form will appear for you to specify the necessary information about the new instructor.
-            </li>
-            <li>
-              Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, hover your cursor over the input field to view the tooltip for explanation of the field.<br>
-            </li>
-            <li>
-              Click <button class="btn btn-primary btn-sm" type="button">Add Instructor</button> to add the instructor.
-            </li>
-          </ol>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      To add an instructor:
+    </p>
+    <ol>
+      <li>
+        Click the <button class="btn btn-primary btn-sm" type="button">Add New Instructor</button> button at the bottom of the page. A form will appear for you to specify the necessary information about the new instructor.
+      </li>
+      <li>
+        Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, hover your cursor over the input field to view the tooltip for explanation of the field.<br>
+      </li>
+      <li>
+        Click <button class="btn btn-primary btn-sm" type="button">Add Instructor</button> to add the instructor.
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)" #question id="{{CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)"
+                            [id]="CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR"
+                            headerText="How do I edit the information of an instructor in my course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
-      How do I edit the information of an instructor in my course?
-      </button>
+      To edit the name, email and visible role of Instructor A from Course B, first go to the <b>Edit Course</b> page of Course B.<br>
+      From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To edit the name, email and visible role of Instructor A from Course B, first go to the <b>Edit Course</b> page of Course B.<br>
-            From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
-          </p>
-          <p>
-            To edit Instructor A's information:
-          </p>
-          <ol>
-            <li>
-              Scroll to the panel showing Instructor A's information.<br>
-            </li>
-            <li>
-              Click the <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-pencil-alt"></span> Edit</button> button in the top right hand corner of Instructor A's information panel. <br>
-            </li>
-            <li>
-              Update the relevant fields with Instructor A's new information.
-            </li>
-            <li>
-              Click <button class="btn btn-primary btn-sm" type="button">Save changes</button> to save the changes and complete the edit process.
-            </li>
-          </ol>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      To edit Instructor A's information:
+    </p>
+    <ol>
+      <li>
+        Scroll to the panel showing Instructor A's information.<br>
+      </li>
+      <li>
+        Click the <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-pencil-alt"></span> Edit</button> button in the top right hand corner of Instructor A's information panel. <br>
+      </li>
+      <li>
+        Update the relevant fields with Instructor A's new information.
+      </li>
+      <li>
+        Click <button class="btn btn-primary btn-sm" type="button">Save changes</button> to save the changes and complete the edit process.
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)" #question id="{{CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)"
+                            [id]="CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS"
+                            headerText="How do I set an instructor's access level?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
-      How do I set an instructor's access level?
-      </button>
+      When <a (click)="jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true" [routerLink]="">adding an instructor</a> or <a (click)="jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true" [routerLink]="">editing an instructor's information</a>, you can set the instructor's access level.
+      There are 4 pre-defined privilege options for you to choose from:
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            When <a (click)="jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true" [routerLink]="">adding an instructor</a> or <a (click)="jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true" [routerLink]="">editing an instructor's information</a>, you can set the instructor's access level.
-            There are 4 pre-defined privilege options for you to choose from:
-          </p>
-          <ul>
-            <li>
-              <b>Co-owner</b>: is able to perform any action on the course, including deleting the course. When you create a new course, your access level is Co-owner. This is the highest access level.
-            </li>
-            <li>
-              <b>Manager</b>: has the same privileges as a Co-owner except that s/he is not allowed to delete the course.
-            </li>
-            <li>
-              <b>Observer</b>: can view the course's information, but cannot edit or submit information
-            </li>
-            <li>
-              <b>Tutor</b>: can view student details, give/view comments, and submit/view responses for sessions.
-            </li>
-          </ul>
-          <p>
-            All the access levels listed above have pre-defined privileges which you can view by clicking the 'View details' link next to the access level description.<br>
-            To set custom privileges for an instructor, select the <b>Custom</b> access level, and specify which privileges the instructor should get.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <ul>
+      <li>
+        <b>Co-owner</b>: is able to perform any action on the course, including deleting the course. When you create a new course, your access level is Co-owner. This is the highest access level.
+      </li>
+      <li>
+        <b>Manager</b>: has the same privileges as a Co-owner except that s/he is not allowed to delete the course.
+      </li>
+      <li>
+        <b>Observer</b>: can view the course's information, but cannot edit or submit information
+      </li>
+      <li>
+        <b>Tutor</b>: can view student details, give/view comments, and submit/view responses for sessions.
+      </li>
+    </ul>
+    <p>
+      All the access levels listed above have pre-defined privileges which you can view by clicking the 'View details' link next to the access level description.<br>
+      To set custom privileges for an instructor, select the <b>Custom</b> access level, and specify which privileges the instructor should get.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)" #question id="{{CoursesSectionQuestions.PRIVILEGES}}">
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)"
+                            [id]="CoursesSectionQuestions.PRIVILEGES"
+                            headerText="How do I set custom privileges for an instructor?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES] = !questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
-      How do I set custom privileges for an instructor?
-      </button>
+      When you set the access level for an instructor to <b>Custom</b>, detailed privilege settings will appear.<br>
+      Use the checkboxes to give instructors specific privileges.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            When you set the access level for an instructor to <b>Custom</b>, detailed privilege settings will appear.<br>
-            Use the checkboxes to give instructors specific privileges.
-          </p>
-          <p>
-            If a course has sections, you can customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.<br>
-            In the panel for section-level privilege settings, use the section checkboxes to apply your chosen settings to more than one section.<br>
-            You can also change the degree of access the instructor has to specific sessions in that section by clicking 'Give different permissions for sessions in this section'.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      If a course has sections, you can customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.<br>
+      In the panel for section-level privilege settings, use the section checkboxes to apply your chosen settings to more than one section.<br>
+      You can also change the degree of access the instructor has to specific sessions in that section by clicking 'Give different permissions for sessions in this section'.
+    </p>
+  </tm-instructor-help-panel>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(9, 13)">Managing Courses</h4>
   <!--Question-->
-  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)" #question id="{{CoursesSectionQuestions.COURSE_VIEW_STUDENTS}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)"
+                            [id]="CoursesSectionQuestions.COURSE_VIEW_STUDENTS"
+                            headerText="How do I view a list of students in a course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
-      How do I view a list of students in a course?
-      </button>
+      There are two ways to access the list of students in a course.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            There are two ways to access the list of students in a course.
-          </p>
-          <p>
-            To view the list of students in Course A:
-          </p>
-          <ul>
-            <li>
-              From the <b>Home</b> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-sm">Students <span class="caret dropdown-toggle"></span></button>
-              and then select <b>View/Edit</b>.
-            </li>
-            <li>
-              From the <b>Courses</b> page, click <button class="btn btn-secondary btn-sm">View</button> button of the row corresponding to Course A.
-            </li>
-          </ul>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      To view the list of students in Course A:
+    </p>
+    <ul>
+      <li>
+        From the <b>Home</b> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-sm">Students <span class="caret dropdown-toggle"></span></button>
+        and then select <b>View/Edit</b>.
+      </li>
+      <li>
+        From the <b>Courses</b> page, click <button class="btn btn-secondary btn-sm">View</button> button of the row corresponding to Course A.
+      </li>
+    </ul>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)" #question id="{{CoursesSectionQuestions.CHANGE_SECTION}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)"
+                            [id]="CoursesSectionQuestions.CHANGE_SECTION"
+                            headerText="How do I change a student's section?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION] = !questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
-      How do I change a student's section?
-      </button>
+      To edit the section Student A from Course B is enrolled in:
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To edit the section Student A from Course B is enrolled in:
-          </p>
-          <ol>
-            <li>
-              Go to the <b>Students</b> page and click Course B's panel heading. You will see a list of students enrolled in Course B.
-            </li>
-            <li>
-              Click the <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
-            </li>
-            <li>
-              A new page will open that allows you to <button class="btn btn-link" (click)="collapseStudentEditDetails.emit(true);">edit the student's profile</button>, including a field to edit the student's section.<br>
-            </li>
-            <li>
-              After editing the section name, click <button class="btn btn-primary btn-sm">Save Changes</button> to confirm Student A's new section.
-            </li>
-          </ol>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <ol>
+      <li>
+        Go to the <b>Students</b> page and click Course B's panel heading. You will see a list of students enrolled in Course B.
+      </li>
+      <li>
+        Click the <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
+      </li>
+      <li>
+        A new page will open that allows you to <button class="btn btn-link" (click)="collapseStudentEditDetails.emit(true);">edit the student's profile</button>, including a field to edit the student's section.<br>
+      </li>
+      <li>
+        After editing the section name, click <button class="btn btn-primary btn-sm">Save Changes</button> to confirm Student A's new section.
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)" #question id="{{CoursesSectionQuestions.DISAPPEARED_COURSE}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)"
+                            [id]="CoursesSectionQuestions.DISAPPEARED_COURSE"
+                            headerText="What should I do if a student says his/her courses have disappeared from the system?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE] = !questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
-      What should I do if a student says his/her courses have disappeared from the system?
-      </button>
+      The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
+      <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> so that we help to rectify the problem.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
-            <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> so that we help to rectify the problem.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)" #question id="{{CoursesSectionQuestions.DEL_STUDENTS}}">
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)"
+                            [id]="CoursesSectionQuestions.DEL_STUDENTS"
+                            headerText="How do I delete students from a course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS] = !questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
-      How do I delete students from a course?
-      </button>
+      To remove Student A from Course B:
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To remove Student A from Course B:
-          </p>
-          <ol>
-            <li>
-              <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true" [routerLink]="">View the student list</a> of Course B.
-            </li>
-            <li>
-              In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm">Delete</button> button.
-            </li>
-            <li>
-              Click <b>OK</b> to confirm that you would like to delete Student A from Course B.
-            </li>
-          </ol>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <ol>
+      <li>
+        <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true" [routerLink]="">View the student list</a> of Course B.
+      </li>
+      <li>
+        In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm">Delete</button> button.
+      </li>
+      <li>
+        Click <b>OK</b> to confirm that you would like to delete Student A from Course B.
+      </li>
+    </ol>
+  </tm-instructor-help-panel>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(13, 16)">Archiving Courses</h4>
   <!--Question-->
-  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_ARCHIVE)" #question id="{{CoursesSectionQuestions.COURSE_ARCHIVE}}">
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ARCHIVE)"
+                            [id]="CoursesSectionQuestions.COURSE_ARCHIVE"
+                            headerText="How do I archive a course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]">
-      How do I archive a course?
-      </button>
+      When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_ARCHIVE]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            When a course has ended, you can archive it so that it doesn't appear in your home page. Course, student and session details of an archived course are still stored on TEAMMATES. However, you cannot edit, create feedback sessions for or enroll students in an archived course.
-          </p>
-          <p>
-            In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
-            Click on the <button class="btn btn-primary btn-sm" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
-            Then select <button class="btn btn-secondary btn-sm" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
-          </p>
-          <p>
-            You can also archive a course from the <b>Courses</b> page.<br>
-            Under 'Active Courses', click on the <button class="btn btn-secondary btn-sm" type="button">Archive</button> button in the row corresponding to the course you want to archive.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
+      Click on the <button class="btn btn-primary btn-sm" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
+      Then select <button class="btn btn-secondary btn-sm" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
+    </p>
+    <p>
+      You can also archive a course from the <b>Courses</b> page.<br>
+      Under 'Active Courses', click on the <button class="btn btn-secondary btn-sm" type="button">Archive</button> button in the row corresponding to the course you want to archive.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED)" #question id="{{CoursesSectionQuestions.COURSE_VIEW_ARCHIVED}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED)"
+                            [id]="CoursesSectionQuestions.COURSE_VIEW_ARCHIVED"
+                            headerText="How do I view courses I have archived?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]">
-      How do I view courses I have archived?
-      </button>
+      You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
+      Scroll to the <b>Archived courses</b> heading.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            You can view all your archived courses by navigating to the <b>Courses</b> page.<br>
-            Scroll to the <b>Archived courses</b> heading.
-          </p>
-          <p>
-            The courses you have previously archived are listed here.
-            In order to access information in an archived course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_UNARCHIVE); questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = true" [routerLink]="">unarchive the course</a>.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      The courses you have previously archived are listed here.
+      In order to access information in an archived course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_UNARCHIVE); questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = true" [routerLink]="">unarchive the course</a>.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_UNARCHIVE)" #question id="{{CoursesSectionQuestions.COURSE_UNARCHIVE}}">
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_UNARCHIVE)"
+                            [id]="CoursesSectionQuestions.COURSE_UNARCHIVE"
+                            headerText="How do I unarchive an archived course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
-      How do I unarchive an archived course?
-      </button>
+      To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [routerLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
+      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [routerLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
-            Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+  </tm-instructor-help-panel>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(16, 20)">Restoring Deleted Courses</h4>
   <!--Question-->
-  <div class="instr-help-qn-first" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)" #question id="{{CoursesSectionQuestions.COURSE_VIEW_DELETED}}">
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)"
+                            [id]="CoursesSectionQuestions.COURSE_VIEW_DELETED"
+                            headerText="How do I view courses I have deleted?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
-      How do I view courses I have deleted?
-      </button>
+      You can view all your deleted courses by navigating to the <b>Courses</b> page.<br>
+      Scroll to the <b>Deleted courses</b> heading.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            You can view all your deleted courses by navigating to the <b>Courses</b> page.<br>
-            Scroll to the <b>Deleted courses</b> heading.
-          </p>
-          <p>
-            The courses you have previously deleted are listed here.
-            In order to access information in a deleted course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_RESTORE); questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = true" [routerLink]="">restore the course</a>.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      The courses you have previously deleted are listed here.
+      In order to access information in a deleted course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_RESTORE); questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = true" [routerLink]="">restore the course</a>.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)" #question id="{{CoursesSectionQuestions.COURSE_RESTORE}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)"
+                            [id]="CoursesSectionQuestions.COURSE_RESTORE"
+                            headerText="How do I restore a deleted course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = !questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
-      How do I restore a deleted course?
-      </button>
+      To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
+      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
-            Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
-          </p>
-          <p>
-            After restoring the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be restored.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      After restoring the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be restored.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.PERM_DEL)" #question id="{{CoursesSectionQuestions.PERM_DEL}}">
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PERM_DEL)"
+                            [id]="CoursesSectionQuestions.PERM_DEL"
+                            headerText="How do I permanently delete a course?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL] = !questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
-      How do I permanently delete a course?
-      </button>
+      To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
+      Then, click on the <button href="#" class="btn btn-secondary btn-sm color-negative" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
-            Then, click on the <button href="#" class="btn btn-secondary btn-sm color-negative" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
-          </p>
-          <p>
-            After deleting the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be permanently deleted.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+    <p>
+      After deleting the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be permanently deleted.
+    </p>
+  </tm-instructor-help-panel>
   <!--Question-->
-  <div class="instr-help-qn-last" *ngIf="!key || showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)" #question id="{{CoursesSectionQuestions.RESTORE_ALL}}">
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)"
+                            [id]="CoursesSectionQuestions.RESTORE_ALL"
+                            headerText="How do I restore/delete all courses from Recycle Bin?"
+                            [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL] = !questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]" [attr.aria-expanded]="!questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
-      How do I restore/delete all courses from Recycle Bin?
-      </button>
+      First <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> and check for courses in Recycle Bin.<br>
+      To restore all courses, click on the <a class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top"><span class="fa fa-check"></span><strong> Restore All</strong></a> button in <b>Deleted courses</b> heading;
+      to delete all courses, click on the <a class="btn btn-secondary btn-sm color-negative" data-toggle="tooltip" data-placement="top"><span class="fa fa-times"></span><strong> Delete All</strong></a> button in <b>Deleted courses</b> heading.
     </p>
-    <div *ngIf="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]" @collapseAnim>
-      <div class="card">
-        <div class="card-body">
-          <p>
-            First <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> and check for courses in Recycle Bin.<br>
-            To restore all courses, click on the <a class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top"><span class="fa fa-check"></span><strong> Restore All</strong></a> button in <b>Deleted courses</b> heading;
-            to delete all courses, click on the <a class="btn btn-secondary btn-sm color-negative" data-toggle="tooltip" data-placement="top"><span class="fa fa-times"></span><strong> Delete All</strong></a> button in <b>Deleted courses</b> heading.
-          </p>
-        </div>
-      </div>
-      <br/>
-    </div>
-  </div>
+  </tm-instructor-help-panel>
 </div>
