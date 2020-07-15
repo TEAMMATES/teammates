@@ -1,10 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit, Directive, ElementRef, Inject, Input, OnChanges, OnInit, QueryList,
+  AfterViewInit, Directive, Inject, Input, OnChanges, OnInit, QueryList,
   SimpleChanges, ViewChildren,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { SimpleModalService } from '../../../services/simple-modal.service';
+import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 
 interface QuestionDetail {
   id: string;
@@ -19,7 +20,7 @@ interface QuestionDetail {
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: String;
-  @ViewChildren('question') questionHTML !: QueryList<ElementRef>;
+  @ViewChildren('question') questionHtml!: QueryList<InstructorHelpPanelComponent>;
 
   showQuestion: string[];
   questionDetails: QuestionDetail[];
@@ -60,9 +61,9 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   }
 
   private generateTerms(): void {
-    this.questionHTML.forEach((question: ElementRef) => {
-      const id: string = question.nativeElement.id;
-      const text: string = question.nativeElement.textContent;
+    this.questionHtml.forEach((question: InstructorHelpPanelComponent) => {
+      const id: string = question.id;
+      const text: string = question.headerText || '';
 
         // filter small words away
       let keywords: string[] = text.split(' ').filter((word: string) => word.length > 3);
@@ -109,6 +110,10 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   expand(questionId: string): void {
     this.questionsToCollapsed[questionId] = true;
+  }
+
+  togglePanel(questionId: string): void {
+    this.questionsToCollapsed[questionId] = !this.questionsToCollapsed[questionId];
   }
 
   /**
