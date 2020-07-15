@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
+import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
   AdminSearchResult,
   FeedbackSessionsGroup,
@@ -39,13 +41,17 @@ export class AdminSearchPageComponent {
     private studentService: StudentService,
     private searchService: SearchService,
     private emailGenerationService: EmailGenerationService,
+    private loadingBarService: LoadingBarService,
   ) {}
 
   /**
    * Searches for students and instructors matching the search query.
    */
   search(): void {
-    this.searchService.searchAdmin(this.searchQuery).subscribe((resp: AdminSearchResult) => {
+    this.loadingBarService.showLoadingBar();
+    this.searchService.searchAdmin(
+        this.searchQuery,
+    ).pipe(finalize(() => this.loadingBarService.hideLoadingBar())).subscribe((resp: AdminSearchResult) => {
       const hasStudents: boolean = !!(resp.students && resp.students.length);
       const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
 

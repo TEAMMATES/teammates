@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -30,6 +31,10 @@ export class AdminAccountsPageComponent implements OnInit {
     createdAtTimeStamp: 0,
   };
 
+  isLoadingAccountInfo: boolean = false;
+  isLoadingStudentCourses: boolean = false;
+  isLoadingInstructorCourses: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private instructorService: InstructorService,
@@ -49,27 +54,36 @@ export class AdminAccountsPageComponent implements OnInit {
    * Loads the account information based on the given ID.
    */
   loadAccountInfo(instructorid: string): void {
-    this.accountService.getAccount(instructorid).subscribe((resp: Account) => {
-      this.accountInfo = resp;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    this.isLoadingAccountInfo = true;
+    this.accountService.getAccount(instructorid)
+        .pipe(finalize(() => this.isLoadingAccountInfo = false))
+        .subscribe((resp: Account) => {
+          this.accountInfo = resp;
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
 
-    this.courseService.getStudentCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
-      this.studentCourses = resp.courses;
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status !== 403) {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      }
-    });
+    this.isLoadingStudentCourses = true;
+    this.courseService.getStudentCoursesInMasqueradeMode(instructorid)
+        .pipe(finalize(() => this.isLoadingStudentCourses = false))
+        .subscribe((resp: Courses) => {
+          this.studentCourses = resp.courses;
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status !== 403) {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          }
+        });
 
-    this.courseService.getInstructorCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
-      this.instructorCourses = resp.courses;
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status !== 403) {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      }
-    });
+    this.isLoadingInstructorCourses = true;
+    this.courseService.getInstructorCoursesInMasqueradeMode(instructorid)
+        .pipe(finalize(() => this.isLoadingInstructorCourses = false))
+        .subscribe((resp: Courses) => {
+          this.instructorCourses = resp.courses;
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status !== 403) {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          }
+        });
   }
 
   /**
