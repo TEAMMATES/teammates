@@ -16,6 +16,10 @@ public class ImageResult extends ActionResult {
     /** The blob key for the image. */
     public String blobKey;
 
+    public ImageResult() {
+        super(HttpStatus.SC_NO_CONTENT);
+    }
+
     public ImageResult(String blobKey) {
         super(HttpStatus.SC_OK);
         this.blobKey = blobKey;
@@ -24,7 +28,9 @@ public class ImageResult extends ActionResult {
     @Override
     public void send(HttpServletResponse resp) throws IOException {
         resp.setContentType("image/png");
-        GoogleCloudStorageHelper.serve(resp, blobKey);
+        if (blobKey != null) {
+            GoogleCloudStorageHelper.serve(resp, blobKey);
+        }
     }
 
 }

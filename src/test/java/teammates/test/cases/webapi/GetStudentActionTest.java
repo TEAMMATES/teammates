@@ -32,6 +32,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     private void assertStudentDataMatches(StudentData studentData, StudentAttributes student,
                                           boolean isRequestFromInstructor) {
+        assertNull(studentData.getGoogleId());
+        assertNull(studentData.getKey());
         assertEquals(student.getEmail(), studentData.getEmail());
         assertEquals(student.getCourse(), studentData.getCourseId());
         assertEquals(student.getName(), studentData.getName());

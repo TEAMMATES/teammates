@@ -144,7 +144,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         assertEquals(actualComment.getFeedbackCommentText(), expected.getCommentText());
         assertEquals(actualComment.getCommentGiver(), expected.getCommentGiver());
 
-        ______TS("non-existent comment, should return 404");
+        ______TS("non-existent comment in existing response, should return 204");
 
         loginAsStudent(student1InCourse1.getGoogleId());
 
@@ -154,7 +154,16 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         };
         GetFeedbackResponseCommentAction action = getAction(submissionParams);
         JsonResult actualResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_NOT_FOUND, actualResult.getStatusCode());
+        assertEquals(HttpStatus.SC_NO_CONTENT, actualResult.getStatusCode());
+
+        ______TS("non-existent response, should return 404");
+
+        String[] nonExistentResponseSubmissionParams = new String[] {
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomresponseid"),
+        };
+
+        assertThrows(EntityNotFoundException.class, () -> getAction(nonExistentResponseSubmissionParams).execute());
     }
 
     @Override

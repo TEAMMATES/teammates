@@ -1,0 +1,7 @@
+.mce-content-readonly {
+  cursor: not-allowed;
+}
+
+.mce-content-body[data-mce-placeholder] {
+  opacity: .7;
+}

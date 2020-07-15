@@ -10,8 +10,7 @@
           "/assets/icons/**",
           "/index.html",
           "/manifest.webmanifest",
-          "/*.css",
-          "/*.js"
+          "/*.css"
         ]
       }
     }, {
@@ -21,6 +20,7 @@
       "resources": {
         "files": [
           "/assets/**",
+          "/*.js",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
       }
