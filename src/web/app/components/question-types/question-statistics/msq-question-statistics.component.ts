@@ -16,6 +16,9 @@ import {
 })
 export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalculation implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   summaryColumnsData: ColumnData[] = [];
   summaryRowsData: SortableTableCellData[][] = [];
   perRecipientColumnsData: ColumnData[] = [];
