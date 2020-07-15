@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
@@ -31,7 +31,8 @@ export class SimpleModalService {
    * @param content to be displayed in the body of the modal. content supports HTML tags
    * @param options See {@code SimpleModalOptions}
    */
-  open(header: string, type: SimpleModalType, content: string, options?: SimpleModalOptions): NgbModalRef {
+  open(header: string, type: SimpleModalType,
+       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
     const modalRef: NgbModalRef = this.modalService.open(SimpleModalComponent);
     modalRef.componentInstance.header = header;
     modalRef.componentInstance.content = content;
@@ -44,8 +45,8 @@ export class SimpleModalService {
     return modalRef;
   }
 
-  openConfirmationModal(
-      header: string, type: SimpleModalType, content: string, options?: SimpleModalOptions): NgbModalRef {
+  openConfirmationModal(header: string, type: SimpleModalType,
+                        content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: false,
       confirmMessage: 'Yes',
@@ -55,8 +56,8 @@ export class SimpleModalService {
     return this.open(header, type, content, modalOptions);
   }
 
-  openInformationModal(
-      header: string, type: SimpleModalType, content: string, options?: SimpleModalOptions): NgbModalRef {
+  openInformationModal(header: string, type: SimpleModalType,
+                       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
       confirmMessage: 'OK',

@@ -18,7 +18,10 @@
   </button>
 </div>
 <div class="modal-body">
-  <div [innerHTML]="content"></div>
+  <div *ngIf="isTemplate">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+  <div *ngIf="!isTemplate" [innerHTML]="content"></div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
