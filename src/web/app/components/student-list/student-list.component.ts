@@ -86,9 +86,9 @@ export class StudentListComponent implements OnInit {
    */
   openRemindModal(studentModel: StudentListRowModel): void {
     const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students
-          at the opening time of each session. Send a join request to ${ studentModel.student.email } anyway?`;
+          at the opening time of each session. Send a join request to <strong>${ studentModel.student.email }</strong> anyway?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Confirm sending join requests', SimpleModalType.INFO, modalContent);
+        'Send join request?', SimpleModalType.INFO, modalContent);
     modalRef.result.then(() => {
       this.remindStudentFromCourse(studentModel.student.email);
     }, () => {});
@@ -98,12 +98,9 @@ export class StudentListComponent implements OnInit {
    * Open the delete student confirmation modal.
    */
   openDeleteModal(studentModel: StudentListRowModel): void {
-    const modalContent: string = `<p class="font-weight-bold">Are you sure you want to remove
-        <span class="text-primary">"${ studentModel.student.name }"</span> from the course
-        <span class="text-primary">"${ this.courseId }"</span>?
-      </p>`;
+    const modalContent: string = `Are you sure you want to remove <strong>${ studentModel.student.name }</strong> from the course <strong>${ this.courseId }?</strong>`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Confirm deletion', SimpleModalType.DANGER, modalContent);
+        `Delete student <strong>${ studentModel.student.name }</strong>?`, SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       this.removeStudentFromCourse(studentModel.student.email);
     }, () => {});

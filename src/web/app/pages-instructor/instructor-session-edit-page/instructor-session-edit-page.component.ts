@@ -816,7 +816,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       const modalContent: string = `<p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
           <p>Are you sure you want to continue?</p>`;
       this.simpleModalService.openConfirmationModal(
-          'Warning: Unsaved field(s).', SimpleModalType.WARNING, modalContent).result.then(() => {
+          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
             this.router.navigateByUrl('/web/instructor/sessions');
           }, () => {});
     } else {

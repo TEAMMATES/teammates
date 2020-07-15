@@ -122,11 +122,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    const modalContent: string = `Are you sure you want to archive <strong>${courseId}</strong>? ` +
-        'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
+    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
     const modalRef: NgbModalRef =
-        this.simpleModalService.openConfirmationModal('Confirm archiving course', SimpleModalType.INFO, modalContent);
+        this.simpleModalService.openConfirmationModal(
+            `Archive course <strong>${courseId}</strong>?`, SimpleModalType.INFO, modalContent);
     modalRef.result.then(() => {
       this.courseService.changeArchiveStatus(courseId, {
         archiveStatus: true,
@@ -146,11 +146,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    const modalContent: string = `Are you sure you want to delete the course ${courseId}? ` +
-        'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
+    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Warning: Confirm moving course to Recycle Bin', SimpleModalType.WARNING, modalContent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {

@@ -385,12 +385,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
     const modalContent: string = isDeletingSelf ?
-        `Are you sure you want to delete your instructor role from the course ${ panelDetail.originalInstructor.courseId }?
+        `Are you sure you want to delete your instructor role from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
         You will not be able to access the course anymore.`
-        : `Are you sure you want to delete the instructor ${ panelDetail.originalInstructor.name } from the course ${ panelDetail.originalInstructor.courseId }?
+        : `Are you sure you want to delete the instructor <strong>${ panelDetail.originalInstructor.name }</strong> from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
         He/she will not be able to access the course anymore.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Confirm deleting instructor', SimpleModalType.DANGER, modalContent);
+        `Delete instructor <strong>${ panelDetail.originalInstructor.name }</strong>?`,
+        SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
       this.instructorService.deleteInstructor({
@@ -417,7 +418,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const modalContent: string = `Do you wish to re-send the invitation email to instructor ${ panelDetail.originalInstructor.name } from course ${ panelDetail.originalInstructor.courseId }?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Confirm re-sending invitation email', SimpleModalType.INFO, modalContent);
+        'Re-send invitation email?', SimpleModalType.INFO, modalContent);
 
     modalRef.result.then(() => {
       this.courseService

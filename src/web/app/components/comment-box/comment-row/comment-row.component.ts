@@ -155,7 +155,7 @@ export class CommentRowComponent implements OnInit, OnChanges {
    */
   triggerDeleteCommentEvent(): void {
     const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Warning: This will delete the comment permanently.', SimpleModalType.WARNING,
+        .openConfirmationModal('Delete the comment permanently?', SimpleModalType.DANGER,
             'Are you sure you want to continue?');
 
     modalRef.result.then(() => {

@@ -278,7 +278,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Confirm deleting a course', SimpleModalType.DANGER, modalContent);
+        `Delete course <strong>${ courseId }</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
@@ -316,7 +316,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Confirm deleting all courses', SimpleModalType.DANGER, modalContent);
+        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {

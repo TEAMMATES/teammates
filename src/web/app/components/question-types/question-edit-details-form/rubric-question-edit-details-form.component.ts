@@ -167,7 +167,7 @@ export class RubricQuestionEditDetailsFormComponent
       return;
     }
 
-    this.simpleModalService.openConfirmationModal('Confirm Deletion', SimpleModalType.WARNING,
+    this.simpleModalService.openConfirmationModal('Delete the row?', SimpleModalType.WARNING,
         'Are you sure you want to clear the row?').result.then(() => {
 
           const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
@@ -198,7 +198,7 @@ export class RubricQuestionEditDetailsFormComponent
    * Deletes a choice.
    */
   deleteChoice(index: number): void {
-    this.simpleModalService.openConfirmationModal('Confirm Deletion', SimpleModalType.WARNING,
+    this.simpleModalService.openConfirmationModal('Delete the column?', SimpleModalType.WARNING,
         'Are you sure you want to clear the column?').result.then(() => {
           const newChoices: string[] = this.model.rubricChoices.slice();
           newChoices.splice(index, 1);

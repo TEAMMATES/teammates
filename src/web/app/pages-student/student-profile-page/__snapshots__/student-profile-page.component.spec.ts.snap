@@ -207,8 +207,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             This profile will be visible to all your instructors and coursemates.
           </div>
         </form>
-        
-        
       </div>
     </div>
   </div>
@@ -451,8 +449,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             This profile will be visible to all your instructors and coursemates.
           </div>
         </form>
-        
-        
       </div>
     </div>
   </div>

@@ -210,8 +210,8 @@ export class SessionEditFormComponent implements OnInit {
    * Handles delete current feedback session button click event.
    */
   deleteHandler(): void {
-    this.simpleModalService.openConfirmationModal('Warning: The session will be moved to the recycle bin.',
-        SimpleModalType.WARNING, 'Are you sure you want to continue?').result.then(() => {
+    this.simpleModalService.openConfirmationModal(`Delete the session <strong>${ this.model.feedbackSessionName }</strong>?`,
+        SimpleModalType.WARNING, 'The session will be moved to the recycle bin.').result.then(() => {
           this.deleteExistingSessionEvent.emit();
         }, () => {});
   }

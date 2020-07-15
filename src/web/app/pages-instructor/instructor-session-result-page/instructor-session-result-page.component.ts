@@ -313,16 +313,16 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
     let modalRef: NgbModalRef;
     if (isPublished) {
-      const modalContent: string = `Are you sure you want to unpublish the session "${ this.session.feedbackSessionName }"?
-          An email will be sent to students to inform them that the session has been unpublished and the session responses
+      const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
           will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
-          'Confirm unpublishing responses', SimpleModalType.WARNING, modalContent);
+          `Unpublish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
+          SimpleModalType.WARNING, modalContent);
     } else {
-      const modalContent: string = `Are you sure you want to publish the responses for the session "${ this.session.feedbackSessionName }"?
-        An email will be sent to students to inform them that the responses are ready for viewing.`;
+      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
-          'Confirm publishing responses', SimpleModalType.WARNING, modalContent);
+          `Publish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
+          SimpleModalType.WARNING, modalContent);
     }
 
     modalRef.result.then(() => {

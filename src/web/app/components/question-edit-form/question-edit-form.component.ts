@@ -282,7 +282,7 @@ export class QuestionEditFormComponent implements OnInit {
         'Are you sure you want to discard your unsaved edits?';
 
     const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Warning: Any unsaved changes will be lost', SimpleModalType.WARNING, modalContent);
+        .openConfirmationModal('Discard unsaved changes?', SimpleModalType.WARNING, modalContent);
     modalRef.result.then(() => {
       this.discardChanges();
     }, () => {});
@@ -307,11 +307,11 @@ export class QuestionEditFormComponent implements OnInit {
         this.saveExistingQuestionEvent.emit();
       } else {
         const modalContent: string = `
-            <p>Editing fields affecting responders' answers will result in <b>all existing responses for this question to be deleted.</b></p>
+            <p>Editing fields affecting responders' answers may result in <b>all existing responses for this question to be deleted.</b></p>
             <p>Are you sure you want to continue?</p>
         `;
         const modalRef: NgbModalRef = this.simpleModalService
-            .openConfirmationModal('Warning: Existing responses might be deleted by your action',
+            .openConfirmationModal('Save the question?',
                 SimpleModalType.DANGER, modalContent);
         modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
@@ -335,8 +335,8 @@ export class QuestionEditFormComponent implements OnInit {
    */
   deleteCurrentQuestionHandler(): void {
     const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Warning: Deleted question cannot be recovered', SimpleModalType.DANGER,
-            'Are you sure you want to delete this question?');
+        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
+            'Warning: Deleted question cannot be recovered.');
     modalRef.result.then(() => {
       this.deleteCurrentQuestionEvent.emit();
     }, () => {});
