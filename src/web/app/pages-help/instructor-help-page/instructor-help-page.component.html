@@ -5,7 +5,7 @@
       <div>
         <p>
           Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
-          <br> If you are new to TEAMMATES, our <a routerLink="../getting-started">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
+          <br> If you are new to TEAMMATES, our <a [routerLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
           <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
         </p>
         <div class="row">
@@ -21,19 +21,19 @@
       </div>
     </div>
     <div id="{{Sections.students}}" class="section-body">
-      <tm-instructor-help-students-section [key]="key" [isEditDetailsCollapsed]="isEditDetailsCollapsed">
+      <tm-instructor-help-students-section #studentsHelpSection [key]="key">
       </tm-instructor-help-students-section>
     </div>
     <div id="{{Sections.courses}}" class="section-body">
-      <tm-instructor-help-courses-section [key]="key" (collapseStudentEditDetails)="collapseStudentEditDetails($event)">
+      <tm-instructor-help-courses-section #coursesHelpSection [key]="key" (collapseStudentEditDetails)="collapseStudentEditDetails()">
       </tm-instructor-help-courses-section>
     </div>
     <div id="{{Sections.sessions}}" class="section-body">
-      <tm-instructor-help-sessions-section [key]="key" [isPeerEvalTipsCollapsed]="isPeerEvalTipsCollapsed">
+      <tm-instructor-help-sessions-section #sessionsHelpSection [key]="key">
       </tm-instructor-help-sessions-section>
     </div>
     <div id="{{Sections.questions}}" class="section-body">
-      <tm-instructor-help-questions-section [key]="key" (collapsePeerEvalTips)="collapsePeerEvalTips($event)">
+      <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (collapsePeerEvalTips)="collapsePeerEvalTips()">
       </tm-instructor-help-questions-section>
     </div>
   </div>

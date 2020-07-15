@@ -92,6 +92,9 @@ export class SessionEditFormComponent implements OnInit {
   editExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
+  cancelEditingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
   deleteExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
@@ -205,6 +208,15 @@ export class SessionEditFormComponent implements OnInit {
   }
 
   /**
+   * Handles cancel button click event.
+   */
+  cancelHandler(modal: any): void {
+    this.modalService.open(modal).result.then(() => {
+      this.cancelEditingSessionEvent.emit();
+    }, () => {});
+  }
+
+  /**
    * Handles delete current feedback session button click event.
    */
   deleteHandler(modal: any): void {
@@ -231,7 +243,7 @@ export class SessionEditFormComponent implements OnInit {
    * Handles session 'Help' link click event.
    */
   sessionHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help#sessions`);
+    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help?questionId=sessions&section=sessions`);
   }
 
   /**

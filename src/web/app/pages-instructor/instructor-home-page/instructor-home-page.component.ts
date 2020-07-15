@@ -198,9 +198,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Loads the feedback session in the course.
+   * Loads the feedback session in the course and sorts them according to end date.
    */
-  loadFeedbackSessions(model: CourseTabModel): void {
+  loadFeedbackSessions(index: number): void {
+    const model: CourseTabModel = this.courseTabModels[index];
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
           .subscribe((response: FeedbackSessions) => {
@@ -221,7 +222,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           }, (resp: ErrorMessageOutput) => {
             model.isAjaxSuccess = false;
             this.statusMessageService.showErrorToast(resp.error.message);
-          });
+          }, () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE));
     }
   }
 
@@ -253,7 +254,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         break;
       }
       this.courseTabModels[i].isTabExpanded = true;
-      this.loadFeedbackSessions(this.courseTabModels[i]);
+      this.loadFeedbackSessions(i);
     }
   }
 

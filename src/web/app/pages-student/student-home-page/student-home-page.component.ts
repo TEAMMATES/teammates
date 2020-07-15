@@ -5,6 +5,7 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
@@ -15,6 +16,7 @@ import {
   FeedbackSessionSubmissionStatus,
   HasResponses,
 } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentCourse {
@@ -40,6 +42,9 @@ interface StudentSession {
 })
 export class StudentHomePageComponent implements OnInit {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   // Tooltip messages
   studentFeedbackSessionStatusPublished: string =
       'The responses for the session have been published and can now be viewed.';
@@ -53,12 +58,15 @@ export class StudentHomePageComponent implements OnInit {
 
   courses: StudentCourse[] = [];
 
+  sortBy: SortBy = SortBy.NONE;
+
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
               private timezoneService: TimezoneService,
-              private loadingBarService: LoadingBarService) {
+              private loadingBarService: LoadingBarService,
+              private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion();
   }
 
@@ -147,5 +155,31 @@ export class StudentHomePageComponent implements OnInit {
         .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
             b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
             ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+  }
+
+  sortCoursesBy(by: SortBy): void {
+    this.sortBy = by;
+    this.courses.sort(this.sortPanelsBy(by));
+  }
+
+  sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
+    return ((a: StudentCourse, b: StudentCourse): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.COURSE_NAME:
+          strA = a.course.courseName;
+          strB = b.course.courseName;
+          break;
+        case SortBy.COURSE_ID:
+          strA = a.course.courseId;
+          strB = b.course.courseId;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+    });
   }
 }

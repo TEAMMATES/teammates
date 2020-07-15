@@ -31,6 +31,10 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
 import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {
+  CoursesSectionQuestions,
+} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import { Sections } from '../../pages-help/instructor-help-page/sections';
+import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
   InstructorSessionLevelPermission,
@@ -38,17 +42,33 @@ import {
 import {
   DeleteInstructorConfirmModalComponent,
 } from './delete-instructor-confirm-model/delete-instructor-confirm-modal.component';
-import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import {
+  EditMode, InstructorEditPanel,
+} from './instructor-edit-panel/instructor-edit-panel.component';
 import {
   ResendInvitationEmailModalComponent,
 } from './resend-invitation-email-modal/resend-invitation-email-modal.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
+import {
+  ViewRolePrivilegesModalComponent,
+} from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
   originalPanel: InstructorEditPanel;
   editPanel: InstructorEditPanel;
 }
+
+interface Timezone {
+  id: string;
+  offset: string;
+}
+
+const formatTwoDigits: Function = (n: number): string => {
+  if (n < 10) {
+    return `0${n}`;
+  }
+  return String(n);
+};
 
 /**
  * Instructor course edit page.
@@ -65,9 +85,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
   // enum
   EditMode: typeof EditMode = EditMode;
   FormValidator: typeof FormValidator = FormValidator;
+  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   courseId: string = '';
-  timezones: string[] = [];
+  timezones: Timezone[] = [];
   isEditingCourse: boolean = false;
   course: Course = {
     courseName: '',
@@ -165,7 +187,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
     });
 
-    this.timezones = Object.keys(this.timezoneService.getTzOffsets());
+    for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
+      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
+      const minOffset: number = Math.abs(offset) % 60;
+      const sign: string = offset < 0 ? '-' : '+';
+      this.timezones.push({
+        id,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
+      });
+    }
   }
 
   /**

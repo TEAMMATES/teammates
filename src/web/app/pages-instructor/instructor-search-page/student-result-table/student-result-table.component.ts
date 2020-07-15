@@ -1,14 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StudentListSectionData } from '../../../components/student-list/student-list-section-data';
 import { StudentListRowModel } from '../../../components/student-list/student-list.component';
-
-/**
- * Search result for a list of sections containing students of a course
- */
-export interface SearchStudentsTable {
-  courseId: string;
-  sections: StudentListSectionData[];
-}
 
 /**
  * Search result for a list of students in a course

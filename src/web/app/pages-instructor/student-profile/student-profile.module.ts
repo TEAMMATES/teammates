@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CourseRelatedInfoComponent } from './course-related-info/course-related-info.component';
 import { MoreInfoComponent } from './more-info/more-info.component';
 import { StudentProfileComponent } from './student-profile.component';
@@ -22,7 +21,6 @@ import { StudentProfileComponent } from './student-profile.component';
   ],
   imports: [
     CommonModule,
-    NgbModule,
     RouterModule,
   ],
 })

@@ -23,7 +23,7 @@ public class StudentData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
-
+    @Nullable
     private JoinState joinState;
 
     private final String teamName;
@@ -33,7 +33,6 @@ public class StudentData extends ApiOutput {
         this.email = studentAttributes.getEmail();
         this.courseId = studentAttributes.getCourse();
         this.name = studentAttributes.getName();
-        this.googleId = studentAttributes.getGoogleId();
         this.lastName = studentAttributes.getLastName();
         this.joinState = studentAttributes.isRegistered() ? JoinState.JOINED : JoinState.NOT_JOINED;
         this.comments = studentAttributes.getComments();
@@ -117,21 +116,22 @@ public class StudentData extends ApiOutput {
     }
 
     /**
-     * Hides some attributes to instructor.
+     * Hides some attributes to student.
      */
-    public void hideInformationForInstructor() {
-        setGoogleId(null);
+    public void hideInformationForStudent() {
         setComments(null);
+        setJoinState(null);
     }
 
     /**
      * Adds additional information only for search result for admin.
-     *
-     * @param key The encyrpted key
+     * @param key The encrypted key
      * @param institute The institute of the student
+     * @param googleId The googleId of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute) {
+    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
         this.setKey(key);
         this.setInstitute(institute);
+        this.setGoogleId(googleId);
     }
 }

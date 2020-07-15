@@ -3,7 +3,7 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import { forkJoin, Observable, of, throwError } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
@@ -158,7 +158,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               if (auth.user) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
+                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/submission',
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // There is no logged in user for valid, unused registration key; load information based on the key
@@ -473,11 +473,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 key: this.regKey,
                 moderatedperson: this.moderatedPerson,
               }).pipe(
-                  tap((comment: FeedbackResponseComment) => {
-                    recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+                  tap((comment?: FeedbackResponseComment) => {
+                    if (comment) {
+                      recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
+                    }
                   }),
-                  // ignore 404 as comment does not exist
-                  catchError((err: any) => err.status === 404 ? of({}) : throwError(err)),
               ));
         });
     forkJoin(loadCommentRequests).subscribe(() => {

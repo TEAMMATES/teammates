@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { StudentListSectionData } from '../app/components/student-list/student-list-section-data';
+import { StudentListRowModel } from '../app/components/student-list/student-list.component';
 import {
-  SearchStudentsTable,
+  SearchStudentsListRowTable,
 } from '../app/pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
@@ -64,7 +64,7 @@ describe('SearchService', () => {
       },
     ],
   };
-  let coursesWithSections: SearchStudentsTable[];
+  let coursesWithStudents: SearchStudentsListRowTable[];
 
   const mockStudent: Student = {
     email: 'alice.b.tmms@gmail.tmt',
@@ -160,7 +160,7 @@ describe('SearchService', () => {
       ],
     });
     service = TestBed.inject(SearchService);
-    coursesWithSections = service.getCoursesWithSections(mockStudents);
+    coursesWithStudents = service.getCoursesWithStudents(mockStudents);
   });
 
   it('should be created', () => {
@@ -183,14 +183,19 @@ describe('SearchService', () => {
     const { students }: { students: Student[] } = mockStudents;
 
     // Number of courses should match
-    expect(coursesWithSections.length).toEqual(
+    expect(coursesWithStudents.length).toEqual(
       Array.from(new Set(students.map((s: Student) => s.courseId))).length,
     );
 
     // Number of sections in a course should match
     expect(
-      coursesWithSections.filter((t: SearchStudentsTable) => t.courseId === students[0].courseId)[0]
-        .sections.length,
+      Array.from(
+        new Set(
+          coursesWithStudents
+            .filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
+            .students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName),
+        ),
+      ).length,
     ).toEqual(
       Array.from(
         new Set(
@@ -203,10 +208,10 @@ describe('SearchService', () => {
 
     // Number of students in a section should match
     expect(
-      coursesWithSections
-        .filter((t: SearchStudentsTable) => t.courseId === students[0].courseId)[0]
-        .sections.filter((s: StudentListSectionData) => s.sectionName === students[0].sectionName)[0]
-        .students.length,
+        coursesWithStudents
+          .filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
+          .students.filter((s: StudentListRowModel) => s.student.sectionName === students[0].sectionName)
+          .length,
     ).toEqual(
       students.filter((s: Student) => s.sectionName === students[0].sectionName).length,
     );
@@ -226,15 +231,15 @@ describe('SearchService', () => {
         canSubmitSessionInSections: true,
       });
     });
-    service.getPrivileges(coursesWithSections);
+    service.getPrivileges(coursesWithStudents);
 
-    for (const course of coursesWithSections) {
-      for (const section of course.sections) {
+    for (const course of coursesWithStudents) {
+      for (const studentModel of course.students) {
         expect(spyHttpRequestService.get).toHaveBeenCalledWith(
           ResourceEndpoints.INSTRUCTOR_PRIVILEGE,
           {
             courseid: course.courseId,
-            sectionname: section.sectionName,
+            sectionname: studentModel.student.sectionName,
           },
         );
       }
@@ -264,20 +269,29 @@ describe('SearchService', () => {
         canViewStudentInSections: true,
         canModifyStudent: false,
       },
+      {
+        ...basePrivilege,
+        canViewStudentInSections: false,
+        canModifyStudent: false,
+      },
     ];
-    service.combinePrivileges([coursesWithSections, mockPrivilegesArray]);
+    service.combinePrivileges([coursesWithStudents, mockPrivilegesArray]);
 
-    const course1Section1: StudentListSectionData = coursesWithSections[0].sections[0];
-    expect(course1Section1.isAllowedToViewStudentInSection).toEqual(true);
-    expect(course1Section1.isAllowedToModifyStudent).toEqual(true);
+    const course1Student1: StudentListRowModel = coursesWithStudents[0].students[0];
+    expect(course1Student1.isAllowedToViewStudentInSection).toEqual(true);
+    expect(course1Student1.isAllowedToModifyStudent).toEqual(true);
 
-    const course1Section2: StudentListSectionData = coursesWithSections[0].sections[1];
-    expect(course1Section2.isAllowedToViewStudentInSection).toEqual(false);
-    expect(course1Section2.isAllowedToModifyStudent).toEqual(true);
+    const course1Student2: StudentListRowModel = coursesWithStudents[0].students[1];
+    expect(course1Student2.isAllowedToViewStudentInSection).toEqual(false);
+    expect(course1Student2.isAllowedToModifyStudent).toEqual(true);
 
-    const course2Section1: StudentListSectionData = coursesWithSections[1].sections[0];
-    expect(course2Section1.isAllowedToViewStudentInSection).toEqual(true);
-    expect(course2Section1.isAllowedToModifyStudent).toEqual(false);
+    const course1Student3: StudentListRowModel = coursesWithStudents[0].students[2];
+    expect(course1Student3.isAllowedToViewStudentInSection).toEqual(true);
+    expect(course1Student3.isAllowedToModifyStudent).toEqual(false);
+
+    const course2Student1: StudentListRowModel = coursesWithStudents[1].students[0];
+    expect(course2Student1.isAllowedToViewStudentInSection).toEqual(false);
+    expect(course2Student1.isAllowedToModifyStudent).toEqual(false);
 
     expect(mockPrivilegesArray.length).toEqual(0);
   });

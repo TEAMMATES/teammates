@@ -34,11 +34,11 @@
             <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
             <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
           </th>
-          <th id="sort-creation-date" class="sortable-header" (click)="sortCoursesEvent(SortBy.SESSION_CREATION_DATE)">
+          <th id="sort-creation-date" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_CREATION_DATE)">
             Creation Date
-            <span *ngIf="tableSortBy !== SortBy.SESSION_CREATION_DATE"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.SESSION_CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.SESSION_CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+            <span *ngIf="tableSortBy !== SortBy.COURSE_CREATION_DATE"><i class="fas fa-sort"></i></span>
+            <span *ngIf="tableSortBy === SortBy.COURSE_CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+            <span *ngIf="tableSortBy === SortBy.COURSE_CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
           </th>
           <th>Sections</th>
           <th>Teams</th>

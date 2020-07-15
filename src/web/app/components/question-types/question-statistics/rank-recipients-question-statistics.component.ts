@@ -17,6 +17,9 @@ import {
 export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQuestionStatisticsCalculation
     implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
