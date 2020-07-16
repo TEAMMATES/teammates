@@ -37,7 +37,7 @@
   </div>
 
   <div class="card-body" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
-    <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT">
+    <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
       <label class="col-sm-3 control-label">
         Google ID:
       </label>
@@ -88,14 +88,21 @@
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
-        <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
-          <label>
-            <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role == instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
-            {{ role | instructorRoleDescription }}
-            <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
-                    (click)="viewRolePrivilegeModel.emit(role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
-          </label>
-        </div>
+        <ng-container *ngIf="instructor.isEditing">
+          <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
+            <label>
+              <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role == instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
+              {{ role | instructorRoleDescription }}
+              <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                      (click)="viewRolePrivilegeModel.emit(role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
+            </label>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!instructor.isEditing">
+          <span id="role-instructor-{{ instructorIndex + 1 }}">{{ instructor.role | instructorRoleDescription }}</span>
+          <button *ngIf="instructor.role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                  (click)="viewRolePrivilegeModel.emit(instructor.role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
+        </ng-container>
       </div>
     </div>
 

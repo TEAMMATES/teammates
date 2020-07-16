@@ -69,7 +69,9 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
                                 .withRole(instructorToEdit.role)
                                 .build());
             }
-            return new JsonResult(new InstructorData(updatedInstructor));
+            InstructorData newInstructorData = new InstructorData(updatedInstructor);
+            newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
+            return new JsonResult(newInstructorData);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {

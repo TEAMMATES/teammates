@@ -46,7 +46,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   courseStats: Record<string, Record<string, number>> = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
+  tableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -83,17 +83,20 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+      forkJoin(
+          resp.courses.map((course: Course) =>
+              this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
+      ).subscribe((privileges: InstructorPrivilege[]) => {
+        resp.courses.forEach((course: Course, index: number) => {
+          const canModifyCourse: boolean = privileges[index].canModifyCourse;
+          const canModifyStudent: boolean = privileges[index].canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(error.error.message);
         });
-      }
+        this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
+      }, (error: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(error.error.message);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -377,7 +380,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = a.course.courseName;
           strB = b.course.courseName;
           break;
-        case SortBy.SESSION_CREATION_DATE:
+        case SortBy.COURSE_CREATION_DATE:
           strA = a.course.creationTimestamp.toString();
           strB = b.course.creationTimestamp.toString();
           break;

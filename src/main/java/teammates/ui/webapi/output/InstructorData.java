@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
  * The API output format of an instructor.
  */
 public class InstructorData extends ApiOutput {
+    @Nullable
     private String googleId;
     private final String courseId;
     private final String email;
@@ -25,7 +26,6 @@ public class InstructorData extends ApiOutput {
     private String institute;
 
     public InstructorData(InstructorAttributes instructorAttributes) {
-        this.googleId = instructorAttributes.getGoogleId();
         this.courseId = instructorAttributes.getCourseId();
         this.email = instructorAttributes.getEmail();
         this.role = instructorAttributes.getRole() == null ? null
@@ -106,22 +106,15 @@ public class InstructorData extends ApiOutput {
     }
 
     /**
-     * Hides some attributes for search result.
-     */
-    public void hideInformationForSearch() {
-        setRole(null);
-        setDisplayedToStudentsAs(null);
-        setIsDisplayedToStudents(null);
-    }
-
-    /**
      * Adds additional attributes only for search result for admin.
      *
      * @param key Encrypted registration key
-     * @param institute Institute of the student
+     * @param institute Institute of the instructor
+     * @param googleId Google ID of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute) {
+    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
         setKey(key);
         setInstitute(institute);
+        setGoogleId(googleId);
     }
 }

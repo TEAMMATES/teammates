@@ -94,6 +94,9 @@ export class SessionEditFormComponent implements OnInit {
   editExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
+  cancelEditingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
   deleteExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
@@ -204,6 +207,16 @@ export class SessionEditFormComponent implements OnInit {
     if (this.formMode === SessionEditFormMode.EDIT) {
       this.editExistingSessionEvent.emit();
     }
+  }
+
+  /**
+   * Handles cancel button click event.
+   */
+  cancelHandler(): void {
+    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
+          this.cancelEditingSessionEvent.emit();
+        }, () => {});
   }
 
   /**

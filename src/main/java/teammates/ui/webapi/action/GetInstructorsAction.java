@@ -10,6 +10,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.request.Intent;
 
@@ -76,7 +77,18 @@ public class GetInstructorsAction extends Action {
             });
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
-            data = new InstructorsData(instructorsOfCourse);
+            // adds googleId if caller is admin or has the appropriate privilege to modify instructor
+            if (userInfo.isAdmin || logic.getInstructorForGoogleId(courseId, userInfo.getId()).getPrivileges()
+                    .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+                data = new InstructorsData();
+                for (InstructorAttributes instructor : instructorsOfCourse) {
+                    InstructorData instructorData = new InstructorData(instructor);
+                    instructorData.setGoogleId(instructor.googleId);
+                    data.getInstructors().add(instructorData);
+                }
+            } else {
+                data = new InstructorsData(instructorsOfCourse);
+            }
         } else {
             throw new InvalidHttpParameterException("unknown intent");
         }
