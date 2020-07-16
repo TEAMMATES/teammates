@@ -9,7 +9,7 @@ import { MasqueradeModeService } from './masquerade-mode.service';
  * This encoder was created to support encoding and decoding of plus (+) signs.
  *
  * Angular will ignore the encoding for plus signs. Refer to:
- * https://github.com/angular/angular/blob/8.0.0/packages/common/http/src/params.ts#L33
+ * https://github.com/angular/angular/blob/9.0.0/packages/common/http/src/params.ts#L34
  */
 class CustomEncoder extends HttpUrlEncodingCodec {
 
