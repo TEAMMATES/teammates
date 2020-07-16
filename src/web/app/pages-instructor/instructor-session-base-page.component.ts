@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { from, Observable, of } from 'rxjs';
 import { concatMap, last, switchMap } from 'rxjs/operators';
@@ -17,6 +18,7 @@ import {
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { SortBy, SortOrder } from '../../types/sort-properties';
+import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import {
     CopySessionResult,
     SessionsTableRowModel,
@@ -28,13 +30,17 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
+  // Number of times publish/unpublish session is allowed to error before it is a reportable error
+  private publishUnpublishRetryAttempts: number = 3;
+
   protected constructor(protected router: Router,
                         protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
                         protected feedbackQuestionsService: FeedbackQuestionsService,
-                        protected tableComparatorService: TableComparatorService) { }
+                        protected tableComparatorService: TableComparatorService,
+                        protected ngbModal: NgbModal) { }
 
   /**
    * Copies a feedback session.
@@ -255,7 +261,14 @@ export abstract class InstructorSessionBasePageComponent {
 
           this.statusMessageService.showSuccessToast('The feedback session has been published. '
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (!this.publishUnpublishRetryAttempts) {
+            this.openErrorReportModal(resp);
+          } else {
+            this.publishUnpublishRetryAttempts -= 1;
+          }
+        });
   }
 
   /**
@@ -271,6 +284,19 @@ export abstract class InstructorSessionBasePageComponent {
           model.responseRate = '';
 
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (!this.publishUnpublishRetryAttempts) {
+            this.openErrorReportModal(resp);
+          } else {
+            this.publishUnpublishRetryAttempts -= 1;
+          }
+        });
+  }
+
+  openErrorReportModal(resp: ErrorMessageOutput): void {
+    const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+    modal.componentInstance.requestId = resp.error.requestId;
+    modal.componentInstance.errorMessage = resp.error.message;
   }
 }

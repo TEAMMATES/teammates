@@ -41,10 +41,10 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         feedbackSessionsService: FeedbackSessionsService,
                         feedbackQuestionsService: FeedbackQuestionsService,
                         tableComparatorService: TableComparatorService,
-                        protected ngbModal: NgbModal,
+                        ngbModal: NgbModal,
                         protected studentService: StudentService) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
   }
 
   /**

@@ -43,6 +43,7 @@ interface CourseTabModel {
   hasPopulated: boolean;
   isAjaxSuccess: boolean;
   isTabExpanded: boolean;
+  hasLoadingFailed: boolean;
 }
 
 /**
@@ -69,6 +70,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   courseTabModels: CourseTabModel[] = [];
 
   hasCoursesLoaded: boolean = false;
+  hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
 
   constructor(router: Router,
@@ -181,6 +183,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             isTabExpanded: false,
             isAjaxSuccess: true,
             hasPopulated: false,
+            hasLoadingFailed: false,
             sessionsTableRowModelsSortBy: SortBy.NONE,
             sessionsTableRowModelsSortOrder: SortOrder.ASC,
           };
@@ -190,7 +193,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         });
         this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
         this.sortCoursesBy(this.instructorCoursesSortBy);
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      }, (resp: ErrorMessageOutput) => {
+        this.hasCoursesLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+
+      });
   }
 
   /**
@@ -201,6 +208,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       .subscribe((instructorPrivilege: InstructorPrivilege) => {
         model.instructorPrivilege = instructorPrivilege;
       }, (resp: ErrorMessageOutput) => {
+        this.courseTabModels = [];
+        this.hasCoursesLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
@@ -228,7 +237,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               model.isAjaxSuccess = true;
             }
           }, (resp: ErrorMessageOutput) => {
-            model.isAjaxSuccess = false;
+            model.hasLoadingFailed = true;
             this.statusMessageService.showErrorToast(resp.error.message);
           }, () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE));
     }
@@ -385,5 +394,23 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   downloadSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
     this.downloadSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
+  }
+
+  /**
+   * Retries loading all the courses
+   */
+  retryLoadingCourses(): void {
+    this.hasCoursesLoadingFailed = false;
+    this.hasCoursesLoaded = false;
+    this.loadCourses();
+  }
+
+  /**
+   * Retries loading a feedback session from a course
+   */
+  retryLoadingSession(index: number): void {
+    const courseTab: CourseTabModel = this.courseTabModels[index];
+    courseTab.hasLoadingFailed = false;
+    this.loadFeedbackSessions(index);
   }
 }
