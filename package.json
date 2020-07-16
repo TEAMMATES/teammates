@@ -24,7 +24,7 @@
     "@angular/localize": "~9.1.11",
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
-    "@angular/pwa": "~0.901.9",
+    "@angular/pwa": "~0.1000.0",
     "@angular/router": "~9.1.11",
     "@angular/service-worker": "~9.1.11",
     "@fortawesome/fontawesome-free": "^5.13.1",
