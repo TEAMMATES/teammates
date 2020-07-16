@@ -5,7 +5,9 @@ import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -39,7 +41,8 @@ export class InstructorStudentListPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
-              private loadingBarService: LoadingBarService) {
+              private loadingBarService: LoadingBarService,
+              private tableComparatorService: TableComparatorService) {
   }
 
   ngOnInit(): void {
@@ -71,7 +74,7 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        });
+        }, () => this.sortCourses());
   }
 
   /**
@@ -153,6 +156,16 @@ export class InstructorStudentListPageComponent implements OnInit {
           .showSuccessToast(`Student is successfully deleted from course "${courseTab.course.courseId}"`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  /**
+   * Sorts the courses in the list according to course ID.
+   */
+  sortCourses(): void {
+    this.courseTabList.sort((a: CourseTab, b: CourseTab) => {
+      return this.tableComparatorService
+          .compare(SortBy.COURSE_ID, SortOrder.ASC, a.course.courseId, b.course.courseId);
     });
   }
 }

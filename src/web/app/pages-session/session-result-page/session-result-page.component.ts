@@ -83,7 +83,7 @@ export class SessionResultPageComponent implements OnInit {
               if (auth.user) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
-                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/submission',
+                this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
                 // There is no logged in user for valid, unused registration key; load information based on the key

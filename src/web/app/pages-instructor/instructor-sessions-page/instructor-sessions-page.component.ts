@@ -386,7 +386,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        });
+        }, () => this.sortSessionsTableRowModelsEvent(SortBy.COURSE_ID));
   }
 
   /**
@@ -523,7 +523,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-        });
+        }, () => this.sortRecycleBinFeedbackSessionRowsEvent(SortBy.SESSION_DELETION_DATE));
   }
 
   /**
