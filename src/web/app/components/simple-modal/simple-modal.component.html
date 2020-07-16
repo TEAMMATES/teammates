@@ -23,10 +23,10 @@
   <div *ngIf="!isTemplate" [innerHTML]="content"></div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-light" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
+  <button type="button" class="btn btn-light modal-btn-cancel" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
     {{ cancelMessage }}
   </button>
-  <button type="button" class="btn"
+  <button type="button" class="btn modal-btn-ok"
           [ngClass]="{
           'btn-danger' : type === SimpleModalType.DANGER,
           'btn-warning' : type === SimpleModalType.WARNING,
