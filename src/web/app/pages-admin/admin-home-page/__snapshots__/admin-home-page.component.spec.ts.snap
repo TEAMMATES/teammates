@@ -116,7 +116,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
-  isAddingInstructors="false"
+  isAddingInstructors={[Function Boolean]}
 >
   <div
     class="card bg-light top-padded"
@@ -325,6 +325,11 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
           id="add-all-instructors"
         >
           
+          <tm-ajax-loading>
+            <img
+              src="assets/images/ajax-loader.gif"
+            />
+          </tm-ajax-loading>
            Add All Instructors 
         </button>
       </div>

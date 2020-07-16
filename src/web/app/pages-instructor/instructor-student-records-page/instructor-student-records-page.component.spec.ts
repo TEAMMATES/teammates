@@ -85,6 +85,30 @@ describe('InstructorStudentRecordsPageComponent', () => {
     component.studentName = 'Not John Doe';
     component.studentProfile = studentProfile;
     component.courseId = 'su1337';
+    component.isStudentLoading = false;
+    component.isStudentProfileLoading = false;
+    component.isStudentResultsLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when student results are still loading', () => {
+    const studentProfile: StudentProfile = {
+      name: 'John Doe',
+      shortName: 'JD',
+      email: 'jd@jd.com',
+      institute: 'Area51',
+      nationality: 'Antarctican',
+      gender: Gender.OTHER,
+      moreInfo: '',
+    };
+    component.studentName = 'John Doe';
+    component.studentProfile = studentProfile;
+    component.courseId = 'CS1111';
+    component.isStudentResultsLoading = true;
+    component.isStudentLoading = false;
+    component.isStudentProfileLoading = false;
+
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

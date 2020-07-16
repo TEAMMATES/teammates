@@ -140,6 +140,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.archivedCourses = archivedCourses;
     component.softDeletedCourses = deletedCourses;
     component.courseStats = courseStats;
+    component.isLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -151,12 +152,20 @@ describe('InstructorCoursesPageComponent', () => {
     component.courseStats = courseStats;
     component.canDeleteAll = false;
     component.canRestoreAll = false;
+    component.isLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with no courses in course stats', () => {
     component.activeCourses = activeCourses;
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when courses are still loading', () => {
+    component.isLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

@@ -55,6 +55,13 @@ describe('InstructorCourseStudentEditPageComponent', () => {
       newstudentemail: new FormControl('jake@gmail.com'),
       comments: new FormControl('Cool cool cool.'),
     });
+    component.isStudentLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when student is still loading', () => {
+    component.isStudentLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

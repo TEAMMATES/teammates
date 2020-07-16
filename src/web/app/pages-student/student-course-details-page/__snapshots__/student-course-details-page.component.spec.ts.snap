@@ -1,5 +1,149 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`StudentCourseDetailsPageComponent should snap when all data are still loading 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  SortBy={[Function Object]}
+  course={[Function Object]}
+  courseService={[Function CourseService]}
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isLoadingCourse={[Function Boolean]}
+  isLoadingInstructor={[Function Boolean]}
+  isLoadingStudent={[Function Boolean]}
+  isLoadingTeammates={[Function Boolean]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  teammateProfiles={[Function Array]}
+  teammateProfilesSortBy="0"
+>
+  <h1
+    class="page-title"
+  >
+     
+  </h1><div
+    class="section"
+  >
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Course
+      </h4>
+    </div>
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </div><div
+    class="section"
+  >
+    
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Instructors
+      </h4>
+    </div>
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </div><div
+    class="section"
+  >
+    
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Self
+      </h4>
+    </div>
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </div><div
+    class="section"
+  >
+    
+    <div
+      class="col-sm-12"
+    >
+      <h4
+        class="font-weight-bold"
+      >
+        Team Profiles
+      </h4>
+    </div>
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+  </div>
+</tm-student-course-details-page>
+`;
+
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
@@ -131,9 +275,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   courseService={[Function CourseService]}
   instructorDetails={[Function Array]}
   instructorService={[Function InstructorService]}
-  isLoadingCourse={[Function Boolean]}
-  isLoadingInstructor={[Function Boolean]}
-  isLoadingStudent={[Function Boolean]}
+  isLoadingCourse="false"
+  isLoadingInstructor="false"
+  isLoadingStudent="false"
   isLoadingTeammates="false"
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
@@ -161,21 +305,98 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       </h4>
     </div>
     
-    <tm-loading-spinner>
+    <div
+      class="card border-primary"
+    >
       <div
-        class="loading-container"
+        class="card-body fill-plain"
       >
         <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
+          class="form form-horizontal"
         >
-          Loading...
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="course-name"
+              >
+                Sample Course 101
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                ID
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="course-id"
+              >
+                1.1.c-demo2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Timezone
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="time-zone"
+              >
+                UTC
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Created at
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="created-date"
+              >
+                Wed, 13 Mar 2019, 10:15 AM UTC
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </tm-loading-spinner>
+    </div>
   </div><div
     class="section"
   >
@@ -190,21 +411,57 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       </h4>
     </div>
     
-    <tm-loading-spinner>
+    <div
+      class="row"
+    >
+      
       <div
-        class="loading-container"
+        class="col-12"
       >
         <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
+          class="row"
         >
-          Loading...
+          <div
+            class="col-12"
+          >
+            <table
+              class="table table-striped"
+              id="instructor-table"
+            >
+              <thead>
+                <tr>
+                  <th
+                    class="font-weight-bold"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="font-weight-bold"
+                  >
+                    Email
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    <a
+                      href="mailto:1@1.com"
+                    >
+                      1@1.com
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </tm-loading-spinner>
+    </div>
   </div><div
     class="section"
   >
@@ -219,21 +476,99 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
       </h4>
     </div>
     
-    <tm-loading-spinner>
+    <div
+      class="card border-primary"
+    >
+      
       <div
-        class="loading-container"
+        class="card-body fill-plain"
       >
         <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
+          class="form form-horizontal"
         >
-          Loading...
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Name
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="student-name"
+              >
+                1
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Section
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="student-section"
+              >
+                Tutorial Group 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Team
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="student-team"
+              >
+                Team 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <div
+              class="col-4 text-right"
+            >
+              <label>
+                Email
+              </label>
+            </div>
+            <div
+              class="col-8"
+            >
+              <span
+                id="student-email"
+              >
+                1@1.com
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-    </tm-loading-spinner>
+    </div>
   </div><div
     class="card bg-light mb-4"
   >

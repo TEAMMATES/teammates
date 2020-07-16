@@ -79,7 +79,10 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
     component.courseStudentListAsCsv = 'a,b';
-    component.isLoadingCsv = true;
+    component.isLoadingCsv = false;
+    component.isStudentsLoading = false;
+    component.isAjaxForCsvSuccess = true;
+
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -112,7 +115,15 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.students = [studentListRowModel];
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
+    component.isLoadingCsv = false;
     component.isAjaxForCsvSuccess = false;
+    component.isStudentsLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when students are still loading', () => {
+    component.isStudentsLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

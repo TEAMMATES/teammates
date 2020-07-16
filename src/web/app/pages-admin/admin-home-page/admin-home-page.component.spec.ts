@@ -290,9 +290,9 @@ describe('AdminHomePageComponent', () => {
       },
     ];
     component.activeRequests = 1;
+    component.isAddingInstructors = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
 });

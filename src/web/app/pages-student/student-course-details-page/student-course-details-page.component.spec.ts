@@ -87,6 +87,20 @@ describe('StudentCourseDetailsPageComponent', () => {
     component.instructorDetails = instructorDetails;
     component.student = student;
     component.teammateProfiles = teammateProfiles;
+    component.isLoadingStudent = false;
+    component.isLoadingInstructor = false;
+    component.isLoadingTeammates = false;
+    component.isLoadingCourse = false;
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when all data are still loading', () => {
+    component.isLoadingStudent = true;
+    component.isLoadingInstructor = true;
+    component.isLoadingTeammates = true;
+    component.isLoadingCourse = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

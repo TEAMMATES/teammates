@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+exports[`InstructorCourseDetailsPageComponent should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
   clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv={[Function String]}
+  courseStudentListAsCsv=""
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxForCsvSuccess={[Function Boolean]}
-  isLoadingCsv={[Function Boolean]}
+  isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
@@ -37,6 +37,176 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 </tm-instructor-course-details-page>
 `;
 
+exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+<tm-instructor-course-details-page
+  clipboardService={[Function ClipboardService]}
+  courseDetails={[Function Object]}
+  courseService={[Function CourseService]}
+  courseStudentListAsCsv={[Function String]}
+  instructorService={[Function InstructorService]}
+  instructors={[Function Array]}
+  isAjaxForCsvSuccess={[Function Boolean]}
+  isLoadingCsv="false"
+  isStudentsLoading="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div
+    class="text-center"
+  >
+    <h1>
+      Course Details
+    </h1>
+    <div
+      class="card"
+    >
+      <div
+        class="card-body fill-plain"
+      >
+        <div
+          class="form"
+        >
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Course ID:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                CS101
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Course name:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+              id="coursename"
+            >
+              <p
+                class="form-control-static"
+              >
+                Introduction to CS
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Sections:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Teams:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Total students:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row"
+        >
+          <label
+            class="col-sm-3 text-sm-right control-label"
+          >
+            Instructors:
+          </label>
+          <div
+            class="col-sm-6 text-sm-left"
+          >
+            
+            <div>
+               Co-owner: Hodor (hodor@gmail.com) 
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <div
+      class="alert alert-warning"
+    >
+      <i
+        class="fa fa-exclamation-circle text-muted"
+      />
+       There are no students in this course. Click 
+      <a
+        href="/web/instructor/courses/enroll?courseid=CS101"
+        routerlink="/web/instructor/courses/enroll"
+      >
+        here
+      </a>
+       to enroll students. 
+    </div>
+    
+    
+    
+    
+  </div>
+</tm-instructor-course-details-page>
+`;
+
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
   clipboardService={[Function ClipboardService]}
@@ -47,7 +217,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isAjaxForCsvSuccess="false"
   isLoadingCsv="false"
-  isStudentsLoading={[Function Boolean]}
+  isStudentsLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -56,21 +226,377 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   studentService={[Function StudentService]}
   students={[Function Array]}
 >
-  <tm-loading-spinner>
+  <div
+    class="text-center"
+  >
+    <h1>
+      Course Details
+    </h1>
     <div
-      class="loading-container"
+      class="card"
     >
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="card-body fill-plain"
       >
-        Loading...
+        <div
+          class="form"
+        >
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Course ID:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                CS101
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Course name:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+              id="coursename"
+            >
+              <p
+                class="form-control-static"
+              >
+                Introduction to CS
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Sections:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Teams:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right"
+            >
+              Total students:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+            >
+              <p
+                class="form-control-static"
+              >
+                
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row"
+        >
+          <label
+            class="col-sm-3 text-sm-right control-label"
+          >
+            Instructors:
+          </label>
+          <div
+            class="col-sm-6 text-sm-left"
+          >
+            
+            <div>
+               Co-owner: Bran (bran@gmail.com) 
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div
+            class="form-group"
+          >
+            <div
+              class="text-center"
+            >
+              <button
+                class="btn btn-primary mb-2"
+                type="button"
+                value="Remind Students to Join"
+              >
+                <i
+                  class="fa fa-envelope"
+                />
+                 Remind Students to Join 
+              </button>
+              <button
+                class="btn btn-primary mb-2"
+                type="button"
+              >
+                <i
+                  class="fa fa-download"
+                />
+                 Download Student List 
+              </button>
+              <button
+                class="btn btn-danger mb-2"
+                type="button"
+                value="Delete All Students"
+              >
+                <i
+                  class="fa fa-trash"
+                />
+                 Delete All Students 
+              </button>
+              <div>
+                <span>
+                  Non-English characters not displayed properly in the downloaded file? 
+                  <span
+                    class="btn-link"
+                  >
+                     Click here. 
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </tm-loading-spinner>
+    
+    <div
+      class="card-body p-0 student-table-margin card border"
+    >
+      <tm-student-list>
+        <div
+          class="table-responsive"
+        >
+          <table
+            class="table table-bordered table-striped m-0"
+          >
+            <thead
+              class="thead-gray"
+            >
+              <tr>
+                <th>
+                  Photo
+                </th>
+                
+                <th
+                  class="sortable-header"
+                >
+                   Section 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Team 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Student Name 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Status 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th
+                  class="sortable-header"
+                >
+                   Email 
+                  
+                  <span>
+                    <i
+                      class="fas fa-sort"
+                    />
+                  </span>
+                  
+                  
+                </th>
+                <th>
+                  Action(s)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr
+                s=""
+              >
+                <td
+                  class="align-center"
+                >
+                  <tm-view-photo-popover>
+                    
+                    
+                    
+                    <a
+                      href="/"
+                      queryparamshandling="preserve"
+                      role="button"
+                    >
+                       View Photo 
+                    </a>
+                    
+                    
+                    
+                  </tm-view-photo-popover>
+                </td>
+                
+                <td>
+                  Tutorial Group 1
+                </td>
+                <td>
+                  Team 1
+                </td>
+                <td>
+                  Jamie
+                </td>
+                <td
+                  class="align-center"
+                >
+                  Yet to Join
+                </td>
+                <td>
+                  jamie@gmail.com
+                </td>
+                <td
+                  class="no-print align-center"
+                >
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm mr-2"
+                    href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                     View
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm mr-2"
+                    href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                     Edit
+                  </a>
+                  
+                  
+                  
+                  
+                  
+                  <button
+                    class="btn btn-light btn-sm mr-2"
+                  >
+                    Send Invite
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="btn btn-light btn-sm mr-2"
+                  >
+                    Delete
+                  </button>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm mr-2"
+                    href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                     All Records
+                  </a>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </tm-student-list>
+    </div>
+    
+    
+    
+    
+  </div>
 </tm-instructor-course-details-page>
 `;
 

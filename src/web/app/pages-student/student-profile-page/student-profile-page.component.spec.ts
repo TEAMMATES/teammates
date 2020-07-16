@@ -72,6 +72,7 @@ describe('StudentProfilePageComponent', () => {
       studentgender: new FormControl(''),
       studentprofilemoreinfo: new FormControl(''),
     });
+    component.isLoadingStudentProfile = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -105,6 +106,13 @@ describe('StudentProfilePageComponent', () => {
       studentgender: new FormControl(Gender.MALE),
       studentprofilemoreinfo: new FormControl('I like to party'),
     });
+    component.isLoadingStudentProfile = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when student profile is still loading', () => {
+    component.isLoadingStudentProfile = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

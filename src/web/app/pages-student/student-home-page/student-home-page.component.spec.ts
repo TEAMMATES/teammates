@@ -63,6 +63,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [],
     };
     component.courses = [studentCourse];
+    component.isCoursesLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -181,6 +182,13 @@ describe('StudentHomePageComponent', () => {
     };
 
     component.courses = [studentCourseA, studentCourseB];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when courses are still loading', () => {
+    component.isCoursesLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

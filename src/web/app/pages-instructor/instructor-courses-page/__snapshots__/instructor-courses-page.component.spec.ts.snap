@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
+exports[`InstructorCoursesPageComponent should snap when courses are still loading 1`] = `
 <tm-instructor-courses-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
   archivedCourses={[Function Array]}
-  canDeleteAll="false"
-  canRestoreAll="false"
+  canDeleteAll={[Function Boolean]}
+  canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   instructorService={[Function InstructorService]}
@@ -21,7 +21,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -48,7 +48,351 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><div
+  </tm-loading-spinner>
+</tm-instructor-courses-page>
+`;
+
+exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
+<tm-instructor-courses-page
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeCourses={[Function Array]}
+  archivedCourses={[Function Array]}
+  canDeleteAll="false"
+  canRestoreAll="false"
+  courseService={[Function CourseService]}
+  courseStats={[Function Object]}
+  instructorService={[Function InstructorService]}
+  isAddNewCourseFormExpanded="false"
+  isArchivedCourseExpanded="false"
+  isLoading="false"
+  isRecycleBinExpanded="false"
+  modalService={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  softDeletedCourses={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  tableSortBy={[Function Number]}
+  tableSortOrder={[Function Number]}
+>
+  <div>
+    <button
+      class="btn btn-primary"
+      id="btn-add-course"
+    >
+      <i
+        class="fas fa-plus"
+      />
+       Add New Course 
+    </button>
+  </div><div>
+    
+    <div
+      class="course-section"
+    >
+      <h3>
+        Active courses
+      </h3>
+      <div
+        class="table table-responsive"
+      >
+        <table
+          class="table table-striped table-bordered margin-0"
+          id="active-courses-table"
+        >
+          <thead>
+            <tr
+              class="bg-primary text-white"
+            >
+              <th
+                class="sortable-header"
+                id="sort-course-id"
+              >
+                 Course ID 
+                
+                <span>
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+                
+                
+              </th>
+              <th
+                class="sortable-header"
+                id="sort-course-name"
+              >
+                 Course Name 
+                
+                <span>
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+                
+                
+              </th>
+              <th
+                class="sortable-header"
+                id="sort-creation-date"
+              >
+                 Creation Date 
+                
+                
+                
+                <span>
+                  <i
+                    class="fas fa-sort-up"
+                  />
+                </span>
+              </th>
+              <th>
+                Sections
+              </th>
+              <th>
+                Teams
+              </th>
+              <th>
+                Total Students
+              </th>
+              <th>
+                Total Unregistered
+              </th>
+              <th
+                class="text-center"
+              >
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td
+                id="course-id-0"
+              >
+                CS3281
+              </td>
+              <td>
+                Modifiable Students and Courses
+              </td>
+              <td
+                container="body"
+              >
+                 5 Nov 2018 
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td
+                class="text-center actions-cell"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-enroll-0"
+                  ngbtooltip="Enroll student into the course"
+                  routerlink="/web/instructor/courses/enroll"
+                  tabindex="0"
+                >
+                   Enroll 
+                </button>
+                
+                
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    id="btn-other-actions-0"
+                    ngbdropdowntoggle=""
+                  >
+                    Other Actions
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="View, edit and send invitation emails to the students in the course"
+                      routerlink="/web/instructor/courses/details"
+                      tabindex="0"
+                    >
+                       View 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="Edit Course information and instructor list"
+                      routerlink="/web/instructor/courses/edit"
+                      tabindex="0"
+                    >
+                       Edit 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-archive-0"
+                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    >
+                       Archive 
+                    </button>
+                    
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-soft-delete-0"
+                      ngbtooltip="Delete the course and its corresponding students and sessions"
+                    >
+                       Delete 
+                    </button>
+                    
+                    
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                id="course-id-1"
+              >
+                CS3282
+              </td>
+              <td>
+                Nothing modifiable
+              </td>
+              <td
+                container="body"
+              >
+                 2 Feb 2019 
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td
+                class="text-center actions-cell"
+              >
+                
+                
+                <button
+                  class="btn btn-light btn-sm disabled"
+                  id="btn-enroll-disabled-1"
+                >
+                   Enroll 
+                </button>
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    id="btn-other-actions-1"
+                    ngbdropdowntoggle=""
+                  >
+                    Other Actions
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="View, edit and send invitation emails to the students in the course"
+                      routerlink="/web/instructor/courses/details"
+                      tabindex="0"
+                    >
+                       View 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="Edit Course information and instructor list"
+                      routerlink="/web/instructor/courses/edit"
+                      tabindex="0"
+                    >
+                       Edit 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-archive-1"
+                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    >
+                       Archive 
+                    </button>
+                    
+                    
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item disabled"
+                      id="btn-soft-delete-disabled-1"
+                    >
+                       Delete 
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          
+        </table>
+        
+      </div>
+    </div>
+  </div><div
     class="course-section"
   >
     <h2
@@ -171,7 +515,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
-  isLoading={[Function Boolean]}
+  isLoading="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -179,7 +523,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -192,21 +536,313 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       />
        Add New Course 
     </button>
-  </div><tm-loading-spinner>
+  </div><div>
+    
     <div
-      class="loading-container"
+      class="course-section"
     >
+      <h3>
+        Active courses
+      </h3>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="table table-responsive"
       >
-        Loading...
+        <table
+          class="table table-striped table-bordered margin-0"
+          id="active-courses-table"
+        >
+          <thead>
+            <tr
+              class="bg-primary text-white"
+            >
+              <th
+                class="sortable-header"
+                id="sort-course-id"
+              >
+                 Course ID 
+                
+                <span>
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+                
+                
+              </th>
+              <th
+                class="sortable-header"
+                id="sort-course-name"
+              >
+                 Course Name 
+                
+                <span>
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+                
+                
+              </th>
+              <th
+                class="sortable-header"
+                id="sort-creation-date"
+              >
+                 Creation Date 
+                
+                
+                
+                <span>
+                  <i
+                    class="fas fa-sort-up"
+                  />
+                </span>
+              </th>
+              <th>
+                Sections
+              </th>
+              <th>
+                Teams
+              </th>
+              <th>
+                Total Students
+              </th>
+              <th>
+                Total Unregistered
+              </th>
+              <th
+                class="text-center"
+              >
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td
+                id="course-id-0"
+              >
+                CS3281
+              </td>
+              <td>
+                Modifiable Students and Courses
+              </td>
+              <td
+                container="body"
+              >
+                 5 Nov 2018 
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   1 
+                </span>
+              </td>
+              <td
+                class="text-center actions-cell"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-enroll-0"
+                  ngbtooltip="Enroll student into the course"
+                  routerlink="/web/instructor/courses/enroll"
+                  tabindex="0"
+                >
+                   Enroll 
+                </button>
+                
+                
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    id="btn-other-actions-0"
+                    ngbdropdowntoggle=""
+                  >
+                    Other Actions
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="View, edit and send invitation emails to the students in the course"
+                      routerlink="/web/instructor/courses/details"
+                      tabindex="0"
+                    >
+                       View 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="Edit Course information and instructor list"
+                      routerlink="/web/instructor/courses/edit"
+                      tabindex="0"
+                    >
+                       Edit 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-archive-0"
+                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    >
+                       Archive 
+                    </button>
+                    
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-soft-delete-0"
+                      ngbtooltip="Delete the course and its corresponding students and sessions"
+                    >
+                       Delete 
+                    </button>
+                    
+                    
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                id="course-id-1"
+              >
+                CS3282
+              </td>
+              <td>
+                Nothing modifiable
+              </td>
+              <td
+                container="body"
+              >
+                 2 Feb 2019 
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td>
+                
+                
+                <span>
+                   2 
+                </span>
+              </td>
+              <td
+                class="text-center actions-cell"
+              >
+                
+                
+                <button
+                  class="btn btn-light btn-sm disabled"
+                  id="btn-enroll-disabled-1"
+                >
+                   Enroll 
+                </button>
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    id="btn-other-actions-1"
+                    ngbdropdowntoggle=""
+                  >
+                    Other Actions
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="View, edit and send invitation emails to the students in the course"
+                      routerlink="/web/instructor/courses/details"
+                      tabindex="0"
+                    >
+                       View 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="Edit Course information and instructor list"
+                      routerlink="/web/instructor/courses/edit"
+                      tabindex="0"
+                    >
+                       Edit 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-archive-1"
+                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    >
+                       Archive 
+                    </button>
+                    
+                    
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item disabled"
+                      id="btn-soft-delete-disabled-1"
+                    >
+                       Delete 
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          
+        </table>
+        
       </div>
     </div>
-  </tm-loading-spinner><div
+  </div><div
     class="course-section"
   >
     <h2
@@ -343,7 +979,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -387,7 +1023,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
-  isLoading={[Function Boolean]}
+  isLoading="false"
   isRecycleBinExpanded="false"
   modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -395,7 +1031,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
 >
   <div>
@@ -408,20 +1044,346 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
       />
        Add New Course 
     </button>
-  </div><tm-loading-spinner>
+  </div><div>
+    
     <div
-      class="loading-container"
+      class="course-section"
     >
+      <h3>
+        Active courses
+      </h3>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="table table-responsive"
       >
-        Loading...
+        <table
+          class="table table-striped table-bordered margin-0"
+          id="active-courses-table"
+        >
+          <thead>
+            <tr
+              class="bg-primary text-white"
+            >
+              <th
+                class="sortable-header"
+                id="sort-course-id"
+              >
+                 Course ID 
+                
+                <span>
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+                
+                
+              </th>
+              <th
+                class="sortable-header"
+                id="sort-course-name"
+              >
+                 Course Name 
+                
+                <span>
+                  <i
+                    class="fas fa-sort"
+                  />
+                </span>
+                
+                
+              </th>
+              <th
+                class="sortable-header"
+                id="sort-creation-date"
+              >
+                 Creation Date 
+                
+                
+                
+                <span>
+                  <i
+                    class="fas fa-sort-up"
+                  />
+                </span>
+              </th>
+              <th>
+                Sections
+              </th>
+              <th>
+                Teams
+              </th>
+              <th>
+                Total Students
+              </th>
+              <th>
+                Total Unregistered
+              </th>
+              <th
+                class="text-center"
+              >
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td
+                id="course-id-0"
+              >
+                CS3281
+              </td>
+              <td>
+                Modifiable Students and Courses
+              </td>
+              <td
+                container="body"
+              >
+                 5 Nov 2018 
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                    id="show-statistics-0"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td
+                class="text-center actions-cell"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-enroll-0"
+                  ngbtooltip="Enroll student into the course"
+                  routerlink="/web/instructor/courses/enroll"
+                  tabindex="0"
+                >
+                   Enroll 
+                </button>
+                
+                
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    id="btn-other-actions-0"
+                    ngbdropdowntoggle=""
+                  >
+                    Other Actions
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="View, edit and send invitation emails to the students in the course"
+                      routerlink="/web/instructor/courses/details"
+                      tabindex="0"
+                    >
+                       View 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="Edit Course information and instructor list"
+                      routerlink="/web/instructor/courses/edit"
+                      tabindex="0"
+                    >
+                       Edit 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-archive-0"
+                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    >
+                       Archive 
+                    </button>
+                    
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-soft-delete-0"
+                      ngbtooltip="Delete the course and its corresponding students and sessions"
+                    >
+                       Delete 
+                    </button>
+                    
+                    
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td
+                id="course-id-1"
+              >
+                CS3282
+              </td>
+              <td>
+                Nothing modifiable
+              </td>
+              <td
+                container="body"
+              >
+                 2 Feb 2019 
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                    id="show-statistics-1"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td>
+                
+                <span>
+                  <a
+                    href="null"
+                  >
+                     Show 
+                  </a>
+                </span>
+                
+              </td>
+              <td
+                class="text-center actions-cell"
+              >
+                
+                
+                <button
+                  class="btn btn-light btn-sm disabled"
+                  id="btn-enroll-disabled-1"
+                >
+                   Enroll 
+                </button>
+                <div
+                  class="d-inline-block dropdown"
+                  ngbdropdown=""
+                >
+                  <button
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    id="btn-other-actions-1"
+                    ngbdropdowntoggle=""
+                  >
+                    Other Actions
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    ngbdropdownmenu=""
+                    x-placement="bottom"
+                  >
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="View, edit and send invitation emails to the students in the course"
+                      routerlink="/web/instructor/courses/details"
+                      tabindex="0"
+                    >
+                       View 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      ngbtooltip="Edit Course information and instructor list"
+                      routerlink="/web/instructor/courses/edit"
+                      tabindex="0"
+                    >
+                       Edit 
+                    </button>
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item clickable"
+                      id="btn-archive-1"
+                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                    >
+                       Archive 
+                    </button>
+                    
+                    
+                    <button
+                      class="btn btn-primary btn-sm dropdown-item disabled"
+                      id="btn-soft-delete-disabled-1"
+                    >
+                       Delete 
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          
+        </table>
+        
       </div>
     </div>
-  </tm-loading-spinner>
+  </div>
 </tm-instructor-courses-page>
 `;
