@@ -46,58 +46,58 @@
           </div>
           <div class="btn-toolbar col-md-6">
             <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
-            <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
-              <div ngbDropdownMenu>
-                <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
-                  <a class="btn btn-info btn-sm dropdown-item"
+              <span ngbDropdown class="padding-right-10px">
+                <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
+                <div ngbDropdownMenu>
+                  <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
+                    <a class="btn btn-info btn-sm dropdown-item"
                      ngbTooltip="Enroll student into the course"
                      routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
-                  </a>
-                </ng-container>
-                <a class="btn btn-info btn-sm dropdown-item"
+                    </a>
+                  </ng-container>
+                  <a class="btn btn-info btn-sm dropdown-item"
                    ngbTooltip="View, edit and send invitation emails to the students in the course"
                    routerLink="/web/instructor/courses/details" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-                </a>
-              </div>
-            </span>
+                  </a>
+                </div>
+              </span>
               <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
-              <div ngbDropdownMenu >
-                <a class="btn btn-light btn-sm dropdown-item"
+                <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
+                <div ngbDropdownMenu >
+                  <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Edit course information and instructor list"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-                </a>
-              </div>
-            </span>
+                  </a>
+                </div>
+              </span>
               <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
-              <div ngbDropdownMenu>
-                <a class="btn btn-light btn-sm dropdown-item"
+                <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
+                <div ngbDropdownMenu>
+                  <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Add a feedback session for the course"
                    routerLink='/web/instructor/sessions' [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
-                </a>
-              </div>
-            </span>
+                  </a>
+                </div>
+              </span>
               <span ngbDropdown class="padding-right-10px">
-              <button class="btn btn-light btn-sm" ngbDropdownToggle> Course </button>
-              <div ngbDropdownMenu>
-                <a class="btn btn-light btn-sm dropdown-item"
+                <button class="btn btn-light btn-sm" ngbDropdownToggle> Course </button>
+                <div ngbDropdownMenu>
+                  <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="openModal(courseArchiveModal); $event.stopPropagation()"> Archive
-                </a>
-                <a class="btn btn-light btn-sm dropdown-item"
+                  </a>
+                  <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Edit course information and instructor list"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-                </a>
-                <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                  <a class="btn btn-light btn-sm dropdown-item"
+                  </a>
+                  <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
+                    <a class="btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
                      (click)="openModal(courseDeleteModal); $event.stopPropagation()"> Delete
-                  </a>
-                </ng-container>
-              </div>
-            </span>
+                    </a>
+                  </ng-container>
+                </div>
+              </span>
             </div>
             <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
               <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
