@@ -3,7 +3,6 @@
      'alert-danger' : type === SimpleModalType.DANGER,
      'alert-warning' : type === SimpleModalType.WARNING,
      'alert-info' : type === SimpleModalType.INFO,
-     'alert-primary' : type === SimpleModalType.PRIMARY,
      'bg-white' : type === SimpleModalType.NEUTRAL}">
   <div>
     <h5 class="modal-title">
@@ -32,6 +31,6 @@
           'btn-danger' : type === SimpleModalType.DANGER,
           'btn-warning' : type === SimpleModalType.WARNING,
           'btn-info' : type === SimpleModalType.INFO,
-          'btn-primary' : type === SimpleModalType.NEUTRAL || type === SimpleModalType.PRIMARY}"
+          'btn-primary' : type === SimpleModalType.NEUTRAL }"
           (click)="activeModal.close()">{{ confirmMessage }}</button>
 </div>

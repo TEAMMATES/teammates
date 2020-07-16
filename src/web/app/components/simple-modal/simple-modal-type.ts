@@ -15,10 +15,6 @@ export enum SimpleModalType {
    */
   INFO,
   /**
-   * Primary modal.
-   */
-  PRIMARY,
-  /**
    * Neutral modal.
    */
   NEUTRAL,

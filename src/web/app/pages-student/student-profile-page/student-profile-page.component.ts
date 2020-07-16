@@ -109,7 +109,7 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onSubmit(): void {
     const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Save Changes?', SimpleModalType.PRIMARY, 'Are you sure you want to make changes to your profile?');
+        .openConfirmationModal('Save Changes?', SimpleModalType.INFO, 'Are you sure you want to make changes to your profile?');
     modalRef.result.then(() => this.submitEditForm(), () => {});
   }
 
