@@ -182,7 +182,7 @@ public class FeedbackQuestionData extends ApiOutput {
     }
 
     /**
-     * Hides weights in question details if present.
+     * Hides some attributes to a student.
      */
     public void hideInformationForStudent() {
         if (questionDetails instanceof FeedbackMcqQuestionDetails) {
