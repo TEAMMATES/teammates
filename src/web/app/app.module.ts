@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes, UrlSerializer } from '@angular/router';
@@ -25,7 +25,7 @@ import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
 
 const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
-const customUrlSerializerProvider: any = {
+const customUrlSerializerProvider: Provider = {
   provide: UrlSerializer,
   useValue: customUrlSerializer,
 };
