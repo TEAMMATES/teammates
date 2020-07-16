@@ -99,6 +99,11 @@ ul {
   white-space: pre-wrap;
 }
 
+.tool-tip-decorate:hover {
+  border-bottom: 1px dotted #808080;
+  text-decoration: none;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
