@@ -33,7 +33,7 @@
     <tbody>
     <ng-container *ngFor="let commentVisibilityType of CommentVisibilityType | enumToArray">
       <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)">
-        <td container="body"> <span class="tool-tip-decorate" [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription">{{ commentVisibilityType | commentVisibilityTypeName }}</span></td>
+        <td container="body"> <span [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription">{{ commentVisibilityType | commentVisibilityTypeName }}</span></td>
         <td *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray" class="text-center">
           <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
                  (click)="modifyVisibilityControl($event.target.checked, commentVisibilityType, commentVisibilityControl)">

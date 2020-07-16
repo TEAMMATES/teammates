@@ -99,13 +99,25 @@ ul {
   white-space: pre-wrap;
 }
 
-.tool-tip-decorate:hover {
-  border-bottom: 1px dotted #808080;
-  text-decoration: none;
-}
-
 .cursor-pointer {
   cursor: pointer;
+}
+
+[ng-reflect-ngb-tooltip]{
+
+  text-decoration: underline dotted #808080;
+
+  &.btn, &.fa, &.fas, &.far, &.fab, &.fal {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    text-decoration: underline dotted #000000;
+  }
 }
 
 @media print {
