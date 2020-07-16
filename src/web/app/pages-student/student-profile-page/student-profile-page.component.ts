@@ -88,7 +88,6 @@ export class StudentProfilePageComponent implements OnInit {
                 this.statusMessageService.showErrorToast('Error retrieving student profile');
               }
             }, (response: ErrorMessageOutput) => {
-              this.isLoadingStudentProfile = false;
               this.statusMessageService.showErrorToast(response.error.message);
             });
       }
