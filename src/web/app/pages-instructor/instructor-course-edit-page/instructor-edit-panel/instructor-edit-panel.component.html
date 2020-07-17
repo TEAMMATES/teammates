@@ -1,10 +1,10 @@
 <div class="card bg-light top-padded">
   <div class="card-header bg-primary text-white text-center">
     <div class="row">
-      <div class="col-md-6 text-left align-self-center">
+      <div class="col-4 col-md-6 text-left align-self-center">
         <strong>Instructor {{ instructorIndex + 1 }}</strong>
       </div>
-      <div class="col-md-6 text-right">
+      <div class="col-8 col-md-6 text-right">
         <button id="btn-resend-invite-{{ instructorIndex + 1 }}" class="btn btn-light btn-sm" ngbTooltip="Send invitation email to the instructor" placement="top-right"
                 *ngIf="instructor.joinState == JoinState.NOT_JOINED && editMode == EditMode.EDIT"
                 [disabled]="!currInstructorCoursePrivilege.canModifyInstructor"
@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="card-body" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
+  <div class="card-body text-center" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
     <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
       <label class="col-sm-3 control-label">
         Google ID:
@@ -83,8 +83,8 @@
                [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
       </div>
     </div>
-    <div class="form-row form-group align-items-start">
-      <label class="col-sm-3 control-label">
+    <div class="form-row form-group align-items-start text-left">
+      <label class="col-sm-3 control-label text-center text-md-right">
         Access Level:
       </label>
       <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
@@ -106,11 +106,11 @@
       </div>
     </div>
 
-    <tm-custom-privilege-setting-panel id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+    <tm-custom-privilege-setting-panel class="text-left" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
                                        [permission]="this.instructor.permission" (permissionChange)="triggerModelChange('permission', $event)"
                                        [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
 
-    <div class="text-center" *ngIf="instructor.isEditing">
+    <div *ngIf="instructor.isEditing">
       <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-primary" tabindex="6" type="button" (click)="saveInstructor.emit()">
         <span *ngIf="editMode == EditMode.EDIT">Save changes</span>
         <span *ngIf="editMode == EditMode.ADD">Add Instructor</span>
