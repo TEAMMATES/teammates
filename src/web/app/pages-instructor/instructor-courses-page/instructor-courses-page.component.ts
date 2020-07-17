@@ -235,7 +235,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.simpleModalService.open('Warning: The course will be moved to the recycle bin.',
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Warning: The course will be moved to the recycle bin.',
             SimpleModalType.WARNING, 'Are you sure you want to continue?');
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {

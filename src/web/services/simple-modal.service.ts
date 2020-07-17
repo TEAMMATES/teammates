@@ -4,10 +4,11 @@ import { SimpleModalType } from '../app/components/simple-modal/simple-modal-typ
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
 
 /**
- * Optional paramters for modal.
+ * Optional parameters for modal.
  */
 export interface SimpleModalOptions {
-  isInformationOnly?: boolean; // determines if there is 2 buttons for confirmation or only 1 button to close the modal
+  // determines if there should be 2 buttons for confirmation or only 1 button to close the modal
+  isInformationOnly?: boolean;
   confirmMessage?: string; // custom text message for confirm button
   cancelMessage?: string; // custom text message for cancel button
 }
@@ -31,7 +32,7 @@ export class SimpleModalService {
    * @param content to be displayed in the body of the modal. content supports HTML tags
    * @param options See {@code SimpleModalOptions}
    */
-  open(header: string, type: SimpleModalType,
+  private open(header: string, type: SimpleModalType,
        content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
     const modalRef: NgbModalRef = this.modalService.open(SimpleModalComponent);
     modalRef.componentInstance.header = header;
