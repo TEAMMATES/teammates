@@ -1,23 +1,26 @@
-<tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()" (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
+<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed" [message]="'Failed to load feedback session'" (retryEvent)="retryLoadingFeedbackSession()">
+  <tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()" (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
+</tm-loading-retry>
 
-<div *ngIf="!isLoadingFeedbackQuestions" class="offset-md-10 margin-vertical-20px">
-  <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
-    {{isAllCollapsed ? "Expand" : "Collapse" }} All
-  </button>
-</div>
-
-<div *tmIsLoading="isLoadingFeedbackQuestions">
-  <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
-    <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
-                           [numOfQuestions]="questionEditFormModels.length"
-                           (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
-                           (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
-                           (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
-                           (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
-                           [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
+<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'" (retryEvent)="retryLoadingFeedbackQuestions()">
+  <div *ngIf="!isLoadingFeedbackQuestions" class="offset-md-10 margin-vertical-20px">
+    <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
+      {{isAllCollapsed ? "Expand" : "Collapse" }} All
+    </button>
   </div>
-</div>
+
+  <div *tmIsLoading="isLoadingFeedbackQuestions">
+    <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
+      <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
+                             [numOfQuestions]="questionEditFormModels.length"
+                             (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
+                             (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
+                             (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
+                             (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
+                             [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
+    </div>
+  </div>
 
 <br/>
 <div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
