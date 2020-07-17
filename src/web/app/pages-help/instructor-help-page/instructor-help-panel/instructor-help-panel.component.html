@@ -1,14 +1,8 @@
-<div [id]="id" [ngClass]="{ 'bottom-padded': isPanelExpanded }">
-  <p>
-    <button type="button" class="btn btn-outline-primary" (click)="isPanelExpanded = !isPanelExpanded" [attr.aria-expanded]="!isPanelExpanded">
-      {{ headerText }}
-    </button>
-  </p>
-  <div class="panel-content" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'">
-    <div class="card">
-      <div class="card-body">
-        <ng-content></ng-content>
-      </div>
-    </div>
+<div class="card" [id]="id">
+  <div class="card-header bg-light" (click)="isPanelExpanded = !isPanelExpanded">
+    {{ headerText }}
+  </div>
+  <div class="panel-content card-body" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'">
+    <ng-content></ng-content>
   </div>
 </div>

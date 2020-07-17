@@ -4,7 +4,10 @@ import { animate, AnimationTriggerMetadata, state, style, transition, trigger } 
  * Directive for collapsing of div with overflow:hidden setting.
  */
 export const collapseAnim: AnimationTriggerMetadata = trigger('collapseAnim', [
-  state('collapsed', style({ height: '0px', minHeight: '0' })),
-  state('expanded', style({ height: '*' })),
-  transition('expanded <=> collapsed', animate('300ms ease-in-out')),
+  state('collapsed', style({ height: '0px', display: 'none' })),
+  state('expanded', style({ height: '*', display: 'block' })),
+  transition('expanded <=> collapsed', [
+    style({ display: 'block' }),
+    animate('300ms ease-in-out'),
+  ]),
 ]);

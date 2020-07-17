@@ -1,7 +1,11 @@
-.bottom-padded {
+.card {
   margin-bottom: 15px;
 }
 
-.panel-content {
+.card-header {
+  cursor: pointer;
+}
+
+.card-body {
   overflow: hidden;
 }
