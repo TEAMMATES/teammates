@@ -538,12 +538,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.feedbackQuestionModels.set(updatedQuestion.feedbackQuestionId, updatedQuestion);
           this.loadResponseStatusForQuestion(this.questionEditFormModels[index]);
 
-          // shift question if needed
+          // reload questions in new order if needed
           if (originalQuestionNumber !== updatedQuestion.questionNumber) {
-            // move question form
-            this.moveQuestionForm(
-                originalQuestionNumber - 1, updatedQuestion.questionNumber - 1);
-            this.normalizeQuestionNumberInQuestionForms();
+            this.reloadQuestionForms();
           }
 
           this.statusMessageService.showSuccessToast('The changes to the question have been updated.');
@@ -551,11 +548,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Moves question edit form from the original position to the new position.
+   * Reloads feedback questions.
    */
-  private moveQuestionForm(originalPosition: number, newPosition: number): void {
-    this.questionEditFormModels.splice(newPosition, 0,
-        this.questionEditFormModels.splice(originalPosition, 1)[0]);
+  private reloadQuestionForms(): void {
+    this.questionEditFormModels = [];
+    this.loadFeedbackQuestions();
   }
 
   /**
@@ -747,9 +744,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
 
-          this.moveQuestionForm(
-              this.questionEditFormModels.length - 1, newQuestion.questionNumber - 1);
-          this.normalizeQuestionNumberInQuestionForms();
+          this.reloadQuestionForms();
           this.isAddingQuestionPanelExpanded = false;
 
           this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
