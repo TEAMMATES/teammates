@@ -44,6 +44,10 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
     if (!changes.key) {
       return;
     }
+    // Collapse all questions when new search is initiated
+    for (const questionId of Object.keys(this.questionsToCollapsed)) {
+      this.questionsToCollapsed[questionId] = false;
+    }
     if (this.key === '') {
       this.resetFaq();
     } else {
