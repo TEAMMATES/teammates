@@ -41,13 +41,15 @@ export class NumScaleQuestionStatisticsCalculation
         const answersAsArray: number[] = stats.responses.map((resp: any) => resp.answer);
         stats.max = Math.max(...answersAsArray);
         stats.min = Math.min(...answersAsArray);
-        stats.average = (answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length).toFixed(2);
+        const average: number = answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length;
+        stats.average = Math.round(average * 100) / 100; // Show integers without dp, truncate fractions to 2dp
 
         const answersExcludingSelfAsArray: number[] = stats.responses.filter((resp: any) => !resp.isSelf)
             .map((resp: any) => resp.answer);
         if (answersExcludingSelfAsArray.length) {
-          stats.averageExcludingSelf = (answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0)
-              / answersExcludingSelfAsArray.length).toFixed(2);
+          const averageExcludingSelf: number = answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0)
+              / answersExcludingSelfAsArray.length;
+          stats.averageExcludingSelf = Math.round(averageExcludingSelf * 100) / 100;
         } else {
           stats.averageExcludingSelf = 0;
         }

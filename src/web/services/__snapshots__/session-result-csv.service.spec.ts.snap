@@ -332,8 +332,8 @@ Question 1,Rate our product.
 
 Summary Statistics
 Team,Recipient,Average,Minimum,Maximum
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",3.50,3.5,3.5
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2.00,2,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",3.5,3.5,3.5
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,2,2
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
@@ -348,8 +348,8 @@ Question 2,Rate our product.
 
 Summary Statistics
 Team,Recipient,Average,Minimum,Maximum
-Instructors,Instructor1 Course1,4.50,4.5,4.5
-Instructors,Instructor2 Course1,1.00,1,1
+Instructors,Instructor1 Course1,4.5,4.5,4.5
+Instructors,Instructor2 Course1,1,1,1
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
