@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
   FeedbackContributionQuestionDetails,
@@ -30,6 +30,8 @@ export class ContributionQuestionEditAnswerFormComponent
   @Input()
   shouldShowHelpLink: boolean = true;
 
+  @ViewChild('equalShareHelp') equalShareHelp!: TemplateRef<any>;
+
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
@@ -47,11 +49,6 @@ export class ContributionQuestionEditAnswerFormComponent
 
   openHelpModal(): void {
     const modalHeader: string = 'More info about the <code>Equal Share</code> scale';
-    const modalContent: string = `
-        <p><code>Equal share</code> is a relative measure of individual contribution to a team task.</p>
-        <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
-        <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share,
-            <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>`;
-    this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, modalContent);
+    this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, this.equalShareHelp);
   }
 }

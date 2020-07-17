@@ -16,20 +16,10 @@
   <div class="col-md-7 col-sm-12" *ngIf="shouldShowHelpLink">
     <button type="button" class="btn btn-link" (click)="openHelpModal()"><i class="fas fa-exclamation-circle"></i> More info about the <code>Equal Share</code> scale</button>
   </div>
-  <ng-template #helpModal let-modal>
-    <div class="modal-header">
-      <h5 class="modal-title">More info about the <code>Equal Share</code> scale</h5>
-      <button type="button" class="close" (click)="modal.dismiss()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p><code>Equal share</code> is a relative measure of individual contribution to a team task.</p>
-      <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
-      <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share, <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="modal.close()">OK</button>
-    </div>
+  <ng-template #equalShareHelp>
+    <p><code>Equal share</code> is a relative measure of individual contribution to a team task.</p>
+    <p>For example, in a 3-person team, <code>Equal share</code> means a third of the work done.</p>
+    <p><code>Equal share + 10%</code> means the person did about 10% <em>more</em> than an equal share,
+      <code>Equal share - 10%</code> means about 10% <em>less</em> than an equal share, and so on.</p>
   </ng-template>
 </div>
