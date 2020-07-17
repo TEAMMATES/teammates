@@ -9,6 +9,7 @@ import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor
 
 interface QuestionDetail {
   id: string;
+  text: string;
   keywords: string[];
 }
 
@@ -68,20 +69,18 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   private generateTerms(): void {
     this.questionHtml.forEach((question: InstructorHelpPanelComponent) => {
       const id: string = question.id;
-      const text: string = question.elementRef.nativeElement.textContent || '';
+      const text: string = (question.elementRef.nativeElement.textContent || '').toLowerCase();
 
         // filter small words away
       let keywords: string[] = text.split(' ').filter((word: string) => word.length > 3);
 
-        // convert to lower case
-      keywords = keywords.map((word: string) => word.toLowerCase());
-
         // remove punctuation
       keywords = keywords.map((word: string) =>
-        word.replace(/\b[-.,()?&$#!\[\]{}"']+\B|\B[-.,()&?$#!\[\]{}"']+\b/g, ''));
+        word.replace(/\b[-.,()?&$#!\[\]{}']+\B|\B[-.,()&?$#!\[\]{}']+\b/g, ''));
 
       const newQuestion: QuestionDetail = {
         id,
+        text,
         keywords,
       };
 
@@ -95,17 +94,27 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
 
   private filterFaq(searchTerm: string): void {
     this.showQuestion = [];
-    const searchTermSplit: string[] = searchTerm.split(' ')
+    const searchTermSplit: string[] = (searchTerm.match(/[^\s"]+|"([^"]*)"/gi) || [])
+        .map((term: string) => term.replace(/"/g, ''))
         .filter((term: string) => term.length > 3);
     for (const questionDetail of this.questionDetails) {
       const id: string = questionDetail.id;
+      const fullText: string = questionDetail.text;
       const terms: string[] = questionDetail.keywords;
 
-      if (!searchTermSplit.length) {
-        this.showQuestion.push(id);
-      } else if (terms.find((keyword: string) =>
-          searchTermSplit.find((term: string) => keyword.includes(term)))) {
-        this.showQuestion.push(id);
+      if (searchTermSplit.length) {
+        let hasMatch: boolean = false;
+        for (const term of searchTermSplit) {
+          if (term.includes(' ') && fullText.includes(term)) {
+            hasMatch = true;
+          } else if (!term.includes(' ') && terms.find((keyword: string) => keyword.includes(term))) {
+            hasMatch = true;
+          }
+          if (hasMatch) {
+            this.showQuestion.push(id);
+            break;
+          }
+        }
       }
     }
     this.matchFound.emit(this.showQuestion.length);
