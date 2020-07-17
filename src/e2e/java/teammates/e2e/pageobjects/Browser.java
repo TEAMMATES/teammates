@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
@@ -126,10 +127,19 @@ public class Browser {
             }
             System.setProperty("webdriver.gecko.driver", TestProperties.GECKODRIVER_PATH);
 
+            FirefoxProfile profile;
+            if (TestProperties.isDevServer()) {
+                profile = new FirefoxProfile();
+            } else {
+                // Get user data from browser to bypass google blocking automated log in.
+                // Log in manually to teammates to use that log in data for e2e tests.
+                ProfilesIni profileIni = new ProfilesIni();
+                profile = profileIni.getProfile(TestProperties.FIREFOX_PROFILE_NAME);
+            }
+
             // Allow CSV files to be download automatically, without a download popup.
             // This method is used because Selenium cannot directly interact with the download dialog.
             // Taken from http://stackoverflow.com/questions/24852709
-            FirefoxProfile profile = new FirefoxProfile();
             profile.setPreference("browser.download.panel.shown", false);
             profile.setPreference("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
@@ -146,6 +156,12 @@ public class Browser {
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--allow-file-access-from-files");
+            if (!TestProperties.isDevServer()) {
+                // Get user data from browser to bypass google blocking automated log in.
+                // Log in manually to teammates to use that log in data for e2e tests.
+                options.addArguments("user-data-dir=" + TestProperties.CHROME_USER_DATA_PATH);
+            }
+
             return new ChromeDriver(options);
         }
 

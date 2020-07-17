@@ -82,6 +82,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
     protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
+        // When not using dev server, Google blocks log in by automation.
+        // To log in, log in manually to teammates in your browser before running e2e tests.
+        // Refer to teammates.e2e.pageobjects.Browser for more information.
+        if (!TestProperties.isDevServer()) {
+            return null;
+        }
 
         if (browser.isAdminLoggedIn) {
             browser.driver.get(url.toAbsoluteString());
@@ -103,7 +109,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
         String userId = url.get(Const.ParamsNames.USER_ID);
 
-        if (TestProperties.isDevServer() && userId != null) {
+        if (userId != null) {
             // This workaround is necessary because the front-end has not been optimized
             // to enable masquerade mode yet
             adminUsername = userId;
