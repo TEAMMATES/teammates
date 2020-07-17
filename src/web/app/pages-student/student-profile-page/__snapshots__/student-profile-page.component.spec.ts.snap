@@ -14,7 +14,9 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
 >
-  <div>
+  <div
+    class="text-center text-sm-left"
+  >
     <h1>
       Student Profile
     </h1>
@@ -31,7 +33,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           class="row profile-pic-row"
         >
           <div
-            class="col-3 cursor-pointer"
+            class="col cursor-pointer"
           >
             <img
               class="profile-pic"
@@ -246,7 +248,9 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
 >
-  <div>
+  <div
+    class="text-center text-sm-left"
+  >
     <h1>
       Student Profile
     </h1>
@@ -263,7 +267,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
           class="row profile-pic-row"
         >
           <div
-            class="col-3 cursor-pointer"
+            class="col cursor-pointer"
           >
             <img
               class="profile-pic"
