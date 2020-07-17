@@ -277,12 +277,8 @@ export class QuestionEditFormComponent implements OnInit {
       this.discardChanges();
       return;
     }
-    const modalContent: string = isNewQuestion ?
-        'Are you sure you want to delete this question?' :
-        'Are you sure you want to discard your unsaved edits?';
-
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Discard unsaved changes?', SimpleModalType.WARNING, modalContent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost');
     modalRef.result.then(() => {
       this.discardChanges();
     }, () => {});
@@ -336,7 +332,7 @@ export class QuestionEditFormComponent implements OnInit {
   deleteCurrentQuestionHandler(): void {
     const modalRef: NgbModalRef = this.simpleModalService
         .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
-            'Warning: Deleted question cannot be recovered.');
+            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
     modalRef.result.then(() => {
       this.deleteCurrentQuestionEvent.emit();
     }, () => {});

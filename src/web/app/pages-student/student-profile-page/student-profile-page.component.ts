@@ -184,7 +184,7 @@ export class StudentProfilePageComponent implements OnInit {
   onDelete(): void {
     const modalRef: NgbModalRef = this.simpleModalService
         .openConfirmationModal('Delete profile picture?', SimpleModalType.DANGER,
-        'Are you sure you want to delete your profile picture?');
+        'Warning: Profile picture cannot be recovered.');
     modalRef.result.then(() => {
       this.deleteProfilePicture();
     }, () => {});
