@@ -1,10 +1,10 @@
-<div class="card bg-light top-padded">
-  <div class="card-header bg-primary text-white text-center">
+<div class="card bg-light top-padded text-center">
+  <div class="card-header bg-primary text-white">
     <div class="row">
-      <div class="col-md-6 text-md-left align-self-center">
+      <div class="col-3 col-md-6 text-md-left align-self-center">
         <strong>Course</strong>
       </div>
-      <div class="col-md-6 text-md-right">
+      <div class="col-9 col-md-6 text-right">
         <button id="btn-edit-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
                 [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
                 *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
