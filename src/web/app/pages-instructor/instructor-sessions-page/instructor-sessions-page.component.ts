@@ -164,7 +164,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Copies from other sessions.
    */
   copyFromOtherSessionsHandler(): void {
-    const modalRef: NgbModalRef = this.modalService.open(CopyFromOtherSessionsModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(CopyFromOtherSessionsModalComponent);
     // select the current course Id.
     modalRef.componentInstance.copyToCourseId = this.sessionEditFormModel.courseId;
 
@@ -561,7 +561,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Deletes the feedback session permanently.
    */
   permanentDeleteSession(model: RecycleBinFeedbackSessionRowModel): void {
-    const modalRef: NgbModalRef = this.modalService.open(SessionPermanentDeletionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(SessionPermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.courseId = model.feedbackSession.courseId;
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
@@ -583,7 +583,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Deletes all feedback sessions in the recycle bin permanently.
    */
   permanentDeleteAllSessions(): void {
-    const modalRef: NgbModalRef = this.modalService.open(SessionsPermanentDeletionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(SessionsPermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.sessionsToDelete =
         this.recycleBinFeedbackSessionRowModels.map(
             (model: RecycleBinFeedbackSessionRowModel) => model.feedbackSession);

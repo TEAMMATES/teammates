@@ -151,7 +151,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private authService: AuthService,
-              private modalService: NgbModal,
+              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
@@ -340,7 +340,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Shows the model of details permission for a role.
    */
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
-    const modalRef: NgbModalRef = this.modalService.open(ViewRolePrivilegesModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
     modalRef.result.then(() => {}, () => {});
     this.instructorService.loadInstructorPrivilege({
       courseId: this.courseId,

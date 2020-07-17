@@ -76,7 +76,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
-              modalService: NgbModal,
+              ngbModal: NgbModal,
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
@@ -84,7 +84,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               private courseService: CourseService,
               private loadingBarService: LoadingBarService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, modalService, studentService);
+        feedbackQuestionsService, tableComparatorService, ngbModal, studentService);
   }
 
   ngOnInit(): void {

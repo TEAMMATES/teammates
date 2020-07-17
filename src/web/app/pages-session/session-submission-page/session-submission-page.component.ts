@@ -110,7 +110,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
               private instructorService: InstructorService,
-              private modalService: NgbModal,
+              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
               private pageScrollService: PageScrollService,
               private authService: AuthService,
@@ -647,7 +647,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         finalize(() => {
           this.isSavingResponses = false;
 
-          const modalRef: NgbModalRef = this.modalService.open(SavingCompleteModalComponent);
+          const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values()).join(', ');
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
           modalRef.componentInstance.hasSubmissionConfirmationError = hasSubmissionConfirmationError;

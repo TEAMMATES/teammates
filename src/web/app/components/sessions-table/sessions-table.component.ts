@@ -85,7 +85,7 @@ export class SessionsTableComponent implements OnInit {
   @Output()
   downloadSessionResultsEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor(private modalService: NgbModal, private simpleModalService: SimpleModalService) { }
+  constructor(private ngbModal: NgbModal, private simpleModalService: SimpleModalService) { }
 
   /**
    * Sorts the list of feedback session row.
@@ -111,7 +111,7 @@ export class SessionsTableComponent implements OnInit {
    * Copies the feedback session.
    */
   copySession(rowIndex: number): void {
-    const modalRef: NgbModalRef = this.modalService.open(CopySessionModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     modalRef.componentInstance.newFeedbackSessionName = model.feedbackSession.feedbackSessionName;
     modalRef.componentInstance.courseCandidates = this.courseCandidates;

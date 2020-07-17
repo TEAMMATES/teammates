@@ -22,7 +22,7 @@ export interface SimpleModalOptions {
 })
 export class SimpleModalService {
 
-  constructor(private modalService: NgbModal) {
+  constructor(private ngbModal: NgbModal) {
   }
 
   /**
@@ -34,7 +34,7 @@ export class SimpleModalService {
    */
   private open(header: string, type: SimpleModalType,
        content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
-    const modalRef: NgbModalRef = this.modalService.open(SimpleModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(SimpleModalComponent);
     modalRef.componentInstance.header = header;
     modalRef.componentInstance.content = content;
     modalRef.componentInstance.type = type;

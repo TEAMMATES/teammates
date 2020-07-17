@@ -178,7 +178,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private modalService: NgbModal,
+              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
@@ -225,7 +225,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     // load course candidates first
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
-      const modalRef: NgbModalRef = this.modalService.open(CopySessionModalComponent);
+      const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
       modalRef.componentInstance.courseCandidates = courses.courses;
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
@@ -637,7 +637,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
-    this.modalService.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
+    this.ngbModal.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
@@ -785,7 +785,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
-      const ref: NgbModalRef = this.modalService.open(CopyQuestionsFromOtherSessionsModalComponent);
+      const ref: NgbModalRef = this.ngbModal.open(CopyQuestionsFromOtherSessionsModalComponent);
       ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
