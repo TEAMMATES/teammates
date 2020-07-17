@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit, Directive, Inject, Input, OnChanges, OnInit, QueryList,
+  AfterViewInit, Directive, EventEmitter, Inject, Input, OnChanges, OnInit, Output, QueryList,
   SimpleChanges, ViewChildren,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
@@ -20,6 +20,7 @@ interface QuestionDetail {
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: String;
+  @Output() matchFound: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren('question') questionHtml!: QueryList<InstructorHelpPanelComponent>;
 
   showQuestion: string[];
@@ -107,6 +108,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
         this.showQuestion.push(id);
       }
     }
+    this.matchFound.emit(this.showQuestion.length);
   }
 
   /**
