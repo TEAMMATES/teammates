@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -53,6 +54,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
 
   isLoading: boolean = false;
+  hasLoadingFailed: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -80,6 +82,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.hasLoadingFailed = false;
     this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
@@ -88,7 +91,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       forkJoin(
           resp.courses.map((course: Course) =>
               this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
-      ).subscribe((privileges: InstructorPrivilege[]) => {
+      ).pipe(finalize(() => this.isLoading = false)).subscribe((privileges: InstructorPrivilege[]) => {
         resp.courses.forEach((course: Course, index: number) => {
           const canModifyCourse: boolean = privileges[index].canModifyCourse;
           const canModifyStudent: boolean = privileges[index].canModifyStudent;
@@ -97,11 +100,14 @@ export class InstructorCoursesPageComponent implements OnInit {
         });
         this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
       }, (error: ErrorMessageOutput) => {
+        this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(error.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
+      this.isLoading = false;
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
-    }, () => this.isLoading = false);
+    });
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
@@ -113,10 +119,12 @@ export class InstructorCoursesPageComponent implements OnInit {
           const archivedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.archivedCourses.push(archivedCourse);
         }, (error: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(error.error.message);
         });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
 
@@ -133,10 +141,12 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.canRestoreAll = false;
               }
             }, (error: ErrorMessageOutput) => {
+              this.hasLoadingFailed = true;
               this.statusMessageService.showErrorToast(error.error.message);
             });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -247,7 +257,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -292,7 +302,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -335,7 +345,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
-    }, () => {});
+    });
   }
 
   /**
@@ -392,5 +402,12 @@ export class InstructorCoursesPageComponent implements OnInit {
       }
       return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
     };
+  }
+
+  /**
+   * Attempts to load all courses for instructor again.
+   */
+  retryLoadingCourses(): void {
+    this.loadInstructorCourses();
   }
 }

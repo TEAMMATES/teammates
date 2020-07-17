@@ -35,7 +35,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
-  courseid: string = '';
+  courseId: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
   statusMessage: StatusMessage[] = [];
@@ -68,6 +68,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
+  hasFailedLoadingStudents: boolean = false;
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
@@ -80,6 +81,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      this.courseId = queryParams.courseid;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
   }
@@ -117,7 +119,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         })));
 
     this.studentService.enrollStudents(
-        this.courseid, studentsEnrollRequest,
+        this.courseId, studentsEnrollRequest,
     ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: Students) => {
       const enrolledStudents: Student[] = resp.students;
       this.showEnrollResults = true;
@@ -130,7 +132,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showErrorToast(resp.error.message);
     }, () => {
-      this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
+      this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
         this.existingStudents = resp.students;
         if (!this.isExistingStudentsPanelCollapsed) {
           const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
@@ -189,7 +191,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
           email: request.email,
-          courseId: this.courseid,
+          courseId: this.courseId,
           name: request.name,
           sectionName: request.section,
           teamName: request.team,
@@ -312,7 +314,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe(
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
         (resp: Students) => {
           if (resp.students.length !== 0) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
@@ -355,7 +357,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   getCourseEnrollPageData(courseid: string): void {
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
-      this.courseid = courseid;
+      this.courseId = courseid;
       if (resp.hasResponses) {
         const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
@@ -370,6 +372,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     });
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
+    }, (resp: ErrorMessageOutput) => {
+      this.hasFailedLoadingStudents = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -381,4 +386,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
 
+  retryLoadingData(): void {
+    this.existingStudents = [];
+    this.hasFailedLoadingStudents = false;
+    this.getCourseEnrollPageData(this.courseId);
+  }
 }

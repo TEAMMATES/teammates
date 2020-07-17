@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
@@ -116,6 +117,7 @@ describe('InstructorCoursesPageComponent', () => {
         NgbModule,
         BrowserAnimationsModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();

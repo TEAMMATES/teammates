@@ -61,6 +61,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
+  hasLoadingStudentsFailed: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private statusMessageService: StatusMessageService,
@@ -136,6 +137,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       });
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
+      this.isStudentsLoading = false;
+      this.hasLoadingStudentsFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -158,6 +161,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           });
           this.students.push(...students);
         }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingStudentsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -286,5 +290,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  /**
+   * Retry loading student list for the course
+   */
+  retryLoadingStudents(): void {
+    this.hasLoadingStudentsFailed = false;
+    this.loadStudents(this.courseDetails.course.courseId);
   }
 }

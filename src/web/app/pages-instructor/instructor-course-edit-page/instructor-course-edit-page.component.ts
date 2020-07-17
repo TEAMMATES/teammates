@@ -143,7 +143,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   allSessions: string[] = [];
 
   isCourseLoading: boolean = false;
+  hasCourseLoadingFailed: boolean = false;
   isInstructorsLoading: boolean = false;
+  hasInstructorsLoadingFailed: boolean = false;
   isSavingCourseEdit: boolean = false;
   isSavingNewInstructor: boolean = false;
 
@@ -213,6 +215,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
+      this.hasCourseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -304,6 +307,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -657,6 +661,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
       panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
+      this.hasInstructorsLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -746,5 +751,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  retryLoadingCourse(): void {
+    this.hasCourseLoadingFailed = false;
+    this.loadCourseInfo();
+  }
+
+  retryLoadingInstructors(): void {
+    this.hasInstructorsLoadingFailed = false;
+    this.loadCourseInstructors();
   }
 }

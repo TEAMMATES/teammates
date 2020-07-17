@@ -10,147 +10,148 @@
   ></tm-add-course-form>
 </div>
 
-<ng-template #addCourseAlert>
-  <div class="alert alert-warning margin-top-30px" role="alert">
-    You do not seem to have any active courses. Use the button above to create a new course.
-  </div>
-</ng-template>
-
-<div *tmIsLoading="isLoading">
-  <div class="course-section" *ngIf="activeCourses.length; else addCourseAlert;">
-    <h3>Active courses</h3>
-    <div class="table table-responsive">
-      <table id="active-courses-table" class="table table-striped table-bordered margin-0">
-        <thead>
-        <tr class="bg-primary text-white">
-          <th id="sort-course-id" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)">
-            Course ID
-            <span *ngIf="tableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th id="sort-course-name" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)">
-            Course Name
-            <span *ngIf="tableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th id="sort-creation-date" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_CREATION_DATE)">
-            Creation Date
-            <span *ngIf="tableSortBy !== SortBy.COURSE_CREATION_DATE"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th>Sections</th>
-          <th>Teams</th>
-          <th>Total Students</th>
-          <th>Total Unregistered</th>
-          <th class="text-center">Action(s)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let course of activeCourses; let i = index">
-          <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
-          <td>{{course.course.courseName}}</td>
-          <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-            {{course.course.creationTimestamp | date:'d MMM yyyy'}}
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                Show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].sections }}
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a id="show-statistics-{{ i }}" (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                Show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].teams }}
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                Show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].students }}
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                Show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].unregistered }}
-            </span>
-          </td>
-          <td class="text-center actions-cell">
-            <button id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
-                    ngbTooltip="Enroll student into the course"
-                    routerLink="/web/instructor/courses/enroll"
-                    [queryParams]="{courseid: course.course.courseId}">
-              Enroll
-            </button>
-            <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
-              Enroll
-            </button>
-            <div ngbDropdown class="d-inline-block">
-              <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
-              <div ngbDropdownMenu>
-                <button class="btn btn-primary btn-sm dropdown-item clickable"
-                        ngbTooltip="View, edit and send invitation emails to the students in the course"
-                        routerLink="/web/instructor/courses/details"
-                        [queryParams]="{courseid: course.course.courseId}">
-                  View
-                </button>
-                <button class="btn btn-primary btn-sm dropdown-item clickable"
-                        ngbTooltip="Edit Course information and instructor list"
-                        routerLink="/web/instructor/courses/edit"
-                        [queryParams]="{courseid: course.course.courseId}">
-                  Edit
-                </button>
-                <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
-                        ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
-                  Archive
-                </button>
-                <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
-                        ngbTooltip="Delete the course and its corresponding students and sessions">
-                  Delete
-                </button>
-                <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled" *ngIf="!course.canModifyCourse">
-                  Delete
-                </button>
+<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="retryLoadingCourses()">
+  <ng-template #addCourseAlert>
+    <div class="alert alert-warning margin-top-30px" role="alert">
+      You do not seem to have any active courses. Use the button above to create a new course.
+    </div>
+  </ng-template>
+  <div *tmIsLoading="isLoading">
+    <div class="course-section" *ngIf="activeCourses.length; else addCourseAlert;">
+      <h3>Active courses</h3>
+      <div class="table table-responsive">
+        <table id="active-courses-table" class="table table-striped table-bordered margin-0">
+          <thead>
+          <tr class="bg-primary text-white">
+            <th id="sort-course-id" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)">
+              Course ID
+              <span *ngIf="tableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
+              <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+            </th>
+            <th id="sort-course-name" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)">
+              Course Name
+              <span *ngIf="tableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
+              <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+            </th>
+            <th id="sort-creation-date" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_CREATION_DATE)">
+              Creation Date
+              <span *ngIf="tableSortBy !== SortBy.COURSE_CREATION_DATE"><i class="fas fa-sort"></i></span>
+              <span *ngIf="tableSortBy === SortBy.COURSE_CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
+              <span *ngIf="tableSortBy === SortBy.COURSE_CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+            </th>
+            <th>Sections</th>
+            <th>Teams</th>
+            <th>Total Students</th>
+            <th>Total Unregistered</th>
+            <th class="text-center">Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let course of activeCourses; let i = index">
+            <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
+            <td>{{course.course.courseName}}</td>
+            <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+              {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].sections }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a id="show-statistics-{{ i }}" (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].teams }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].students }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].unregistered }}
+              </span>
+            </td>
+            <td class="text-center actions-cell">
+              <button id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
+                      ngbTooltip="Enroll student into the course"
+                      routerLink="/web/instructor/courses/enroll"
+                      [queryParams]="{courseid: course.course.courseId}">
+                Enroll
+              </button>
+              <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
+                Enroll
+              </button>
+              <div ngbDropdown class="d-inline-block">
+                <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
+                <div ngbDropdownMenu>
+                  <button class="btn btn-primary btn-sm dropdown-item clickable"
+                          ngbTooltip="View, edit and send invitation emails to the students in the course"
+                          routerLink="/web/instructor/courses/details"
+                          [queryParams]="{courseid: course.course.courseId}">
+                    View
+                  </button>
+                  <button class="btn btn-primary btn-sm dropdown-item clickable"
+                          ngbTooltip="Edit Course information and instructor list"
+                          routerLink="/web/instructor/courses/edit"
+                          [queryParams]="{courseid: course.course.courseId}">
+                    Edit
+                  </button>
+                  <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
+                          ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
+                    Archive
+                  </button>
+                  <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
+                          ngbTooltip="Delete the course and its corresponding students and sessions">
+                    Delete
+                  </button>
+                  <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled" *ngIf="!course.canModifyCourse">
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-        <tr *ngIf="!activeCourses.length">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
-      <p *ngIf="!activeCourses.length">No records found.</p>
+            </td>
+          </tr>
+          </tbody>
+          <tr *ngIf="!activeCourses.length">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p *ngIf="!activeCourses.length">No records found.</p>
+      </div>
     </div>
   </div>
-</div>
+</tm-loading-retry>
 
 <div class="course-section" *ngIf="archivedCourses.length">
   <h2 class="text-muted">
