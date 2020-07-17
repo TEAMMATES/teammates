@@ -22,8 +22,13 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   studentProfile?: StudentProfile;
   photoUrl: string = '';
 
+  courseId: string = '';
+  studentEmail: string = '';
+
   isStudentLoading: boolean = false;
+  hasStudentLoadingFailed: boolean = false;
   isStudentProfileLoading: boolean = false;
+  hasStudentProfileLoadingFailed: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -32,12 +37,12 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      const courseId: string = queryParams.courseid;
-      const studentEmail: string = queryParams.studentemail;
+      this.courseId = queryParams.courseid;
+      this.studentEmail = queryParams.studentemail;
 
-      this.loadStudentDetails(courseId, studentEmail);
+      this.loadStudentDetails(this.courseId, this.studentEmail);
       this.photoUrl
-          = `${environment.backendUrl}/webapi/student/profilePic?courseid=${courseId}&studentemail=${studentEmail}`;
+          = `${environment.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${this.studentEmail}`;
     });
   }
 
@@ -52,6 +57,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((studentProfile: StudentProfile) => {
       this.studentProfile = studentProfile;
     }, (resp: ErrorMessageOutput) => {
+      this.hasStudentLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.studentService.getStudent(
@@ -59,7 +65,14 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
       this.student = student;
     }, (resp: ErrorMessageOutput) => {
+      this.hasStudentProfileLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  retryLoadingStudent(): void {
+    this.hasStudentLoadingFailed = false;
+    this.hasStudentProfileLoadingFailed = false;
+    this.loadStudentDetails(this.courseId, this.studentEmail);
   }
 }

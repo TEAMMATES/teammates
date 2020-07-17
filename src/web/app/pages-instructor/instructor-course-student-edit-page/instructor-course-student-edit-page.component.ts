@@ -28,11 +28,13 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
   @Input() isEnabled: boolean = true;
   courseId: string = '';
+  studentEmail: string = '';
   student!: Student;
 
   isTeamnameFieldChanged: boolean = false;
   isEmailFieldChanged: boolean = false;
   isStudentLoading: boolean = false;
+  hasStudentLoadingFailed: boolean = false;
 
   editForm!: FormGroup;
   teamFieldSubscription?: Subscription;
@@ -63,6 +65,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
+      this.studentEmail = queryParams.studentemail;
       this.loadStudentEditDetails(queryParams.courseid, queryParams.studentemail);
     });
   }
@@ -87,6 +90,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       this.student = student;
       this.initEditForm();
     }, (resp: ErrorMessageOutput) => {
+      this.hasStudentLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -195,5 +199,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
+  }
+
+  retryLoadingStudent(): void {
+    this.hasStudentLoadingFailed = false;
+    this.loadStudentEditDetails(this.courseId, this.studentEmail);
   }
 }
