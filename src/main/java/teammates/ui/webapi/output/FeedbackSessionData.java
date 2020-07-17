@@ -36,7 +36,7 @@ public class FeedbackSessionData extends ApiOutput {
     private Boolean isClosingEmailEnabled;
     private Boolean isPublishedEmailEnabled;
 
-    private final long createdAtTimestamp;
+    private long createdAtTimestamp;
     @Nullable
     private final Long deletedAtTimestamp;
 
@@ -205,6 +205,10 @@ public class FeedbackSessionData extends ApiOutput {
         return createdAtTimestamp;
     }
 
+    public void setCreatedAtTimestamp(long timestamp) {
+        createdAtTimestamp = timestamp;
+    }
+
     public Long getDeletedAtTimestamp() {
         return deletedAtTimestamp;
     }
@@ -214,12 +218,19 @@ public class FeedbackSessionData extends ApiOutput {
      */
     public void hideInformationForStudent() {
         setResultVisibleFromTimestamp(null);
-        setGracePeriod(null);
         setSessionVisibleSetting(null);
         setCustomSessionVisibleTimestamp(null);
         setResponseVisibleSetting(null);
         setCustomResponseVisibleTimestamp(null);
+    }
+
+    /**
+     * Hides some attributes.
+     */
+    public void hideInformation() {
         setClosingEmailEnabled(null);
         setPublishedEmailEnabled(null);
+        setGracePeriod(null);
+        setCreatedAtTimestamp(0);
     }
 }

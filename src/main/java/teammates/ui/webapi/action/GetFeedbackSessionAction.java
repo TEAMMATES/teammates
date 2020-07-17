@@ -59,9 +59,12 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
         case STUDENT_RESULT:
             // hide some attributes for submission
+            response.hideInformation();
             response.hideInformationForStudent();
             break;
         case INSTRUCTOR_RESULT:
+            response.hideInformation();
+            break;
         case FULL_DETAIL:
             break;
         default:
