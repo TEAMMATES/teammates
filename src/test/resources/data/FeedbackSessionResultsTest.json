@@ -594,7 +594,7 @@
       "feedbackSessionName": "Standard feedback session",
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "7",
-      "giver": "Team 1.1",
+      "giver": "FSRTest.student2InCourse1@gmail.tmt",
       "recipient": "FSRTest.student4InCourse1@gmail.tmt",
       "giverSection": "Section A",
       "recipientSection": "Section B",

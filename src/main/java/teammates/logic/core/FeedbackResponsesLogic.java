@@ -201,7 +201,8 @@ public final class FeedbackResponsesLogic {
         // Early return if user is giver
         if (question.giverType == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentInTeam(userEmail, response.giver)) {
+            if (roster.isStudentInTeam(userEmail, response.giver)
+                    || roster.isStudentsInSameTeam(userEmail, response.giver)) {
                 return true;
             }
         } else {
