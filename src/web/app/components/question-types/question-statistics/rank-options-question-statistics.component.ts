@@ -17,6 +17,9 @@ import {
 export class RankOptionsQuestionStatisticsComponent extends RankOptionsQuestionStatisticsCalculation
     implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 

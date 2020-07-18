@@ -10,6 +10,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   CourseSectionNames,
@@ -120,8 +121,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
-              commentToCommentRowModel: CommentToCommentRowModelPipe) {
-    super(commentToCommentRowModel, commentService, statusMessageService);
+              commentToCommentRowModel: CommentToCommentRowModelPipe,
+              tableComparatorService: TableComparatorService) {
+    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -307,7 +309,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
-
+      this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });

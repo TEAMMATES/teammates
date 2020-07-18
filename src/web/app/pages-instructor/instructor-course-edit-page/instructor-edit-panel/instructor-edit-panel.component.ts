@@ -8,7 +8,7 @@ import {
  * Model for edit instructor panel.
  */
 export interface InstructorEditPanel {
-  googleId: string;
+  googleId?: string;
   courseId: string;
   email: string;
   isDisplayedToStudents: boolean;

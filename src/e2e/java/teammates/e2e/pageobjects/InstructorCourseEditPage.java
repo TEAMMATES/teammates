@@ -94,7 +94,7 @@ public class InstructorCourseEditPage extends AppPage {
         } else {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
-        assertEquals(getRoleIndex(instructor.role), getInstructorAccessLevel(instrNum));
+        assertEquals(instructor.role, getInstructorRole(instrNum));
         if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
                 && getEditInstructorButton(instrNum).isEnabled()) {
             verifyCustomPrivileges(instrNum, instructor.privileges);
@@ -235,7 +235,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void toggleCustomCourseLevelPrivilege(int instrNum, String privilege) {
-        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             return;
         }
 
@@ -246,7 +246,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
                                                 String privilege) {
-        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             return;
         }
 
@@ -260,7 +260,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
                                                String privilege) {
-        if (getInstructorAccessLevel(instrNum) != INSTRUCTOR_TYPE_CUSTOM) {
+        if (!getInstructorRole(instrNum).equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
             return;
         }
 
@@ -388,15 +388,9 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElement(By.id("displayed-name-instructor-" + instrNum)).getAttribute("value");
     }
 
-    public int getInstructorAccessLevel(int instrNum) {
-        List<WebElement> accessLevelCheckboxes = browser.driver.findElements(
-                By.cssSelector("#access-levels-instructor-" + instrNum + " input"));
-        for (int i = 0; i < accessLevelCheckboxes.size(); i++) {
-            if (accessLevelCheckboxes.get(i).isSelected()) {
-                return i;
-            }
-        }
-        return -1;
+    public String getInstructorRole(int instrNum) {
+        String roleAndDescription = browser.driver.findElement(By.id("role-instructor-" + instrNum)).getText();
+        return roleAndDescription.split(":")[0];
     }
 
     private WebElement getAccessLevels(int instrNum) {

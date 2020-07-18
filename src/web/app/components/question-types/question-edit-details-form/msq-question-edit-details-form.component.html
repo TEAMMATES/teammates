@@ -94,6 +94,6 @@
     </label>
     <input type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMinSelectableOption"
-           (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="2" [max]="maxMinSelectableValue">
+           (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="1" [max]="maxMinSelectableValue">
   </div>
 </div>
