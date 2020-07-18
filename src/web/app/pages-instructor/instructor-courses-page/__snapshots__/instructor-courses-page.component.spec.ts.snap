@@ -402,14 +402,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             class="row align-items-center"
           >
             <div
-              class="col-6 text-white"
+              class="col-4 text-white"
             >
               <b>
                 Recycle Bin
               </b>
             </div>
             <div
-              class="col-6 text-right bin-header-button"
+              class="col-8 text-right bin-header-button"
             >
               
               
@@ -848,14 +848,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             class="row align-items-center"
           >
             <div
-              class="col-6 text-white"
+              class="col-4 text-white"
             >
               <b>
                 Recycle Bin
               </b>
             </div>
             <div
-              class="col-6 text-right bin-header-button"
+              class="col-8 text-right bin-header-button"
             >
               
               <button
