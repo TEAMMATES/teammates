@@ -1069,7 +1069,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 : bundle.getQuestionMissingResponseMap().entrySet()) {
             totalMissingResponse += entry.getValue().size();
         }
-        assertEquals(10, totalResponse);
+        assertEquals(11, totalResponse);
         // student should not see missing responses
         assertEquals(0, totalMissingResponse);
         // student cannot see q6 because there is no viewable response
@@ -1090,6 +1090,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 getResponseId("qn5.resp1", responseBundle) + "={true,false}",
                 getResponseId("qn7.resp1", responseBundle) + "={true,true}",
                 getResponseId("qn7.resp2", responseBundle) + "={true,true}",
+                getResponseId("qn8.resp1", responseBundle) + "={true,true}",
                 getResponseId("qn8.resp2", responseBundle) + "={true,true}");
         AssertHelper.assertContains(expectedStrings, mapString);
         assertEquals(totalResponse, bundle.getResponseVisibilityTable().size());
