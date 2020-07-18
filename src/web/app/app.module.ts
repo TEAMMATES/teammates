@@ -1,8 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -16,6 +16,7 @@ import {
   StatusMesssageModalModule,
 } from './components/status-message/status-messsage-modal/status-messsage-modal.module';
 import { ToastModule } from './components/toast/toast.module';
+import { CustomUrlSerializer } from './custom-url-serializer';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
@@ -23,6 +24,11 @@ import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
 
+const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
+const customUrlSerializerProvider: Provider = {
+  provide: UrlSerializer,
+  useValue: customUrlSerializer,
+};
 const routes: Routes = [
   {
     path: 'web',
@@ -118,7 +124,7 @@ const routes: Routes = [
       registrationStrategy: 'registerImmediately',
     }),
   ],
-  providers: [],
+  providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
