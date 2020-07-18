@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionsData;
 
 /**
@@ -96,10 +97,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
         if (entityType.equals(Const.EntityType.STUDENT)) {
-            responseData.getFeedbackSessions().forEach(feedbackSessionData -> {
-                feedbackSessionData.hideInformation();
-                feedbackSessionData.hideInformationForStudent();
-            });
+            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformationForStudent);
         }
         return new JsonResult(responseData);
     }

@@ -217,6 +217,7 @@ public class FeedbackSessionData extends ApiOutput {
      * Hides some attributes to student.
      */
     public void hideInformationForStudent() {
+        hideInformationForInstructor();
         setResultVisibleFromTimestamp(null);
         setSessionVisibleSetting(null);
         setCustomSessionVisibleTimestamp(null);
@@ -225,9 +226,9 @@ public class FeedbackSessionData extends ApiOutput {
     }
 
     /**
-     * Hides some attributes.
+     * Hides some attributes to instructor without appropriate privilege.
      */
-    public void hideInformation() {
+    public void hideInformationForInstructor() {
         setClosingEmailEnabled(null);
         setPublishedEmailEnabled(null);
         setGracePeriod(null);
