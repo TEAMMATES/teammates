@@ -83,7 +83,7 @@
             </div>
           </div>
           <div *ngIf="question.isTabExpanded" @collapseAnim>
-            <div class="card-body top-padded-small">
+            <div class="card-body top-padded-small table-responsive">
               <tm-single-statistics [responses]="question.questionOutput.allResponses"
                                     [question]="question.questionOutput.feedbackQuestion.questionDetails"
                                     [statistics]="question.questionOutput.questionStatistics"

@@ -212,10 +212,10 @@
     <div class="card bg-light top-padded">
       <div id="deleted-table-heading" class="card-header recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <div class="row align-items-center">
-          <div class="col-6 text-white">
+          <div class="col-4 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-6 text-right bin-header-button">
+          <div class="col-8 text-right bin-header-button">
             <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                     ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
               <i class="fas fa-check"></i> Restore All

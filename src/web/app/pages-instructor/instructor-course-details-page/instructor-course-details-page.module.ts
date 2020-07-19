@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClipboardModule } from 'ngx-clipboard';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { StudentListModule } from '../../components/student-list/student-list.module';
@@ -28,7 +27,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     TeammatesCommonModule,
-    ClipboardModule,
     RouterModule.forChild(routes),
     StudentListModule,
     AjaxPreloadModule,

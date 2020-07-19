@@ -167,10 +167,10 @@
         </div>
         <div class="row margin-top-15px align-items-center"
              *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
-          <div class="offset-1 col-4 text-right">
+          <div class="offset-1 col-md-4 text-md-right">
             The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
           </div>
-          <div class="col-2">
+          <div class="col-md-2">
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">
@@ -183,7 +183,7 @@
               <input type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-md-2">
             <div class="form-check">
               <label class="form-check-label">
                 <input class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"

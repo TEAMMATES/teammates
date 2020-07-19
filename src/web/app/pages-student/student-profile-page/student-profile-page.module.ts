@@ -7,7 +7,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
-import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { StudentProfilePageComponent } from './student-profile-page.component';
 import {
   UploadEditProfilePictureModalComponent,
@@ -26,7 +25,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     StudentProfilePageComponent,
-    GenderFormatPipe,
     UploadEditProfilePictureModalComponent,
   ],
   exports: [

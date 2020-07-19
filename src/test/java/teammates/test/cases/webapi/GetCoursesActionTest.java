@@ -140,9 +140,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         CourseAttributes expectedCourse2 = testData.courses.get("typicalCourse2");
         CourseAttributes expectedCourse3 = testData.courses.get("typicalCourse4");
 
-        verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
-        verifySameCourseData(courses.getCourses().get(1), expectedCourse2);
-        verifySameCourseData(courses.getCourses().get(2), expectedCourse3);
+        verifySameCourseDataStudent(courses.getCourses().get(0), expectedCourse1);
+        verifySameCourseDataStudent(courses.getCourses().get(1), expectedCourse2);
+        verifySameCourseDataStudent(courses.getCourses().get(2), expectedCourse3);
     }
 
     private void verifySameCourseData(CourseData actualCourse, CourseAttributes expectedCourse) {
@@ -152,6 +152,14 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         if (expectedCourse.getDeletedAt() != null) {
             assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
         }
+        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone().getId());
+    }
+
+    private void verifySameCourseDataStudent(CourseData actualCourse, CourseAttributes expectedCourse) {
+        assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
+        assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
+        assertEquals(actualCourse.getCreationTimestamp(), 0);
+        assertEquals(actualCourse.getDeletionTimestamp(), 0);
         assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone().getId());
     }
 

@@ -28,7 +28,7 @@
         </th>
         <th>Response</th>
         <th *ngIf="canResponseHasComment">Comment for Response</th>
-        <th>Actions</th>
+        <th class="no-print">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -53,10 +53,10 @@
         <td *ngIf="canResponseHasComment">
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
-        <td>
+        <td class="no-print">
           <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail"
                                          [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
-          <button class="btn btn-light btn-sm" style="margin-left: 5px; margin-top: 5px; border: 1px solid #CCC;" [disabled]="isDisplayOnly"
+          <button class="btn btn-light btn-sm" style="margin-left: 5px; border: 1px solid #CCC;" [disabled]="isDisplayOnly"
                   *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">
             {{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>

@@ -86,7 +86,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
       class="card border-primary"
     >
       <div
-        class="card-body fill-plain"
+        class="card-body fill-plain text-center text-sm-left"
       >
         <form
           class="form form-horizontal ng-untouched ng-pristine ng-valid"
@@ -97,12 +97,12 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             class="form-row"
           >
             <label
-              class="col-sm-1"
+              class="col-form-label col-auto"
             >
               Student Name:
             </label>
             <div
-              class="col-sm-11"
+              class="col-sm-10"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -116,12 +116,12 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             class="form-row"
           >
             <label
-              class="col-sm-1"
+              class="col-auto col-form-label"
             >
               Section Name:
             </label>
             <div
-              class="col-sm-11"
+              class="col-sm-10"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -135,14 +135,12 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             class="form-row"
           >
             <label
-              class="col-sm-1"
+              class="col-auto col-form-label"
             >
-              Team
-              <br />
-              Name:
+              Team Name:
             </label>
             <div
-              class="col-sm-11"
+              class="col-sm-10"
             >
               <input
                 class="form-control col-form-label ng-untouched ng-pristine ng-valid"
@@ -157,12 +155,12 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             class="form-row"
           >
             <label
-              class="col-sm-1"
+              class="col-auto col-form-label"
             >
               E-mail Address:
             </label>
             <div
-              class="col-sm-11"
+              class="col-sm-10"
             >
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -176,12 +174,12 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             class="form-row"
           >
             <label
-              class="col-sm-1"
+              class="col-auto col-form-label"
             >
               Comments:
             </label>
             <div
-              class="col-sm-11"
+              class="col-sm-10"
             >
               <textarea
                 class="form-control ng-untouched ng-pristine ng-valid"

@@ -8,7 +8,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
   isAddingCourse="false"
   isEnabled="false"
   newCourseId=""
-  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
   timezone={[Function String]}
@@ -103,7 +102,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
@@ -147,7 +146,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
   isAddingCourse="false"
   isEnabled={[Function Boolean]}
   newCourseId=""
-  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
   timezone={[Function String]}
@@ -242,7 +240,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span

@@ -57,13 +57,6 @@
               <i class="fa fa-trash"></i>
               Delete All Students
             </button>
-            <div>
-              <span>Non-English characters not displayed properly in the downloaded file?
-                <span class="btn-link" (click)="openModal(studentTableModal); loadStudentsListCsv(courseDetails.course.courseId)">
-                  Click here.
-                </span>
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -111,22 +104,6 @@
     <div class="modal-footer">
       <button type="button" class="modal-btn-cancel btn-lg " (click)="modal.dismiss()">No, cancel the operation</button>
       <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
-    </div>
-  </ng-template>
-  <ng-template #studentTableModal let-modal>
-    <div class="modal-header">
-      <span>
-        Tips: <span class="btn-link" (click)="copyContent(courseStudentListAsCsv)">Click here</span>
-        to copy the table, then <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to PASTE to your Excel Workbook.
-      </span>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <tm-ajax-preload *ngIf="isLoadingCsv"></tm-ajax-preload>
-      <div [innerHTML]="convertToHtmlTable(courseStudentListAsCsv)"></div>
-      <b>{{ isAjaxForCsvSuccess ? '' : 'There was an error loading data. Please try again.' }}</b>
     </div>
   </ng-template>
 </div>

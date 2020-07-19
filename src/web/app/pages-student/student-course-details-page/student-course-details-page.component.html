@@ -1,118 +1,72 @@
-<h1 class="page-title" *ngIf="course"> {{course.courseName}}</h1>
-<div class="section" *ngIf="isLoadingCourse || course">
-  <div class="col-sm-12">
-    <h4 class="font-weight-bold">Course</h4>
-  </div>
-  <div *tmIsLoading="isLoadingCourse" class="card border-primary">
+<h1 class="page-title" *ngIf="course.courseId">Team Details for {{ course.courseId }}</h1>
+<div class="section" *ngIf="course.courseId">
+  <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
     <div class="card-body fill-plain">
-      <div class="form form-horizontal">
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Name</label>
+      <ng-container *ngIf="course.courseId">
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Course ID:</label>
           </div>
-          <div class="col-8">
-            <span id="course-name">{{course.courseName}}</span>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>ID</label>
-          </div>
-          <div class="col-8">
-            <span id="course-id">{{course.courseId}}</span>
+          <div class="col-9">
+            <span id="course-id">{{ course.courseId }}</span>
           </div>
         </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Timezone</label>
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Course name:</label>
           </div>
-          <div class="col-8">
-            <span id="time-zone">{{course.timeZone}}</span>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Created at</label>
-          </div>
-          <div class="col-8">
-            <span id="created-date">{{course.creationTimestamp | formatDateDetail: course.timeZone}}</span>
+          <div class="col-9">
+            <span id="course-name">{{ course.courseName }}</span>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="col-sm-12" *ngIf="isLoadingInstructor || instructorDetails.length">
-    <h4 class="font-weight-bold">Instructors</h4>
-  </div>
-  <div class="row" *tmIsLoading="isLoadingInstructor">
-    <div class="col-12" *ngIf="instructorDetails && instructorDetails.length">
-      <div class="row">
-        <div class="col-12">
-          <table id="instructor-table" class="table table-striped">
-            <thead>
-            <tr>
-              <th class="font-weight-bold">Name</th>
-              <th class="font-weight-bold">Email</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let instructorDetail of instructorDetails">
-              <td>{{instructorDetail.name}}</td>
-              <td>
-                <a href="mailto:{{instructorDetail.email}}">{{instructorDetail.email}}</a>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section">
-  <div class="col-sm-12" *ngIf="isLoadingStudent || student">
-    <h4 class="font-weight-bold">Self</h4>
-  </div>
-  <div class="card border-primary" *tmIsLoading="isLoadingStudent">
-    <div class="card-body fill-plain" *ngIf="student">
-      <div class="form form-horizontal">
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Name</label>
+      </ng-container>
+      <ng-container *ngIf="instructorDetails && instructorDetails.length">
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Instructors:</label>
           </div>
-          <div class="col-8">
-            <span id="student-name">{{student.name}}</span>
+          <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
+            <div *ngFor="let instructorDetail of instructorDetails">
+              {{ instructorDetail.displayedToStudentsAs }}:
+              <a href="mailto:{{ instructorDetail.email }}">{{ instructorDetail.name }} ({{ instructorDetail.email }})</a>
+            </div>
           </div>
         </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Section</label>
+      </ng-container>
+      <ng-container *ngIf="student.courseId">
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Your section:</label>
           </div>
-          <div class="col-8">
-            <span id="student-section">{{student.sectionName}}</span>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Team</label>
-          </div>
-          <div class="col-8">
-            <span id="student-team">{{student.teamName}}</span>
+          <div class="col-9">
+            <span id="student-section">{{ student.sectionName }}</span>
           </div>
         </div>
-        <div class="form-group row">
-          <div class="col-4 text-right">
-            <label>Email</label>
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Your team:</label>
           </div>
-          <div class="col-8">
-            <span id="student-email">{{student.email}}</span>
+          <div class="col-9">
+            <span id="student-team">{{ student.teamName }}</span>
           </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Your name:</label>
+          </div>
+          <div class="col-9">
+            <span id="student-name">{{ student.name }}</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3 text-right">
+            <label>Your email:</label>
+          </div>
+          <div class="col-9">
+            <span id="student-email">{{ student.email }}</span>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
@@ -131,59 +85,37 @@
 </div>
 
 <div class="section">
-  <div class="col-sm-12" *ngIf="isLoadingTeammates || teammateProfiles.length">
-    <h4 class="font-weight-bold">Team Profiles</h4>
-  </div>
-  <div *tmIsLoading="isLoadingTeammates">
-    <div *ngIf="teammateProfiles.length">
-      <div class="row" *ngFor="let teammateProfile of teammateProfiles; let i = index">
-        <div class="col-12">
-          <div class="row">
-            <div class="col-md-2 col-3">
-              <img src="{{teammateProfile.photoUrl}}"
-                   class="profile-pic float-left" (error)="setDefaultPic(teammateProfile)">
+  <div class="row top-padded">
+    <div class="col-md-2" *ngIf="teammateProfiles.length">
+      <strong>Your teammates:</strong>
+    </div>
+    <div class="col-md-10" *tmIsLoading="isLoadingTeammates">
+      <table>
+        <tbody>
+        <tr *ngFor="let teammateProfile of teammateProfiles; let i = index">
+          <td class="team-member-photo-cell">
+            <img src="{{ teammateProfile.photoUrl }}" class="profile-pic" (error)="setDefaultPic(teammateProfile)">
+          </td>
+          <td class="team-member-profile-cell" id="teammates-details-{{ i }}">
+            <div>
+              <label>Name:</label> {{ teammateProfile.name }}
             </div>
-            <div class="col-md-10 col-9">
-              <table id="teammates-table-{{ i }}" class="table table-striped">
-                <tbody>
-                <tr>
-                  <td class="font-weight-bold">Name</td>
-                  <td>
-                  <span>
-                    {{teammateProfile.studentProfile.shortName}}
-                  </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold">Email</td>
-                  <td>
-                    <a href="mailto:{{teammateProfile.studentProfile.email}}">{{teammateProfile.studentProfile.email}}</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold">Gender</td>
-                  <td>
-                    <span>{{teammateProfile.studentProfile.gender}}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold">Institution</td>
-                  <td>
-                    <span>{{teammateProfile.studentProfile.institute}}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="font-weight-bold">Nationality</td>
-                  <td>
-                    <span>{{teammateProfile.studentProfile.nationality}}</span>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+            <div>
+              <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{ teammateProfile.email }}</a>
             </div>
-          </div>
-        </div>
-      </div>
+            <div *ngIf="teammateProfile.gender">
+              <label>Gender:</label> {{ teammateProfile.gender | genderFormat }}
+            </div>
+            <div *ngIf="teammateProfile.nationality">
+              <label>Nationality:</label> {{ teammateProfile.nationality }}
+            </div>
+            <div *ngIf="teammateProfile.institute">
+              <label>Institute:</label> {{ teammateProfile.institute }}
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

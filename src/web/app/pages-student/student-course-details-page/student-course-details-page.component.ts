@@ -16,8 +16,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 /**
  * A student profile which also has the profile picture URL
  */
-export interface StudentProfileWithPicture {
-  studentProfile: StudentProfile;
+export interface StudentProfileWithPicture extends StudentProfile {
   photoUrl: string;
 }
 
@@ -134,11 +133,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                     + `?courseid=${courseId}&studentemail=${student.email}`;
 
                   const newTeammateProfile: StudentProfileWithPicture = {
-                    studentProfile: {
-                      ...studentProfile,
-                      email: student.email,
-                      shortName: student.name,
-                    },
+                    ...studentProfile,
+                    email: student.email,
+                    name: student.name,
                     photoUrl : newPhotoUrl,
                   };
 
@@ -198,30 +195,30 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param sortOption: option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
-      ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
-    return ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }): number => {
+      ((a: StudentProfile, b: StudentProfile) => number) {
+    return ((a: StudentProfile, b: StudentProfile): number => {
       let strA: string;
       let strB: string;
       switch (sortOption) {
         case SortBy.STUDENT_NAME:
-          strA = a.studentProfile.shortName;
-          strB = b.studentProfile.shortName;
+          strA = a.name;
+          strB = b.name;
           break;
         case SortBy.EMAIL:
-          strA = a.studentProfile.email;
-          strB = b.studentProfile.email;
+          strA = a.email;
+          strB = b.email;
           break;
         case SortBy.STUDENT_GENDER:
-          strA = a.studentProfile.gender;
-          strB = b.studentProfile.gender;
+          strA = a.gender;
+          strB = b.gender;
           break;
         case SortBy.INSTITUTION:
-          strA = a.studentProfile.institute;
-          strB = b.studentProfile.institute;
+          strA = a.institute;
+          strB = b.institute;
           break;
         case SortBy.NATIONALITY:
-          strA = a.studentProfile.nationality;
-          strB = b.studentProfile.nationality;
+          strA = a.nationality;
+          strB = b.nationality;
           break;
         default:
           strA = '';

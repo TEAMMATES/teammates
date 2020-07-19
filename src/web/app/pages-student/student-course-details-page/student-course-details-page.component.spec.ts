@@ -71,15 +71,13 @@ describe('StudentCourseDetailsPageComponent', () => {
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
-        studentProfile: {
-          email: 'iam2@hello.com',
-          gender: Gender.MALE,
-          institute: 'nus',
-          moreInfo: 'Misc',
-          name: '2',
-          nationality: 'Andorran',
-          shortName: 'I am 2',
-        },
+        email: 'iam2@hello.com',
+        gender: Gender.MALE,
+        institute: 'nus',
+        moreInfo: 'Misc',
+        name: '2',
+        nationality: 'Andorran',
+        shortName: 'I am 2',
       },
     ];
 
