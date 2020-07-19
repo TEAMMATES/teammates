@@ -79,7 +79,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseStudentListAsCsv = 'a,b';
     component.isLoadingCsv = false;
     component.isStudentsLoading = false;
-    component.isAjaxForCsvSuccess = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -114,7 +113,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
     component.isLoadingCsv = false;
-    component.isAjaxForCsvSuccess = false;
     component.isStudentsLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

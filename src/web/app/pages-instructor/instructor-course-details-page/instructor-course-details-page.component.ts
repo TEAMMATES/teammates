@@ -59,7 +59,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   courseStudentListAsCsv: string = '';
 
   isLoadingCsv: boolean = false;
-  isAjaxForCsvSuccess: boolean = true;
   isStudentsLoading: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,

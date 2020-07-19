@@ -21,125 +21,30 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
-  <h1
-    class="page-title"
-  >
-     
-  </h1><div
+  <div
     class="section"
   >
     <div
-      class="col-sm-12"
+      class="row top-padded"
     >
-      <h4
-        class="font-weight-bold"
-      >
-        Course
-      </h4>
-    </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
+      
+      
+      <tm-loading-spinner>
         <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
+          class="loading-container"
         >
-          Loading...
+          <div
+            class="row spinner-border text-primary"
+            role="status"
+          />
+          <div
+            class="row text-secondary"
+          >
+            Loading...
+          </div>
         </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Instructors
-      </h4>
+      </tm-loading-spinner>
     </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Self
-      </h4>
-    </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Team Profiles
-      </h4>
-    </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
   </div>
 </tm-student-course-details-page>
 `;
@@ -165,103 +70,23 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
-  <h1
-    class="page-title"
-  >
-     
-  </h1><div
+  <div
     class="section"
   >
     <div
-      class="col-sm-12"
+      class="row top-padded"
     >
-      <h4
-        class="font-weight-bold"
-      >
-        Course
-      </h4>
-    </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Instructors
-      </h4>
-    </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Self
-      </h4>
-    </div>
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
-        <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
-        >
-          Loading...
-        </div>
-      </div>
-    </tm-loading-spinner>
-  </div><div
-    class="section"
-  >
-    
-    
-    <div>
       
+      
+      <div
+        class="col-md-10"
+      >
+        <table>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </tm-student-course-details-page>
@@ -291,280 +116,167 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   <h1
     class="page-title"
   >
-     Sample Course 101
+    Team Details for 1.1.c-demo2
   </h1><div
     class="section"
   >
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Course
-      </h4>
-    </div>
     
     <div
-      class="card border-primary"
+      class="card"
     >
       <div
         class="card-body fill-plain"
       >
-        <div
-          class="form form-horizontal"
-        >
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Name
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="course-name"
-              >
-                Sample Course 101
-              </span>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                ID
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="course-id"
-              >
-                1.1.c-demo2
-              </span>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Timezone
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="time-zone"
-              >
-                UTC
-              </span>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Created at
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="created-date"
-              >
-                Wed, 13 Mar 2019, 10:15 AM UTC
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Instructors
-      </h4>
-    </div>
-    
-    <div
-      class="row"
-    >
-      
-      <div
-        class="col-12"
-      >
+        
+        
         <div
           class="row"
         >
           <div
-            class="col-12"
+            class="col-3 text-right"
           >
-            <table
-              class="table table-striped"
-              id="instructor-table"
+            <label>
+              Course ID:
+            </label>
+          </div>
+          <div
+            class="col-9"
+          >
+            <span
+              id="course-id"
             >
-              <thead>
-                <tr>
-                  <th
-                    class="font-weight-bold"
-                  >
-                    Name
-                  </th>
-                  <th
-                    class="font-weight-bold"
-                  >
-                    Email
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                
-                <tr>
-                  <td>
-                    1
-                  </td>
-                  <td>
-                    <a
-                      href="mailto:1@1.com"
-                    >
-                      1@1.com
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              1.1.c-demo2
+            </span>
           </div>
         </div>
-      </div>
-    </div>
-  </div><div
-    class="section"
-  >
-    
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Self
-      </h4>
-    </div>
-    
-    <div
-      class="card border-primary"
-    >
-      
-      <div
-        class="card-body fill-plain"
-      >
         <div
-          class="form form-horizontal"
+          class="row"
         >
           <div
-            class="form-group row"
+            class="col-3 text-right"
           >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Name
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="student-name"
-              >
-                1
-              </span>
-            </div>
+            <label>
+              Course name:
+            </label>
           </div>
           <div
-            class="form-group row"
+            class="col-9"
           >
-            <div
-              class="col-4 text-right"
+            <span
+              id="course-name"
             >
-              <label>
-                Section
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="student-section"
-              >
-                Tutorial Group 2
-              </span>
-            </div>
+              Sample Course 101
+            </span>
+          </div>
+        </div>
+        
+        
+        <div
+          class="row"
+        >
+          <div
+            class="col-3 text-right"
+          >
+            <label>
+              Instructors:
+            </label>
           </div>
           <div
-            class="form-group row"
+            class="col-9"
+            id="instructors"
+            style="margin-bottom: .5rem;"
           >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Team
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span
-                id="student-team"
+            
+            <div>
+               Instructor: 
+              <a
+                href="mailto:1@1.com"
               >
-                Team 2
-              </span>
+                1 (1@1.com)
+              </a>
             </div>
           </div>
+        </div>
+        
+        
+        <div
+          class="row"
+        >
           <div
-            class="form-group row"
+            class="col-3 text-right"
           >
-            <div
-              class="col-4 text-right"
+            <label>
+              Your section:
+            </label>
+          </div>
+          <div
+            class="col-9"
+          >
+            <span
+              id="student-section"
             >
-              <label>
-                Email
-              </label>
-            </div>
-            <div
-              class="col-8"
+              Tutorial Group 2
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="col-3 text-right"
+          >
+            <label>
+              Your team:
+            </label>
+          </div>
+          <div
+            class="col-9"
+          >
+            <span
+              id="student-team"
             >
-              <span
-                id="student-email"
-              >
-                1@1.com
-              </span>
-            </div>
+              Team 2
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="col-3 text-right"
+          >
+            <label>
+              Your name:
+            </label>
+          </div>
+          <div
+            class="col-9"
+          >
+            <span
+              id="student-name"
+            >
+              1
+            </span>
+          </div>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="col-3 text-right"
+          >
+            <label>
+              Your email:
+            </label>
+          </div>
+          <div
+            class="col-9"
+          >
+            <span
+              id="student-email"
+            >
+              1@1.com
+            </span>
           </div>
         </div>
       </div>
@@ -617,114 +329,79 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   </div><div
     class="section"
   >
-    
     <div
-      class="col-sm-12"
+      class="row top-padded"
     >
-      <h4
-        class="font-weight-bold"
-      >
-        Team Profiles
-      </h4>
-    </div>
-    
-    <div>
       
-      <div>
-        
-        <div
-          class="row"
-        >
-          <div
-            class="col-12"
-          >
-            <div
-              class="row"
-            >
-              <div
-                class="col-md-2 col-3"
+      <div
+        class="col-md-2"
+      >
+        <strong>
+          Your teammates:
+        </strong>
+      </div>
+      
+      <div
+        class="col-md-10"
+      >
+        <table>
+          <tbody>
+            
+            <tr>
+              <td
+                class="team-member-photo-cell"
               >
                 <img
-                  class="profile-pic float-left"
+                  class="profile-pic"
                   src="/assets/images/profile_picture_default.png"
                 />
-              </div>
-              <div
-                class="col-md-10 col-9"
+              </td>
+              <td
+                class="team-member-profile-cell"
+                id="teammates-details-0"
               >
-                <table
-                  class="table table-striped"
-                  id="teammates-table-0"
-                >
-                  <tbody>
-                    <tr>
-                      <td
-                        class="font-weight-bold"
-                      >
-                        Name
-                      </td>
-                      <td>
-                        <span>
-                           I am 2 
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="font-weight-bold"
-                      >
-                        Email
-                      </td>
-                      <td>
-                        <a
-                          href="mailto:iam2@hello.com"
-                        >
-                          iam2@hello.com
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="font-weight-bold"
-                      >
-                        Gender
-                      </td>
-                      <td>
-                        <span>
-                          MALE
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="font-weight-bold"
-                      >
-                        Institution
-                      </td>
-                      <td>
-                        <span>
-                          nus
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="font-weight-bold"
-                      >
-                        Nationality
-                      </td>
-                      <td>
-                        <span>
-                          Andorran
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+                <div>
+                  <label>
+                    Name:
+                  </label>
+                   2 
+                </div>
+                <div>
+                  <label>
+                    Email:
+                  </label>
+                   
+                  <a
+                    href="mailto:iam2@hello.com"
+                  >
+                    iam2@hello.com
+                  </a>
+                </div>
+                
+                <div>
+                  <label>
+                    Gender:
+                  </label>
+                   Male 
+                </div>
+                
+                <div>
+                  <label>
+                    Nationality:
+                  </label>
+                   Andorran 
+                </div>
+                
+                <div>
+                  <label>
+                    Institute:
+                  </label>
+                   nus 
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
