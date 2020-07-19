@@ -139,6 +139,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
+    this.teammateProfilesInit = this.teammateProfiles;
   }
 
   /**
