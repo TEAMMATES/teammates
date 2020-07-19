@@ -81,14 +81,14 @@
   <div class="card bg-light border-info top-margin" *ngFor="let sectionLevel of permission.sectionLevel; let i = index">
     <div class="card-header bg-info text-white">
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col col-sm-2">
           <p>
             <strong>
               But in section(s)
             </strong>
           </p>
         </div>
-        <div class="col-sm-9">
+        <div class="col-6 col-sm-9">
           <div id="custom-sections" class="row">
             <div *ngFor="let section of this.allSections" class="col">
               <label>
@@ -100,7 +100,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-1">
+        <div class="col col-sm-1">
           <button id="btn-custom-sections-cancel" type="button" class="btn btn-danger" (click)="removeSectionLevelPermission(i)"><i class="fa fa-trash" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -149,7 +149,7 @@
       <button *ngIf="sectionLevel.sessionLevel.length != 0"
               class="btn btn-link" (click)="deleteSessionLevelPermission(i)">Delete session-level permissions</button>
 
-      <table id="custom-sessions" class="table table-striped" *ngIf="sectionLevel.sessionLevel.length != 0">
+      <table id="custom-sessions" class="table table-striped table-responsive" *ngIf="sectionLevel.sessionLevel.length != 0">
         <thead>
         <tr>
           <th scope="col">Session Name</th>
