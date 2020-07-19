@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -180,7 +180,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
   }
@@ -538,9 +539,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.feedbackQuestionModels.set(updatedQuestion.feedbackQuestionId, updatedQuestion);
           this.loadResponseStatusForQuestion(this.questionEditFormModels[index]);
 
-          // reload questions in new order if needed
+          // shift question if needed
           if (originalQuestionNumber !== updatedQuestion.questionNumber) {
-            this.reloadQuestionForms();
+            // move question form
+            this.moveQuestionForm(
+                originalQuestionNumber - 1, updatedQuestion.questionNumber - 1);
+            this.normalizeQuestionNumberInQuestionForms();
           }
 
           this.statusMessageService.showSuccessToast('The changes to the question have been updated.');
@@ -548,11 +552,20 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Reloads feedback questions.
+   * Moves question edit form from the original position to the new position.
    */
-  private reloadQuestionForms(): void {
-    this.questionEditFormModels = [];
-    this.loadFeedbackQuestions();
+  private moveQuestionForm(originalPosition: number, newPosition: number): void {
+    this.questionEditFormModels.splice(newPosition, 0,
+        this.questionEditFormModels.splice(originalPosition, 1)[0]);
+
+    // all expanded questions that were moved upwards must be re-expanded to reload rich text editor
+    const start: number = Math.min(originalPosition, newPosition);
+    const movedExpandedQuestions: QuestionEditFormModel[] = this.questionEditFormModels
+      .slice(start, newPosition + 1)
+      .filter((model: QuestionEditFormModel) => !model.isCollapsed);
+    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => model.isCollapsed = true);
+    this.changeDetectorRef.detectChanges();
+    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => model.isCollapsed = false);
   }
 
   /**
@@ -744,7 +757,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
 
-          this.reloadQuestionForms();
+          this.moveQuestionForm(
+              this.questionEditFormModels.length - 1, newQuestion.questionNumber - 1);
+          this.normalizeQuestionNumberInQuestionForms();
           this.isAddingQuestionPanelExpanded = false;
 
           this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
