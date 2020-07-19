@@ -1,6 +1,8 @@
 package teammates.e2e.pageobjects;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Stack;
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -135,6 +137,9 @@ public class Browser {
                 // Log in manually to teammates to use that log in data for e2e tests.
                 ProfilesIni profileIni = new ProfilesIni();
                 profile = profileIni.getProfile(TestProperties.FIREFOX_PROFILE_NAME);
+                if (profile == null) {
+                    throw new RuntimeException("Firefox profile not found. Failed to create webdriver.");
+                }
             }
 
             // Allow CSV files to be download automatically, without a download popup.
@@ -159,6 +164,10 @@ public class Browser {
             if (!TestProperties.isDevServer()) {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
+                if (TestProperties.CHROME_USER_DATA_PATH.isEmpty()
+                        || !Files.exists(Paths.get(TestProperties.CHROME_USER_DATA_PATH))) {
+                    throw new RuntimeException("Chrome user data path not found. Failed to create webdriver.");
+                }
                 options.addArguments("user-data-dir=" + TestProperties.CHROME_USER_DATA_PATH);
             }
 
