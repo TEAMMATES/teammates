@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.CoursesData;
 
 /**
@@ -48,7 +49,9 @@ public class GetCoursesAction extends Action {
 
     private ActionResult getStudentCourses() {
         List<CourseAttributes> courses = logic.getCoursesForStudentAccount(userInfo.id);
-        return new JsonResult(new CoursesData(courses));
+        CoursesData coursesData = new CoursesData(courses);
+        coursesData.getCourses().forEach(CourseData::hideInformationForStudent);
+        return new JsonResult(coursesData);
     }
 
     private ActionResult getInstructorCourses() {

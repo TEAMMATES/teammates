@@ -286,6 +286,14 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertNull(data.getCustomResponseVisibleTimestamp());
         assertNull(data.getIsClosingEmailEnabled());
         assertNull(data.getIsPublishedEmailEnabled());
+        assertEquals(data.getCreatedAtTimestamp(), 0);
+    }
+
+    private void assertInformationHidden(FeedbackSessionData data) {
+        assertNull(data.getGracePeriod());
+        assertNull(data.getIsClosingEmailEnabled());
+        assertNull(data.getIsPublishedEmailEnabled());
+        assertEquals(data.getCreatedAtTimestamp(), 0);
     }
 
     private void assertPartialInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
@@ -308,12 +316,13 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
         }
 
-        assertEquals(expectedSession.getCreatedTime().toEpochMilli(), data.getCreatedAtTimestamp());
         if (expectedSession.getDeletedTime() == null) {
             assertNull(data.getDeletedAtTimestamp());
         } else {
             assertEquals(expectedSession.getDeletedTime().toEpochMilli(), data.getDeletedAtTimestamp().longValue());
         }
+
+        assertInformationHidden(data);
     }
 
     private void assertAllInformationMatch(FeedbackSessionData data, FeedbackSessionAttributes expectedSession) {
