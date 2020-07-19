@@ -3,6 +3,8 @@ package teammates.e2e.pageobjects;
 import java.util.ArrayList;
 import java.util.List;
 
+import teammates.e2e.util.TestProperties;
+
 /**
  * Manage the pool of {@link Browser} instances.
  * This class is thread-safe.
@@ -39,7 +41,10 @@ public final class BrowserPool {
     /**
      * Returns a Browser object ready to be used.
      */
-    public static Browser getBrowser() {
+    public static Browser getBrowser(String name) {
+        if (TestProperties.BROWSER_SAUCELABS.equals(TestProperties.BROWSER)) {
+            return new Browser(name);
+        }
         return getInstance().requestInstance();
     }
 
@@ -47,11 +52,15 @@ public final class BrowserPool {
      * Releases a Browser instance back to the pool, ready to be reused.
      */
     public static void release(Browser browser) {
-        BrowserPool pool = getInstance();
-        // Synchronized to ensure thread-safety
-        synchronized (pool) {
-            browser.isInUse = false;
-            pool.notifyAll();
+        if (TestProperties.BROWSER_SAUCELABS.equals(TestProperties.BROWSER)) {
+            browser.driver.quit();
+        } else {
+            BrowserPool pool = getInstance();
+            // Synchronized to ensure thread-safety
+            synchronized (pool) {
+                browser.isInUse = false;
+                pool.notifyAll();
+            }
         }
     }
 
@@ -69,7 +78,7 @@ public final class BrowserPool {
 
                 // If less than capacity, create new object
                 if (pool.size() < CAPACITY) {
-                    Browser browser = new Browser();
+                    Browser browser = new Browser(null);
                     browser.isInUse = true;
                     pool.add(browser);
                     return browser;

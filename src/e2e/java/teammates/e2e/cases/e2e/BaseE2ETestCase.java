@@ -3,6 +3,8 @@ package teammates.e2e.cases.e2e;
 import java.io.File;
 import java.io.IOException;
 
+import org.openqa.selenium.JavascriptExecutor;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -37,7 +39,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     protected void prepareBrowser() {
-        browser = BrowserPool.getBrowser();
+        browser = BrowserPool.getBrowser(getClass().getSimpleName());
     }
 
     protected abstract void prepareTestData() throws Exception;
@@ -48,13 +50,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     @AfterClass(alwaysRun = true)
-    public void baseClassTearDown() {
-        releaseBrowser();
+    public void baseClassTearDown(ITestContext context) {
+        releaseBrowser(context.getFailedTests().size() == 0);
     }
 
-    protected void releaseBrowser() {
+    protected void releaseBrowser(boolean isSuccess) {
         if (browser == null) {
             return;
+        }
+        if (TestProperties.BROWSER_SAUCELABS.equals(TestProperties.BROWSER)) {
+            ((JavascriptExecutor) browser.driver).executeScript("sauce:job-result=" + (isSuccess ? "passed" : "failed"));
         }
         BrowserPool.release(browser);
     }

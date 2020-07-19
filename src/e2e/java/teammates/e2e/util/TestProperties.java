@@ -79,6 +79,8 @@ public final class TestProperties {
     public static final String BROWSER_CHROME = "chrome";
     /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_FIREFOX = "firefox";
+    /** One of the allowed values of "test.selenium.browser" in test.properties file. */
+    public static final String BROWSER_SAUCELABS = "saucelabs";
 
     /** The value of "test.firefox.path" in test.properties file. */
     public static final String FIREFOX_PATH;
@@ -145,7 +147,7 @@ public final class TestProperties {
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 
-            JMETER_HOME = prop.getProperty("test.jmeter.home").toLowerCase();
+            JMETER_HOME = prop.getProperty("test.jmeter.home", "").toLowerCase();
             JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties", "").toLowerCase();
 
         } catch (IOException | NumberFormatException e) {
