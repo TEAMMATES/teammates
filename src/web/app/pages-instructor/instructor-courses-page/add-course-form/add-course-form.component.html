@@ -28,7 +28,7 @@
           <select id="new-time-zone" class="form-control" [(ngModel)]="timezone" ngbTooltip="The time zone for the course. You should not
                 need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                 to match the current time offset in your area, including clock changes due to daylight saving time.">
-            <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+            <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
           <span class="input-group-btn" style="margin-left: 5px;">
             <button class="btn btn-primary" (click)="onAutoDetectTimezone()">Auto Detect</button>
@@ -43,10 +43,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #newCourseMessageTemplate>
-  The course has been added. Click <a routerLink="/web/instructor/courses/enroll" [queryParams]="{ courseid: course.courseId }">here</a>
-  to add students to the course or click <a routerLink="/web/instructor/courses/edit" [queryParams]="{ courseid: course.courseId }">here</a>
-  to add other instructors.<br>If you don't see the course in the list below,
-  please refresh the page after a few moments.
-</ng-template>

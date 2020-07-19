@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
-import { Course } from '../../../../types/api-output';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,29 +16,21 @@ describe('AddCourseFormComponent', () => {
   let component: AddCourseFormComponent;
   let fixture: ComponentFixture<AddCourseFormComponent>;
 
-  const testDate: Date = new Date('2020-13-05T08:15:30');
   const testCourseId: string = 'CS3281';
   const testCourseName: string = 'Valid course';
   const testTimeZone: string = 'UTC';
-  const testCourse: Course =  {
-    courseId: testCourseId,
-    courseName: testCourseName,
-    timeZone: testTimeZone,
-    creationTimestamp: testDate.getTime(),
-    deletionTimestamp: 0,
-  };
   const timeZoneOffsets1: Record<string, number> = { GMT: 0 };
 
   const spyStatusMessageService: any = {
     showErrorToast: jest.fn(),
-    showSuccessToastTemplate: jest.fn(),
+    showSuccessToast: jest.fn(),
   };
   const timezoneServiceStub: any = {
     getTzOffsets: jest.fn(() => timeZoneOffsets1),
     guessTimezone: jest.fn(() => 'UTC'),
   };
   const spyCourseService: any = {
-    createCourse: jest.fn(() => of(testCourse)),
+    createCourse: jest.fn(() => of({})),
   };
 
   beforeEach(async(() => {
@@ -99,7 +90,6 @@ describe('AddCourseFormComponent', () => {
     component.newCourseName = testCourseName;
     component.onSubmit();
     fixture.detectChanges();
-    expect(spyStatusMessageService.showSuccessToastTemplate).toHaveBeenCalled();
-    expect(component.course).toEqual(testCourse);
+    expect(spyStatusMessageService.showSuccessToast).toHaveBeenCalled();
   });
 });
