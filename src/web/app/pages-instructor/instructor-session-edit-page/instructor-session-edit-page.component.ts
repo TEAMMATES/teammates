@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -180,7 +180,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
   }
@@ -556,6 +557,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   private moveQuestionForm(originalPosition: number, newPosition: number): void {
     this.questionEditFormModels.splice(newPosition, 0,
         this.questionEditFormModels.splice(originalPosition, 1)[0]);
+
+    // all expanded questions that were moved upwards must be re-expanded to reload rich text editor
+    const start: number = Math.min(originalPosition, newPosition);
+    const movedExpandedQuestions: QuestionEditFormModel[] = this.questionEditFormModels
+      .slice(start, newPosition + 1)
+      .filter((model: QuestionEditFormModel) => !model.isCollapsed);
+    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => model.isCollapsed = true);
+    this.changeDetectorRef.detectChanges();
+    movedExpandedQuestions.forEach((model: QuestionEditFormModel) => model.isCollapsed = false);
   }
 
   /**
