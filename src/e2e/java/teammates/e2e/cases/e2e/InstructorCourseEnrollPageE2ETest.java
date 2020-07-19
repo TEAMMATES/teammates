@@ -7,7 +7,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.

@@ -7,9 +7,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.StudentCourseDetailsPage;
-import teammates.e2e.pageobjects.StudentHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_COURSE_DETAILS_PAGE}.
@@ -28,7 +26,7 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withCourseId("SCDetailsE2eT.CS2104")
                 .withUserId(testData.students.get("SCDetailsE2eT.alice").googleId);
-        StudentCourseDetailsPage detailsPage =  loginAdminToPage(url, StudentCourseDetailsPage.class);
+        StudentCourseDetailsPage detailsPage = loginAdminToPage(url, StudentCourseDetailsPage.class);
 
         ______TS("verify loaded data");
         InstructorAttributes[] instructors = { testData.instructors.get("SCDetailsE2eT.instr"),

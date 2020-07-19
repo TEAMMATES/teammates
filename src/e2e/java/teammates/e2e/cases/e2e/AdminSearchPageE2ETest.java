@@ -12,9 +12,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AdminSearchPage;
-import teammates.e2e.pageobjects.AppPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
