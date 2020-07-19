@@ -342,15 +342,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   /**
-   * Reset page to default view
-   */
-  hideEnrollResults(): void {
-    this.showEnrollResults = false;
-    this.statusMessage.pop();
-    window.scroll(0, 0);
-  }
-
-  /**
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {

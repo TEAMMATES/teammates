@@ -13,6 +13,7 @@ import { QuestionTypeNamePipe } from './question-type-name.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { StripHtmlTagsPipe } from './strip-html-tags.pipe';
 import { StudentNameWithPhotoComponent } from './student-name/student-name-with-photo.component';
+import { GenderFormatPipe } from './student-profile-gender.pipe';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popover.component';
 
@@ -30,6 +31,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
     FormatDateDetailPipe,
+    GenderFormatPipe,
     SafeHtmlPipe,
     StripHtmlTagsPipe,
     QuestionTypeNamePipe,
@@ -44,6 +46,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
     FormatDateDetailPipe,
+    GenderFormatPipe,
     SafeHtmlPipe,
     StripHtmlTagsPipe,
     QuestionTypeNamePipe,
