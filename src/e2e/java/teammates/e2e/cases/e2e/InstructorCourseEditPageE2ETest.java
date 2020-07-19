@@ -39,8 +39,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withUserId(instructors[2].googleId)
                 .withCourseId(course.getId());
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCourseEditPage editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
+        InstructorCourseEditPage editPage = loginAdminToPage(url, InstructorCourseEditPage.class);
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();

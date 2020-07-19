@@ -26,8 +26,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Log in with filled profile values");
 
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE).withUserId("SProfUiT.student");
-        loginAdminToPage(url, StudentHomePage.class);
-        StudentProfilePage profilePage = AppPage.getNewPageInstance(browser, url, StudentProfilePage.class);
+        StudentProfilePage profilePage =  loginAdminToPage(url, StudentProfilePage.class);
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");

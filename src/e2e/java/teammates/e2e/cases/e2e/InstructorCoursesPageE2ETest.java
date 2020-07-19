@@ -50,8 +50,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         String instructorId = testData.accounts.get("instructor").getGoogleId();
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        InstructorCoursesPage coursesPage = loginAdminToPage(url, InstructorCoursesPage.class);
         coursesPage.waitForPageToLoad();
 
         ______TS("verify loaded data");

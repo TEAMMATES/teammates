@@ -15,6 +15,7 @@ import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.BrowserPool;
+import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.TestProperties;
@@ -86,7 +87,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         // To log in, log in manually to teammates in your browser before running e2e tests.
         // Refer to teammates.e2e.pageobjects.Browser for more information.
         if (!TestProperties.isDevServer()) {
-            return null;
+            // skip login and navigate to the desired page.
+            return AppPage.getNewPageInstance(browser, url, typeOfPage);
         }
 
         if (browser.isAdminLoggedIn) {
@@ -100,7 +102,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         }
 
         // logout and attempt to load the requested URL. This will be
-        // redirected to a dev-server/google login page
+        // redirected to a dev-server login page
         logout();
         browser.driver.get(url.toAbsoluteString());
 
@@ -115,13 +117,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
             adminUsername = userId;
         }
 
-        // login based on the login page type
-        LoginPage loginPage = AppPage.createCorrectLoginPageType(browser);
+        LoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
         loginPage.loginAsAdmin(adminUsername, adminPassword);
 
-        // After login, the browser should be redirected to the page requested originally.
-        // No need to reload. In fact, reloading might results in duplicate request to the server.
-        return AppPage.getNewPageInstance(browser, typeOfPage);
+        return AppPage.getNewPageInstance(browser, url, typeOfPage);
     }
 
     /**
