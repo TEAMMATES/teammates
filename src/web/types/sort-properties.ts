@@ -63,6 +63,11 @@ export enum SortBy {
     COURSE_CREATION_DATE,
 
     /**
+     * The deletion time of the course.
+     */
+    COURSE_DELETION_DATE,
+
+    /**
      * Completion status of feedback session.
      */
     SESSION_COMPLETION_STATUS,
