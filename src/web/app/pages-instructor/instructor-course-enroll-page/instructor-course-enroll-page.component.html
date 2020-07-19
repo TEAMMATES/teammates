@@ -249,17 +249,7 @@
 </div>
 <hr>
 <div id="results-panel" *ngIf="coursePresent && showEnrollResults">
-  <div class="row">
-    <div class="col-md-10">
-      <h1>Enrollment Results for {{ courseid }}</h1>
-    </div>
-    <div class="col-md-2">
-      <button type="button"
-              class="btn btn-info float-right"
-              (click)="hideEnrollResults()">
-        Hide Enroll Results</button>
-    </div>
-  </div>
+  <h1>Enrollment Results for {{ courseid }}</h1>
   <div *ngFor="let enrollResultPanel of enrollResultPanelList">
     <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
       <div class="card-header" [ngClass]="{'bg-primary': enrollResultPanel.status === EnrollStatus.NEW,
@@ -270,7 +260,7 @@
        EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">
         {{ enrollResultPanel.messageForEnrollmentStatus }}
       </div>
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered table-responsive">
         <thead>
           <tr>
             <th>Section</th>

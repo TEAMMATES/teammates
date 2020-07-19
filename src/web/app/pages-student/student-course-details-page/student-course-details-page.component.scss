@@ -8,11 +8,7 @@
 
 .profile-pic {
   max-width: 100%;
-  max-height: 240px;
-}
-
-.form-group.row {
-  border-bottom: 1px solid #CCC;
+  max-height: 150px;
 }
 
 .fill-plain {
@@ -21,4 +17,21 @@
 
 label {
   font-weight: bold;
+}
+
+.top-padded {
+  margin-top: 20px;
+}
+
+.team-member-photo-cell {
+  padding-bottom: 10px;
+}
+
+.team-member-profile-cell {
+  padding-left: 30px;
+  vertical-align: middle;
+
+  label {
+    margin-bottom: 2px;
+  }
 }

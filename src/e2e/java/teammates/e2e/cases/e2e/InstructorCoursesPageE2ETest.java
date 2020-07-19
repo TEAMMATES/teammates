@@ -68,14 +68,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("add new course");
         CourseAttributes[] activeCoursesWithNewCourse = { courses[0], newCourse };
-        String[] expectedLinks = { Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + "?courseid=" + newCourse.getId(),
-                Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?courseid=" + newCourse.getId() };
         coursesPage.addCourse(newCourse);
 
-        coursesPage.verifyStatusMessageWithLinks("The course has been added. "
-                + "Click here to add students to the course or click here to add other instructors.\n"
-                + "If you don't see the course in the list below, please refresh the page after a few moments.",
-                expectedLinks);
+        coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
         verifyPresentInDatastore(newCourse);
