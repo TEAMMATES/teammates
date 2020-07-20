@@ -179,9 +179,9 @@
       "googleId": "FSRTest.student1InCourse1",
       "email": "FSRTest.student1InCourse1@gmail.tmt",
       "course": "FSRTest.idOfTypicalCourse1",
-      "name": "student1 In Course1",
+      "name": "student1 In Course1</td></div>'\"",
       "comments": "comment for student1InCourse1",
-      "team": "Team 1.1",
+      "team": "Team 1.1</td></div>'\"",
       "section": "Section A"
     },
     "student2InCourse1": {
@@ -190,7 +190,7 @@
       "course": "FSRTest.idOfTypicalCourse1",
       "name": "student2 In Course1",
       "comments": "",
-      "team": "Team 1.1",
+      "team": "Team 1.1</td></div>'\"",
       "section": "Section A"
     },
     "student3InCourse1": {
@@ -621,7 +621,7 @@
       "courseId": "FSRTest.idOfTypicalCourse1",
       "feedbackQuestionId": "8",
       "giver": "FSRTest.student4InCourse1@gmail.tmt",
-      "recipient": "Team 1.1",
+      "recipient": "Team 1.1</td></div>'\"",
       "giverSection": "Section B",
       "recipientSection": "Section A",
       "responseDetails": {
