@@ -53,29 +53,29 @@
           <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate"></tm-ajax-loading>
         </td>
         <td class="actions-cell">
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Edit feedback session details" (click)="editSessionEvent.emit(idx)"
+          <button type="button" class="btn btn-light btn-sm" (click)="editSessionEvent.emit(idx)"
                   [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Edit</button>
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Delete the feedback session" (click)="moveSessionToRecycleBin(idx)"
+          <button type="button" class="btn btn-light btn-sm" (click)="moveSessionToRecycleBin(idx)"
                   [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Delete</button>
           <button type="button" class="btn btn-light btn-sm" ngbTooltip="Copy feedback session details" (click)="copySession(idx)">Copy</button>
           <button type="button" class="btn btn-light btn-sm" ngbTooltip="Start submitting feedback"
                   [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
                     || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)" >Submit</button>
-          <div ngbDropdown class="d-inline-block" ngbTooltip="View the submitted responses for this feedback session">
+          <div ngbDropdown class="d-inline-block">
             <button class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
-              <button class="dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)">View Results</button>
-              <button class="dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
+              <button class="btn dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)">View Results</button>
+              <button class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
                       *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                         && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"
                       [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession" (click)="unpublishSession(idx)">Unpublish Results</button>
               <ng-template #publishButton>
-                <button class="dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
+                <button class="btn dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                   || sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED || !sessionsTableRowModel.instructorPrivilege.canModifySession"
                         ngbTooltip="Make session responses available for viewing" placement="left" container="body" (click)="publishSession(idx)">Publish Results</button>
               </ng-template>
-              <button class="dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
-              <button class="dropdown-item clickable" (click)="downloadSessionResults(idx)">Download Results</button>
+              <button class="btn dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
+              <button class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)">Download Results</button>
             </div>
           </div>
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
