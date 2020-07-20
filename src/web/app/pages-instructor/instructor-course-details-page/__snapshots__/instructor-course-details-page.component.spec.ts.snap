@@ -2,7 +2,6 @@
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv={[Function String]}
@@ -163,14 +162,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
        to enroll students. 
     </div>
     
-    
   </div>
 </tm-instructor-course-details-page>
 `;
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
@@ -348,16 +345,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 />
                  Delete All Students 
               </button>
-              <div>
-                <span>
-                  Non-English characters not displayed properly in the downloaded file? 
-                  <span
-                    class="btn-link"
-                  >
-                     Click here. 
-                  </span>
-                </span>
-              </div>
             </div>
           </div>
         </div>
@@ -552,14 +539,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       </tm-student-list>
     </div>
     
-    
   </div>
 </tm-instructor-course-details-page>
 `;
 
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
   courseStudentListAsCsv=""
@@ -716,7 +701,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
       </a>
        to enroll students. 
     </div>
-    
     
   </div>
 </tm-instructor-course-details-page>

@@ -1,7 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenderFormatPipe } from './student-profile-gender.pipe';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -18,7 +16,6 @@ describe('StudentProfilePageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StudentProfilePageComponent,
-        GenderFormatPipe,
       ],
       imports: [
         RouterTestingModule,

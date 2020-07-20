@@ -2,7 +2,7 @@
   Feedback Session Results
 </h1>
 
-<div class="card bg-light top-padded" *ngIf="session">
+<div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
   <div class="card-body row info-card-padding">
     <div class="col-sm-12 col-md-12 col-lg-4">
       <div class="form-group row">
@@ -35,21 +35,21 @@
       </div>
     </div>
     <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
-      <button class="btn btn-primary action-btn" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+      <button class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
          placement="top" (click)="publishResultHandler()">
         {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
       </button>
-      <button class="btn btn-primary action-btn" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()">
+      <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()">
         Download Results
       </button>
-      <button class="btn btn-primary action-btn" (click)="printViewHandler()">
+      <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
         Print View
       </button>
     </div>
   </div>
 </div>
 
-<div class="card bg-light top-padded" *ngIf="session">
+<div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
   <div class="card-body row">
     <div class="col-md-6">
       <div ngbTooltip="View results in different formats">

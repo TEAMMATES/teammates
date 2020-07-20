@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { ClipboardService } from 'ngx-clipboard';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -64,7 +63,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   isAjaxSuccess: boolean = true;
 
   constructor(private route: ActivatedRoute, private router: Router,
-              private clipboardService: ClipboardService,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
@@ -163,13 +161,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
-   * Automatically copy the text content provided.
-   */
-  copyContent(text: string): void {
-    this.clipboardService.copyFromContent(text);
-  }
-
-  /**
    * Open the modal for different buttons and link.
    */
   openModal(content: any): void {
@@ -237,28 +228,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   /**
-   * Load the student list in csv table format
-   */
-  loadStudentsListCsv(courseId: string): void {
-    this.loading = true;
-
-    // Calls the REST API once only when student list is not loaded
-    if (this.courseStudentListAsCsv !== '') {
-      this.loading = false;
-      return;
-    }
-
-    this.studentService.loadStudentListAsCsv({ courseId })
-      .subscribe((resp: string) => {
-        this.courseStudentListAsCsv = resp;
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.isAjaxSuccess = false;
-      });
-    this.loading = false;
-  }
-
-  /**
    * Remind all yet to join students in a course.
    */
   remindAllStudentsFromCourse(courseId: string): void {
@@ -268,31 +237,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  /**
-   * Converts a csv string to a html table string for displaying.
-   */
-  convertToHtmlTable(str: string): string {
-    let result: string = '<table class=\"table table-bordered table-striped table-sm\">';
-    let rowData: string[];
-    const lines: string[] = str.split(/\r?\n/);
-
-    lines.forEach(
-        (line: string) => {
-          rowData = this.getTableData(line);
-
-          if (rowData.filter((s: string) => s !== '').length === 0) {
-            return;
-          }
-          result = result.concat('<tr>');
-          for (const td of rowData) {
-            result = result.concat(`<td>${td}</td>`);
-          }
-          result = result.concat('</tr>');
-        },
-    );
-    return result.concat('</table>');
   }
 
   /**
