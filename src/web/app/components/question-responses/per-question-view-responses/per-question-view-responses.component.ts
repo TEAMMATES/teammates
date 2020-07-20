@@ -60,7 +60,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   constructor(private tableComparatorService: TableComparatorService,
               private questionsService: FeedbackQuestionsService,
               private feedbackResponsesService: FeedbackResponsesService,
-              private modalService: NgbModal) {
+              private ngbModal: NgbModal) {
     super();
   }
 
@@ -158,7 +158,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     // lack of ability to bind @Input to the modal
     // https://github.com/ng-bootstrap/ng-bootstrap/issues/2645
 
-    const commentModalRef: NgbModalRef = this.modalService.open(modal);
+    const commentModalRef: NgbModalRef = this.ngbModal.open(modal);
     this.currResponseToAdd = selectedResponse;
     commentModalRef.result.then(() => {}, () => {
       this.currResponseToAdd = undefined;

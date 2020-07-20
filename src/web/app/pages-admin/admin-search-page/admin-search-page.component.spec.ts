@@ -27,7 +27,7 @@ describe('AdminSearchPageComponent', () => {
   let searchService: SearchService;
   let studentService: StudentService;
   let statusMessageService: StatusMessageService;
-  let modalService: NgbModal;
+  let ngbModal: NgbModal;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,7 +49,7 @@ describe('AdminSearchPageComponent', () => {
     searchService = TestBed.inject(SearchService);
     studentService = TestBed.inject(StudentService);
     statusMessageService = TestBed.inject(StatusMessageService);
-    modalService = TestBed.inject(NgbModal);
+    ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 
@@ -256,7 +256,7 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -293,7 +293,7 @@ describe('AdminSearchPageComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -343,7 +343,7 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -389,7 +389,7 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           name: 'dummy', course: 'dummy',
@@ -457,7 +457,7 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           studentName: 'dummy', regenerateLinksCourseId: 'dummy',
@@ -529,7 +529,7 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    spyOn(modalService, 'open').and.callFake(() => {
+    spyOn(ngbModal, 'open').and.callFake(() => {
       return {
         componentInstance: {
           studentName: 'dummy', regenerateLinksCourseId: 'dummy',

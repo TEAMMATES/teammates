@@ -1,10 +1,9 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
-import {
-  DEFAULT_RUBRIC_QUESTION_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**
@@ -21,7 +20,7 @@ export class RubricQuestionEditDetailsFormComponent
   rowToHighlight: number = -1;
   columnToHighlight: number = -1;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
   }
 
@@ -162,69 +161,71 @@ export class RubricQuestionEditDetailsFormComponent
   /**
    * Deletes a sub question.
    */
-  deleteSubQuestion(index: number, confirmModal: any): void {
+  deleteSubQuestion(index: number): void {
     if (this.model.numOfRubricSubQuestions === 1 || !this.isEditable) {
       // ignore deletion
       return;
     }
 
-    this.modalService.open(confirmModal).result.then(() => {
+    this.simpleModalService.openConfirmationModal('Delete the row?', SimpleModalType.WARNING,
+        'Are you sure you want to clear the row?').result.then(() => {
 
-      const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
-      newSubQuestions.splice(index, 1);
+          const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
+          newSubQuestions.splice(index, 1);
 
-      const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => arr.slice());
-      newDescriptions.splice(index, 1);
+          const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => arr.slice());
+          newDescriptions.splice(index, 1);
 
       // update weights
-      let newWeightsForEachCell: number[][] = [];
-      if (this.model.hasAssignedWeights) {
-        newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
+          let newWeightsForEachCell: number[][] = [];
+          if (this.model.hasAssignedWeights) {
+            newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
 
-        newWeightsForEachCell.splice(index, 1);
-      }
+            newWeightsForEachCell.splice(index, 1);
+          }
 
-      this.triggerModelChangeBatch({
-        rubricSubQuestions: newSubQuestions,
-        rubricDescriptions: newDescriptions,
-        numOfRubricSubQuestions: this.model.numOfRubricSubQuestions - 1,
-        rubricWeightsForEachCell: newWeightsForEachCell,
-      });
+          this.triggerModelChangeBatch({
+            rubricSubQuestions: newSubQuestions,
+            rubricDescriptions: newDescriptions,
+            numOfRubricSubQuestions: this.model.numOfRubricSubQuestions - 1,
+            rubricWeightsForEachCell: newWeightsForEachCell,
+          });
 
-    }, () => {});
+        }, () => {});
   }
 
   /**
    * Deletes a choice.
    */
-  deleteChoice(index: number, confirmModal: any): void {
-    this.modalService.open(confirmModal).result.then(() => {
-      const newChoices: string[] = this.model.rubricChoices.slice();
-      newChoices.splice(index, 1);
+  deleteChoice(index: number): void {
+    this.simpleModalService.openConfirmationModal('Delete the column?', SimpleModalType.WARNING,
+        'Are you sure you want to clear the column?').result.then(() => {
+          const newChoices: string[] = this.model.rubricChoices.slice();
+          newChoices.splice(index, 1);
 
-      const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => {
-        const newArr: string[] = arr.slice();
-        newArr.splice(index, 1);
-        return newArr;
-      });
+          const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => {
+            const newArr: string[] = arr.slice();
+            newArr.splice(index, 1);
+            return newArr;
+          });
 
       // update weights
-      let newWeightsForEachCell: number[][] = [];
-      if (this.model.hasAssignedWeights) {
-        newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => {
-          const newArr: number[] = arr.slice();
-          newArr.splice(index, 1);
-          return newArr;
-        });
-      }
+          let newWeightsForEachCell: number[][] = [];
+          if (this.model.hasAssignedWeights) {
+            newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => {
+              const newArr: number[] = arr.slice();
+              newArr.splice(index, 1);
+              return newArr;
+            });
+          }
 
-      this.triggerModelChangeBatch({
-        rubricChoices: newChoices,
-        numOfRubricChoices: this.model.numOfRubricChoices - 1,
-        rubricDescriptions: newDescriptions,
-        rubricWeightsForEachCell: newWeightsForEachCell,
-      });
-    }, () => {});
+          this.triggerModelChangeBatch({
+            rubricChoices: newChoices,
+            numOfRubricChoices: this.model.numOfRubricChoices - 1,
+            rubricDescriptions: newDescriptions,
+            rubricWeightsForEachCell: newWeightsForEachCell,
+          });
+        }, () => {});
   }
 
   /**
