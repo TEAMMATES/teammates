@@ -17,6 +17,7 @@ import teammates.ui.webapi.request.CourseCreateRequest;
  * SUT: {@link CreateCourseAction}.
  */
 public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
+    private CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -47,7 +48,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("new-course");
 
-        if (logic.isCoursePresent("new-course")) {
+        if (coursesLogic.isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
 
@@ -61,7 +62,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         assertEquals(courseData.getTimeZone(), "UTC");
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertTrue(logic.isCoursePresent("new-course"));
+        assertTrue(coursesLogic.isCoursePresent("new-course"));
 
         ______TS("Typical case with existing course id");
 

@@ -224,16 +224,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Gets all students in a section of a course.
-     */
-    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        return makeAttributes(getCourseStudentEntitiesForSection(sectionName, courseId));
-    }
-
-    /**
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -396,13 +386,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
         return load()
                 .filter("teamName =", teamName)
-                .filter("courseId =", courseId)
-                .list();
-    }
-
-    private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
-        return load()
-                .filter("sectionName =", sectionName)
                 .filter("courseId =", courseId)
                 .list();
     }

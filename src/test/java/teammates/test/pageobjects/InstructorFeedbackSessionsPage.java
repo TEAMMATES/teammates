@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.Browser;
 import teammates.test.driver.TimeHelperExtension;
 
@@ -284,7 +283,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void fillTimeValueIfNotNull(String dateId, LocalDateTime datetimeValue, WebElement timeDropdown) {
         if (datetimeValue != null) {
-            executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDateForSessionsForm(datetimeValue) + "');");
+            executeScript("$('#" + dateId + "').val('"
+                    + TimeHelperExtension.formatDateForSessionsForm(datetimeValue) + "');");
 
             String timeDropdownId = timeDropdown.getAttribute("id");
             int timeDropdownVal = TimeHelperExtension.convertToOptionValueInTimeDropDown(datetimeValue);
@@ -301,7 +301,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         click(dateInputElement);
         dateInputElement.clear();
-        dateInputElement.sendKeys(TimeHelper.formatDateForSessionsForm(newValue.atStartOfDay()));
+        dateInputElement.sendKeys(TimeHelperExtension.formatDateForSessionsForm(newValue.atStartOfDay()));
 
         List<WebElement> elements = browser.driver.findElements(By.className("ui-datepicker-current-day"));
         for (WebElement element : elements) {

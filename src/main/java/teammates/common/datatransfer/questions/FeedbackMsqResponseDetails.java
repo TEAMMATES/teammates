@@ -94,10 +94,6 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return errors;
     }
 
-    public Boolean isOtherOptionAnswer() {
-        return isOther;
-    }
-
     public List<String> getAnswers() {
         return answers;
     }

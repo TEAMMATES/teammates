@@ -51,10 +51,6 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
         return errors;
     }
 
-    public int getAnswer(int subQuestionIndex) {
-        return answer.get(subQuestionIndex);
-    }
-
     public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }

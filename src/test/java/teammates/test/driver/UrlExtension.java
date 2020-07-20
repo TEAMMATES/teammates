@@ -23,4 +23,11 @@ public final class UrlExtension {
         return new Url(url).toString();
     }
 
+    /**
+     * Trims trailing slash from a URL.
+     */
+    public static String trimTrailingSlash(String url) {
+        return url.trim().replaceAll("/(?=$)", "");
+    }
+
 }
