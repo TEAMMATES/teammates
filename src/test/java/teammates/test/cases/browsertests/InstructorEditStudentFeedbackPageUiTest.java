@@ -7,14 +7,13 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
  */
-public class InstructorEditStudentFeedbackPageUiTest extends BaseE2ETestCase {
+public class InstructorEditStudentFeedbackPageUiTest extends BaseLegacyUiTestCase {
 
     private InstructorEditStudentFeedbackPage submitPage;
 

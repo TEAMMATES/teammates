@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.Url;
+import teammates.test.driver.UrlExtension;
 
 /**
  * Represents properties in test.properties file.
@@ -24,9 +24,6 @@ public final class TestProperties {
 
     /** The directory where HTML files for testing pages are stored. */
     public static final String TEST_PAGES_FOLDER = "src/e2e/resources/pages";
-
-    /** The directory where HTML files for testing email contents are stored. */
-    public static final String TEST_EMAILS_FOLDER = "src/e2e/resources/emails";
 
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/e2e/resources/data";
@@ -111,7 +108,7 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            TEAMMATES_URL = Url.trimTrailingSlash(prop.getProperty("test.app.url"));
+            TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
 
             Properties buildProperties = new Properties();
             try (InputStream buildPropStream = Files.newInputStream(Paths.get("src/main/resources/build.properties"))) {

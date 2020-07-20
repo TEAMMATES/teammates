@@ -36,38 +36,8 @@
       <div class="col-12 text-center text-md-right session-form-buttons">
         <button type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" *ngIf="formMode == SessionEditFormMode.EDIT && !model.isEditable"><i class="fas fa-pencil-alt"></i> Edit</button>
         <button type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable"><i class="fas fa-check"></i> Save <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading></button>
-        <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler(sessionDiscardModal)" *ngIf="model.isEditable"><i class="fas fa-ban"></i> Cancel </button>
-        <ng-template #sessionDiscardModal let-modal>
-          <div class="modal-header bg-warning">
-            <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
-            <button type="button" class="close" (click)="modal.dismiss()">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to discard your unsaved edits?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-            <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-          </div>
-        </ng-template>
-        <button type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler(sessionDeleteModal)"><i class="fas fa-trash"></i> Delete</button>
-        <ng-template #sessionDeleteModal let-modal>
-          <div class="modal-header bg-warning">
-            <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: The session will be moved to the recycle bin.</h5>
-            <button type="button" class="close" (click)="modal.dismiss()">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to continue?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-            <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-          </div>
-        </ng-template>
+        <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler()" *ngIf="model.isEditable"><i class="fas fa-ban"></i> Cancel </button>
+        <button type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()"><i class="fas fa-trash"></i> Delete</button>
         <button type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()"><i class="far fa-copy"></i> Copy</button>
       </div>
     </div>

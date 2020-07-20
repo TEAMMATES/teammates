@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
@@ -23,7 +22,7 @@ import teammates.test.pageobjects.InstructorHomePage;
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
  */
-public class InstructorHomePageUiTest extends BaseE2ETestCase {
+public class InstructorHomePageUiTest extends BaseLegacyUiTestCase {
     private InstructorHomePage homePage;
 
     private FeedbackSessionAttributes feedbackSessionAwaiting;

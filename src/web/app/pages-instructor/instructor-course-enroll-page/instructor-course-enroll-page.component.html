@@ -100,29 +100,7 @@
       </div>
     </div>
   </div>
-  <button id="paste" [hidden]="true" (click)="showPasteModalBox(pasteModalBox)"></button> <!-- Acts as a medium to send the modal box into the JS file -->
-  <ng-template #pasteModalBox let-modal>
-    <div class="modal-header alert-warning">
-      <h4 class="modal-title icon-warning">Pasting data through the context menu</h4>
-      <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-hidden="true"
-          (click)="modal.dismiss()">×</button>
-    </div>
-    <div class="modal-body">
-      Pasting data through the context menu is not supported due to browser restrictions.<br>
-      Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancel</button>
-      <button type="button" class="btn btn-warning"
-              (click)="modal.dismiss()">
-        OK
-      </button>
-    </div>
-  </ng-template>
+  <button id="paste" [hidden]="true" (click)="showPasteModalBox()"></button> <!-- Acts as a medium to send the modal box into the JS file -->
   <div class="more-info" #moreInfo [hidden]="showEnrollResults">
     <h2> More info </h2>
     <hr>

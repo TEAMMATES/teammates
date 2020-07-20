@@ -10,6 +10,7 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -29,28 +30,17 @@ import {
 } from '../../../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  CoursesSectionQuestions,
-} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
   InstructorSessionLevelPermission,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import {
-  DeleteInstructorConfirmModalComponent,
-} from './delete-instructor-confirm-model/delete-instructor-confirm-modal.component';
-import {
-  EditMode, InstructorEditPanel,
-} from './instructor-edit-panel/instructor-edit-panel.component';
-import {
-  ResendInvitationEmailModalComponent,
-} from './resend-invitation-email-modal/resend-invitation-email-modal.component';
-import {
-  ViewRolePrivilegesModalComponent,
-} from './view-role-privileges-modal/view-role-privileges-modal.component';
+import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
+import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
@@ -161,7 +151,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private authService: AuthService,
-              private modalService: NgbModal) { }
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -349,7 +340,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Shows the model of details permission for a role.
    */
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
-    const modalRef: NgbModalRef = this.modalService.open(ViewRolePrivilegesModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
     modalRef.result.then(() => {}, () => {});
     this.instructorService.loadInstructorPrivilege({
       courseId: this.courseId,
@@ -412,9 +403,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalRef: NgbModalRef = this.modalService.open(DeleteInstructorConfirmModalComponent);
-    modalRef.componentInstance.instructorToDelete = panelDetail.originalInstructor;
-    modalRef.componentInstance.isDeletingSelf = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
+    const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
+    const modalContent: string = isDeletingSelf ?
+        `Are you sure you want to delete your instructor role from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
+        You will not be able to access the course anymore.`
+        : `Are you sure you want to delete the instructor <strong>${ panelDetail.originalInstructor.name }</strong> from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
+        He/she will not be able to access the course anymore.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Delete instructor <strong>${ panelDetail.originalInstructor.name }</strong>?`,
+        SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
       this.instructorService.deleteInstructor({
@@ -439,8 +436,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalRef: NgbModalRef = this.modalService.open(ResendInvitationEmailModalComponent);
-    modalRef.componentInstance.instructorToResend = panelDetail.originalInstructor;
+    const modalContent: string = `Do you wish to re-send the invitation email to instructor ${ panelDetail.originalInstructor.name } from course ${ panelDetail.originalInstructor.courseId }?`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Re-send invitation email?', SimpleModalType.INFO, modalContent);
 
     modalRef.result.then(() => {
       this.courseService
