@@ -1,15 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
-import {
-  CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
+import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
-import {
-  ConfirmDeleteCommentModalComponent,
-} from '../confirm-delete-comment-modal/confirm-delete-comment-modal.component';
 
 /**
  * Model for a comment row.
@@ -114,7 +112,8 @@ export class CommentRowComponent implements OnInit, OnChanges {
 
   visibilityStateMachine: CommentVisibilityStateMachine;
 
-  constructor(private modalService: NgbModal, private commentService: FeedbackResponseCommentService) {
+  constructor(private simpleModalService: SimpleModalService,
+              private commentService: FeedbackResponseCommentService) {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 
@@ -155,7 +154,9 @@ export class CommentRowComponent implements OnInit, OnChanges {
    * Triggers the delete comment event
    */
   triggerDeleteCommentEvent(): void {
-    const modalRef: NgbModalRef = this.modalService.open(ConfirmDeleteCommentModalComponent);
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Delete the comment permanently?', SimpleModalType.DANGER,
+            'Are you sure you want to continue?');
 
     modalRef.result.then(() => {
       this.deleteCommentEvent.emit();

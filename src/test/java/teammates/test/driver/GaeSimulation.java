@@ -34,8 +34,6 @@ import teammates.ui.webapi.action.ActionFactory;
  *
  * <p>This is not the same as testing against the dev server.
  * When testing against the GAE simulation, there is no need for the dev server to be running.
- *
- * <p>The GAE simulation does not support JSP and can only be used to test up to Servlets level.
  */
 public class GaeSimulation {
 

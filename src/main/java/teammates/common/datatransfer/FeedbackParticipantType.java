@@ -8,22 +8,22 @@ public enum FeedbackParticipantType {
     // booleans represent: isValidGiver?, isValidRecipient? isValidViewer?
     // Strings represents: option shown in giver select box, option shown in recipient select box,
     // text displayed during feedback submission respectively.
-    SELF(true, true, false, "Feedback session creator (i.e., me)", "Giver (Self feedback)", ""),
-    STUDENTS(true, true, true, "Students in this course", "Other students in the course", "Other students in the course"),
+    SELF(true, true, false, "Feedback session creator (i.e., me)", "Giver (Self feedback)"),
+    STUDENTS(true, true, true, "Students in this course", "Other students in the course"),
     //used to generate options for MCQ & MSQ:
-    STUDENTS_EXCLUDING_SELF(false, false, false, "Students in this course", "Other students in the course",
-            "Other students in the course"),
-    INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course", "Instructors in this course"),
-    TEAMS(true, true, false, "Teams in this course", "Other teams in the course", ""),
-    TEAMS_EXCLUDING_SELF(false, false, false, "Teams in this course", "Other teams in the course", ""),
-    OWN_TEAM(false, true, false, "", "Giver's team", "Your team"),
-    OWN_TEAM_MEMBERS(false, true, true, "", "Giver's team members", "Your team members"),
-    OWN_TEAM_MEMBERS_INCLUDING_SELF(false, true, true, "", "Giver's team members and Giver", "Your team members"),
-    RECEIVER(false, false, true, "", "", "The receiving"),
-    RECEIVER_TEAM_MEMBERS(false, false, true, "", "", "The recipient's team members"),
-    NONE(false, true, false, "", "Nobody specific (For general class feedback)", ""),
+    STUDENTS_EXCLUDING_SELF(false, false, false, "Students in this course", "Other students in the course"),
+
+    INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course"),
+    TEAMS(true, true, false, "Teams in this course", "Other teams in the course"),
+    TEAMS_EXCLUDING_SELF(false, false, false, "Teams in this course", "Other teams in the course"),
+    OWN_TEAM(false, true, false, "", "Giver's team"),
+    OWN_TEAM_MEMBERS(false, true, true, "", "Giver's team members"),
+    OWN_TEAM_MEMBERS_INCLUDING_SELF(false, true, true, "", "Giver's team members and Giver"),
+    RECEIVER(false, false, true, "", ""),
+    RECEIVER_TEAM_MEMBERS(false, false, true, "", ""),
+    NONE(false, true, false, "", "Nobody specific (For general class feedback)"),
     // Used by feedbackResponseComment:
-    GIVER(false, false, true, "", "", "");
+    GIVER(false, false, true, "", "");
 
     public static final List<FeedbackParticipantType> GIVERS;
     static {
@@ -52,16 +52,14 @@ public enum FeedbackParticipantType {
     private final boolean validViewer;
     private String displayNameGiver;
     private String displayNameRecipient;
-    private String displayNameVisibility;
 
     FeedbackParticipantType(boolean isGiver, boolean isRecipient, boolean isViewer,
-                            String displayNameGiver, String displayNameRecipient, String displayNameVisibility) {
+                            String displayNameGiver, String displayNameRecipient) {
         this.validGiver = isGiver;
         this.validRecipient = isRecipient;
         this.validViewer = isViewer;
         this.displayNameGiver = displayNameGiver;
         this.displayNameRecipient = displayNameRecipient;
-        this.displayNameVisibility = displayNameVisibility;
     }
 
     public boolean isValidGiver() {
@@ -96,16 +94,6 @@ public enum FeedbackParticipantType {
      */
     public String toDisplayRecipientName() {
         return displayNameRecipient;
-    }
-
-    /**
-     * Formats the participant type for display to user in the response visibility section.
-     *
-     * @return A user-friendly {@code String} representing this participant directed to users who are
-     *         responding to a feedback.
-     */
-    public String toVisibilityString() {
-        return displayNameVisibility;
     }
 
     /**
@@ -150,21 +138,4 @@ public enum FeedbackParticipantType {
         return displayNameRecipient;
     }
 
-    /**
-     * Returns A list of {@link FeedbackParticipantType} objects corresponding to the supplied parameter.
-     */
-    public static List<FeedbackParticipantType> getParticipantListFromCommaSeparatedValues(
-            String commaSeparatedValues) {
-        List<FeedbackParticipantType> participantList = new ArrayList<>();
-
-        if (commaSeparatedValues == null || commaSeparatedValues.isEmpty()) {
-            return participantList;
-        }
-
-        for (String str : commaSeparatedValues.split(",")) {
-            participantList.add(FeedbackParticipantType.valueOf(str));
-        }
-
-        return participantList;
-    }
 }

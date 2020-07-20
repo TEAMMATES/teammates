@@ -24,13 +24,13 @@
               id="profile-delete-photo"
               class="btn btn-danger"
               ngbTooltip="Delete your profile picture"
-              (click)="onDelete(confirmDeleteProfilePicture)">
+              (click)="onDelete()">
             Delete Photo
           </button>
         </div>
       </div>
       <form [formGroup]="editForm"
-            (ngSubmit)="onSubmit(confirmEditProfile)">
+            (ngSubmit)="onSubmit()">
         <div class="form-group" ngbTooltip='This is the name you prefer to be called by'>
           <label>The name you prefer to be called by instructors</label>
           <input
@@ -97,48 +97,6 @@
         </div>
         <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>
       </form>
-      <ng-template #confirmEditProfile let-modal>
-        <div class="modal-header alert-primary">
-          <h4 class="modal-title icon-primary">Save Changes?</h4>
-          <button
-              class="close"
-              data-dismiss="modal"
-              aria-hidden="true"
-              (click)="modal.dismiss()">×</button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to make changes to your profile?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary modal-btn-cancel" (click)="modal.dismiss()">
-            Cancel
-          </button>
-          <button type="button" class="btn btn-primary modal-btn-ok" (click)="submitEditForm(); modal.dismiss()">
-            Yes, save changes
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #confirmDeleteProfilePicture let-modal>
-        <div class="modal-header alert-danger">
-          <h4 class="modal-title icon-danger">Confirm Deletion?</h4>
-          <button
-              class="close"
-              data-dismiss="modal"
-              aria-hidden="true"
-              (click)="modal.dismiss()">×</button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to delete your profile picture?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">
-            Cancel
-          </button>
-          <button type="button" class="btn btn-danger" (click)="deleteProfilePicture(); modal.dismiss()">
-            Yes, delete
-          </button>
-        </div>
-      </ng-template>
     </div>
   </div>
 </div>

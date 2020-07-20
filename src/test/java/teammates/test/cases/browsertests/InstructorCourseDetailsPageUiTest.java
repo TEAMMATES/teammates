@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.BackDoor;
@@ -26,7 +25,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_DETAILS_PAGE}.
  */
-public class InstructorCourseDetailsPageUiTest extends BaseE2ETestCase {
+public class InstructorCourseDetailsPageUiTest extends BaseLegacyUiTestCase {
     private InstructorCourseDetailsPage detailsPage;
 
     private String instructorId;

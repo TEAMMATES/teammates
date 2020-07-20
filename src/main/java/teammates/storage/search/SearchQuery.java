@@ -17,7 +17,6 @@ public abstract class SearchQuery {
 
     protected static final String AND = " AND ";
     protected static final String OR = " OR ";
-    protected static final String NOT = " NOT ";
 
     private static final Logger log = Logger.getLogger();
 

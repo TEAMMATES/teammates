@@ -86,16 +86,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return studentAttributes;
     }
 
-    public String toEnrollmentString() {
-        String enrollmentStringSeparator = "|";
-
-        return this.section + enrollmentStringSeparator
-             + this.team + enrollmentStringSeparator
-             + this.name + enrollmentStringSeparator
-             + this.email + enrollmentStringSeparator
-             + this.comments;
-    }
-
     public boolean isRegistered() {
         return googleId != null && !googleId.trim().isEmpty();
     }
@@ -150,15 +140,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public String getComments() {
         return comments;
-    }
-
-    public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
-        return otherStudent != null && otherStudent.email.equals(this.email)
-               && otherStudent.course.equals(this.course)
-               && otherStudent.name.equals(this.name)
-               && otherStudent.comments.equals(this.comments)
-               && otherStudent.team.equals(this.team)
-               && otherStudent.section.equals(this.section);
     }
 
     @Override
@@ -219,37 +200,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 .thenComparing(student -> student.name));
     }
 
-    public static void sortByNameAndThenByEmail(List<StudentAttributes> students) {
-        students.sort(Comparator.comparing((StudentAttributes student) -> student.name)
-                .thenComparing(student -> student.email));
-    }
-
-    public void updateWithExistingRecord(StudentAttributes originalStudent) {
-        if (this.email == null) {
-            this.email = originalStudent.email;
-        }
-
-        if (this.name == null) {
-            this.name = originalStudent.name;
-        }
-
-        if (this.googleId == null) {
-            this.googleId = originalStudent.googleId;
-        }
-
-        if (this.team == null) {
-            this.team = originalStudent.team;
-        }
-
-        if (this.comments == null) {
-            this.comments = originalStudent.comments;
-        }
-
-        if (this.section == null) {
-            this.section = originalStudent.section;
-        }
-    }
-
     @Override
     public CourseStudent toEntity() {
         return new CourseStudent(email, name, googleId, comments, course, team, section);
@@ -283,13 +233,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
-    public String getStudentStatus() {
-        if (isRegistered()) {
-            return Const.STUDENT_COURSE_STATUS_JOINED;
-        }
-        return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -304,27 +247,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    /**
-     * Returns true if section value has changed from its original value.
-     */
-    public boolean isSectionChanged(StudentAttributes originalStudentAttribute) {
-        return this.section != null && !this.section.equals(originalStudentAttribute.section);
-    }
-
-    /**
-     * Returns true if team value has changed from its original value.
-     */
-    public boolean isTeamChanged(StudentAttributes originalStudentAttribute) {
-        return this.team != null && !this.team.equals(originalStudentAttribute.team);
-    }
-
-    /**
-     * Returns true if email value has changed from its original value.
-     */
-    public boolean isEmailChanged(StudentAttributes originalStudentAttribute) {
-        return this.email != null && !this.email.equals(originalStudentAttribute.email);
     }
 
     /**

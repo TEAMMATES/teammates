@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -17,6 +18,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -63,7 +65,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
-              private ngbModal: NgbModal, private navigationService: NavigationService,
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService,
+              private navigationService: NavigationService,
               private studentService: StudentService,
               private instructorService: InstructorService) { }
 
@@ -161,6 +165,23 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   openModal(content: any): void {
     this.ngbModal.open(content);
+  }
+
+  openRemindStudentModal(): void {
+    const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
+      time of each session. Send a join request to all yet-to-join students in ${ this.courseDetails.course.courseId } anyway?`;
+    this.simpleModalService.openConfirmationModal(
+        'Sending join requests?', SimpleModalType.INFO, modalContent).result.then(() => {
+          this.remindAllStudentsFromCourse(this.courseDetails.course.courseId);
+        }, () => {});
+  }
+
+  openDeleteAllStudentsModal(): void {
+    const modalContent: string = `Are you sure you want to remove all students from the course ${ this.courseDetails.course.courseId }?`;
+    this.simpleModalService.openConfirmationModal(
+        'Delete all students?', SimpleModalType.DANGER, modalContent).result.then(() => {
+          this.deleteAllStudentsFromCourse(this.courseDetails.course.courseId);
+        }, () => {});
   }
 
   /**

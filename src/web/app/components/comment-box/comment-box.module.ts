@@ -15,9 +15,6 @@ import {
   CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
 import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
-import {
-  ConfirmDeleteCommentModalComponent,
-} from './confirm-delete-comment-modal/confirm-delete-comment-modal.component';
 
 /**
  * Module for comments table
@@ -26,7 +23,6 @@ import {
   declarations: [
     CommentEditFormComponent,
     CommentRowComponent,
-    ConfirmDeleteCommentModalComponent,
     CommentTableModalComponent,
     CommentTableComponent,
     CommentVisibilityControlNamePipe,
@@ -51,9 +47,6 @@ import {
     CommentTableModalComponent,
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
-  ],
-  entryComponents: [
-    ConfirmDeleteCommentModalComponent,
   ],
   providers: [
     CommentToCommentRowModelPipe,
