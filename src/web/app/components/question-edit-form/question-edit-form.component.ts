@@ -111,7 +111,6 @@ export class QuestionEditFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
     } as FeedbackTextQuestionDetails,

@@ -131,7 +131,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
     } as FeedbackTextQuestionDetails,

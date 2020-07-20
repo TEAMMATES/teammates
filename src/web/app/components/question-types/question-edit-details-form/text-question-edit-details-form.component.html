@@ -5,7 +5,7 @@
       Recommended length
     </span>
     for the response:
-    <input type="number" class="form-control" [ngModel]="model.recommendedLength !== 0 ? model.recommendedLength : undefined" (ngModelChange)="triggerModelChange('recommendedLength', $event)" [disabled]="!isEditable" min="0">
+    <input type="number" class="form-control" [ngModel]="model.recommendedLength" (ngModelChange)="triggerModelChange('recommendedLength', $event)" [disabled]="!isEditable" min="1">
     words
   </div>
 </div>
