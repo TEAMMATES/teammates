@@ -134,12 +134,13 @@ export class StudentCourseDetailsPageComponent implements OnInit {
               };
 
               this.teammateProfiles.push(newTeammateProfile);
+              this.teammateProfilesInit.push(newTeammateProfile);
             });
         });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    this.teammateProfilesInit = this.teammateProfiles;
+      
   }
 
   /**
