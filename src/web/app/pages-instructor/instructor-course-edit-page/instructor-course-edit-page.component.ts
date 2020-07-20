@@ -56,6 +56,7 @@ interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
   originalPanel: InstructorEditPanel;
   editPanel: InstructorEditPanel;
+  isSavingInstructorEdit: boolean;
 }
 
 interface Timezone {
@@ -155,7 +156,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isInstructorsLoading: boolean = false;
   isSavingCourseEdit: boolean = false;
   isSavingNewInstructor: boolean = false;
-  isSavingInstructorEdit: boolean[] = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -307,11 +307,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
             originalInstructor: Object.assign({}, i),
             originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
+            isSavingInstructorEdit: false,
           }));
           this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
             this.loadPermissionForInstructor(panel);
           });
-          this.isSavingInstructorEdit = resp.instructors.map(() => false);
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -386,7 +386,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   saveInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    this.isSavingInstructorEdit[index] = true;
+    panelDetail.isSavingInstructorEdit = true;
     const reqBody: InstructorCreateRequest = {
       id: panelDetail.originalInstructor.joinState === JoinState.JOINED
           ? panelDetail.originalInstructor.googleId : undefined,
@@ -401,7 +401,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
       requestBody: reqBody,
-    }).pipe(finalize(() => this.isSavingInstructorEdit[index] = false)).subscribe((resp: Instructor) => {
+    }).pipe(finalize(() => panelDetail.isSavingInstructorEdit = false)).subscribe((resp: Instructor) => {
       panelDetail.originalInstructor = Object.assign({}, resp);
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
@@ -486,6 +486,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             originalInstructor: Object.assign({}, resp),
             originalPanel: this.getInstructorEditPanelModel(resp),
             editPanel: this.getInstructorEditPanelModel(resp),
+            isSavingInstructorEdit: false,
           };
           newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
           newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
@@ -493,7 +494,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
           this.instructorDetailPanels.push(newDetailPanels);
           this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
           An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
-          this.isSavingInstructorEdit.push(false);
 
           this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 

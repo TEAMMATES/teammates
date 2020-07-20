@@ -50,7 +50,8 @@
               Remind Students to Join
             </button>
             <button type="button" class="btn btn-primary mb-2" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
-              <i class="fa fa-download"></i>
+              <i *ngIf="!isLoadingCsv" class="fa fa-download"></i>
+              <tm-ajax-loading *ngIf="isLoadingCsv"></tm-ajax-loading>
               Download Student List
             </button>
             <button type="button" class="btn btn-danger mb-2" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">

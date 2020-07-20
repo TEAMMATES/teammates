@@ -88,7 +88,7 @@
   <ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
     <tm-instructor-edit-panel
         [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
-        [isSavingInstructorEdit]="isSavingInstructorEdit[i]"
+        [isSavingInstructorEdit]="panelDetail.isSavingInstructorEdit"
         [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
         (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
         (deleteInstructor)="deleteInstructor(i)"

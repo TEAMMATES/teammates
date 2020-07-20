@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { StudentListModule } from '../../components/student-list/student-list.module';
@@ -31,6 +32,7 @@ const routes: Routes = [
     StudentListModule,
     AjaxPreloadModule,
     LoadingSpinnerModule,
+    AjaxLoadingModule,
   ],
 })
 export class InstructorCourseDetailsPageModule { }

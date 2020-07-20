@@ -189,24 +189,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Download all the students from a course.
    */
   downloadAllStudentsFromCourse(courseId: string): void {
+    this.isLoadingCsv = true;
     const filename: string = `${courseId.concat('_studentList')}.csv`;
     let blob: any;
 
-    // Calling REST API only the first time to load the downloadable data
-    if (this.isLoadingCsv) {
-      blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
-      saveAs(blob, filename);
-    } else {
-      this.studentService.loadStudentListAsCsv({ courseId })
-        .pipe(finalize(() => this.isLoadingCsv = false))
-        .subscribe((resp: string) => {
-          blob = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
-          this.courseStudentListAsCsv = resp;
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-    }
+    this.studentService.loadStudentListAsCsv({ courseId })
+      .pipe(finalize(() => this.isLoadingCsv = false))
+      .subscribe((resp: string) => {
+        blob = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
+        this.courseStudentListAsCsv = resp;
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   /**
