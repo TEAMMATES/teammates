@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked,
   Component,
   EventEmitter,
   Input,
@@ -36,7 +37,7 @@ export interface StudentListRowModel {
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent implements OnInit, AfterContentChecked {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -48,7 +49,7 @@ export class StudentListComponent implements OnInit {
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
 
   tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
+  tableSortBy: SortBy = SortBy.SECTION_NAME;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -64,6 +65,12 @@ export class StudentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterContentChecked(): void {
+    this.students.sort(this.sortBy(SortBy.STUDENT_NAME))
+      .sort(this.sortBy(SortBy.TEAM_NAME))
+      .sort(this.sortBy(SortBy.SECTION_NAME));
   }
 
   /**
