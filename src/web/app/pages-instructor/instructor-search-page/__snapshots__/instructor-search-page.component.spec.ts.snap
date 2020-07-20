@@ -263,13 +263,13 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       >
                          Section 
                         
+                        
+                        
                         <span>
                           <i
-                            class="fas fa-sort"
+                            class="fas fa-sort-up"
                           />
                         </span>
-                        
-                        
                       </th>
                       <th
                         class="sortable-header"
@@ -360,7 +360,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         Team 1
                       </td>
                       <td>
-                        tester
+                        Alice Betsy
                       </td>
                       <td
                         class="align-center"
@@ -368,7 +368,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         Joined
                       </td>
                       <td>
-                        tester@tester.com
+                        alice.b.tmms@gmail.tmt
                       </td>
                       <td
                         class="no-print align-center"
@@ -377,7 +377,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <a
                           class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -387,7 +387,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <a
                           class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -403,7 +403,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         <a
                           class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
@@ -524,88 +524,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         Team 1
                       </td>
                       <td>
-                        Alice Betsy
-                      </td>
-                      <td
-                        class="align-center"
-                      >
-                        Joined
-                      </td>
-                      <td>
-                        alice.b.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
-                      >
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                        >
-                          Delete
-                        </button>
-                        
-                        <a
-                          class="btn btn-light btn-sm mr-2"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td
-                        class="align-center"
-                      >
-                        <tm-view-photo-popover>
-                          
-                          
-                          
-                          <a
-                            href="/"
-                            queryparamshandling="preserve"
-                            role="button"
-                          >
-                             View Photo 
-                          </a>
-                          
-                          
-                          
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
                         Danny Engrid
                       </td>
                       <td
@@ -650,6 +568,88 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         <a
                           class="btn btn-light btn-sm mr-2"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           All Records
+                        </a>
+                        
+                      </td>
+                    </tr>
+                    <tr
+                      s=""
+                    >
+                      <td
+                        class="align-center"
+                      >
+                        <tm-view-photo-popover>
+                          
+                          
+                          
+                          <a
+                            href="/"
+                            queryparamshandling="preserve"
+                            role="button"
+                          >
+                             View Photo 
+                          </a>
+                          
+                          
+                          
+                        </tm-view-photo-popover>
+                      </td>
+                      
+                      <td>
+                        Tutorial Group 1
+                      </td>
+                      <td>
+                        Team 1
+                      </td>
+                      <td>
+                        tester
+                      </td>
+                      <td
+                        class="align-center"
+                      >
+                        Joined
+                      </td>
+                      <td>
+                        tester@tester.com
+                      </td>
+                      <td
+                        class="no-print align-center"
+                      >
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           View
+                        </a>
+                        
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                           Edit
+                        </a>
+                        
+                        
+                        <button
+                          class="btn btn-light btn-sm mr-2"
+                        >
+                          Delete
+                        </button>
+                        
+                        <a
+                          class="btn btn-light btn-sm mr-2"
+                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
                           rel="noopener noreferrer"
                           target="_blank"
                         >
