@@ -15,10 +15,11 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -116,10 +117,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -142,13 +144,13 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           >
              Section 
             
-            
-            
             <span>
               <i
-                class="fas fa-sort-up"
+                class="fas fa-sort"
               />
             </span>
+            
+            
           </th>
           <th
             class="sortable-header"
@@ -584,10 +586,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -610,13 +613,13 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           >
              Section 
             
-            
-            
             <span>
               <i
-                class="fas fa-sort-up"
+                class="fas fa-sort"
               />
             </span>
+            
+            
           </th>
           <th
             class="sortable-header"
@@ -1045,10 +1048,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -1071,13 +1075,13 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           >
              Section 
             
-            
-            
             <span>
               <i
-                class="fas fa-sort-up"
+                class="fas fa-sort"
               />
             </span>
+            
+            
           </th>
           <th
             class="sortable-header"
@@ -1487,10 +1491,11 @@ exports[`StudentListComponent should snap with some student list data and some s
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -1513,13 +1518,13 @@ exports[`StudentListComponent should snap with some student list data and some s
           >
              Section 
             
-            
-            
             <span>
               <i
-                class="fas fa-sort-up"
+                class="fas fa-sort"
               />
             </span>
+            
+            
           </th>
           <th
             class="sortable-header"
@@ -1931,10 +1936,11 @@ exports[`StudentListComponent should snap with some student list data when not a
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -1957,13 +1963,13 @@ exports[`StudentListComponent should snap with some student list data when not a
           >
              Section 
             
-            
-            
             <span>
               <i
-                class="fas fa-sort-up"
+                class="fas fa-sort"
               />
             </span>
+            
+            
           </th>
           <th
             class="sortable-header"
@@ -2373,10 +2379,11 @@ exports[`StudentListComponent should snap with some student list data with no se
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -2553,10 +2560,11 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
+  sortedStudents={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
+  tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >

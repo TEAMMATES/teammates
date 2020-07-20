@@ -263,13 +263,13 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       >
                          Section 
                         
-                        
-                        
                         <span>
                           <i
-                            class="fas fa-sort-up"
+                            class="fas fa-sort"
                           />
                         </span>
+                        
+                        
                       </th>
                       <th
                         class="sortable-header"

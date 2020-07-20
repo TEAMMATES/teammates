@@ -49,7 +49,8 @@ export class StudentListComponent implements OnInit, AfterContentChecked {
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
 
   tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.SECTION_NAME;
+  tableSortBy: SortBy = SortBy.NONE;
+  sortedStudents: StudentListRowModel[] = [];
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -68,9 +69,14 @@ export class StudentListComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    this.students.sort(this.sortBy(SortBy.STUDENT_NAME))
-      .sort(this.sortBy(SortBy.TEAM_NAME))
-      .sort(this.sortBy(SortBy.SECTION_NAME));
+    this.sortedStudents = [...this.students];
+    if (this.tableSortBy === SortBy.NONE) {
+      this.sortedStudents.sort(this.sortBy(SortBy.STUDENT_NAME))
+        .sort(this.sortBy(SortBy.TEAM_NAME))
+        .sort(this.sortBy(SortBy.SECTION_NAME));
+    } else {
+      this.sortedStudents.sort(this.sortBy(this.tableSortBy));
+    }
   }
 
   /**
@@ -147,7 +153,7 @@ export class StudentListComponent implements OnInit, AfterContentChecked {
     this.tableSortBy = by;
     this.tableSortOrder =
         this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.students.sort(this.sortBy(by));
+    this.sortedStudents.sort(this.sortBy(by));
   }
 
   /**

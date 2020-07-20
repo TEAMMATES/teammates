@@ -40,7 +40,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
+    <tr *ngFor="let studentModel of sortedStudents; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
       <td class="align-center">
         <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
       </td>
