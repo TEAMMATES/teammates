@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
 import { AddCourseFormComponent } from './add-course-form.component';
+import {NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
 
 /**
  * Module for form for adding courses.
@@ -16,6 +17,7 @@ import { AddCourseFormComponent } from './add-course-form.component';
     FormsModule,
     RouterModule,
     AjaxLoadingModule,
+    NgbTooltipModule,
   ],
 })
 export class AddCourseFormModule { }
