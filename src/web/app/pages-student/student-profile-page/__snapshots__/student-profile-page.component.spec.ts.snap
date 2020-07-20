@@ -10,6 +10,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   id=""
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
@@ -208,8 +209,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             This profile will be visible to all your instructors and coursemates.
           </div>
         </form>
-        
-        
       </div>
     </div>
   </div>
@@ -225,6 +224,7 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   id=""
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
 >
@@ -244,6 +244,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
   profilePicLink={[Function String]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
@@ -452,8 +453,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             This profile will be visible to all your instructors and coursemates.
           </div>
         </form>
-        
-        
       </div>
     </div>
   </div>

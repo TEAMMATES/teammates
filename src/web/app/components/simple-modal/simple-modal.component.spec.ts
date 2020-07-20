@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { RegenerateLinksConfirmModalComponent } from './regenerate-links-confirm-modal.component';
+import { SimpleModalComponent } from './simple-modal.component';
 
-describe('RegenerateLinksModalComponent', () => {
-  let component: RegenerateLinksConfirmModalComponent;
-  let fixture: ComponentFixture<RegenerateLinksConfirmModalComponent>;
+describe('SimpleModalComponent', () => {
+  let component: SimpleModalComponent;
+  let fixture: ComponentFixture<SimpleModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RegenerateLinksConfirmModalComponent],
+      declarations: [SimpleModalComponent],
       providers: [NgbActiveModal],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegenerateLinksConfirmModalComponent);
+    fixture = TestBed.createComponent(SimpleModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

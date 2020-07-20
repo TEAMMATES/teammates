@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
@@ -8,6 +8,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -29,16 +30,8 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import {
-  ConfirmPublishingSessionModalComponent,
-} from '../../components/sessions-table/confirm-publishing-session-modal/confirm-publishing-session-modal.component';
-import {
-    ConfirmUnpublishingSessionModalComponent,
-// tslint:disable-next-line:max-line-length
-} from '../../components/sessions-table/confirm-unpublishing-session-modal/confirm-unpublishing-session-modal.component';
-import {
-  StudentListInfoTableRowModel,
-} from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
+import { StudentListInfoTableRowModel } from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
@@ -116,7 +109,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private instructorService: InstructorService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private modalService: NgbModal,
+              private simpleModalService: SimpleModalService,
               private router: Router,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               statusMessageService: StatusMessageService,
@@ -320,9 +313,19 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    */
   publishResultHandler(): void {
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
-    const modalRef: NgbModalRef = this.modalService.open(isPublished ? ConfirmUnpublishingSessionModalComponent :
-        ConfirmPublishingSessionModalComponent);
-    modalRef.componentInstance.feedbackSessionName = this.session.feedbackSessionName;
+    let modalRef: NgbModalRef;
+    if (isPublished) {
+      const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
+          will no longer be viewable by students.`;
+      modalRef = this.simpleModalService.openConfirmationModal(
+          `Unpublish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
+          SimpleModalType.WARNING, modalContent);
+    } else {
+      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
+      modalRef = this.simpleModalService.openConfirmationModal(
+          `Publish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
+          SimpleModalType.WARNING, modalContent);
+    }
 
     modalRef.result.then(() => {
       const response: Observable<any> = isPublished ?

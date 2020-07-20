@@ -10,6 +10,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >
@@ -28,6 +29,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentService={[Function StudentService]}
@@ -155,7 +157,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
           </div>
           <br />
           <br />
-          
           
         </form>
       </div>

@@ -35,7 +35,7 @@
     </div>
     <button type="button" class="btn btn-link" (click)="questionsHelpHandler()"><i class="fas fa-info-circle"></i></button>
     <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()">Copy Question</button>&nbsp;
-    <button class="btn btn-primary" (click)="doneEditingHandler(pageNotSavedModal)">Done Editing</button>
+    <button class="btn btn-primary" (click)="doneEditingHandler()">Done Editing</button>
   </div>
 </div>
 <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
@@ -67,19 +67,3 @@
     </div>
   </div>
 </div>
-<ng-template #pageNotSavedModal let-modal>
-  <div class="modal-header bg-warning">
-    <h5 class="modal-title text-white"><i class="fas fa-exclamation-circle"></i> Warning: Unsaved field(s).</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
-    <p>Are you sure you want to continue?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-  </div>
-</ng-template>
