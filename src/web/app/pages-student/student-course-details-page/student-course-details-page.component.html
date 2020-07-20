@@ -127,13 +127,13 @@
       <button class="btn btn-light" (click)="searchTeammates()">Search</button>
     </div>
     <div class = "sortby">
-    <h5 class="d-inline"><strong> Sort By: </strong></h5>
-    <div class="btn-group" data-toggle="buttons">
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_NAME)" (click)="sortTeammatesBy(SortBy.STUDENT_NAME)">Name</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.EMAIL)" (click)="sortTeammatesBy(SortBy.EMAIL)">Email</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
+      <h5 class="d-inline"><strong> Sort By: </strong></h5>
+      <div class="btn-group" data-toggle="buttons">
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_NAME)" (click)="sortTeammatesBy(SortBy.STUDENT_NAME)">Name</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.EMAIL)" (click)="sortTeammatesBy(SortBy.EMAIL)">Email</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
     </div>
   </div>
   </div>
