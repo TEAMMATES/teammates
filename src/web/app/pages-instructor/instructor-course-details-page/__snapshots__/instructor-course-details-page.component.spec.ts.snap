@@ -374,13 +374,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 >
                    Section 
                   
+                  
+                  
                   <span>
                     <i
-                      class="fas fa-sort"
+                      class="fas fa-sort-up"
                     />
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
