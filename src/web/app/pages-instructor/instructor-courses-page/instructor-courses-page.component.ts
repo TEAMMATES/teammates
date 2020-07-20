@@ -197,6 +197,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses = this.removeCourse(this.activeCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.archivedCourses.push(courseToBeRemoved);
+      this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
     }
   }
 
@@ -261,12 +262,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (activeCourseToBeRemoved !== undefined) {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
+      this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
     } else {
       const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
       this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
       if (archivedCourseToBeRemoved !== undefined) {
         archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
         this.softDeletedCourses.push(archivedCourseToBeRemoved);
+        this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
       }
     }
   }
