@@ -266,24 +266,29 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     return ((a: { course: Course }, b: { course: Course }): number => {
       let strA: string;
       let strB: string;
+      let order: SortOrder;
       switch (by) {
         case SortBy.COURSE_NAME:
           strA = a.course.courseName;
           strB = b.course.courseName;
+          order = SortOrder.ASC;
           break;
         case SortBy.COURSE_ID:
           strA = a.course.courseId;
           strB = b.course.courseId;
+          order = SortOrder.ASC;
           break;
         case SortBy.COURSE_CREATION_DATE:
           strA = String(a.course.creationTimestamp);
           strB = String(b.course.creationTimestamp);
+          order = SortOrder.DESC;
           break;
         default:
           strA = '';
           strB = '';
+          order = SortOrder.ASC;
       }
-      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 
