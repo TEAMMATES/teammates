@@ -317,11 +317,11 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertFalse(updatedInstructor.isDisplayedToStudents);
         assertEquals("New Displayed Name", actualInstructor.displayedName);
         assertEquals("New Displayed Name", updatedInstructor.displayedName);
-        assertTrue(actualInstructor.hasObserverPrivileges());
-        assertTrue(updatedInstructor.hasObserverPrivileges());
+        assertTrue(actualInstructor.getPrivileges().hasObserverPrivileges());
+        assertTrue(updatedInstructor.getPrivileges().hasObserverPrivileges());
         // Verifying less privileged 'Observer' role did not return false positive in case old 'Manager' role is unchanged.
-        assertFalse(actualInstructor.hasManagerPrivileges());
-        assertFalse(updatedInstructor.hasManagerPrivileges());
+        assertFalse(actualInstructor.getPrivileges().hasManagerPrivileges());
+        assertFalse(updatedInstructor.getPrivileges().hasManagerPrivileges());
 
         ______TS("Failure: invalid parameters");
 
@@ -652,8 +652,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertFalse(updatedInstructor.isDisplayedToStudents);
         assertEquals("New Displayed Name", actualInstructor.displayedName);
         assertEquals("New Displayed Name", updatedInstructor.displayedName);
-        assertTrue(actualInstructor.hasObserverPrivileges());
-        assertTrue(updatedInstructor.hasObserverPrivileges());
+        assertTrue(actualInstructor.getPrivileges().hasObserverPrivileges());
+        assertTrue(updatedInstructor.getPrivileges().hasObserverPrivileges());
         // Verifying less privileged 'Observer' role did not return false positive in case old 'CoOwner' role is unchanged.
         assertFalse(actualInstructor.hasCoownerPrivileges());
         assertFalse(updatedInstructor.hasCoownerPrivileges());

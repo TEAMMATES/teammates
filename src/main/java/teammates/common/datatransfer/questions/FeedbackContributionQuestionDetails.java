@@ -73,7 +73,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(teamNames, teamMembersEmail, teamResponses);
 
         // Each team's contribution question results.
-        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
+        Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
         ContributionStatistics output = new ContributionStatistics();
 
         if (isStudent) {
@@ -159,11 +159,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     private Map<String, TeamEvalResult> getTeamResults(List<String> teamNames,
-            Map<String, int[][]> teamSubmissionArray, Map<String, List<String>> teamMembersEmail) {
+            Map<String, int[][]> teamSubmissionArray) {
         Map<String, TeamEvalResult> teamResults = new LinkedHashMap<>();
         for (String team : teamNames) {
             TeamEvalResult teamEvalResult = new TeamEvalResult(teamSubmissionArray.get(team));
-            teamEvalResult.studentEmails = teamMembersEmail.get(team);
             teamResults.put(team, teamEvalResult);
         }
         return teamResults;

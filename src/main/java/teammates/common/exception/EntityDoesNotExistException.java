@@ -10,7 +10,4 @@ public class EntityDoesNotExistException extends Exception {
         super(message);
     }
 
-    public EntityDoesNotExistException(Throwable cause) {
-        super(cause);
-    }
 }

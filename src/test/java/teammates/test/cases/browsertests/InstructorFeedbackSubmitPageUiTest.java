@@ -10,14 +10,13 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_SUBMISSION_PAGE}.
  */
-public class InstructorFeedbackSubmitPageUiTest extends BaseE2ETestCase {
+public class InstructorFeedbackSubmitPageUiTest extends BaseLegacyUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @Override

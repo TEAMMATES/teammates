@@ -23,8 +23,6 @@ public final class Const {
      * This section holds constants that are defined as constants primarily
      * because they are repeated in many places.
      */
-    @Deprecated
-    public static final String HTML_BR_TAG = "<br>";
 
     public static final String USER_NOBODY_TEXT = "-";
     public static final String USER_UNKNOWN_TEXT = "Unknown user";
@@ -308,14 +306,6 @@ public final class Const {
         public static final String RUBRIC = "Rubric question";
     }
 
-    public static class FeedbackSessionResults {
-        public static final String QUESTION_SORT_TYPE = "question";
-        public static final String GRQ_SORT_TYPE = "giver-recipient-question";
-        public static final String RGQ_SORT_TYPE = "recipient-giver-question";
-        public static final String GQR_SORT_TYPE = "giver-question-recipient";
-        public static final String RQG_SORT_TYPE = "recipient-question-giver";
-    }
-
     public static class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -392,8 +382,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_SENDREMINDEREMAIL = "sendreminderemail";
         public static final String FEEDBACK_SESSION_INSTRUCTIONS = "instructions";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
-        @Deprecated
-        public static final String FEEDBACK_SESSION_ENABLE_EDIT = "editsessiondetails";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
         public static final String FEEDBACK_QUESTION_NUMBER = "questionnum";
