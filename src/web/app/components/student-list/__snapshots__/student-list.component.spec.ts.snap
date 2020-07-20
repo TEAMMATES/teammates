@@ -18,7 +18,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -119,7 +119,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -142,13 +142,13 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           >
              Section 
             
+            
+            
             <span>
               <i
-                class="fas fa-sort"
+                class="fas fa-sort-up"
               />
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
@@ -239,98 +239,6 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             Team 1
           </td>
           <td>
-            tester
-          </td>
-          <td
-            class="align-center"
-          >
-            Yet to Join
-          </td>
-          <td>
-            tester@tester.com
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-            >
-              Send Invite
-            </button>
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-            >
-              Delete
-            </button>
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover>
-              
-              
-              
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
             Benny Charles
           </td>
           <td
@@ -385,6 +293,98 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td
+            class="align-center"
+          >
+            Yet to Join
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+            >
+              Send Invite
+            </button>
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -587,7 +587,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -610,13 +610,13 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           >
              Section 
             
+            
+            
             <span>
               <i
-                class="fas fa-sort"
+                class="fas fa-sort-up"
               />
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
@@ -707,6 +707,91 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             Team 1
           </td>
           <td>
+            Benny Charles
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
             tester
           </td>
           <td
@@ -761,91 +846,6 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover>
-              
-              
-              
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Benny Charles
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            benny.c.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               Edit
-            </a>
-            
-            
-            
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-            >
-              Delete
-            </button>
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1048,7 +1048,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -1071,13 +1071,13 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           >
              Section 
             
+            
+            
             <span>
               <i
-                class="fas fa-sort"
+                class="fas fa-sort-up"
               />
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
@@ -1168,88 +1168,6 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             Team 1
           </td>
           <td>
-            tester
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            tester@tester.com
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               Edit
-            </a>
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-            >
-              Delete
-            </button>
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover>
-              
-              
-              
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
             Benny Charles
           </td>
           <td
@@ -1294,6 +1212,88 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1490,7 +1490,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -1513,13 +1513,13 @@ exports[`StudentListComponent should snap with some student list data and some s
           >
              Section 
             
+            
+            
             <span>
               <i
-                class="fas fa-sort"
+                class="fas fa-sort-up"
               />
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
@@ -1580,6 +1580,88 @@ exports[`StudentListComponent should snap with some student list data and some s
       </thead>
       <tbody>
         
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
         <tr
           hidden=""
           s=""
@@ -1655,88 +1737,6 @@ exports[`StudentListComponent should snap with some student list data and some s
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover>
-              
-              
-              
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
-            Benny Charles
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            benny.c.tmms@gmail.tmt
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               Edit
-            </a>
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2"
-            >
-              Delete
-            </button>
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -1934,7 +1934,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -1957,13 +1957,13 @@ exports[`StudentListComponent should snap with some student list data when not a
           >
              Section 
             
+            
+            
             <span>
               <i
-                class="fas fa-sort"
+                class="fas fa-sort-up"
               />
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
@@ -2054,88 +2054,6 @@ exports[`StudentListComponent should snap with some student list data when not a
             Team 1
           </td>
           <td>
-            tester
-          </td>
-          <td
-            class="align-center"
-          >
-            Joined
-          </td>
-          <td>
-            tester@tester.com
-          </td>
-          <td
-            class="no-print align-center"
-          >
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               View
-            </a>
-            
-            
-            <a
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               Edit
-            </a>
-            
-            
-            <button
-              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
-            >
-              Delete
-            </button>
-            
-            <a
-              class="btn btn-light btn-sm mr-2"
-              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-               All Records
-            </a>
-            
-          </td>
-        </tr>
-        <tr
-          s=""
-        >
-          <td
-            class="align-center"
-          >
-            <tm-view-photo-popover>
-              
-              
-              
-              <a
-                href="/"
-                queryparamshandling="preserve"
-                role="button"
-              >
-                 View Photo 
-              </a>
-              
-              
-              
-            </tm-view-photo-popover>
-          </td>
-          
-          <td>
-            Tutorial Group 1
-          </td>
-          <td>
-            Team 1
-          </td>
-          <td>
             Benny Charles
           </td>
           <td
@@ -2180,6 +2098,88 @@ exports[`StudentListComponent should snap with some student list data when not a
             <a
               class="btn btn-light btn-sm mr-2"
               href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td
+            class="align-center"
+          >
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td
+            class="align-center"
+          >
+            Joined
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm mr-2"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -2376,7 +2376,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
@@ -2556,7 +2556,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy="0"
+  tableSortBy={[Function Number]}
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
 >
