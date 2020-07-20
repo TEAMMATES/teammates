@@ -6,31 +6,36 @@
         <div class="form-group row">
           <label class="col-sm-3 text-sm-right">Course ID:</label>
           <div class="col-sm-6 text-sm-left">
-            <p class="form-control-static">{{courseDetails.course.courseId}}</p>
+            <p *ngIf="!isCourseLoading" class="form-control-static">{{courseDetails.course.courseId}}</p>
+            <tm-ajax-loading *ngIf="isCourseLoading"></tm-ajax-loading>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 text-sm-right">Course name:</label>
           <div class="col-sm-6 text-sm-left" id="coursename">
-            <p class="form-control-static">{{courseDetails.course.courseName}}</p>
+            <p *ngIf="!isCourseLoading" class="form-control-static">{{courseDetails.course.courseName}}</p>
+            <tm-ajax-loading *ngIf="isCourseLoading"></tm-ajax-loading>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 text-sm-right">Sections:</label>
           <div class="col-sm-6 text-sm-left">
-            <p class="form-control-static">{{courseDetails.stats.numOfSections}}</p>
+            <p *ngIf="!isStudentsLoading" class="form-control-static">{{courseDetails.stats.numOfSections}}</p>
+            <tm-ajax-loading *ngIf="isStudentsLoading"></tm-ajax-loading>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 text-sm-right">Teams:</label>
           <div class="col-sm-6 text-sm-left">
-            <p class="form-control-static">{{courseDetails.stats.numOfTeams}}</p>
+            <p *ngIf="!isStudentsLoading" class="form-control-static">{{courseDetails.stats.numOfTeams}}</p>
+            <tm-ajax-loading *ngIf="isStudentsLoading"></tm-ajax-loading>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-sm-3 text-sm-right">Total students:</label>
           <div class="col-sm-6 text-sm-left">
-            <p class="form-control-static">{{courseDetails.stats.numOfStudents}}</p>
+            <p *ngIf="!isStudentsLoading" class="form-control-static">{{courseDetails.stats.numOfStudents}}</p>
+            <tm-ajax-loading *ngIf="isStudentsLoading"></tm-ajax-loading>
           </div>
         </div>
       </div>
@@ -40,6 +45,7 @@
           <div *ngFor="let instructor of instructors">
             {{instructor.role | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
           </div>
+          <tm-ajax-loading *ngIf="isInstructorsLoading"></tm-ajax-loading>
         </div>
       </div>
       <div *ngIf="students.length > 0">

@@ -8,7 +8,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
-  loading={[Function Boolean]}
+  isCourseLoading={[Function Boolean]}
+  isInstructorsLoading={[Function Boolean]}
+  isStudentListDownloaded={[Function Boolean]}
+  isStudentsLoading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -43,11 +46,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                CS101
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -62,11 +67,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="col-sm-6 text-sm-left"
               id="coursename"
             >
-              <p
-                class="form-control-static"
-              >
-                Introduction to CS
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -80,11 +87,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -98,11 +107,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -116,11 +127,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
         </div>
@@ -139,6 +152,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div>
                Co-owner: Hodor (hodor@gmail.com) 
             </div>
+            
+            <tm-ajax-loading>
+              <img
+                src="assets/images/ajax-loader.gif"
+              />
+            </tm-ajax-loading>
           </div>
         </div>
         
@@ -175,7 +194,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess="false"
-  loading="false"
+  isCourseLoading={[Function Boolean]}
+  isInstructorsLoading={[Function Boolean]}
+  isStudentListDownloaded="false"
+  isStudentsLoading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -210,11 +232,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                CS101
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -229,11 +253,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="col-sm-6 text-sm-left"
               id="coursename"
             >
-              <p
-                class="form-control-static"
-              >
-                Introduction to CS
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -247,11 +273,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -265,11 +293,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -283,11 +313,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
         </div>
@@ -306,6 +338,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             <div>
                Co-owner: Bran (bran@gmail.com) 
             </div>
+            
+            <tm-ajax-loading>
+              <img
+                src="assets/images/ajax-loader.gif"
+              />
+            </tm-ajax-loading>
           </div>
         </div>
         
@@ -555,7 +593,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isAjaxSuccess={[Function Boolean]}
-  loading="false"
+  isCourseLoading={[Function Boolean]}
+  isInstructorsLoading={[Function Boolean]}
+  isStudentListDownloaded="false"
+  isStudentsLoading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -590,11 +631,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -609,11 +652,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
               class="col-sm-6 text-sm-left"
               id="coursename"
             >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -627,11 +672,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -645,11 +692,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
           <div
@@ -663,11 +712,13 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             <div
               class="col-sm-6 text-sm-left"
             >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
+              
+              
+              <tm-ajax-loading>
+                <img
+                  src="assets/images/ajax-loader.gif"
+                />
+              </tm-ajax-loading>
             </div>
           </div>
         </div>
@@ -683,6 +734,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
             class="col-sm-6 text-sm-left"
           >
             
+            
+            <tm-ajax-loading>
+              <img
+                src="assets/images/ajax-loader.gif"
+              />
+            </tm-ajax-loading>
           </div>
         </div>
         

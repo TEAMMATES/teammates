@@ -77,7 +77,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
     component.courseStudentListAsCsv = 'a,b';
-    component.loading = true;
+    component.isStudentListDownloaded = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

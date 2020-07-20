@@ -57,8 +57,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   students: StudentListRowModel[] = [];
   courseStudentListAsCsv: string = '';
 
-  loading: boolean = false;
+  isCourseLoading: boolean = true;
+  isStudentsLoading: boolean = true;
+  isInstructorsLoading: boolean = true;
   isAjaxSuccess: boolean = true;
+  isStudentListDownloaded: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private statusMessageService: StatusMessageService,
@@ -88,6 +91,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   private loadCourseName(courseid: string): void {
     this.courseService.getCourseAsInstructor(courseid).subscribe((course: Course) => {
       this.courseDetails.course = course;
+      this.isCourseLoading = false;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -100,6 +104,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.instructorService.loadInstructors({ courseId: courseid, intent: Intent.FULL_DETAIL })
     .subscribe((instructors: Instructors) => {
       this.instructors = instructors.instructors;
+      this.isInstructorsLoading = false;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -130,6 +135,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         this.loadPrivilege(courseid, key, data);
       });
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
+      this.isStudentsLoading = false;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
@@ -190,7 +196,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     let blob: any;
 
     // Calling REST API only the first time to load the downloadable data
-    if (this.loading) {
+    if (this.isStudentListDownloaded) {
       blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
       saveAs(blob, filename);
     } else {
@@ -199,7 +205,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           blob = new Blob([resp], { type: 'text/csv' });
           saveAs(blob, filename);
           this.courseStudentListAsCsv = resp;
-          this.loading = false;
+          this.isStudentListDownloaded = true;
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
