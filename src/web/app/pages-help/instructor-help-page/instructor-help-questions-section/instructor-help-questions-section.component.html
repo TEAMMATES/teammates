@@ -22,7 +22,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
       <tm-question-edit-form
               [formModel]="exampleEssayQuestionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -62,7 +62,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
       <tm-question-edit-form
               [formModel]="exampleMCQQuestionWithoutWeightsModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -80,7 +80,7 @@
       <strong>Note: </strong> Weights can be assigned for questions with existing questions too. To do that, edit the question that needs weights,
       if there are existing responses for that question, the additional statistics will automatically get calculated for the question.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
       <tm-question-edit-form
               [formModel]="exampleMCQQuestionWithWeightsModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -132,7 +132,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
       <tm-question-edit-form
               [formModel]="exampleNumericalScaleQuestionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -143,7 +143,7 @@
       Statistics for numerical scale questions are also provided for instructors.<br>
       TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
       <tm-instructor-session-result-question-view
               [questions]="exampleNumericalScaleQuestions"
               [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
@@ -182,7 +182,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
       <tm-question-edit-form
               [formModel]="exampleDistributedPointOptionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -192,7 +192,7 @@
     <p>
       In the results view, TEAMMATES provides statistics on the average number of points each option received.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
       <tm-instructor-session-result-question-view
               [questions]="exampleDistributePointOptionQuestions"
               [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
@@ -229,7 +229,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
       <tm-question-edit-form
               [formModel]="exampleDistributedPointRecipientModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -263,7 +263,7 @@
     <p>
       The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
       <tm-question-edit-form
               [formModel]="exampleTeamContributionQuestionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -477,7 +477,7 @@
       For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalizes it to ‘Equal share’ because in reality that is what the student means.
       ‘Normalize’ here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
       <tm-instructor-session-result-question-view
               [questions]="exampleTeamContributionQuestions"
               [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
@@ -499,7 +499,7 @@
     <p>
       To respondents, a rubric question will appear as a table that looks similar to the example below. Respondents can choose one answer per row.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
       <tm-question-submission-form
               [formModel]="exampleResponderRubricSubmissionFormModel"
               [isDisabled]="true"
@@ -531,7 +531,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
       <tm-question-edit-form
               [formModel]="exampleRubricQuestionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -567,7 +567,7 @@
       which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and
       the response count of that choice, total and average points for the sub-question is calculated for each recipient.
     </p>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
       <tm-instructor-session-result-question-view
               [questions]="exampleRubricQuestionQuestions"
               [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
@@ -609,7 +609,7 @@
         Specify the feedback path that should be used to generate the appropriate feedback recipients
       </li>
     </ol>
-    <tm-question-edit-form
+    <tm-question-edit-form *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]"
             [formModel]="exampleRankOptionQuestionModel"
             [formMode]="QuestionEditFormMode.EDIT"
             [isDisplayOnly]="true"
@@ -641,7 +641,7 @@
         (Optional) Allow respondents to give the same rank to multiple options
       </li>
     </ol>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
       <tm-question-edit-form
               [formModel]="exampleRankRecipientQuestionModel"
               [formMode]="QuestionEditFormMode.EDIT"
@@ -674,7 +674,7 @@
         </li>
       </ul>
     </ng-template>
-    <tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
       <tm-instructor-session-result-question-view
               [questions]="exampleRankRecipientQuestions"
               [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
