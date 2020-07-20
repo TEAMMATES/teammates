@@ -231,14 +231,13 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       this.teammateProfiles = this.teammateProfilesInit;
     }
     else {
-      let temp: StudentProfileWithPicture[] = [];
+      this.teammateProfiles = [];
       this.teammateProfilesInit.forEach(student => {
         if (student.studentProfile.name.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) ||
           student.studentProfile.email.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())) {
-          temp.push(student);
+          this.teammateProfiles.push(student);
         }
       });
-      this.teammateProfiles = temp;
     }
   }
 
