@@ -351,7 +351,7 @@
           </ol>
           <p>
             In the calculation, we do not allow (1) to affect (2). We use (2) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
-            <a (click)="openContribInfoModal()" [routerLink]="">here</a>.
+            <a (click)="openContribInfoModal(contributionTemplateBody)" [routerLink]="">here</a>.
             <ng-template #contributionTemplateBody>
               <div class="modal-body">
                 <ul>
@@ -746,7 +746,7 @@
             </li>
           </ul>
           <p>
-            Technical details about how ranks are calculated are available <a (click)="openRankInfoModal()" [routerLink]="">here</a>.
+            Technical details about how ranks are calculated are available <a (click)="openRankInfoModal(rankInfoHelp)" [routerLink]="">here</a>.
           </p>
           <ng-template #rankInfoHelp>
             <ul>

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, TemplateRef } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
@@ -127,8 +127,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   };
 
   @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
-  @ViewChild('contributionTemplateBody') contributionTemplateBody!: TemplateRef<any>;
-  @ViewChild('rankInfoHelp') rankInfoHelp!: TemplateRef<any>;
 
   constructor(private simpleModalService: SimpleModalService,
               private pageScrollService: PageScrollService,
@@ -139,17 +137,17 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   /**
    * Opens modal for contribution info.
    */
-  openContribInfoModal(): void {
+  openContribInfoModal(modal: TemplateRef<any>): void {
     this.simpleModalService.openInformationModal(
-        'Team contribution calculation', SimpleModalType.NEUTRAL, this.contributionTemplateBody);
+        'Team contribution calculation', SimpleModalType.NEUTRAL, modal);
   }
 
   /**
    * Opens modal for rank info.
    */
-  openRankInfoModal(): void {
+  openRankInfoModal(modal: TemplateRef<any>): void {
     this.simpleModalService.openInformationModal(
-        'Rank calculation', SimpleModalType.NEUTRAL, this.rankInfoHelp);
+        'Rank calculation', SimpleModalType.NEUTRAL, modal);
   }
 
   ngOnInit(): void {

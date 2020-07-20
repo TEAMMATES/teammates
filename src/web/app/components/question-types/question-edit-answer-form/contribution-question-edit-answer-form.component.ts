@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
   FeedbackContributionQuestionDetails,
@@ -30,8 +30,6 @@ export class ContributionQuestionEditAnswerFormComponent
   @Input()
   shouldShowHelpLink: boolean = true;
 
-  @ViewChild('equalShareHelp') equalShareHelp!: TemplateRef<any>;
-
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 
@@ -47,8 +45,8 @@ export class ContributionQuestionEditAnswerFormComponent
     return points;
   }
 
-  openHelpModal(): void {
+  openHelpModal(modal: TemplateRef<any>): void {
     const modalHeader: string = 'More info about the <code>Equal Share</code> scale';
-    this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, this.equalShareHelp);
+    this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, modal);
   }
 }

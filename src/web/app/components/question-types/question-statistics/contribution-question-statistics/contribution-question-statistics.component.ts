@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
@@ -30,7 +30,6 @@ export class ContributionQuestionStatisticsComponent
   Sections: typeof Sections = Sections;
 
   @Input() displayContributionStats: boolean = true;
-  @ViewChild('contributionHelpModal') contributionHelpModal!: TemplateRef<any>;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
@@ -100,8 +99,8 @@ export class ContributionQuestionStatisticsComponent
     });
   }
 
-  openHelpModal(): void {
+  openHelpModal(modal: TemplateRef<any>): void {
     this.simpleModalService.openInformationModal(
-      'More info about contribution questions', SimpleModalType.NEUTRAL, this.contributionHelpModal);
+      'More info about contribution questions', SimpleModalType.NEUTRAL, modal);
   }
 }

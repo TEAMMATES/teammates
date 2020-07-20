@@ -306,9 +306,8 @@ export class QuestionEditFormComponent implements OnInit {
             <p>Editing fields affecting responders' answers may result in <b>all existing responses for this question to be deleted.</b></p>
             <p>Are you sure you want to continue?</p>
         `;
-        const modalRef: NgbModalRef = this.simpleModalService
-            .openConfirmationModal('Save the question?',
-                SimpleModalType.DANGER, modalContent);
+        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.DANGER, modalContent);
         modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});
