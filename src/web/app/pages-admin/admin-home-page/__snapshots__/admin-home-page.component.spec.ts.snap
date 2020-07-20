@@ -326,9 +326,14 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
         >
           
           <tm-ajax-loading>
-            <img
-              src="assets/images/ajax-loader.gif"
-            />
+            <div
+              class="loading-container"
+            >
+              <div
+                class="spinner-border spinner-border-sm text-white"
+                role="status"
+              />
+            </div>
           </tm-ajax-loading>
            Add All Instructors 
         </button>

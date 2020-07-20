@@ -365,9 +365,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 class="btn btn-primary mb-2"
                 type="button"
               >
+                
                 <i
                   class="fa fa-download"
                 />
+                
                  Download Student List 
               </button>
               <button
