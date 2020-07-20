@@ -51,12 +51,10 @@
                 <div ngbDropdownMenu>
                   <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                     <a class="btn btn-info btn-sm dropdown-item"
-                     ngbTooltip="Enroll student into the course"
                      routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
                     </a>
                   </ng-container>
                   <a class="btn btn-info btn-sm dropdown-item"
-                   ngbTooltip="View, edit and send invitation emails to the students in the course"
                    routerLink="/web/instructor/courses/details" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                   </a>
                 </div>
@@ -65,7 +63,6 @@
                 <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
                 <div ngbDropdownMenu >
                   <a class="btn btn-light btn-sm dropdown-item"
-                   ngbTooltip="Edit course information and instructor list"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                   </a>
                 </div>
@@ -74,7 +71,6 @@
                 <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
                 <div ngbDropdownMenu>
                   <a class="btn btn-light btn-sm dropdown-item"
-                   ngbTooltip="Add a feedback session for the course"
                    routerLink='/web/instructor/sessions' [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
                   </a>
                 </div>
@@ -87,7 +83,6 @@
                    (click)="archiveCourse(courseTabModel.course.courseId); $event.stopPropagation()"> Archive
                   </a>
                   <a class="btn btn-light btn-sm dropdown-item"
-                   ngbTooltip="Edit course information and instructor list"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                   </a>
                   <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
