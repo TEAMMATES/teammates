@@ -7,17 +7,17 @@
       <div class="col-8 col-md-6 text-right">
         <button id="btn-resend-invite-{{ instructorIndex + 1 }}" class="btn btn-light btn-sm" ngbTooltip="Send invitation email to the instructor" placement="top-right"
                 *ngIf="instructor.joinState == JoinState.NOT_JOINED && editMode == EditMode.EDIT"
-                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || isSavingInstructorEdit"
+                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
                 (click)="sendRemindJoinEmail.emit()">
           <i class="fa fa-envelope" aria-hidden="true"></i>
           Resend Invite
         </button>&nbsp;
         <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-light btn-sm"
                 ngbTooltip="Edit instructor details" placement="top-right"
-                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || isSavingInstructorEdit"
+                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
                 (click)="triggerModelChange('isEditing', true)">
-          <tm-ajax-loading *ngIf="isSavingInstructorEdit"></tm-ajax-loading>
-          <i *ngIf="!isSavingInstructorEdit" class="fa fa-pen" aria-hidden="true"></i>
+          <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit"></tm-ajax-loading>
+          <i *ngIf="!instructor.isSavingInstructorEdit" class="fa fa-pen" aria-hidden="true"></i>
           Edit
         </button>
         <button id="btn-cancel-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing || editMode == EditMode.ADD" class="btn btn-light btn-sm"
@@ -29,7 +29,7 @@
         </button>&nbsp;
         <button id="btn-delete-instructor-{{ instructorIndex + 1 }}" *ngIf="editMode == EditMode.EDIT" class="btn btn-light btn-sm"
                 ngbTooltip="Delete the instructor from the course" placement="top-right"
-                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || isSavingInstructorEdit"
+                [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
                 (click)="deleteInstructor.emit()">
           <i class="fa fa-trash" aria-hidden="true"></i>
           Delete
@@ -113,8 +113,8 @@
                                        [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
 
     <div *ngIf="instructor.isEditing">
-      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-primary" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="isSavingInstructorEdit || isSavingNewInstructor">
-        <tm-ajax-loading *ngIf="isSavingInstructorEdit || isSavingNewInstructor"></tm-ajax-loading>
+      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-primary" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
+        <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit || isSavingNewInstructor"></tm-ajax-loading>
         <span *ngIf="editMode == EditMode.EDIT">Save changes</span>
         <span *ngIf="editMode == EditMode.ADD">Add Instructor</span>
       </button>

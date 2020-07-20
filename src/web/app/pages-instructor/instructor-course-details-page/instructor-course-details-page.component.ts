@@ -56,7 +56,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   };
   instructors: Instructor[] = [];
   students: StudentListRowModel[] = [];
-  courseStudentListAsCsv: string = '';
 
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
@@ -198,7 +197,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       .subscribe((resp: string) => {
         blob = new Blob([resp], { type: 'text/csv' });
         saveAs(blob, filename);
-        this.courseStudentListAsCsv = resp;
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });

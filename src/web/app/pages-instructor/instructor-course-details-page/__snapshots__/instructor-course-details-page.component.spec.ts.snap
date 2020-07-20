@@ -4,7 +4,6 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isLoadingCsv="false"
@@ -39,7 +38,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv={[Function String]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isLoadingCsv="false"
@@ -206,7 +204,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isLoadingCsv="false"
@@ -588,7 +585,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
   isLoadingCsv="false"

@@ -20,6 +20,7 @@ export interface InstructorEditPanel {
   permission: InstructorOverallPermission;
 
   isEditing: boolean;
+  isSavingInstructorEdit: boolean;
 }
 
 /**
@@ -84,6 +85,7 @@ export class InstructorEditPanelComponent implements OnInit {
     },
 
     isEditing: false,
+    isSavingInstructorEdit: false,
   };
   @Output()
   instructorChange: EventEmitter<InstructorEditPanel> = new EventEmitter();
@@ -108,9 +110,6 @@ export class InstructorEditPanelComponent implements OnInit {
 
   @Input()
   isSavingNewInstructor: boolean = false;
-
-  @Input()
-  isSavingInstructorEdit: boolean = false;
 
   @Output()
   sendRemindJoinEmail: EventEmitter<void> = new EventEmitter();

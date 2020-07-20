@@ -76,7 +76,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
-    component.courseStudentListAsCsv = 'a,b';
     component.isLoadingCsv = false;
     component.isStudentsLoading = false;
 
