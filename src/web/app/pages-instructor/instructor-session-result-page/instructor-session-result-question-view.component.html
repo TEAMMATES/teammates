@@ -16,7 +16,7 @@
     </div>
   </div>
   <div *ngIf="question.isTabExpanded" @collapseAnim>
-    <div class="card-body">
+    <div *tmIsLoading="!question.hasPopulated" class="card-body">
       <div class="stats-table">
         <tm-single-statistics *ngIf="showStatistics"
                               [question]="question.question.questionDetails"

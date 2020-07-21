@@ -92,7 +92,9 @@
                 id="btn-enroll"
                 name="button-enroll"
                 class="btn btn-primary float-right"
+                [disabled]="isEnrolling"
                 (click)="submitEnrollData()">
+              <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
               Enroll students
             </button>
           </div>

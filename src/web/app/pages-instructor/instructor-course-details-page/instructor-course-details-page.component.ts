@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
+import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -57,10 +58,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   };
   instructors: Instructor[] = [];
   students: StudentListRowModel[] = [];
-  courseStudentListAsCsv: string = '';
 
-  loading: boolean = false;
-  isAjaxSuccess: boolean = true;
+  isLoadingCsv: boolean = false;
+  isStudentsLoading: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private statusMessageService: StatusMessageService,
@@ -113,6 +113,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the students in the course
    */
   private loadStudents(courseid: string): void {
+    this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -146,18 +147,19 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.instructorService.loadInstructorPrivilege({
       sectionName,
       courseId: courseid,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      students.forEach((studentModel: StudentListRowModel) => {
-        if (studentModel.student.sectionName === sectionName) {
-          studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
-          studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
-        }
-      });
-
-      this.students.push(...students);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    })
+        .pipe(finalize(() => this.isStudentsLoading = false))
+        .subscribe((instructorPrivilege: InstructorPrivilege) => {
+          students.forEach((studentModel: StudentListRowModel) => {
+            if (studentModel.student.sectionName === sectionName) {
+              studentModel.isAllowedToViewStudentInSection = instructorPrivilege.canViewStudentInSections;
+              studentModel.isAllowedToModifyStudent = instructorPrivilege.canModifyStudent;
+            }
+          });
+          this.students.push(...students);
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -207,24 +209,18 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Download all the students from a course.
    */
   downloadAllStudentsFromCourse(courseId: string): void {
+    this.isLoadingCsv = true;
     const filename: string = `${courseId.concat('_studentList')}.csv`;
     let blob: any;
 
-    // Calling REST API only the first time to load the downloadable data
-    if (this.loading) {
-      blob = new Blob([this.courseStudentListAsCsv], { type: 'text/csv' });
-      saveAs(blob, filename);
-    } else {
-      this.studentService.loadStudentListAsCsv({ courseId })
-        .subscribe((resp: string) => {
-          blob = new Blob([resp], { type: 'text/csv' });
-          saveAs(blob, filename);
-          this.courseStudentListAsCsv = resp;
-          this.loading = false;
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-    }
+    this.studentService.loadStudentListAsCsv({ courseId })
+      .pipe(finalize(() => this.isLoadingCsv = false))
+      .subscribe((resp: string) => {
+        blob = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   /**

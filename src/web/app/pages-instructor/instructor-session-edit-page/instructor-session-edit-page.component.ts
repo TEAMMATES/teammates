@@ -153,6 +153,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
+  isLoadingFeedbackSession: boolean = false;
+  isLoadingFeedbackQuestions: boolean = false;
+  isCopyingQuestion: boolean = false;
 
   // all students of the course
   studentsOfCourse: Student[] = [];
@@ -201,6 +204,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads a feedback session.
    */
   loadFeedbackSession(): void {
+    this.isLoadingFeedbackSession = true;
     // load the course of the feedback session first
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
       this.courseName = course.courseName;
@@ -209,13 +213,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
-      })
+      }).pipe(finalize(() => this.isLoadingFeedbackSession = false))
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.isLoadingFeedbackSession = false;
     });
   }
 
@@ -432,11 +439,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
+    this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
       intent: Intent.FULL_DETAIL,
     })
+        .pipe(finalize(() => this.isLoadingFeedbackQuestions = false))
         .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
@@ -799,6 +808,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
+        this.isCopyingQuestion = true;
         of(...questionsToCopy).pipe(
             concatMap((questionToCopy: FeedbackQuestion) => {
               return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
@@ -820,12 +830,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                 showRecipientNameTo: questionToCopy.showRecipientNameTo,
               });
             }),
+            finalize(() => this.isCopyingQuestion = false),
         ).subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
           this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-      }, () => {});
+      });
     });
   }
 

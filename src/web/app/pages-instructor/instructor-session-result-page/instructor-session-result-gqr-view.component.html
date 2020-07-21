@@ -8,7 +8,7 @@
       </div>
     </div>
     <div *ngIf="sectionInfo.value.isTabExpanded" @collapseAnim>
-      <div class="card-body">
+      <div *tmIsLoading="!sectionInfo.value.hasPopulated" class="card-body">
         <tm-gqr-rqg-view-responses [responses]="sectionInfo.value.questions || []" [section]="sectionInfo.key" [sectionType]="sectionType"
                                    [indicateMissingResponses]="indicateMissingResponses"
                                    [groupByTeam]="groupByTeam" [showStatistics]="showStatistics" [isGqr]="true" [session]="session"
