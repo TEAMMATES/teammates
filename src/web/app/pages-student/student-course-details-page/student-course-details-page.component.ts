@@ -151,7 +151,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-      });
+        });
   }
 
   /**
@@ -186,7 +186,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param sortOption: option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
-    ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
+      ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
     return ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }): number => {
       let strA: string;
       let strB: string;
