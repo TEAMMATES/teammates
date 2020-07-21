@@ -15,8 +15,8 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isArchivedCourseExpanded="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
-  modalService={[Function NgbModal]}
   route={[Function ActivatedRoute]}
+  simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

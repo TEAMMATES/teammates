@@ -11,6 +11,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >

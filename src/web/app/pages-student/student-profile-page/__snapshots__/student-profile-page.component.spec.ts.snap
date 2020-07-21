@@ -11,6 +11,7 @@ exports[`StudentProfilePageComponent should snap when student profile is still l
   isSavingProfileEdit="false"
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
 >

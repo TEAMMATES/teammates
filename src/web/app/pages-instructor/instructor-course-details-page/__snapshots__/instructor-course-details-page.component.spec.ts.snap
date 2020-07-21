@@ -12,6 +12,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
@@ -46,6 +47,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
@@ -194,8 +196,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
        to enroll students. 
     </div>
     
-    
-    
   </div>
 </tm-instructor-course-details-page>
 `;
@@ -212,6 +212,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
@@ -550,13 +551,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </button>
                   
                   
-                  
                   <button
                     class="btn btn-light btn-sm mr-2"
                   >
                     Delete
                   </button>
-                  
                   
                   <a
                     class="btn btn-light btn-sm mr-2"
@@ -575,8 +574,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       </tm-student-list>
     </div>
     
-    
-    
   </div>
 </tm-instructor-course-details-page>
 `;
@@ -593,6 +590,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
