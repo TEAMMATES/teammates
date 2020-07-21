@@ -1,23 +1,14 @@
-import {
-  AfterContentChecked,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { JoinStatePipe } from './join-state.pipe';
 
 /**
  * Model of row of student data containing details about a student and their section.
@@ -37,7 +28,7 @@ export interface StudentListRowModel {
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-export class StudentListComponent implements OnInit, AfterContentChecked {
+export class StudentListComponent implements OnInit {
   @Input() courseId: string = '';
   @Input() useGrayHeading: boolean = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -45,12 +36,11 @@ export class StudentListComponent implements OnInit, AfterContentChecked {
   @Input() enableRemindButton: boolean = false;
   @Input() isActionButtonsEnabled: boolean = true;
   @Input() students: StudentListRowModel[] = [];
+  @Input() tableSortBy: SortBy = SortBy.NONE;
+  @Input() tableSortOrder: SortOrder = SortOrder.ASC;
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
-
-  tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
-  sortedStudents: StudentListRowModel[] = [];
+  @Output() sortStudentListEvent: EventEmitter<SortBy> = new EventEmitter();
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -61,22 +51,10 @@ export class StudentListComponent implements OnInit, AfterContentChecked {
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
-              private tableComparatorService: TableComparatorService,
               private simpleModalService: SimpleModalService) {
   }
 
   ngOnInit(): void {
-  }
-
-  ngAfterContentChecked(): void {
-    this.sortedStudents = [...this.students];
-    if (this.tableSortBy === SortBy.NONE) {
-      this.sortedStudents.sort(this.sortBy(SortBy.STUDENT_NAME))
-        .sort(this.sortBy(SortBy.TEAM_NAME))
-        .sort(this.sortBy(SortBy.SECTION_NAME));
-    } else {
-      this.sortedStudents.sort(this.sortBy(this.tableSortBy));
-    }
   }
 
   /**
@@ -149,50 +127,7 @@ export class StudentListComponent implements OnInit, AfterContentChecked {
   /**
    * Sorts the student list
    */
-  sortStudentListEvent(by: SortBy): void {
-    this.tableSortBy = by;
-    this.tableSortOrder =
-        this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.sortedStudents.sort(this.sortBy(by));
-  }
-
-  /**
-   * Returns a function to determine the order of sort
-   */
-  sortBy(by: SortBy):
-      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
-    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
-
-    return (a: StudentListRowModel, b: StudentListRowModel): number => {
-      let strA: string;
-      let strB: string;
-      switch (by) {
-        case SortBy.SECTION_NAME:
-          strA = a.student.sectionName;
-          strB = b.student.sectionName;
-          break;
-        case SortBy.STUDENT_NAME:
-          strA = a.student.name;
-          strB = b.student.name;
-          break;
-        case SortBy.TEAM_NAME:
-          strA = a.student.teamName;
-          strB = b.student.teamName;
-          break;
-        case SortBy.EMAIL:
-          strA = a.student.email;
-          strB = b.student.email;
-          break;
-        case SortBy.JOIN_STATUS:
-          strA = joinStatePipe.transform(a.student.joinState);
-          strB = joinStatePipe.transform(b.student.joinState);
-          break;
-        default:
-          strA = '';
-          strB = '';
-      }
-
-      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
-    };
+  sortStudentList(by: SortBy): void {
+    this.sortStudentListEvent.emit(by);
   }
 }
