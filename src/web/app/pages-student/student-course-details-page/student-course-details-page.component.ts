@@ -200,11 +200,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       let strA: string;
       let strB: string;
       switch (sortOption) {
-        case SortBy.STUDENT_NAME:
+        case SortBy.RESPONDENT_NAME:
           strA = a.name;
           strB = b.name;
           break;
-        case SortBy.EMAIL:
+        case SortBy.RESPONDENT_EMAIL:
           strA = a.email;
           strB = b.email;
           break;

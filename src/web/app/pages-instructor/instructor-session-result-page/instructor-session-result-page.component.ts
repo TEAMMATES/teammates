@@ -31,7 +31,7 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
-import { StudentListInfoTableRowModel } from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
+import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorCommentsComponent } from '../instructor-comments.component';
@@ -465,7 +465,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    */
   sendReminderToStudents(studentsToRemindData: StudentListInfoTableRowModel[]): void {
     this.feedbackSessionsService
-      .remindFeedbackSessionSubmissionForStudent(this.session.courseId, this.session.feedbackSessionName, {
+      .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
         usersToRemind: studentsToRemindData.map((m: StudentListInfoTableRowModel) => m.email),
       }).subscribe(() => {
         this.statusMessageService.showSuccessToast(

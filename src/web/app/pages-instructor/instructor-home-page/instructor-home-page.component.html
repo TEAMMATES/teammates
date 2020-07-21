@@ -122,8 +122,8 @@
             (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
             (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
             (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
-            (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
-            (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+            (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
+            (sendRemindersToStudentsEvent)="sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
       </div>
     </div>
   </div>
