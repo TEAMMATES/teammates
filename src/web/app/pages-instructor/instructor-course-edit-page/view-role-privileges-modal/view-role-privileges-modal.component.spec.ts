@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { InstructorRoleTitlePipe } from '../instructor-edit-panel/instructor-role-title.pipe';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal.component';
 
 describe('ViewRolePrivilegesModalComponent', () => {
@@ -9,7 +10,10 @@ describe('ViewRolePrivilegesModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewRolePrivilegesModalComponent],
+      declarations: [
+        ViewRolePrivilegesModalComponent,
+        InstructorRoleTitlePipe,
+      ],
       providers: [NgbActiveModal],
     })
     .compileComponents();

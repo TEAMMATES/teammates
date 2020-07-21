@@ -12,6 +12,7 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { InstructorRoleDescriptionPipe } from './instructor-edit-panel/instructor-role-description.pipe';
+import { InstructorRoleTitlePipe } from './instructor-edit-panel/instructor-role-title.pipe';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 describe('InstructorCourseEditPageComponent', () => {
@@ -25,6 +26,7 @@ describe('InstructorCourseEditPageComponent', () => {
         InstructorEditPanelComponent,
         ViewRolePrivilegesModalComponent,
         InstructorRoleDescriptionPipe,
+        InstructorRoleTitlePipe,
         CustomPrivilegeSettingPanelComponent,
       ],
       imports: [
