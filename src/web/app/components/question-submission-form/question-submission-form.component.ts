@@ -52,6 +52,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
+    this.allowedToHaveParticipantComment =
+        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   @Output()
@@ -90,15 +92,13 @@ export class QuestionSubmissionFormComponent implements OnInit {
   saveCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
-  allowedToHaveParticipantComment: boolean;
+  allowedToHaveParticipantComment: boolean = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(
             this.model.giverType, this.model.recipientType);
-    this.allowedToHaveParticipantComment =
-        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   ngOnInit(): void {
