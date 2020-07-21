@@ -147,11 +147,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadInstructors(courseId: string): void {
     this.instructorService.loadInstructors({ courseId })
-      .subscribe((instructors: Instructors) => {
-        this.instructorDetails = instructors.instructors;
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+    .subscribe((instructors: Instructors) => {
+      this.instructorDetails = instructors.instructors;
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
