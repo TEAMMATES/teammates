@@ -14,49 +14,22 @@
       </div>
       <div class="col-7 text-right" *ngIf="!isDisplayOnly">
         <div *ngIf="formMode === QuestionEditFormMode.EDIT">
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();" [disabled]="model.isSaving"
                   ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(saveModal); $event.stopPropagation();" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal); $event.stopPropagation();"><i class="fas fa-ban"></i> Cancel</button>
-          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(deleteModal); $event.stopPropagation();"><i class="fas fa-trash"></i> Delete</button>
-          <ng-template #deleteModal let-modal>
-            <div class="modal-header bg-danger">
-              <h5 class="modal-title"><i class="fas fa-times-circle"></i> Warning: Deleted question cannot be recovered</h5>
-              <button type="button" class="close" (click)="modal.dismiss()">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-            <div class="modal-body">
-              Are you sure you want to delete this question?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-              <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
-            </div>
-          </ng-template>
+                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(false); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
           <button type="button" class="btn btn-primary btn-sm"
-                  (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();"
+                  (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"
                   ngbTooltip="Make a copy of the existing question and add to the current feedback session." container="body"><i class="far fa-copy"></i> Duplicate</button>
         </div>
         <div *ngIf="formMode === QuestionEditFormMode.ADD">
           <button type="button" class="btn btn-primary btn-sm"
-                  ngbTooltip="Cancel adding new question. No new question will be added to the feedback session." container="body" (click)="discardChangesHandler(discardNewQuestionModal); $event.stopPropagation();"><i class="fas fa-ban"></i> Cancel</button>
-          <ng-template #discardNewQuestionModal let-modal>
-            <div class="modal-header bg-warning">
-              <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
-              <button type="button" class="close" (click)="modal.dismiss()">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-            <div class="modal-body">
-              Are you sure you want to discard this question?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-              <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-            </div>
-          </ng-template>
+                  ngbTooltip="Cancel adding new question. No new question will be added to the feedback session." container="body" (click)="discardChangesHandler(true); $event.stopPropagation();" [disabled]="model.isSaving">
+            <i class="fas fa-ban"></i>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -164,10 +137,10 @@
         </div>
         <div class="row margin-top-15px align-items-center"
              *ngIf="model.recipientType === FeedbackParticipantType.STUDENTS || model.recipientType === FeedbackParticipantType.TEAMS || model.recipientType === FeedbackParticipantType.INSTRUCTORS">
-          <div class="offset-1 col-4 text-right">
+          <div class="offset-1 col-md-4 text-md-right">
             The maximum number of {{ model.recipientType | lowercase }} each respondent should give feedback to:
           </div>
-          <div class="col-2">
+          <div class="col-md-2">
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">
@@ -180,7 +153,7 @@
               <input type="number" min="1" class="form-control" [ngModel]="model.customNumberOfEntitiesToGiveFeedbackTo" (ngModelChange)="triggerModelChange('customNumberOfEntitiesToGiveFeedbackTo', $event)" [disabled]="model.numberOfEntitiesToGiveFeedbackToSetting != NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM || !model.isEditable">
             </div>
           </div>
-          <div class="col-2">
+          <div class="col-md-2">
             <div class="form-check">
               <label class="form-check-label">
                 <input class="form-check-input" type="radio" [name]="model.feedbackQuestionId + 'numOfRecipients'"
@@ -254,8 +227,10 @@
     <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary margin-right-5px" *ngIf="model.isEditable"
-                ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(discardModal)"><i class="fas fa-ban"></i> Cancel</button>
-        <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler(saveModal)">
+                ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(false)" [disabled]="model.isSaving">
+          <i class="fas fa-ban"></i> Cancel
+        </button>
+        <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler()">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
           <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>
           <span *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i> Save Questions</span>
@@ -264,34 +239,3 @@
     </div>
   </div>
 </div>
-<ng-template #discardModal let-modal>
-  <div class="modal-header bg-warning">
-    <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Any unsaved changes will be lost</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    Are you sure you want to discard your unsaved edits?
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-  </div>
-</ng-template>
-<ng-template #saveModal let-modal>
-  <div class="modal-header bg-danger">
-    <h5 class="modal-title text-white"><i class="fas fa-times-circle"></i> Warning: Existing responses might be deleted by your action</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Editing fields affecting responders' answers will result in <b>all existing responses for this question to be deleted.</b></p>
-    <p>Are you sure you want to continue?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-    <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
-  </div>
-</ng-template>

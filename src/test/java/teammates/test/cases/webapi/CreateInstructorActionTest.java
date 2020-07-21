@@ -62,7 +62,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
+        assertNotNull(instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail));
 
         InstructorAttributes instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
@@ -130,7 +130,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         response = (InstructorData) actionOutput.getOutput();
 
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
+        assertNotNull(instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail));
 
         instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);

@@ -1,11 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ClipboardModule } from 'ngx-clipboard';
+import { RouterModule, Routes } from '@angular/router';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { StudentListModule } from '../../components/student-list/student-list.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorCourseDetailsPageComponent,
+  },
+];
 
 /**
  * Module for instructor course details page.
@@ -20,10 +28,11 @@ import { InstructorCourseDetailsPageComponent } from './instructor-course-detail
   imports: [
     CommonModule,
     TeammatesCommonModule,
-    ClipboardModule,
-    RouterModule,
+    RouterModule.forChild(routes),
     StudentListModule,
     AjaxPreloadModule,
+    LoadingSpinnerModule,
+    AjaxLoadingModule,
   ],
 })
 export class InstructorCourseDetailsPageModule { }

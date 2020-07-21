@@ -109,11 +109,6 @@ ul {
   }
 }
 
-// make tinyMCE over the modal
-.tox-tinymce {
-  z-index: 1051;
-}
-
 // cursor not-allowed for input disabled attribute and tinyMCE's disabled
 [disabled],
 .editor.editor-disabled {

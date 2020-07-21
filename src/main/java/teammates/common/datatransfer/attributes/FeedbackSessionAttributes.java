@@ -2,10 +2,8 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -15,40 +13,9 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
 
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
-
-    /**
-     * Comparator to sort SessionAttributes on DESCENDING order based on
-     * end time, followed by start time and session name.
-     */
-    public static final Comparator<FeedbackSessionAttributes> DESCENDING_ORDER = (session1, session2) -> {
-
-        Assumption.assertNotNull(session1.getFeedbackSessionName());
-        Assumption.assertNotNull(session1.getStartTime());
-        Assumption.assertNotNull(session1.getEndTime());
-        Assumption.assertNotNull(session2.getFeedbackSessionName());
-        Assumption.assertNotNull(session2.getStartTime());
-        Assumption.assertNotNull(session2.getEndTime());
-
-        // Compares end times
-        int result = session1.getEndTime().isAfter(session2.getEndTime()) ? -1
-                : session1.getEndTime().isBefore(session2.getEndTime()) ? 1 : 0;
-
-        // If the end time is same, compares start times
-        if (result == 0) {
-            result = session1.getStartTime().isAfter(session2.getStartTime()) ? -1
-                    : session1.getStartTime().isBefore(session2.getStartTime()) ? 1 : 0;
-        }
-
-        // If both end and start time is same, compares session name
-        if (result == 0) {
-            result = session1.getFeedbackSessionName().compareTo(session2.getFeedbackSessionName());
-        }
-        return result;
-    };
 
     private String feedbackSessionName;
     private String courseId;
@@ -142,22 +109,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
-    }
-
-    public String getStartTimeString() {
-        return TimeHelper.formatDateTimeForDisplay(startTime, timeZone);
-    }
-
-    public String getStartTimeInIso8601UtcFormat() {
-        return TimeHelper.formatDateTimeToIso8601Utc(startTime);
-    }
-
-    public String getEndTimeString() {
-        return TimeHelper.formatDateTimeForDisplay(endTime, timeZone);
-    }
-
-    public String getEndTimeInIso8601UtcFormat() {
-        return TimeHelper.formatDateTimeToIso8601Utc(endTime);
     }
 
     public String getInstructionsString() {
@@ -337,14 +288,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.isAfter(publishTime) || now.equals(publishTime);
     }
 
-    /**
-     * Returns {@code true} if the session has been set by the creator to be manually published.
-     */
-    public boolean isManuallyPublished() {
-        return resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)
-               || resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NOW);
-    }
-
     public boolean isCreator(String instructorEmail) {
         return creatorEmail.equals(instructorEmail);
     }
@@ -396,35 +339,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
     }
 
-    /**
-     * Sorts feedback session based courseID (ascending), then by create time (ascending), deadline
-     * (ascending), then by start time (ascending), then by feedback session name
-     * (ascending). The sort by CourseID part is to cater the case when this
-     * method is called with combined feedback sessions from many courses
-     */
-    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
-        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) -> session.courseId)
-                .thenComparing(session -> session.createdTime)
-                .thenComparing(session -> session.endTime)
-                .thenComparing(session -> session.startTime)
-                .thenComparing(session -> session.feedbackSessionName));
-    }
-
-    /**
-     * Sorts feedback session based on create time (descending), deadline
-     * (descending), then by start time (descending),then by courseID (ascending),then by feedback session name
-     * (ascending). The sort by CourseID part is to cater the case when this
-     * method is called with combined feedback sessions from many courses
-     */
-    public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
-        sessions.sort(Comparator.comparing((FeedbackSessionAttributes session) ->
-                session.createdTime, Comparator.reverseOrder())
-                .thenComparing(session -> session.endTime, Comparator.nullsFirst(Comparator.reverseOrder()))
-                .thenComparing(session -> session.startTime, Comparator.reverseOrder())
-                .thenComparing(session -> session.courseId)
-                .thenComparing(session -> session.feedbackSessionName));
-    }
-
     public void setFeedbackSessionName(String feedbackSessionName) {
         this.feedbackSessionName = feedbackSessionName;
     }
@@ -449,41 +363,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.instructions = instructions;
     }
 
-    public String getCreatedTimeDateString() {
-        return TimeHelper.formatDateForInstructorPages(createdTime, timeZone);
-    }
-
-    public String getCreatedTimeDateStamp() {
-        return TimeHelper.formatDateTimeToIso8601Utc(createdTime);
-    }
-
-    public String getCreatedTimeFullDateTimeString() {
-        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdTime, timeZone);
-        return TimeHelper.formatDateTimeForDisplay(localDateTime);
-    }
-
-    public String getDeletedTimeDateString() {
-        if (this.deletedTime == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        return TimeHelper.formatDateForInstructorPages(deletedTime, timeZone);
-    }
-
-    public String getDeletedTimeDateStamp() {
-        if (this.deletedTime == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        return TimeHelper.formatDateTimeToIso8601Utc(deletedTime);
-    }
-
-    public String getDeletedTimeFullDateTimeString() {
-        if (this.deletedTime == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedTime, timeZone);
-        return TimeHelper.formatDateTimeForDisplay(localDateTime);
-    }
-
     public Instant getCreatedTime() {
         return createdTime;
     }
@@ -500,20 +379,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.deletedTime = deletedTime;
     }
 
-    public void resetDeletedTime() {
-        this.deletedTime = null;
-    }
-
     public boolean isSessionDeleted() {
         return this.deletedTime != null;
     }
 
     public Instant getStartTime() {
         return startTime;
-    }
-
-    public LocalDateTime getStartTimeLocal() {
-        return TimeHelper.convertInstantToLocalDateTime(startTime, timeZone);
     }
 
     public void setStartTime(Instant startTime) {
@@ -524,10 +395,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return endTime;
     }
 
-    public LocalDateTime getEndTimeLocal() {
-        return TimeHelper.convertInstantToLocalDateTime(endTime, timeZone);
-    }
-
     public void setEndTime(Instant endTime) {
         this.endTime = endTime;
     }
@@ -536,20 +403,12 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return sessionVisibleFromTime;
     }
 
-    public LocalDateTime getSessionVisibleFromTimeLocal() {
-        return TimeHelper.convertInstantToLocalDateTime(sessionVisibleFromTime, timeZone);
-    }
-
     public void setSessionVisibleFromTime(Instant sessionVisibleFromTime) {
         this.sessionVisibleFromTime = sessionVisibleFromTime;
     }
 
     public Instant getResultsVisibleFromTime() {
         return resultsVisibleFromTime;
-    }
-
-    public LocalDateTime getResultsVisibleFromTimeLocal() {
-        return TimeHelper.convertInstantToLocalDateTime(resultsVisibleFromTime, timeZone);
     }
 
     public void setResultsVisibleFromTime(Instant resultsVisibleFromTime) {

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -18,14 +19,9 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  CoursePermanentDeletionConfirmModalComponent,
-} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
-import {
-  CourseSoftDeletionConfirmModalComponent,
-} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface CourseModel {
   course: Course;
@@ -50,12 +46,13 @@ export class InstructorCoursesPageComponent implements OnInit {
   courseStats: Record<string, Record<string, number>> = {};
 
   tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
+  tableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  isLoading: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -67,7 +64,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private instructorService: InstructorService,
-              private modalService: NgbModal,
+              private simpleModalService: SimpleModalService,
               private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
@@ -83,24 +80,28 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+      forkJoin(
+          resp.courses.map((course: Course) =>
+              this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
+      ).subscribe((privileges: InstructorPrivilege[]) => {
+        resp.courses.forEach((course: Course, index: number) => {
+          const canModifyCourse: boolean = privileges[index].canModifyCourse;
+          const canModifyStudent: boolean = privileges[index].canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(error.error.message);
         });
-      }
+        this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
+      }, (error: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(error.error.message);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, () => this.isLoading = false);
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
@@ -236,7 +237,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Warning: The course will be moved to the recycle bin.',
+            SimpleModalType.WARNING, 'Are you sure you want to continue?');
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
@@ -276,7 +278,12 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
+        This operation will delete all students and sessions in these courses.
+        All instructors of these courses will not be able to access them hereafter as well.`;
+
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Delete course <strong>${ courseId }</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
@@ -309,8 +316,12 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.isDeleteAll = true;
+    const modalContent: string = `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
+        This operation will delete all students and sessions in these courses.
+        All instructors of these courses will not be able to access them hereafter as well.`;
+
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
@@ -371,7 +382,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = a.course.courseName;
           strB = b.course.courseName;
           break;
-        case SortBy.SESSION_CREATION_DATE:
+        case SortBy.COURSE_CREATION_DATE:
           strA = a.course.creationTimestamp.toString();
           strB = b.course.creationTimestamp.toString();
           break;

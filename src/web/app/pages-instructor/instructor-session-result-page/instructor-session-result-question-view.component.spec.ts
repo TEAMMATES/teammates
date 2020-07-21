@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
@@ -22,6 +23,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         QuestionTextWithInfoModule,
         SingleStatisticsModule,
         NgbModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();

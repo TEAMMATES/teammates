@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule, Routes } from '@angular/router';
+import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorHomePageComponent,
+  },
+];
 
 /**
  * Module for instructor home page.
@@ -17,8 +25,11 @@ import { InstructorHomePageComponent } from './instructor-home-page.component';
     CommonModule,
     SessionsTableModule,
     FormsModule,
-    RouterModule,
-    NgbModule,
+    RouterModule.forChild(routes),
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
+    LoadingSpinnerModule,
   ],
   exports: [
     InstructorHomePageComponent,

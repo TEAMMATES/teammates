@@ -10,13 +10,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AdminSessionsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SESSIONS_PAGE}.
  */
-public class AdminSessionsPageUiTest extends BaseE2ETestCase {
+public class AdminSessionsPageUiTest extends BaseLegacyUiTestCase {
     private AdminSessionsPage sessionsPage;
 
     @Override

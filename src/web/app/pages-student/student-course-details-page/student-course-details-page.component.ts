@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -15,8 +16,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
 /**
  * A student profile which also has the profile picture URL
  */
-export interface StudentProfileWithPicture {
-  studentProfile: StudentProfile;
+export interface StudentProfileWithPicture extends StudentProfile {
   photoUrl: string;
 }
 
@@ -57,6 +57,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
+  isLoadingCourse: boolean = false;
+  isLoadingStudent: boolean = false;
+  isLoadingInstructor: boolean = false;
+  isLoadingTeammates: boolean = false;
+
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
               private instructorService: InstructorService,
@@ -81,9 +86,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadCourse(courseId: string): void {
-    this.courseService.getCourseAsStudent(courseId).subscribe((course: Course) => {
-      this.course = course;
-    });
+    this.isLoadingCourse = true;
+    this.courseService.getCourseAsStudent(courseId)
+        .pipe(finalize(() => this.isLoadingCourse = false))
+        .subscribe((course: Course) => {
+          this.course = course;
+        });
   }
 
   /**
@@ -91,7 +99,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadStudent(courseId: string): void {
+    this.isLoadingStudent = true;
     this.studentService.getStudent(courseId)
+        .pipe(finalize(() => this.isLoadingStudent = false))
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -106,6 +116,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param teamName: team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
+    this.isLoadingTeammates = true;
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
         students.students.forEach((student: Student) => {
@@ -115,17 +126,16 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           }
 
           this.studentProfileService.getStudentProfile(student.email, courseId)
+                .pipe(finalize(() => this.isLoadingTeammates = false))
                 .subscribe((studentProfile: StudentProfile) => {
                   const newPhotoUrl: string =
                     `${environment.backendUrl}/webapi/student/profilePic`
                     + `?courseid=${courseId}&studentemail=${student.email}`;
 
                   const newTeammateProfile: StudentProfileWithPicture = {
-                    studentProfile: {
-                      ...studentProfile,
-                      email: student.email,
-                      shortName: student.name,
-                    },
+                    ...studentProfile,
+                    email: student.email,
+                    name: student.name,
                     photoUrl : newPhotoUrl,
                   };
 
@@ -133,6 +143,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                 });
         });
       }, (resp: ErrorMessageOutput) => {
+        this.isLoadingTeammates = false;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
@@ -142,7 +153,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
+    this.isLoadingInstructor = true;
     this.instructorService.loadInstructors({ courseId })
+        .pipe(finalize(() => this.isLoadingInstructor = false))
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
@@ -182,30 +195,30 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param sortOption: option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
-      ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
-    return ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }): number => {
+      ((a: StudentProfile, b: StudentProfile) => number) {
+    return ((a: StudentProfile, b: StudentProfile): number => {
       let strA: string;
       let strB: string;
       switch (sortOption) {
         case SortBy.STUDENT_NAME:
-          strA = a.studentProfile.shortName;
-          strB = b.studentProfile.shortName;
+          strA = a.name;
+          strB = b.name;
           break;
         case SortBy.EMAIL:
-          strA = a.studentProfile.email;
-          strB = b.studentProfile.email;
+          strA = a.email;
+          strB = b.email;
           break;
         case SortBy.STUDENT_GENDER:
-          strA = a.studentProfile.gender;
-          strB = b.studentProfile.gender;
+          strA = a.gender;
+          strB = b.gender;
           break;
         case SortBy.INSTITUTION:
-          strA = a.studentProfile.institute;
-          strB = b.studentProfile.institute;
+          strA = a.institute;
+          strB = b.institute;
           break;
         case SortBy.NATIONALITY:
-          strA = a.studentProfile.nationality;
-          strB = b.studentProfile.nationality;
+          strA = a.nationality;
+          strB = b.nationality;
           break;
         default:
           strA = '';

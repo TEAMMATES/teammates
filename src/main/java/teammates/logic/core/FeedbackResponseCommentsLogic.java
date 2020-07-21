@@ -90,11 +90,6 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSession(String courseId,
-                                                                                        String feedbackSessionName) {
-        return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
-    }
-
     /**
      * Gets all feedback response comments for session in a section.
      *
@@ -161,13 +156,6 @@ public final class FeedbackResponseCommentsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         return frcDb.updateFeedbackResponseComment(updateOptions);
-    }
-
-    /**
-     * Creates or updates document for the given comment.
-     */
-    public void putDocument(FeedbackResponseCommentAttributes comment) {
-        frcDb.putDocument(comment);
     }
 
     /**

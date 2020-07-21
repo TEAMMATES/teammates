@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ClipboardModule } from 'ngx-clipboard';
 import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
@@ -35,7 +34,6 @@ describe('InstructorCourseDetailsPageComponent', () => {
         HttpClientTestingModule,
         TeammatesCommonModule,
         RouterTestingModule,
-        ClipboardModule,
         InstructorCourseDetailsPageModule,
       ],
     })
@@ -78,8 +76,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
-    component.courseStudentListAsCsv = 'a,b';
-    component.loading = true;
+    component.isLoadingCsv = false;
+    component.isStudentsLoading = false;
+
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -112,7 +111,14 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.students = [studentListRowModel];
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
-    component.isAjaxSuccess = false;
+    component.isLoadingCsv = false;
+    component.isStudentsLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when students are still loading', () => {
+    component.isStudentsLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

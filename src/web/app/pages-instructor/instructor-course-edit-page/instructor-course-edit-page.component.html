@@ -1,10 +1,10 @@
-<div class="card bg-light top-padded">
-  <div class="card-header bg-primary text-white text-center">
+<div *tmIsLoading="isCourseLoading" class="card bg-light top-padded text-center">
+  <div class="card-header bg-primary text-white">
     <div class="row">
-      <div class="col-md-6 text-md-left align-self-center">
+      <div class="col-3 col-md-6 text-md-left align-self-center">
         <strong>Course</strong>
       </div>
-      <div class="col-md-6 text-md-right">
+      <div class="col-9 col-md-6 text-right">
         <button id="btn-edit-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Edit course name" placement="top-right"
                 [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
                 *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
@@ -13,12 +13,13 @@
         </button>
         <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-light btn-sm"
                 ngbTooltip="Cancel editing course details" placement="top-right"
+                [disabled]="isSavingCourseEdit"
                 (click)="cancelEditingCourse()">
           <i class="fa fa-times" aria-hidden="true"></i>
           Cancel
         </button>&nbsp;
         <button id="btn-delete-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
-                [disabled]="!currInstructorCoursePrivilege.canModifyCourse" (click)="deleteCourse()">
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse || isSavingCourseEdit" (click)="deleteCourse()">
           <i class="fa fa-trash" aria-hidden="true"></i>
           Delete
         </button>
@@ -56,10 +57,10 @@
             <select id="time-zone" class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
               device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
               [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
-              <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+              <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
             </select>
             <span class="input-group-btn">
-              <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
+              <button class="btn btn-primary" type=button [disabled]="!isEditingCourse || isSavingCourseEdit" (click)="detectTimezone()">
                 Auto-Detect
               </button>
              </span>
@@ -68,7 +69,8 @@
       </div>
       <div class="form-group m-0">
         <div class=" col-sm-12 text-center">
-          <button id="btn-save-course" class="btn btn-primary" type="submit" [disabled]="form.invalid" *ngIf="isEditingCourse">
+          <button id="btn-save-course" class="btn btn-primary" type="submit" [disabled]="form.invalid || isSavingCourseEdit" *ngIf="isEditingCourse">
+            <tm-ajax-loading *ngIf="isSavingCourseEdit"></tm-ajax-loading>
             Save Changes
           </button>
         </div>
@@ -82,19 +84,21 @@
     More about configuring access permissions
   </a>
 </div>
-<ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
-  <tm-instructor-edit-panel
-          [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
-          [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-          (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
-          (deleteInstructor)="deleteInstructor(i)"
-          (saveInstructor)="saveInstructor(i)"
-          (cancelEditing)="cancelEditingInstructor(i)"
-          (sendRemindJoinEmail)="resendReminderEmail(i)"
-          [allSections]="this.allSections" [allSessions]="this.allSessions">
-  </tm-instructor-edit-panel>
-  <br/>
-</ng-container>
+<div *tmIsLoading="isInstructorsLoading">
+  <ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
+    <tm-instructor-edit-panel
+        [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
+        [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+        (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+        (deleteInstructor)="deleteInstructor(i)"
+        (saveInstructor)="saveInstructor(i)"
+        (cancelEditing)="cancelEditingInstructor(i)"
+        (sendRemindJoinEmail)="resendReminderEmail(i)"
+        [allSections]="this.allSections" [allSessions]="this.allSessions">
+    </tm-instructor-edit-panel>
+    <br/>
+  </ng-container>
+</div>
 <div class="text-center" *ngIf="!isAddingNewInstructor">
   <button id="btn-add-instructor" class="btn btn-primary" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
     Add New Instructor
@@ -102,6 +106,7 @@
 </div>
 <div *ngIf="isAddingNewInstructor">
   <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
+                            [isSavingNewInstructor]="isSavingNewInstructor"
                             [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
                             (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
                             (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"

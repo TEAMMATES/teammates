@@ -18,6 +18,9 @@ export class ConstsumOptionsQuestionStatisticsComponent
     extends ConstsumOptionsQuestionStatisticsCalculation
     implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 

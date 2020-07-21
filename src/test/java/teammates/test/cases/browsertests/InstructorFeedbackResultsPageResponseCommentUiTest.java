@@ -5,14 +5,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE},
  *      specifically for feedback response comments.
  */
-public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseE2ETestCase {
+public class InstructorFeedbackResultsPageResponseCommentUiTest extends BaseLegacyUiTestCase {
 
     @Override
     protected void prepareTestData() {

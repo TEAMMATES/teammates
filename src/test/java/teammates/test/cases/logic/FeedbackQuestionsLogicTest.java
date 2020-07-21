@@ -564,8 +564,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         // the question has some responses and comments
         assertFalse(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
         assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(
-                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
                         .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
 
         fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
@@ -574,8 +574,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         // the responses and comments should gone
         assertTrue(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
         assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(
-                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
                         .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
 
         // verify that questions are shifted

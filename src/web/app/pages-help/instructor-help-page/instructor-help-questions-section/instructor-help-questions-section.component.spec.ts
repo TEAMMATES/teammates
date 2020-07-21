@@ -9,10 +9,8 @@ import { QuestionSubmissionFormModule,
 import {
     QuestionStatisticsModule,
 } from '../../../components/question-types/question-statistics/question-statistics.module';
-import {
-    InstructorSessionResultPageModule,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
-import { ExampleBoxComponent } from '../example-box/example-box.component';
+import { InstructorSessionResultViewModule } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
+import { ExampleBoxModule } from '../example-box/example-box.module';
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section.component';
 
 describe('InstructorHelpQuestionsSectionComponent', () => {
@@ -28,9 +26,9 @@ describe('InstructorHelpQuestionsSectionComponent', () => {
       delete: jest.fn(),
     };
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpQuestionsSectionComponent, ExampleBoxComponent],
+      declarations: [InstructorHelpQuestionsSectionComponent],
       imports: [
-        InstructorSessionResultPageModule, NgbModule, RouterTestingModule, NgxPageScrollCoreModule,
+        InstructorSessionResultViewModule, NgbModule, RouterTestingModule, NgxPageScrollCoreModule, ExampleBoxModule,
         QuestionEditFormModule, QuestionStatisticsModule, QuestionSubmissionFormModule,
       ],
       providers: [

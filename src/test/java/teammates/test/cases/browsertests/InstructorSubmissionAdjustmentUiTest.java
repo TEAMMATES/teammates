@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.BackDoor;
@@ -25,7 +24,7 @@ import teammates.test.pageobjects.InstructorCourseEnrollPage;
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks.
  */
 @Priority(1)
-public class InstructorSubmissionAdjustmentUiTest extends BaseE2ETestCase {
+public class InstructorSubmissionAdjustmentUiTest extends BaseLegacyUiTestCase {
     private InstructorCourseEnrollPage enrollPage;
 
     @Override

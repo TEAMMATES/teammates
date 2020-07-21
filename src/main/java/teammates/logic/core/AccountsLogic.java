@@ -55,10 +55,6 @@ public final class AccountsLogic {
         return accountsDb.getAccount(googleId);
     }
 
-    public boolean isAccountPresent(String googleId) {
-        return accountsDb.getAccount(googleId) != null;
-    }
-
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor;

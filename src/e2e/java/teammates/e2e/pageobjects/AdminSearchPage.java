@@ -50,12 +50,6 @@ public class AdminSearchPage extends AppPage {
     @FindBy(id = "hide-instructor-links")
     private WebElement collapseInstructorLinksButton;
 
-    @FindBy(tagName = "tm-regenerate-links-confirm-modal")
-    private WebElement regenerateLinksModal;
-
-    @FindBy(tagName = "tm-reset-google-id-confirm-modal")
-    private WebElement resetGoogleIdModal;
-
     public AdminSearchPage(Browser browser) {
         super(browser);
     }
@@ -83,7 +77,7 @@ public class AdminSearchPage extends AppPage {
         studentRow.findElement(By.xpath("//button[text()='Regenerate links']")).click();
         waitForPageToLoad();
 
-        regenerateLinksModal.findElement(By.className("btn-warning")).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
     }
 
@@ -162,7 +156,7 @@ public class AdminSearchPage extends AppPage {
         studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
         waitForPageToLoad();
 
-        resetGoogleIdModal.findElement(By.className("btn-warning")).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
 
@@ -210,7 +204,7 @@ public class AdminSearchPage extends AppPage {
         instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
         waitForPageToLoad();
 
-        resetGoogleIdModal.findElement(By.className("btn-warning")).click();
+        waitForConfirmationModalAndClickOk();
         waitForPageToLoad();
     }
 

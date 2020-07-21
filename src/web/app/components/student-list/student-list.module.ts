@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { JoinStatePipe } from './join-state.pipe';
@@ -20,7 +20,7 @@ import { StudentListComponent } from './student-list.component';
   ],
   imports: [
     CommonModule,
-    NgbModule,
+    NgbTooltipModule,
     RouterModule,
     TeammatesCommonModule,
   ],

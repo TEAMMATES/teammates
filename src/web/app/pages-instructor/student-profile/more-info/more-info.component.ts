@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
 /**
  * More info box and dialog
@@ -14,7 +15,7 @@ export class MoreInfoComponent implements OnInit {
   @Input() studentName: string = '';
   @Input() moreInfoText: string = '';
 
-  constructor(private ngbModal: NgbModal) { }
+  constructor(private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
   }
@@ -22,8 +23,10 @@ export class MoreInfoComponent implements OnInit {
   /**
    * Open the more info modal.
    */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
+  openMoreInfoModal(): void {
+    this.simpleModalService
+        .openInformationModal(`<strong>${this.studentName}<strong>\'s Profile - More Info`, SimpleModalType.NEUTRAL,
+            this.moreInfoText, { confirmMessage: 'Close' });
   }
 
 }

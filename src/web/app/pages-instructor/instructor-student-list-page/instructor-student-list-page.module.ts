@@ -1,10 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule, Routes } from '@angular/router';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { StudentListModule } from '../../components/student-list/student-list.module';
 import { InstructorStudentListPageComponent } from './instructor-student-list-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: InstructorStudentListPageComponent,
+  },
+];
 
 /**
  * Module for instructor student list page.
@@ -19,9 +27,10 @@ import { InstructorStudentListPageComponent } from './instructor-student-list-pa
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+    RouterModule.forChild(routes),
     StudentListModule,
-    NgbModule,
+    NgbCollapseModule,
+    LoadingSpinnerModule,
   ],
 })
 export class InstructorStudentListPageModule { }
