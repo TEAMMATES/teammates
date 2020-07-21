@@ -8,7 +8,6 @@ import {
 } from '../custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { ViewRolePrivilegesModalComponent } from '../view-role-privileges-modal/view-role-privileges-modal.component';
 import { InstructorEditPanelComponent } from './instructor-edit-panel.component';
-import { InstructorRoleDescriptionPipe } from './instructor-role-description.pipe';
 
 describe('InstructorEditPanelComponent', () => {
   let component: InstructorEditPanelComponent;
@@ -20,7 +19,6 @@ describe('InstructorEditPanelComponent', () => {
         InstructorEditPanelComponent,
         InstructorEditPanelComponent,
         ViewRolePrivilegesModalComponent,
-        InstructorRoleDescriptionPipe,
         CustomPrivilegeSettingPanelComponent,
       ],
       imports: [
