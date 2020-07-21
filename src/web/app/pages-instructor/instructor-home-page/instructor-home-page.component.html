@@ -84,7 +84,7 @@
                 <div ngbDropdownMenu>
                   <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                   (click)="openModal(courseArchiveModal); $event.stopPropagation()"> Archive
+                   (click)="archiveCourse(courseTabModel.course.courseId); $event.stopPropagation()"> Archive
                   </a>
                   <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Edit course information and instructor list"
@@ -93,7 +93,7 @@
                   <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                     <a class="btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
-                     (click)="openModal(courseDeleteModal); $event.stopPropagation()"> Delete
+                     (click)="deleteCourse(courseTabModel.course.courseId); $event.stopPropagation()"> Delete
                     </a>
                   </ng-container>
                 </div>
@@ -110,38 +110,7 @@
       <ng-template #errorLoadingFeedbackSessions>
         Error loading feedback sessions. Click here to retry.
       </ng-template>
-      <ng-template #courseDeleteModal let-modal>
-        <div class="modal-header bg-warning">
-          <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Warning: Confirm moving course to Recycle Bin </h5>
-          <button type="button" class="close" (click)="modal.dismiss()">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to delete the course: {{courseTabModel.course.courseId}}?
-          This action can be reverted by going to the "Courses" tab and restoring the desired course(s).
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-          <button type="button" class="btn btn-warning" (click)="deleteCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
-        </div>
-      </ng-template>
-      <ng-template #courseArchiveModal let-modal>
-        <div class="modal-header bg-info">
-          <h5 class="modal-title"><i class="fas fa-exclamation-circle"></i> Confirm archiving course </h5>
-          <button type="button" class="close" (click)="modal.dismiss()">
-            <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to archive {{courseTabModel.course.courseId}}?
-          This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-          <button type="button" class="btn btn-warning" (click)="archiveCourse(courseTabModel.course.courseId); modal.close()">Yes</button>
-        </div>
-      </ng-template>
+
 
       <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
         <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"

@@ -8,7 +8,7 @@ import java.util.Set;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
-public class FeedbackRankOptionsResponseDetails extends FeedbackRankResponseDetails {
+public class FeedbackRankOptionsResponseDetails extends FeedbackResponseDetails {
     private List<Integer> answers;
 
     public FeedbackRankOptionsResponseDetails() {

@@ -1,11 +1,5 @@
 package teammates.test.cases.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.SanitizationHelper;
@@ -54,23 +48,6 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testSanitizeForJs() {
-        sanitizeJs_receivesNull_returnsNull();
-        sanitizeJs_receivesUnsanitized_returnsSanitized();
-    }
-
-    private void sanitizeJs_receivesNull_returnsNull() {
-        assertNull(SanitizationHelper.sanitizeForJs(null));
-    }
-
-    private void sanitizeJs_receivesUnsanitized_returnsSanitized() {
-        String unsanitized = "\\ \" ' #"; // i.e., [\ " ' #]
-        String expected = "\\\\ \\&quot; \\&#39; \\#"; // i.e., [\\ \&quot; \&#39; \#]
-        String sanitized = SanitizationHelper.sanitizeForJs(unsanitized);
-        assertEquals(expected, sanitized);
-    }
-
-    @Test
     public void testSanitizeForHtml() {
         sanitizeHtml_receivesNull_returnsNull();
         sanitizeHtml_receivesCodeInjection_returnsSanitized();
@@ -97,21 +74,6 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testSanitizeForHtmlList() {
-        List<String> unsanitizedHtml = new ArrayList<>(Arrays.asList(
-                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
-        );
-
-        List<String> sanitizedHtml = new ArrayList<>(Arrays.asList(
-                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
-        );
-
-        assertEquals(sanitizedHtml, SanitizationHelper.sanitizeForHtml(unsanitizedHtml));
-        assertEquals(new ArrayList<>(), SanitizationHelper.sanitizeForHtml(new ArrayList<>()));
-        assertNull(SanitizationHelper.sanitizeForHtml((List<String>) null));
-    }
-
-    @Test
     public void testDesanitizeFromHtml() {
         desanitizeFromHtml_receivesNull_returnsNull();
         desanitizeFromHtml_recievesEmpty_returnsEmpty();
@@ -131,37 +93,6 @@ public class SanitizationHelperTest extends BaseTestCase {
         String text = "<text><div> 'param' &&& \\//\\ \" <The quick brown fox jumps over the lazy dog.>";
         String sanitizedText = SanitizationHelper.sanitizeForHtml(text);
         assertEquals(text, SanitizationHelper.desanitizeFromHtml(sanitizedText));
-    }
-
-    @Test
-    public void testDesanitizeFromHtmlSet() {
-        Set<String> sanitizedHtml = new HashSet<>(Arrays.asList(
-                "apple &lt;", "banana &#39; dogs ", "rollercoasters &amp; tycoons", "", null)
-        );
-        Set<String> desanitizedHtml = new HashSet<>(Arrays.asList(
-                "apple <", "banana ' dogs ", "rollercoasters & tycoons", "", null)
-        );
-
-        assertEquals(desanitizedHtml, SanitizationHelper.desanitizeFromHtml(sanitizedHtml));
-        assertEquals(new HashSet<>(), SanitizationHelper.desanitizeFromHtml(new HashSet<>()));
-        assertNull(SanitizationHelper.desanitizeFromHtml((Set<String>) null));
-    }
-
-    @Test
-    public void testSanitizeForHtmlTag() {
-        sanitizeHtmlTag_receivesNull_returnsNull();
-        sanitizeHtmlTag_receivesHtml_returnsSanitized();
-    }
-
-    private void sanitizeHtmlTag_receivesHtml_returnsSanitized() {
-        String unsanitized = "<div><td>&lt;</td></div>";
-        String expected = "&lt;div&gt;&lt;td&gt;&lt;&lt;/td&gt;&lt;/div&gt;";
-        String sanitized = SanitizationHelper.sanitizeForHtmlTag(unsanitized);
-        assertEquals(expected, sanitized);
-    }
-
-    private void sanitizeHtmlTag_receivesNull_returnsNull() {
-        assertNull(SanitizationHelper.sanitizeForHtmlTag(null));
     }
 
     @Test
@@ -213,69 +144,6 @@ public class SanitizationHelperTest extends BaseTestCase {
                 + "<code>System.out.println(&#34;Hello World&#34;);</code>";
         sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
         assertEquals(expectedRichText, sanitized);
-    }
-
-    @Test
-    public void testSanitizeForNextUrl() {
-        sanitizeForNextUrl_receivesNull_returnsNull();
-        sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl();
-    }
-
-    private void sanitizeForNextUrl_receivesNull_returnsNull() {
-        assertNull(SanitizationHelper.sanitizeForNextUrl(null));
-    }
-
-    private void sanitizeForNextUrl_receivesUrl_returnsSanitizedUrl() {
-        String url = "/page/studentCourseJoinAuthenticated?key=FF6266"
-                     + "&next=/page/studentHomePage%23/encodedHashHere%2B/encodedPlusHere";
-        String expected = "/page/studentCourseJoinAuthenticated?key=FF6266$"
-                          + "{amp}next=/page/studentHomePage${hash}/encodedHashHere${plus}/encodedPlusHere";
-        assertEquals(expected, SanitizationHelper.sanitizeForNextUrl(url));
-    }
-
-    @Test
-    public void testDesanitizeFromNextUrl() {
-        desanitizeFromNextUrl_receivesNull_returnsNull();
-        desanitizeFromNextUrl_receivesSanitized_returnsDesanitized();
-    }
-
-    private void desanitizeFromNextUrl_receivesNull_returnsNull() {
-        assertNull(SanitizationHelper.desanitizeFromNextUrl(null));
-    }
-
-    private void desanitizeFromNextUrl_receivesSanitized_returnsDesanitized() {
-        String expected = "/page/studentCourseJoinAuthenticated?key=FF6266"
-                          + "&next=/page/studentHomePage%23/encodedHashHere%2B/encodedPlusHere";
-        String sanitizedUrl = SanitizationHelper.sanitizeForNextUrl(expected);
-        assertEquals(expected, SanitizationHelper.desanitizeFromNextUrl(sanitizedUrl));
-
-        sanitizedUrl = "/page/studentCourseDetailsPage?user=USERNAME"
-                       + "${amp}courseid=CS2103-Aug2016${hash}/encodedHashHere${plus}/encodedPlusHere"
-                       + " /plusHere";
-        expected = "/page/studentCourseDetailsPage?user=USERNAME"
-                   + "&courseid=CS2103-Aug2016%23/encodedHashHere%2B/encodedPlusHere"
-                   + "+/plusHere";
-        assertEquals(expected, SanitizationHelper.desanitizeFromNextUrl(sanitizedUrl));
-    }
-
-    @Test
-    public void testSanitizeStringForXPath() {
-        String text = "";
-        String expected = "''";
-        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
-
-        text = "Will o' The Wisp";
-        expected = "concat('Will o',\"'\",' The Wisp','')";
-        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
-
-        text = "'''''Will o''''' The''''' Wisp";
-        expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
-        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
-
-        text = "Team 1</td></div>'\"";
-        expected = "concat('Team 1</td></div>',\"'\",'\"','')";
-        assertEquals(expected, SanitizationHelper.sanitizeStringForXPath(text));
-
     }
 
     @Test

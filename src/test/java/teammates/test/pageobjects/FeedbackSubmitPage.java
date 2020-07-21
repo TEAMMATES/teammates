@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.e2e.pageobjects.Browser;
 
 public class FeedbackSubmitPage extends AppPage {
@@ -116,10 +115,48 @@ public class FeedbackSubmitPage extends AppPage {
         return element.getText();
     }
 
+    /**
+     * Convert the string to a safer version for XPath
+     * For example:
+     * Will o' The Wisp => concat('Will o' , "'" , ' The Wisp' , '')
+     * This will result in the same string when read by XPath.
+     *
+     * <p>This is used when writing the test case for some special characters
+     * such as ' and "
+     *
+     * @return safer version of the text for XPath
+     */
+    private static String sanitizeStringForXPath(String text) {
+        StringBuilder result = new StringBuilder();
+        int startOfChain = 0;
+        int textLength = text.length();
+        boolean isSingleQuotationChain = false;
+        // currentPos iterates one position beyond text length to include last chain
+        for (int currentPos = 0; currentPos <= textLength; currentPos++) {
+            boolean isChainBroken = currentPos >= textLength
+                    || isSingleQuotationChain && text.charAt(currentPos) != '\''
+                    || !isSingleQuotationChain && text.charAt(currentPos) == '\'';
+            if (isChainBroken && startOfChain < currentPos) {
+                // format text.substring(startOfChain, currentPos) and append to result
+                char wrapper = isSingleQuotationChain ? '\"' : '\'';
+                result.append(wrapper).append(text.substring(startOfChain, currentPos)).append(wrapper).append(',');
+                startOfChain = currentPos;
+            }
+            // flip isSingleQuotationChain if chain is broken
+            if (isChainBroken) {
+                isSingleQuotationChain = !isSingleQuotationChain;
+            }
+        }
+        if (result.length() == 0) {
+            return "''";
+        }
+        return "concat(" + result.toString() + "'')";
+    }
+
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = SanitizationHelper.sanitizeStringForXPath(name);
-        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
+        name = sanitizeStringForXPath(name);
+        String sanitizedChoiceName = sanitizeStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
@@ -127,8 +164,8 @@ public class FeedbackSubmitPage extends AppPage {
 
     public boolean checkIfMcqOrMsqChoiceExists(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = SanitizationHelper.sanitizeStringForXPath(name);
-        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
+        name = sanitizeStringForXPath(name);
+        String sanitizedChoiceName = sanitizeStringForXPath(choiceName);
         try {
             browser.driver.findElement(
                     By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
@@ -146,8 +183,8 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = SanitizationHelper.sanitizeStringForXPath(name);
-        String sanitizedChoiceName = SanitizationHelper.sanitizeStringForXPath(choiceName);
+        name = sanitizeStringForXPath(name);
+        String sanitizedChoiceName = sanitizeStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(
                 By.xpath("//input[@name=" + name + " and @value=" + sanitizedChoiceName + "]"));
         click(element);
@@ -161,7 +198,7 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName) {
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = SanitizationHelper.sanitizeStringForXPath(name);
+        name = sanitizeStringForXPath(name);
         WebElement selectElement = browser.driver.findElement(By.xpath("//select[@name=" + name + "]"));
         selectDropdownByVisibleValue(selectElement, choiceName);
     }

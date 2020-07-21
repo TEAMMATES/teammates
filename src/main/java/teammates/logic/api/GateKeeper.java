@@ -6,7 +6,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.UserInfo;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -105,39 +104,6 @@ public class GateKeeper {
         }
 
         throw new UnauthorizedAccessException("User is not logged in");
-    }
-
-    /**
-     * Verifies that the logged in user is the admin and there is no
-     * masquerading going on.
-     */
-    public void verifyAdminPrivileges(AccountAttributes account) {
-        if (isUserLoggedOn() && userService.isUserAdmin()
-                && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
-            return;
-        }
-
-        throw new UnauthorizedAccessException("User " + getCurrentGoogleUser().getNickname()
-                                              + " does not have admin privilleges");
-    }
-
-    /**
-     * Verifies that the nominal user has instructor privileges.
-     */
-    public void verifyInstructorPrivileges(AccountAttributes account) {
-        if (account.isInstructor) {
-            return;
-        }
-        throw new UnauthorizedAccessException("User " + account.googleId
-                                              + " does not have instructor privilleges");
-    }
-
-    /**
-     * Verifies that the nominal user has student privileges. Currently, all
-     * logged in users as student privileges.
-     */
-    public void verifyStudentPrivileges(AccountAttributes account) {
-        verifyLoggedInUserPrivileges();
     }
 
     // These methods ensures that the nominal user specified has access to a given entity

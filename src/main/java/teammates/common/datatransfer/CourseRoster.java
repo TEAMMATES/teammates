@@ -39,15 +39,6 @@ public class CourseRoster {
         return teamToMembersTable;
     }
 
-    /**
-     * Checks if an instructor is the instructor of a course by providing an email address.
-     * @param instructorEmail email of the instructor to be checked.
-     * @return true if the instructor is an instructor of the course
-     */
-    public boolean isInstructorOfCourse(String instructorEmail) {
-        return instructorListByEmail.containsKey(instructorEmail);
-    }
-
     public boolean isStudentInCourse(String studentEmail) {
         return studentListByEmail.containsKey(studentEmail);
     }
@@ -77,25 +68,6 @@ public class CourseRoster {
 
     public InstructorAttributes getInstructorForEmail(String email) {
         return instructorListByEmail.get(email);
-    }
-
-    /**
-     * Returns a map of email mapped to name of instructors and students of the course.
-     *
-     * @return Map in which key is email of student/instructor and value is name.
-     */
-    public Map<String, String> getEmailToNameTableFromRoster() {
-        Map<String, String> emailToNameTable = new HashMap<>();
-        List<InstructorAttributes> instructorList = getInstructors();
-        for (InstructorAttributes instructor : instructorList) {
-            emailToNameTable.put(instructor.email, instructor.name);
-        }
-
-        List<StudentAttributes> studentList = getStudents();
-        for (StudentAttributes student : studentList) {
-            emailToNameTable.put(student.email, student.name);
-        }
-        return emailToNameTable;
     }
 
     private void populateStudentListByEmail(List<StudentAttributes> students) {

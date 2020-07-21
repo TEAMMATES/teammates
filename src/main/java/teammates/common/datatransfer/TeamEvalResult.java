@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.Arrays;
-import java.util.List;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -33,11 +32,6 @@ public class TeamEvalResult {
 
     /** the values that were used to calculate normalizedAveragePerceived values. */
     public int[][] normalizedPeerContributionRatio;
-
-    // List of student email's.
-    // The index of the student in the list is used as the index for the int arrays.
-    // The 2d int arrays are of the format [giverIndex][recipientIndex]
-    public List<String> studentEmails;
 
     public TeamEvalResult(int[][] submissionValues) {
         /*This is the only method that should be public. However, many of the
@@ -271,10 +265,6 @@ public class TeamEvalResult {
     public static double[] normalizeValues(double[] input) {
         double factor = calculateFactor(input);
         return multiplyByFactor(factor, input);
-    }
-
-    public static double[] normalizeValues(int[] input) {
-        return normalizeValues(intToDouble(input));
     }
 
     public static int[][] normalizeValues(int[][] input) {

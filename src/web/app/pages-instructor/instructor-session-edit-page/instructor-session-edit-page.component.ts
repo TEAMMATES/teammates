@@ -10,6 +10,7 @@ import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/fe
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -48,14 +49,11 @@ import {
   SessionEditFormModel,
   TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
-import {
-  QuestionToCopyCandidate,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
-import {
-  CopyQuestionsFromOtherSessionsModalComponent,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
+import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 
 /**
@@ -183,7 +181,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private modalService: NgbModal,
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
         feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
@@ -234,7 +233,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     // load course candidates first
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
-      const modalRef: NgbModalRef = this.modalService.open(CopySessionModalComponent);
+      const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
       modalRef.componentInstance.courseCandidates = courses.courses;
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
@@ -657,7 +656,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
-    this.modalService.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
+    this.ngbModal.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
@@ -805,7 +804,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
-      const ref: NgbModalRef = this.modalService.open(CopyQuestionsFromOtherSessionsModalComponent);
+      const ref: NgbModalRef = this.ngbModal.open(CopyQuestionsFromOtherSessionsModalComponent);
       ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
@@ -844,12 +843,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Handles 'Done Editing' click event.
    */
-  doneEditingHandler(modal: any): void {
+  doneEditingHandler(): void {
     if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
         || this.sessionEditFormModel.isEditable) {
-      this.modalService.open(modal).result.then(() => {
-        this.router.navigateByUrl('/web/instructor/sessions');
-      }, () => {});
+      const modalContent: string = `<p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
+          <p>Are you sure you want to continue?</p>`;
+      this.simpleModalService.openConfirmationModal(
+          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
+            this.router.navigateByUrl('/web/instructor/sessions');
+          }, () => {});
     } else {
       this.router.navigateByUrl('/web/instructor/sessions');
     }

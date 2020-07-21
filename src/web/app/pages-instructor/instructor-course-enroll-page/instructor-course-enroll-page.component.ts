@@ -1,15 +1,16 @@
-import { Component, ContentChild, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Handsontable from 'handsontable';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StatusMessage } from '../../components/status-message/status-message';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -40,7 +41,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   statusMessage: StatusMessage[] = [];
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
-  @ContentChild('pasteModalBox') pasteModalBox?: NgbModal;
 
   @Input() isNewStudentsPanelCollapsed: boolean = false;
   @Input() isExistingStudentsPanelCollapsed: boolean = true;
@@ -76,7 +76,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private ngbModal: NgbModal) { }
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -342,8 +342,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Shows modal box when user clicks on the 'paste' option in the
    * Handsontable context menu
    */
-  showPasteModalBox(pasteModalBox: any): void {
-    this.ngbModal.open(pasteModalBox);
+  showPasteModalBox(): void {
+    const modalContent: string = `Pasting data through the context menu is not supported due to browser restrictions.<br>
+      Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.`;
+    this.simpleModalService.openInformationModal('Pasting data through the context menu',
+        SimpleModalType.WARNING, modalContent);
   }
 
   /**
@@ -354,11 +357,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.coursePresent = true;
       this.courseid = courseid;
       if (resp.hasResponses) {
-        this.statusMessageService.showWarningModal('Existing feedback responses',
-        'There are existing feedback responses for this course.',
-        'Modifying records of enrolled students will result in some existing responses '
-            + 'from those modified students to be deleted. You may wish to download the data '
-            + 'before you make the changes.');
+        const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
+          Modifying records of enrolled students will result in some existing responses
+          from those modified students to be deleted. You may wish to download the data
+          before you make the changes.`;
+        this.simpleModalService.openInformationModal(
+            'Existing feedback responses', SimpleModalType.WARNING, modalContent);
       }
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;

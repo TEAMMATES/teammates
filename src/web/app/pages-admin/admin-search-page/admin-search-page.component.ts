@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
@@ -11,13 +11,13 @@ import {
   SearchService,
   StudentAccountSearchResult,
 } from '../../../services/search.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { Email, RegenerateStudentCourseLinks } from '../../../types/api-output';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { RegenerateLinksConfirmModalComponent } from './regenerate-links-confirm-modal/regenerate-links-confirm-modal.component';
-import { ResetGoogleIdConfirmModalComponent } from './reset-google-id-confirm-modal/reset-google-id-confirm-modal.component';
 
 /**
  * Admin search page.
@@ -36,7 +36,7 @@ export class AdminSearchPageComponent {
 
   constructor(
     private statusMessageService: StatusMessageService,
-    private modalService: NgbModal,
+    private simpleModalService: SimpleModalService,
     private accountService: AccountService,
     private studentService: StudentService,
     private searchService: SearchService,
@@ -114,9 +114,11 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    const modalRef: NgbModalRef = this.modalService.open(ResetGoogleIdConfirmModalComponent);
-    modalRef.componentInstance.name = instructor.name;
-    modalRef.componentInstance.course = instructor.courseId;
+
+    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ instructor.name }</strong> in the course <strong>${ instructor.courseId }</strong>?
+        The user will need to re-associate their account with a new Google ID.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Reset <strong>${ instructor.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
@@ -136,9 +138,10 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    const modalRef: NgbModalRef = this.modalService.open(ResetGoogleIdConfirmModalComponent);
-    modalRef.componentInstance.name = student.name;
-    modalRef.componentInstance.course = student.courseId;
+    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ student.name }</strong> in the course <strong>${ student.courseId }</strong>?
+        The user will need to re-associate their account with a new Google ID.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Reset <strong>${ student.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
@@ -154,9 +157,10 @@ export class AdminSearchPageComponent {
    * Regenerates the student's course join and feedback session links.
    */
   regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
-    const modalRef: NgbModalRef = this.modalService.open(RegenerateLinksConfirmModalComponent);
-    modalRef.componentInstance.studentName = student.name;
-    modalRef.componentInstance.regenerateLinksCourseId = student.courseId;
+    const modalContent: string = `Are you sure you want to regenerate the course registration and feedback session links for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
+        An email will be sent to the student with all the new links.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Regenerate <strong>${ student.name }</strong>\'s course links?`, SimpleModalType.WARNING, modalContent);
 
     modalRef.result.then(() => {
       this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)

@@ -45,7 +45,7 @@
       <div *ngIf="students.length > 0">
         <div class="form-group">
           <div class="text-center">
-            <button type="button" class="btn btn-primary mb-2" (click)="openModal(remindStudentsModal)" value="Remind Students to Join">
+            <button type="button" class="btn btn-primary mb-2" (click)="openRemindStudentModal()" value="Remind Students to Join">
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
@@ -54,7 +54,7 @@
               <tm-ajax-loading *ngIf="isLoadingCsv"></tm-ajax-loading>
               Download Student List
             </button>
-            <button type="button" class="btn btn-danger mb-2" (click)="openModal(deleteAllStudentsModal)" value="Delete All Students">
+            <button type="button" class="btn btn-danger mb-2" (click)="openDeleteAllStudentsModal()" value="Delete All Students">
               <i class="fa fa-trash"></i>
               Delete All Students
             </button>
@@ -74,37 +74,6 @@
           [courseId]="courseDetails.course.courseId" [students]="students" [useGrayHeading]="true" [enableRemindButton]="true"
           (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
       ></tm-student-list>
-    </div>
-  </ng-template>
-  <ng-template #remindStudentsModal let-modal>
-    <div class="modal-header alert-info">
-      <i class="fa fa-info-circle fa-2x"></i>
-      <h4 class="modal-title">Confirm sending join requests</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
-    </div>
-    <div class="modal-body">
-      Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
-      time of each session. Send a join request to all yet-to-join students in {{courseDetails.course.courseId}} anyway?
-      <br>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg " (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="remindAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
-    </div>
-  </ng-template>
-  <ng-template #deleteAllStudentsModal let-modal>
-    <div class="modal-header alert-danger">
-      <i class="fa fa-times-circle fa-2x"></i>
-      <h4 class="modal-title">Confirm Deletion</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">&times;</button>
-    </div>
-    <div class="modal-body">
-      Are you sure you want to remove all students from the course {{courseDetails.course.courseId}}?
-      <br>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="modal-btn-cancel btn-lg " (click)="modal.dismiss()">No, cancel the operation</button>
-      <button type="button" class="modal-btn-ok btn-lg btn-danger" (click)="deleteAllStudentsFromCourse(courseDetails.course.courseId); modal.dismiss()">Yes</button>
     </div>
   </ng-template>
 </div>

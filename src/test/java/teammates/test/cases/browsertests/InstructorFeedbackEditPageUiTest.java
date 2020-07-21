@@ -21,9 +21,9 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.Priority;
 import teammates.test.driver.BackDoor;
+import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
@@ -33,7 +33,7 @@ import teammates.test.pageobjects.InstructorFeedbackSessionsPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
+public class InstructorFeedbackEditPageUiTest extends BaseLegacyUiTestCase {
     private InstructorFeedbackEditPage feedbackEditPage;
     private String instructorId;
     private String courseId;
@@ -147,7 +147,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
 
-        feedbackEditPage.editFeedbackSession(editedSession.getStartTimeLocal(), editedSession.getEndTimeLocal(),
+        feedbackEditPage.editFeedbackSession(getStartTimeLocal(editedSession), getEndTimeLocal(editedSession),
                 editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         feedbackEditPage.waitForTextsForAllStatusMessagesToUserEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
@@ -227,8 +227,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         feedbackEditPage = getFeedbackEditPageOfSessionIndDstCourse();
         FeedbackSessionAttributes dstSession = testData.feedbackSessions.get("dstSession");
 
-        LocalDateTime overlapStartTime = TimeHelper.parseDateTimeFromSessionsForm("Sun, 05 Apr, 2015", "2", "0");
-        LocalDateTime gapEndTime = TimeHelper.parseDateTimeFromSessionsForm("Sun, 01 Oct, 2017", "2", "0");
+        LocalDateTime overlapStartTime = TimeHelperExtension.parseDateTimeFromSessionsForm("Sun, 05 Apr, 2015", "2", "0");
+        LocalDateTime gapEndTime = TimeHelperExtension.parseDateTimeFromSessionsForm("Sun, 01 Oct, 2017", "2", "0");
 
         feedbackEditPage.editFeedbackSession(overlapStartTime, gapEndTime,
                 dstSession.getInstructions(), dstSession.getGracePeriodMinutes());
@@ -245,12 +245,12 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
                 "3", feedbackEditPage.getFeedbackSessionEndTimeValue());
 
         savedSession = getFeedbackSessionWithRetry(dstSession.getCourseId(), dstSession.getFeedbackSessionName());
-        assertEquals("Saved end time should be 3am", 3, savedSession.getEndTimeLocal().getHour());
+        assertEquals("Saved end time should be 3am", 3, getEndTimeLocal(savedSession).getHour());
 
         ______TS("test end time earlier than start time");
         feedbackEditPage = getFeedbackEditPage();
         editedSession.setInstructions("Made some changes");
-        feedbackEditPage.editFeedbackSession(editedSession.getEndTimeLocal(), editedSession.getStartTimeLocal(),
+        feedbackEditPage.editFeedbackSession(getEndTimeLocal(editedSession), getStartTimeLocal(editedSession),
                                         editedSession.getInstructions(), editedSession.getGracePeriodMinutes());
 
         String expectedString = "The end time for this feedback session cannot be earlier than the start time.";
@@ -1218,8 +1218,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                     .withUserId(instructorId)
                                     .withCourseId(courseId)
-                                    .withSessionName(feedbackSessionName)
-                                    .withEnableSessionEditDetails(true);
+                                    .withSessionName(feedbackSessionName);
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1231,8 +1231,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                                     .withUserId(instructor)
                                     .withCourseId(courseWithoutQuestion)
-                                    .withSessionName(sessionWithoutQuestions)
-                                    .withEnableSessionEditDetails(true);
+                                    .withSessionName(sessionWithoutQuestions);
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
@@ -1240,8 +1240,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseE2ETestCase {
         AppUrl feedbackPageLink = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withUserId(testData.instructors.get("instructorOfDstCourse").googleId)
                 .withCourseId(testData.courses.get("courseWithDstTimeZone").getId())
-                .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName())
-                .withEnableSessionEditDetails(true);
+                .withSessionName(testData.feedbackSessions.get("dstSession").getFeedbackSessionName());
+        // .withEnableSessionEditDetails(true);
         return loginAdminToPageOld(feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
