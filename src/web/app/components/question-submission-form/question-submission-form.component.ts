@@ -52,6 +52,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
+    this.allowedToHaveParticipantComment =
+        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   @Output()
@@ -100,8 +102,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.allowedToHaveParticipantComment =
-        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   /**
