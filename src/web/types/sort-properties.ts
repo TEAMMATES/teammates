@@ -18,14 +18,14 @@ export enum SortBy {
     TEAM_NAME,
 
     /**
-     * Student Name.
+     * Respondent Name (student/instructor).
      */
-    STUDENT_NAME,
+    RESPONDENT_NAME,
 
     /**
-     * The email of the student.
+     * The email of a respondent (student/instructor).
      */
-    EMAIL,
+    RESPONDENT_EMAIL,
 
     /**
      * The gender of the student.
