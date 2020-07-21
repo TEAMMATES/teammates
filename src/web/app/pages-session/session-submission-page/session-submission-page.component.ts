@@ -35,6 +35,7 @@ import {
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import {
@@ -102,7 +103,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   isFeedbackSessionQuestionsLoading: boolean = false;
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
-  retryAttempts: number = 2;
+  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
 

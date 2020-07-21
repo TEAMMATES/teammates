@@ -17,6 +17,7 @@ import {
     InstructorPrivilege,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import {
@@ -30,8 +31,7 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
-  // Number of times publish/unpublish session is allowed to error before it is a reportable error
-  private publishUnpublishRetryAttempts: number = 3;
+  private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   protected constructor(protected router: Router,
                         protected instructorService: InstructorService,
