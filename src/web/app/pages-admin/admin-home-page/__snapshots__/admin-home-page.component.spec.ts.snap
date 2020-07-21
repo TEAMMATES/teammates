@@ -9,6 +9,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
+  isAddingInstructors="false"
 >
   <div
     class="card bg-light top-padded"
@@ -115,6 +116,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
+  isAddingInstructors={[Function Boolean]}
 >
   <div
     class="card bg-light top-padded"
@@ -322,7 +324,18 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
           disabled=""
           id="add-all-instructors"
         >
-          Add All Instructors
+          
+          <tm-ajax-loading>
+            <div
+              class="loading-container"
+            >
+              <div
+                class="spinner-border spinner-border-sm text-white"
+                role="status"
+              />
+            </div>
+          </tm-ajax-loading>
+           Add All Instructors 
         </button>
       </div>
     </div>
@@ -339,6 +352,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
   instructorInstitution=""
   instructorName=""
   instructorsConsolidated={[Function Array]}
+  isAddingInstructors="false"
 >
   <div
     class="card bg-light top-padded"
@@ -601,7 +615,8 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
           class="btn btn-primary"
           id="add-all-instructors"
         >
-          Add All Instructors
+          
+           Add All Instructors 
         </button>
       </div>
     </div>

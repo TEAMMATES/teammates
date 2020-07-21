@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
+import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -44,6 +45,8 @@ export class AdminSessionsPageComponent implements OnInit {
   timezoneString: string = '';
   startTimeString: string = '';
   endTimeString: string = '';
+
+  isLoadingOngoingSessions: boolean = false;
 
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
@@ -125,8 +128,10 @@ export class AdminSessionsPageComponent implements OnInit {
     this.startTimeString = startTime.format(displayFormat);
     this.endTimeString = endTime.format(displayFormat);
     this.timezoneString = this.timezone;
+    this.isLoadingOngoingSessions = true;
 
     this.feedbackSessionsService.getOngoingSessions(startTime.toDate().getTime(), endTime.toDate().getTime())
+        .pipe(finalize(() => this.isLoadingOngoingSessions = false))
         .subscribe((resp: OngoingSessions) => {
           this.totalOngoingSessions = resp.totalOngoingSessions;
           this.totalOpenSessions = resp.totalOpenSessions;
