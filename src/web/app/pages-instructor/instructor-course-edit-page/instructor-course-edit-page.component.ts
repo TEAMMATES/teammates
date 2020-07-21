@@ -347,6 +347,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructorRole: role,
     }).subscribe((resp: InstructorPrivilege) => {
       modalRef.componentInstance.instructorPrivilege = resp;
+      modalRef.componentInstance.role = role;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
