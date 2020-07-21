@@ -94,12 +94,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadStudent(courseId: string): void {
     this.studentService.getStudent(courseId)
-      .subscribe((student: Student) => {
-        this.student = student;
-        this.loadTeammates(courseId, student.teamName);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+    .subscribe((student: Student) => {
+      this.student = student;
+      this.loadTeammates(courseId, student.teamName);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
