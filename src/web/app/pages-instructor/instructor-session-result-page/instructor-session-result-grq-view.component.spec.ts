@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   GrqRgqViewResponsesModule,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
@@ -13,7 +14,7 @@ describe('InstructorSessionResultGrqViewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorSessionResultGrqViewComponent],
-      imports: [GrqRgqViewResponsesModule, NgbModule],
+      imports: [GrqRgqViewResponsesModule, NgbModule, LoadingSpinnerModule],
     })
     .compileComponents();
   }));

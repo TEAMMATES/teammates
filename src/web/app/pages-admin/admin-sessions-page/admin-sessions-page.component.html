@@ -105,45 +105,47 @@
   </div>
 </ng-template>
 
-<div *ngIf="totalOngoingSessions; else noOngoingSessions">
-  <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
-    <div class="row no-gutters text-left text-white card-header bg-primary" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
-      <div class="col-11">
-        <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
+<div *tmIsLoading="isLoadingOngoingSessions">
+  <div *ngIf="totalOngoingSessions; else noOngoingSessions">
+    <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
+      <div class="row no-gutters text-left text-white card-header bg-primary" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
+        <div class="col-11">
+          <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
+        </div>
+        <div class="col-1 text-right">
+          <i class="fas fa-chevron-down" *ngIf="!institutionPanelsStatus[mapping.key]"></i>
+          <i class="fas fa-chevron-up" *ngIf="institutionPanelsStatus[mapping.key]"></i>
+        </div>
       </div>
-      <div class="col-1 text-right">
-        <i class="fas fa-chevron-down" *ngIf="!institutionPanelsStatus[mapping.key]"></i>
-        <i class="fas fa-chevron-up" *ngIf="institutionPanelsStatus[mapping.key]"></i>
-      </div>
-    </div>
-    <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]" @collapseAnim>
-      <div class="table-responsive">
-        <table class="table table-striped data-table session-table">
-          <thead>
-          <tr>
-            <th>Status</th>
-            <th>[Course ID] Session Name</th>
-            <th>Response Rate</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Creator</th>
-          </tr>
-          </thead>
+      <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]" @collapseAnim>
+        <div class="table-responsive">
+          <table class="table table-striped data-table session-table">
+            <thead>
+            <tr>
+              <th>Status</th>
+              <th>[Course ID] Session Name</th>
+              <th>Response Rate</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Creator</th>
+            </tr>
+            </thead>
 
-          <tbody>
-          <tr *ngFor="let session of mapping.value">
-            <td>{{ session.ongoingSession.sessionStatus }}</td>
-            <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
-            <td>
-              <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
-              <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
-            </td>
-            <td>{{ showDateFromMillis(session.ongoingSession.startTime) }}</td>
-            <td>{{ showDateFromMillis(session.ongoingSession.endTime) }}</td>
-            <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
-          </tr>
-          </tbody>
-        </table>
+            <tbody>
+            <tr *ngFor="let session of mapping.value">
+              <td>{{ session.ongoingSession.sessionStatus }}</td>
+              <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
+              <td>
+                <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
+                <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
+              </td>
+              <td>{{ showDateFromMillis(session.ongoingSession.startTime) }}</td>
+              <td>{{ showDateFromMillis(session.ongoingSession.endTime) }}</td>
+              <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

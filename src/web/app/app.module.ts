@@ -11,7 +11,7 @@ import { Intent } from '../types/api-request';
 import { AppComponent } from './app.component';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
 import { ToastModule } from './components/toast/toast.module';
 import { CustomUrlSerializer } from './custom-url-serializer';
@@ -104,7 +104,6 @@ const routes: Routes = [
     StudentPageComponent,
     InstructorPageComponent,
     AdminPageComponent,
-    LoadingSpinnerComponent,
   ],
   imports: [
     SimpleModalModule,
@@ -121,6 +120,7 @@ const routes: Routes = [
       enabled: environment.production,
       registrationStrategy: 'registerImmediately',
     }),
+    LoadingSpinnerModule,
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

@@ -1,9 +1,10 @@
-<div *ngIf="courses.length == 0; else coursesContainer">
+<div *tmIsLoading="isCoursesLoading"></div>
+<div *ngIf="!isCoursesLoading && courses.length == 0; else coursesContainer">
   You are not enrolled in any courses. Please refer to the <a routerLink="/web/student/help">help page</a>
   if you need more information.
 </div>
 <ng-template #coursesContainer>
-  <div *ngIf="courses" class="row mb-2">
+  <div *ngIf="courses.length" class="row mb-2">
     <div class="col-12">
       <div class="float-right">
         <strong class="d-inline"> Sort By: </strong>

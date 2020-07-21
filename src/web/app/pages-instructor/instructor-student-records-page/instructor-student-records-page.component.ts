@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, mergeMap } from 'rxjs/operators';
+import { finalize, map, mergeMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -66,6 +66,10 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   sessionTabs: SessionTab[] = [];
   photoUrl: string = '';
 
+  isStudentLoading: boolean = false;
+  isStudentProfileLoading: boolean = false;
+  isStudentResultsLoading: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
@@ -104,12 +108,18 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's records based on the given course ID and email.
    */
   loadStudentRecords(): void {
-    this.studentService.getStudent(this.courseId, this.studentEmail).subscribe((resp: Student) => {
+    this.isStudentLoading = true;
+    this.isStudentProfileLoading = true;
+    this.studentService.getStudent(
+        this.courseId, this.studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((resp: Student) => {
       this.studentName = resp.name;
       this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
     });
-    this.studentProfileService.getStudentProfile(this.studentEmail, this.courseId).subscribe((resp: StudentProfile) => {
+    this.studentProfileService.getStudentProfile(
+        this.studentEmail, this.courseId,
+    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((resp: StudentProfile) => {
       this.studentProfile = resp;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -120,6 +130,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's feedback session results based on the given course ID and student name.
    */
   loadStudentResults(): void {
+    this.isStudentResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
         mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
         mergeMap((feedbackSession: FeedbackSession) => {
@@ -130,6 +141,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             intent: Intent.INSTRUCTOR_RESULT,
           }).pipe(map((results: SessionResults) => ({ results, feedbackSession })));
         }),
+        finalize(() => this.isStudentResultsLoading = false),
     ).subscribe(
         ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));

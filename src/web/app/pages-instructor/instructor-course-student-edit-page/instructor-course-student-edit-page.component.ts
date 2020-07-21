@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
@@ -23,18 +24,19 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
+  FormValidator: typeof FormValidator = FormValidator; // enum
+
   @Input() isEnabled: boolean = true;
   courseId: string = '';
   student!: Student;
 
   isTeamnameFieldChanged: boolean = false;
   isEmailFieldChanged: boolean = false;
+  isStudentLoading: boolean = false;
 
   editForm!: FormGroup;
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
-
-  FormValidator: typeof FormValidator = FormValidator; // enum
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -78,7 +80,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Loads student details required for this page.
    */
   loadStudentEditDetails(courseId: string, studentEmail: string): void {
-    this.studentService.getStudent(courseId, studentEmail).subscribe((student: Student) => {
+    this.isStudentLoading = true;
+    this.studentService.getStudent(
+        courseId, studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
       this.student = student;
       this.initEditForm();
     }, (resp: ErrorMessageOutput) => {
