@@ -25,7 +25,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.TimeHelperExtension;
@@ -1083,7 +1082,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private boolean navigate(WebElement dateBox, LocalDate date) throws ParseException {
 
         click(dateBox);
-        LocalDate selectedDate = TimeHelper.parseDateFromSessionsForm(dateBox.getAttribute("value"));
+        LocalDate selectedDate = TimeHelperExtension.parseDateFromSessionsForm(dateBox.getAttribute("value"));
         String month = date.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
         String year = Integer.toString(date.getYear());
 
@@ -1318,13 +1317,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editFeedbackSession(LocalDateTime startTime, LocalDateTime endTime, String instructions, long gracePeriod) {
         // Select start date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_STARTDATE + "')[0].value='"
-                      + TimeHelper.formatDateForSessionsForm(startTime) + "';");
+                      + TimeHelperExtension.formatDateForSessionsForm(startTime) + "';");
         selectDropdownByVisibleValue(startTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(startTime));
 
         // Select deadline date
         executeScript("$('#" + Const.ParamsNames.FEEDBACK_SESSION_ENDDATE + "')[0].value='"
-                      + TimeHelper.formatDateForSessionsForm(endTime) + "';");
+                      + TimeHelperExtension.formatDateForSessionsForm(endTime) + "';");
         selectDropdownByVisibleValue(endTimeDropdown,
                 TimeHelperExtension.convertToDisplayValueInTimeDropDown(endTime));
 

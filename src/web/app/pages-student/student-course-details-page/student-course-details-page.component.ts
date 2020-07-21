@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -56,6 +57,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
+  isLoadingCourse: boolean = false;
+  isLoadingStudent: boolean = false;
+  isLoadingInstructor: boolean = false;
+  isLoadingTeammates: boolean = false;
+
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
               private instructorService: InstructorService,
@@ -80,9 +86,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadCourse(courseId: string): void {
-    this.courseService.getCourseAsStudent(courseId).subscribe((course: Course) => {
-      this.course = course;
-    });
+    this.isLoadingCourse = true;
+    this.courseService.getCourseAsStudent(courseId)
+        .pipe(finalize(() => this.isLoadingCourse = false))
+        .subscribe((course: Course) => {
+          this.course = course;
+        });
   }
 
   /**
@@ -90,7 +99,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadStudent(courseId: string): void {
+    this.isLoadingStudent = true;
     this.studentService.getStudent(courseId)
+        .pipe(finalize(() => this.isLoadingStudent = false))
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -105,6 +116,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param teamName: team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
+    this.isLoadingTeammates = true;
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
         students.students.forEach((student: Student) => {
@@ -114,6 +126,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           }
 
           this.studentProfileService.getStudentProfile(student.email, courseId)
+                .pipe(finalize(() => this.isLoadingTeammates = false))
                 .subscribe((studentProfile: StudentProfile) => {
                   const newPhotoUrl: string =
                     `${environment.backendUrl}/webapi/student/profilePic`
@@ -130,6 +143,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                 });
         });
       }, (resp: ErrorMessageOutput) => {
+        this.isLoadingTeammates = false;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
@@ -139,7 +153,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
+    this.isLoadingInstructor = true;
     this.instructorService.loadInstructors({ courseId })
+        .pipe(finalize(() => this.isLoadingInstructor = false))
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {

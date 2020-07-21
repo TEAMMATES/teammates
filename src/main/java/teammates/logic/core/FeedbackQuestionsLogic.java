@@ -256,21 +256,11 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
-    @Deprecated
     public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
         InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(question.courseId, giver);
         StudentAttributes studentGiver = studentsLogic.getStudentForEmail(question.courseId, giver);
-
-        return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
-    }
-
-    @Deprecated
-    public Map<String, String> getRecipientsForQuestion(
-            FeedbackQuestionAttributes question, String giver,
-            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
-            throws EntityDoesNotExistException {
 
         Map<String, String> recipients = new HashMap<>();
 

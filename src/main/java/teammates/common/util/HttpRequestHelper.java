@@ -21,15 +21,6 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Returns the first value for the key in the parameter map, or null if key not found.
-     *
-     * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-     */
-    public static String getValueFromParamMap(Map<String, String[]> paramMap, String key) {
-        return paramMap.getOrDefault(key, new String[] { null })[0];
-    }
-
-    /**
      * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping string.
      */
     public static String getRequestParametersAsString(HttpServletRequest req) {

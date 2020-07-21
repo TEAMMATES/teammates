@@ -14,7 +14,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 import teammates.storage.api.InstructorsDb;
 
 /**
@@ -31,8 +30,6 @@ public final class InstructorsLogic {
 
     private static final InstructorsDb instructorsDb = new InstructorsDb();
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -133,57 +130,6 @@ public final class InstructorsLogic {
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
 
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
-    }
-
-    public String getEncryptedKeyForInstructor(String courseId, String email)
-            throws EntityDoesNotExistException {
-
-        verifyIsEmailOfInstructorOfCourse(email, courseId);
-
-        InstructorAttributes instructor = getInstructorForEmail(courseId, email);
-
-        return StringHelper.encrypt(instructor.key);
-    }
-
-    public boolean isGoogleIdOfInstructorOfCourse(String instructorId, String courseId) {
-
-        return instructorsDb.getInstructorForGoogleId(courseId, instructorId) != null;
-    }
-
-    public boolean isEmailOfInstructorOfCourse(String instructorEmail, String courseId) {
-
-        return instructorsDb.getInstructorForEmail(courseId, instructorEmail) != null;
-    }
-
-    /**
-     * Returns whether the instructor is a new user, according to one of the following criteria:
-     * <ul>
-     * <li>There is only a sample course (created by system) for the instructor.</li>
-     * <li>There is no any course for the instructor.</li>
-     * </ul>
-     */
-    public boolean isNewInstructor(String googleId) {
-        List<InstructorAttributes> instructorList = getInstructorsForGoogleId(googleId);
-        return instructorList.isEmpty()
-               || instructorList.size() == 1 && coursesLogic.isSampleCourse(instructorList.get(0).courseId);
-    }
-
-    public void verifyInstructorExists(String instructorId)
-            throws EntityDoesNotExistException {
-
-        if (!accountsLogic.isAccountAnInstructor(instructorId)) {
-            throw new EntityDoesNotExistException("Instructor does not exist :"
-                    + instructorId);
-        }
-    }
-
-    public void verifyIsEmailOfInstructorOfCourse(String instructorEmail, String courseId)
-            throws EntityDoesNotExistException {
-
-        if (!isEmailOfInstructorOfCourse(instructorEmail, courseId)) {
-            throw new EntityDoesNotExistException("Instructor " + instructorEmail
-                    + " does not belong to course " + courseId);
-        }
     }
 
     public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,

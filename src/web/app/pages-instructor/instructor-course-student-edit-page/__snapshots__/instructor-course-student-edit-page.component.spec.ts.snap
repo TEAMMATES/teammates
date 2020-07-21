@@ -1,19 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`InstructorCourseStudentEditPageComponent should snap when student is still loading 1`] = `
+<tm-instructor-course-student-edit-page
+  FormValidator={[Function Object]}
+  courseId="undefined"
+  isEmailFieldChanged="false"
+  isEnabled={[Function Boolean]}
+  isStudentLoading={[Function Boolean]}
+  isTeamnameFieldChanged="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+>
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-instructor-course-student-edit-page>
+`;
+
 exports[`InstructorCourseStudentEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
   FormValidator={[Function Object]}
   courseId="undefined"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
 >
-  
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-instructor-course-student-edit-page>
 `;
 
@@ -24,15 +73,18 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   editForm={[Function FormGroup]}
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isStudentLoading="false"
   isTeamnameFieldChanged="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentService={[Function StudentService]}
 >
   <div>
+    
     <div
       class="card border-primary"
     >
@@ -155,7 +207,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
           </div>
           <br />
           <br />
-          
           
         </form>
       </div>

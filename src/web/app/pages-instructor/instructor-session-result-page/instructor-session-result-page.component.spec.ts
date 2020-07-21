@@ -3,8 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -55,6 +57,8 @@ describe('InstructorSessionResultPageComponent', () => {
         GrqRgqViewResponsesModule,
         PerQuestionViewResponsesModule,
         SingleStatisticsModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
       ],
       providers: [
         CommentsToCommentTableModelPipe,

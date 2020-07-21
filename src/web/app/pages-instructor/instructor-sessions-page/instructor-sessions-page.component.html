@@ -21,7 +21,8 @@
 </div>
 
 <div class="margin-top-30px">
-  <tm-sessions-table [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
+  <tm-sessions-table *tmIsLoading="!hasCoursesLoaded"
+                     [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
                      [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                      [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
                      (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"

@@ -1,24 +1,26 @@
-<tm-session-edit-form [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()" (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
+<tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT" [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()" (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 
-<div class="offset-md-10 margin-vertical-20px">
+<div *ngIf="!isLoadingFeedbackQuestions" class="offset-md-10 margin-vertical-20px">
   <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
     {{isAllCollapsed ? "Expand" : "Collapse" }} All
   </button>
 </div>
 
-<div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
-  <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
-                         [numOfQuestions]="questionEditFormModels.length"
-                         (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
-                         (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
-                         (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
-                         (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
-                         [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
+<div *tmIsLoading="isLoadingFeedbackQuestions">
+  <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
+    <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
+                           [numOfQuestions]="questionEditFormModels.length"
+                           (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
+                           (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
+                           (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
+                           (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
+                           [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
+  </div>
 </div>
 
 <br/>
-<div class="card" *ngIf="!isAddingQuestionPanelExpanded">
+<div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
   <div class="card-body background-color-light-blue text-center">
     <div ngbDropdown class="d-inline-block">
       <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
@@ -34,8 +36,8 @@
       </div>
     </div>
     <button type="button" class="btn btn-link" (click)="questionsHelpHandler()"><i class="fas fa-info-circle"></i></button>
-    <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()">Copy Question</button>&nbsp;
-    <button class="btn btn-primary" (click)="doneEditingHandler(pageNotSavedModal)">Done Editing</button>
+    <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>&nbsp;
+    <button class="btn btn-primary" (click)="doneEditingHandler()">Done Editing</button>
   </div>
 </div>
 <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
@@ -46,7 +48,7 @@
                        [(formModel)]="newQuestionEditFormModel"
 ></tm-question-edit-form>
 <br/>
-<div class="card">
+<div *ngIf="!isLoadingFeedbackQuestions" class="card">
   <div class="card-body background-color-light-blue text-center">
     <div class="row align-items-center">
       <div class="col-lg-2 text-lg-right">
@@ -67,19 +69,3 @@
     </div>
   </div>
 </div>
-<ng-template #pageNotSavedModal let-modal>
-  <div class="modal-header bg-warning">
-    <h5 class="modal-title text-white"><i class="fas fa-exclamation-circle"></i> Warning: Unsaved field(s).</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
-    <p>Are you sure you want to continue?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-  </div>
-</ng-template>
