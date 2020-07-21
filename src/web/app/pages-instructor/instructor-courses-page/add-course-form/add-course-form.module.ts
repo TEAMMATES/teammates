@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
 import { AddCourseFormComponent } from './add-course-form.component';
 
 /**
@@ -14,6 +15,7 @@ import { AddCourseFormComponent } from './add-course-form.component';
     CommonModule,
     FormsModule,
     RouterModule,
+    AjaxLoadingModule,
   ],
 })
 export class AddCourseFormModule { }

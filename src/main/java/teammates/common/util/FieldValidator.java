@@ -27,7 +27,6 @@ public final class FieldValidator {
     public static final int PERSON_NAME_MAX_LENGTH = 100;
 
     public static final String NATIONALITY_FIELD_NAME = "nationality";
-    public static final int NATIONALITY_MAX_LENGTH = 55; // one more than longest official nationality name
 
     public static final String COURSE_NAME_FIELD_NAME = "course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
@@ -47,12 +46,6 @@ public final class FieldValidator {
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
-
-    public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
-    public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
-
-    public static final String EMAIL_CONTENT_FIELD_NAME = "email content";
-    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
 
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
@@ -104,8 +97,6 @@ public final class FieldValidator {
     // ERROR MESSAGES //
     ////////////////////
 
-    // possible reasons for invalidity
-    public static final String REASON_EMPTY = "is empty";
     public static final String REASON_TOO_LONG = "is too long";
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
@@ -222,11 +213,6 @@ public final class FieldValidator {
     public static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
 
     /**
-     * A normal course ID followed by the word '-demo' and then followed any amount of digits.
-     */
-    public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
-
-    /**
      * Local part:
      * <li>Can only start with letters, digits, hyphen or plus sign;
      * <li>Special characters allowed are ! # $ % & ' * + - / = ? ^ _ ` { } ~
@@ -242,31 +228,6 @@ public final class FieldValidator {
      */
     public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
 
-    /*
-     * =======================================================================
-     * Regex used for checking header column name in enroll lines
-     */
-    public static final List<String> REGEX_COLUMN_SECTION = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {"sections?", "sect?", "courses?\\s+sec(tion)?s?"}));
-    public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {
-                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?",
-                    }));
-    public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
-    public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {
-                            "emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                            "e-mails?\\s+address(es)?", "contacts?",
-                    }));
-    public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {"comments?", "notes?"}));
-
     private FieldValidator() {
         // utility class
         // Intentional private constructor to prevent instantiation.
@@ -275,30 +236,6 @@ public final class FieldValidator {
     /////////////////////////////////////////
     // VALIDATION METHODS FOR EXTERNAL USE //
     /////////////////////////////////////////
-
-    /**
-     * Checks if {@code emailContent} is not null and not empty.
-     * @return An explanation of why the {@code emailContent} is not acceptable.
-     *         Returns an empty string if the {@code emailContent} is acceptable.
-     */
-    public static String getInvalidityInfoForEmailContent(String emailContent) {
-        Assumption.assertNotNull("Non-null value expected", emailContent);
-        if (emailContent.isEmpty()) {
-            return EMAIL_CONTENT_ERROR_MESSAGE;
-        }
-        return "";
-    }
-
-    /**
-     * Checks if {@code emailSubject} is a non-null non-empty string no longer than the specified length
-     * {@code EMAIL_SUBJECT_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @return An explanation of why the {@code emailSubject} is not acceptable.
-     *         Returns an empty string if the {@code emailSubject} is acceptable.
-     */
-    public static String getInvalidityInfoForEmailSubject(String emailSubject) {
-        return getValidityInfoForAllowedName(
-                EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
-    }
 
     /**
      * Checks if {@code email} is not null, not empty, not longer than {@code EMAIL_MAX_LENGTH}, and is a

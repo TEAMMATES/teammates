@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Loading spinner to show when waiting for request.
@@ -8,11 +8,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './loading-spinner.component.html',
   styleUrls: ['./loading-spinner.component.scss'],
 })
-export class LoadingSpinnerComponent implements OnInit {
+export class LoadingSpinnerComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

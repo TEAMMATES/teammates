@@ -84,7 +84,6 @@ export class InstructorStudentListPageComponent implements OnInit {
     courseTab.hasTabExpanded = !courseTab.hasTabExpanded;
     if (!courseTab.hasStudentLoaded) {
       this.loadStudents(courseTab);
-      courseTab.hasStudentLoaded = true;
     }
   }
 
@@ -93,6 +92,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    */
   loadStudents(courseTab: CourseTab): void {
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
+        .pipe(finalize(() => courseTab.hasStudentLoaded = true))
         .subscribe((students: Students) => {
           courseTab.studentList = []; // Reset the list of students for the course
           const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -115,7 +115,9 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
 
           courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**

@@ -1,7 +1,6 @@
 <h1 class="page-title" *ngIf="course.courseId">Team Details for {{ course.courseId }}</h1>
-
 <div class="section" *ngIf="course.courseId">
-  <div class="card">
+  <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
     <div class="card-body fill-plain">
       <ng-container *ngIf="course.courseId">
         <div class="row">
@@ -72,7 +71,7 @@
   </div>
 </div>
 
-<div class="card bg-light mb-4">
+<div *ngIf="!isLoadingTeammates && teammateProfiles.length" class="card bg-light mb-4">
   <div class="card-body">
     <h5 class="d-inline"><strong> Sort By: </strong></h5>
     <div class="btn-group" data-toggle="buttons">
@@ -85,12 +84,12 @@
   </div>
 </div>
 
-<div class="section" *ngIf="teammateProfiles.length">
+<div class="section">
   <div class="row top-padded">
-    <div class="col-md-2">
+    <div class="col-md-2" *ngIf="teammateProfiles.length">
       <strong>Your teammates:</strong>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-10" *tmIsLoading="isLoadingTeammates">
       <table>
         <tbody>
         <tr *ngFor="let teammateProfile of teammateProfiles; let i = index">

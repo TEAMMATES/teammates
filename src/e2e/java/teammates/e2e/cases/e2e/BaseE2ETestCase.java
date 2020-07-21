@@ -124,14 +124,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     /**
-     * TODO legacy method to be removed after migration of UI tests.
-     */
-    @Deprecated
-    protected <T extends teammates.test.pageobjects.AppPage> T loginAdminToPageOld(AppUrl url, Class<T> typeOfPage) {
-        return teammates.test.pageobjects.AppPage.getNewPageInstance(browser, typeOfPage);
-    }
-
-    /**
      * Navigates to the application's home page (as defined in test.properties)
      * and gives the {@link HomePage} instance based on it.
      */

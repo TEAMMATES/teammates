@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
@@ -21,6 +22,9 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   studentProfile?: StudentProfile;
   photoUrl: string = '';
 
+  isStudentLoading: boolean = false;
+  isStudentProfileLoading: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private studentService: StudentService,
@@ -41,12 +45,18 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
    * Loads the student's details based on the given course ID and email.
    */
   loadStudentDetails(courseId: string, studentEmail: string): void {
-    this.studentProfileService.getStudentProfile(studentEmail, courseId).subscribe((studentProfile: StudentProfile) => {
+    this.isStudentProfileLoading = true;
+    this.isStudentLoading = true;
+    this.studentProfileService.getStudentProfile(
+        studentEmail, courseId,
+    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((studentProfile: StudentProfile) => {
       this.studentProfile = studentProfile;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-    this.studentService.getStudent(courseId, studentEmail).subscribe((student: Student) => {
+    this.studentService.getStudent(
+        courseId, studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
       this.student = student;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);

@@ -11,10 +11,8 @@ import { Intent } from '../types/api-request';
 import { AppComponent } from './app.component';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import {
-  StatusMesssageModalModule,
-} from './components/status-message/status-messsage-modal/status-messsage-modal.module';
+import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
 import { ToastModule } from './components/toast/toast.module';
 import { CustomUrlSerializer } from './custom-url-serializer';
 import { ClickOutsideDirective, PageComponent } from './page.component';
@@ -106,15 +104,14 @@ const routes: Routes = [
     StudentPageComponent,
     InstructorPageComponent,
     AdminPageComponent,
-    LoadingSpinnerComponent,
   ],
   imports: [
+    SimpleModalModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     NgbDropdownModule,
     RouterModule.forRoot(routes),
-    StatusMesssageModalModule,
     ErrorReportModule,
     ToastModule,
     LoaderBarModule,
@@ -123,6 +120,7 @@ const routes: Routes = [
       enabled: environment.production,
       registrationStrategy: 'registerImmediately',
     }),
+    LoadingSpinnerModule,
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

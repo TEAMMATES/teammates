@@ -9,13 +9,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_RECORDS_PAGE}.
  */
-public class InstructorStudentRecordsPageUiTest extends BaseE2ETestCase {
+public class InstructorStudentRecordsPageUiTest extends BaseLegacyUiTestCase {
     private InstructorStudentRecordsPage viewPage;
 
     private String instructorId;

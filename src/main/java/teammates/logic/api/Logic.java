@@ -7,18 +7,13 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
-import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -132,27 +127,6 @@ public class Logic {
         Assumption.assertNotNull(googleId);
 
         profilesLogic.deletePictureKey(googleId);
-    }
-
-    /**
-     * Add an instructor for a course. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    @Deprecated
-    public void addInstructor(String courseId, String name, String email, String role)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(name);
-        Assumption.assertNotNull(email);
-
-        InstructorAttributes instructor = InstructorAttributes.builder(courseId, email)
-                .withName(name)
-                .withRole(role)
-                .withPrivileges(new InstructorPrivileges(role))
-                .build();
-        instructorsLogic.createInstructor(instructor);
     }
 
     /**
@@ -275,49 +249,9 @@ public class Logic {
         return instructorsLogic.getInstructorsForCourse(courseId);
     }
 
-    /**
-     * Get the encrypted registration key for the instructor.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public String getEncryptedKeyForInstructor(String courseId, String email)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
-
-        return instructorsLogic.getEncryptedKeyForInstructor(courseId, email);
-    }
-
     public List<FeedbackSessionAttributes> getAllOngoingSessions(Instant rangeStart, Instant rangeEnd) {
 
         return feedbackSessionsLogic.getAllOngoingSessions(rangeStart, rangeEnd);
-    }
-
-    /**
-     * Returns true if this user has instructor privileges.
-     */
-    public boolean isInstructor(String googleId) {
-
-        return accountsLogic.isAccountAnInstructor(googleId);
-    }
-
-    /**
-     * Returns true if this user is an instructor of the course.
-     */
-    public boolean isInstructorOfCourse(String googleId, String courseId) {
-
-        return instructorsLogic.isGoogleIdOfInstructorOfCourse(googleId, courseId);
-    }
-
-    /**
-     * Returns true if the instructor is a new user.
-     *
-     * @see InstructorsLogic#isNewInstructor(String)
-     */
-    public boolean isNewInstructor(String googleId) {
-
-        return instructorsLogic.isNewInstructor(googleId);
     }
 
     /**
@@ -429,60 +363,12 @@ public class Logic {
     }
 
     /**
-     * Returns a detailed version of course data. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public CourseDetailsBundle getCourseDetails(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        return coursesLogic.getCourseSummary(courseId);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) {
         Assumption.assertNotNull(googleId);
         return coursesLogic.getCoursesForStudentAccount(googleId);
-    }
-
-    /**
-     * Omits archived courses if omitArchived == true<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return A less detailed version of courses for this instructor without stats.
-     *         Returns an empty list if none found.
-     */
-    public Map<String, CourseSummaryBundle> getCourseSummariesWithoutStatsForInstructor(String googleId,
-                                                                                            boolean omitArchived) {
-
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.getCoursesSummaryWithoutStatsForInstructor(googleId, omitArchived);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @return A less detailed version of courses for this instructor.
-     *         Returns an empty list if none found.
-     */
-    public Map<String, CourseDetailsBundle> getCourseSummariesForInstructor(String googleId)
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.getCourseSummariesForInstructor(googleId, false);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Courses the instructor is in.
-     */
-    public List<CourseAttributes> getCoursesForInstructor(String googleId) {
-
-        return getCoursesForInstructor(googleId, false);
     }
 
     /**
@@ -520,12 +406,6 @@ public class Logic {
 
         Assumption.assertNotNull(instructorList);
         return coursesLogic.getSoftDeletedCoursesForInstructors(instructorList);
-    }
-
-    public CourseAttributes getSoftDeletedCourseForInstructor(InstructorAttributes instructor) {
-
-        Assumption.assertNotNull(instructor);
-        return coursesLogic.getSoftDeletedCourseForInstructor(instructor);
     }
 
     /**
@@ -581,13 +461,6 @@ public class Logic {
     }
 
     /**
-     * Checks if the course is present in the system based on its courseid.
-     */
-    public boolean isCoursePresent(String courseid) {
-        return coursesLogic.isCoursePresent(courseid);
-    }
-
-    /**
      * Moves a course to Recycle Bin by its given corresponding ID.
      *
      * <br/>Preconditions: <br/>
@@ -612,19 +485,6 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         coursesLogic.restoreCourseFromRecycleBin(courseId);
-    }
-
-    /**
-     * Restores all courses and all data related to these courses from Recycle Bin.
-     *
-     * <br/>Preconditions: <br/>
-     * * All parameters are non-null.
-     */
-    public void restoreAllCoursesFromRecycleBin(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(instructorList);
-
-        coursesLogic.restoreAllCoursesFromRecycleBin(instructorList);
     }
 
     /**
@@ -673,18 +533,6 @@ public class Logic {
         Assumption.assertNotNull(email);
 
         return studentsLogic.getStudentForEmail(courseId, email);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return an empty list if no match found.
-     */
-    public List<StudentAttributes> getAllStudentForEmail(String email) {
-        Assumption.assertNotNull(email);
-
-        return studentsLogic.getAllStudentsForEmail(email);
     }
 
     /**
@@ -745,49 +593,6 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
-    }
-
-    /**
-     * Returns a list of {@link SectionDetailsBundle} for a given course using courseId.
-     *
-     * <p>Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see CoursesLogic#getSectionsForCourseWithoutStats(String)
-     */
-    public List<SectionDetailsBundle> getSectionsForCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        return coursesLogic.getSectionsForCourseWithoutStats(courseId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<TeamDetailsBundle> getTeamsForCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        return coursesLogic.getTeamsForCourse(courseId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {
-        Assumption.assertNotNull(student);
-        return studentsLogic.getTeamDetailsForStudent(student);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
-
-        return studentsLogic.getEncryptedKeyForStudent(courseId, email);
     }
 
     /**
@@ -953,16 +758,6 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         studentsLogic.deleteStudentsInCourseCascade(courseId);
-    }
-
-    /**
-     *  Checks if a course has sections for each team
-     *  Preconditions: <br>
-     *  * All parameters are non-null.
-     */
-    public boolean hasIndicatedSections(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        return coursesLogic.hasIndicatedSections(courseId);
     }
 
     /**
@@ -1573,15 +1368,6 @@ public class Logic {
     }
 
     /**
-     * Creates or updates document for the given comment.
-     *
-     * @see FeedbackResponseCommentsLogic#putDocument(FeedbackResponseCommentAttributes)
-     */
-    public void putDocument(FeedbackResponseCommentAttributes comment) {
-        feedbackResponseCommentsLogic.putDocument(comment);
-    }
-
-    /**
      * Batch creates or updates documents for the given comments.
      *
      * @see FeedbackResponseCommentsLogic#putDocuments(List)
@@ -1626,13 +1412,6 @@ public class Logic {
      */
     public void deleteFeedbackResponseComment(long commentId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(commentId);
-    }
-
-    public List<String> getArchivedCourseIds(List<CourseAttributes> allCourses,
-                                             Map<String, InstructorAttributes> instructorsForCourses) {
-        Assumption.assertNotNull(allCourses);
-        Assumption.assertNotNull(instructorsForCourses);
-        return coursesLogic.getArchivedCourseIds(allCourses, instructorsForCourses);
     }
 
     /**
