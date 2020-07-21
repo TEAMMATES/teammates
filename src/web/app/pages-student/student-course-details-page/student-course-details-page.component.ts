@@ -59,12 +59,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   teammateProfilesInit: StudentProfileWithPicture[] = [];
 
   constructor(private tableComparatorService: TableComparatorService,
-    private route: ActivatedRoute,
-    private instructorService: InstructorService,
-    private studentProfileService: StudentProfileService,
-    private studentService: StudentService,
-    private courseService: CourseService,
-    private statusMessageService: StatusMessageService) { }
+              private route: ActivatedRoute,
+              private instructorService: InstructorService,
+              private studentProfileService: StudentProfileService,
+              private studentService: StudentService,
+              private courseService: CourseService,
+              private statusMessageService: StatusMessageService) { }
 
   /**
    * Fetches relevant data to be displayed on page.
