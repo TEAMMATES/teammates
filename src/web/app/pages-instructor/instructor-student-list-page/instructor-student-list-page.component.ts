@@ -137,7 +137,7 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
 
           courseTab.studentList.push(...students);
-          this.sortStudentListAsDefault(courseTab);
+          courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
@@ -184,23 +184,20 @@ export class InstructorStudentListPageComponent implements OnInit {
   }
 
   /**
-   * Sorts the student list in default order.
-   */
-  sortStudentListAsDefault(courseTab: CourseTab): void {
-    if (courseTab.studentSortBy === SortBy.NONE) {
-      courseTab.studentList.sort(this.sortStudentBy(SortBy.STUDENT_NAME, SortOrder.ASC))
-        .sort(this.sortStudentBy(SortBy.TEAM_NAME, SortOrder.ASC))
-        .sort(this.sortStudentBy(SortBy.SECTION_NAME, SortOrder.ASC));
-    }
-  }
-
-  /**
    * Returns a function to determine the order of sort for students.
    */
   sortStudentBy(by: SortBy, order: SortOrder):
       ((a: StudentListRowModel , b: StudentListRowModel) => number) {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
-
+    if (by === SortBy.NONE) {
+      // Default order: section name > team name > student name
+      return ((a: StudentListRowModel, b: StudentListRowModel): number => {
+        return this.tableComparatorService
+            .compare(SortBy.SECTION_NAME, order, a.student.sectionName, b.student.sectionName)
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName)
+          || this.tableComparatorService.compare(SortBy.STUDENT_NAME, order, a.student.name, b.student.name);
+      });
+    }
     return (a: StudentListRowModel, b: StudentListRowModel): number => {
       let strA: string;
       let strB: string;
