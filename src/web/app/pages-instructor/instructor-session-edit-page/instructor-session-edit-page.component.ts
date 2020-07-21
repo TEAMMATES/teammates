@@ -76,6 +76,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId: string = '';
   feedbackSessionName: string = '';
+  isEditingMode: boolean = false;
 
   courseName: string = '';
 
@@ -194,6 +195,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.isEditingMode = queryParams.editingMode;
 
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
@@ -217,7 +219,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         intent: Intent.FULL_DETAIL,
       }).pipe(finalize(() => this.isLoadingFeedbackSession = false))
       .subscribe((feedbackSession: FeedbackSession) => {
-        this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+        this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -261,7 +263,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
-  getSessionEditFormModel(feedbackSession: FeedbackSession): SessionEditFormModel {
+  getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
     const submissionStart: {date: DateFormat; time: TimeFormat} =
         this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone);
 
@@ -298,7 +300,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
-      isEditable: false,
+      isEditable: isEditable,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
