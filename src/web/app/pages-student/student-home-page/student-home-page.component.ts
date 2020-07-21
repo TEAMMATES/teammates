@@ -57,6 +57,7 @@ export class StudentHomePageComponent implements OnInit {
 
   courses: StudentCourse[] = [];
   isCoursesLoading: boolean = false;
+  hasCoursesLoadingFailed: boolean = false;
 
   sortBy: SortBy = SortBy.NONE;
 
@@ -71,15 +72,16 @@ export class StudentHomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(() => {
-      this.getStudentCourses();
+      this.loadStudentCourses();
     });
   }
 
   /**
-   * Gets the courses and feedback sessions involving the student.
+   * Load the courses and feedback sessions involving the student.
    */
-  getStudentCourses(): void {
+  loadStudentCourses(): void {
     this.isCoursesLoading = true;
+    this.courses = [];
     this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
@@ -99,15 +101,22 @@ export class StudentHomePageComponent implements OnInit {
                   const isSubmitted: boolean = hasRes.hasResponses;
                   studentSessions.push(Object.assign({},
                     { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
+                }, (error: ErrorMessageOutput) => {
+                  this.hasCoursesLoadingFailed = true;
+                  this.statusMessageService.showErrorToast(error.error.message);
                 });
             }
 
             this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>
               (a.course.courseId > b.course.courseId) ? 1 : -1);
+          }, (error: ErrorMessageOutput) => {
+            this.hasCoursesLoadingFailed = true;
+            this.statusMessageService.showErrorToast(error.error.message);
           });
       }
     }, (e: ErrorMessageOutput) => {
+      this.hasCoursesLoadingFailed = true;
       this.statusMessageService.showErrorToast(e.error.message);
     });
   }
@@ -176,5 +185,10 @@ export class StudentHomePageComponent implements OnInit {
       }
       return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
     });
+  }
+
+  retryLoadingCourse(): void {
+    this.hasCoursesLoadingFailed = false;
+    this.loadStudentCourses();
   }
 }

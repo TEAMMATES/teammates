@@ -36,6 +36,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -100,6 +101,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   moderatedQuestionId: string = '';
 
   isFeedbackSessionQuestionsLoading: boolean = false;
+  hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
+  retryAttempts: number = 2;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -306,6 +309,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   loadFeedbackQuestions(): void {
     this.isFeedbackSessionQuestionsLoading = true;
+    this.questionSubmissionForms = [];
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
@@ -342,7 +346,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.questionSubmissionForms.push(model);
             this.loadFeedbackQuestionRecipientsForQuestion(model);
           });
-        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+        }, (resp: ErrorMessageOutput) => {
+          this.handleError(resp);
+        });
   }
 
   /**
@@ -796,5 +802,24 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
+  }
+
+  retryLoadingFeedbackSessionQuestions(): void {
+    this.hasFeedbackSessionQuestionsLoadingFailed = false;
+    if (this.retryAttempts >= 0) {
+      this.retryAttempts -= 1;
+    }
+    this.loadFeedbackQuestions();
+  }
+
+  handleError(resp: ErrorMessageOutput): void {
+    this.hasFeedbackSessionQuestionsLoadingFailed = true;
+    if (this.retryAttempts < 0) {
+      const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+      report.componentInstance.requestId = resp.error.requestId;
+      report.componentInstance.errorMessage = resp.error.message;
+    } else {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    }
   }
 }

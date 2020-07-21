@@ -54,6 +54,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     deletionTimestamp: 0,
   };
 
+  courseId: string = '';
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
 
@@ -61,6 +62,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   isLoadingStudent: boolean = false;
   isLoadingInstructor: boolean = false;
   isLoadingTeammates: boolean = false;
+  hasLoadingFailed: boolean = false;
 
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
@@ -75,6 +77,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      this.courseId = queryParams.courseid;
       this.loadStudent(queryParams.courseid);
       this.loadCourse(queryParams.courseid);
       this.loadInstructors(queryParams.courseid);
@@ -91,6 +94,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .pipe(finalize(() => this.isLoadingCourse = false))
         .subscribe((course: Course) => {
           this.course = course;
+        }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -106,6 +112,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
         }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -117,6 +124,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadTeammates(courseId: string, teamName: string): void {
     this.isLoadingTeammates = true;
+    this.teammateProfiles = [];
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
         students.students.forEach((student: Student) => {
@@ -140,10 +148,14 @@ export class StudentCourseDetailsPageComponent implements OnInit {
                   };
 
                   this.teammateProfiles.push(newTeammateProfile);
+                }, (resp: ErrorMessageOutput) => {
+                  this.hasLoadingFailed = true;
+                  this.statusMessageService.showErrorToast(resp.error.message);
                 });
         });
       }, (resp: ErrorMessageOutput) => {
         this.isLoadingTeammates = false;
+        this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
@@ -159,6 +171,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -226,5 +239,12 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       }
       return this.tableComparatorService.compare(sortOption, SortOrder.ASC, strA, strB);
     });
+  }
+
+  retryLoading(): void {
+    this.hasLoadingFailed = false;
+    this.loadCourse(this.courseId);
+    this.loadInstructors(this.courseId);
+    this.loadStudent(this.courseId);
   }
 }

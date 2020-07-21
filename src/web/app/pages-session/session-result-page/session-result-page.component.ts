@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
@@ -17,6 +18,7 @@ import {
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -54,6 +56,8 @@ export class SessionResultPageComponent implements OnInit {
   regKey: string = '';
 
   isFeedbackSessionResultsLoading: boolean = false;
+  hasFeedbackSessionResultsLoadingFailed: boolean = false;
+  retryAttempts: number = 2;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -64,7 +68,8 @@ export class SessionResultPageComponent implements OnInit {
               private navigationService: NavigationService,
               private authService: AuthService,
               private studentService: StudentService,
-              private statusMessageService: StatusMessageService) {
+              private statusMessageService: StatusMessageService,
+              private ngbModal: NgbModal) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -147,11 +152,11 @@ export class SessionResultPageComponent implements OnInit {
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
           }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
+            this.handleError(resp);
           });
     }, (resp: ErrorMessageOutput) => {
       this.isFeedbackSessionResultsLoading = false;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.handleError(resp);
     });
   }
 
@@ -162,4 +167,25 @@ export class SessionResultPageComponent implements OnInit {
     this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
   }
 
+  retryLoadingFeedbackSessionResults(): void {
+    this.hasFeedbackSessionResultsLoadingFailed = false;
+    if (this.retryAttempts >= 0) {
+      this.retryAttempts -= 1;
+    }
+    this.loadFeedbackSession();
+  }
+
+  /**
+   * Handles error according to number of attempts at retry
+   */
+  handleError(resp: ErrorMessageOutput): void {
+    this.hasFeedbackSessionResultsLoadingFailed = true;
+    if (this.retryAttempts < 0) {
+      const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+      report.componentInstance.requestId = resp.error.requestId;
+      report.componentInstance.errorMessage = resp.error.message;
+    } else {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    }
+  }
 }

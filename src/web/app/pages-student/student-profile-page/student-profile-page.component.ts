@@ -39,6 +39,7 @@ export class StudentProfilePageComponent implements OnInit {
   defaultPictureLink: string = '/assets/images/profile_picture_default.png';
 
   isLoadingStudentProfile: boolean = false;
+  hasLoadingStudentProfileFailed: boolean = false;
   isSavingProfileEdit: boolean = false;
 
   private backendUrl: string = environment.backendUrl;
@@ -86,9 +87,11 @@ export class StudentProfilePageComponent implements OnInit {
                 this.name = response.name;
                 this.initStudentProfileForm(this.student);
               } else {
+                this.hasLoadingStudentProfileFailed = true;
                 this.statusMessageService.showErrorToast('Error retrieving student profile');
               }
             }, (response: ErrorMessageOutput) => {
+              this.hasLoadingStudentProfileFailed = true;
               this.statusMessageService.showErrorToast(response.error.message);
             });
       }
@@ -221,5 +224,10 @@ export class StudentProfilePageComponent implements OnInit {
    */
   setDefaultPic(): void {
     this.profilePicLink = this.defaultPictureLink;
+  }
+
+  retryLoadingStudentProfile(): void {
+    this.hasLoadingStudentProfileFailed = false;
+    this.loadStudentProfile();
   }
 }
