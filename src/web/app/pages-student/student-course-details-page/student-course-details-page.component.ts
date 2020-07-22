@@ -222,9 +222,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * Search Profiles if the value of the search bar is included
    * in the name or the email of the profile
    */
-  searchTeammateProfiles(): void {
-
-    let inputValue = (<HTMLInputElement>document.getElementById("inputValue")).value;
+  searchTeammateProfiles(inputValue: string): void {
     if (!inputValue) {
       this.teammateProfiles = this.teammateProfilesInit;
     }
