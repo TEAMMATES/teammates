@@ -137,8 +137,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
         });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-      });
-      
+      });   
   }
 
   /**
@@ -220,10 +219,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   }
 
   /**
- * Search Profiles if the value of the search bar is included
- * in the name or the email of the profile
- */
-  searchTeammates(): void {
+   * Search Profiles if the value of the search bar is included
+   * in the name or the email of the profile
+   */
+  searchTeammateProfiles(): void {
 
     let inputValue = (<HTMLInputElement>document.getElementById("inputValue")).value;
     if (!inputValue) {
