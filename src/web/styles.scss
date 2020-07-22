@@ -49,8 +49,8 @@ ul {
   vertical-align: middle;
 }
 
-.modal-content {
-  padding: 30px 20px;
+.close:focus {
+  outline: 0;
 }
 
 .table {
@@ -101,6 +101,27 @@ ul {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+[ng-reflect-ngb-tooltip] {
+  text-decoration: underline dotted #808080;
+
+  &.btn,
+  &.fa,
+  &.fas,
+  &.far,
+  &.fab,
+  &.fal {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    text-decoration: underline dotted #000;
+  }
 }
 
 @media print {
