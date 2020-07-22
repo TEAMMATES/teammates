@@ -88,18 +88,18 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTime: { hour: 0, minute: 0 },
+    submissionStartTime: { hour: 23, minute: 59 },
     submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 0, minute: 0 },
+    submissionEndTime: { hour: 23, minute: 59 },
     submissionEndDate: { year: 0, month: 0, day: 0 },
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 0, minute: 0 },
+    customSessionVisibleTime: { hour: 23, minute: 59 },
     customSessionVisibleDate: { year: 0, month: 0, day: 0 },
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: { hour: 0, minute: 0 },
+    customResponseVisibleTime: { hour: 23, minute: 59 },
     customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
@@ -285,11 +285,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       gracePeriod: feedbackSession.gracePeriod,
 
       sessionVisibleSetting: feedbackSession.sessionVisibleSetting,
-      customSessionVisibleTime: { hour: 0, minute: 0 },
+      customSessionVisibleTime: { hour: 23, minute: 59 },
       customSessionVisibleDate: { year: 0, month: 0, day: 0 },
 
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
-      customResponseVisibleTime: { hour: 0, minute: 0 },
+      customResponseVisibleTime: { hour: 23, minute: 59 },
       customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
       submissionStatus: feedbackSession.submissionStatus,
