@@ -1,5 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`StudentProfilePageComponent should snap when student profile is still loading 1`] = `
+<tm-student-profile-page
+  Gender={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
+  id=""
+  isLoadingStudentProfile={[Function Boolean]}
+  isSavingProfileEdit="false"
+  nationalitiesService={[Function NationalitiesService]}
+  ngbModal={[Function NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentProfileService={[Function StudentProfileService]}
+>
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-student-profile-page>
+`;
+
 exports[`StudentProfilePageComponent should snap with a student field without information 1`] = `
 <tm-student-profile-page
   Gender={[Function Object]}
@@ -8,6 +41,8 @@ exports[`StudentProfilePageComponent should snap with a student field without in
   defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
   id=""
+  isLoadingStudentProfile="false"
+  isSavingProfileEdit="false"
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
   simpleModalService={[Function SimpleModalService]}
@@ -21,6 +56,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
     <h1>
       Student Profile
     </h1>
+    
     <div
       class="card"
     >
@@ -197,11 +233,13 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           <div
             class="text-center"
           >
-            <input
+            <button
               class="btn btn-primary student-save-profile"
               type="submit"
-              value="Save Profile"
-            />
+            >
+              
+               Save Profile 
+            </button>
           </div>
           <div
             class="whisper"
@@ -222,13 +260,29 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   backendUrl={[Function String]}
   defaultPictureLink={[Function String]}
   id=""
+  isLoadingStudentProfile={[Function Boolean]}
+  isSavingProfileEdit="false"
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
 >
-  
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
 </tm-student-profile-page>
 `;
 
@@ -240,6 +294,8 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
   id=""
+  isLoadingStudentProfile="false"
+  isSavingProfileEdit="false"
   nationalities={[Function Array]}
   nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
@@ -255,6 +311,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
     <h1>
       Student Profile
     </h1>
+    
     <div
       class="card"
     >
@@ -441,11 +498,13 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
           <div
             class="text-center"
           >
-            <input
+            <button
               class="btn btn-primary student-save-profile"
               type="submit"
-              value="Save Profile"
-            />
+            >
+              
+               Save Profile 
+            </button>
           </div>
           <div
             class="whisper"

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -69,6 +70,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isExistingStudentsPresent: boolean = true;
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
+  isEnrolling: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -86,6 +88,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Submits enroll data
    */
   submitEnrollData(): void {
+    this.isEnrolling = true;
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
 
@@ -113,7 +116,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])],
         })));
 
-    this.studentService.enrollStudents(this.courseid, studentsEnrollRequest).subscribe((resp: Students) => {
+    this.studentService.enrollStudents(
+        this.courseid, studentsEnrollRequest,
+    ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: Students) => {
       const enrolledStudents: Student[] = resp.students;
       this.showEnrollResults = true;
       this.statusMessage.pop(); // removes any existing error status message

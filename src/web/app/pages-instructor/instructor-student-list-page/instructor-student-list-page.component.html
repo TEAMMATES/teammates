@@ -29,7 +29,7 @@
       </div>
 
       <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
-        <div class="card-body">
+        <div *tmIsLoading="!courseTab.hasStudentLoaded" class="card-body">
           <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
             <div class="card-deck text-center text-sm-left" *ngIf="courseTab.stats">
               <div class="card">
@@ -62,9 +62,14 @@
             <br/><br/>
             <tm-student-list
                 [courseId]="courseTab.course.courseId"
-                [students]="courseTab.studentList" [useGrayHeading]="false"
+                [students]="courseTab.studentList"
+                [tableSortBy]="courseTab.studentSortBy"
+                [tableSortOrder]="courseTab.studentSortOrder"
+                [useGrayHeading]="false"
                 [enableRemindButton]="true"
+                (sortStudentListEvent)="sortStudentList(courseTab, $event)"
                 (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+
             </tm-student-list>
           </ng-container>
         </div>

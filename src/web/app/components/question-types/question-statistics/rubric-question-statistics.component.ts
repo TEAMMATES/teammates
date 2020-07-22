@@ -42,7 +42,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
   getTableData(): void {
     this.summaryColumnsData = [
-        { header: '' },
+        { header: 'Question', sortBy: SortBy.RUBRIC_SUBQUESTION },
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
     ];
     if (this.hasWeights) {
@@ -51,7 +51,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
     this.summaryRowsData = this.subQuestions.map((subQuestion: string, questionIndex: number) => {
       const currRow: SortableTableCellData[] = [
-        { value: subQuestion },
+        { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
         ...this.choices.map((_: string, choiceIndex: number) => {
           if (this.excludeSelf) {
             return { value: `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \

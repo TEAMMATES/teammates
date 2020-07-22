@@ -1,6 +1,6 @@
-<div *ngIf="student" class="text-center text-sm-left">
+<div *tmIsLoading="isLoadingStudentProfile" class="text-center text-sm-left">
   <h1>Student Profile</h1>
-  <div class="card">
+  <div *ngIf="student" class="card">
     <div class="card-body fill-plain">
       <h1>{{ name }}</h1>
       <div class="row profile-pic-row">
@@ -90,10 +90,13 @@
           </textarea>
         </div>
         <div class="text-center">
-          <input
+          <button
               type="submit"
               class="btn btn-primary student-save-profile"
-              value="Save Profile">
+              [disabled]="isSavingProfileEdit">
+            <tm-ajax-loading *ngIf="isSavingProfileEdit"></tm-ajax-loading>
+            Save Profile
+          </button>
         </div>
         <div class="whisper">This profile will be visible to all your instructors and coursemates.</div>
       </form>

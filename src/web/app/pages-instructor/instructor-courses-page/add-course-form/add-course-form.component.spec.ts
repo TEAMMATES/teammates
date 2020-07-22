@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
+import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -42,6 +43,7 @@ describe('AddCourseFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         NgbModule,
+        AjaxLoadingModule,
       ],
       providers: [
         { provide: StatusMessageService, useValue: spyStatusMessageService },

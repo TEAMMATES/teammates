@@ -13,9 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCoursesPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 import teammates.e2e.util.BackDoor;
 
 /**
@@ -50,8 +48,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         String instructorId = testData.accounts.get("instructor").getGoogleId();
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        InstructorCoursesPage coursesPage = loginAdminToPage(url, InstructorCoursesPage.class);
         coursesPage.waitForPageToLoad();
 
         ______TS("verify loaded data");

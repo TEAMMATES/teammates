@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
@@ -30,6 +31,7 @@ const routes: Routes = [
     NgbTooltipModule,
     QuestionSubmissionFormModule,
     RouterModule.forChild(routes),
+    LoadingSpinnerModule,
   ],
   declarations: [
     SavingCompleteModalComponent,

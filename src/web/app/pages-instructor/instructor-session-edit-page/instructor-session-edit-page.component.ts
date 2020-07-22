@@ -15,6 +15,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
   Courses,
@@ -37,6 +38,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { VisibilityControl } from '../../../types/visibility-control';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -153,6 +155,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
+  isLoadingFeedbackSession: boolean = false;
+  isLoadingFeedbackQuestions: boolean = false;
+  isCopyingQuestion: boolean = false;
 
   // all students of the course
   studentsOfCourse: Student[] = [];
@@ -201,6 +206,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads a feedback session.
    */
   loadFeedbackSession(): void {
+    this.isLoadingFeedbackSession = true;
     // load the course of the feedback session first
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
       this.courseName = course.courseName;
@@ -209,13 +215,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
         intent: Intent.FULL_DETAIL,
-      })
+      }).pipe(finalize(() => this.isLoadingFeedbackSession = false))
       .subscribe((feedbackSession: FeedbackSession) => {
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.isLoadingFeedbackSession = false;
     });
   }
 
@@ -432,11 +441,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
+    this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
       intent: Intent.FULL_DETAIL,
     })
+        .pipe(finalize(() => this.isLoadingFeedbackQuestions = false))
         .subscribe((response: FeedbackQuestions) => {
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const addedQuestionEditFormModel: QuestionEditFormModel = this.getQuestionEditFormModel(feedbackQuestion);
@@ -721,6 +732,40 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isChanged: false,
     };
 
+    // inherit some settings from the last question
+    if (this.questionEditFormModels.length > 0) {
+      const lastQuestionEditFormModel: QuestionEditFormModel =
+          this.questionEditFormModels[this.questionEditFormModels.length - 1];
+
+      const newQuestionAllowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> =
+          this.feedbackQuestionsService.getAllowedFeedbackPaths(type);
+      // inherit feedback path if applicable
+      if (newQuestionAllowedFeedbackPaths.has(lastQuestionEditFormModel.giverType)
+          // tslint:disable-next-line:no-non-null-assertion
+          && newQuestionAllowedFeedbackPaths.get(lastQuestionEditFormModel.giverType)!
+              .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
+        this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
+        this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
+      }
+
+      const newQuestionVisibilityStateMachine: VisibilityStateMachine =
+          this.feedbackQuestionsService.getNewVisibilityStateMachine(
+              this.newQuestionEditFormModel.giverType, this.newQuestionEditFormModel.recipientType);
+      // inherit visibility settings if applicable, the state machine will automatically filter out invalid choices
+      newQuestionVisibilityStateMachine.applyVisibilitySettings({
+        SHOW_RESPONSE: lastQuestionEditFormModel.showResponsesTo,
+        SHOW_GIVER_NAME: lastQuestionEditFormModel.showGiverNameTo,
+        SHOW_RECIPIENT_NAME: lastQuestionEditFormModel.showRecipientNameTo,
+      });
+      this.newQuestionEditFormModel.showResponsesTo =
+          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE);
+      this.newQuestionEditFormModel.showGiverNameTo =
+          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME);
+      this.newQuestionEditFormModel.showRecipientNameTo =
+          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+              VisibilityControl.SHOW_RECIPIENT_NAME);
+    }
+
     this.scrollToNewEditForm();
   }
 
@@ -799,6 +844,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       ref.componentInstance.questionToCopyCandidates = questionToCopyCandidates;
 
       ref.result.then((questionsToCopy: FeedbackQuestion[]) => {
+        this.isCopyingQuestion = true;
         of(...questionsToCopy).pipe(
             concatMap((questionToCopy: FeedbackQuestion) => {
               return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
@@ -820,12 +866,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                 showRecipientNameTo: questionToCopy.showRecipientNameTo,
               });
             }),
+            finalize(() => this.isCopyingQuestion = false),
         ).subscribe((newQuestion: FeedbackQuestion) => {
           this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
           this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
           this.statusMessageService.showSuccessToast('The question has been added to this feedback session.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-      }, () => {});
+      });
     });
   }
 

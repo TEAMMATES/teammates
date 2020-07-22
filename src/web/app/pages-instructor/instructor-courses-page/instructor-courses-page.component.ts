@@ -56,6 +56,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  isLoading: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -83,6 +84,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
@@ -103,7 +105,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, () => this.isLoading = false);
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
