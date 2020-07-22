@@ -11,7 +11,6 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.
@@ -40,8 +39,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withUserId(instructors[2].googleId)
                 .withCourseId(course.getId());
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCourseEditPage editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
+        InstructorCourseEditPage editPage = loginAdminToPage(url, InstructorCourseEditPage.class);
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
