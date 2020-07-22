@@ -33,7 +33,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   Gender: typeof Gender = Gender;
   SortBy: typeof SortBy = SortBy;
   teammateProfilesSortBy: SortBy = SortBy.STUDENT_NAME;
-  courseId: any;
   // data
   student: Student = {
     email: '',
@@ -71,7 +70,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
       this.loadStudent(queryParams.courseid);
       this.loadCourse(queryParams.courseid);
       this.loadInstructors(queryParams.courseid);
