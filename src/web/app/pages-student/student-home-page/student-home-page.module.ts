@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { Pipes } from '../../pipes/pipes.module';
 import { StudentHomePageComponent } from './student-home-page.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
     NgbTooltipModule,
     Pipes,
     TeammatesCommonModule,
+    LoadingSpinnerModule,
   ],
 })
 export class StudentHomePageModule { }

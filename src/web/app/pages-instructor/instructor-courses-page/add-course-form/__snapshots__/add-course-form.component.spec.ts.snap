@@ -5,9 +5,9 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
   closeCourseFormEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
   courseService={[Function Object]}
+  isAddingCourse="false"
   isEnabled="false"
   newCourseId=""
-  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
   timezone={[Function String]}
@@ -102,7 +102,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
@@ -128,7 +128,8 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="btn btn-primary"
             id="btn-save-course"
           >
-            Add Course
+            
+             Add Course 
           </button>
         </div>
       </div>
@@ -142,9 +143,9 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
   closeCourseFormEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
   courseService={[Function Object]}
+  isAddingCourse="false"
   isEnabled={[Function Boolean]}
   newCourseId=""
-  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
   timezone={[Function String]}
@@ -239,7 +240,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
@@ -265,7 +266,8 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="btn btn-primary"
             id="btn-save-course"
           >
-            Add Course
+            
+             Add Course 
           </button>
         </div>
       </div>

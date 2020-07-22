@@ -49,8 +49,8 @@ public class SearchInstructorsAction extends Action {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
                     StringHelper.encrypt(instructor.getKey()),
-                    getInstituteFromGoogleId(instructor.getGoogleId()));
-            instructorData.hideInformationForSearch();
+                    getInstituteFromGoogleId(instructor.getGoogleId()),
+                    instructor.getGoogleId());
 
             instructorDataList.add(instructorData);
         }

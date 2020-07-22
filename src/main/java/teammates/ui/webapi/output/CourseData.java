@@ -10,7 +10,7 @@ public class CourseData extends ApiOutput {
     private final String courseId;
     private final String courseName;
     private final String timeZone;
-    private final long creationTimestamp;
+    private long creationTimestamp;
     private long deletionTimestamp;
 
     public CourseData(CourseAttributes courseAttributes) {
@@ -41,5 +41,21 @@ public class CourseData extends ApiOutput {
 
     public long getDeletionTimestamp() {
         return deletionTimestamp;
+    }
+
+    public void setCreationTimestamp(long creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
+    public void setDeletionTimestamp(long deletionTimestamp) {
+        this.deletionTimestamp = deletionTimestamp;
+    }
+
+    /**
+     * Hides some attributes to student.
+     */
+    public void hideInformationForStudent() {
+        setCreationTimestamp(0);
+        setDeletionTimestamp(0);
     }
 }

@@ -33,8 +33,8 @@ public class Url {
       * authority (host name + port number if specified) but before the query.<br>
       * Example:
       * <ul>
-      * <li><code>new Url("http://localhost:8080/index.jsp").getRelativeUrl()</code>
-      * returns <code>/index.jsp</code></li>
+      * <li><code>new Url("http://localhost:8080/index.html").getRelativeUrl()</code>
+      * returns <code>/index.html</code></li>
       * <li><code>new Url("http://google.com").getRelativeUrl()</code>
       * returns <i>[empty string]</i></li>
       * <li><code>new Url("https://teammatesv4.appspot.com/page/studentHomePage?user=abc").getRelativeUrl()</code>
@@ -50,9 +50,9 @@ public class Url {
       * authority (host name + port number if specified) but not the path.<br>
       * Example:
       * <ul>
-      * <li><code>new Url("http://localhost:8080/index.jsp").getBaseUrl()</code>
+      * <li><code>new Url("http://localhost:8080/index.html").getBaseUrl()</code>
       * returns <code>http://localhost:8080</code></li>
-      * <li><code>new Url("https://teammatesv4.appspot.com/index.jsp").getBaseUrl()</code>
+      * <li><code>new Url("https://teammatesv4.appspot.com/index.html").getBaseUrl()</code>
       * returns <code>https://teammatesv4.appspot.com</code></li>
       * </ul>
       */
@@ -87,12 +87,12 @@ public class Url {
      * Unchanged if either the key or value is null, or the key already exists<br>
      * Example:
      * <ul>
-     * <li><code>addParam("index.jsp","action","add")</code> returns
-     * <code>index.jsp?action=add</code></li>
-     * <li><code>addParam("index.jsp?action=add","courseid","cs1101")</code>
-     * returns <code>index.jsp?action=add&courseid=cs1101</code></li>
-     * <li><code>addParam("index.jsp","message",null)</code> returns
-     * <code>index.jsp</code></li>
+     * <li><code>addParam("index.html","action","add")</code> returns
+     * <code>index.html?action=add</code></li>
+     * <li><code>addParam("index.html?action=add","courseid","cs1101")</code>
+     * returns <code>index.html?action=add&courseid=cs1101</code></li>
+     * <li><code>addParam("index.html","message",null)</code> returns
+     * <code>index.html</code></li>
      * </ul>
      */
     public static String addParamToUrl(String url, String key, String value) {
@@ -103,10 +103,6 @@ public class Url {
             return url;
         }
         return url + (url.contains("?") ? "&" : "?") + key + "=" + SanitizationHelper.sanitizeForUri(value);
-    }
-
-    public static String trimTrailingSlash(String url) {
-        return url.trim().replaceAll("/(?=$)", "");
     }
 
     @Override

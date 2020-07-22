@@ -62,7 +62,7 @@ export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionD
 
     statsCalculation.subQuestions.forEach((subQuestion: string, questionIndex: number) => {
       const currRow: string[] = [
-        subQuestion,
+        `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}`,
         ...statsCalculation.choices.map((_: string, choiceIndex: number) => {
           return `${ statsCalculation.percentages[questionIndex][choiceIndex] }% \
 (${ statsCalculation.answers[questionIndex][choiceIndex] }) \

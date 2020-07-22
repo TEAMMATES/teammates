@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 @Component({ selector: 'tm-add-course-form', template: '' })
@@ -114,6 +115,7 @@ describe('InstructorCoursesPageComponent', () => {
         RouterTestingModule,
         NgbModule,
         BrowserAnimationsModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();
@@ -138,6 +140,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.archivedCourses = archivedCourses;
     component.softDeletedCourses = deletedCourses;
     component.courseStats = courseStats;
+    component.isLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -149,12 +152,20 @@ describe('InstructorCoursesPageComponent', () => {
     component.courseStats = courseStats;
     component.canDeleteAll = false;
     component.canRestoreAll = false;
+    component.isLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with no courses in course stats', () => {
     component.activeCourses = activeCourses;
+    component.isLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when courses are still loading', () => {
+    component.isLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

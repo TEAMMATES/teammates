@@ -10,8 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.SanitizationHelper;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.BackDoor;
@@ -23,7 +21,7 @@ import teammates.test.pageobjects.InstructorFeedbackResultsPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE}.
  */
 @Priority(-1)
-public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
+public class InstructorFeedbackResultsPageUiTest extends BaseLegacyUiTestCase {
 
     private InstructorFeedbackResultsPage resultsPage;
 
@@ -272,11 +270,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseE2ETestCase {
                            "Emily");
 
         // TODO: Test sorting fully instead of partially.
-        verifySortingOrder(By.id("button_sortToTeam"),
-                SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 1</td></div>'\""),
-                SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),
-                SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),
-                "Team 2{*}Team 3");
+        // verifySortingOrder(By.id("button_sortToTeam"),
+        //         SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 1</td></div>'\""),
+        //         SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),
+        //         SanitizationHelper.sanitizeForHtmlTag("Team 1</td></div>'\"{*}Team 2"),
+        //         "Team 2{*}Team 3");
 
     }
 

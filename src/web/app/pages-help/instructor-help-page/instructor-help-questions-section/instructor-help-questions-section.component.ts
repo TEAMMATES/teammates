@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Inject, OnInit, Output, TemplateRef } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import {
   ContributionStatistics,
   FeedbackConstantSumQuestionDetails,
@@ -16,6 +16,7 @@ import {
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -127,17 +128,26 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
   @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
 
-  constructor(private modalService: NgbModal,
+  constructor(private simpleModalService: SimpleModalService,
               private pageScrollService: PageScrollService,
               @Inject(DOCUMENT) private document: any) {
     super();
   }
 
   /**
-   * Opens modal window.
+   * Opens modal for contribution info.
    */
-  openModal(modal: any): void {
-    this.modalService.open(modal);
+  openContribInfoModal(modal: TemplateRef<any>): void {
+    this.simpleModalService.openInformationModal(
+        'Team contribution calculation', SimpleModalType.NEUTRAL, modal);
+  }
+
+  /**
+   * Opens modal for rank info.
+   */
+  openRankInfoModal(modal: TemplateRef<any>): void {
+    this.simpleModalService.openInformationModal(
+        'Rank calculation', SimpleModalType.NEUTRAL, modal);
   }
 
   ngOnInit(): void {

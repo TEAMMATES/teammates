@@ -12,12 +12,12 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -113,12 +113,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -284,13 +284,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </button>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -378,13 +376,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </button>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -465,13 +461,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -552,13 +546,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -589,12 +581,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -760,13 +752,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </button>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -847,13 +837,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -934,13 +922,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1021,13 +1007,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1058,12 +1042,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -1219,13 +1203,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1303,13 +1285,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1387,13 +1367,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1471,13 +1449,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1508,12 +1484,12 @@ exports[`StudentListComponent should snap with some student list data and some s
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -1670,13 +1646,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1754,13 +1728,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1839,13 +1811,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1923,13 +1893,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1960,12 +1928,12 @@ exports[`StudentListComponent should snap with some student list data when not a
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -2121,13 +2089,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2205,13 +2171,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2289,13 +2253,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2373,13 +2335,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2410,12 +2370,12 @@ exports[`StudentListComponent should snap with some student list data with no se
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -2555,13 +2515,11 @@ exports[`StudentListComponent should snap with some student list data with no se
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2592,12 +2550,12 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   isHideTableHead={[Function Boolean]}
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}

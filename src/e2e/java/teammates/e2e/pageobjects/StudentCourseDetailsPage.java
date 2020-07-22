@@ -2,6 +2,9 @@ package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,6 +13,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.util.StringHelper;
 
 /**
  * Page Object Model for student course details page.
@@ -22,14 +26,8 @@ public class StudentCourseDetailsPage extends AppPage {
     @FindBy(id = "course-id")
     private WebElement courseIdField;
 
-    @FindBy(id = "time-zone")
-    private WebElement timeZoneField;
-
-    @FindBy(id = "created-date")
-    private WebElement createdDateField;
-
-    @FindBy(id = "instructor-table")
-    private WebElement instructorTable;
+    @FindBy(id = "instructors")
+    private WebElement instructorsList;
 
     @FindBy(id = "student-name")
     private WebElement studentNameField;
@@ -49,25 +47,21 @@ public class StudentCourseDetailsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return waitForElementPresence(By.tagName("h4")).getText().equals("Course");
+        return waitForElementPresence(By.tagName("h1")).getText().matches("Team Details for .+");
     }
 
     public void verifyCourseDetails(CourseAttributes courseDetails) {
-        String expectedCreatedDate = courseDetails.getCreatedAtFullDateTimeString() + " " + courseDetails.getTimeZone();
-
         assertEquals(courseDetails.getName(), courseNameField.getText());
         assertEquals(courseDetails.getId(), courseIdField.getText());
-        assertEquals(courseDetails.getTimeZone().toString(), timeZoneField.getText());
-        assertEquals(expectedCreatedDate, createdDateField.getText());
     }
 
     public void verifyInstructorsDetails(InstructorAttributes[] instructorDetails) {
-        String[][] tableDetails = new String[instructorDetails.length][2];
+        String[] actualInstructors = instructorsList.getText().split(System.lineSeparator());
         for (int i = 0; i < instructorDetails.length; i++) {
-            tableDetails[i][0] = instructorDetails[i].getName();
-            tableDetails[i][1] = instructorDetails[i].getEmail();
+            InstructorAttributes expected = instructorDetails[i];
+            assertEquals(expected.displayedName + ": " + expected.name + " (" + expected.email + ")",
+                    actualInstructors[i]);
         }
-        verifyTableBodyValues(instructorTable, tableDetails);
     }
 
     public void verifyStudentDetails(StudentAttributes studentDetails) {
@@ -77,22 +71,31 @@ public class StudentCourseDetailsPage extends AppPage {
         assertEquals(studentDetails.getEmail(), studentEmailField.getText());
     }
 
+    private String convertGender(StudentProfileAttributes.Gender gender) {
+        switch (gender) {
+        case MALE:
+            return "Male";
+        case FEMALE:
+            return "Female";
+        default:
+            return "Not Specified";
+        }
+    }
+
     public void verifyTeammatesDetails(StudentAttributes[] teammates, StudentProfileAttributes[] teammateProfiles) {
         int numTables = teammateProfiles.length;
 
         for (int i = 0; i < numTables; i++) {
-            String[][] tableDetails = new String[5][2];
-            tableDetails[0][0] = "Name";
-            tableDetails[0][1] = teammates[i].getName();
-            tableDetails[1][0] = "Email";
-            tableDetails[1][1] = teammateProfiles[i].getEmail();
-            tableDetails[2][0] = "Gender";
-            tableDetails[2][1] = teammateProfiles[i].getGender().toString();
-            tableDetails[3][0] = "Institution";
-            tableDetails[3][1] = teammateProfiles[i].getInstitute();
-            tableDetails[4][0] = "Nationality";
-            tableDetails[4][1] = teammateProfiles[i].getNationality();
-            verifyTableBodyValues(browser.driver.findElement(By.id("teammates-table-" + i)), tableDetails);
+            List<String> profileItems = new ArrayList<>();
+            profileItems.add("Name: " + teammates[i].getName());
+            profileItems.add("Email: " + teammates[i].getEmail());
+            profileItems.add("Gender: " + convertGender(teammateProfiles[i].getGender()));
+            if (!StringHelper.isEmpty(teammateProfiles[i].getInstitute())) {
+                profileItems.add("Institute: " + teammateProfiles[i].getInstitute());
+            }
+            if (!StringHelper.isEmpty(teammateProfiles[i].getNationality())) {
+                profileItems.add("Nationality: " + teammateProfiles[i].getNationality());
+            }
         }
     }
 

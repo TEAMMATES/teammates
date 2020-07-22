@@ -5,7 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
-public class FeedbackRankRecipientsResponseDetails extends FeedbackRankResponseDetails {
+public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetails {
     private int answer;
 
     public FeedbackRankRecipientsResponseDetails() {

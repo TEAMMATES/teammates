@@ -1,8 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
@@ -11,11 +11,10 @@ import { Intent } from '../types/api-request';
 import { AppComponent } from './app.component';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import {
-  StatusMesssageModalModule,
-} from './components/status-message/status-messsage-modal/status-messsage-modal.module';
+import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
 import { ToastModule } from './components/toast/toast.module';
+import { CustomUrlSerializer } from './custom-url-serializer';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
@@ -23,6 +22,11 @@ import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
 
+const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
+const customUrlSerializerProvider: Provider = {
+  provide: UrlSerializer,
+  useValue: customUrlSerializer,
+};
 const routes: Routes = [
   {
     path: 'web',
@@ -100,15 +104,14 @@ const routes: Routes = [
     StudentPageComponent,
     InstructorPageComponent,
     AdminPageComponent,
-    LoadingSpinnerComponent,
   ],
   imports: [
+    SimpleModalModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     NgbDropdownModule,
     RouterModule.forRoot(routes),
-    StatusMesssageModalModule,
     ErrorReportModule,
     ToastModule,
     LoaderBarModule,
@@ -117,8 +120,9 @@ const routes: Routes = [
       enabled: environment.production,
       registrationStrategy: 'registerImmediately',
     }),
+    LoadingSpinnerModule,
   ],
-  providers: [],
+  providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

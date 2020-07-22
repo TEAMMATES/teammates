@@ -59,6 +59,8 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         InstructorData response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor1OfCourse1.name, response.getName());
+        assertNull(response.getGoogleId());
+        assertNull(response.getKey());
 
         ______TS("Typical Success Case with FULL_DETAIL");
         params = new String[] {

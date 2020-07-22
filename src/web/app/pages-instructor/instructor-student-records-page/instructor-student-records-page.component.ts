@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, mergeMap } from 'rxjs/operators';
+import { finalize, map, mergeMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -8,15 +8,20 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Gender, Instructor,
-  QuestionOutput, ResponseOutput,
-  SessionResults, Student,
+  Gender,
+  Instructor,
+  QuestionOutput,
+  ResponseOutput,
+  SessionResults,
+  Student,
   StudentProfile,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
@@ -61,16 +66,21 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   sessionTabs: SessionTab[] = [];
   photoUrl: string = '';
 
+  isStudentLoading: boolean = false;
+  isStudentProfileLoading: boolean = false;
+  isStudentResultsLoading: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private studentProfileService: StudentProfileService,
               private feedbackSessionsService: FeedbackSessionsService,
               private studentService: StudentService,
               private instructorService: InstructorService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              tableComparatorService: TableComparatorService,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe) {
-    super(commentToCommentRowModel, commentService, statusMessageService);
+    super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
   }
 
   ngOnInit(): void {
@@ -98,12 +108,18 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's records based on the given course ID and email.
    */
   loadStudentRecords(): void {
-    this.studentService.getStudent(this.courseId, this.studentEmail).subscribe((resp: Student) => {
+    this.isStudentLoading = true;
+    this.isStudentProfileLoading = true;
+    this.studentService.getStudent(
+        this.courseId, this.studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((resp: Student) => {
       this.studentName = resp.name;
       this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
     });
-    this.studentProfileService.getStudentProfile(this.studentEmail, this.courseId).subscribe((resp: StudentProfile) => {
+    this.studentProfileService.getStudentProfile(
+        this.studentEmail, this.courseId,
+    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((resp: StudentProfile) => {
       this.studentProfile = resp;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -114,6 +130,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's feedback session results based on the given course ID and student name.
    */
   loadStudentResults(): void {
+    this.isStudentResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
         mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
         mergeMap((feedbackSession: FeedbackSession) => {
@@ -124,6 +141,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             intent: Intent.INSTRUCTOR_RESULT,
           }).pipe(map((results: SessionResults) => ({ results, feedbackSession })));
         }),
+        finalize(() => this.isStudentResultsLoading = false),
     ).subscribe(
         ({ results, feedbackSession }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
           const giverQuestions: QuestionOutput[] = JSON.parse(JSON.stringify(results.questions));
@@ -151,7 +169,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         }, (errorMessageOutput: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-        });
+        }, () => this.sortFeedbackSessions());
   }
 
   /**
@@ -165,9 +183,22 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
           this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
-
+      this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
+    });
+  }
+
+  /**
+   * Sorts the student's feedback sessions according to name
+   */
+  private sortFeedbackSessions(): void {
+    this.sessionTabs.sort((a: SessionTab, b: SessionTab) => {
+      return this.tableComparatorService.compare(
+          SortBy.SESSION_NAME,
+          SortOrder.ASC,
+          a.feedbackSession.feedbackSessionName,
+          b.feedbackSession.feedbackSessionName);
     });
   }
 }

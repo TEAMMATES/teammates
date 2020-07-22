@@ -1,8 +1,9 @@
 .loading-container {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .spinner-border {

@@ -1,8 +1,20 @@
-<div *ngIf="courses.length == 0; else coursesContainer">
+<div *tmIsLoading="isCoursesLoading"></div>
+<div *ngIf="!isCoursesLoading && courses.length == 0; else coursesContainer">
   You are not enrolled in any courses. Please refer to the <a routerLink="/web/student/help">help page</a>
   if you need more information.
 </div>
 <ng-template #coursesContainer>
+  <div *ngIf="courses.length" class="row mb-2">
+    <div class="col-12">
+      <div class="float-right">
+        <strong class="d-inline"> Sort By: </strong>
+        <div class="btn-group">
+          <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_ID" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
+          <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_NAME" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <ng-container *ngFor="let studentCourse of courses">
     <div class="card bg-light top-padded">
       <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">

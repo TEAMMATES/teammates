@@ -20,10 +20,10 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   formMode={[Function Number]}
   formModelChange={[Function EventEmitter]}
   isDisplayOnly="false"
-  modalService={[Function NgbModal]}
   model={[Function Object]}
   numOfQuestions="0"
   saveExistingQuestionEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
 >
   <div
@@ -85,7 +85,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               />
                Delete
             </button>
-            
             <button
               class="btn btn-primary btn-sm"
               container="body"
@@ -284,12 +283,12 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             style=""
           >
             <div
-              class="offset-1 col-4 text-right"
+              class="offset-1 col-md-4 text-md-right"
             >
                The maximum number of students each respondent should give feedback to: 
             </div>
             <div
-              class="col-2"
+              class="col-md-2"
             >
               <div
                 class="input-group"
@@ -316,7 +315,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               </div>
             </div>
             <div
-              class="col-2"
+              class="col-md-2"
             >
               <div
                 class="form-check"

@@ -135,8 +135,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         ______TS("Typical successful case");
 
         List<FeedbackResponseCommentAttributes> actualFrComments =
-                frcLogic.getFeedbackResponseCommentForSession(
-                                 frComment.courseId, frComment.feedbackSessionName);
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                                 frComment.courseId, frComment.feedbackSessionName, null);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
@@ -206,7 +206,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertEquals(frComment.commentText, updatedComment.commentText);
         verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
-                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        frComment.courseId, frComment.feedbackSessionName, null);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
         for (FeedbackResponseCommentAttributes comment : actualFrComments) {
@@ -239,8 +240,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testDeleteFeedbackResponseComment() throws Exception {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes actualFrComment =
-                frcLogic.getFeedbackResponseCommentForSession(
-                        frComment.courseId, frComment.feedbackSessionName).get(1);
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        frComment.courseId, frComment.feedbackSessionName, null).get(1);
 
         ______TS("silent fail nothing to delete");
 
@@ -275,7 +276,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         String courseId = "idOfTypicalCourse1";
 
         List<FeedbackResponseCommentAttributes> frcList =
-                frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+                frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session", null);
         assertFalse(frcList.isEmpty());
 
         frcLogic.deleteFeedbackResponseComments(
@@ -283,7 +284,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                         .withCourseId(courseId)
                         .build());
 
-        frcList = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        frcList = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session", null);
         assertEquals(0, frcList.size());
     }
 
@@ -350,7 +351,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
         List<FeedbackResponseCommentAttributes> frCommentsGot =
-                frcLogic.getFeedbackResponseCommentForSession(frComment.courseId, frComment.feedbackSessionName);
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        frComment.courseId, frComment.feedbackSessionName, null);
         assertEquals(0, frCommentsGot.size());
     }
 
@@ -388,9 +390,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
             FeedbackResponseCommentAttributes existingFrComment) {
 
         List<FeedbackResponseCommentAttributes> existingFrComments =
-                frcLogic.getFeedbackResponseCommentForSession(
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
                                  existingFrComment.courseId,
-                                 existingFrComment.feedbackSessionName);
+                                 existingFrComment.feedbackSessionName, null);
 
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
         for (FeedbackResponseCommentAttributes c : existingFrComments) {

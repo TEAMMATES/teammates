@@ -68,7 +68,12 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
             return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
         }
 
-        return new JsonResult(new InstructorData(instructorAttributes));
+        InstructorData instructorData = new InstructorData(instructorAttributes);
+        if (intent == Intent.FULL_DETAIL) {
+            instructorData.setGoogleId(instructorAttributes.googleId);
+        }
+
+        return new JsonResult(instructorData);
     }
 
 }

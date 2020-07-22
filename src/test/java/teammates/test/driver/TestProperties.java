@@ -14,9 +14,6 @@ public final class TestProperties {
     /** The directory where HTML files for testing email contents are stored. */
     public static final String TEST_EMAILS_FOLDER = "src/test/resources/emails";
 
-    /** The directory where CSV files for testing CSV contents are stored. */
-    public static final String TEST_CSV_FOLDER = "src/test/resources/csv";
-
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 

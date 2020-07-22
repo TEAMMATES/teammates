@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
@@ -17,7 +16,7 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_SESSION_RESULTS_PAGE}.
  */
-public class StudentFeedbackResultsPageUiTest extends BaseE2ETestCase {
+public class StudentFeedbackResultsPageUiTest extends BaseLegacyUiTestCase {
     private StudentFeedbackResultsPage resultsPage;
 
     @Override

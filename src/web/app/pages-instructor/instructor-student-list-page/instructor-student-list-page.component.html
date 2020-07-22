@@ -12,13 +12,13 @@
       <div class="card-header justify-content-between course-card-header cursor-pointer"
         (click)="toggleCard(courseTab)">
         <div class="row course-card-content">
-          <div class="col-sm-11">
+          <div class="col-11">
             <div class="course-card-header-text">
               <i class="fas fa-chalkboard-teacher"
                 style="color: white;"></i>&nbsp;[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}
             </div>
           </div>
-          <div class="col-sm-1">
+          <div class="col-1">
             <button *ngIf="!courseTab.hasTabExpanded"
               class="btn float-right"><i class="fas fa-chevron-circle-down fa-lg"
               style="color: white;"></i></button>
@@ -29,9 +29,9 @@
       </div>
 
       <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
-        <div class="card-body">
+        <div *tmIsLoading="!courseTab.hasStudentLoaded" class="card-body">
           <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
-            <div class="card-deck" *ngIf="courseTab.stats">
+            <div class="card-deck text-center text-sm-left" *ngIf="courseTab.stats">
               <div class="card">
                 <div class="card-body">
                   <h3 class="card-title">{{courseTab.stats.numOfStudents}}</h3>
@@ -62,9 +62,14 @@
             <br/><br/>
             <tm-student-list
                 [courseId]="courseTab.course.courseId"
-                [students]="courseTab.studentList" [useGrayHeading]="false"
+                [students]="courseTab.studentList"
+                [tableSortBy]="courseTab.studentSortBy"
+                [tableSortOrder]="courseTab.studentSortOrder"
+                [useGrayHeading]="false"
                 [enableRemindButton]="true"
+                (sortStudentListEvent)="sortStudentList(courseTab, $event)"
                 (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+
             </tm-student-list>
           </ng-container>
         </div>

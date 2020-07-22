@@ -47,7 +47,9 @@ public class DeleteCourseActionTest
         CourseAttributes courseToBeDeleted = logic.getCourse(courseId);
         loginAsInstructor(instructorId);
         logic.moveCourseToRecycleBin(courseToBeDeleted.getId());
-        assertEquals(courseId, logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
+        CourseAttributes deletedCourse = logic.getCourse(courseId);
+        assertNotNull(deletedCourse);
+        assertTrue(deletedCourse.isCourseDeleted());
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteCourseAction);
