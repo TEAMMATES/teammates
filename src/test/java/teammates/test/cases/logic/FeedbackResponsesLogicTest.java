@@ -451,6 +451,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
 
+        ______TS("test if visible to receiver/giver team members for team questions");
+
         fq.recipientType = FeedbackParticipantType.TEAMS;
         fq.showRecipientNameTo.clear();
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
