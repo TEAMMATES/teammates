@@ -5,11 +5,17 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeTableSortBy={[Function Number]}
+  activeTableSortOrder={[Function Number]}
   archivedCourses={[Function Array]}
+  archivedTableSortBy={[Function Number]}
+  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
+  deletedTableSortBy={[Function Number]}
+  deletedTableSortOrder={[Function Number]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -21,8 +27,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
-  tableSortOrder={[Function Number]}
 >
   <div>
     <button
