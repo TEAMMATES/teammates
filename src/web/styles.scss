@@ -49,8 +49,8 @@ ul {
   vertical-align: middle;
 }
 
-.modal-content {
-  padding: 30px 20px;
+.close:focus {
+  outline: 0;
 }
 
 .table {

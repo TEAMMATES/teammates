@@ -63,6 +63,11 @@ export enum SortBy {
     COURSE_CREATION_DATE,
 
     /**
+     * The deletion time of the course.
+     */
+    COURSE_DELETION_DATE,
+
+    /**
      * Completion status of feedback session.
      */
     SESSION_COMPLETION_STATUS,
@@ -276,6 +281,11 @@ export enum SortBy {
      * Recipient's overall rank excluding self
      */
     RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
+
+    /**
+     * Rubric sub question
+     */
+    RUBRIC_SUBQUESTION,
 
     /**
      * Frequency of choice

@@ -76,6 +76,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId: string = '';
   feedbackSessionName: string = '';
+  isEditingMode: boolean = false;
 
   courseName: string = '';
 
@@ -87,18 +88,18 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     feedbackSessionName: '',
     instructions: '',
 
-    submissionStartTime: { hour: 0, minute: 0 },
+    submissionStartTime: { hour: 23, minute: 59 },
     submissionStartDate: { year: 0, month: 0, day: 0 },
-    submissionEndTime: { hour: 0, minute: 0 },
+    submissionEndTime: { hour: 23, minute: 59 },
     submissionEndDate: { year: 0, month: 0, day: 0 },
     gracePeriod: 0,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    customSessionVisibleTime: { hour: 0, minute: 0 },
+    customSessionVisibleTime: { hour: 23, minute: 59 },
     customSessionVisibleDate: { year: 0, month: 0, day: 0 },
 
     responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
-    customResponseVisibleTime: { hour: 0, minute: 0 },
+    customResponseVisibleTime: { hour: 23, minute: 59 },
     customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
     submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
@@ -194,6 +195,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
+      this.isEditingMode = queryParams.editingMode === 'true';
 
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
@@ -217,7 +219,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         intent: Intent.FULL_DETAIL,
       }).pipe(finalize(() => this.isLoadingFeedbackSession = false))
       .subscribe((feedbackSession: FeedbackSession) => {
-        this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
+        this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -261,7 +263,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
-  getSessionEditFormModel(feedbackSession: FeedbackSession): SessionEditFormModel {
+  getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
     const submissionStart: {date: DateFormat; time: TimeFormat} =
         this.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone);
 
@@ -269,6 +271,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.getDateTimeAtTimezone(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone);
 
     const model: SessionEditFormModel = {
+      isEditable,
       courseId: feedbackSession.courseId,
       timeZone: feedbackSession.timeZone,
       courseName: this.courseName,
@@ -282,11 +285,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       gracePeriod: feedbackSession.gracePeriod,
 
       sessionVisibleSetting: feedbackSession.sessionVisibleSetting,
-      customSessionVisibleTime: { hour: 0, minute: 0 },
+      customSessionVisibleTime: { hour: 23, minute: 59 },
       customSessionVisibleDate: { year: 0, month: 0, day: 0 },
 
       responseVisibleSetting: feedbackSession.responseVisibleSetting,
-      customResponseVisibleTime: { hour: 0, minute: 0 },
+      customResponseVisibleTime: { hour: 23, minute: 59 },
       customResponseVisibleDate: { year: 0, month: 0, day: 0 },
 
       submissionStatus: feedbackSession.submissionStatus,
@@ -298,7 +301,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
-      isEditable: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,

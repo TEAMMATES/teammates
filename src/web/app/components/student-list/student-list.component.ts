@@ -1,22 +1,14 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../../../services/course.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { JoinStatePipe } from './join-state.pipe';
 
 /**
  * Model of row of student data containing details about a student and their section.
@@ -44,11 +36,11 @@ export class StudentListComponent implements OnInit {
   @Input() enableRemindButton: boolean = false;
   @Input() isActionButtonsEnabled: boolean = true;
   @Input() students: StudentListRowModel[] = [];
+  @Input() tableSortBy: SortBy = SortBy.NONE;
+  @Input() tableSortOrder: SortOrder = SortOrder.ASC;
 
   @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
-
-  tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
+  @Output() sortStudentListEvent: EventEmitter<SortBy> = new EventEmitter();
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -59,7 +51,6 @@ export class StudentListComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private navigationService: NavigationService,
               private courseService: CourseService,
-              private tableComparatorService: TableComparatorService,
               private simpleModalService: SimpleModalService) {
   }
 
@@ -136,50 +127,7 @@ export class StudentListComponent implements OnInit {
   /**
    * Sorts the student list
    */
-  sortStudentListEvent(by: SortBy): void {
-    this.tableSortBy = by;
-    this.tableSortOrder =
-        this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.students.sort(this.sortBy(by));
-  }
-
-  /**
-   * Returns a function to determine the order of sort
-   */
-  sortBy(by: SortBy):
-      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
-    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
-
-    return (a: StudentListRowModel, b: StudentListRowModel): number => {
-      let strA: string;
-      let strB: string;
-      switch (by) {
-        case SortBy.SECTION_NAME:
-          strA = a.student.sectionName;
-          strB = b.student.sectionName;
-          break;
-        case SortBy.RESPONDENT_NAME:
-          strA = a.student.name;
-          strB = b.student.name;
-          break;
-        case SortBy.TEAM_NAME:
-          strA = a.student.teamName;
-          strB = b.student.teamName;
-          break;
-        case SortBy.RESPONDENT_EMAIL:
-          strA = a.student.email;
-          strB = b.student.email;
-          break;
-        case SortBy.JOIN_STATUS:
-          strA = joinStatePipe.transform(a.student.joinState);
-          strB = joinStatePipe.transform(b.student.joinState);
-          break;
-        default:
-          strA = '';
-          strB = '';
-      }
-
-      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
-    };
+  sortStudentList(by: SortBy): void {
+    this.sortStudentListEvent.emit(by);
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { InstructorPrivilege } from '../../../../types/api-output';
+import { InstructorPermissionRole, InstructorPrivilege } from '../../../../types/api-output';
 
 /**
  * View privileges of a role modal.
@@ -11,6 +11,9 @@ import { InstructorPrivilege } from '../../../../types/api-output';
   styleUrls: ['./view-role-privileges-modal.component.scss'],
 })
 export class ViewRolePrivilegesModalComponent implements OnInit {
+
+  @Input()
+  role: InstructorPermissionRole = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
   @Input()
   instructorPrivilege: InstructorPrivilege = {

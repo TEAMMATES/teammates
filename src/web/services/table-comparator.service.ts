@@ -62,6 +62,7 @@ export class TableComparatorService {
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
       case SortBy.CONTRIBUTION_VALUE:
+      case SortBy.RUBRIC_SUBQUESTION:
       case SortBy.RUBRIC_CHOICE:
       case SortBy.RANK_RECIPIENTS_TEAM:
       case SortBy.RANK_RECIPIENTS_RECIPIENT:
