@@ -103,6 +103,27 @@ ul {
   cursor: pointer;
 }
 
+[ng-reflect-ngb-tooltip] {
+  text-decoration: underline dotted #808080;
+
+  &.btn,
+  &.fa,
+  &.fas,
+  &.far,
+  &.fab,
+  &.fal {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    text-decoration: underline dotted #000;
+  }
+}
+
 @media print {
   .no-print {
     display: none;
