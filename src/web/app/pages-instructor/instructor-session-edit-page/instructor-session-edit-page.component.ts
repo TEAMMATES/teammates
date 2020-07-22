@@ -195,7 +195,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
-      this.isEditingMode = queryParams.editingMode;
+      this.isEditingMode = queryParams.editingMode === 'true';
 
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
