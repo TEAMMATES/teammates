@@ -14,7 +14,7 @@ export class ViewPhotoPopoverComponent implements OnInit {
   photoUrl: string = '';
 
   @Input()
-  isViewPhotoLinkInPopover: boolean = true;
+  useViewPhotoBtn: boolean = false;
 
   isPhotoShown: boolean = false;
 

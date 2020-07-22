@@ -1,8 +1,7 @@
 <span *ngIf="email; else noPhoto">
-  <tm-view-photo-popover *ngIf="showPopover" [photoUrl]="email | formatPhotoUrl: courseId">
+  <tm-view-photo-popover [photoUrl]="email | formatPhotoUrl: courseId">
     <i class="far fa-user"></i>
   </tm-view-photo-popover>
-  <i *ngIf="!showPopover" class="far fa-user" (click)="showPopover = true; $event.stopPropagation()"></i>
   &nbsp;{{ name }}
 </span>
 <ng-template #noPhoto>
