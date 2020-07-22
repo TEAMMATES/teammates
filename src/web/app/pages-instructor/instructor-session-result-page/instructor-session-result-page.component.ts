@@ -132,7 +132,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.isFeedbackSessionLoading = true;
       this.courseId = queryParams.courseid;
       this.fsName = queryParams.fsname;
       this.loadFeedbackSessionResults(this.courseId, this.fsName);
@@ -140,6 +139,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   loadFeedbackSessionResults(courseId: string, feedbackSessionName: string): void {
+    this.isFeedbackSessionLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
       courseId,
       feedbackSessionName,
