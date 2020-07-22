@@ -11,7 +11,6 @@ import {
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 import { InstructorEditPanelComponent } from './instructor-edit-panel/instructor-edit-panel.component';
-import { InstructorRoleDescriptionPipe } from './instructor-edit-panel/instructor-role-description.pipe';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 const routes: Routes = [
@@ -29,7 +28,6 @@ const routes: Routes = [
     InstructorCourseEditPageComponent,
     InstructorEditPanelComponent,
     ViewRolePrivilegesModalComponent,
-    InstructorRoleDescriptionPipe,
     CustomPrivilegeSettingPanelComponent,
   ],
   exports: [

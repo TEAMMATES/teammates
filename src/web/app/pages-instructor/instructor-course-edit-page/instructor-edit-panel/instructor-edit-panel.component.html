@@ -13,7 +13,6 @@
           Resend Invite
         </button>&nbsp;
         <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-light btn-sm"
-                ngbTooltip="Edit instructor details" placement="top-right"
                 [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
                 (click)="triggerModelChange('isEditing', true)">
           <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit"></tm-ajax-loading>
@@ -21,7 +20,6 @@
           Edit
         </button>
         <button id="btn-cancel-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing || editMode == EditMode.ADD" class="btn btn-light btn-sm"
-                ngbTooltip="Cancel editing instructor details" placement="top-right"
                 [disabled]="isSavingNewInstructor"
                 (click)="cancelEditing.emit()">
           <i class="fa fa-times" aria-hidden="true"></i>
@@ -55,7 +53,7 @@
         Name:
       </label>
       <div class="col-sm-9">
-        <input id="name-instructor-{{ instructorIndex + 1 }}" class="form-control" ngbTooltip="Enter the name of the instructor." maxlength="100" tabindex="4"
+        <input id="name-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="100" tabindex="4"
                [ngModel]="instructor.name" (ngModelChange)="triggerModelChange('name', $event)" [disabled]="!instructor.isEditing">
       </div>
     </div>
@@ -64,20 +62,20 @@
         Email:
       </label>
       <div class="col-sm-9">
-        <input id="email-instructor-{{ instructorIndex + 1 }}" class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5"
+        <input id="email-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="5"
                [ngModel]="instructor.email" (ngModelChange)="triggerModelChange('email', $event)"
                [disabled]="!instructor.isEditing || (instructor.joinState == JoinState.NOT_JOINED && editMode != EditMode.ADD)">
       </div>
     </div>
     <div class="form-row form-group">
       <label class="col-sm-3 control-label">
-        <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+        <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked=""
                type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
                (ngModelChange)="triggerModelChange('isDisplayedToStudents', $event)" [disabled]="!instructor.isEditing">
-        Display to students as:
+        <span ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course">Display to students as:</span>
       </label>
       <div class="col-sm-9">
-        <input id="displayed-name-instructor-{{ instructorIndex + 1 }}" class="form-control" ngbTooltip="Specify the role of this instructor in this course as shown to the students"
+        <input id="displayed-name-instructor-{{ instructorIndex + 1 }}" class="form-control"
                type="text"
                (ngModelChange)="triggerModelChange('displayedToStudentsAs', $event)"
                [disabled]="!instructor.isDisplayedToStudents || !instructor.isEditing"
