@@ -10,7 +10,7 @@ import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-re
 @Component({ selector: 'tm-ajax-preload', template: '' })
 class AjaxPreloadComponent {}
 
-describe('SendRemindersToStudentModalComponent', () => {
+describe('SendRemindersToRespondentsModalComponent', () => {
   let component: SendRemindersToRespondentsModalComponent;
   let fixture: ComponentFixture<SendRemindersToRespondentsModalComponent>;
 

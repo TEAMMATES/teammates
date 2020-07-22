@@ -31,40 +31,40 @@ export class SendRemindersToRespondentsModalComponent implements OnInit {
    * Changes selection state for all students.
    */
   changeSelectionStatusForAllStudentsHandler(shouldSelect: boolean): void {
-    for (const model of this.studentListInfoTableRowModels) {
+    this.studentListInfoTableRowModels.forEach((model: StudentListInfoTableRowModel) => {
       model.isSelected = shouldSelect;
-    }
+    });
   }
 
   /**
    * Changes selection state for all yet to submit students.
    */
   changeSelectionStatusForAllYetSubmittedStudentsHandler(shouldSelect: boolean): void {
-    for (const model of this.studentListInfoTableRowModels) {
+    this.studentListInfoTableRowModels.forEach((model: StudentListInfoTableRowModel) => {
       if (!model.hasSubmittedSession) {
         model.isSelected = shouldSelect;
       }
-    }
+    });
   }
 
   /**
    * Changes selection state for all instructors.
    */
   changeSelectionStatusForAllInstructorsHandler(shouldSelect: boolean): void {
-    for (const model of this.instructorListInfoTableRowModels) {
+    this.instructorListInfoTableRowModels.forEach((model: InstructorListInfoTableRowModel) => {
       model.isSelected = shouldSelect;
-    }
+    });
   }
 
   /**
    * Changes selection state for all yet to submit instructors.
    */
   changeSelectionStatusForAllYetSubmittedInstructorsHandler(shouldSelect: boolean): void {
-    for (const model of this.instructorListInfoTableRowModels) {
+    this.instructorListInfoTableRowModels.forEach((model: InstructorListInfoTableRowModel) => {
       if (!model.hasSubmittedSession) {
         model.isSelected = shouldSelect;
       }
-    }
+    });
   }
 
   /**

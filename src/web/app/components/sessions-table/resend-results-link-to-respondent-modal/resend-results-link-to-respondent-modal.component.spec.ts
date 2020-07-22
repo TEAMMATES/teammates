@@ -9,7 +9,7 @@ import { ResendResultsLinkToRespondentModalComponent } from './resend-results-li
 @Component({ selector: 'tm-ajax-preload', template: '' })
 class AjaxPreloadComponent {}
 
-describe('ResendResultsLinkToStudentModalComponent', () => {
+describe('ResendResultsLinkToRespondentModalComponent', () => {
   let component: ResendResultsLinkToRespondentModalComponent;
   let fixture: ComponentFixture<ResendResultsLinkToRespondentModalComponent>;
 
