@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import {
   CustomPrivilegeSettingPanelComponent,
@@ -28,9 +30,11 @@ describe('InstructorCourseEditPageComponent', () => {
       imports: [
         NgbModule,
         FormsModule,
+        AjaxLoadingModule,
         TeammatesCommonModule,
         RouterTestingModule,
         HttpClientTestingModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();

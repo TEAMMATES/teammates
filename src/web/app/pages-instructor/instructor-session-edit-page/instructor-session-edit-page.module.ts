@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
@@ -37,6 +38,7 @@ const routes: Routes = [
     QuestionEditFormModule,
     CopySessionModalModule,
     RouterModule.forChild(routes),
+    LoadingSpinnerModule,
   ],
   entryComponents: [
     TemplateQuestionModalComponent,

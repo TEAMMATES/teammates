@@ -10,7 +10,7 @@
       <div class="col-md-6 text-md-left">
         <input id="new-course-id" class="form-control" type="text" [(ngModel)]="newCourseId"
             ngbTooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
-            [maxlength]="40" placeholder="e.g. CS3215-2013Semester1"/>
+            [maxlength]="40" [disabled]="isAddingCourse" placeholder="e.g. CS3215-2013Semester1"/>
       </div>
     </div>
     <div class="form-group row">
@@ -18,27 +18,30 @@
       <div class="col-md-6 text-md-left">
         <input id="new-course-name" class="form-control" type="text" [(ngModel)]="newCourseName"
             ngbTooltip="Enter the name of the course, e.g. Software Engineering."
-            [maxlength]="64" placeholder="e.g. Software Engineering"/>
+            [maxlength]="64" [disabled]="isAddingCourse" placeholder="e.g. Software Engineering"/>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-md-3 text-md-right col-form-label">Time Zone:</label>
       <div class="col-md-6 text-md-left">
         <div class="input-group">
-          <select id="new-time-zone" class="form-control" [(ngModel)]="timezone" ngbTooltip="The time zone for the course. You should not
+          <select id="new-time-zone" class="form-control" [(ngModel)]="timezone" [disabled]="isAddingCourse" ngbTooltip="The time zone for the course. You should not
                 need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                 to match the current time offset in your area, including clock changes due to daylight saving time.">
             <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
           <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-primary" (click)="onAutoDetectTimezone()">Auto Detect</button>
+            <button class="btn btn-primary" (click)="onAutoDetectTimezone()" [disabled]="isAddingCourse">Auto Detect</button>
           </span>
         </div>
       </div>
     </div>
     <div class="form-group row">
       <div class="col-md-9 offset-md-3 text-md-left">
-        <button id="btn-save-course" class="btn btn-primary" (click)="onSubmit()">Add Course</button>
+        <button id="btn-save-course" class="btn btn-primary" (click)="onSubmit()" [disabled]="isAddingCourse">
+          <tm-ajax-loading *ngIf="isAddingCourse"></tm-ajax-loading>
+          Add Course
+        </button>
       </div>
     </div>
   </div>

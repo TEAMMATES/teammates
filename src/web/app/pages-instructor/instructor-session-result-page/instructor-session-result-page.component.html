@@ -2,119 +2,121 @@
   Feedback Session Results
 </h1>
 
-<div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
-  <div class="card-body row info-card-padding">
-    <div class="col-sm-12 col-md-12 col-lg-4">
-      <div class="form-group row">
-        <label class="col-lg-4 control-label"><b>Course ID:</b></label>
-        <div class="col-lg-8">
-          <p class="form-control-static">{{ session.courseId }}</p>
+<div *tmIsLoading="isFeedbackSessionLoading">
+  <div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
+    <div class="card-body row info-card-padding">
+      <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="form-group row">
+          <label class="col-lg-4 control-label"><b>Course ID:</b></label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ session.courseId }}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-4 control-label"><b>Session:</b></label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ session.feedbackSessionName }}
+              <a routerLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName }"><i class="fas fa-edit"></i></a>
+            </p>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-lg-4 control-label"><b>Session:</b></label>
-        <div class="col-lg-8">
-          <p class="form-control-static">{{ session.feedbackSessionName }}
-            <a routerLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName }"><i class="fas fa-edit"></i></a>
-          </p>
+      <div class="col-sm-12 col-md-12 col-lg-5">
+        <div class="form-group row">
+          <label class="col-lg-4 control-label"><b>Session duration:</b></label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ formattedSessionOpeningTime }}&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;{{ formattedSessionClosingTime }}</p>
+          </div>
         </div>
+        <div class="form-group row">
+          <label class="col-lg-4 control-label"><b>Results visible from:</b></label>
+          <div class="col-lg-8">
+            <p class="form-control-static">{{ formattedResultVisibleFromTime }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
+        <button class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
+           placement="top" (click)="publishResultHandler()">
+          {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
+        </button>
+        <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
+          <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>
+          Download Results
+        </button>
+        <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
+          Print View
+        </button>
       </div>
     </div>
-    <div class="col-sm-12 col-md-12 col-lg-5">
-      <div class="form-group row">
-        <label class="col-lg-4 control-label"><b>Session duration:</b></label>
-        <div class="col-lg-8">
-          <p class="form-control-static">{{ formattedSessionOpeningTime }}&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;{{ formattedSessionClosingTime }}</p>
+  </div>
+
+  <div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
+    <div class="card-body row">
+      <div class="col-md-6">
+        <div ngbTooltip="View results in different formats">
+          <label class="control-label">
+            <b>View:</b>
+          </label>
+          <div>
+            <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
+              <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
+              <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver > Recipient > Question</option>
+              <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient > Giver > Question</option>
+              <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver > Question > Recipient</option>
+              <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient > Question > Giver</option>
+            </select>
+          </div>
+        </div>
+        <div ngbTooltip="View results by sections">
+          <label class="control-label mt-md-1">
+            <b>Section:</b>
+          </label>
+          <div>
+            <select class="form-control" [(ngModel)]="section">
+              <option value="">All</option>
+              <option *ngFor="let section of sectionsModel | keyvalue" [value]="section.key">{{ section.key }}</option>
+              <option value="None">No specific section</option>
+            </select>
+          </div>
+        </div>
+        <div ngbTooltip="Choose the way responses for the selected section is viewed" *ngIf="section">
+          <label class="control-label">
+            If showing only a section:
+          </label>
+          <div>
+            <select class="form-control" [(ngModel)]="sectionType">
+              <option *ngFor="let sectionType of InstructorSessionResultSectionType | enumToArray" [ngValue]="sectionType">
+                {{ sectionType | sectionTypeDescription }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-lg-4 control-label"><b>Results visible from:</b></label>
-        <div class="col-lg-8">
-          <p class="form-control-static">{{ formattedResultVisibleFromTime }}</p>
+      <div class="col-md-6" style="margin-top: 10px;">
+        <label class="control-label">
+          <b>Additional settings:</b>
+        </label>
+        <div>
+          <label class="form-check-label" ngbTooltip="Group results in the current view by team"><input type="checkbox" [(ngModel)]="groupByTeam" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
+        </div>
+        <div>
+          <label class="form-check-label" ngbTooltip="Show statistics"><input type="checkbox" [(ngModel)]="showStatistics" [disabled]="viewType === 'GRQ' || viewType === 'RGQ'"> Show Statistics</label>
+        </div>
+        <div>
+          <label class="form-check-label" ngbTooltip="Indicate missing responses"><input type="checkbox" [(ngModel)]="indicateMissingResponses"> Indicate Missing Responses</label>
         </div>
       </div>
-    </div>
-    <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
-      <button class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
-         placement="top" (click)="publishResultHandler()">
-        {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
-      </button>
-      <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()">
-        Download Results
-      </button>
-      <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
-        Print View
-      </button>
     </div>
   </div>
 </div>
 
-<div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
-  <div class="card-body row">
-    <div class="col-md-6">
-      <div ngbTooltip="View results in different formats">
-        <label class="control-label">
-          <b>View:</b>
-        </label>
-        <div>
-          <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
-            <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
-            <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver > Recipient > Question</option>
-            <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient > Giver > Question</option>
-            <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver > Question > Recipient</option>
-            <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient > Question > Giver</option>
-          </select>
-        </div>
-      </div>
-      <div ngbTooltip="View results by sections">
-        <label class="control-label mt-md-1">
-          <b>Section:</b>
-        </label>
-        <div>
-          <select class="form-control" [(ngModel)]="section">
-            <option value="">All</option>
-            <option *ngFor="let section of sectionsModel | keyvalue" [value]="section.key">{{ section.key }}</option>
-            <option value="None">No specific section</option>
-          </select>
-        </div>
-      </div>
-      <div ngbTooltip="Choose the way responses for the selected section is viewed" *ngIf="section">
-        <label class="control-label">
-          If showing only a section:
-        </label>
-        <div>
-          <select class="form-control" [(ngModel)]="sectionType">
-            <option *ngFor="let sectionType of InstructorSessionResultSectionType | enumToArray" [ngValue]="sectionType">
-              {{ sectionType | sectionTypeDescription }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6" style="margin-top: 10px;">
-      <label class="control-label">
-        <b>Additional settings:</b>
-      </label>
-      <div>
-        <label class="form-check-label" ngbTooltip="Group results in the current view by team"><input type="checkbox" [(ngModel)]="groupByTeam" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
-      </div>
-      <div>
-        <label class="form-check-label" ngbTooltip="Show statistics"><input type="checkbox" [(ngModel)]="showStatistics" [disabled]="viewType === 'GRQ' || viewType === 'RGQ'"> Show Statistics</label>
-      </div>
-      <div>
-        <label class="form-check-label" ngbTooltip="Indicate missing responses"><input type="checkbox" [(ngModel)]="indicateMissingResponses"> Indicate Missing Responses</label>
-      </div>
-    </div>
+<div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
+  <div class="top-padded col-md-2 offset-md-10">
+    <button class="btn expand-btn action-btn btn-light" (click)="toggleExpandAllHandler()">
+      {{this.isExpandAll ? "Collapse": "Expand"}} All
+    </button>
   </div>
-</div>
-
-<div class="top-padded col-md-2 offset-md-10">
-  <button class="btn expand-btn action-btn btn-light" (click)="toggleExpandAllHandler()">
-    {{this.isExpandAll ? "Collapse": "Expand"}} All
-  </button>
-</div>
-
-<div *ngIf="isSectionsLoaded && isQuestionsLoaded">
   <tm-instructor-session-result-question-view *ngIf="viewType === InstructorSessionResultViewType.QUESTION" [questions]="questionsModel"
       [section]="section" [sectionType]="sectionType" [session] = "session"
       [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"

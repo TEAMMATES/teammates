@@ -34,9 +34,9 @@ export class TimePickerComponent implements OnInit {
   /**
    * Helper function to create a range.
    */
-  range(n: number): number[] {
+  range(start: number, end: number): number[] {
     const arr: number[] = [];
-    for (let i: number = 0; i < n; i += 1) {
+    for (let i: number = start; i < end; i += 1) {
       arr.push(i);
     }
     return arr;

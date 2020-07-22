@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -34,6 +35,7 @@ export class AddCourseFormComponent implements OnInit {
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
+  isAddingCourse: boolean = false;
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
@@ -75,11 +77,13 @@ export class AddCourseFormComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
+
+    this.isAddingCourse = true;
     this.courseService.createCourse({
       courseName: this.newCourseName,
       timeZone: this.timezone,
       courseId: this.newCourseId,
-    }).subscribe(() => {
+    }).pipe(finalize(() => this.isAddingCourse = false)).subscribe(() => {
       this.courseAdded.emit();
       this.statusMessageService.showSuccessToast('The course has been added.');
     }, (resp: ErrorMessageOutput) => {

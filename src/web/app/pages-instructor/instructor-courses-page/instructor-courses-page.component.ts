@@ -45,13 +45,18 @@ export class InstructorCoursesPageComponent implements OnInit {
   softDeletedCourses: CourseModel[] = [];
   courseStats: Record<string, Record<string, number>> = {};
 
-  tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+  activeTableSortOrder: SortOrder = SortOrder.ASC;
+  activeTableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+  archivedTableSortOrder: SortOrder = SortOrder.ASC;
+  archivedTableSortBy: SortBy = SortBy.COURSE_NAME;
+  deletedTableSortOrder: SortOrder = SortOrder.ASC;
+  deletedTableSortBy: SortBy = SortBy.COURSE_NAME;
 
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  isLoading: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -79,6 +84,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
@@ -99,7 +105,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, () => this.isLoading = false);
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
@@ -193,6 +199,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses = this.removeCourse(this.activeCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.archivedCourses.push(courseToBeRemoved);
+      this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
     }
   }
 
@@ -205,7 +212,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.activeCourses.push(courseToBeRemoved);
-      this.activeCourses.sort(this.sortBy(this.tableSortBy));
+      this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
     }
   }
 
@@ -258,12 +265,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (activeCourseToBeRemoved !== undefined) {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
+      this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
     } else {
       const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
       this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
       if (archivedCourseToBeRemoved !== undefined) {
         archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
         this.softDeletedCourses.push(archivedCourseToBeRemoved);
+        this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
       }
     }
   }
@@ -354,19 +363,39 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Sorts the courses table
+   * Sorts the active courses table
    */
   sortCoursesEvent(by: SortBy): void {
-    this.tableSortBy = by;
-    this.tableSortOrder =
-        this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.activeCourses.sort(this.sortBy(by));
+    this.activeTableSortBy = by;
+    this.activeTableSortOrder =
+        this.activeTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
+  }
+
+  /**
+   * Sorts the archived courses table
+   */
+  sortArchivedCoursesEvent(by: SortBy): void {
+    this.archivedTableSortBy = by;
+    this.archivedTableSortOrder =
+      this.archivedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
+  }
+
+  /**
+   * Sorts the soft-deleted courses table
+   */
+  sortDeletedCoursesEvent(by: SortBy): void {
+    this.deletedTableSortBy = by;
+    this.deletedTableSortOrder =
+      this.deletedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
 
   /**
    * Returns a function to determine the order of sort
    */
-  sortBy(by: SortBy):
+  sortBy(by: SortBy, order: SortOrder):
       ((a: CourseModel , b: CourseModel) => number) {
     return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
@@ -388,7 +417,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = '';
           strB = '';
       }
-      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
+      return this.tableComparatorService.compare(by, order, strA, strB);
     };
   }
 }

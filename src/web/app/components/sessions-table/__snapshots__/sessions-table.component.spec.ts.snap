@@ -300,9 +300,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               
               <tm-ajax-loading>
-                <img
-                  src="assets/images/ajax-loader.gif"
-                />
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm text-white"
+                    role="status"
+                  />
+                </div>
               </tm-ajax-loading>
             </td>
             <td
@@ -661,9 +666,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               
               <tm-ajax-loading>
-                <img
-                  src="assets/images/ajax-loader.gif"
-                />
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm text-white"
+                    role="status"
+                  />
+                </div>
               </tm-ajax-loading>
             </td>
             <td
