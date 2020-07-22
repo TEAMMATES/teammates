@@ -17,6 +17,8 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 export class ConstsumRecipientsQuestionEditAnswerFormComponent
     extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
 
+  Math: typeof Math = Math;
+
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(), DEFAULT_CONSTSUM_RESPONSE_DETAILS());
   }

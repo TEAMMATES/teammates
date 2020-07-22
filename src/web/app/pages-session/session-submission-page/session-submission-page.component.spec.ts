@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   QuestionSubmissionFormModule,
 } from '../../components/question-submission-form/question-submission-form.module';
@@ -25,6 +26,7 @@ describe('SessionSubmissionPageComponent', () => {
         FormsModule,
         AjaxLoadingModule,
         QuestionSubmissionFormModule,
+        LoadingSpinnerModule,
       ],
     })
     .compileComponents();

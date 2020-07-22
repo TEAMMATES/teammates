@@ -102,13 +102,10 @@ export class SortableTableComponent implements OnInit {
    * Sorts the table with an initial SortBy
    */
   initialSort(): void {
-    let indexOfColumnToSort: number =
+    const indexOfColumnToSort: number =
         this.columns.findIndex((column: ColumnData) => column.sortBy === this.initialSortBy);
     if (indexOfColumnToSort < 0) {
-      indexOfColumnToSort = this.columns.findIndex((column: ColumnData) => column.sortBy);
-      if (indexOfColumnToSort < 0) {
-        return;
-      }
+      return;
     }
 
     this.columnToSortBy = this.columns[indexOfColumnToSort].header;

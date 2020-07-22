@@ -1,6 +1,8 @@
-<ng-container *ngIf="student">
-  <h1>{{student?.name}}</h1>
-  <tm-student-profile [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
-  <tm-course-related-info [student]="student"></tm-course-related-info>
-  <tm-more-info [studentName]="student?.name" [moreInfoText]="studentProfile?.moreInfo"></tm-more-info>
-</ng-container>
+<div *tmIsLoading="isStudentLoading">
+  <ng-container *ngIf="student">
+    <h1>{{student?.name}}</h1>
+    <tm-student-profile *tmIsLoading="isStudentProfileLoading" [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
+    <tm-course-related-info [student]="student"></tm-course-related-info>
+    <tm-more-info [studentName]="student?.name" [moreInfoText]="studentProfile?.moreInfo"></tm-more-info>
+  </ng-container>
+</div>
