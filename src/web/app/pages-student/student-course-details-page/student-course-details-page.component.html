@@ -122,9 +122,9 @@
   <div class="card-body">
     <div class = "searchBar">
     <h5 class="d-inline"><strong> Search: </strong></h5>
-      <input type="text" id="inputValue" 
+      <input type="text" #inputValue name="inputValue" 
       placeholder="e.g. Tom Davis, tom@gmail.com" size="50" />
-      <button class="btn btn-light" (click)="searchTeammates()">Search</button>
+      <button class="btn btn-light" (click)="searchTeammateProfiles(inputValue.value)">Search</button>
     </div>
     <div class = "sortby">
       <h5 class="d-inline"><strong> Sort By: </strong></h5>
