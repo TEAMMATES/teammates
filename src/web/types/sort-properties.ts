@@ -278,6 +278,11 @@ export enum SortBy {
     RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
 
     /**
+     * Rubric sub question
+     */
+    RUBRIC_SUBQUESTION,
+
+    /**
      * Frequency of choice
      */
     RUBRIC_CHOICE,

@@ -15,6 +15,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
   Courses,
@@ -37,6 +38,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { VisibilityControl } from '../../../types/visibility-control';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import {
@@ -729,6 +731,40 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isCollapsed: false,
       isChanged: false,
     };
+
+    // inherit some settings from the last question
+    if (this.questionEditFormModels.length > 0) {
+      const lastQuestionEditFormModel: QuestionEditFormModel =
+          this.questionEditFormModels[this.questionEditFormModels.length - 1];
+
+      const newQuestionAllowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> =
+          this.feedbackQuestionsService.getAllowedFeedbackPaths(type);
+      // inherit feedback path if applicable
+      if (newQuestionAllowedFeedbackPaths.has(lastQuestionEditFormModel.giverType)
+          // tslint:disable-next-line:no-non-null-assertion
+          && newQuestionAllowedFeedbackPaths.get(lastQuestionEditFormModel.giverType)!
+              .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
+        this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
+        this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
+      }
+
+      const newQuestionVisibilityStateMachine: VisibilityStateMachine =
+          this.feedbackQuestionsService.getNewVisibilityStateMachine(
+              this.newQuestionEditFormModel.giverType, this.newQuestionEditFormModel.recipientType);
+      // inherit visibility settings if applicable, the state machine will automatically filter out invalid choices
+      newQuestionVisibilityStateMachine.applyVisibilitySettings({
+        SHOW_RESPONSE: lastQuestionEditFormModel.showResponsesTo,
+        SHOW_GIVER_NAME: lastQuestionEditFormModel.showGiverNameTo,
+        SHOW_RECIPIENT_NAME: lastQuestionEditFormModel.showRecipientNameTo,
+      });
+      this.newQuestionEditFormModel.showResponsesTo =
+          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE);
+      this.newQuestionEditFormModel.showGiverNameTo =
+          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME);
+      this.newQuestionEditFormModel.showRecipientNameTo =
+          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+              VisibilityControl.SHOW_RECIPIENT_NAME);
+    }
 
     this.scrollToNewEditForm();
   }

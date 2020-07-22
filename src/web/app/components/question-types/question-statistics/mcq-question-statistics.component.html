@@ -8,7 +8,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 table-responsive">
-      <tm-sortable-table [columns]="summaryColumnsData" [rows]="summaryRowsData" [initialSortBy]="SortBy.MCQ_PERCENTAGE"></tm-sortable-table>
+      <tm-sortable-table [columns]="summaryColumnsData" [rows]="summaryRowsData"></tm-sortable-table>
     </div>
     <div class="col-sm-12 table-responsive" *ngIf="question.hasAssignedWeights" style="margin-top: 20px;">
       <strong class="text-color-gray">

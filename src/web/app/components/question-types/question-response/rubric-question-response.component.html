@@ -17,7 +17,7 @@
   </table>
 </div>
 <div *ngIf="!isStudentPage">
-  <ul>
+  <ol type="a">
     <li *ngFor="let answer of answers">{{ answer.answer }} {{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</li>
-  </ul>
+  </ol>
 </div>
