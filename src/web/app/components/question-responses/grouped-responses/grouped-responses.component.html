@@ -1,4 +1,4 @@
-<div class="row" style="border-bottom: 1px solid #DDD;"
+<div class="row" [ngClass]="isLastResponse ? '' : 'border-bottom'"
     *ngIf="responses.length && responses[0].allResponses.length && hasRealResponses">
   <div class="col-md-3">
     <div>

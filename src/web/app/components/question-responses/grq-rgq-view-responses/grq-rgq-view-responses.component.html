@@ -52,7 +52,7 @@
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body">
         <ng-container *ngIf="userHasRealResponses[userInfo]">
-          <div class="top-padded" *ngFor="let other of responsesToShow[userInfo] | keyvalue">
+          <div class="top-padded" *ngFor="let last = last; let other of responsesToShow[userInfo] | keyvalue">
             <tm-grouped-responses [responses]="other.value"
                                   [isGrq]="isGrq" [session]="session"
                                   [instructorCommentTableModel]="instructorCommentTableModel"
@@ -60,7 +60,8 @@
                                   (instructorCommentTableModelChange)="triggerModelChange($event)"
                                   (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
                                   (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
-                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"></tm-grouped-responses>
+                                  (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
+                                  [isLastResponse]="last"></tm-grouped-responses>
           </div>
         </ng-container>
         <div *ngIf="!userHasRealResponses[userInfo]" class="top-padded">

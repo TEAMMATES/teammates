@@ -25,6 +25,7 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   @Input() responses: QuestionOutput[] = [];
   @Input() userToEmail: Record<string, string> = {};
 
+  @Input() isLastResponse: boolean = false;
   @Input() isGrq: boolean = true;
   @Input() session: FeedbackSession = {
     courseId: '',
