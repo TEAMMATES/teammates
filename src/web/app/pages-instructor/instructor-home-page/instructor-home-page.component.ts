@@ -6,7 +6,6 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -83,8 +82,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
               private simpleModalService: SimpleModalService,
-              private courseService: CourseService,
-              private loadingBarService: LoadingBarService) {
+              private courseService: CourseService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, studentService);
   }
@@ -171,10 +169,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.hasCoursesLoaded = false;
     this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
-    this.loadingBarService.showLoadingBar();
     this.courseService.getInstructorCoursesThatAreActive()
       .pipe(finalize(() => {
-        this.loadingBarService.hideLoadingBar();
         this.hasCoursesLoaded = true;
       })).subscribe((courses: Courses) => {
         courses.courses.forEach((course: Course) => {

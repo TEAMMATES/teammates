@@ -107,11 +107,6 @@
             </div>
           </div>
         </div>
-
-      <ng-template #errorLoadingFeedbackSessions>
-        Error loading feedback sessions. Click here to retry.
-      </ng-template>
-
         <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
           <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed" [message]="'Error loading feedback sessions'"
                             (retryEvent)="loadFeedbackSessions(idx)">
