@@ -10,7 +10,7 @@
       <div class="card-header cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
         <strong>Feedback Session: {{ session.feedbackSession.feedbackSessionName }}</strong>
         <div class="card-header-btn-toolbar">
-          <span class="fas" [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
+          <tm-panel-chevron [isExpanded]="!session.isCollapsed"></tm-panel-chevron>
         </div>
       </div>
       <div class="card-body" *ngIf="!session.isCollapsed" @collapseAnim>

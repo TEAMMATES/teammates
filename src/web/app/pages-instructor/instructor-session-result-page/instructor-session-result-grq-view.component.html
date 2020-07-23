@@ -3,8 +3,7 @@
     <div class="card-header alert-success cursor-pointer" (click)="toggleAndLoadTab.emit(sectionInfo.key)">
       {{ sectionInfo.key === 'None' ? 'No specific section' : sectionInfo.key }}
       <div class="card-header-btn-toolbar">
-        <i class="fas fa-chevron-down" *ngIf="!sectionInfo.value.isTabExpanded"></i>
-        <i class="fas fa-chevron-up" *ngIf="sectionInfo.value.isTabExpanded"></i>
+        <tm-panel-chevron [isExpanded]="sectionInfo.value.isTabExpanded"></tm-panel-chevron>
       </div>
     </div>
     <div *ngIf="sectionInfo.value.isTabExpanded" @collapseAnim>

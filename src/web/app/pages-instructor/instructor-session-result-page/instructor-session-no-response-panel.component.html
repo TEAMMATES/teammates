@@ -4,8 +4,7 @@
     <button class="btn btn-light btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();">
       Remind All
     </button>
-    <i class="fas fa-chevron-down" *ngIf="!isTabExpanded"></i>
-    <i class="fas fa-chevron-up" *ngIf="isTabExpanded"></i>
+    <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
   </div>
 </div>
 <div *ngIf="isTabExpanded" @collapseAnim>

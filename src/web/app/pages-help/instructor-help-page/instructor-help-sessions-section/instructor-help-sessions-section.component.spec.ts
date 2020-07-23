@@ -8,6 +8,7 @@ import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import {
     CommentBoxModule,
 } from '../../../components/comment-box/comment-box.module';
+import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { SingleStatisticsModule,
 } from '../../../components/question-responses/single-statistics/single-statistics.module';
 import { StudentViewResponsesModule,
@@ -42,7 +43,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
         RouterTestingModule, NgxPageScrollCoreModule, NoopAnimationsModule,
         SessionEditFormModule, SessionsRecycleBinTableModule,
         InstructorSearchComponentsModule, InstructorSessionResultViewModule, QuestionTextWithInfoModule,
-        SingleStatisticsModule, StudentViewResponsesModule],
+        SingleStatisticsModule, StudentViewResponsesModule, PanelChevronModule],
     })
     .compileComponents();
   }));

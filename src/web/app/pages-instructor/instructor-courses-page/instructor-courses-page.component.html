@@ -164,8 +164,7 @@
     <div id="archived-table-heading" class="card-header bg-info text-white" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
       <b>Archive</b>
       <div class="card-header-btn-toolbar">
-        <i class="fas fa-chevron-down" *ngIf="!isArchivedCourseExpanded"></i>
-        <i class="fas fa-chevron-up" *ngIf="isArchivedCourseExpanded"></i>
+        <tm-panel-chevron [isExpanded]="isArchivedCourseExpanded"></tm-panel-chevron>
       </div>
     </div>
     <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded" @collapseAnim>
@@ -242,8 +241,7 @@
           <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
             <i class="fas fa-times"></i> Delete All
           </button>
-          <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
-          <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
+          <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
         </div>
       </div>
       <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded" @collapseAnim>

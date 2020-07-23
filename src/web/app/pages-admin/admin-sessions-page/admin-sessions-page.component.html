@@ -111,8 +111,7 @@
       <div class="text-white card-header bg-primary" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
         <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
         <div class="card-header-btn-toolbar">
-          <i class="fas fa-chevron-down" *ngIf="!institutionPanelsStatus[mapping.key]"></i>
-          <i class="fas fa-chevron-up" *ngIf="institutionPanelsStatus[mapping.key]"></i>
+          <tm-panel-chevron [isExpanded]="institutionPanelsStatus[mapping.key]"></tm-panel-chevron>
         </div>
       </div>
       <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]" @collapseAnim>

@@ -1,8 +1,7 @@
 <div class="card">
   <div class="card-header bg-primary text-white cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
     <div class="collapse-caret">
-      <i class="fas fa-chevron-down collapse-caret" *ngIf="model.isCollapsed"></i>
-      <i class="fas fa-chevron-up collapse-caret" *ngIf="!model.isCollapsed"></i>
+      <tm-panel-chevron [isExpanded]="!model.isCollapsed"></tm-panel-chevron>
     </div>
     <div>
       <strong>Question <span *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>

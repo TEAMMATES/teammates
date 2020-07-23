@@ -14,8 +14,7 @@
         <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">
           <strong>[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
           <div class="card-header-btn-toolbar">
-            <i *ngIf="!courseTab.hasTabExpanded" class="fas fa-chevron-down"></i>
-            <i *ngIf="courseTab.hasTabExpanded" class="fas fa-chevron-up"></i>
+            <tm-panel-chevron [isExpanded]="courseTab.hasTabExpanded"></tm-panel-chevron>
           </div>
         </div>
 

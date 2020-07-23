@@ -11,8 +11,7 @@
                     (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
             <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
                     (click)="$event.stopPropagation(); permanentDeleteAllSessionsEvent.emit()"><i class="fas fa-times"></i> Delete All</button>
-            <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
-            <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
+            <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
           </div>
         </div>
       <div *ngIf="isRecycleBinExpanded" @collapseAnim>

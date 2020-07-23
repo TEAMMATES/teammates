@@ -8,8 +8,7 @@
         questionId: question.question.feedbackQuestionId})"
     ></tm-question-text-with-info>
     <div class="card-header-btn-toolbar">
-      <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
-      <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
+      <tm-panel-chevron [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
     </div>
   </div>
   <div *ngIf="question.isTabExpanded" @collapseAnim>

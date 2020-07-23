@@ -4,8 +4,7 @@
       <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key }}
         <div class="card-header-btn-toolbar">
-          <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
-          <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
+          <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
         </div>
       </div>
       <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim class="background-color-warning">
@@ -47,8 +46,7 @@
       <div class="card-header-btn-toolbar">
         <tm-response-moderation-button class="mr-2" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
                                        [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
-        <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
-        <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
+        <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </div>
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
