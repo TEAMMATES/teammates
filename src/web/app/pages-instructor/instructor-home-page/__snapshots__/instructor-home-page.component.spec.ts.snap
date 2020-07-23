@@ -301,25 +301,23 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           class="card"
         >
           <div
-            class="card-header bg-primary text-white course-tab-header"
+            class="card-header bg-primary text-white"
           >
-            <div
-              class="row"
-            >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
+            <tm-panel-chevron>
               <div
-                class="course-header col-md-6"
-              >
-                <b>
-                  [CS3281]: Thematic Systems
-                </b>
-              </div>
-              <div
-                class="btn-toolbar col-md-6"
+                class="chevron"
               >
                 
                 
+                <i
+                  class="fas fa-chevron-up"
+                />
               </div>
-            </div>
+            </tm-panel-chevron>
           </div>
           
           <div
@@ -474,166 +472,155 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           class="card"
         >
           <div
-            class="card-header bg-primary text-white course-tab-header"
+            class="card-header bg-primary text-white"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="row"
+              class="card-header-btn-toolbar"
             >
-              <div
-                class="course-header col-md-6"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <b>
-                  [CS3281]: Thematic Systems
-                </b>
-              </div>
-              <div
-                class="btn-toolbar col-md-6"
-              >
-                
-                <div
-                  class="float-right"
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Students 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      
-                      
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/enroll?courseid=CS3281"
-                        routerlink="/web/instructor/courses/enroll"
-                      >
-                         Enroll 
-                      </a>
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        routerlink="/web/instructor/courses/details"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Instructors 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Sessions 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/sessions?courseid=CS3281"
-                        routerlink="/web/instructor/sessions"
-                      >
-                         Add 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Course 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                      >
-                         Archive 
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                      
-                      
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                      >
-                         Delete 
-                      </a>
-                      
-                    </div>
-                  </span>
-                </div>
-                
+                   Students 
+                </button>
                 <div
-                  class="float-right"
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
                   
                   
-                  <i
-                    class="fas fa-chevron-up"
-                  />
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
                 </div>
-              </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
           </div>
           
           <div
@@ -984,150 +971,139 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           class="card"
         >
           <div
-            class="card-header bg-primary text-white course-tab-header"
+            class="card-header bg-primary text-white"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="row"
+              class="card-header-btn-toolbar"
             >
-              <div
-                class="course-header col-md-6"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <b>
-                  [CS3281]: Thematic Systems
-                </b>
-              </div>
-              <div
-                class="btn-toolbar col-md-6"
-              >
-                
-                <div
-                  class="float-right"
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Students 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        routerlink="/web/instructor/courses/details"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Instructors 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Sessions 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/sessions?courseid=CS3281"
-                        routerlink="/web/instructor/sessions"
-                      >
-                         Add 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Course 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                      >
-                         Archive 
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                      
-                    </div>
-                  </span>
-                </div>
-                
+                   Students 
+                </button>
                 <div
-                  class="float-right"
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
                   
-                  
-                  <i
-                    class="fas fa-chevron-up"
-                  />
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
                 </div>
-              </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                </div>
+              </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
           </div>
           
           <div
@@ -1608,166 +1584,155 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           class="card"
         >
           <div
-            class="card-header bg-primary text-white course-tab-header"
+            class="card-header bg-primary text-white"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="row"
+              class="card-header-btn-toolbar"
             >
-              <div
-                class="course-header col-md-6"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <b>
-                  [CS3281]: Thematic Systems
-                </b>
-              </div>
-              <div
-                class="btn-toolbar col-md-6"
-              >
-                
-                <div
-                  class="float-right"
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Students 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      
-                      
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/enroll?courseid=CS3281"
-                        routerlink="/web/instructor/courses/enroll"
-                      >
-                         Enroll 
-                      </a>
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        routerlink="/web/instructor/courses/details"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Instructors 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Sessions 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/sessions?courseid=CS3281"
-                        routerlink="/web/instructor/sessions"
-                      >
-                         Add 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Course 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                      >
-                         Archive 
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                      
-                      
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                      >
-                         Delete 
-                      </a>
-                      
-                    </div>
-                  </span>
-                </div>
-                
+                   Students 
+                </button>
                 <div
-                  class="float-right"
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
                   
-                  <i
-                    class="fas fa-chevron-down"
-                  />
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
                   
                 </div>
-              </div>
+              </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                <i
+                  class="fas fa-chevron-down"
+                />
+                
+              </div>
+            </tm-panel-chevron>
           </div>
           
         </div>
@@ -1894,166 +1859,155 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           class="card"
         >
           <div
-            class="card-header bg-primary text-white course-tab-header"
+            class="card-header bg-primary text-white"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="row"
+              class="card-header-btn-toolbar"
             >
-              <div
-                class="course-header col-md-6"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <b>
-                  [CS3281]: Thematic Systems
-                </b>
-              </div>
-              <div
-                class="btn-toolbar col-md-6"
-              >
-                
-                <div
-                  class="float-right"
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Students 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      
-                      
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/enroll?courseid=CS3281"
-                        routerlink="/web/instructor/courses/enroll"
-                      >
-                         Enroll 
-                      </a>
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/details?courseid=CS3281"
-                        routerlink="/web/instructor/courses/details"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Instructors 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Sessions 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/sessions?courseid=CS3281"
-                        routerlink="/web/instructor/sessions"
-                      >
-                         Add 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Course 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                      >
-                         Archive 
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3281"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                      
-                      
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                      >
-                         Delete 
-                      </a>
-                      
-                    </div>
-                  </span>
-                </div>
-                
+                   Students 
+                </button>
                 <div
-                  class="float-right"
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
                   
                   
-                  <i
-                    class="fas fa-chevron-up"
-                  />
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
                 </div>
-              </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
           </div>
           
           <div
@@ -2208,166 +2162,155 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           class="card"
         >
           <div
-            class="card-header bg-primary text-white course-tab-header"
+            class="card-header bg-primary text-white"
           >
+            <b>
+              [CS3243]: Introduction to AI
+            </b>
+            
             <div
-              class="row"
+              class="card-header-btn-toolbar"
             >
-              <div
-                class="course-header col-md-6"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <b>
-                  [CS3243]: Introduction to AI
-                </b>
-              </div>
-              <div
-                class="btn-toolbar col-md-6"
-              >
-                
-                <div
-                  class="float-right"
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Students 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      
-                      
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/enroll?courseid=CS3243"
-                        routerlink="/web/instructor/courses/enroll"
-                      >
-                         Enroll 
-                      </a>
-                      <a
-                        class="btn btn-info btn-sm dropdown-item"
-                        href="/web/instructor/courses/details?courseid=CS3243"
-                        routerlink="/web/instructor/courses/details"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Instructors 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3243"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Sessions 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/sessions?courseid=CS3243"
-                        routerlink="/web/instructor/sessions"
-                      >
-                         Add 
-                      </a>
-                    </div>
-                  </span>
-                  <span
-                    class="padding-right-10px dropdown"
-                    ngbdropdown=""
-                  >
-                    <button
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                      class="btn btn-light btn-sm dropdown-toggle"
-                      ngbdropdowntoggle=""
-                    >
-                       Course 
-                    </button>
-                    <div
-                      class="dropdown-menu"
-                      ngbdropdownmenu=""
-                      x-placement="bottom"
-                    >
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                      >
-                         Archive 
-                      </a>
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        href="/web/instructor/courses/edit?courseid=CS3243"
-                        routerlink="/web/instructor/courses/edit"
-                      >
-                         View / Edit 
-                      </a>
-                      
-                      
-                      <a
-                        class="btn btn-light btn-sm dropdown-item"
-                        ngbtooltip="Delete the course and its corresponding students and sessions"
-                      >
-                         Delete 
-                      </a>
-                      
-                    </div>
-                  </span>
-                </div>
-                
+                   Students 
+                </button>
                 <div
-                  class="float-right"
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
                   
                   
-                  <i
-                    class="fas fa-chevron-up"
-                  />
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3243"
+                    routerlink="/web/instructor/courses/enroll"
+                  >
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3243"
+                    routerlink="/web/instructor/courses/details"
+                  >
+                     View / Edit 
+                  </a>
                 </div>
-              </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3243"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3243"
+                    routerlink="/web/instructor/sessions"
+                  >
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3243"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
             </div>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
           </div>
           
           <div

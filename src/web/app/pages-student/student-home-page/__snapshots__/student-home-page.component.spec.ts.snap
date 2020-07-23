@@ -118,8 +118,8 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         <strong>
           [CS2103]: Software Engineering
         </strong>
-        <span
-          class="float-sm-right"
+        <div
+          class="card-header-btn-toolbar"
         >
           <a
             class="btn btn-light btn-sm button"
@@ -128,7 +128,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           >
              View team 
           </a>
-        </span>
+        </div>
       </div>
       <div
         class="table-responsive"
@@ -168,18 +168,14 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 Sat, 02 Feb 2019, 16:15 PM +08
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Submitted 
-                </a>
+                </span>
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Published 
-                </a>
+                </span>
               </td>
               <td>
                 <a
@@ -218,18 +214,14 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 Sat, 02 Feb 2019, 16:15 PM +08
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Pending 
-                </a>
+                </span>
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Not Published 
-                </a>
+                </span>
               </td>
               <td>
                 <a
@@ -269,8 +261,8 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         <strong>
           [CS2102]: Databases
         </strong>
-        <span
-          class="float-sm-right"
+        <div
+          class="card-header-btn-toolbar"
         >
           <a
             class="btn btn-light btn-sm button"
@@ -279,7 +271,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           >
              View team 
           </a>
-        </span>
+        </div>
       </div>
       <div
         class="table-responsive"
@@ -319,18 +311,14 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 Sat, 02 Feb 2019, 16:15 PM +08
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Submitted 
-                </a>
+                </span>
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Not Published 
-                </a>
+                </span>
               </td>
               <td>
                 <a
@@ -364,18 +352,14 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 Sat, 02 Feb 2019, 16:15 PM +08
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Closed 
-                </a>
+                </span>
               </td>
               <td>
-                <a
-                  style="border-bottom: 1px dashed black;"
-                >
+                <span>
                    Not Published 
-                </a>
+                </span>
               </td>
               <td>
                 <a
@@ -530,8 +514,8 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
         <strong>
           [CS3281]: Thematic Systems
         </strong>
-        <span
-          class="float-sm-right"
+        <div
+          class="card-header-btn-toolbar"
         >
           <a
             class="btn btn-light btn-sm button"
@@ -540,7 +524,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           >
              View team 
           </a>
-        </span>
+        </div>
       </div>
       <div
         class="table-responsive"
