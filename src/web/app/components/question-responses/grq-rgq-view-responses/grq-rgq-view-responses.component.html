@@ -31,7 +31,7 @@
 </div>
 
 <ng-template #userTab let-userInfo='userInfo'>
-  <div class="card top-padded">
+  <div class="card top-padded border-primary">
     <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       {{ isGrq ? 'From' : 'To' }}:
       <tm-student-name-with-photo [name]="userInfo"

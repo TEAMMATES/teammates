@@ -13,7 +13,7 @@
           <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
             <hr>
-            <div class="card top-padded" *ngFor="let question of teamsToQuestions[teamInfo.key]">
+            <div class="card top-padded alert-primary-border" *ngFor="let question of teamsToQuestions[teamInfo.key]">
               <div class="card-header alert-primary">
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
@@ -52,7 +52,7 @@
 </div>
 
 <ng-template #userTab let-userInfo='userInfo'>
-  <div class="card top-padded">
+  <div class="card top-padded border-primary">
     <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       {{ isGqr ? 'From' : 'To' }}:
       <tm-student-name-with-photo [name]="userInfo"
@@ -72,7 +72,7 @@
     </div>
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body top-padded-0">
-        <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
+        <div class="card top-padded alert-primary-border" *ngFor="let question of responsesToShow[userInfo]">
           <div class="card-header alert-primary cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
