@@ -8,7 +8,7 @@
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
       </div>
-      <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim>
+      <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim class="background-color-warning">
         <div class="card-body">
           <div *ngFor="let userInfo of teamInfo.value">
             <ng-container

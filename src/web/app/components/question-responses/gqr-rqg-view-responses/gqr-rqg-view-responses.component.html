@@ -9,7 +9,7 @@
         </div>
       </div>
       <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim>
-        <div class="card-body">
+        <div class="card-body background-color-warning">
           <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
             <hr>
