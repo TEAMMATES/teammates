@@ -11,22 +11,11 @@
   <ng-container>
     <div *ngFor="let courseTab of courseTabList">
       <div class="card">
-        <div class="card-header justify-content-between course-card-header cursor-pointer"
-          (click)="toggleCard(courseTab)">
-          <div class="row course-card-content">
-            <div class="col-11">
-              <div class="course-card-header-text">
-                <i class="fas fa-chalkboard-teacher"
-                  style="color: white;"></i>&nbsp;[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}
-              </div>
-            </div>
-            <div class="col-1">
-              <button *ngIf="!courseTab.hasTabExpanded"
-                class="btn float-right"><i class="fas fa-chevron-circle-down fa-lg"
-                style="color: white;"></i></button>
-              <button *ngIf="courseTab.hasTabExpanded"
-                class="btn float-right"><i class="fas fa-chevron-circle-up fa-lg" style="color: white;"></i></button>
-            </div>
+        <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">
+          <strong>[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
+          <div class="card-header-btn-toolbar">
+            <i *ngIf="!courseTab.hasTabExpanded" class="fas fa-chevron-down"></i>
+            <i *ngIf="courseTab.hasTabExpanded" class="fas fa-chevron-up"></i>
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 <div *ngIf="!isLoading">
   <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!hasJoined && !userId && validUrl">
     <div class="card-header bg-warning">
-      <h3>Not logged in</h3>
+      <h3 style="margin-bottom: 0;">Not logged in</h3>
     </div>
     <div class="card-body">
       You are not logged in. Please log in first.
@@ -9,7 +9,7 @@
   </div>
   <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!validUrl || hasJoined">
     <div class="card-header bg-warning">
-      <h3>Invalid course join link</h3>
+      <h3 style="margin-bottom: 0;">Invalid course join link</h3>
     </div>
     <div class="card-body" *ngIf="!validUrl">
       Please check that you copied the entire join link URL, or have it resent to you if this message persists.
@@ -20,7 +20,7 @@
   </div>
   <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!hasJoined && userId && validUrl">
     <div class="card-header bg-primary text-white">
-      <h3>Confirm your Google account</h3>
+      <h3 style="margin-bottom: 0;">Confirm your Google account</h3>
     </div>
     <div class="card-body">
       You are currently logged in as <strong>{{ userId }}</strong>.

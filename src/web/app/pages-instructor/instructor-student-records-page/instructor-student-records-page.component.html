@@ -7,10 +7,11 @@
 <tm-loading-retry [shouldShowRetry]="hasStudentResultsLoadingFailed" [message]="'Failed to load student results'" (retryEvent)="loadStudentResults()">
   <div *tmIsLoading="isStudentResultsLoading">
     <div *ngFor="let session of sessionTabs" class="card card-default mb-4">
-      <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
-        Feedback Session : {{session.feedbackSession.feedbackSessionName}}
-        <span class="float-right fas"
-              [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
+      <div class="card-header cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
+        <strong>Feedback Session: {{ session.feedbackSession.feedbackSessionName }}</strong>
+        <div class="card-header-btn-toolbar">
+          <span class="fas" [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
+        </div>
       </div>
       <div class="card-body" *ngIf="!session.isCollapsed" @collapseAnim>
         <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"

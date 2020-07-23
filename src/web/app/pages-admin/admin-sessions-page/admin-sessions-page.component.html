@@ -108,11 +108,9 @@
 <div *tmIsLoading="isLoadingOngoingSessions">
   <div *ngIf="totalOngoingSessions; else noOngoingSessions">
     <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
-      <div class="row no-gutters text-left text-white card-header bg-primary" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
-        <div class="col-11">
-          <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
-        </div>
-        <div class="col-1 text-right">
+      <div class="text-white card-header bg-primary" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
+        <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
+        <div class="card-header-btn-toolbar">
           <i class="fas fa-chevron-down" *ngIf="!institutionPanelsStatus[mapping.key]"></i>
           <i class="fas fa-chevron-up" *ngIf="institutionPanelsStatus[mapping.key]"></i>
         </div>

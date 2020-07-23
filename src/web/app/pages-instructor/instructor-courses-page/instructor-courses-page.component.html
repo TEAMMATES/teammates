@@ -161,15 +161,11 @@
     <span class="fa fa-file-archive"></span> Archived courses
   </h3>
   <div class="card top-padded">
-    <div id="archived-table-heading" class="card-header archive-course-header bg-info" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
-      <div class="row text-white align-items-center">
-        <div class="col-6">
-          <b>Archive</b>
-        </div>
-        <div class="col-6 text-right">
-          <i class="fas fa-chevron-down" *ngIf="!isArchivedCourseExpanded"></i>
-          <i class="fas fa-chevron-up" *ngIf="isArchivedCourseExpanded"></i>
-        </div>
+    <div id="archived-table-heading" class="card-header bg-info text-white" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
+      <b>Archive</b>
+      <div class="card-header-btn-toolbar">
+        <i class="fas fa-chevron-down" *ngIf="!isArchivedCourseExpanded"></i>
+        <i class="fas fa-chevron-up" *ngIf="isArchivedCourseExpanded"></i>
       </div>
     </div>
     <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded" @collapseAnim>
@@ -229,29 +225,25 @@
       <span class="fa fa-trash-alt"></span> Deleted courses
     </h3>
     <div class="card bg-light top-padded">
-      <div id="deleted-table-heading" class="card-header recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
-        <div class="row align-items-center">
-          <div class="col-4 text-white">
-            <b>Recycle Bin</b>
-          </div>
-          <div class="col-8 text-right bin-header-button">
-            <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
-                    ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
-              <i class="fas fa-check"></i> Restore All
-            </button>
-            <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
-              <i class="fas fa-check"></i> Restore All
-            </button>
-            <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
-                    ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
-              <i class="fas fa-times"></i> Delete All
-            </button>
-            <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
-              <i class="fas fa-times"></i> Delete All
-            </button>
-            <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
-            <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
-          </div>
+      <div id="deleted-table-heading" class="card-header bg-secondary text-white" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+        <b>Recycle Bin</b>
+        <div class="card-header-btn-toolbar">
+          <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+                  ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
+            <i class="fas fa-check"></i> Restore All
+          </button>
+          <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
+            <i class="fas fa-check"></i> Restore All
+          </button>
+          <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
+                  ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
+            <i class="fas fa-times"></i> Delete All
+          </button>
+          <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
+            <i class="fas fa-times"></i> Delete All
+          </button>
+          <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
+          <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
         </div>
       </div>
       <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded" @collapseAnim>

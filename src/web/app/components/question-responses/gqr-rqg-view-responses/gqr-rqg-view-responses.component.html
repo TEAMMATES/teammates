@@ -3,7 +3,7 @@
     <div class="card top-padded">
       <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key }}
-        <div class="float-right">
+        <div class="card-header-btn-toolbar">
           <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
@@ -52,15 +52,17 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded border-primary">
     <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      {{ isGqr ? 'From' : 'To' }}:
-      <tm-student-name-with-photo [name]="userInfo"
-                       [email]="userToEmail[userInfo]"
-                       [courseId]="session.courseId"
-      ></tm-student-name-with-photo>
-      <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
-        [{{ userToEmail[userInfo] }}]
-      </a>
-      <div class="float-right">
+      <div>
+        {{ isGqr ? 'From' : 'To' }}:
+        <tm-student-name-with-photo [name]="userInfo"
+                                    [email]="userToEmail[userInfo]"
+                                    [courseId]="session.courseId"
+        ></tm-student-name-with-photo>
+        <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
+          [{{ userToEmail[userInfo] }}]
+        </a>
+      </div>
+      <div class="card-header-btn-toolbar">
         <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
                                        [relatedGiverEmail]="userToRelatedEmail[userInfo]"
                                        [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
@@ -75,7 +77,7 @@
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
             ></tm-question-text-with-info>
-            <div class="float-right">
+            <div class="card-header-btn-toolbar">
               <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
               <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
             </div>

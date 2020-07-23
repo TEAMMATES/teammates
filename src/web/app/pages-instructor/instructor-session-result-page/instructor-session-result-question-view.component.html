@@ -1,18 +1,15 @@
 <div class="card margin-bottom-15px" *ngFor="let question of questionsOrder">
-  <div class="card-header bg-info text-white course-tab-header" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
-    <div class="row">
-      <tm-question-text-with-info class="col-11"
-        [questionNumber]="question.question.questionNumber"
-        [questionDetails]="question.question.questionDetails"
-        [shouldShowDownloadQuestionResult]="true"
-        (downloadQuestionResultEvent)="triggerDownloadQuestionResult({
+  <div class="card-header bg-info text-white" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
+    <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
+                                [questionDetails]="question.question.questionDetails"
+                                [shouldShowDownloadQuestionResult]="true"
+                                (downloadQuestionResultEvent)="triggerDownloadQuestionResult({
         questionNumber: question.question.questionNumber,
         questionId: question.question.feedbackQuestionId})"
-      ></tm-question-text-with-info>
-      <div class="text-md-right col-1">
-        <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
-        <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
-      </div>
+    ></tm-question-text-with-info>
+    <div class="card-header-btn-toolbar">
+      <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
+      <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
     </div>
   </div>
   <div *ngIf="question.isTabExpanded" @collapseAnim>

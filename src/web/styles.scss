@@ -95,7 +95,19 @@ h6,
 }
 
 .card-header {
+  align-items: center;
+  display: flex;
   padding: .5rem 1rem;
+}
+
+.card-header-btn-toolbar {
+  align-items: center;
+  margin-left: auto;
+  text-align: right;
+
+  button {
+    margin-right: 10px;
+  }
 }
 
 .dropdown-item {

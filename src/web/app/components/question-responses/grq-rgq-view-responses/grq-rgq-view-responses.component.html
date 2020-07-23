@@ -3,7 +3,7 @@
     <div class="card top-padded">
       <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key }}
-        <div class="float-right">
+        <div class="card-header-btn-toolbar">
           <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
           <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
         </div>
@@ -33,22 +33,24 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded border-primary">
     <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      {{ isGrq ? 'From' : 'To' }}:
-      <tm-student-name-with-photo [name]="userInfo"
-                       [email]="userToEmail[userInfo]"
-                       [courseId]="session.courseId"
-      ></tm-student-name-with-photo>
-      {{ usersToTeams[userInfo] !== '' ? '(' + usersToTeams[userInfo] + ')' : ''}}
-      <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
-        [{{ userToEmail[userInfo] }}]
-      </a>
-    <div class="float-right">
-      <tm-response-moderation-button class="mr-2" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-                                     [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
-      <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
-      <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
+      <div>
+        {{ isGrq ? 'From' : 'To' }}:
+        <tm-student-name-with-photo [name]="userInfo"
+                         [email]="userToEmail[userInfo]"
+                         [courseId]="session.courseId"
+        ></tm-student-name-with-photo>
+        {{ usersToTeams[userInfo] !== '' ? '(' + usersToTeams[userInfo] + ')' : ''}}
+        <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
+          [{{ userToEmail[userInfo] }}]
+        </a>
+      </div>
+      <div class="card-header-btn-toolbar">
+        <tm-response-moderation-button class="mr-2" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+                                       [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
+        <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
+        <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
+      </div>
     </div>
-  </div>
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body">
         <ng-container *ngIf="userHasRealResponses[userInfo]">
