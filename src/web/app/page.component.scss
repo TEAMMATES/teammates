@@ -15,19 +15,16 @@ nav {
 .main-content {
   margin-top: 50px;
   min-height: calc(100vh - 80px);
+  padding: 20px 100px;
+}
+
+.footer {
+  padding: 5px 100px;
+  color: rgba(255, 255, 255, .5);
 }
 
 .container {
   max-width: 1350px;
-
-  &.main-content {
-    padding: 20px 30px;
-  }
-
-  &.footer {
-    padding: 5px 20px;
-    color: rgba(255, 255, 255, .5);
-  }
 }
 
 .dropdown-item {
@@ -46,7 +43,7 @@ nav {
 }
 
 .navbar {
-  padding: 0;
+  padding: 0 110px;
   z-index: 2000;
 }
 
@@ -58,17 +55,41 @@ nav {
   margin-right: 20px;
 }
 
-@media (max-width: 992px) {
-  .navbar-collapse {
-    padding: 15px 0;
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 0 30px;
   }
 
+  .main-content {
+    padding: 20px 80px;
+  }
+
+  .footer {
+    padding: 5px 30px;
+  }
+}
+
+@media (max-width: 992px) {
   .navbar-nav li {
     margin: auto 20px;
   }
 
   .pull-right {
     margin-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 10px;
+  }
+
+  .main-content {
+    padding: 20px 50px;
+  }
+
+  .footer {
+    padding: 5px 20px;
   }
 }
 
