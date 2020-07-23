@@ -113,7 +113,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Loads the students in the course
    */
-  private loadStudents(courseid: string): void {
+  loadStudents(courseid: string): void {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
