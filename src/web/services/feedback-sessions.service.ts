@@ -22,7 +22,7 @@ import {
 } from '../types/api-output';
 import {
   FeedbackSessionCreateRequest,
-  FeedbackSessionStudentRemindRequest,
+  FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
 } from '../types/api-request';
@@ -207,7 +207,7 @@ export class FeedbackSessionsService {
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   remindFeedbackSessionSubmissionForRespondents(
-      courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionRespondentRemindRequest)
       : Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       courseid: courseId,
@@ -244,7 +244,7 @@ export class FeedbackSessionsService {
    * Sends e-mails to remind respondents on the published results link.
    */
   remindResultsLinkToRespondents(
-      courseId: string, feedbackSessionName: string, request: FeedbackSessionStudentRemindRequest)
+      courseId: string, feedbackSessionName: string, request: FeedbackSessionRespondentRemindRequest)
       : Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       courseid: courseId,

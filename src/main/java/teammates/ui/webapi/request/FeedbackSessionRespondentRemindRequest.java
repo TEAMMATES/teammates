@@ -1,9 +1,9 @@
 package teammates.ui.webapi.request;
 
 /**
- * Sends a reminder email each to a list of students from feedback session.
+ * Sends a reminder email each to a list of respondents from a feedback session.
  */
-public class FeedbackSessionStudentRemindRequest extends BasicRequest {
+public class FeedbackSessionRespondentRemindRequest extends BasicRequest {
     private String[] usersToRemind;
 
     public String[] getUsersToRemind() {

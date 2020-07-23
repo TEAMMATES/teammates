@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.RemindFeedbackSessionSubmissionAction;
 import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackSessionStudentRemindRequest;
+import teammates.ui.webapi.request.FeedbackSessionRespondentRemindRequest;
 
 /**
  * SUT: {@link RemindFeedbackSessionSubmissionAction}.
@@ -55,7 +55,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        FeedbackSessionStudentRemindRequest remindRequest = new FeedbackSessionStudentRemindRequest();
+        FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
         remindRequest.setUsersToRemind(studentNotSubmitFeedback.getEmail().split(""));
 
         RemindFeedbackSessionSubmissionAction action = getAction(remindRequest, paramsFeedbackSessionNotOpen);
