@@ -63,7 +63,6 @@ h6,
 
 .modal {
   text-align: center;
-  padding: 0 !important;
 }
 
 .modal::before {
@@ -71,14 +70,33 @@ h6,
   display: inline-block;
   height: 100%;
   vertical-align: middle;
-  margin-right: -4px;
+}
+
+.modal-header {
+  padding: .75rem 1rem;
+}
+
+.modal-body {
+  padding: 1rem 1.25rem;
+}
+
+.modal-footer {
+  padding: .3rem .5rem;
 }
 
 .modal-dialog {
   text-align: left;
   display: inline-block;
-  min-width: 800px;
+  max-height: 90vh;
+  max-width: 60vw;
+  overflow-y: scroll;
   vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 80vw;
+  }
 }
 
 .close:focus {
