@@ -1,6 +1,6 @@
 <span *ngIf="email; else noPhoto">
   <tm-view-photo-popover [photoUrl]="email | formatPhotoUrl: courseId">
-    <i class="far fa-user"></i>
+    <i class="fa-user" [ngClass]="iconClass" (mouseover)="iconClass='fa'" (mouseout)="iconClass='far'" ngbTooltip="Click to view student's profile picture"></i>
   </tm-view-photo-popover>
   &nbsp;{{ name }}
 </span>

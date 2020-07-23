@@ -19,6 +19,8 @@ export class StudentNameWithPhotoComponent implements OnInit {
   @Input()
   email: string = '';
 
+  iconClass: string = 'far';
+
   constructor() { }
 
   ngOnInit(): void {
