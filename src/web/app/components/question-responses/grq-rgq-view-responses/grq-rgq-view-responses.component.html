@@ -61,7 +61,7 @@
                                   (updateCommentEvent)="triggerUpdateCommentEvent($event.responseId, $event.index)"
                                   (deleteCommentEvent)="triggerDeleteCommentEvent($event.responseId, $event.index)"
                                   (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"
-                                  [isLastResponse]="last"></tm-grouped-responses>
+                                  [isLastGroupedResponses]="last"></tm-grouped-responses>
           </div>
         </ng-container>
         <div *ngIf="!userHasRealResponses[userInfo]" class="top-padded">
