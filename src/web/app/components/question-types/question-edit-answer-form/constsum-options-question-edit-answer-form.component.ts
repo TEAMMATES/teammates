@@ -40,7 +40,7 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
       newAnswers = Array(this.questionDetails.numOfConstSumOptions).fill(0);
     }
 
-    newAnswers[index] = event ? event : 0;
+    newAnswers[index] = event ? Math.ceil(event) : 0;
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
 

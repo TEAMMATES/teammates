@@ -7,7 +7,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_ENROLL_PAGE}.
@@ -24,9 +23,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withUserId(testData.instructors.get("ICEnrollE2eT.teammates.test").googleId)
                 .withCourseId(testData.courses.get("ICEnrollE2eT.CS2104").getId());
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCourseEnrollPage enrollPage =
-                AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);
+        InstructorCourseEnrollPage enrollPage = loginAdminToPage(url, InstructorCourseEnrollPage.class);
 
         ______TS("Add rows to enroll spreadsheet");
         int numRowsToAdd = 30;
