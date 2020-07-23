@@ -1,3 +1,7 @@
+.mce-content-body {
+  font-size: .875rem;
+}
+
 .mce-content-readonly {
   cursor: not-allowed;
 }

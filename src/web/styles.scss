@@ -6,15 +6,47 @@
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: .875rem;
 }
 
 ul {
   margin-bottom: 0;
 }
 
-.btn {
-  font-size: .8rem;
+h1,
+.h1 {
+  font-size: 2.1875rem;
+}
+
+h2,
+.h2 {
+  font-size: 1.75rem;
+}
+
+h3,
+.h3 {
+  font-size: 1.53125rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.3125rem;
+}
+
+h5,
+.h5 {
+  font-size: 1.09375rem;
+}
+
+h6,
+.h6 {
+  font-size: .875rem;
+}
+
+.btn,
+.form-control,
+.dropdown-item {
+  font-size: .875rem;
 }
 
 .color-orange {
