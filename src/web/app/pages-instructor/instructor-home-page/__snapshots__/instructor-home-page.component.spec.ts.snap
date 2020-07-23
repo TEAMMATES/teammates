@@ -488,16 +488,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/enroll?courseid=CS3281"
-                      ngbtooltip="Enroll student into the course"
                       routerlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
-                    
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/details?courseid=CS3281"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                     >
                        View / Edit 
@@ -524,7 +521,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -551,7 +547,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/sessions?courseid=CS3281"
-                      ngbtooltip="Add a feedback session for the course"
                       routerlink="/web/instructor/sessions"
                     >
                        Add 
@@ -584,7 +579,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -694,9 +688,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         container="body"
                         ngbtooltip="Number of students submitted / Class size"
                       >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                        <span>
                           Response Rate
                         </span>
                       </th>
@@ -715,43 +707,24 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         Feedback
                       </td>
                       
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           19 Jan 6:43 AM
                         </span>
                       </td>
                       
-                      
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           19 Jan 6:46 AM
                         </span>
                       </td>
-                      
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           Awaiting
                         </span>
                       </td>
-                      <td
-                        class="tool-tip-decorate"
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           Not Published
                         </span>
                       </td>
@@ -768,14 +741,12 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                       >
                         <button
                           class="btn btn-light btn-sm"
-                          ngbtooltip="Edit feedback session details"
                           type="button"
                         >
                           Edit
                         </button>
                         <button
                           class="btn btn-light btn-sm"
-                          ngbtooltip="Delete the feedback session"
                           type="button"
                         >
                           Delete
@@ -798,7 +769,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <div
                           class="d-inline-block dropdown"
                           ngbdropdown=""
-                          ngbtooltip="View the submitted responses for this feedback session"
                         >
                           <button
                             aria-expanded="false"
@@ -814,13 +784,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             x-placement="bottom"
                           >
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               View Results
                             </button>
                             
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                               container="body"
                               disabled=""
                               ngbtooltip="Make session responses available for viewing"
@@ -832,7 +802,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             
                             
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               Download Results
                             </button>
@@ -1016,7 +986,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/details?courseid=CS3281"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                     >
                        View / Edit 
@@ -1043,7 +1012,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -1070,7 +1038,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/sessions?courseid=CS3281"
-                      ngbtooltip="Add a feedback session for the course"
                       routerlink="/web/instructor/sessions"
                     >
                        Add 
@@ -1103,7 +1070,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -1205,9 +1171,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         container="body"
                         ngbtooltip="Number of students submitted / Class size"
                       >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                        <span>
                           Response Rate
                         </span>
                       </th>
@@ -1226,43 +1190,24 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         Feedback 1
                       </td>
                       
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           1 Jan 7:30 AM
                         </span>
                       </td>
                       
-                      
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           1 Jan 7:30 AM
                         </span>
                       </td>
-                      
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           Closed
                         </span>
                       </td>
-                      <td
-                        class="tool-tip-decorate"
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           Published
                         </span>
                       </td>
@@ -1280,7 +1225,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <button
                           class="btn btn-light btn-sm"
                           disabled=""
-                          ngbtooltip="Edit feedback session details"
                           type="button"
                         >
                           Edit
@@ -1288,7 +1232,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <button
                           class="btn btn-light btn-sm"
                           disabled=""
-                          ngbtooltip="Delete the feedback session"
                           type="button"
                         >
                           Delete
@@ -1311,7 +1254,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <div
                           class="d-inline-block dropdown"
                           ngbdropdown=""
-                          ngbtooltip="View the submitted responses for this feedback session"
                         >
                           <button
                             aria-expanded="false"
@@ -1327,13 +1269,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             x-placement="bottom"
                           >
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               View Results
                             </button>
                             
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                               container="body"
                               disabled=""
                               ngbtooltip="Make responses no longer visible"
@@ -1345,12 +1287,12 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             
                             
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               Resend link to view results
                             </button>
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               Download Results
                             </button>
@@ -1376,43 +1318,24 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         Feedback 2
                       </td>
                       
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           1 Jan 7:30 AM
                         </span>
                       </td>
                       
-                      
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           1 Jan 7:30 AM
                         </span>
                       </td>
-                      
-                      <td
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           Open
                         </span>
                       </td>
-                      <td
-                        class="tool-tip-decorate"
-                        container="body"
-                      >
-                        <span
-                          class="tool-tip-decorate"
-                        >
+                      <td>
+                        <span>
                           Not Published
                         </span>
                       </td>
@@ -1430,7 +1353,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <button
                           class="btn btn-light btn-sm"
                           disabled=""
-                          ngbtooltip="Edit feedback session details"
                           type="button"
                         >
                           Edit
@@ -1438,7 +1360,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <button
                           class="btn btn-light btn-sm"
                           disabled=""
-                          ngbtooltip="Delete the feedback session"
                           type="button"
                         >
                           Delete
@@ -1461,7 +1382,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <div
                           class="d-inline-block dropdown"
                           ngbdropdown=""
-                          ngbtooltip="View the submitted responses for this feedback session"
                         >
                           <button
                             aria-expanded="false"
@@ -1477,13 +1397,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             x-placement="bottom"
                           >
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               View Results
                             </button>
                             
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                               container="body"
                               disabled=""
                               ngbtooltip="Make session responses available for viewing"
@@ -1495,7 +1415,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             
                             
                             <button
-                              class="dropdown-item clickable"
+                              class="btn dropdown-item clickable"
                             >
                               Download Results
                             </button>
@@ -1680,16 +1600,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/enroll?courseid=CS3281"
-                      ngbtooltip="Enroll student into the course"
                       routerlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
-                    
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/details?courseid=CS3281"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                     >
                        View / Edit 
@@ -1716,7 +1633,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -1743,7 +1659,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/sessions?courseid=CS3281"
-                      ngbtooltip="Add a feedback session for the course"
                       routerlink="/web/instructor/sessions"
                     >
                        Add 
@@ -1776,7 +1691,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -1966,16 +1880,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/enroll?courseid=CS3281"
-                      ngbtooltip="Enroll student into the course"
                       routerlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
-                    
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/details?courseid=CS3281"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                     >
                        View / Edit 
@@ -2002,7 +1913,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -2029,7 +1939,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/sessions?courseid=CS3281"
-                      ngbtooltip="Add a feedback session for the course"
                       routerlink="/web/instructor/sessions"
                     >
                        Add 
@@ -2062,7 +1971,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3281"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -2275,16 +2183,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/enroll?courseid=CS3243"
-                      ngbtooltip="Enroll student into the course"
                       routerlink="/web/instructor/courses/enroll"
                     >
                        Enroll 
                     </a>
-                    
                     <a
                       class="btn btn-info btn-sm dropdown-item"
                       href="/web/instructor/courses/details?courseid=CS3243"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                     >
                        View / Edit 
@@ -2311,7 +2216,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3243"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 
@@ -2338,7 +2242,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/sessions?courseid=CS3243"
-                      ngbtooltip="Add a feedback session for the course"
                       routerlink="/web/instructor/sessions"
                     >
                        Add 
@@ -2371,7 +2274,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                     <a
                       class="btn btn-light btn-sm dropdown-item"
                       href="/web/instructor/courses/edit?courseid=CS3243"
-                      ngbtooltip="Edit course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                     >
                        View / Edit 

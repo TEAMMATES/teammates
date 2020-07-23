@@ -119,6 +119,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     this.isLoadingTeammates = true;
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
+        // No teammates
+        if (students.students.length === 1 && students.students[0].email === this.student.email) {
+          this.isLoadingTeammates = false;
+        }
         students.students.forEach((student: Student) => {
           // filter away current user
           if (student.email === this.student.email) {

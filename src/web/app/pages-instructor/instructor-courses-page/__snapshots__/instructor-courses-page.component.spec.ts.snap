@@ -5,11 +5,17 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeTableSortBy={[Function Number]}
+  activeTableSortOrder={[Function Number]}
   archivedCourses={[Function Array]}
+  archivedTableSortBy={[Function Number]}
+  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
+  deletedTableSortBy={[Function Number]}
+  deletedTableSortOrder={[Function Number]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -21,8 +27,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
-  tableSortOrder={[Function Number]}
 >
   <div>
     <button
@@ -57,11 +61,17 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeTableSortBy={[Function Number]}
+  activeTableSortOrder={[Function Number]}
   archivedCourses={[Function Array]}
+  archivedTableSortBy={[Function Number]}
+  archivedTableSortOrder={[Function Number]}
   canDeleteAll="false"
   canRestoreAll="false"
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
+  deletedTableSortBy={[Function Number]}
+  deletedTableSortOrder={[Function Number]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -73,8 +83,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
-  tableSortOrder={[Function Number]}
 >
   <div>
     <button
@@ -245,7 +253,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -253,7 +260,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -353,7 +359,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -361,7 +366,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -395,14 +399,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   </div><div
     class="course-section"
   >
-    <h2
+    <h3
       class="text-muted"
     >
       <span
         class="fa fa-file-archive"
       />
-       Archived Courses 
-    </h2>
+       Archived courses 
+    </h3>
     <div
       class="card top-padded"
     >
@@ -439,14 +443,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
     <div
       class="col-12"
     >
-      <h2
+      <h3
         class="text-muted"
       >
         <span
           class="fa fa-trash-alt"
         />
-         Deleted Courses 
-      </h2>
+         Deleted courses 
+      </h3>
       <div
         class="card bg-light top-padded"
       >
@@ -507,11 +511,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeTableSortBy={[Function Number]}
+  activeTableSortOrder={[Function Number]}
   archivedCourses={[Function Array]}
+  archivedTableSortBy={[Function Number]}
+  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
+  deletedTableSortBy={[Function Number]}
+  deletedTableSortOrder={[Function Number]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -523,8 +533,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
-  tableSortOrder={[Function Number]}
 >
   <div>
     <button
@@ -695,7 +703,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -703,7 +710,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -803,7 +809,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -811,7 +816,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -845,14 +849,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   </div><div
     class="course-section"
   >
-    <h2
+    <h3
       class="text-muted"
     >
       <span
         class="fa fa-file-archive"
       />
-       Archived Courses 
-    </h2>
+       Archived courses 
+    </h3>
     <div
       class="card top-padded"
     >
@@ -889,14 +893,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
     <div
       class="col-12"
     >
-      <h2
+      <h3
         class="text-muted"
       >
         <span
           class="fa fa-trash-alt"
         />
-         Deleted Courses 
-      </h2>
+         Deleted courses 
+      </h3>
       <div
         class="card bg-light top-padded"
       >
@@ -963,11 +967,17 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeTableSortBy={[Function Number]}
+  activeTableSortOrder={[Function Number]}
   archivedCourses={[Function Array]}
+  archivedTableSortBy={[Function Number]}
+  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
+  deletedTableSortBy={[Function Number]}
+  deletedTableSortOrder={[Function Number]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -979,8 +989,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
-  tableSortOrder={[Function Number]}
 >
   <div>
     <button
@@ -1015,11 +1023,17 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeCourses={[Function Array]}
+  activeTableSortBy={[Function Number]}
+  activeTableSortOrder={[Function Number]}
   archivedCourses={[Function Array]}
+  archivedTableSortBy={[Function Number]}
+  archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
+  deletedTableSortBy={[Function Number]}
+  deletedTableSortOrder={[Function Number]}
   instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -1031,8 +1045,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
-  tableSortBy={[Function Number]}
-  tableSortOrder={[Function Number]}
 >
   <div>
     <button
@@ -1220,7 +1232,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -1228,7 +1239,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -1345,7 +1355,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -1353,7 +1362,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
