@@ -168,6 +168,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Loads courses of current instructor.
    */
   loadCourses(): void {
+    this.hasCoursesLoaded = false;
+    this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
     this.loadingBarService.showLoadingBar();
     this.courseService.getInstructorCoursesThatAreActive()
@@ -219,6 +221,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   loadFeedbackSessions(index: number): void {
     const model: CourseTabModel = this.courseTabModels[index];
+    model.hasLoadingFailed = false;
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
           .subscribe((response: FeedbackSessions) => {
@@ -394,23 +397,5 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   downloadSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
     this.downloadSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
-   * Retries loading all the courses
-   */
-  retryLoadingCourses(): void {
-    this.hasCoursesLoadingFailed = false;
-    this.hasCoursesLoaded = false;
-    this.loadCourses();
-  }
-
-  /**
-   * Retries loading a feedback session from a course
-   */
-  retryLoadingSession(index: number): void {
-    const courseTab: CourseTabModel = this.courseTabModels[index];
-    courseTab.hasLoadingFailed = false;
-    this.loadFeedbackSessions(index);
   }
 }

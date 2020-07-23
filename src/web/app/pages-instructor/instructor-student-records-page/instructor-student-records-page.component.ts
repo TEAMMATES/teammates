@@ -111,6 +111,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's records based on the given course ID and email.
    */
   loadStudentRecords(): void {
+    this.hasStudentLoadingFailed = false;
+    this.hasStudentProfileLoadingFailed = false;
     this.isStudentLoading = true;
     this.isStudentProfileLoading = true;
     this.studentService.getStudent(
@@ -138,6 +140,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    */
   loadStudentResults(): void {
     this.sessionTabs = [];
+    this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
         mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
@@ -209,16 +212,5 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           a.feedbackSession.feedbackSessionName,
           b.feedbackSession.feedbackSessionName);
     });
-  }
-
-  retryLoadingStudentRecords(): void {
-    this.hasStudentLoadingFailed = false;
-    this.hasStudentProfileLoadingFailed = false;
-    this.loadStudentRecords();
-  }
-
-  retryLoadingStudentResults(): void {
-    this.hasStudentResultsLoadingFailed = false;
-    this.loadStudentResults();
   }
 }

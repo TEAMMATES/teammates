@@ -208,6 +208,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the course being edited.
    */
   loadCourseInfo(): void {
+    this.hasCourseLoadingFailed = false;
     this.isCourseLoading = true;
     this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
       this.isCourseLoading = false;
@@ -291,6 +292,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads all instructors in the course.
    */
   loadCourseInstructors(): void {
+    this.hasInstructorsLoadingFailed = false;
     this.isInstructorsLoading = true;
     this.instructorService.loadInstructors({
       courseId: this.courseId,
@@ -752,15 +754,5 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  retryLoadingCourse(): void {
-    this.hasCourseLoadingFailed = false;
-    this.loadCourseInfo();
-  }
-
-  retryLoadingInstructors(): void {
-    this.hasInstructorsLoadingFailed = false;
-    this.loadCourseInstructors();
   }
 }

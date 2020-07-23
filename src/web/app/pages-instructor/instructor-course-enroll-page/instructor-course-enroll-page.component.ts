@@ -355,6 +355,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
+    this.existingStudents = [];
+    this.hasFailedLoadingStudents = false;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseId = courseid;
@@ -384,11 +386,5 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   navigateToMoreInfo(): void {
     (this.moreInfo as ElementRef)
         .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
-  }
-
-  retryLoadingData(): void {
-    this.existingStudents = [];
-    this.hasFailedLoadingStudents = false;
-    this.getCourseEnrollPageData(this.courseId);
   }
 }

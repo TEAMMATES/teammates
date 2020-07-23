@@ -71,6 +71,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Loads the student profile details for this page.
    */
   loadStudentProfile(): void {
+    this.hasLoadingStudentProfileFailed = false;
     this.isLoadingStudentProfile = true;
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
@@ -224,10 +225,5 @@ export class StudentProfilePageComponent implements OnInit {
    */
   setDefaultPic(): void {
     this.profilePicLink = this.defaultPictureLink;
-  }
-
-  retryLoadingStudentProfile(): void {
-    this.hasLoadingStudentProfileFailed = false;
-    this.loadStudentProfile();
   }
 }

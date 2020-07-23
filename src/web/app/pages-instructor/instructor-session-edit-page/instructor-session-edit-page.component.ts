@@ -210,6 +210,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads a feedback session.
    */
   loadFeedbackSession(): void {
+    this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingFeedbackSession = true;
     // load the course of the feedback session first
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
@@ -448,6 +449,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   loadFeedbackQuestions(): void {
     this.questionEditFormModels = [];
+    this.hasLoadingFeedbackQuestionsFailed = false;
     this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
@@ -988,16 +990,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.questionEditFormModels.forEach(((model: QuestionEditFormModel): void => {
       model.isCollapsed = true;
     }));
-  }
-
-  retryLoadingFeedbackSession(): void {
-    this.hasLoadingFeedbackSessionFailed = false;
-    this.loadFeedbackSession();
-  }
-
-  retryLoadingFeedbackQuestions(): void {
-    this.hasLoadingFeedbackQuestionsFailed = false;
-    this.loadFeedbackQuestions();
   }
 
   private deepCopy<T>(obj: T): T {

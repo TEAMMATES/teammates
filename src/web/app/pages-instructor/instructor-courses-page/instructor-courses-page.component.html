@@ -10,7 +10,7 @@
   ></tm-add-course-form>
 </div>
 
-<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="retryLoadingCourses()">
+<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadInstructorCourses()">
   <ng-template #addCourseAlert>
     <div class="alert alert-warning margin-top-30px" role="alert">
       You do not seem to have any active courses. Use the button above to create a new course.

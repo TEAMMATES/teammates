@@ -50,6 +50,8 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
    * Loads the student's details based on the given course ID and email.
    */
   loadStudentDetails(courseId: string, studentEmail: string): void {
+    this.hasStudentLoadingFailed = false;
+    this.hasStudentProfileLoadingFailed = false;
     this.isStudentProfileLoading = true;
     this.isStudentLoading = true;
     this.studentProfileService.getStudentProfile(
@@ -68,11 +70,5 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
       this.hasStudentProfileLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  retryLoadingStudent(): void {
-    this.hasStudentLoadingFailed = false;
-    this.hasStudentProfileLoadingFailed = false;
-    this.loadStudentDetails(this.courseId, this.studentEmail);
   }
 }

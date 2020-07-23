@@ -430,11 +430,4 @@ export class InstructorCoursesPageComponent implements OnInit {
       return this.tableComparatorService.compare(by, order, strA, strB);
     };
   }
-
-  /**
-   * Attempts to load all courses for instructor again.
-   */
-  retryLoadingCourses(): void {
-    this.loadInstructorCourses();
-  }
 }

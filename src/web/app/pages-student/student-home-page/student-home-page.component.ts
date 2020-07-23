@@ -80,6 +80,7 @@ export class StudentHomePageComponent implements OnInit {
    * Load the courses and feedback sessions involving the student.
    */
   loadStudentCourses(): void {
+    this.hasCoursesLoadingFailed = false;
     this.isCoursesLoading = true;
     this.courses = [];
     this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
@@ -188,10 +189,5 @@ export class StudentHomePageComponent implements OnInit {
       }
       return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
     });
-  }
-
-  retryLoadingCourse(): void {
-    this.hasCoursesLoadingFailed = false;
-    this.loadStudentCourses();
   }
 }

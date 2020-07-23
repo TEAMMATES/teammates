@@ -57,6 +57,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads courses of current instructor.
    */
   loadCourses(): void {
+    this.hasLoadingFailed = false;
     this.isLoadingCourses = true;
     this.courseService.getAllCoursesAsInstructor('active')
         .pipe(finalize(() => this.isLoadingCourses = false))
@@ -100,6 +101,7 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads students of a specified course.
    */
   loadStudents(courseTab: CourseTab): void {
+    courseTab.hasLoadingFailed = false;
     courseTab.hasStudentLoaded = false;
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
         .pipe(finalize(() => courseTab.hasStudentLoaded = true))
@@ -240,21 +242,5 @@ export class InstructorStudentListPageComponent implements OnInit {
 
       return this.tableComparatorService.compare(by, order, strA, strB);
     };
-  }
-
-  /**
-   * Attempts to retry loading all the courses
-   */
-  retryLoadingCourses(): void {
-    this.hasLoadingFailed = false;
-    this.loadCourses();
-  }
-
-  /**
-   * Attempts to retry loading students in a course
-   */
-  retryLoadingStudentsInCourse(courseTab: CourseTab): void {
-    courseTab.hasLoadingFailed = false;
-    this.loadStudents(courseTab);
   }
 }

@@ -1,4 +1,4 @@
-<tm-loading-retry [shouldShowRetry]="hasLoadingStudentProfileFailed" [message]="'Failed to load profile'" (retryEvent)="retryLoadingStudentProfile()">
+<tm-loading-retry [shouldShowRetry]="hasLoadingStudentProfileFailed" [message]="'Failed to load profile'" (retryEvent)="loadStudentProfile()">
   <div *tmIsLoading="isLoadingStudentProfile" class="text-center text-sm-left">
     <h1>Student Profile</h1>
     <div *ngIf="student" class="card">
@@ -32,14 +32,14 @@
         </div>
         <form [formGroup]="editForm"
               (ngSubmit)="onSubmit()">
-          <div class="form-group" >
+          <div class="form-group">
             <label>The name you prefer to be called by instructors</label>
             <input
                 class="form-control"
                 id="studentshortname"
                 formControlName="studentshortname">
           </div>
-          <div class="form-group" >
+          <div class="form-group">
             <label>
               Long-term Contact Email
               <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em>
@@ -49,14 +49,14 @@
                 id="studentprofileemail"
                 formControlName="studentprofileemail">
           </div>
-          <div class="form-group" >
+          <div class="form-group">
             <label>Institute</label>
             <input
                 class="form-control"
                 id="studentprofileinstitute"
                 formControlName="studentprofileinstitute">
           </div>
-          <div class="form-group" >
+          <div class="form-group">
             <label>Nationality</label>
             <select
                 class="form-control"

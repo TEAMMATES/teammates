@@ -6,7 +6,7 @@
 </p>
 <hr/>
 
-<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="retryLoadingCourses()">
+<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="isLoadingCourses"></div>
   <ng-container>
     <div *ngFor="let courseTab of courseTabList">
@@ -31,7 +31,7 @@
         </div>
 
         <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
-          <tm-loading-retry [shouldShowRetry]="courseTab.hasLoadingFailed" [message]="'Failed to load students'" (retryEvent)="retryLoadingStudentsInCourse(courseTab)">
+          <tm-loading-retry [shouldShowRetry]="courseTab.hasLoadingFailed" [message]="'Failed to load students'" (retryEvent)="loadStudents(courseTab)">
             <div *tmIsLoading="!courseTab.hasStudentLoaded">
               <div *ngIf="!courseTab.hasLoadingFailed" class="card-body">
                 <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
@@ -67,13 +67,12 @@
                   <tm-student-list
                       [courseId]="courseTab.course.courseId"
                       [students]="courseTab.studentList"
-                [tableSortBy]="courseTab.studentSortBy"
-                [tableSortOrder]="courseTab.studentSortOrder"
-                [useGrayHeading]="false"
+                      [tableSortBy]="courseTab.studentSortBy"
+                      [tableSortOrder]="courseTab.studentSortOrder"
+                      [useGrayHeading]="false"
                       [enableRemindButton]="true"
                       (sortStudentListEvent)="sortStudentList(courseTab, $event)"
-                (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
-
+                      (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
                   </tm-student-list>
                 </ng-container>
               </div>

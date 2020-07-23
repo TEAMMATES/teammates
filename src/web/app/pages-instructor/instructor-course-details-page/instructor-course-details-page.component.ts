@@ -114,6 +114,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Loads the students in the course
    */
   private loadStudents(courseid: string): void {
+    this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
@@ -294,13 +295,5 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  /**
-   * Retry loading student list for the course
-   */
-  retryLoadingStudents(): void {
-    this.hasLoadingStudentsFailed = false;
-    this.loadStudents(this.courseDetails.course.courseId);
   }
 }

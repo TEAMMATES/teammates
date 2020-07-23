@@ -139,6 +139,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   loadFeedbackSessionResults(courseId: string, feedbackSessionName: string): void {
+    this.hasQuestionsLoadingFailed = false;
+    this.hasSectionsLoadingFailed = false;
+    this.hasFeedbackSessionLoadingFailed = false;
     this.isFeedbackSessionLoading = true;
     this.feedbackSessionsService.getFeedbackSession({
       courseId,
@@ -224,6 +227,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   loadNoResponseStudents(courseId: string, feedbackSessionName: string): void {
+    this.hasNoResponseLoadingFailed = false;
     // load no response students
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
       courseId,
@@ -505,17 +509,5 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.viewType = newViewType;
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
-  }
-
-  retryLoadingAllData(): void {
-    this.hasQuestionsLoadingFailed = false;
-    this.hasSectionsLoadingFailed = false;
-    this.hasFeedbackSessionLoadingFailed = false;
-    this.loadFeedbackSessionResults(this.courseId, this.fsName);
-  }
-
-  retryLoadingNoResponse(): void {
-    this.hasNoResponseLoadingFailed = false;
-    this.loadNoResponseStudents(this.courseId, this.fsName);
   }
 }

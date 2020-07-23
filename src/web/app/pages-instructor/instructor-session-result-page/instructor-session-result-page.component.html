@@ -1,7 +1,7 @@
 <h1>
   Feedback Session Results
 </h1>
-<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="retryLoadingAllData()">
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName)">
   <div *tmIsLoading="isFeedbackSessionLoading">
     <div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
       <div class="card-body row info-card-padding">
@@ -149,7 +149,7 @@
   </div>
 </tm-loading-retry>
 
-<tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="retryLoadingNoResponse()">
+<tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(courseId, fsName)">
   <div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
     <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
                                              [noResponseStudents]="noResponseStudents"

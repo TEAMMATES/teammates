@@ -83,6 +83,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Loads student details required for this page.
    */
   loadStudentEditDetails(courseId: string, studentEmail: string): void {
+    this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService.getStudent(
         courseId, studentEmail,
@@ -199,10 +200,5 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-  }
-
-  retryLoadingStudent(): void {
-    this.hasStudentLoadingFailed = false;
-    this.loadStudentEditDetails(this.courseId, this.studentEmail);
   }
 }
