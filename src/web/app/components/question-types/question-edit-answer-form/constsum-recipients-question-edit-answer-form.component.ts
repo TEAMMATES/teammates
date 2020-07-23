@@ -28,8 +28,8 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
    */
   triggerResponse(event: number): void {
     if (!event) {
-      // reset answer to empty array if user delete the answer
-      this.triggerResponseDetailsChange('answers', []);
+      // force zero value to prevent intentional zero responses from being labelled as a non response
+      this.triggerResponseDetailsChange('answers', [0]);
       return;
     }
 

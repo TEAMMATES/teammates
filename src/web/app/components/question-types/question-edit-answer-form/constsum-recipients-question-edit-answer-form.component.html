@@ -4,6 +4,6 @@
              [ngModel]="responseDetails.answers.length == 1 ? responseDetails.answers[0] : ''"
              (ngModelChange)="triggerResponse(Math.ceil($event))"
              [disabled]="isDisabled"
-             min="0" step="1">
+             min="0" step="1" placeholder="0">
   </div>
 </div>
