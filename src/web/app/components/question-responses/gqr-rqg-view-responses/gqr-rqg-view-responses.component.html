@@ -1,7 +1,7 @@
 <div *ngIf="groupByTeam">
   <div *ngFor="let teamInfo of teamsToUsers | keyvalue">
     <div class="card top-padded">
-      <div class="card-header bg-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
+      <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key }}
         <div class="float-right">
           <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
@@ -14,7 +14,7 @@
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
             <hr>
             <div class="card top-padded" *ngFor="let question of teamsToQuestions[teamInfo.key]">
-              <div class="card-header bg-info text-white">
+              <div class="card-header alert-primary">
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
                 ></tm-question-text-with-info>
@@ -73,7 +73,7 @@
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body top-padded-0">
         <div class="card top-padded" *ngFor="let question of responsesToShow[userInfo]">
-          <div class="card-header bg-info text-white cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
+          <div class="card-header alert-primary cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
             ></tm-question-text-with-info>

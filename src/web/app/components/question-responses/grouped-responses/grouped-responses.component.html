@@ -26,7 +26,7 @@
   <div class="col-md-9">
     <div *ngFor="let response of responses">
       <div class="card bottom-padded">
-        <div class="card-header bg-info text-white">
+        <div class="card-header alert-primary">
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
