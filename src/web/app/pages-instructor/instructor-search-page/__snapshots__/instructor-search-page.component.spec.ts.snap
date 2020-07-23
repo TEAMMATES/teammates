@@ -323,7 +323,9 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                       </th>
-                      <th>
+                      <th
+                        class="align-center"
+                      >
                         Action(s)
                       </th>
                     </tr>
@@ -333,9 +335,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <tr
                       s=""
                     >
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         <tm-view-photo-popover>
                           
                           
@@ -362,9 +362,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td>
                         tester
                       </td>
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         Joined
                       </td>
                       <td>
@@ -415,9 +413,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <tr
                       s=""
                     >
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         <tm-view-photo-popover>
                           
                           
@@ -444,9 +440,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td>
                         Benny Charles
                       </td>
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         Joined
                       </td>
                       <td>
@@ -497,9 +491,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <tr
                       s=""
                     >
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         <tm-view-photo-popover>
                           
                           
@@ -526,9 +518,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td>
                         Alice Betsy
                       </td>
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         Joined
                       </td>
                       <td>
@@ -579,9 +569,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                     <tr
                       s=""
                     >
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         <tm-view-photo-popover>
                           
                           
@@ -608,9 +596,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                       <td>
                         Danny Engrid
                       </td>
-                      <td
-                        class="align-center"
-                      >
+                      <td>
                         Joined
                       </td>
                       <td>

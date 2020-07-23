@@ -109,13 +109,11 @@
               <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
               <div ngbDropdownMenu>
                 <button class="btn btn-primary btn-sm dropdown-item clickable"
-                        ngbTooltip="View, edit and send invitation emails to the students in the course"
                         routerLink="/web/instructor/courses/details"
                         [queryParams]="{courseid: course.course.courseId}">
                   View
                 </button>
                 <button class="btn btn-primary btn-sm dropdown-item clickable"
-                        ngbTooltip="Edit Course information and instructor list"
                         routerLink="/web/instructor/courses/edit"
                         [queryParams]="{courseid: course.course.courseId}">
                   Edit
@@ -197,8 +195,8 @@
         <tr *ngFor="let course of archivedCourses; let i = index">
           <td id="archived-course-id-{{ i }}">{{course.course.courseId}}</td>
           <td>{{course.course.courseName}}</td>
-          <td container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">
-            {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+          <td>
+            <span  container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
           <td class="text-center">
             <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">

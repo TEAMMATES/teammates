@@ -8,26 +8,26 @@
       </div>
       <div class="col-11 offset-1 margin-top-10px">
         <div class="form-check">
-          <label class="form-check-label" ngbTooltip="Respondents will have to distribute the total points specified here among the options, e.g. if you specify 100 points here and there are 3 options, respondents will have to distribute 100 points among 3 options.">
+          <label class="form-check-label">
             <input class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
                    (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
             <input type="number" class="form-control" min="1" step="1"
                    [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption">
-            <b>in total</b>
+            <b ngbTooltip="Respondents will have to distribute the total points specified here among the options, e.g. if you specify 100 points here and there are 3 options, respondents will have to distribute 100 points among 3 options.">in total</b>
           </label>
         </div>
         <div class="form-check">
-          <label class="form-check-label" ngbTooltip="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">
+          <label class="form-check-label">
             <input class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
                    (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
             <input type="number" class="form-control" min="1" step="1"
                    [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption">
-            <b>X (number of options)</b>
+            <b ngbTooltip="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">X (number of options)</b>
           </label>
         </div>
       </div>
       <div class="col-12 padding-left-33px margin-top-10px">
-        <label class="form-check-label" ngbTooltip="This determines whether a giver can distribute the same number of points to multiple recipients">
+        <label class="form-check-label">
           <input class="form-check-input" type="checkbox"
                  [ngModel]="model.forceUnevenDistribution"
                  (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
@@ -41,7 +41,7 @@
               At least some options
             </option>
           </select>
-          <b>to receive a different number of points</b>
+          <b ngbTooltip="This determines whether a giver can distribute the same number of points to multiple recipients">to receive a different number of points</b>
         </label>
       </div>
     </div>

@@ -253,7 +253,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -261,7 +260,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -361,7 +359,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -369,7 +366,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -707,7 +703,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -715,7 +710,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -815,7 +809,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -823,7 +816,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -1240,7 +1232,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -1248,7 +1239,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
@@ -1365,7 +1355,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   >
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="View, edit and send invitation emails to the students in the course"
                       routerlink="/web/instructor/courses/details"
                       tabindex="0"
                     >
@@ -1373,7 +1362,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     </button>
                     <button
                       class="btn btn-primary btn-sm dropdown-item clickable"
-                      ngbtooltip="Edit Course information and instructor list"
                       routerlink="/web/instructor/courses/edit"
                       tabindex="0"
                     >
