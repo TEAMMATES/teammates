@@ -97,7 +97,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             >
               <button
                 class="btn btn-primary upload-edit-photo"
-                ngbtooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
+                ngbtooltip=".jpg or .png, max size 5 MB"
               >
                  Upload/Edit Photo 
               </button>
@@ -105,7 +105,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               <button
                 class="btn btn-danger"
                 id="profile-delete-photo"
-                ngbtooltip="Delete your profile picture"
               >
                  Delete Photo 
               </button>
@@ -117,7 +116,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
           >
             <div
               class="form-group"
-              ngbtooltip="This is the name you prefer to be called by"
             >
               <label>
                 The name you prefer to be called by instructors
@@ -130,7 +128,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             </div>
             <div
               class="form-group"
-              ngbtooltip="This is a long term contact email"
             >
               <label>
                  Long-term Contact Email 
@@ -148,7 +145,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             </div>
             <div
               class="form-group"
-              ngbtooltip="This is the institution that you represent"
             >
               <label>
                 Institute
@@ -161,7 +157,6 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             </div>
             <div
               class="form-group"
-              ngbtooltip="This is your nationality"
             >
               <label>
                 Nationality
@@ -226,10 +221,11 @@ exports[`StudentProfilePageComponent should snap with a student field without in
             </div>
             <div
               class="form-group"
-              ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
             >
-              <label>
-                More Information about Yourself
+              <label
+                ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
+              >
+                 More Information about Yourself
               </label>
               <textarea
                 class="form-control ng-untouched ng-pristine ng-valid"
@@ -366,7 +362,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             >
               <button
                 class="btn btn-primary upload-edit-photo"
-                ngbtooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
+                ngbtooltip=".jpg or .png, max size 5 MB"
               >
                  Upload/Edit Photo 
               </button>
@@ -374,7 +370,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               <button
                 class="btn btn-danger"
                 id="profile-delete-photo"
-                ngbtooltip="Delete your profile picture"
               >
                  Delete Photo 
               </button>
@@ -386,7 +381,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
           >
             <div
               class="form-group"
-              ngbtooltip="This is the name you prefer to be called by"
             >
               <label>
                 The name you prefer to be called by instructors
@@ -399,7 +393,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             </div>
             <div
               class="form-group"
-              ngbtooltip="This is a long term contact email"
             >
               <label>
                  Long-term Contact Email 
@@ -417,7 +410,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             </div>
             <div
               class="form-group"
-              ngbtooltip="This is the institution that you represent"
             >
               <label>
                 Institute
@@ -430,7 +422,6 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             </div>
             <div
               class="form-group"
-              ngbtooltip="This is your nationality"
             >
               <label>
                 Nationality
@@ -505,10 +496,11 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
             </div>
             <div
               class="form-group"
-              ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
             >
-              <label>
-                More Information about Yourself
+              <label
+                ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
+              >
+                 More Information about Yourself
               </label>
               <textarea
                 class="form-control ng-untouched ng-pristine ng-valid"

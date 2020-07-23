@@ -7,6 +7,7 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { Course, Courses, InstructorPrivilege, Student, Students } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -18,6 +19,8 @@ interface StudentIndexedData {
 interface CourseTab {
   course: Course;
   studentList: StudentListRowModel[];
+  studentSortBy: SortBy;
+  studentSortOrder: SortOrder;
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
   hasLoadingFailed: boolean;
@@ -62,6 +65,8 @@ export class InstructorStudentListPageComponent implements OnInit {
             const courseTab: CourseTab = {
               course,
               studentList: [],
+              studentSortBy: SortBy.NONE,
+              studentSortOrder: SortOrder.ASC,
               hasTabExpanded: false,
               hasStudentLoaded: false,
               hasLoadingFailed: false,
@@ -141,6 +146,7 @@ export class InstructorStudentListPageComponent implements OnInit {
           });
 
           courseTab.studentList.push(...students);
+          courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
         }, (resp: ErrorMessageOutput) => {
           courseTab.hasLoadingFailed = true;
           courseTab.studentList = [];
@@ -176,6 +182,64 @@ export class InstructorStudentListPageComponent implements OnInit {
       return this.tableComparatorService
           .compare(SortBy.COURSE_ID, SortOrder.ASC, a.course.courseId, b.course.courseId);
     });
+  }
+
+  /**
+   * Sorts the student list.
+   */
+  sortStudentList(courseTab: CourseTab, by: SortBy): void {
+    courseTab.studentSortBy = by;
+    courseTab.studentSortOrder =
+      courseTab.studentSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    courseTab.studentList.sort(this.sortStudentBy(by, courseTab.studentSortOrder));
+  }
+
+  /**
+   * Returns a function to determine the order of sort for students.
+   */
+  sortStudentBy(by: SortBy, order: SortOrder):
+      ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
+    if (by === SortBy.NONE) {
+      // Default order: section name > team name > student name
+      return ((a: StudentListRowModel, b: StudentListRowModel): number => {
+        return this.tableComparatorService
+            .compare(SortBy.SECTION_NAME, order, a.student.sectionName, b.student.sectionName)
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName)
+          || this.tableComparatorService.compare(SortBy.STUDENT_NAME, order, a.student.name, b.student.name);
+      });
+    }
+    return (a: StudentListRowModel, b: StudentListRowModel): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.SECTION_NAME:
+          strA = a.student.sectionName;
+          strB = b.student.sectionName;
+          break;
+        case SortBy.STUDENT_NAME:
+          strA = a.student.name;
+          strB = b.student.name;
+          break;
+        case SortBy.TEAM_NAME:
+          strA = a.student.teamName;
+          strB = b.student.teamName;
+          break;
+        case SortBy.EMAIL:
+          strA = a.student.email;
+          strB = b.student.email;
+          break;
+        case SortBy.JOIN_STATUS:
+          strA = joinStatePipe.transform(a.student.joinState);
+          strB = joinStatePipe.transform(b.student.joinState);
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    };
   }
 
   /**

@@ -124,7 +124,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           <a
             class="btn btn-light btn-sm button"
             href="/web/student/course?courseid=CS2103"
-            ngbtooltip="View and edit information regarding your team"
             routerlink="/web/student/course"
           >
              View team 
@@ -186,7 +185,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
-                  ngbtooltip="View the submitted responses for this feedback session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
@@ -203,12 +201,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
-                  ngbtooltip="Edit submitted feedback"
                   routerlink="/web/student/sessions/submission"
                 >
                    Edit Submission 
                 </a>
-                
                 
               </td>
             </tr>
@@ -239,7 +235,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm disabled"
                   href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
-                  ngbtooltip="View the submitted responses for this feedback session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
@@ -250,12 +245,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
-                  ngbtooltip="Start submitting feedback"
                   routerlink="/web/student/sessions/submission"
                 >
                    Start Submission 
                 </a>
-                
                 
                 
               </td>
@@ -282,7 +275,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           <a
             class="btn btn-light btn-sm button"
             href="/web/student/course?courseid=CS2102"
-            ngbtooltip="View and edit information regarding your team"
             routerlink="/web/student/course"
           >
              View team 
@@ -344,7 +336,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm disabled"
                   href="/web/student/sessions/result?courseid=CS2102&fsname=Third%20Session"
-                  ngbtooltip="View the submitted responses for this feedback session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
@@ -356,12 +347,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2102&fsname=Third%20Session"
-                  ngbtooltip="Edit submitted feedback"
                   routerlink="/web/student/sessions/submission"
                 >
                    Edit Submission 
                 </a>
-                
                 
               </td>
             </tr>
@@ -392,7 +381,6 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm disabled"
                   href="/web/student/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
-                  ngbtooltip="View the submitted responses for this feedback session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
@@ -405,12 +393,10 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
-                  ngbtooltip="View submitted feedback"
                   routerlink="/web/student/sessions/submission"
                 >
                    View Submission 
                 </a>
-                
               </td>
             </tr>
           </tbody>
@@ -550,7 +536,6 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           <a
             class="btn btn-light btn-sm button"
             href="/web/student/course?courseid=CS3281"
-            ngbtooltip="View and edit information regarding your team"
             routerlink="/web/student/course"
           >
              View team 

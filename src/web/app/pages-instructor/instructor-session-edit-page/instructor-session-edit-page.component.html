@@ -57,17 +57,17 @@
       <div class="col-lg-2 text-lg-right">
         <b>Preview Session:</b>
       </div>
-      <div class="col-lg-5" ngbTooltip="View how this session would look like to a student who is submitting feedback. Preview is unavailable if the course has yet to have any student enrolled.">
+      <div class="col-lg-5">
         <select class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
           <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
         </select>
-        <button class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0" (click)="previewAsStudent()">Preview as Student</button>
+        <button class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0" (click)="previewAsStudent()" [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how this session would look like to a student who is submitting feedback.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">Preview as Student</button>
       </div>
-      <div class="col-lg-5" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
+      <div class="col-lg-5">
         <select class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
           <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
         </select>
-        <button class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0" (click)="previewAsInstructor()">Preview as Instructor</button>
+        <button class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0" (click)="previewAsInstructor()" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">Preview as Instructor</button>
       </div>
     </div>
   </div>

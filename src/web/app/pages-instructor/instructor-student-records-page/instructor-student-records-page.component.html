@@ -18,7 +18,7 @@
                                    [responses]="session.responsesReceivedByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                    [isGrq]="false" [instructorCommentTableModel]="instructorCommentTableModel"
                                    (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
-        ></tm-grq-rgq-view-responses>
+        [isExpandAll]="true"></tm-grq-rgq-view-responses>
         <div *ngIf="session.responsesReceivedByStudent.length === 0">
           No feedback responses for {{studentName}} ({{studentTeam}}) found.
         </div>
@@ -27,7 +27,7 @@
                                    [session]="session.feedbackSession"
                                    [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""
                                    [isGrq]="true" [instructorCommentTableModel]="instructorCommentTableModel"
-                                   (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
+                                   (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"[isExpandAll]="true"
         ></tm-grq-rgq-view-responses>
         <div *ngIf="session.responsesGivenByStudent.length === 0">
           No feedback responses from {{studentName}} ({{studentTeam}}) found.

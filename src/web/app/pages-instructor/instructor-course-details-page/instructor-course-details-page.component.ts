@@ -135,6 +135,10 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
         this.loadPrivilege(courseid, key, data);
       });
+
+      if (!sections.length) {
+        this.isStudentsLoading = false;
+      }
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
       this.isStudentsLoading = false;

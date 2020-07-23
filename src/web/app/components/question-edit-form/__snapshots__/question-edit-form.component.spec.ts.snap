@@ -65,7 +65,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             
             <button
               class="btn btn-primary btn-sm"
-              ngbtooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."
               type="button"
             >
               <i
@@ -73,7 +72,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               />
                Edit
             </button>
-            
             
             
             <button
@@ -137,7 +135,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <textarea
                     class="form-control ng-untouched ng-pristine ng-valid"
                     disabled=""
-                    ngbtooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                     placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
                   />
                 </div>
@@ -161,7 +158,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 >
                   <tm-rich-text-editor
                     minheightinpx="100"
-                    ngbtooltip="Please enter the description of the question."
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
                     <editor

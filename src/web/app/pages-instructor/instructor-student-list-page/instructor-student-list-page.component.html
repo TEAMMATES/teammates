@@ -66,9 +66,14 @@
                   <br/><br/>
                   <tm-student-list
                       [courseId]="courseTab.course.courseId"
-                      [students]="courseTab.studentList" [useGrayHeading]="false"
+                      [students]="courseTab.studentList"
+                [tableSortBy]="courseTab.studentSortBy"
+                [tableSortOrder]="courseTab.studentSortOrder"
+                [useGrayHeading]="false"
                       [enableRemindButton]="true"
-                      (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+                      (sortStudentListEvent)="sortStudentList(courseTab, $event)"
+                (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+
                   </tm-student-list>
                 </ng-container>
               </div>

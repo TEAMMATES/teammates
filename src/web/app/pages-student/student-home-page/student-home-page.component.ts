@@ -83,6 +83,9 @@ export class StudentHomePageComponent implements OnInit {
     this.isCoursesLoading = true;
     this.courses = [];
     this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
+      if (!resp.courses.length) {
+        this.isCoursesLoading = false;
+      }
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
           .pipe(finalize(() => this.isCoursesLoading = false))
