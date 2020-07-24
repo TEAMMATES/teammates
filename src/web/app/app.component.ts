@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { MasqueradeModeService } from '../services/masquerade-mode.service';
@@ -13,7 +14,10 @@ import { MasqueradeModeService } from '../services/masquerade-mode.service';
 })
 export class AppComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute,
-              private masqueradeModeService: MasqueradeModeService) {}
+              private masqueradeModeService: MasqueradeModeService, tooltipConfig: NgbTooltipConfig) {
+    tooltipConfig.openDelay = 400;
+    tooltipConfig.closeDelay = 100;
+  }
 
   ngOnInit(): void {
     // sync the URL param `user` with the masqueraded userID in the service

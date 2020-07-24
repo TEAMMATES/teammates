@@ -50,7 +50,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-id"
             maxlength="40"
-            ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
@@ -71,7 +70,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
-            ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
           />
@@ -94,7 +92,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ngbtooltip="The time zone for the course. You should not
+              ngbtooltip="You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
@@ -188,7 +186,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-id"
             maxlength="40"
-            ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
@@ -209,7 +206,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
-            ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
           />
@@ -232,7 +228,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ngbtooltip="The time zone for the course. You should not
+              ngbtooltip="You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >

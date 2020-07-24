@@ -86,7 +86,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetails()),
                 JsonUtils.toJson(response.getQuestionDetails()));
         assertEquals(800, ((FeedbackTextQuestionDetails)
-                typicalQuestion.getQuestionDetails()).getRecommendedLength());
+                typicalQuestion.getQuestionDetails()).getRecommendedLength().intValue());
 
         assertEquals(typicalQuestion.getGiverType(), typicalQuestion.getGiverType());
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -297,8 +297,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
 
         // recommended length does not change
-        assertEquals(0, ((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetails())
-                .getRecommendedLength());
+        assertNull(((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetails()).getRecommendedLength());
     }
 
     @Test
