@@ -4,8 +4,8 @@
     <i class="fas fa-chevron-down" *ngIf="!isTabExpanded"></i>
     <i class="fas fa-chevron-up" *ngIf="isTabExpanded"></i>
   </div>
-  <div class="float-right" style='padding-right: 15px; margin: -5px; padding-top: 2px;'>
-      <button class="btn btn-light btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();">
+  <div class="float-right">
+      <button class="btn btn-light btn-sm btn-margin-right" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();">
           Remind All
       </button>
   </div>

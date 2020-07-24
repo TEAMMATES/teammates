@@ -109,7 +109,7 @@
               Enroll
             </button>
             <div ngbDropdown class="d-inline-block">
-              <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
+              <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
               <div ngbDropdownMenu>
                 <button class="btn btn-primary btn-sm dropdown-item clickable"
                         routerLink="/web/instructor/courses/details"
@@ -295,13 +295,12 @@
                 <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
                   Restore
                 </button>
-                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" style="color: red;"
+                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger" *ngIf="course.canModifyCourse"
                         (click)="onDeletePermanently(course.course.courseId)"
                         ngbTooltip="Permanently delete the course and its corresponding students and sessions">
                   Delete Permanently
                 </button>
-                <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse"
-                        style="color: red;">
+                <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
                   Delete Permanently
                 </button>
               </td>

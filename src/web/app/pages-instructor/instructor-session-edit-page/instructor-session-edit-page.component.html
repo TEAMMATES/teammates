@@ -36,8 +36,8 @@
       </div>
     </div>
     <button type="button" class="btn btn-link" (click)="questionsHelpHandler()"><i class="fas fa-info-circle"></i></button>
-    <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>&nbsp;
-    <button class="btn btn-primary" (click)="doneEditingHandler()">Done Editing</button>
+    <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
+    <button class="btn btn-primary btn-margin-left" (click)="doneEditingHandler()">Done Editing</button>
   </div>
 </div>
 <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"

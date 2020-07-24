@@ -61,7 +61,7 @@
         [{{ userToEmail[userInfo] }}]
       </a>
       <div class="float-right">
-        <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
+        <tm-response-moderation-button class="btn-margin-right" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
                                        [relatedGiverEmail]="userToRelatedEmail[userInfo]"
                                        [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
         <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>

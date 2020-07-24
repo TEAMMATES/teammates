@@ -45,16 +45,16 @@
       <div *ngIf="students.length > 0">
         <div class="form-group">
           <div class="text-center">
-            <button type="button" class="btn btn-primary mb-2" (click)="openRemindStudentModal()" value="Remind Students to Join">
+            <button type="button" class="btn btn-primary" (click)="openRemindStudentModal()" value="Remind Students to Join">
               <i class="fa fa-envelope"></i>
               Remind Students to Join
             </button>
-            <button type="button" class="btn btn-primary mb-2" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
+            <button type="button" class="btn btn-primary btn-margin-left" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
               <i *ngIf="!isLoadingCsv" class="fa fa-download"></i>
               <tm-ajax-loading *ngIf="isLoadingCsv"></tm-ajax-loading>
               Download Student List
             </button>
-            <button type="button" class="btn btn-danger mb-2" (click)="openDeleteAllStudentsModal()" value="Delete All Students">
+            <button type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsModal()" value="Delete All Students">
               <i class="fa fa-trash"></i>
               Delete All Students
             </button>

@@ -11,7 +11,7 @@
 }
 
 .question-header button {
-  margin-left: 10px;
+  margin-left: var(--btn-margin);
 }
 
 .background-color-light-blue {
@@ -33,10 +33,6 @@
 
 .margin-top-15px {
   margin-top: 15px;
-}
-
-.margin-right-5px {
-  margin-right: 5px;
 }
 
 .visibility-title,

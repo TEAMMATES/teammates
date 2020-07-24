@@ -29,7 +29,7 @@
             <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
           <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-primary" (click)="onAutoDetectTimezone()" [disabled]="isAddingCourse">Auto Detect</button>
+            <button class="btn btn-primary btn-margin-left" (click)="onAutoDetectTimezone()" [disabled]="isAddingCourse">Auto Detect</button>
           </span>
         </div>
       </div>
