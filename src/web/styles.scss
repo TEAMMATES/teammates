@@ -142,3 +142,11 @@ ul {
 .editor.editor-disabled {
   cursor: not-allowed;
 }
+
+.btn-light {
+  border: 1px solid #DDD;
+
+  &[disabled] {
+    border: 1px solid #EEE;
+  }
+}

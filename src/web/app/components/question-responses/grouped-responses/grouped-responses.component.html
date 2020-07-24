@@ -37,7 +37,7 @@
                     [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
             <button (click)="toggleAddComment(response.allResponses[0].responseId)"
                     *ngIf="response.feedbackQuestion.questionType !== 'CONTRIB'"
-                    ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm comment-button">
+                    ngbTooltip="Add comment" type="button" class="btn btn-light btn-sm comment-button">
               <i class="fas fa-comment"></i>
             </button>
           </div>
