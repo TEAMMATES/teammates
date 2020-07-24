@@ -103,6 +103,34 @@ GAE server sends such automated requests through two different configurations:
 
 - Since the high-level workflow of processing a request is same for any request (differing by the two request types only), we use the [Template Method pattern](http://en.wikipedia.org/wiki/Template_method_pattern) to abstract the process flow into the `Action` and `AutomatedAction` classes.
 
+### Policies
+
+On designing API endpoints (for AJAX requests):
+
+- Design endpoints for resources. For example, `FeedbackSession` is a resource. The corresponding endpoint is `/session`. We use `GET`, `POST`, `PUT`, `DELETE` HTTP methods to get, create, update and delete the resource respectively.
+- Prefer multiple REST calls over single RPC (Remote Procedure Call) calls.
+  - Reason 1: REST paradigm promotes reuse of many business logic and is not dependent of the structure of the requesting web page (or any other type of requesting agent).
+  - Reason 2: Multiple REST calls can be parallelized which will improve performance.
+- Separate access control logic and execution logic completely.
+  - In the case that an endpoint serves multiple purposes, we use `Intent` to distinguish the intent for the request. For example, instructors can access `/session` with intent `INSTRUCTOR_SUBMISSION` or `FULL_DETAIL`. Some `Intent` will naturally require stricter access rights.
+- Prefer HTTP request body over URL parameters (key-value) to contain data for `POST` and `PUT` requests.
+  - Reason 1: The URL parameters are used to identify a specific resource for an endpoint, not what should be done to them.
+  - Reason 2: Request body is not limited to key-value format which allows proper design and validation.
+  - Data Transfer Objects (DTOs) which represent different API requests and responses are defined in `request` and `output` package respectively.
+- Preprocess data sent/received by the server to hide complexities. For example, timestamp is passed as UNIX epoch milliseconds in the output while it is represented as `Instant` in the back-end.
+  - Some constructors in the `output` package contain logic to hide "hacks" in the backend.
+  - Some getters/setters in the `request` package contain logic to cater the conventions in the backend.
+  - Some fields are required be hidden in the API response, mostly for data privacy purposes. Whenever required, there should be methods in the request output objects catered for this.
+- API endpoints should not be concerned with how data is presented.
+  - Case study 1: some endpoint will pass timezone information via two information: timezone ID and UNIX epoch milliseconds. It is up to the front-end on how to make use of those two pieces of information.
+  - Case study 2: CSV file for session result or student list is just a different way of presenting the same information in the web page. Due to this, when downloding CSV, the web page will request the same information as that used when displaying in web page and do the necessary conversion to CSV.
+
+On data exchange between front-end and back-end:
+
+- Back-end is the single source of truth for all data format and the code used by front-end is generated from this.
+  - The endpoint information is synced to `api-endpoints.ts`.
+  - The schemas of the DTOs defined in `output` and `request` packages are synced to `api-output.ts` and `api-request.ts` in the frontend.
+
 ## Logic Component
 
 The `Logic` component handles the business logic of TEAMMATES. In particular, it is responsible for:
