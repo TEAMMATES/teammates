@@ -1,15 +1,18 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { FormValidator } from '../../../types/form-validator';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 /**
  * Instructor course student edit page.
@@ -21,24 +24,26 @@ import { FormValidator } from '../../../types/form-validator';
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
+  FormValidator: typeof FormValidator = FormValidator; // enum
+
   @Input() isEnabled: boolean = true;
   courseId: string = '';
   student!: Student;
 
   isTeamnameFieldChanged: boolean = false;
   isEmailFieldChanged: boolean = false;
+  isStudentLoading: boolean = false;
 
   editForm!: FormGroup;
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
 
-  FormValidator: typeof FormValidator = FormValidator; // enum
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private statusMessageService: StatusMessageService,
               private studentService: StudentService,
-              private ngbModal: NgbModal) { }
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     if (!this.isEnabled) {
@@ -75,7 +80,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Loads student details required for this page.
    */
   loadStudentEditDetails(courseId: string, studentEmail: string): void {
-    this.studentService.getStudent(courseId, studentEmail).subscribe((student: Student) => {
+    this.isStudentLoading = true;
+    this.studentService.getStudent(
+        courseId, studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
       this.student = student;
       this.initEditForm();
     }, (resp: ErrorMessageOutput) => {
@@ -128,13 +136,19 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Handles logic related to showing the appropriate modal boxes
    * upon submission of the form. Submits the form otherwise.
    */
-  onSubmit(confirmDelModal: any, resendPastLinksModal: any): void {
+  onSubmit(resendPastLinksModal: any): void {
     if (!this.isEnabled) {
       return;
     }
 
     if (this.isTeamnameFieldChanged) {
-      this.ngbModal.open(confirmDelModal);
+      const modalContent: string = `Editing these fields will result in some existing responses from this student to be deleted.
+            You may download the data before you make the changes.`;
+      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+          'Delete existing responses?', SimpleModalType.WARNING, modalContent);
+      modalRef.result.then(() => {
+        this.deleteExistingResponses(resendPastLinksModal);
+      }, () => {});
     } else if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {

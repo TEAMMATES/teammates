@@ -56,13 +56,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testGetInstructorsForGoogleId();
         testGetInstructorForRegistrationKey();
         testGetInstructorsForCourse();
-        testGetKeyForInstructor();
-        testIsGoogleIdOfInstructorOfCourse();
-        testIsEmailOfInstructorOfCourse();
-        testVerifyInstructorExists();
-        testVerifyIsEmailOfInstructorOfCourse();
         testVerifyAtLeastOneInstructorIsDisplayed();
-        testIsNewInstructor();
         testAddInstructor();
         testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleIdCascade();
@@ -269,137 +263,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
-    private void testGetKeyForInstructor() throws Exception {
-
-        ______TS("success: get encrypted key for instructor");
-
-        String courseId = "idOfSampleCourse-demo";
-        String email = "instructorNotYetJoined@email.tmt";
-
-        InstructorAttributes instructor = instructorsDb.getInstructorForEmail(courseId, email);
-
-        String key = instructorsLogic.getEncryptedKeyForInstructor(instructor.courseId, instructor.email);
-        String expected = StringHelper.encrypt(instructor.key);
-        assertEquals(expected, key);
-
-        ______TS("failure: non-existent instructor");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.getEncryptedKeyForInstructor(courseId, "non-existent@email.tmt"));
-        assertEquals("Instructor non-existent@email.tmt does not belong to course " + courseId,
-                ednee.getMessage());
-
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.getEncryptedKeyForInstructor(courseId, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-        ae = assertThrows(AssertionError.class, () -> instructorsLogic.getEncryptedKeyForInstructor(null, email));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-    }
-
-    private void testIsGoogleIdOfInstructorOfCourse() {
-
-        ______TS("success: is an instructor of a given course");
-
-        String instructorId = "idOfInstructor1OfCourse1";
-
-        boolean result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, "idOfTypicalCourse1");
-
-        assertTrue(result);
-
-        ______TS("failure: not an instructor of a given course");
-
-        String courseId = "idOfTypicalCourse2";
-
-        result = instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, courseId);
-
-        assertFalse(result);
-
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.isGoogleIdOfInstructorOfCourse(null, courseId));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-        ae = assertThrows(AssertionError.class, () -> instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorId, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-    }
-
-    private void testIsEmailOfInstructorOfCourse() {
-
-        ______TS("success: is an instructor of a given course");
-
-        String instructorEmail = "instructor1@course1.tmt";
-
-        boolean result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, "idOfTypicalCourse1");
-
-        assertTrue(result);
-
-        ______TS("failure: not an instructor of a given course");
-
-        String courseId = "idOfTypicalCourse2";
-
-        result = instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, courseId);
-
-        assertFalse(result);
-
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.isEmailOfInstructorOfCourse(instructorEmail, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-        ae = assertThrows(AssertionError.class, () -> instructorsLogic.isEmailOfInstructorOfCourse(null, courseId));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-    }
-
-    private void testVerifyInstructorExists() throws Exception {
-
-        ______TS("success: instructor does exist");
-
-        instructorsLogic.verifyInstructorExists("idOfInstructor1OfCourse1");
-
-        ______TS("failure: instructor doesn't exist");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.verifyInstructorExists("nonExistingInstructor"));
-        AssertHelper.assertContains("Instructor does not exist", ednee.getMessage());
-
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.verifyInstructorExists(null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-    }
-
-    private void testVerifyIsEmailOfInstructorOfCourse() throws Exception {
-
-        ______TS("success: instructor belongs to course");
-
-        String courseId = "idOfTypicalCourse1";
-        instructorsLogic.verifyIsEmailOfInstructorOfCourse("instructor1@course1.tmt", courseId);
-
-        ______TS("failure: instructor doesn't belong to course");
-        String instructorEmail = "nonExistingInstructor@email.tmt";
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, courseId));
-        assertEquals("Instructor " + instructorEmail + " does not belong to course " + courseId,
-                ednee.getMessage());
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.verifyIsEmailOfInstructorOfCourse(null, courseId));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
-        ae = assertThrows(AssertionError.class,
-                () -> instructorsLogic.verifyIsEmailOfInstructorOfCourse(instructorEmail, null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-    }
-
     private void testVerifyAtLeastOneInstructorIsDisplayed() throws Exception {
 
         ______TS("success: at least one instructor is displayed to students");
@@ -429,35 +292,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(null,
                         true, true));
         AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-    }
-
-    private void testIsNewInstructor() {
-
-        ______TS("success: instructor with only 1 sample course");
-
-        String instructorId = "idOfInstructorWithOnlyOneSampleCourse";
-        assertTrue(instructorsLogic.isNewInstructor(instructorId));
-
-        ______TS("success: instructor without any course");
-
-        instructorId = "instructorWithoutCourses";
-        assertTrue(instructorsLogic.isNewInstructor(instructorId));
-
-        ______TS("failure: instructor with only 1 course, but not a sample course");
-
-        instructorId = "idOfInstructor4";
-        assertFalse(instructorsLogic.isNewInstructor(instructorId));
-
-        ______TS("failure: instructor is not new user");
-
-        instructorId = "idOfInstructor1OfCourse1";
-        assertFalse(instructorsLogic.isNewInstructor(instructorId));
-
-        ______TS("failure: null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.isNewInstructor(null));
-        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
-
     }
 
     @Test

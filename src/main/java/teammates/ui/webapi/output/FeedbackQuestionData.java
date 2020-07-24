@@ -1,5 +1,6 @@
 package teammates.ui.webapi.output;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,8 +8,11 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
@@ -175,5 +179,21 @@ public class FeedbackQuestionData extends ApiOutput {
 
     public List<FeedbackVisibilityType> getShowRecipientNameTo() {
         return showRecipientNameTo;
+    }
+
+    /**
+     * Hides some attributes to a student.
+     */
+    public void hideInformationForStudent() {
+        if (questionDetails instanceof FeedbackMcqQuestionDetails) {
+            ((FeedbackMcqQuestionDetails) questionDetails).setMcqWeights(Collections.emptyList());
+            ((FeedbackMcqQuestionDetails) questionDetails).setMcqOtherWeight(0);
+        } else if (questionDetails instanceof FeedbackMsqQuestionDetails) {
+            ((FeedbackMsqQuestionDetails) questionDetails).setMsqWeights(Collections.emptyList());
+            ((FeedbackMsqQuestionDetails) questionDetails).setMsqOtherWeight(0);
+        } else if (questionDetails instanceof FeedbackRubricQuestionDetails) {
+            ((FeedbackRubricQuestionDetails) questionDetails)
+                    .setRubricWeightsForEachCell(Collections.singletonList(Collections.emptyList()));
+        }
     }
 }

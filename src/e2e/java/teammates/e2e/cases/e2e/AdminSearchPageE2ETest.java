@@ -12,9 +12,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AdminSearchPage;
-import teammates.e2e.pageobjects.AppPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -32,8 +30,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @Test
     public void allTests() {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
-        loginAdminToPage(url, AdminHomePage.class);
-        searchPage = AppPage.getNewPageInstance(browser, url, AdminSearchPage.class);
+        searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
         searchPage.waitForPageToLoad();
         StudentAttributes student = testData.students.get("student1InCourse1");
@@ -129,7 +126,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedStudentManageAccountLink(StudentAttributes student) {
         return student.isRegistered() ? createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId(student.googleId)
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.googleId)
                 .toAbsoluteString()
                 : "";
     }
@@ -196,7 +193,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
         String googleId = instructor.isRegistered() ? instructor.googleId : "";
         return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId(googleId)
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
     }
 

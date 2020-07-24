@@ -1,26 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+exports[`InstructorCourseDetailsPageComponent should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv={[Function String]}
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
-  isAjaxSuccess={[Function Boolean]}
-  loading={[Function Boolean]}
+  isLoadingCsv="false"
+  isStudentsLoading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
 >
-  <div
-    class="text-center"
-  >
+  <tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-instructor-course-details-page>
+`;
+
+exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+<tm-instructor-course-details-page
+  courseDetails={[Function Object]}
+  courseService={[Function CourseService]}
+  instructorService={[Function InstructorService]}
+  instructors={[Function Array]}
+  isLoadingCsv="false"
+  isStudentsLoading="false"
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div>
     <h1>
       Course Details
     </h1>
@@ -162,34 +194,28 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
        to enroll students. 
     </div>
     
-    
-    
-    
   </div>
 </tm-instructor-course-details-page>
 `;
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
-  isAjaxSuccess="false"
-  loading="false"
+  isLoadingCsv="false"
+  isStudentsLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
 >
-  <div
-    class="text-center"
-  >
+  <div>
     <h1>
       Course Details
     </h1>
@@ -333,9 +359,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 class="btn btn-primary mb-2"
                 type="button"
               >
+                
                 <i
                   class="fa fa-download"
                 />
+                
                  Download Student List 
               </button>
               <button
@@ -348,16 +376,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 />
                  Delete All Students 
               </button>
-              <div>
-                <span>
-                  Non-English characters not displayed properly in the downloaded file? 
-                  <span
-                    class="btn-link"
-                  >
-                     Click here. 
-                  </span>
-                </span>
-              </div>
             </div>
           </div>
         </div>
@@ -447,7 +465,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   
                   
                 </th>
-                <th>
+                <th
+                  class="align-center"
+                >
                   Action(s)
                 </th>
               </tr>
@@ -457,9 +477,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               <tr
                 s=""
               >
-                <td
-                  class="align-center"
-                >
+                <td>
                   <tm-view-photo-popover>
                     
                     
@@ -486,9 +504,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 <td>
                   Jamie
                 </td>
-                <td
-                  class="align-center"
-                >
+                <td>
                   Yet to Join
                 </td>
                 <td>
@@ -529,13 +545,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </button>
                   
                   
-                  
                   <button
                     class="btn btn-light btn-sm mr-2"
                   >
                     Delete
                   </button>
-                  
                   
                   <a
                     class="btn btn-light btn-sm mr-2"
@@ -554,175 +568,41 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       </tm-student-list>
     </div>
     
-    
-    
-    
   </div>
 </tm-instructor-course-details-page>
 `;
 
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
-  isAjaxSuccess={[Function Boolean]}
-  loading="false"
+  isLoadingCsv="false"
+  isStudentsLoading={[Function Boolean]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   students={[Function Array]}
 >
-  <div
-    class="text-center"
-  >
-    <h1>
-      Course Details
-    </h1>
+  <tm-loading-spinner>
     <div
-      class="card"
+      class="loading-container"
     >
       <div
-        class="card-body fill-plain"
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
       >
-        <div
-          class="form"
-        >
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-sm-right"
-            >
-              Course ID:
-            </label>
-            <div
-              class="col-sm-6 text-sm-left"
-            >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-sm-right"
-            >
-              Course name:
-            </label>
-            <div
-              class="col-sm-6 text-sm-left"
-              id="coursename"
-            >
-              <p
-                class="form-control-static"
-              >
-                
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-sm-right"
-            >
-              Sections:
-            </label>
-            <div
-              class="col-sm-6 text-sm-left"
-            >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-sm-right"
-            >
-              Teams:
-            </label>
-            <div
-              class="col-sm-6 text-sm-left"
-            >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-sm-right"
-            >
-              Total students:
-            </label>
-            <div
-              class="col-sm-6 text-sm-left"
-            >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="form-group row"
-        >
-          <label
-            class="col-sm-3 text-sm-right control-label"
-          >
-            Instructors:
-          </label>
-          <div
-            class="col-sm-6 text-sm-left"
-          >
-            
-          </div>
-        </div>
-        
+        Loading...
       </div>
     </div>
-    
-    <div
-      class="alert alert-warning"
-    >
-      <i
-        class="fa fa-exclamation-circle text-muted"
-      />
-       There are no students in this course. Click 
-      <a
-        href="/web/instructor/courses/enroll?courseid="
-        routerlink="/web/instructor/courses/enroll"
-      >
-        here
-      </a>
-       to enroll students. 
-    </div>
-    
-    
-    
-    
-  </div>
+  </tm-loading-spinner>
 </tm-instructor-course-details-page>
 `;

@@ -1,7 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PageScrollService } from 'ngx-page-scroll-core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef } from '@angular/core';
 import {
   ContributionStatistics,
   FeedbackConstantSumQuestionDetails,
@@ -16,11 +13,11 @@ import {
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
-import { SessionsSectionQuestions } from '../instructor-help-sessions-section/sessions-section-questions';
 import {
   EXAMPLE_CONTRIBUTION_STATISTICS,
   EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL,
@@ -69,7 +66,6 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
 
   // enum
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
 
@@ -112,50 +108,39 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel
     = EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL;
 
-  questionsToCollapsed: Record<string, boolean> = {
-    [QuestionsSectionQuestions.ESSAY]: false,
-    [QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]: false,
-    [QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]: false,
-    [QuestionsSectionQuestions.NUMERICAL_SCALE]: false,
-    [QuestionsSectionQuestions.POINTS_OPTIONS]: false,
-    [QuestionsSectionQuestions.POINTS_RECIPIENTS]: false,
-    [QuestionsSectionQuestions.CONTRIBUTION]: false,
-    [QuestionsSectionQuestions.RUBRIC]: false,
-    [QuestionsSectionQuestions.RANK_OPTIONS]: false,
-    [QuestionsSectionQuestions.RANK_RECIPIENTS]: false,
-  };
+  readonly questionsOrder: string[] = [
+    QuestionsSectionQuestions.ESSAY,
+    QuestionsSectionQuestions.SINGLE_ANSWER_MCQ,
+    QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ,
+    QuestionsSectionQuestions.NUMERICAL_SCALE,
+    QuestionsSectionQuestions.POINTS_OPTIONS,
+    QuestionsSectionQuestions.POINTS_RECIPIENTS,
+    QuestionsSectionQuestions.CONTRIBUTION,
+    QuestionsSectionQuestions.RUBRIC,
+    QuestionsSectionQuestions.RANK_OPTIONS,
+    QuestionsSectionQuestions.RANK_RECIPIENTS,
+  ];
 
   @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
 
-  constructor(private modalService: NgbModal,
-              private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: any) {
-    super();
+  getQuestionsOrder(): string[] {
+    return this.questionsOrder;
   }
 
   /**
-   * Opens modal window.
+   * Opens modal for contribution info.
    */
-  openModal(modal: any): void {
-    this.modalService.open(modal);
-  }
-
-  ngOnInit(): void {
+  openContribInfoModal(modal: TemplateRef<any>): void {
+    this.simpleModalService.openInformationModal(
+        'Team contribution calculation', SimpleModalType.NEUTRAL, modal);
   }
 
   /**
-   * Scrolls to an HTML element with a given target id.
+   * Opens modal for rank info.
    */
-  jumpTo(target: string): boolean {
-    this.pageScrollService.scroll({
-      document: this.document,
-      scrollTarget: `#${target}`,
-      scrollOffset: 70,
-    });
-    return false;
+  openRankInfoModal(modal: TemplateRef<any>): void {
+    this.simpleModalService.openInformationModal(
+        'Rank calculation', SimpleModalType.NEUTRAL, modal);
   }
 
-  expand(questionId: string): void {
-    this.questionsToCollapsed[questionId] = true;
-  }
 }

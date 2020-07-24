@@ -9,7 +9,7 @@
     <li class="list-group-item" *ngFor="let comment of model.commentRows; let i = index; trackBy: trackByIndex">
       <tm-comment-row *ngIf="comment.originalComment"
                       [model]="comment"
-                      [isVisibilityOptionEnabled]="model.isReadOnly"
+                      [isVisibilityOptionEnabled]="!model.isReadOnly"
                       [isDisabled]="model.isReadOnly"
                       [mode]="CommentRowMode.EDIT"
                       [questionShowResponsesTo]="questionShowResponsesTo"

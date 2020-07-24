@@ -72,7 +72,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertFalse(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+                frcLogic.getFeedbackResponseCommentForSessionInSection(fsa.getCourseId(), fsa.getFeedbackSessionName(), null)
+                        .isEmpty());
 
         // delete existing feedback session directly
         fsLogic.deleteFeedbackSessionCascade(fsa.getFeedbackSessionName(), fsa.getCourseId());
@@ -84,7 +85,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+                frcLogic.getFeedbackResponseCommentForSessionInSection(fsa.getCourseId(), fsa.getFeedbackSessionName(), null)
+                        .isEmpty());
     }
 
     @Test
@@ -96,7 +98,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertFalse(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+                frcLogic.getFeedbackResponseCommentForSessionInSection(fsa.getCourseId(), fsa.getFeedbackSessionName(), null)
+                        .isEmpty());
         fsLogic.moveFeedbackSessionToRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId());
         assertNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
         assertNotNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
@@ -111,7 +114,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(
                 frLogic.getFeedbackResponsesForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
         assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).isEmpty());
+                frcLogic.getFeedbackResponseCommentForSessionInSection(fsa.getCourseId(), fsa.getFeedbackSessionName(), null)
+                        .isEmpty());
     }
 
     @Test
@@ -953,7 +957,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(feedbackSession.isSessionDeleted());
 
         fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        feedbackSession.resetDeletedTime();
+        feedbackSession.setDeletedTime(null);
 
         verifyPresentInDatastore(feedbackSession);
         assertFalse(feedbackSession.isSessionDeleted());

@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AdminHomePageComponent } from './admin-home-page.component';
 
 describe('AdminHomePageComponent', () => {
@@ -16,6 +18,8 @@ describe('AdminHomePageComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
       ],
       providers: [AccountService],
     })
@@ -286,9 +290,9 @@ describe('AdminHomePageComponent', () => {
       },
     ];
     component.activeRequests = 1;
+    component.isAddingInstructors = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
 });

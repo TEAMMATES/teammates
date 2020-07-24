@@ -29,7 +29,7 @@
         </th>
         <th>Submissions</th>
         <th>Responses</th>
-        <th ngbTooltip="Number of students submitted / Class size" container="body"><span class="tool-tip-decorate">Response Rate</span></th>
+        <th ngbTooltip="Number of students submitted / Class size" container="body"><span >Response Rate</span></th>
         <th class="text-center">Action(s)</th>
       </tr>
       </thead>
@@ -37,17 +37,15 @@
       <tr *ngFor="let sessionsTableRowModel of sessionsTableRowModels; let idx = index">
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
         <td>{{ sessionsTableRowModel.feedbackSession.feedbackSessionName }}</td>
-        <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)" container="body"
-            [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
-        <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)" container="body"
-            [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
-        <td [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip" container="body">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
+        <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
+          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone" >{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
+        <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
+          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
+        <td>
+          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
         </td>
-        <td [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip" container="body" class="tool-tip-decorate">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>
+        <td>
+          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>
         </td>
         <td>
           <a href="#" *ngIf="sessionsTableRowModel.responseRate.length === 0 && !sessionsTableRowModel.isLoadingResponseRate" (click)="loadResponseRateEvent.emit(idx); $event.preventDefault()">Show</a>
@@ -55,29 +53,29 @@
           <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate"></tm-ajax-loading>
         </td>
         <td class="actions-cell">
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Edit feedback session details" (click)="editSessionEvent.emit(idx)"
+          <button type="button" class="btn btn-light btn-sm" (click)="editSessionEvent.emit(idx)"
                   [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Edit</button>
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Delete the feedback session" (click)="moveSessionToRecycleBin(idx)"
+          <button type="button" class="btn btn-light btn-sm" (click)="moveSessionToRecycleBin(idx)"
                   [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Delete</button>
           <button type="button" class="btn btn-light btn-sm" ngbTooltip="Copy feedback session details" (click)="copySession(idx)">Copy</button>
           <button type="button" class="btn btn-light btn-sm" ngbTooltip="Start submitting feedback"
                   [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
                     || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)" >Submit</button>
-          <div ngbDropdown class="d-inline-block" ngbTooltip="View the submitted responses for this feedback session">
+          <div ngbDropdown class="d-inline-block">
             <button class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
-              <button class="dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)">View Results</button>
-              <button class="dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
+              <button class="btn dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)">View Results</button>
+              <button class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
                       *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                         && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"
                       [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession" (click)="unpublishSession(idx)">Unpublish Results</button>
               <ng-template #publishButton>
-                <button class="dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
+                <button class="btn dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                   || sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED || !sessionsTableRowModel.instructorPrivilege.canModifySession"
                         ngbTooltip="Make session responses available for viewing" placement="left" container="body" (click)="publishSession(idx)">Publish Results</button>
               </ng-template>
-              <button class="dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
-              <button class="dropdown-item clickable" (click)="downloadSessionResults(idx)">Download Results</button>
+              <button class="btn dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
+              <button class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)">Download Results</button>
             </div>
           </div>
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">

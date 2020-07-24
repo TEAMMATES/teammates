@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GenderFormatPipe } from './student-profile-gender.pipe';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from '../../../environments/environment.prod';
 import { Gender } from '../../../types/api-output';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentProfilePageComponent } from './student-profile-page.component';
 
@@ -18,13 +18,14 @@ describe('StudentProfilePageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StudentProfilePageComponent,
-        GenderFormatPipe,
       ],
       imports: [
         RouterTestingModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
         TeammatesCommonModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
       ],
     })
     .compileComponents();
@@ -68,6 +69,7 @@ describe('StudentProfilePageComponent', () => {
       studentgender: new FormControl(''),
       studentprofilemoreinfo: new FormControl(''),
     });
+    component.isLoadingStudentProfile = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -101,6 +103,13 @@ describe('StudentProfilePageComponent', () => {
       studentgender: new FormControl(Gender.MALE),
       studentprofilemoreinfo: new FormControl('I like to party'),
     });
+    component.isLoadingStudentProfile = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when student profile is still loading', () => {
+    component.isLoadingStudentProfile = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

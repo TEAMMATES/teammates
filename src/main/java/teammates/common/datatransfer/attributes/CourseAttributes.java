@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.DateTimeException;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,7 +12,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Course;
 
 /**
@@ -91,45 +89,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return deletedAt;
     }
 
-    public String getCreatedAtDateString() {
-        return TimeHelper.formatDateForInstructorPages(createdAt, timeZone);
-    }
-
-    public String getCreatedAtDateStamp() {
-        return TimeHelper.formatDateTimeToIso8601Utc(createdAt);
-    }
-
-    public String getCreatedAtFullDateTimeString() {
-        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, timeZone);
-        return TimeHelper.formatDateTimeForDisplay(localDateTime);
-    }
-
-    public String getDeletedAtDateString() {
-        if (this.deletedAt == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        return TimeHelper.formatDateForInstructorPages(deletedAt, timeZone);
-    }
-
-    public String getDeletedAtDateStamp() {
-        if (this.deletedAt == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
-    }
-
-    public String getDeletedAtFullDateTimeString() {
-        if (this.deletedAt == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
-        return TimeHelper.formatDateTimeForDisplay(localDateTime);
-    }
-
-    public void resetDeletedAt() {
-        this.deletedAt = null;
-    }
-
     public boolean isCourseDeleted() {
         return this.deletedAt != null;
     }
@@ -198,11 +157,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     public static void sortById(List<CourseAttributes> courses) {
         courses.sort(Comparator.comparing(CourseAttributes::getId));
-    }
-
-    public static void sortByCreatedDate(List<CourseAttributes> courses) {
-        courses.sort(Comparator.comparing((CourseAttributes course) -> course.createdAt).reversed()
-                .thenComparing(course -> course.getId()));
     }
 
     /**

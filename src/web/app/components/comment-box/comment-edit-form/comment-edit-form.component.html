@@ -13,8 +13,7 @@
           <i class="fas fa-eye-slash"></i> {{ isVisibilityTableExpanded ? "Hide" : "Show" }} Visibility Options</button>
       </span>
       <span *ngIf="!isVisibilityOptionEnabled" style="margin-left: 10px;">
-        <button *ngIf="!shouldHideClosingButton" type="button" class="close" aria-label="Close" ngbTooltip='Discard changes to this comment'
-                (click)="triggerCloseCommentBoxEvent()">
+        <button *ngIf="!shouldHideClosingButton" type="button" class="close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()">
           <span aria-hidden="true">&times;</span>
         </button>
       </span>
@@ -24,7 +23,7 @@
 <p *ngIf="isVisibilityOptionEnabled">You may change comment's visibility using the visibility options on the right hand side.</p>
 
 <div *ngIf="isVisibilityTableExpanded" @collapseAnim>
-  <table class="table margin-bottom-0 background-color-white table-striped">
+  <table class="table margin-bottom-0 background-color-white table-striped table-responsive-md">
     <thead>
     <tr>
       <th scope="col" class="text-center">User/Group</th>
@@ -34,7 +33,7 @@
     <tbody>
     <ng-container *ngFor="let commentVisibilityType of CommentVisibilityType | enumToArray">
       <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)">
-        <td [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription" container="body"> {{ commentVisibilityType | commentVisibilityTypeName }}</td>
+        <td container="body"> <span [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription">{{ commentVisibilityType | commentVisibilityTypeName }}</span></td>
         <td *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray" class="text-center">
           <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
                  (click)="modifyVisibilityControl($event.target.checked, commentVisibilityType, commentVisibilityControl)">
@@ -50,12 +49,10 @@
                        placeholderText="Enter your comment here" [isDisabled]="isDisabled"></tm-rich-text-editor>
 </div>
 
-<button type="button" class="btn btn-primary btn-sm float-right"
-        [ngbTooltip]="mode == CommentRowMode.EDIT ? 'Save this comment' : 'Create this comment'" style="margin-left: 5px;"
+<button type="button" class="btn btn-primary btn-sm float-right" style="margin-left: 5px;"
         (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
   {{ mode == CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
 
 <button type="button" class="btn btn-secondary btn-sm float-right"
-        [ngbTooltip]="mode == CommentRowMode.EDIT ? 'Discard changes to this comment' : 'Cancel creating new comment'"
         (click)="triggerCloseCommentBoxEvent()" *ngIf="!shouldHideClosingButton" [disabled]="isDisabled"><i class="fas fa-times"></i>
   {{ mode == CommentRowMode.EDIT ? 'Discard' : 'Cancel' }}</button>

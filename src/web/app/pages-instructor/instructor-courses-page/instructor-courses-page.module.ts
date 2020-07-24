@@ -3,13 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
-import {
-  CoursePermanentDeletionConfirmModalComponent,
-} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
-import {
-  CourseSoftDeletionConfirmModalComponent,
-} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 
 const routes: Routes = [
@@ -25,8 +20,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     InstructorCoursesPageComponent,
-    CourseSoftDeletionConfirmModalComponent,
-    CoursePermanentDeletionConfirmModalComponent,
   ],
   exports: [
     InstructorCoursesPageComponent,
@@ -39,10 +32,7 @@ const routes: Routes = [
     NgbDropdownModule,
     NgbTooltipModule,
     AddCourseFormModule,
-  ],
-  entryComponents: [
-    CourseSoftDeletionConfirmModalComponent,
-    CoursePermanentDeletionConfirmModalComponent,
+    LoadingSpinnerModule,
   ],
 })
 export class InstructorCoursesPageModule { }

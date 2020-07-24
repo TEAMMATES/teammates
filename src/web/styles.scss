@@ -49,8 +49,8 @@ ul {
   vertical-align: middle;
 }
 
-.modal-content {
-  padding: 30px 20px;
+.close:focus {
+  outline: 0;
 }
 
 .table {
@@ -103,15 +103,31 @@ ul {
   cursor: pointer;
 }
 
+[ng-reflect-ngb-tooltip] {
+  text-decoration: underline dotted #808080;
+
+  &.btn,
+  &.fa,
+  &.fas,
+  &.far,
+  &.fab,
+  &.fal {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    text-decoration: underline dotted #000;
+  }
+}
+
 @media print {
   .no-print {
     display: none;
   }
-}
-
-// make tinyMCE over the modal
-.tox-tinymce {
-  z-index: 1051;
 }
 
 // cursor not-allowed for input disabled attribute and tinyMCE's disabled

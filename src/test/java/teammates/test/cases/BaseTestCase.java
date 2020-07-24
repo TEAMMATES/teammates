@@ -19,11 +19,6 @@ import teammates.test.driver.TestProperties;
 public class BaseTestCase {
 
     /**
-     * Dummy session token for use in tests that depend on, but don't use, it (e.g. page data tests).
-     */
-    protected static final String dummySessionToken = null;
-
-    /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
      *
@@ -182,10 +177,6 @@ public class BaseTestCase {
 
     protected static void fail(String message) {
         Assert.fail(message);
-    }
-
-    protected static void assertArrayEquals(Object[] expecteds, Object[] actuals) {
-        Assert.assertArrayEquals(expecteds, actuals);
     }
 
     // This method is adapted from JUnit 5's assertThrows.

@@ -1,9 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../../services/course.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
-import { Course } from '../../../../types/api-output';
 import { ErrorMessageOutput } from '../../../error-message-output';
+
+interface Timezone {
+  id: string;
+  offset: string;
+}
+
+const formatTwoDigits: Function = (n: number): string => {
+  if (n < 10) {
+    return `0${n}`;
+  }
+  return String(n);
+};
 
 /**
  * Instructor add new course form
@@ -18,25 +30,28 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
-  @ViewChild('newCourseMessageTemplate') newCourseMessageTemplate!: TemplateRef<any>;
 
-  timezones: string[] = [];
+  timezones: Timezone[] = [];
   timezone: string = '';
   newCourseId: string = '';
   newCourseName: string = '';
-  course!: Course;
+  isAddingCourse: boolean = false;
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private timezoneService: TimezoneService) { }
 
   ngOnInit(): void {
-    if (!this.isEnabled) {
-      this.timezones = ['UTC', 'Other options omitted...'];
-      this.timezone = 'UTC';
-      return;
+    for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
+      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
+      const minOffset: number = Math.abs(offset) % 60;
+      const sign: string = offset < 0 ? '-' : '+';
+      this.timezones.push({
+        id,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
+      });
     }
-    this.timezones = Object.keys(this.timezoneService.getTzOffsets());
+
     this.timezone = this.timezoneService.guessTimezone();
   }
 
@@ -62,14 +77,15 @@ export class AddCourseFormComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
+
+    this.isAddingCourse = true;
     this.courseService.createCourse({
       courseName: this.newCourseName,
       timeZone: this.timezone,
       courseId: this.newCourseId,
-    }).subscribe((course: Course) => {
+    }).pipe(finalize(() => this.isAddingCourse = false)).subscribe(() => {
       this.courseAdded.emit();
-      this.course = course;
-      this.statusMessageService.showSuccessToastTemplate(this.newCourseMessageTemplate);
+      this.statusMessageService.showSuccessToast('The course has been added.');
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });

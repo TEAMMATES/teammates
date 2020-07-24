@@ -5,9 +5,9 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
   closeCourseFormEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
   courseService={[Function Object]}
+  isAddingCourse="false"
   isEnabled="false"
   newCourseId=""
-  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
   timezone={[Function String]}
@@ -50,7 +50,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-id"
             maxlength="40"
-            ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
@@ -71,7 +70,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
-            ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
           />
@@ -94,7 +92,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ngbtooltip="The time zone for the course. You should not
+              ngbtooltip="You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
@@ -102,7 +100,7 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
@@ -128,7 +126,8 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             class="btn btn-primary"
             id="btn-save-course"
           >
-            Add Course
+            
+             Add Course 
           </button>
         </div>
       </div>
@@ -142,9 +141,9 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
   closeCourseFormEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
   courseService={[Function Object]}
+  isAddingCourse="false"
   isEnabled={[Function Boolean]}
   newCourseId=""
-  newCourseMessageTemplate={[Function TemplateRef_]}
   newCourseName=""
   statusMessageService={[Function Object]}
   timezone={[Function String]}
@@ -187,7 +186,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-id"
             maxlength="40"
-            ngbtooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
@@ -208,7 +206,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
-            ngbtooltip="Enter the name of the course, e.g. Software Engineering."
             placeholder="e.g. Software Engineering"
             type="text"
           />
@@ -231,7 +228,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ngbtooltip="The time zone for the course. You should not
+              ngbtooltip="You should not
                   need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                   to match the current time offset in your area, including clock changes due to daylight saving time."
             >
@@ -239,7 +236,7 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
               <option
                 value="GMT"
               >
-                GMT
+                GMT (UTC)
               </option>
             </select>
             <span
@@ -265,7 +262,8 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             class="btn btn-primary"
             id="btn-save-course"
           >
-            Add Course
+            
+             Add Course 
           </button>
         </div>
       </div>

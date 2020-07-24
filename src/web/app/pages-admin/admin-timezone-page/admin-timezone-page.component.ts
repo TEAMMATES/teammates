@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { TimezoneService } from '../../../services/timezone.service';
 import { TimeZones } from '../../../types/api-output';
 
@@ -17,15 +18,17 @@ export class AdminTimezonePageComponent implements OnInit {
   momentTzVersion: string = '';
   momentTimezones: Record<string, number> = {};
 
+  isTimezonesLoading: boolean = false;
+
   constructor(private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
     this.momentTzVersion = this.timezoneService.getTzVersion();
     this.momentTimezones = this.timezoneService.getTzOffsets();
-    this.timezoneService.getTimeZone().subscribe((res: TimeZones) => {
-      this.javaTzVersion = res.version;
-      this.javaTimezones = res.offsets;
-    });
+    this.timezoneService.getTimeZone().pipe(finalize(() => this.isTimezonesLoading = false))
+        .subscribe((res: TimeZones) => {
+          this.javaTzVersion = res.version;
+          this.javaTimezones = res.offsets;
+        });
   }
-
 }

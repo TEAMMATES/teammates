@@ -13,9 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCoursesPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 import teammates.e2e.util.BackDoor;
 
 /**
@@ -50,8 +48,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         String instructorId = testData.accounts.get("instructor").getGoogleId();
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
                 .withUserId(instructorId);
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorCoursesPage coursesPage = AppPage.getNewPageInstance(browser, url, InstructorCoursesPage.class);
+        InstructorCoursesPage coursesPage = loginAdminToPage(url, InstructorCoursesPage.class);
         coursesPage.waitForPageToLoad();
 
         ______TS("verify loaded data");
@@ -70,15 +67,10 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNotModifiable(courses[0].getId());
 
         ______TS("add new course");
-        CourseAttributes[] activeCoursesWithNewCourse = { newCourse, courses[0] };
-        String[] expectedLinks = { Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE + "?courseid=" + newCourse.getId(),
-                Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE + "?courseid=" + newCourse.getId() };
+        CourseAttributes[] activeCoursesWithNewCourse = { courses[0], newCourse };
         coursesPage.addCourse(newCourse);
 
-        coursesPage.verifyStatusMessageWithLinks("The course has been added. "
-                + "Click here to add students to the course or click here to add other instructors.\n"
-                + "If you don't see the course in the list below, please refresh the page after a few moments.",
-                expectedLinks);
+        coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
         verifyPresentInDatastore(newCourse);
@@ -115,12 +107,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore active course");
         newCourse.deletedAt = null;
+        CourseAttributes[] activeCoursesWithNewCourseSorted = { newCourse, courses[0] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
         coursesPage.verifyNumDeletedCourses(1);
         coursesPage.sortByCreationDate();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
+        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSorted);
         assertFalse(isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("move archived course to recycle bin");

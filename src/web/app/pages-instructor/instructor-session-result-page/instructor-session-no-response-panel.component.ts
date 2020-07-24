@@ -53,7 +53,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   @Output() studentsToRemindEvent: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
 
   constructor(
-    private modalService: NgbModal) { }
+    private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     this.filterStudentsBySection();
@@ -81,7 +81,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     const nonResponseStudentEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
     const nonResponseStudentEmailSet: Set<string> = new Set(nonResponseStudentEmails);
 
-    const modalRef: NgbModalRef = this.modalService.open(SendRemindersToStudentModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToStudentModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
     modalRef.componentInstance.studentListInfoTableRowModels

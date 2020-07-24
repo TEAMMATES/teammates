@@ -1,14 +1,16 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { SimpleModalService } from '../../../../../services/simple-modal.service';
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
 import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../../pages-help/instructor-help-page/sections';
-import { ColumnData, SortableTableCellData } from '../../../sortable-table/sortable-table.component';
+import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
 import {
-  ContributionQuestionStatisticsCalculation,
-} from '../question-statistics-calculation/contribution-question-statistics-calculation';
+  ColumnData,
+  SortableTableCellData,
+} from '../../../sortable-table/sortable-table.component';
+import { ContributionQuestionStatisticsCalculation } from '../question-statistics-calculation/contribution-question-statistics-calculation';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 
@@ -20,9 +22,9 @@ import { ContributionComponent } from './contribution.component';
   templateUrl: './contribution-question-statistics.component.html',
   styleUrls: ['./contribution-question-statistics.component.scss'],
 })
-export class ContributionQuestionStatisticsComponent extends ContributionQuestionStatisticsCalculation
-    implements OnInit, OnChanges {
-
+export class ContributionQuestionStatisticsComponent
+  extends ContributionQuestionStatisticsCalculation
+  implements OnInit, OnChanges {
   // enum
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   Sections: typeof Sections = Sections;
@@ -32,7 +34,7 @@ export class ContributionQuestionStatisticsComponent extends ContributionQuestio
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor(private modalService: NgbModal) {
+  constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 
@@ -97,11 +99,8 @@ export class ContributionQuestionStatisticsComponent extends ContributionQuestio
     });
   }
 
-  /**
-   * Opens a modal.
-   */
-  openModal(modal: any): void {
-    this.modalService.open(modal);
+  openHelpModal(modal: TemplateRef<any>): void {
+    this.simpleModalService.openInformationModal(
+      'More info about contribution questions', SimpleModalType.NEUTRAL, modal);
   }
-
 }

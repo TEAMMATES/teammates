@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -18,14 +19,9 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  CoursePermanentDeletionConfirmModalComponent,
-} from './course-permanent-deletion-confirm-modal/course-permanent-deletion-confirm-modal.component';
-import {
-  CourseSoftDeletionConfirmModalComponent,
-} from './course-soft-deletion-confirm-modal/course-soft-deletion-confirm-modal.component';
 
 interface CourseModel {
   course: Course;
@@ -49,13 +45,18 @@ export class InstructorCoursesPageComponent implements OnInit {
   softDeletedCourses: CourseModel[] = [];
   courseStats: Record<string, Record<string, number>> = {};
 
-  tableSortOrder: SortOrder = SortOrder.ASC;
-  tableSortBy: SortBy = SortBy.NONE;
+  activeTableSortOrder: SortOrder = SortOrder.ASC;
+  activeTableSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+  archivedTableSortOrder: SortOrder = SortOrder.ASC;
+  archivedTableSortBy: SortBy = SortBy.COURSE_NAME;
+  deletedTableSortOrder: SortOrder = SortOrder.ASC;
+  deletedTableSortBy: SortBy = SortBy.COURSE_NAME;
 
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
+  isLoading: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -67,7 +68,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private instructorService: InstructorService,
-              private modalService: NgbModal,
+              private simpleModalService: SimpleModalService,
               private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
@@ -83,24 +84,28 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-      for (const course of resp.courses) {
-        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
-        .subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
+      forkJoin(
+          resp.courses.map((course: Course) =>
+              this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
+      ).subscribe((privileges: InstructorPrivilege[]) => {
+        resp.courses.forEach((course: Course, index: number) => {
+          const canModifyCourse: boolean = privileges[index].canModifyCourse;
+          const canModifyStudent: boolean = privileges[index].canModifyStudent;
           const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
           this.activeCourses.push(activeCourse);
-        }, (error: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(error.error.message);
         });
-      }
+        this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
+      }, (error: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(error.error.message);
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, () => this.isLoading = false);
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
@@ -194,6 +199,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses = this.removeCourse(this.activeCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.archivedCourses.push(courseToBeRemoved);
+      this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
     }
   }
 
@@ -206,7 +212,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.activeCourses.push(courseToBeRemoved);
-      this.activeCourses.sort(this.sortBy(this.tableSortBy));
+      this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
     }
   }
 
@@ -236,7 +242,8 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.modalService.open(CourseSoftDeletionConfirmModalComponent);
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Warning: The course will be moved to the recycle bin.',
+            SimpleModalType.WARNING, 'Are you sure you want to continue?');
     modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
@@ -258,12 +265,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (activeCourseToBeRemoved !== undefined) {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
+      this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
     } else {
       const archivedCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.archivedCourses, courseId);
       this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
       if (archivedCourseToBeRemoved !== undefined) {
         archivedCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
         this.softDeletedCourses.push(archivedCourseToBeRemoved);
+        this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
       }
     }
   }
@@ -276,7 +285,12 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
+    const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
+        This operation will delete all students and sessions in these courses.
+        All instructors of these courses will not be able to access them hereafter as well.`;
+
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Delete course <strong>${ courseId }</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
@@ -309,8 +323,12 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalRef: NgbModalRef = this.modalService.open(CoursePermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.isDeleteAll = true;
+    const modalContent: string = `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
+        This operation will delete all students and sessions in these courses.
+        All instructors of these courses will not be able to access them hereafter as well.`;
+
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
     modalRef.result.then(() => {
       const deleteRequests: Observable<MessageOutput>[] = [];
       this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
@@ -345,19 +363,39 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Sorts the courses table
+   * Sorts the active courses table
    */
   sortCoursesEvent(by: SortBy): void {
-    this.tableSortBy = by;
-    this.tableSortOrder =
-        this.tableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
-    this.activeCourses.sort(this.sortBy(by));
+    this.activeTableSortBy = by;
+    this.activeTableSortOrder =
+        this.activeTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
+  }
+
+  /**
+   * Sorts the archived courses table
+   */
+  sortArchivedCoursesEvent(by: SortBy): void {
+    this.archivedTableSortBy = by;
+    this.archivedTableSortOrder =
+      this.archivedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
+  }
+
+  /**
+   * Sorts the soft-deleted courses table
+   */
+  sortDeletedCoursesEvent(by: SortBy): void {
+    this.deletedTableSortBy = by;
+    this.deletedTableSortOrder =
+      this.deletedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
 
   /**
    * Returns a function to determine the order of sort
    */
-  sortBy(by: SortBy):
+  sortBy(by: SortBy, order: SortOrder):
       ((a: CourseModel , b: CourseModel) => number) {
     return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
@@ -371,7 +409,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = a.course.courseName;
           strB = b.course.courseName;
           break;
-        case SortBy.SESSION_CREATION_DATE:
+        case SortBy.COURSE_CREATION_DATE:
           strA = a.course.creationTimestamp.toString();
           strB = b.course.creationTimestamp.toString();
           break;
@@ -379,7 +417,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           strA = '';
           strB = '';
       }
-      return this.tableComparatorService.compare(by, this.tableSortOrder, strA, strB);
+      return this.tableComparatorService.compare(by, order, strA, strB);
     };
   }
 }

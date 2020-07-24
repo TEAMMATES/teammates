@@ -11,6 +11,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackQuestionsData;
 import teammates.ui.webapi.request.Intent;
 
@@ -96,6 +97,11 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         FeedbackQuestionsData response = new FeedbackQuestionsData(questions);
         response.normalizeQuestionNumber();
+        if (intent.equals(Intent.STUDENT_SUBMISSION)) {
+            for (FeedbackQuestionData questionData : response.getQuestions()) {
+                questionData.hideInformationForStudent();
+            }
+        }
         return new JsonResult(response);
     }
 
