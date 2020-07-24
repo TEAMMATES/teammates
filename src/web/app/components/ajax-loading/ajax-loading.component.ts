@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 /**
  * Displaying the ajax loader.
@@ -9,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ajax-loading.component.scss'],
 })
 export class AjaxLoadingComponent implements OnInit {
+
+  @Input()
+  useBlueSpinner: boolean = false;
 
   constructor() { }
 
