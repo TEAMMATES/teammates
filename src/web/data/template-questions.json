@@ -32,9 +32,7 @@
             "questionDescription": "",
 
             "questionType": "TEXT",
-            "questionDetails": {
-                "recommendedLength": 0
-            },
+            "questionDetails": {},
 
             "giverType": "STUDENTS",
             "recipientType": "SELF",
@@ -56,9 +54,7 @@
             "questionDescription": "",
 
             "questionType": "TEXT",
-            "questionDetails": {
-                "recommendedLength": 0
-            },
+            "questionDetails": {},
 
             "giverType": "STUDENTS",
             "recipientType": "OWN_TEAM_MEMBERS",
@@ -80,9 +76,7 @@
             "questionDescription": "",
 
             "questionType": "TEXT",
-            "questionDetails": {
-                "recommendedLength": 0
-            },
+            "questionDetails": {},
 
             "giverType": "STUDENTS",
             "recipientType": "OWN_TEAM",
@@ -104,9 +98,7 @@
             "questionDescription": "",
 
             "questionType": "TEXT",
-            "questionDetails": {
-                "recommendedLength": 0
-            },
+            "questionDetails": {},
 
             "giverType": "STUDENTS",
             "recipientType": "OWN_TEAM_MEMBERS",
