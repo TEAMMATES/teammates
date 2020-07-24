@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesCommonModule } from '../../../components/teammates-common/teammates-common.module';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal.component';
 
 describe('ViewRolePrivilegesModalComponent', () => {
@@ -9,8 +10,11 @@ describe('ViewRolePrivilegesModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewRolePrivilegesModalComponent],
+      declarations: [
+        ViewRolePrivilegesModalComponent,
+      ],
       providers: [NgbActiveModal],
+      imports: [TeammatesCommonModule],
     })
     .compileComponents();
   }));

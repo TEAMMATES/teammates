@@ -10,7 +10,7 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackTextQuestionDetails {
 
-  recommendedLength: number = 0;
+  recommendedLength?: number;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;
 

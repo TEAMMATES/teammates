@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { InstructorPermissionRole } from '../../../../types/api-output';
+import { InstructorPermissionRole } from '../../../types/api-output';
 
 /**
  * Pipe to handle the transformation of an InstructorPermissionRole to a description.

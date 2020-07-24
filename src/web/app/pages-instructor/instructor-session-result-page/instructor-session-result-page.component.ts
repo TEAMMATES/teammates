@@ -364,7 +364,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    */
   downloadResultHandler(): void {
     this.isDownloadingResults = true;
-    const filename: string = `${this.session.feedbackSessionName.concat('_result')}.csv`;
+    const filename: string = `${this.session.courseId}_${this.session.feedbackSessionName}_result.csv`;
     let blob: any;
 
     this.feedbackSessionsService.downloadSessionResults(
@@ -384,9 +384,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
-    const filename: string = `${
-      this.session.feedbackSessionName.concat('_question', String(question.questionNumber))
-    }.csv`;
+    const filename: string = `
+      ${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
     this.feedbackSessionsService.downloadSessionResults(
         this.session.courseId,

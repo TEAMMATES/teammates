@@ -223,7 +223,8 @@ export abstract class InstructorSessionBasePageComponent {
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
-    const filename: string = `${model.feedbackSession.feedbackSessionName.concat('_result')}.csv`;
+    const filename: string =
+        `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
 
     this.feedbackSessionsService.downloadSessionResults(

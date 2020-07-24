@@ -26,6 +26,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   instructorGettingStartedPath: string = '';
   searchTerm: String = '';
   key: String = '';
+  matchFound: number = 0;
 
   scrollFinishEvent: EventEmitter<boolean> = new EventEmitter();
   questionIdToExpand: string = '';
@@ -79,6 +80,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
    * Filters the help contents and displays only those that matches the filter.
    */
   search(): void {
+    this.matchFound = 0;
     if (this.searchTerm !== '') {
       this.key = this.searchTerm.toLowerCase();
     } else {
@@ -134,6 +136,10 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
     this.questionIdToExpand = SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL;
     this.section = Sections.sessions;
     this.scrollTo(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL, 100);
+  }
+
+  updateMatchFoundNumber(n: number): void {
+    this.matchFound += n;
   }
 
 }

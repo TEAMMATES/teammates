@@ -6,7 +6,6 @@
         "questionNumber": 3,
         "questionBrief": "My comments on the class",
         "questionDetails": {
-          "recommendedLength": 0,
           "questionType": "TEXT",
           "questionText": "My comments on the class"
         },
@@ -124,7 +123,6 @@
         "questionNumber": 2,
         "questionBrief": "Rate 1 other student's product",
         "questionDetails": {
-          "recommendedLength": 0,
           "questionType": "TEXT",
           "questionText": "Rate 1 other student's product"
         },
@@ -572,7 +570,6 @@
         "questionNumber": 4,
         "questionBrief": "Instructor comments on the class",
         "questionDetails": {
-          "recommendedLength": 0,
           "questionType": "TEXT",
           "questionText": "Instructor comments on the class"
         },
@@ -696,7 +693,6 @@
         "questionNumber": 1,
         "questionBrief": "What is the best selling point of your product?",
         "questionDetails": {
-          "recommendedLength": 0,
           "questionType": "TEXT",
           "questionText": "What is the best selling point of your product?"
         },

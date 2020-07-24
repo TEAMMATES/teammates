@@ -47,7 +47,6 @@ public class JsonUtilsTest extends BaseTestCase {
                     + "  \"feedbackSessionName\": \"testFeedbackSession\",\n"
                     + "  \"courseId\": \"testingCourse\",\n"
                     + "  \"questionDetails\": {\n"
-                    + "    \"recommendedLength\": 0,\n"
                     + "    \"questionType\": \"TEXT\",\n"
                     + "    \"questionText\": \"Question text.\"\n"
                     + "  },\n"

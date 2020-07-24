@@ -33,6 +33,7 @@ import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
+import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import {
   InstructorHelpQuestionsSectionComponent,
 } from './instructor-help-questions-section/instructor-help-questions-section.component';
@@ -77,6 +78,7 @@ const routes: Routes = [
   ],
   declarations: [
     InstructorHelpPageComponent,
+    InstructorHelpPanelComponent,
     InstructorHelpStudentsSectionComponent,
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
