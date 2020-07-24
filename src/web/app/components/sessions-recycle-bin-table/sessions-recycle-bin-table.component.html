@@ -9,10 +9,10 @@
             <div class="col-4 text-white">
               <b>Recycle Bin</b>
             </div>
-            <div class="col-8 text-right bin-header-button">
-              <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
+            <div class="col-8 text-right">
+              <button type="button" class="btn btn-light btn-sm btn-margin-right" ngbTooltip="Restore all feedback sessions"
                       (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
-              <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
+              <button type="button" class="btn btn-light btn-sm text-danger btn-margin-right" ngbTooltip="Permanently delete all feedback sessions"
                       (click)="$event.stopPropagation(); permanentDeleteAllSessionsEvent.emit()"><i class="fas fa-times"></i> Delete All</button>
               <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
               <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>

@@ -19,10 +19,6 @@
   cursor: pointer;
 }
 
-.margin-left-10px {
-  margin-left: 10px;
-}
-
 .background-color-medium-gray {
   background-color: #E5E5E6;
 }
@@ -67,12 +63,8 @@
   margin-top: 30px;
 }
 
-.bin-header-button button {
-  margin-right: .6em;
-}
-
-.actions-cell button {
-  margin: 2px;
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
 }
 
 .dropdown-menu {

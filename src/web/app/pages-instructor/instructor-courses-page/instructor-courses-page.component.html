@@ -201,7 +201,7 @@
           <td>
             <span  container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
-          <td class="text-center">
+          <td class="text-center actions-cell">
             <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
               Unarchive
             </button>
@@ -231,19 +231,13 @@
           <div class="col-4 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-8 text-right bin-header-button">
-            <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+          <div class="col-8 text-right">
+            <button id="btn-restore-all" class="btn btn-light btn-sm btn-margin-right" [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                     ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
               <i class="fas fa-check"></i> Restore All
             </button>
-            <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
-              <i class="fas fa-check"></i> Restore All
-            </button>
-            <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
+            <button id="btn-delete-all" class="btn btn-light btn-sm text-danger btn-margin-right" [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onDeleteAll()"
                     ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
-              <i class="fas fa-times"></i> Delete All
-            </button>
-            <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
               <i class="fas fa-times"></i> Delete All
             </button>
             <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>

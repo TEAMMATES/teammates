@@ -150,3 +150,23 @@ ul {
     border: 1px solid #EEE;
   }
 }
+
+:root {
+  --btn-margin: 10px;
+}
+
+.btn-margin-left {
+  margin-left: var(--btn-margin);
+}
+
+.btn-margin-right {
+  margin-right: var(--btn-margin);
+}
+
+.btn-margin-top {
+  margin-top: var(--btn-margin);
+}
+
+.btn-margin-bottom {
+  margin-bottom: var(--btn-margin);
+}

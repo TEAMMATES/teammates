@@ -17,14 +17,10 @@
   font-weight: normal;
 }
 
-.bin-header-button button {
-  margin-right: .6em;
-}
-
 .sortable-header {
   cursor: pointer;
 }
 
 .actions-cell button {
-  margin: 2px;
+  margin-right: var(--btn-margin);
 }

@@ -3,8 +3,8 @@
   text-align: center;
 }
 
-.actions-cell button {
-  margin: 2px;
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
 }
 
 .sortable-header {
