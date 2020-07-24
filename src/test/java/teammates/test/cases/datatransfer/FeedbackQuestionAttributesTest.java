@@ -187,14 +187,14 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.valueOf(qn);
         assertEquals("singleWord", fqa.questionDetails.getQuestionText());
-        assertEquals(0, ((FeedbackTextQuestionDetails) fqa.questionDetails).getRecommendedLength());
+        assertNull(((FeedbackTextQuestionDetails) fqa.questionDetails).getRecommendedLength());
 
         ______TS("legacy data: plain text: multiple words, should deserialize correctly");
         qn.setQuestionText("multiple words text");
 
         FeedbackQuestionAttributes fqaMulti = FeedbackQuestionAttributes.valueOf(qn);
         assertEquals("multiple words text", fqaMulti.questionDetails.getQuestionText());
-        assertEquals(0, ((FeedbackTextQuestionDetails) fqaMulti.questionDetails).getRecommendedLength());
+        assertNull(((FeedbackTextQuestionDetails) fqaMulti.questionDetails).getRecommendedLength());
 
         ______TS("json text: should deserialize as json");
         String jsonQuestionText = "{\n"
@@ -205,7 +205,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         qn.setQuestionText(jsonQuestionText);
         FeedbackQuestionAttributes fqaJson = FeedbackQuestionAttributes.valueOf(qn);
         assertEquals("normal question", fqaJson.questionDetails.getQuestionText());
-        assertEquals(70, ((FeedbackTextQuestionDetails) fqaJson.questionDetails).getRecommendedLength());
+        assertEquals(70, ((FeedbackTextQuestionDetails) fqaJson.questionDetails).getRecommendedLength().intValue());
     }
 
     @Test

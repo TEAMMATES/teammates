@@ -3,21 +3,24 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
-    private int recommendedLength;
+    @Nullable
+    private Integer recommendedLength;
 
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
-        recommendedLength = 0;
+        recommendedLength = null;
     }
 
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
-        recommendedLength = 0;
+        recommendedLength = null;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
-        if (recommendedLength < 0) {
+        if (recommendedLength != null && recommendedLength < 1) {
             errors.add(Const.FeedbackQuestion.TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
         }
         return errors;
@@ -44,7 +47,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    public int getRecommendedLength() {
+    public Integer getRecommendedLength() {
         return recommendedLength;
     }
 

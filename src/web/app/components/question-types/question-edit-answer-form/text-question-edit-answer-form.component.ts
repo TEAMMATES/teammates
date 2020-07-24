@@ -32,8 +32,7 @@ export class TextQuestionEditAnswerFormComponent
   }
 
   get isWordCountWithinRecommendedBound(): boolean {
-    if (this.questionDetails.recommendedLength === 0) {
-      // not recommended length set
+    if (!this.questionDetails.recommendedLength) {
       return true;
     }
 
