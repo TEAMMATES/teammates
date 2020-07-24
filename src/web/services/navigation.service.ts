@@ -72,6 +72,6 @@ export class NavigationService {
     if (this.masqueradeModeService.isInMasqueradingMode()) {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
     }
-    window.open(url.toString().replace(/\+/g, "%20"));
+    window.open(url.toString().replace(/\+/g, '%20'));
   }
 }
