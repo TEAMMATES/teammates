@@ -26,9 +26,6 @@ import teammates.common.util.Const;
  * Represents the instructor feedback edit page of the website.
  */
 public class InstructorFeedbackEditPage extends AppPage {
-    private static final String DESCRIPTION_PLACEHOLDER = "More details about the question "
-            + "e.g. \"In answering the question, do consider communications made informally within the team,"
-            + " and formal communications with the instructors and tutors.\"";
     private static final String CUSTOM_FEEDBACK_PATH_OPTION = "Custom feedback path";
     private static final String FEEDBACK_PATH_SEPARATOR = " will give feedback on ";
     private static final String CUSTOM_VISIBILITY_OPTION = "Custom visibility options";
@@ -151,7 +148,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifySessionDetails(CourseAttributes course, FeedbackSessionAttributes feedbackSession) {
-        waitForElementPresence(By.id("course-name"));
+        waitForElementPresence(By.cssSelector("#instructions iframe"));
         assertEquals(getCourseId(), course.getId());
         assertEquals(getCourseName(), course.getName());
         assertEquals(getTimeZone(), feedbackSession.getTimeZone().toString());
@@ -321,9 +318,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
         assertEquals(feedbackQuestion.getQuestionDetails().getQuestionText(), getQuestionBrief(questionNum));
-        String description = feedbackQuestion.getQuestionDescription().equals("") ? DESCRIPTION_PLACEHOLDER
-                : feedbackQuestion.getQuestionDescription();
-        assertEquals(description, getQuestionDescription(questionNum));
+        assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getQuestionDescription());
         verifyFeedbackPathSettings(questionNum, feedbackQuestion);
         verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
     }
@@ -539,8 +534,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public String getInstructions() {
-        click(instructionsEditor);
-        return (String) executeScript("return tinyMCE.activeEditor.getContent()");
+        WebElement iframe = instructionsEditor.findElement(By.tagName("iframe"));
+        return getEditorRichText(iframe);
     }
 
     public String getStartDate() {
@@ -605,7 +600,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void setInstructions(String newInstructions) {
         click(instructionsEditor);
-        executeScript(String.format("tinyMCE.activeEditor.setContent('%s')", newInstructions));
+        writeToActiveRichTextEditor(newInstructions);
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
@@ -731,7 +726,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getQuestionDescription(int questionNum) {
-        return getQuestionForm(questionNum).findElement(By.id("question-description")).getText();
+        WebElement iframe = getQuestionForm(questionNum).findElement(By.tagName("iframe"));
+        return getEditorRichText(iframe);
     }
 
     private String getFeedbackGiver(int questionNum) {
@@ -761,7 +757,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void setQuestionDescription(int questionNum, String newDescription) {
         click(getQuestionForm(questionNum).findElement(By.id("question-description")));
-        executeScript(String.format("tinyMCE.activeEditor.setContent('%s')", newDescription));
+        writeToActiveRichTextEditor(newDescription);
     }
 
     private void setFeedbackPath(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {

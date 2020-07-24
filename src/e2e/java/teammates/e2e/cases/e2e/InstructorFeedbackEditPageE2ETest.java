@@ -15,10 +15,8 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
-import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
@@ -46,9 +44,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 .withUserId(instructor.googleId)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        loginAdminToPage(url, InstructorHomePage.class);
-        InstructorFeedbackEditPage feedbackEditPage = AppPage.getNewPageInstance(browser, url,
-                InstructorFeedbackEditPage.class);
+        InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
 
         ______TS("verify loaded data");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
@@ -104,6 +100,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         editedQuestion.setQuestionNumber(1);
         String questionBrief = editedQuestion.getQuestionDetails().getQuestionText();
         editedQuestion.setQuestionDetails(new FeedbackTextQuestionDetails(questionBrief));
+        editedQuestion.setQuestionDescription("<p><em>New Description</em></p>");
         feedbackEditPage.editQuestionDetails(1, editedQuestion);
 
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");

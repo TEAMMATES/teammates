@@ -378,6 +378,27 @@ public abstract class AppPage {
     }
 
     /**
+     * Get rich text from editor.
+     */
+    protected String getEditorRichText(WebElement iframe) {
+        browser.driver.switchTo().frame(iframe);
+
+        String innerHtml = browser.driver.findElement(By.id("tinymce")).getAttribute("innerHTML");
+        // check if editor is empty
+        innerHtml = innerHtml.contains("data-mce-bogus") ? "" : innerHtml;
+        browser.driver.switchTo().defaultContent();
+        return innerHtml;
+    }
+
+    /**
+     * Write rich text to the active editor.
+     */
+    protected void writeToActiveRichTextEditor(String text) {
+        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');" +
+                " tinyMCE.activeEditor.save()", text));
+    }
+
+    /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */

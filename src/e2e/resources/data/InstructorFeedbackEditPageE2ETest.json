@@ -156,7 +156,7 @@
         "questionType": "TEXT",
         "questionText": "Testing question text"
       },
-      "questionDescription": "Testing description",
+      "questionDescription": "<p>Testing description</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
