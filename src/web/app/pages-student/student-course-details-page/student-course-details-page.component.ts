@@ -57,6 +57,11 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   teammateProfiles: StudentProfileWithPicture[] = [];
   teammateProfilesInit: StudentProfileWithPicture[] = [];
 
+  isLoadingCourse: boolean = false;
+  isLoadingStudent: boolean = false;
+  isLoadingInstructor: boolean = false;
+  isLoadingTeammates: boolean = false;
+
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
               private instructorService: InstructorService,
