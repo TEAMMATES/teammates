@@ -33,6 +33,10 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("closedSession");
         StudentAttributes studentToEmail = typicalBundle.students.get("student1InCourse1");
+        InstructorAttributes instructorToEmail = typicalBundle.instructors.get("instructor2OfCourse1");
+        String[] usersToRemind = new String[2];
+        usersToRemind[0] = studentToEmail.getEmail();
+        usersToRemind[1] = instructorToEmail.getEmail();
 
         loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -56,7 +60,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         };
 
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
-        remindRequest.setUsersToRemind(studentToEmail.getEmail().split(""));
+        remindRequest.setUsersToRemind(usersToRemind);
 
         RemindFeedbackSessionResultAction action = getAction(remindRequest, paramsFeedbackSessionNotPublshed);
         JsonResult result = getJsonResult(action);
