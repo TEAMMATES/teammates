@@ -88,6 +88,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         questionToCopy.setQuestionNumber(1);
         templateQuestion.setQuestionNumber(2);
         feedbackEditPage.editQuestionNumber(2, 1);
+        ThreadHelper.waitFor(1000);
 
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");
         feedbackEditPage.verifyQuestionDetails(1, questionToCopy);
