@@ -1,6 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { PageScrollService } from 'ngx-page-scroll-core';
+import { Component, OnInit } from '@angular/core';
 
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
@@ -71,7 +69,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
 
-  exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
+  readonly exampleCommentEditFormModel: CommentEditFormModel = EXAMPLE_COMMENT_EDIT_FORM_MODEL;
   readonly exampleSessionEditFormModel: SessionEditFormModel = EXAMPLE_SESSION_EDIT_FORM_MODEL;
   readonly exampleResponse: ResponseOutput = EXAMPLE_RESPONSE;
   readonly exampleResponseWithComment: ResponseOutput = EXAMPLE_RESPONSE_WITH_COMMENT;
@@ -88,41 +86,25 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   readonly exampleQuestionsWithResponses: QuestionOutput[] = EXAMPLE_QUESTIONS_WITH_RESPONSES;
   readonly exampleCommentSearchResult: SearchCommentsTable[] = EXAMPLE_COMMENT_SEARCH_RESULT;
 
-  questionsToCollapsed: Record<string, boolean> = {
-    [SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]: false,
-    [SessionsSectionQuestions.SESSION_NEW_FEEDBACK]: false,
-    [SessionsSectionQuestions.SESSION_QUESTIONS]: false,
-    [SessionsSectionQuestions.SESSION_PREVIEW]: false,
-    [SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]: false,
-    [SessionsSectionQuestions.SESSION_VIEW_RESULTS]: false,
-    [SessionsSectionQuestions.VIEW_ALL_RESPONSES]: false,
-    [SessionsSectionQuestions.SESSION_ADD_COMMENTS]: false,
-    [SessionsSectionQuestions.EDIT_DEL_COMMENT]: false,
-    [SessionsSectionQuestions.SESSION_SEARCH]: false,
-    [SessionsSectionQuestions.VIEW_DELETED_SESSION]: false,
-    [SessionsSectionQuestions.RESTORE_SESSION]: false,
-    [SessionsSectionQuestions.PERMANENT_DEL_SESSION]: false,
-    [SessionsSectionQuestions.RESTORE_DEL_ALL]: false,
-  };
+  readonly questionsOrder: string[] = [
+    SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL,
+    SessionsSectionQuestions.SESSION_NEW_FEEDBACK,
+    SessionsSectionQuestions.SESSION_QUESTIONS,
+    SessionsSectionQuestions.SESSION_PREVIEW,
+    SessionsSectionQuestions.SESSION_CANNOT_SUBMIT,
+    SessionsSectionQuestions.SESSION_VIEW_RESULTS,
+    SessionsSectionQuestions.VIEW_ALL_RESPONSES,
+    SessionsSectionQuestions.SESSION_ADD_COMMENTS,
+    SessionsSectionQuestions.EDIT_DEL_COMMENT,
+    SessionsSectionQuestions.SESSION_SEARCH,
+    SessionsSectionQuestions.VIEW_DELETED_SESSION,
+    SessionsSectionQuestions.RESTORE_SESSION,
+    SessionsSectionQuestions.PERMANENT_DEL_SESSION,
+    SessionsSectionQuestions.RESTORE_DEL_ALL,
+  ];
 
-  constructor(private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: any) {
-    super();
+  getQuestionsOrder(): string[] {
+    return this.questionsOrder;
   }
 
-  /**
-   * Scrolls to an HTML element with a given target id.
-   */
-  jumpTo(target: string): boolean {
-    this.pageScrollService.scroll({
-      document: this.document,
-      scrollTarget: `#${target}`,
-      scrollOffset: 70,
-    });
-    return false;
-  }
-
-  expand(questionId: string): void {
-    this.questionsToCollapsed[questionId] = true;
-  }
 }
