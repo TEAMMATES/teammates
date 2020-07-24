@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -16,7 +15,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 /**
  * A student profile which also has the profile picture URL
  */
-export interface StudentProfileWithPicture extends StudentProfile {
+export interface StudentProfileWithPicture {
+  studentProfile: StudentProfile;
   photoUrl: string;
 }
 
@@ -32,8 +32,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   // enum
   Gender: typeof Gender = Gender;
   SortBy: typeof SortBy = SortBy;
-  teammateProfilesSortBy: SortBy = SortBy.NONE;
-
+  teammateProfilesSortBy: SortBy = SortBy.STUDENT_NAME;
   // data
   student: Student = {
     email: '',
@@ -56,11 +55,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
 
   instructorDetails: Instructor[] = [];
   teammateProfiles: StudentProfileWithPicture[] = [];
-
-  isLoadingCourse: boolean = false;
-  isLoadingStudent: boolean = false;
-  isLoadingInstructor: boolean = false;
-  isLoadingTeammates: boolean = false;
+  teammateProfilesInit: StudentProfileWithPicture[] = [];
 
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,
@@ -86,12 +81,9 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadCourse(courseId: string): void {
-    this.isLoadingCourse = true;
-    this.courseService.getCourseAsStudent(courseId)
-        .pipe(finalize(() => this.isLoadingCourse = false))
-        .subscribe((course: Course) => {
-          this.course = course;
-        });
+    this.courseService.getCourseAsStudent(courseId).subscribe((course: Course) => {
+      this.course = course;
+    });
   }
 
   /**
@@ -99,9 +91,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadStudent(courseId: string): void {
-    this.isLoadingStudent = true;
     this.studentService.getStudent(courseId)
-        .pipe(finalize(() => this.isLoadingStudent = false))
         .subscribe((student: Student) => {
           this.student = student;
           this.loadTeammates(courseId, student.teamName);
@@ -116,13 +106,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param teamName: team of current student
    */
   loadTeammates(courseId: string, teamName: string): void {
-    this.isLoadingTeammates = true;
     this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
       .subscribe((students: Students) => {
-        // No teammates
-        if (students.students.length === 1 && students.students[0].email === this.student.email) {
-          this.isLoadingTeammates = false;
-        }
         students.students.forEach((student: Student) => {
           // filter away current user
           if (student.email === this.student.email) {
@@ -130,26 +115,27 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           }
 
           this.studentProfileService.getStudentProfile(student.email, courseId)
-                .pipe(finalize(() => this.isLoadingTeammates = false))
-                .subscribe((studentProfile: StudentProfile) => {
-                  const newPhotoUrl: string =
-                    `${environment.backendUrl}/webapi/student/profilePic`
-                    + `?courseid=${courseId}&studentemail=${student.email}`;
+            .subscribe((studentProfile: StudentProfile) => {
+              const newPhotoUrl: string =
+                `${environment.backendUrl}/webapi/student/profilePic`
+                + `?courseid=${courseId}&studentemail=${student.email}`;
 
-                  const newTeammateProfile: StudentProfileWithPicture = {
-                    ...studentProfile,
-                    email: student.email,
-                    name: student.name,
-                    photoUrl : newPhotoUrl,
-                  };
+              const newTeammateProfile: StudentProfileWithPicture = {
+                studentProfile: {
+                  ...studentProfile,
+                  email: student.email,
+                  shortName: student.name,
+                },
+                photoUrl: newPhotoUrl,
+              };
 
-                  this.teammateProfiles.push(newTeammateProfile);
-                });
+              this.teammateProfiles.push(newTeammateProfile);
+              this.teammateProfilesInit.push(newTeammateProfile);
+            });
         });
       }, (resp: ErrorMessageOutput) => {
-        this.isLoadingTeammates = false;
         this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      });   
   }
 
   /**
@@ -157,9 +143,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param courseid: id of the course queried
    */
   loadInstructors(courseId: string): void {
-    this.isLoadingInstructor = true;
     this.instructorService.loadInstructors({ courseId })
-        .pipe(finalize(() => this.isLoadingInstructor = false))
         .subscribe((instructors: Instructors) => {
           this.instructorDetails = instructors.instructors;
         }, (resp: ErrorMessageOutput) => {
@@ -199,30 +183,30 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    * @param sortOption: option for sorting
    */
   sortPanelsBy(sortOption: SortBy):
-      ((a: StudentProfile, b: StudentProfile) => number) {
-    return ((a: StudentProfile, b: StudentProfile): number => {
+      ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }) => number) {
+    return ((a: { studentProfile: StudentProfile }, b: { studentProfile: StudentProfile }): number => {
       let strA: string;
       let strB: string;
       switch (sortOption) {
         case SortBy.STUDENT_NAME:
-          strA = a.name;
-          strB = b.name;
+          strA = a.studentProfile.shortName;
+          strB = b.studentProfile.shortName;
           break;
         case SortBy.EMAIL:
-          strA = a.email;
-          strB = b.email;
+          strA = a.studentProfile.email;
+          strB = b.studentProfile.email;
           break;
         case SortBy.STUDENT_GENDER:
-          strA = a.gender;
-          strB = b.gender;
+          strA = a.studentProfile.gender;
+          strB = b.studentProfile.gender;
           break;
         case SortBy.INSTITUTION:
-          strA = a.institute;
-          strB = b.institute;
+          strA = a.studentProfile.institute;
+          strB = b.studentProfile.institute;
           break;
         case SortBy.NATIONALITY:
-          strA = a.nationality;
-          strB = b.nationality;
+          strA = a.studentProfile.nationality;
+          strB = b.studentProfile.nationality;
           break;
         default:
           strA = '';
@@ -231,4 +215,24 @@ export class StudentCourseDetailsPageComponent implements OnInit {
       return this.tableComparatorService.compare(sortOption, SortOrder.ASC, strA, strB);
     });
   }
+
+  /**
+   * Search Profiles if the value of the search bar is included
+   * in the name or the email of the profile
+   */
+  searchTeammateProfiles(inputValue: string): void {
+    if (!inputValue) {
+      this.teammateProfiles = this.teammateProfilesInit;
+    }
+    else {
+      this.teammateProfiles = [];
+      this.teammateProfilesInit.forEach(student => {
+        if (student.studentProfile.name.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase()) ||
+          student.studentProfile.email.toLocaleLowerCase().includes(inputValue.toLocaleLowerCase())) {
+          this.teammateProfiles.push(student);
+        }
+      });
+    }
+  }
+
 }
