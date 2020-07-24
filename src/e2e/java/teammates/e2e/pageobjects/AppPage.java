@@ -394,8 +394,8 @@ public abstract class AppPage {
      * Write rich text to the active editor.
      */
     protected void writeToActiveRichTextEditor(String text) {
-        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');" +
-                " tinyMCE.activeEditor.save()", text));
+        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
+                + " tinyMCE.activeEditor.save()", text));
     }
 
     /**
