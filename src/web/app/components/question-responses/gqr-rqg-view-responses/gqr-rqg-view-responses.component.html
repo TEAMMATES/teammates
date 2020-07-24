@@ -12,7 +12,6 @@
         <div class="card-body background-color-warning">
           <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
-            <hr>
             <div class="card top-padded alert-primary-border" *ngFor="let question of teamsToQuestions[teamInfo.key]">
               <div class="card-header alert-primary">
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
@@ -30,7 +29,6 @@
             </div>
           </div>
           <h3 class="top-padded">{{ teamInfo.key }} Detailed Responses</h3>
-          <hr>
           <div *ngFor="let userInfo of teamInfo.value">
             <ng-container
                     [ngTemplateOutlet]="userTab"
