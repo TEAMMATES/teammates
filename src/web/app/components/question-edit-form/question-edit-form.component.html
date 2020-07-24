@@ -15,10 +15,10 @@
       <div class="col-7 text-right" *ngIf="!isDisplayOnly">
         <div *ngIf="formMode === QuestionEditFormMode.EDIT">
           <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();" [disabled]="model.isSaving"
-                  ngbTooltip="Edit the existing question. Do remember to save the changes before moving on to editing another question."><i class="fas fa-pencil-alt"></i> Edit</button>
+                  ><i class="fas fa-pencil-alt"></i> Edit</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(false); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel</button>
+                  (click)="discardChangesHandler(false); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel</button>
           <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
           <button type="button" class="btn btn-primary btn-sm"
                   (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"
@@ -26,7 +26,7 @@
         </div>
         <div *ngIf="formMode === QuestionEditFormMode.ADD">
           <button type="button" class="btn btn-primary btn-sm"
-                  ngbTooltip="Cancel adding new question. No new question will be added to the feedback session." container="body" (click)="discardChangesHandler(true); $event.stopPropagation();" [disabled]="model.isSaving">
+                  (click)="discardChangesHandler(true); $event.stopPropagation();" [disabled]="model.isSaving">
             <i class="fas fa-ban"></i>
             Cancel
           </button>
@@ -49,7 +49,6 @@
               <div class="col-md-10">
                 <textarea class="form-control" [ngModel]="model.questionBrief" (ngModelChange)="triggerModelChange('questionBrief', $event)" [disabled]="!model.isEditable"
                           placeholder="A concise version of the question e.g. &quot;How well did the team member communicate?&quot;"
-                          ngbTooltip="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?"
                 ></textarea>
               </div>
             </div>
@@ -60,7 +59,7 @@
               <div class="col-md-10">
                 <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="100"
                                      placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
-                                     ngbTooltip="Please enter the description of the question."></tm-rich-text-editor>
+                ></tm-rich-text-editor>
               </div>
             </div>
             <div class="padding-15px">
@@ -227,7 +226,7 @@
     <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
       <div class="col-12 text-right">
         <button type="button" class="btn btn-primary margin-right-5px" *ngIf="model.isEditable"
-                ngbTooltip="Discard any unsaved edits and revert back to original question." (click)="discardChangesHandler(false)" [disabled]="model.isSaving">
+                (click)="discardChangesHandler(false)" [disabled]="model.isSaving">
           <i class="fas fa-ban"></i> Cancel
         </button>
         <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler()">

@@ -73,7 +73,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionText: '',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextQuestionDetails,
