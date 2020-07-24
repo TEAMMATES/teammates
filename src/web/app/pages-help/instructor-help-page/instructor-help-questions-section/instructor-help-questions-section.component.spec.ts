@@ -1,40 +1,34 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
-import { HttpRequestService } from '../../../../services/http-request.service';
 import { QuestionEditFormModule } from '../../../components/question-edit-form/question-edit-form.module';
 import { QuestionSubmissionFormModule,
 } from '../../../components/question-submission-form/question-submission-form.module';
 import {
     QuestionStatisticsModule,
 } from '../../../components/question-types/question-statistics/question-statistics.module';
-import {
-    InstructorSessionResultPageModule,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.module';
-import { ExampleBoxComponent } from '../example-box/example-box.component';
+import { InstructorSessionResultViewModule } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
+import { ExampleBoxModule } from '../example-box/example-box.module';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section.component';
 
 describe('InstructorHelpQuestionsSectionComponent', () => {
   let component: InstructorHelpQuestionsSectionComponent;
   let fixture: ComponentFixture<InstructorHelpQuestionsSectionComponent>;
-  let spyHttpRequestService: any;
 
   beforeEach(async(() => {
-    spyHttpRequestService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      put: jest.fn(),
-      delete: jest.fn(),
-    };
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpQuestionsSectionComponent, ExampleBoxComponent],
-      imports: [
-        InstructorSessionResultPageModule, NgbModule, RouterTestingModule, NgxPageScrollCoreModule,
-        QuestionEditFormModule, QuestionStatisticsModule, QuestionSubmissionFormModule,
+      declarations: [
+        InstructorHelpQuestionsSectionComponent,
+        InstructorHelpPanelComponent,
       ],
-      providers: [
-        { provide: HttpRequestService, useValue: spyHttpRequestService },
+      imports: [
+        InstructorSessionResultViewModule, NgbModule, RouterTestingModule, HttpClientTestingModule,
+        NgxPageScrollCoreModule, NoopAnimationsModule, ExampleBoxModule,
+        QuestionEditFormModule, QuestionStatisticsModule, QuestionSubmissionFormModule,
       ],
     })
     .compileComponents();

@@ -251,22 +251,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.hasCoownerPrivileges();
     }
 
-    public boolean hasManagerPrivileges() {
-        return privileges.hasManagerPrivileges();
-    }
-
-    public boolean hasObserverPrivileges() {
-        return privileges.hasObserverPrivileges();
-    }
-
-    public boolean hasTutorPrivileges() {
-        return privileges.hasTutorPrivileges();
-    }
-
-    public boolean isCustomRole() {
-        return Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(role);
-    }
-
     public String getCourseId() {
         return courseId;
     }

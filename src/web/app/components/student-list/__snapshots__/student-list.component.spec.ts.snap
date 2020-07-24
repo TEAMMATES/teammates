@@ -12,12 +12,12 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -88,7 +88,9 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -113,12 +115,12 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -202,7 +204,9 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -212,9 +216,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -241,9 +243,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             tester
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Yet to Join
           </td>
           <td>
@@ -284,13 +284,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </button>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -306,9 +304,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -335,9 +331,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             Benny Charles
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Yet to Join
           </td>
           <td>
@@ -378,13 +372,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             </button>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -400,9 +392,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -429,9 +419,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             Alice Betsy
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -465,13 +453,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -487,9 +473,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -516,9 +500,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           <td>
             Danny Engrid
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -552,13 +534,11 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -589,12 +569,12 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -678,7 +658,9 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -688,9 +670,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -717,9 +697,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             tester
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Yet to Join
           </td>
           <td>
@@ -760,13 +738,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             </button>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -782,9 +758,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -811,9 +785,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             Benny Charles
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -847,13 +819,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -869,9 +839,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -898,9 +866,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             Alice Betsy
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -934,13 +900,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -956,9 +920,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -985,9 +947,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           <td>
             Danny Engrid
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1021,13 +981,11 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1058,12 +1016,12 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -1147,7 +1105,9 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -1157,9 +1117,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1186,9 +1144,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             tester
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1219,13 +1175,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1241,9 +1195,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1270,9 +1222,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             Benny Charles
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1303,13 +1253,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1325,9 +1273,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1354,9 +1300,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             Alice Betsy
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1387,13 +1331,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1409,9 +1351,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1438,9 +1378,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           <td>
             Danny Engrid
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1471,13 +1409,11 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1508,12 +1444,12 @@ exports[`StudentListComponent should snap with some student list data and some s
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -1597,7 +1533,9 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -1608,9 +1546,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           hidden=""
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1637,9 +1573,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             tester
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1670,13 +1604,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1692,9 +1624,7 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1721,9 +1651,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             Benny Charles
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1754,13 +1682,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1777,9 +1703,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           hidden=""
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1806,9 +1730,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             Alice Betsy
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1839,13 +1761,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1861,9 +1781,7 @@ exports[`StudentListComponent should snap with some student list data and some s
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -1890,9 +1808,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           <td>
             Danny Engrid
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -1923,13 +1839,11 @@ exports[`StudentListComponent should snap with some student list data and some s
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -1960,12 +1874,12 @@ exports[`StudentListComponent should snap with some student list data when not a
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -2049,7 +1963,9 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -2059,9 +1975,7 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -2088,9 +2002,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             tester
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -2121,13 +2033,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2143,9 +2053,7 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -2172,9 +2080,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             Benny Charles
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -2205,13 +2111,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2 disabled mouse-hover-only"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2227,9 +2131,7 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -2256,9 +2158,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             Alice Betsy
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -2289,13 +2189,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2311,9 +2209,7 @@ exports[`StudentListComponent should snap with some student list data when not a
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -2340,9 +2236,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           <td>
             Danny Engrid
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -2373,13 +2267,11 @@ exports[`StudentListComponent should snap with some student list data when not a
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2410,12 +2302,12 @@ exports[`StudentListComponent should snap with some student list data with no se
   isHideTableHead="false"
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -2486,7 +2378,9 @@ exports[`StudentListComponent should snap with some student list data with no se
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>
@@ -2496,9 +2390,7 @@ exports[`StudentListComponent should snap with some student list data with no se
         <tr
           s=""
         >
-          <td
-            class="align-center"
-          >
+          <td>
             <tm-view-photo-popover>
               
               
@@ -2522,9 +2414,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           <td>
             tester
           </td>
-          <td
-            class="align-center"
-          >
+          <td>
             Joined
           </td>
           <td>
@@ -2555,13 +2445,11 @@ exports[`StudentListComponent should snap with some student list data with no se
             </a>
             
             
-            
             <button
               class="btn btn-light btn-sm mr-2"
             >
               Delete
             </button>
-            
             
             <a
               class="btn btn-light btn-sm mr-2"
@@ -2592,12 +2480,12 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   isHideTableHead={[Function Boolean]}
   listOfStudentsToHide={[Function Array]}
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   removeStudentFromCourseEvent={[Function EventEmitter]}
   router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
   statusMessageService={[Function StatusMessageService]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
   useGrayHeading={[Function Boolean]}
@@ -2669,7 +2557,9 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             
             
           </th>
-          <th>
+          <th
+            class="align-center"
+          >
             Action(s)
           </th>
         </tr>

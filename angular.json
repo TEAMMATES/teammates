@@ -32,40 +32,20 @@
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/tinymce/plugins/emoticons/js",
-                "output": "plugins/emoticons/js"
+                "input": "node_modules/tinymce/themes",
+                "output": "tinymce/themes"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/tinymce/plugins",
+                "output": "tinymce/plugins"
               }
             ],
             "styles": [
               "src/web/styles.scss"
             ],
             "scripts": [
-              "node_modules/tinymce/tinymce.min.js",
-              "node_modules/tinymce/themes/silver/theme.js",
-              "src/web/tinymce/placeholder-plugin.js",
-              "node_modules/tinymce/plugins/advlist/plugin.js",
-              "node_modules/tinymce/plugins/autolink/plugin.js",
-              "node_modules/tinymce/plugins/lists/plugin.js",
-              "node_modules/tinymce/plugins/link/plugin.js",
-              "node_modules/tinymce/plugins/image/plugin.js",
-              "node_modules/tinymce/plugins/charmap/plugin.js",
-              "node_modules/tinymce/plugins/print/plugin.js",
-              "node_modules/tinymce/plugins/hr/plugin.js",
-              "node_modules/tinymce/plugins/anchor/plugin.js",
-              "node_modules/tinymce/plugins/searchreplace/plugin.js",
-              "node_modules/tinymce/plugins/wordcount/plugin.js",
-              "node_modules/tinymce/plugins/visualblocks/plugin.js",
-              "node_modules/tinymce/plugins/visualchars/plugin.js",
-              "node_modules/tinymce/plugins/code/plugin.js",
-              "node_modules/tinymce/plugins/fullscreen/plugin.js",
-              "node_modules/tinymce/plugins/insertdatetime/plugin.js",
-              "node_modules/tinymce/plugins/nonbreaking/plugin.js",
-              "node_modules/tinymce/plugins/save/plugin.js",
-              "node_modules/tinymce/plugins/table/plugin.js",
-              "node_modules/tinymce/plugins/directionality/plugin.js",
-              "node_modules/tinymce/plugins/emoticons/plugin.js",
-              "node_modules/tinymce/plugins/paste/plugin.js",
-              "node_modules/tinymce/plugins/textpattern/plugin.js"
+              "node_modules/tinymce/tinymce.min.js"
             ]
           },
           "configurations": {
@@ -89,8 +69,13 @@
                 },
                 {
                   "glob": "**/*",
-                  "input": "node_modules/tinymce/plugins/emoticons/js",
-                  "output": "plugins/emoticons/js"
+                  "input": "node_modules/tinymce/themes",
+                  "output": "tinymce/themes"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/tinymce/plugins",
+                  "output": "tinymce/plugins"
                 },
                 "src/web/BingSiteAuth.xml",
                 "src/web/google8c7ef1e995031e09.html",

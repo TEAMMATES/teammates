@@ -15,14 +15,15 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
   loadResponseRateEvent={[Function EventEmitter]}
-  modalService={[Function NgbModal]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
@@ -93,9 +94,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               container="body"
               ngbtooltip="Number of students submitted / Class size"
             >
-              <span
-                class="tool-tip-decorate"
-              >
+              <span>
                 Response Rate
               </span>
             </th>
@@ -114,43 +113,24 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               Season 8 Review
             </td>
             
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 19 Jan 7:30 AM
               </span>
             </td>
             
-            
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 19 Jan 7:32 AM
               </span>
             </td>
-            
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Open
               </span>
             </td>
-            <td
-              class="tool-tip-decorate"
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Not Published
               </span>
             </td>
@@ -167,14 +147,12 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             >
               <button
                 class="btn btn-light btn-sm"
-                ngbtooltip="Edit feedback session details"
                 type="button"
               >
                 Edit
               </button>
               <button
                 class="btn btn-light btn-sm"
-                ngbtooltip="Delete the feedback session"
                 type="button"
               >
                 Delete
@@ -196,7 +174,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
-                ngbtooltip="View the submitted responses for this feedback session"
               >
                 <button
                   aria-expanded="false"
@@ -212,13 +189,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   x-placement="bottom"
                 >
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     View Results
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                     container="body"
                     ngbtooltip="Make session responses available for viewing"
                     placement="left"
@@ -229,7 +206,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     Download Results
                   </button>
@@ -254,43 +231,24 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               Season 7 Review
             </td>
             
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 19 Jan 7:13 AM
               </span>
             </td>
             
-            
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 19 Jan 7:15 AM
               </span>
             </td>
-            
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Closed
               </span>
             </td>
-            <td
-              class="tool-tip-decorate"
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Published
               </span>
             </td>
@@ -299,9 +257,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               
               <tm-ajax-loading>
-                <img
-                  src="assets/images/ajax-loader.gif"
-                />
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm text-white"
+                    role="status"
+                  />
+                </div>
               </tm-ajax-loading>
             </td>
             <td
@@ -310,7 +273,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
-                ngbtooltip="Edit feedback session details"
                 type="button"
               >
                 Edit
@@ -318,7 +280,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
-                ngbtooltip="Delete the feedback session"
                 type="button"
               >
                 Delete
@@ -341,7 +302,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
-                ngbtooltip="View the submitted responses for this feedback session"
               >
                 <button
                   aria-expanded="false"
@@ -357,13 +317,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   x-placement="bottom"
                 >
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     View Results
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                     container="body"
                     disabled=""
                     ngbtooltip="Make responses no longer visible"
@@ -375,12 +335,12 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     Resend link to view results
                   </button>
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     Download Results
                   </button>
@@ -422,14 +382,15 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
   loadResponseRateEvent={[Function EventEmitter]}
-  modalService={[Function NgbModal]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy={[Function Number]}
   sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
@@ -487,9 +448,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               container="body"
               ngbtooltip="Number of students submitted / Class size"
             >
-              <span
-                class="tool-tip-decorate"
-              >
+              <span>
                 Response Rate
               </span>
             </th>
@@ -512,22 +471,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             </td>
             
             
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Open
               </span>
             </td>
-            <td
-              class="tool-tip-decorate"
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Not Published
               </span>
             </td>
@@ -544,14 +494,12 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             >
               <button
                 class="btn btn-light btn-sm"
-                ngbtooltip="Edit feedback session details"
                 type="button"
               >
                 Edit
               </button>
               <button
                 class="btn btn-light btn-sm"
-                ngbtooltip="Delete the feedback session"
                 type="button"
               >
                 Delete
@@ -573,7 +521,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
-                ngbtooltip="View the submitted responses for this feedback session"
               >
                 <button
                   aria-expanded="false"
@@ -589,13 +536,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   x-placement="bottom"
                 >
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     View Results
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                     container="body"
                     ngbtooltip="Make session responses available for viewing"
                     placement="left"
@@ -606,7 +553,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     Download Results
                   </button>
@@ -635,22 +582,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             </td>
             
             
-            <td
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Closed
               </span>
             </td>
-            <td
-              class="tool-tip-decorate"
-              container="body"
-            >
-              <span
-                class="tool-tip-decorate"
-              >
+            <td>
+              <span>
                 Published
               </span>
             </td>
@@ -659,9 +597,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               
               <tm-ajax-loading>
-                <img
-                  src="assets/images/ajax-loader.gif"
-                />
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm text-white"
+                    role="status"
+                  />
+                </div>
               </tm-ajax-loading>
             </td>
             <td
@@ -670,7 +613,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
-                ngbtooltip="Edit feedback session details"
                 type="button"
               >
                 Edit
@@ -678,7 +620,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
-                ngbtooltip="Delete the feedback session"
                 type="button"
               >
                 Delete
@@ -701,7 +642,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
-                ngbtooltip="View the submitted responses for this feedback session"
               >
                 <button
                   aria-expanded="false"
@@ -717,13 +657,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   x-placement="bottom"
                 >
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     View Results
                   </button>
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                     container="body"
                     disabled=""
                     ngbtooltip="Make responses no longer visible"
@@ -735,12 +675,12 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   
                   
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     Resend link to view results
                   </button>
                   <button
-                    class="dropdown-item clickable"
+                    class="btn dropdown-item clickable"
                   >
                     Download Results
                   </button>
@@ -782,14 +722,15 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   editSessionEvent={[Function EventEmitter]}
   headerColorScheme="0"
   loadResponseRateEvent={[Function EventEmitter]}
-  modalService={[Function NgbModal]}
   moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter]}
   sendRemindersToStudentsEvent={[Function EventEmitter]}
   sessionsTableRowModels={[Function Array]}
   sessionsTableRowModelsSortBy="0"
   sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}

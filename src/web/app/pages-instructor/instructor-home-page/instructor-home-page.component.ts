@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -8,6 +8,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { InstructorService } from '../../../services/instructor.service';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -27,6 +28,7 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -74,15 +76,15 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               navigationService: NavigationService,
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
-              modalService: NgbModal,
+              ngbModal: NgbModal,
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
+              private simpleModalService: SimpleModalService,
               private courseService: CourseService,
-              private ngbModal: NgbModal,
               private loadingBarService: LoadingBarService) {
-    super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, modalService, studentService);
+    super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
+        feedbackQuestionsService, tableComparatorService, ngbModal, studentService);
   }
 
   ngOnInit(): void {
@@ -117,42 +119,48 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Open the modal for different buttons and link.
-   */
-  openModal(content: any): void {
-    this.ngbModal.open(content);
-  }
-
-  /**
    * Archives the entire course from the instructor
    */
   archiveCourse(courseId: string): void {
-    this.courseService.changeArchiveStatus(courseId, {
-      archiveStatus: true,
-    }).subscribe((courseArchive: CourseArchive) => {
-      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-        return model.course.courseId !== courseId;
+    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
+
+    const modalRef: NgbModalRef =
+        this.simpleModalService.openConfirmationModal(
+            `Archive course <strong>${courseId}</strong>?`, SimpleModalType.INFO, modalContent);
+    modalRef.result.then(() => {
+      this.courseService.changeArchiveStatus(courseId, {
+        archiveStatus: true,
+      }).subscribe((courseArchive: CourseArchive) => {
+        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+          return model.course.courseId !== courseId;
+        });
+        this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
+            You can retrieve it from the Courses page.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
-      this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
-          You can retrieve it from the Courses page.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, () => {});
   }
 
   /**
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    this.courseService.binCourse(courseId).subscribe((course: Course) => {
-      this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-        return model.course.courseId !== courseId;
+    const modalContent: string = 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
+
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent);
+    modalRef.result.then(() => {
+      this.courseService.binCourse(courseId).subscribe((course: Course) => {
+        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+          return model.course.courseId !== courseId;
+        });
+        this.statusMessageService.showSuccessToast(
+            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
-      this.statusMessageService.showSuccessToast(
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, () => {});
   }
   /**
    * Loads courses of current instructor.
@@ -198,9 +206,10 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Loads the feedback session in the course.
+   * Loads the feedback session in the course and sorts them according to end date.
    */
-  loadFeedbackSessions(model: CourseTabModel): void {
+  loadFeedbackSessions(index: number): void {
+    const model: CourseTabModel = this.courseTabModels[index];
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
           .subscribe((response: FeedbackSessions) => {
@@ -221,7 +230,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           }, (resp: ErrorMessageOutput) => {
             model.isAjaxSuccess = false;
             this.statusMessageService.showErrorToast(resp.error.message);
-          });
+          }, () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE));
     }
   }
 
@@ -239,7 +248,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.instructorCoursesSortBy = by;
 
     if (this.courseTabModels.length > 1) {
-      this.courseTabModels.sort(this.sortPanelsBy(by));
+      const modelCopy: CourseTabModel[] = JSON.parse(JSON.stringify(this.courseTabModels));
+      modelCopy.sort(this.sortPanelsBy(by));
+      this.courseTabModels = modelCopy;
     }
     this.loadLatestCourses();
   }
@@ -253,7 +264,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         break;
       }
       this.courseTabModels[i].isTabExpanded = true;
-      this.loadFeedbackSessions(this.courseTabModels[i]);
+      this.loadFeedbackSessions(i);
     }
   }
 
@@ -265,24 +276,29 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     return ((a: { course: Course }, b: { course: Course }): number => {
       let strA: string;
       let strB: string;
+      let order: SortOrder;
       switch (by) {
         case SortBy.COURSE_NAME:
           strA = a.course.courseName;
           strB = b.course.courseName;
+          order = SortOrder.ASC;
           break;
         case SortBy.COURSE_ID:
           strA = a.course.courseId;
           strB = b.course.courseId;
+          order = SortOrder.ASC;
           break;
         case SortBy.COURSE_CREATION_DATE:
           strA = String(a.course.creationTimestamp);
           strB = String(b.course.creationTimestamp);
+          order = SortOrder.DESC;
           break;
         default:
           strA = '';
           strB = '';
+          order = SortOrder.ASC;
       }
-      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
+exports[`InstructorStudentRecordsPageComponent should snap when student results are still loading 1`] = `
 <tm-instructor-student-records-page
   commentService={[Function FeedbackResponseCommentService]}
   commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
@@ -9,41 +9,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   feedbackSessionsService={[Function FeedbackSessionsService]}
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
-  photoUrl={[Function String]}
-  route={[Function Object]}
-  session={[Function Object]}
-  sessionTabs={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentEmail={[Function String]}
-  studentName=""
-  studentProfile={[Function Object]}
-  studentProfileService={[Function StudentProfileService]}
-  studentSection=""
-  studentService={[Function StudentService]}
-  studentTeam=""
->
-  <h1>
-    's Records
-    <small
-      class="text-muted"
-    >
-       - su1337
-    </small>
-  </h1><tm-student-profile /><tm-more-info /><h2>
-    Records in feedback sessions
-  </h2>
-</tm-instructor-student-records-page>
-`;
-
-exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
-<tm-instructor-student-records-page
-  commentService={[Function FeedbackResponseCommentService]}
-  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
-  commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
-  courseId={[Function String]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
-  instructorCommentTableModel={[Function Object]}
-  instructorService={[Function InstructorService]}
+  isStudentLoading="false"
+  isStudentProfileLoading="false"
+  isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
   session={[Function Object]}
@@ -56,6 +24,141 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   studentSection=""
   studentService={[Function StudentService]}
   studentTeam=""
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <h1>
+    John Doe's Records
+    <small
+      class="text-muted"
+    >
+       - CS1111
+    </small>
+  </h1><tm-student-profile /><tm-more-info /><h2>
+    Records in feedback sessions
+  </h2><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-instructor-student-records-page>
+`;
+
+exports[`InstructorStudentRecordsPageComponent should snap with default fields 1`] = `
+<tm-instructor-student-records-page
+  commentService={[Function FeedbackResponseCommentService]}
+  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
+  commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
+  courseId={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  instructorCommentTableModel={[Function Object]}
+  instructorService={[Function InstructorService]}
+  isStudentLoading={[Function Boolean]}
+  isStudentProfileLoading={[Function Boolean]}
+  isStudentResultsLoading={[Function Boolean]}
+  photoUrl={[Function String]}
+  route={[Function Object]}
+  session={[Function Object]}
+  sessionTabs={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail={[Function String]}
+  studentName=""
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentSection=""
+  studentService={[Function StudentService]}
+  studentTeam=""
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <h1>
+    's Records
+    <small
+      class="text-muted"
+    >
+       - su1337
+    </small>
+  </h1><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><h2>
+    Records in feedback sessions
+  </h2><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-instructor-student-records-page>
+`;
+
+exports[`InstructorStudentRecordsPageComponent should snap with populated fields 1`] = `
+<tm-instructor-student-records-page
+  commentService={[Function FeedbackResponseCommentService]}
+  commentToCommentRowModel={[Function CommentToCommentRowModelPipe]}
+  commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
+  courseId={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  instructorCommentTableModel={[Function Object]}
+  instructorService={[Function InstructorService]}
+  isStudentLoading="false"
+  isStudentProfileLoading="false"
+  isStudentResultsLoading="false"
+  photoUrl={[Function String]}
+  route={[Function Object]}
+  session={[Function Object]}
+  sessionTabs={[Function Array]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail={[Function String]}
+  studentName={[Function String]}
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentSection=""
+  studentService={[Function StudentService]}
+  studentTeam=""
+  tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Not John Doe's Records
@@ -66,6 +169,8 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
     </small>
   </h1><tm-student-profile /><tm-more-info /><h2>
     Records in feedback sessions
-  </h2>
+  </h2><div>
+    
+  </div>
 </tm-instructor-student-records-page>
 `;

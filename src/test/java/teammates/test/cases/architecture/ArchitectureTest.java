@@ -489,8 +489,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().doNotHaveSimpleName("ActivityLogEntry")
-                .and().doNotHaveSimpleName("GoogleCloudStorageHelper")
+        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
                 .and().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
                 .and().doNotHaveSimpleName("GaeSimulation")

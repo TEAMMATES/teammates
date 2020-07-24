@@ -6,10 +6,10 @@
       <div class="card bg-light top-padded">
         <div class="card-header bg-secondary recycle-bin-header" (click)="recycleBinExpandEvent.emit()">
           <div class="row align-items-center">
-            <div class="col-6 text-white">
+            <div class="col-4 text-white">
               <b>Recycle Bin</b>
             </div>
-            <div class="col-6 text-right bin-header-button">
+            <div class="col-8 text-right bin-header-button">
               <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
                       (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
               <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
@@ -61,8 +61,8 @@
               {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
             </td>
             <td class="text-center actions-cell">
-              <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore the feedback session" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
-              <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete the feedback session" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
+              <button type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
+              <button type="button" class="btn btn-light btn-sm text-danger" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
             </td>
           </tr>
           </tbody>

@@ -53,6 +53,7 @@ describe('HttpRequestService', () => {
     service.get('/url');
     expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, {
       withCredentials,
+      headers: expect.any(Object),
       params: expect.any(Object), responseType: 'json' as 'text',
     });
   });

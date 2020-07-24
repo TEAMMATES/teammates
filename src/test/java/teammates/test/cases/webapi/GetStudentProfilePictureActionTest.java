@@ -107,13 +107,11 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         };
 
         action = getAction(submissionParams);
-        JsonResult jsonResult = getJsonResult(action);
-        MessageOutput message = (MessageOutput) jsonResult.getOutput();
+        imageResult = getImageResult(action);
 
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals(GetStudentProfilePictureAction.PROFILE_PIC_NOT_FOUND, message.getMessage());
+        assertEquals(HttpStatus.SC_NO_CONTENT, imageResult.getStatusCode());
 
-        ______TS("Failure case: requested student has no profile picture");
+        ______TS("Success case: requested student has no profile picture");
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student2InCourse1.getCourse(),
@@ -121,11 +119,24 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         };
 
         action = getAction(submissionParams);
-        jsonResult = getJsonResult(action);
-        message = (MessageOutput) jsonResult.getOutput();
+        imageResult = getImageResult(action);
+
+        assertEquals(HttpStatus.SC_NO_CONTENT, imageResult.getStatusCode());
+
+        ______TS("Failure case: requesting image of a non-existing student");
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, student2InCourse1.getCourse(),
+                Const.ParamsNames.STUDENT_EMAIL, "non-existent@student.com",
+        };
+
+        action = getAction(submissionParams);
+        JsonResult jsonResult = getJsonResult(action);
+        MessageOutput message = (MessageOutput) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals(GetStudentProfilePictureAction.PROFILE_PIC_NOT_FOUND, message.getMessage());
+        assertEquals("No student found", message.getMessage());
+
     }
 
     @Test

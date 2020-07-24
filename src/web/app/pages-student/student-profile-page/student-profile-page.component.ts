@@ -12,13 +12,12 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentProfileService } from '../../../services/student-profile.service';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-import { HttpErrorResponse } from '@angular/common/http';
-import { from, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { from, throwError } from 'rxjs';
+import { catchError, finalize, switchMap } from 'rxjs/operators';
 import { NationalitiesService } from '../../../services/nationalities.service';
-import {
-  UploadEditProfilePictureModalComponent,
-} from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { UploadEditProfilePictureModalComponent } from './upload-edit-profile-picture-modal/upload-edit-profile-picture-modal.component';
 
 /**
  * Student profile page.
@@ -39,11 +38,15 @@ export class StudentProfilePageComponent implements OnInit {
   profilePicLink!: string;
   defaultPictureLink: string = '/assets/images/profile_picture_default.png';
 
+  isLoadingStudentProfile: boolean = false;
+  isSavingProfileEdit: boolean = false;
+
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private ngbModal: NgbModal,
+  constructor(private simpleModalService: SimpleModalService,
               private nationalitiesService: NationalitiesService,
               private authService: AuthService,
+              private ngbModal: NgbModal,
               private statusMessageService: StatusMessageService,
               private studentProfileService: StudentProfileService) {
   }
@@ -67,6 +70,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Loads the student profile details for this page.
    */
   loadStudentProfile(): void {
+    this.isLoadingStudentProfile = true;
     this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
       if (auth.user) {
         this.id = auth.user.id;
@@ -74,17 +78,19 @@ export class StudentProfilePageComponent implements OnInit {
         this.profilePicLink = `${this.backendUrl}/webapi/student/profilePic?user=${this.id}`;
 
         // retrieve profile once we have the student's googleId
-        this.studentProfileService.getStudentProfile().subscribe((response: StudentProfile) => {
-          if (response) {
-            this.student = response;
-            this.name = response.name;
-            this.initStudentProfileForm(this.student);
-          } else {
-            this.statusMessageService.showErrorToast('Error retrieving student profile');
-          }
-        }, (response: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(response.error.message);
-        });
+        this.studentProfileService.getStudentProfile()
+            .pipe(finalize(() => this.isLoadingStudentProfile = false))
+            .subscribe((response: StudentProfile) => {
+              if (response) {
+                this.student = response;
+                this.name = response.name;
+                this.initStudentProfileForm(this.student);
+              } else {
+                this.statusMessageService.showErrorToast('Error retrieving student profile');
+              }
+            }, (response: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(response.error.message);
+            });
       }
     });
   }
@@ -107,8 +113,10 @@ export class StudentProfilePageComponent implements OnInit {
   /**
    * Prompts the user with a modal box to confirm changes made to the form.
    */
-  onSubmit(confirmEditProfile: any): void {
-    this.ngbModal.open(confirmEditProfile);
+  onSubmit(): void {
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Save Changes?', SimpleModalType.INFO, 'Are you sure you want to make changes to your profile?');
+    modalRef.result.then(() => this.submitEditForm(), () => {});
   }
 
   /**
@@ -116,17 +124,9 @@ export class StudentProfilePageComponent implements OnInit {
    */
   onUploadEdit(): void {
     const NO_IMAGE_UPLOADED: number = 600;
-    const NO_IMAGE_FOUND: number = 404;
 
     this.studentProfileService.getProfilePicture()
         .pipe(
-            // If no picture is found, return null
-            catchError((err: HttpErrorResponse) => {
-              if (err.status !== NO_IMAGE_FOUND) {
-                return throwError(status);
-              }
-              return of(null);
-            }),
             // Open Modal and wait for user to upload picture
             switchMap((image: Blob | null) => {
               const modalRef: NgbModalRef = this.ngbModal.open(UploadEditProfilePictureModalComponent);
@@ -167,6 +167,7 @@ export class StudentProfilePageComponent implements OnInit {
    * Submits the form data to edit the student profile details.
    */
   submitEditForm(): void {
+    this.isSavingProfileEdit = true;
     this.studentProfileService.updateStudentProfile(this.id, {
       shortName: this.editForm.controls.studentshortname.value,
       email: this.editForm.controls.studentprofileemail.value,
@@ -175,7 +176,7 @@ export class StudentProfilePageComponent implements OnInit {
       gender: this.editForm.controls.studentgender.value,
       moreInfo: this.editForm.controls.studentprofilemoreinfo.value,
       existingNationality: this.editForm.controls.existingNationality.value,
-    }).subscribe((response: MessageOutput) => {
+    }).pipe(finalize(() => this.isSavingProfileEdit = false)).subscribe((response: MessageOutput) => {
       if (response) {
         this.statusMessageService.showSuccessToast(response.message);
       }
@@ -187,8 +188,13 @@ export class StudentProfilePageComponent implements OnInit {
   /**
    * Prompts the user with a modal box to confirm deleting the profile picture.
    */
-  onDelete(confirmDeleteProfilePicture: any): void {
-    this.ngbModal.open(confirmDeleteProfilePicture);
+  onDelete(): void {
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Delete profile picture?', SimpleModalType.DANGER,
+        'Warning: Profile picture cannot be recovered.');
+    modalRef.result.then(() => {
+      this.deleteProfilePicture();
+    }, () => {});
   }
 
   /**

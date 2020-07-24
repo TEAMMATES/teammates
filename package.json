@@ -9,7 +9,7 @@
     "coverage": "rimraf coverage && ng test --coverage",
     "lint:ts": "ng lint --tslint-config static-analysis/teammates-tslint.yml",
     "lint:json": "jsonlint-cli src/web/**/*.json src/main/resources/*.json src/test/resources/data/*.json",
-    "lint:css": "stylelint \"src/web/**/*.scss\" \"src/web/**/*.html\" --config static-analysis/teammates-stylelint.yml",
+    "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --config static-analysis/teammates-stylelint.yml",
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\"",
     "lint": "npm-run-all lint:* -c"
   },
@@ -39,7 +39,6 @@
     "moment-timezone": "^0.5.31",
     "ng-dynamic-component": "^6.1.0",
     "ngx-captcha": "^8.0.1",
-    "ngx-clipboard": "^13.0.1",
     "ngx-image-cropper": "^1.5.1",
     "ngx-page-scroll-core": "^7.0.1",
     "rxjs": "~6.5.5",

@@ -1,10 +1,5 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
-import { StatusMessage } from '../app/components/status-message/status-message';
-import {
-  StatusMessageModalComponent,
-} from '../app/components/status-message/status-messsage-modal/status-message-modal.component';
 import { Toast } from '../app/components/toast/toast';
 
 /**
@@ -17,7 +12,7 @@ export class StatusMessageService {
 
   private toast: Subject<Toast> = new Subject();
 
-  constructor(private modalService: NgbModal) {}
+  constructor() {}
 
   getToastEvent(): Observable<any> {
     return this.toast.asObservable();
@@ -49,6 +44,7 @@ export class StatusMessageService {
       message,
       classes,
       delay,
+      autohide: true,
     });
   }
 
@@ -64,23 +60,8 @@ export class StatusMessageService {
       classes,
       delay,
       message: template,
+      autohide: true,
     });
-  }
-
-  /**
-   * Shows a warning message modal on the page that must be acknowledged.
-   */
-  showWarningModal(title: string, subtitle: string, message: string): NgbModalRef {
-    return this.showMessageModal(title, subtitle, { message, color: 'warning' });
-  }
-
-  private showMessageModal(title: string, subtitle: string, message: StatusMessage): NgbModalRef {
-    const activeModal: NgbModalRef = this.modalService.open(StatusMessageModalComponent);
-    activeModal.componentInstance.title = title;
-    activeModal.componentInstance.subtitle = subtitle;
-    activeModal.componentInstance.message = message.message;
-    activeModal.componentInstance.color = message.color;
-    return activeModal;
   }
 
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicComponentModule } from 'ng-dynamic-component';
 import { ContributionQuestionStatisticsModule,
 } from '../question-types/question-statistics/contribution-question-statistics/contribution-question-statistics.module';
@@ -13,7 +13,7 @@ import { SortableTableComponent } from './sortable-table.component';
   declarations: [SortableTableComponent],
   imports: [
     CommonModule,
-    NgbModule,
+    NgbTooltipModule,
     ContributionQuestionStatisticsModule,
     DynamicComponentModule,
   ],

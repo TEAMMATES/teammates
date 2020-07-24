@@ -16,6 +16,9 @@ import {
 })
 export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalculation implements OnInit, OnChanges {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   summaryColumnsData: ColumnData[] = [];
   summaryRowsData: SortableTableCellData[][] = [];
   perRecipientColumnsData: ColumnData[] = [];

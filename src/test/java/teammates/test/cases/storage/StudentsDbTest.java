@@ -85,7 +85,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.createEntity(s);
         verifyPresentInDatastore(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
-        assertTrue(retrievedStudent.isEnrollInfoSameAs(s));
+        assertTrue(isEnrollInfoSameAs(retrievedStudent, s));
         assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));
         assertNull(studentsDb.getStudentForGoogleId(s.course, s.googleId + "not existing"));
         assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId + "not existing"));
@@ -139,12 +139,12 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertNull(studentsDb.getStudentForGoogleId(s2.course, s2.googleId));
 
         s2 = createNewStudent("one.new@gmail.com");
-        assertTrue(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0).isEnrollInfoSameAs(s2));
+        assertTrue(isEnrollInfoSameAs(studentsDb.getUnregisteredStudentsForCourse(s2.course).get(0), s2));
 
-        assertTrue(s.isEnrollInfoSameAs(studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
-        assertTrue(studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s)
-                || studentsDb.getStudentsForCourse(s.course).get(0).isEnrollInfoSameAs(s2));
-        assertTrue(studentsDb.getStudentsForTeam(s.team, s.course).get(0).isEnrollInfoSameAs(s));
+        assertTrue(isEnrollInfoSameAs(s, studentsDb.getStudentsForGoogleId(s.googleId).get(0)));
+        assertTrue(isEnrollInfoSameAs(studentsDb.getStudentsForCourse(s.course).get(0), s)
+                || isEnrollInfoSameAs(studentsDb.getStudentsForCourse(s.course).get(0), s2));
+        assertTrue(isEnrollInfoSameAs(studentsDb.getStudentsForTeam(s.team, s.course).get(0), s));
 
         ______TS("null params case");
         AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail(null, "valid@email.com"));
@@ -255,7 +255,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         .build());
 
         StudentAttributes actualStudent = studentsDb.getStudentForEmail(s.course, s.email);
-        assertTrue(actualStudent.isEnrollInfoSameAs(s));
+        assertTrue(isEnrollInfoSameAs(actualStudent, s));
         // the original student is deleted
         assertNull(studentsDb.getStudentForEmail(s.course, originalEmail));
         assertEquals("new-email-2@email.com", updatedStudent.getEmail());
@@ -427,4 +427,14 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.deleteStudent(s.getCourse(), s.getEmail());
         return studentsDb.createEntity(s);
     }
+
+    private boolean isEnrollInfoSameAs(StudentAttributes student, StudentAttributes otherStudent) {
+        return otherStudent != null && otherStudent.email.equals(student.email)
+                && otherStudent.course.equals(student.course)
+                && otherStudent.name.equals(student.name)
+                && otherStudent.comments.equals(student.comments)
+                && otherStudent.team.equals(student.team)
+                && otherStudent.section.equals(student.section);
+    }
+
 }

@@ -23,8 +23,10 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
+  instructorGettingStartedPath: string = '';
   searchTerm: String = '';
   key: String = '';
+  matchFound: number = 0;
 
   scrollFinishEvent: EventEmitter<boolean> = new EventEmitter();
   questionIdToExpand: string = '';
@@ -38,7 +40,15 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
 
   constructor(private route: ActivatedRoute,
               private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: Document) { }
+              @Inject(DOCUMENT) private document: Document) {
+    let r: ActivatedRoute = this.route;
+    while (r.firstChild) {
+      r = r.firstChild;
+    }
+    r.data.subscribe((resp: any) => {
+      this.instructorGettingStartedPath = resp.instructorGettingStartedPath;
+    });
+  }
 
   ngOnInit(): void {
     this.scrollFinishEvent.subscribe(() => this.expandQuestionTab());
@@ -70,6 +80,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
    * Filters the help contents and displays only those that matches the filter.
    */
   search(): void {
+    this.matchFound = 0;
     if (this.searchTerm !== '') {
       this.key = this.searchTerm.toLowerCase();
     } else {
@@ -125,6 +136,10 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
     this.questionIdToExpand = SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL;
     this.section = Sections.sessions;
     this.scrollTo(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL, 100);
+  }
+
+  updateMatchFoundNumber(n: number): void {
+    this.matchFound += n;
   }
 
 }

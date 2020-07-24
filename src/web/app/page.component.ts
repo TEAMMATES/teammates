@@ -64,11 +64,11 @@ export class PageComponent {
     IE: 10,
     Firefox: 40,
     Safari: 7,
-    // Opera: ??
+    Edge: 44,
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-              private modalService: NgbModal, location: Location,
+              private ngbModal: NgbModal, location: Location,
               private statusMessageService: StatusMessageService) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
@@ -97,8 +97,8 @@ export class PageComponent {
 
     // Close open modal(s) when moving backward or forward through history in the browser page
     location.subscribe(() => {
-      if (this.modalService.hasOpenModals()) {
-        this.modalService.dismissAll();
+      if (this.ngbModal.hasOpenModals()) {
+        this.ngbModal.dismissAll();
       }
     });
 
@@ -132,8 +132,8 @@ export class PageComponent {
    */
   closeModal(): void {
 
-    if (this.modalService.hasOpenModals()) {
-      this.modalService.dismissAll();
+    if (this.ngbModal.hasOpenModals()) {
+      this.ngbModal.dismissAll();
     }
   }
 }
