@@ -49,7 +49,7 @@
                        placeholderText="Enter your comment here" [isDisabled]="isDisabled"></tm-rich-text-editor>
 </div>
 
-<button type="button" class="btn btn-primary btn-sm float-right" style="margin-left: 5px;"
+<button type="button" class="btn btn-success btn-sm float-right" style="margin-left: 5px;"
         (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
   {{ mode == CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
 

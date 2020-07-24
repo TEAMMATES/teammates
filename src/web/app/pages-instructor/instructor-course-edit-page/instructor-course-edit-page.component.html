@@ -68,7 +68,7 @@
       </div>
       <div class="form-group m-0">
         <div class=" col-sm-12 text-center">
-          <button id="btn-save-course" class="btn btn-primary" type="submit" [disabled]="form.invalid || isSavingCourseEdit" *ngIf="isEditingCourse">
+          <button id="btn-save-course" class="btn btn-success" type="submit" [disabled]="form.invalid || isSavingCourseEdit" *ngIf="isEditingCourse">
             <tm-ajax-loading *ngIf="isSavingCourseEdit"></tm-ajax-loading>
             Save Changes
           </button>
@@ -99,7 +99,7 @@
   </ng-container>
 </div>
 <div class="text-center" *ngIf="!isAddingNewInstructor">
-  <button id="btn-add-instructor" class="btn btn-primary" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
+  <button id="btn-add-instructor" class="btn btn-success" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
     Add New Instructor
   </button>
 </div>

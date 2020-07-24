@@ -111,7 +111,7 @@
                                        [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
 
     <div *ngIf="instructor.isEditing">
-      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-primary" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
+      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-success" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
         <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit || isSavingNewInstructor"></tm-ajax-loading>
         <span *ngIf="editMode == EditMode.EDIT">Save changes</span>
         <span *ngIf="editMode == EditMode.ADD">Add Instructor</span>

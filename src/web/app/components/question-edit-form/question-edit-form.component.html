@@ -225,11 +225,11 @@
     </div>
     <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
       <div class="col-12 text-right">
-        <button type="button" class="btn btn-primary margin-right-5px" *ngIf="model.isEditable"
+        <button type="button" class="btn btn-light margin-right-5px" *ngIf="model.isEditable"
                 (click)="discardChangesHandler(false)" [disabled]="model.isSaving">
           <i class="fas fa-ban"></i> Cancel
         </button>
-        <button class="btn btn-primary" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler()">
+        <button class="btn btn-success" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler()">
           <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
           <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>
           <span *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i> Save Questions</span>
