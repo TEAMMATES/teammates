@@ -1,6 +1,6 @@
-<div>
+<div tabindex="0">
   <h1 class="color-orange">About Us</h1>
-  <p class="h3">Acknowledgements:</p>
+  <h2>Acknowledgements:</h2>
   <p>
     TEAMMATES team wishes to thank the following invaluable contributions:
   </p>
@@ -35,7 +35,9 @@
   <p>
     TEAMMATES has benefitted from the work of {{ nDevelopers }} developers.
   </p>
+</div>
 
+<div tabindex="0">
   <h3>Core Team:</h3>
   <div *ngFor="let teamMember of teamMembers" class="row core-team">
     <div *ngIf="teamMember.image" class="col-xs-8 offset-xs-2 col-sm-5 offset-sm-0 col-md-4 col-lg-3 text-center">

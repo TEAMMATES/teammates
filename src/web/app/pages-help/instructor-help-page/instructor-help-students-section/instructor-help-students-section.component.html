@@ -1,4 +1,4 @@
-<div>
+<div tabindex="0">
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Students</h2>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(showQuestion, 0, 3)">Student Records</h4>
@@ -11,7 +11,7 @@
     </p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <p>To view the profile of Student A from Course B:</p>
           <ol>
             <li>
@@ -62,7 +62,7 @@
     </button></p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <p>
             To edit the name, section, team, contact email, or instructor comments of Student A from Course B:
           </p>
@@ -103,7 +103,7 @@
     </p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <p>
             To view the responses that Student A from Course B has given and received:
           </p>
@@ -132,7 +132,7 @@
     </p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <p>
             You can search for students from the <b>Search</b> page. Click the <b>Search</b> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
           </p>
@@ -185,7 +185,7 @@
     </p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EMAIL]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <ol>
             <li>
               On the <b>Students</b> page, filter out the selected student/students.
@@ -214,7 +214,7 @@
     </p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <p>
             Students can submit feedback and view results without having to login to TEAMMATES, unless they choose to link their Google account (optional). TEAMMATES will send students a unique URL to access their feedback sessions and results. However, students
             who link their TEAMMATES account with their Google account will be able to access a dashboard of all their sessions and results through the TEAMMATES website.
@@ -233,7 +233,7 @@
     </p>
     <div *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_CHANGE_ID]" @collapseAnim>
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" tabindex="0">
           <p>
             At the moment, there is no way for students to update their own Google IDs.
             <br> Please ask the student to <a href="mailto:{{ supportEmail }}">contact us</a> for assistance changing his/her Google ID.

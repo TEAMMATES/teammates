@@ -1,6 +1,6 @@
 <div class="flex-container">
   <div class="main-body" #helpPage>
-    <div id={{Sections.body}}>
+    <div id={{Sections.body}} tabindex="0">
       <h1 class="color-orange"> Help for Instructors</h1>
       <div>
         <p>
@@ -12,15 +12,15 @@
           <div class="col-md-9">
             <div class="input-group input-group-lg">
               <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-lg" placeholder="How can we help?" (keyup.enter)="search()">
-              <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
-              <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+              <button class="btn btn-primary btn-lg" (click)="search()" aria-label="search button"><i class="fas fa-search"></i></button>
+              <button class="btn btn-danger btn-lg" (click)="clear()" aria-label="cancel search  button"><i class="fas fa-times"></i></button>
             </div>
           </div>
         </div>
         <hr/>
       </div>
     </div>
-    <div id="{{Sections.students}}" class="section-body">
+    <div id="{{Sections.students}}" class="section-body" tabindex="0">
       <tm-instructor-help-students-section #studentsHelpSection [key]="key">
       </tm-instructor-help-students-section>
     </div>
