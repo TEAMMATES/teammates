@@ -36,18 +36,18 @@
         <span *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
         <span *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
       </th>
-      <th>Action(s)</th>
+      <th class="align-center">Action(s)</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
-      <td class="align-center">
+      <td>
         <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
       </td>
       <td *ngIf="hasSection()">{{studentModel.student.sectionName}}</td>
       <td>{{studentModel.student.teamName}}</td>
       <td>{{studentModel.student.name}}</td>
-      <td class="align-center">{{studentModel.student.joinState | joinState}}</td>
+      <td>{{studentModel.student.joinState | joinState}}</td>
       <td>{{studentModel.student.email}}</td>
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"

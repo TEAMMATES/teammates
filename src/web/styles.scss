@@ -66,6 +66,13 @@ ul {
   padding: .5rem 1rem;
 }
 
+.dropdown-item {
+  &:focus,
+  &:hover {
+    background-color: #DAE0E5;
+  }
+}
+
 // The following few properties are for the usermap page.
 // They need to be global style because the map is not rendered as Angular components,
 // thus it cannot read the component-specific CSS rules.
@@ -101,6 +108,27 @@ ul {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+[ng-reflect-ngb-tooltip] {
+  text-decoration: underline dotted #808080;
+
+  &.btn,
+  &.fa,
+  &.fas,
+  &.far,
+  &.fab,
+  &.fal {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    text-decoration: underline dotted #000;
+  }
 }
 
 @media print {

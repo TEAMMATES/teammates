@@ -16,14 +16,13 @@
         <div class="col-md-12 cursor-pointer">
           <button
               class="btn btn-primary upload-edit-photo"
-              ngbTooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
+              ngbTooltip=".jpg or .png, max size 5 MB"
               (click)="onUploadEdit()">
             Upload/Edit Photo
           </button>
           <button *ngIf="this.profilePicLink != this.defaultPictureLink"
               id="profile-delete-photo"
               class="btn btn-danger"
-              ngbTooltip="Delete your profile picture"
               (click)="onDelete()">
             Delete Photo
           </button>
@@ -31,14 +30,14 @@
       </div>
       <form [formGroup]="editForm"
             (ngSubmit)="onSubmit()">
-        <div class="form-group" ngbTooltip='This is the name you prefer to be called by'>
+        <div class="form-group">
           <label>The name you prefer to be called by instructors</label>
           <input
               class="form-control"
               id="studentshortname"
               formControlName="studentshortname">
         </div>
-        <div class="form-group" ngbTooltip="This is a long term contact email">
+        <div class="form-group">
           <label>
             Long-term Contact Email
             <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em>
@@ -48,14 +47,14 @@
               id="studentprofileemail"
               formControlName="studentprofileemail">
         </div>
-        <div class="form-group" ngbTooltip="This is the institution that you represent">
+        <div class="form-group">
           <label>Institute</label>
           <input
               class="form-control"
               id="studentprofileinstitute"
               formControlName="studentprofileinstitute">
         </div>
-        <div class="form-group" ngbTooltip="This is your nationality">
+        <div class="form-group">
           <label>Nationality</label>
           <select
               class="form-control"
@@ -79,8 +78,8 @@
             <label class="student-gender-label mt-1">{{ gender | genderFormat }}</label>
           </div>
         </div>
-        <div class="form-group" ngbTooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc">
-          <label>More Information about Yourself</label>
+        <div class="form-group">
+          <label ngbTooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc">More Information about Yourself</label>
           <textarea
               class="form-control"
               id="studentprofilemoreinfo"
