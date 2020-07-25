@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped margin-0">
+<table class="table table-bordered table-striped margin-bottom-20px">
   <thead>
     <tr>
       <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)">
