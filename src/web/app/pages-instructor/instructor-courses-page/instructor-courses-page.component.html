@@ -49,6 +49,9 @@
         </tr>
         </thead>
         <tbody>
+        <ng-template #loadingSpinner>
+          <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
+        </ng-template>
         <tr *ngFor="let course of activeCourses; let i = index">
           <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
           <td>{{course.course.courseName}}</td>
@@ -57,7 +60,7 @@
           </td>
           <td>
             <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+              <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
                 Show
               </a>
             </span>
@@ -67,7 +70,7 @@
           </td>
           <td>
             <span *ngIf="!courseStats[course.course.courseId]">
-              <a id="show-statistics-{{ i }}" (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+              <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}" (click)="getCourseStats(i)" [routerLink]="">
                 Show
               </a>
             </span>
@@ -77,7 +80,7 @@
           </td>
           <td>
             <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+              <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
                 Show
               </a>
             </span>
@@ -87,7 +90,7 @@
           </td>
           <td>
             <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
+              <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
                 Show
               </a>
             </span>

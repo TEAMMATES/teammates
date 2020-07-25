@@ -34,22 +34,18 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   readonly exampleSingleStudentResultTables: SearchStudentsListRowTable[] = EXAMPLE_SINGLE_STUDENT_RESULT_TABLES;
   readonly exampleMultipleStudentResultTables: SearchStudentsListRowTable[] = EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES;
 
-  questionsToCollapsed: Record<string, boolean> = {
-    [StudentsSectionQuestions.STUDENT_EDIT_DETAILS]: false,
-    [StudentsSectionQuestions.STUDENT_EMAIL]: false,
-    [StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT]: false,
-    [StudentsSectionQuestions.STUDENT_SEARCH]: false,
-    [StudentsSectionQuestions.STUDENT_VIEW_PROFILE]: false,
-    [StudentsSectionQuestions.STUDENT_VIEW_RESPONSES]: false,
-    [StudentsSectionQuestions.STUDENT_CHANGE_ID]: false,
-    [StudentsSectionQuestions.STUDENT_EDIT_DETAILS]: false,
-  };
+  readonly questionsOrder: string[] = [
+    StudentsSectionQuestions.STUDENT_VIEW_PROFILE,
+    StudentsSectionQuestions.STUDENT_EDIT_DETAILS,
+    StudentsSectionQuestions.STUDENT_VIEW_RESPONSES,
+    StudentsSectionQuestions.STUDENT_SEARCH,
+    StudentsSectionQuestions.STUDENT_EMAIL,
+    StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT,
+    StudentsSectionQuestions.STUDENT_CHANGE_ID,
+  ];
 
-  constructor() {
-    super();
+  getQuestionsOrder(): string[] {
+    return this.questionsOrder;
   }
 
-  expand(questionId: string): void {
-    this.questionsToCollapsed[questionId] = true;
-  }
 }

@@ -6,7 +6,6 @@
         "questionNumber": 1,
         "questionBrief": "What is the best selling point of your product?",
         "questionDetails": {
-          "recommendedLength": 0,
           "questionType": "TEXT",
           "questionText": "What is the best selling point of your product?"
         },

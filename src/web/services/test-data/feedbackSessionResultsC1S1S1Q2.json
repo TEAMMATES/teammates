@@ -6,7 +6,6 @@
         "questionNumber": 2,
         "questionBrief": "Rate 1 other student's product",
         "questionDetails": {
-          "recommendedLength": 0,
           "questionType": "TEXT",
           "questionText": "Rate 1 other student's product"
         },
