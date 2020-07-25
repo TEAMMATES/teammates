@@ -27,11 +27,6 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
    * Assigns a point to the recipient.
    */
   triggerResponse(event: number): void {
-    if (!event) {
-      // force zero value to prevent intentional zero responses from being labelled as a non response
-      this.triggerResponseDetailsChange('answers', [0]);
-      return;
-    }
 
     let newAnswers: number[] = this.responseDetails.answers.slice();
     // index 0 will the answer
