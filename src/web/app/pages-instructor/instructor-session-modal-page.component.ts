@@ -9,21 +9,23 @@ import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
 import {
-  FeedbackSessionSubmittedGiverSet,
+  FeedbackSessionSubmittedGiverSet, Instructor, Instructors,
   Student, Students,
 } from '../../types/api-output';
+import { Intent } from '../../types/api-request';
 import {
-  ResendResultsLinkToStudentModalComponent,
-} from "../components/sessions-table/resend-results-link-to-student-modal/resend-results-link-to-student-modal.component"; // tslint:disable-line
+  ResendResultsLinkToRespondentModalComponent,
+} from "../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component"; // tslint:disable-line
 import {
-  SendRemindersToStudentModalComponent,
-} from '../components/sessions-table/send-reminders-to-student-modal/send-reminders-to-student-modal.component';
+    InstructorListInfoTableRowModel,
+    StudentListInfoTableRowModel,
+} from '../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import {
+  SendRemindersToRespondentsModalComponent,
+} from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import {
   SessionsTableRowModel,
 } from '../components/sessions-table/sessions-table-model';
-import {
-  StudentListInfoTableRowModel,
-} from '../components/sessions-table/student-list-info-table/student-list-info-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 import {
   InstructorSessionBasePageComponent,
@@ -48,18 +50,24 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
   }
 
   /**
-   * Sends e-mails to remind students on the published results link.
+   * Sends e-mails to remind respondents on the published results link.
    */
-  resendResultsLinkToStudentsEventHandler(model: SessionsTableRowModel): void {
+  resendResultsLinkToRespondentsEventHandler(model: SessionsTableRowModel): void {
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
-    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
-      const modalRef: NgbModalRef = this.ngbModal.open(ResendResultsLinkToStudentModalComponent);
+    forkJoin([
+      this.studentService.getStudentsFromCourse({ courseId }),
+      this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
+    ]).subscribe((result: any[]) => {
+      const students: Student[] = (result[0] as Students).students;
+      const instructors: Instructor[] = (result[1] as Instructors).instructors;
+
+      const modalRef: NgbModalRef = this.ngbModal.open(ResendResultsLinkToRespondentModalComponent);
 
       modalRef.componentInstance.courseId = courseId;
       modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
-      modalRef.componentInstance.studentListInfoTableRowModels = students.students.map((student: Student) => ({
+      modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
         email: student.email,
         name: student.name,
         teamName: student.teamName,
@@ -69,10 +77,19 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
         isSelected: false,
       } as StudentListInfoTableRowModel));
+      modalRef.componentInstance.instructorListInfoTableRowModels =
+          instructors.map((instructor: Instructor) => ({
+            email: instructor.email,
+            name: instructor.name,
 
-      modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-        this.feedbackSessionsService.remindResultsLinkToStudents(courseId, feedbackSessionName, {
-          usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+            hasSubmittedSession: false,
+
+            isSelected: false,
+          } as InstructorListInfoTableRowModel));
+
+      modalRef.result.then((respondentsToRemind: any[]) => {
+        this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
+          usersToRemind: respondentsToRemind.map((m: any) => m.email),
         }).subscribe(() => {
           this.statusMessageService.showSuccessToast(
               'Session published notification emails have been resent to those students and instructors. '
@@ -83,20 +100,22 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
   }
 
   /**
-   * Sends e-mails to remind students who have not submitted their feedback.
+   * Sends e-mails to remind respondents who have not submitted their feedback.
    */
-  sendRemindersToStudentsEventHandler(model: SessionsTableRowModel): void {
+  sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel): void {
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
     forkJoin([
       this.studentService.getStudentsFromCourse({ courseId }),
       this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }),
+      this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
     ]).subscribe((result: any[]) => {
       const students: Student[] = (result[0] as Students).students;
       const giverSet: Set<string> = new Set((result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers);
+      const instructors: Instructor[] = (result[2] as Instructors).instructors;
 
-      const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToStudentModalComponent);
+      const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
 
       modalRef.componentInstance.courseId = courseId;
       modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
@@ -110,19 +129,25 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
         isSelected: false,
       } as StudentListInfoTableRowModel));
+      modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map(
+          (instructor: Instructor) => ({
+            email: instructor.email,
+            name: instructor.name,
 
-      modalRef.result.then((studentsToRemind: StudentListInfoTableRowModel[]) => {
-        this.feedbackSessionsService.remindFeedbackSessionSubmissionForStudent(courseId, feedbackSessionName, {
-          usersToRemind: studentsToRemind.map((m: StudentListInfoTableRowModel) => m.email),
+            hasSubmittedSession: giverSet.has(instructor.email),
+
+            isSelected: false,
+          } as InstructorListInfoTableRowModel));
+
+      modalRef.result.then((respondentsToRemind: any[]) => {
+        this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
+          usersToRemind: respondentsToRemind.map((m: any) => m.email),
         }).subscribe(() => {
           this.statusMessageService.showSuccessToast(
               'Reminder e-mails have been sent out to those students and instructors. '
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       }, () => {});
-
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 }
