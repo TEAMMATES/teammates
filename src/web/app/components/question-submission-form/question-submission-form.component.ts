@@ -43,7 +43,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-
+    // TODO: Add submission validation as part of form model?
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {

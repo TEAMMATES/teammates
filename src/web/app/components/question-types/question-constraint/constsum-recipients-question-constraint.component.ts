@@ -10,6 +10,7 @@ import {
 import {
   FeedbackResponseRecipientSubmissionFormModel,
 } from '../../question-submission-form/question-submission-form-model';
+import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of constsum recipients question.
@@ -19,7 +20,7 @@ import {
   templateUrl: './constsum-recipients-question-constraint.component.html',
   styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
 })
-export class ConstsumRecipientsQuestionConstraintComponent implements OnInit {
+export class ConstsumRecipientsQuestionConstraintComponent implements OnInit, QuestionConstraintComponent {
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
@@ -100,5 +101,69 @@ export class ConstsumRecipientsQuestionConstraintComponent implements OnInit {
     this.allAnswers.forEach((ans: number) => set.add(ans));
 
     return set.size !== 1;
+  }
+
+  /**
+   * Checks if all points have been distributed.
+   */
+  get isAllPointsDistributed(): boolean {
+    return this.totalAnsweredPoints === this.totalRequiredPoints;
+  }
+
+  /**
+   * Checks if the points have been insufficiently distributed.
+   */
+  get isInsufficientPointsDistributed(): boolean {
+    return this.totalAnsweredPoints < this.totalRequiredPoints;
+  }
+
+  /**
+   * Checks if the points have been over allocated.
+   */
+  get isPointsOverAllocated(): boolean {
+    return this.totalAnsweredPoints > this.totalRequiredPoints;
+  }
+
+  /**
+   * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
+   */
+  get isWronglyAllUneven(): boolean {
+    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
+        && !this.isAllPointsUneven;
+  }
+
+  /**
+   * Returns true if the question requires uneven distribution and the points are unevenly distributed.
+   */
+  get isCorrectlyAllUneven(): boolean {
+    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
+        && this.isAllPointsUneven;
+  }
+
+  /**
+   * Returns true if the question requires some uneven distribution but points are not unevenly distributed for some.
+   */
+  get isWronglySomeUneven(): boolean {
+    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
+        && !this.isSomePointsUneven;
+  }
+
+  /**
+   * Returns true if the question requires some uneven distribution and points are unevenly distributed for some.
+   */
+  get isCorrectlySomeUneven(): boolean {
+    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
+        && this.isSomePointsUneven;
+  }
+
+  isValid(): boolean {
+    if (this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY) {
+      return this.isCorrectlyAllUneven && this.totalAnsweredPoints === this.totalRequiredPoints;
+    }
+    if (this.questionDetails.distributePointsFor
+        === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY) {
+      return this.isCorrectlySomeUneven && this.totalAnsweredPoints === this.totalRequiredPoints;
+    }
+    return this.totalAnsweredPoints === this.totalRequiredPoints;
   }
 }

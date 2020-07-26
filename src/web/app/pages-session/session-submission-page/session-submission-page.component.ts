@@ -525,6 +525,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    */
   saveFeedbackResponses(): void {
+    // TODO: Add submission validation for constraints
     const notYetAnsweredQuestions: Set<number> = new Set();
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
