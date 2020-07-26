@@ -1,21 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { StudentListInfoTableComponent } from './student-list-info-table.component';
+import { RespondentListInfoTableComponent } from './respondent-list-info-table.component';
 
 describe('StudentListInfoTableComponent', () => {
-  let component: StudentListInfoTableComponent;
-  let fixture: ComponentFixture<StudentListInfoTableComponent>;
+  let component: RespondentListInfoTableComponent;
+  let fixture: ComponentFixture<RespondentListInfoTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentListInfoTableComponent],
+      declarations: [RespondentListInfoTableComponent],
       imports: [FormsModule],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudentListInfoTableComponent);
+    fixture = TestBed.createComponent(RespondentListInfoTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
