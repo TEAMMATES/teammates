@@ -1,5 +1,5 @@
-<div tabindex="0">
-  <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Students</h2>
+<div tabindex="0" role="main">
+  <h2 class="color-blue" aria-label="common questions regarding students" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Students</h2>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(showQuestion, 0, 3)">Student Records</h4>
   <!-- Question -->
@@ -19,7 +19,7 @@
             </li>
             <li>
               Click the
-              <button class="btn btn-secondary btn-sm">View</button> button in the last column of the row corresponding to Student A. A new page will open displaying the student's profile, similar to the sample profile below.
+              <button class="btn btn-secondary btn-sm" tabindex="-1">View</button> button in the last column of the row corresponding to Student A. A new page will open displaying the student's profile, similar to the sample profile below.
             </li>
           </ol>
           <tm-example-box>
@@ -72,7 +72,7 @@
             </li>
             <li>
               Click the
-              <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
+              <button class="btn btn-secondary btn-sm" tabindex="-1">Edit</button> button in the last column of the row corresponding to Student A.
               <br>
             </li>
             <li>
@@ -80,7 +80,7 @@
             </li>
             <li>
               Click
-              <button class="btn btn-primary btn-sm">Save Changes</button> to save your changes to Student A's details.
+              <button class="btn btn-primary btn-sm" tabindex="-1">Save Changes</button> to save your changes to Student A's details.
             </li>
           </ol>
           <p>
@@ -113,7 +113,7 @@
             </li>
             <li>
               Click
-              <button class="btn btn-sm btn-secondary">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
+              <button class="btn btn-sm btn-secondary" tabindex="-1">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
             </li>
           </ol>
         </div>
