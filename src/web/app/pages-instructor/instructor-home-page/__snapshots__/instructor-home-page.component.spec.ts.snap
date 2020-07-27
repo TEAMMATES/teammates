@@ -29,7 +29,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -142,7 +142,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -255,7 +255,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -446,7 +446,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -972,7 +972,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -1612,7 +1612,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -1919,7 +1919,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
@@ -2249,7 +2249,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       class="alert alert-primary alert-dismissible fade show"
       role="alert"
     >
-       You are viewing the new version of TEAMMATES. To return to the old version, please 
+       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
       <a
         class="alert-link"
         href="https://6-dot-teammates-uat.appspot.com"
