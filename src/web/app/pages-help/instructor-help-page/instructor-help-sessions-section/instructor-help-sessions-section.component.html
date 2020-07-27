@@ -5,7 +5,7 @@
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[0]" #question id="{{SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" role="button" (click)="questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL] = !questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]" tabindex="0">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Sessions - Tips for conducting team peer evaluation sessions" (click)="questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL] = !questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL]" tabindex="0">
         Tips for conducting team peer evaluation sessions
       </button>
     </p>
@@ -59,7 +59,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" role="button" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" tabindex="0">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Sessions - How do I create and schedule a new feedback session?"  (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" tabindex="0">
         How do I create and schedule a new feedback session?
       </button>
     </p>
@@ -150,7 +150,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question id="{{SessionsSectionQuestions.SESSION_QUESTIONS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" tabindex="-1">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Sessions - How do I add questions to a session?" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" tabindex="-1">
         How do I add questions to a session?
       </button>
     </p>
@@ -251,7 +251,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question id="{{SessionsSectionQuestions.SESSION_PREVIEW}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Sessions - How do I preview a session?" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
         How do I preview a session?
       </button>
     </p>
@@ -300,7 +300,7 @@
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[4]" #question id="{{SessionsSectionQuestions.SESSION_CANNOT_SUBMIT}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" role="button" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]" tabindex="0">
+      <button type="button" class="btn btn-outline-primary" aria-label="Managing Session Responses - What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_CANNOT_SUBMIT]" tabindex="0">
         What should I do if a student says he/she cannot submit an evaluation due to a technical glitch?
       </button>
     </p>
@@ -335,7 +335,7 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question id="{{SessionsSectionQuestions.SESSION_VIEW_RESULTS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+        <button type="button" class="btn btn-outline-primary" aria-label="Managing Session Responses - How do I view the results of my session?"(click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
         How do I view the results of my session?
       </button>
     </p>
@@ -469,7 +469,7 @@
   <!--Question-->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[6]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES] = !questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Managing Session Responses - How do I view all the responses a student has given and received" (click)="questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES] = !questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_ALL_RESPONSES]">
         How do I view all the responses a student has given and received?
       </button>
     </p>
@@ -498,7 +498,7 @@
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[7]" #question id="{{SessionsSectionQuestions.SESSION_ADD_COMMENTS}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Adding Comments to Responses - How do I create a comment on a response?"(click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
         How do I create a comment on a response?
       </button>
     </p>
@@ -548,7 +548,7 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT] = !questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Adding Comments to Responses - How do I edit or delete a comment on a response?" (click)="questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT] = !questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]">
         How do I edit or delete a comment on a response?
       </button>
     </p>
@@ -584,7 +584,7 @@
   <!--Question-->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question id="{{SessionsSectionQuestions.SESSION_SEARCH}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Adding Comments to Responses - How do I search for a feedback session question, response or comment on a response?" (click)="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH] = !questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]">
         How do I search for a feedback session question, response or comment on a response?
       </button>
     </p>
@@ -623,7 +623,7 @@
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="showQuestion.length === 0 || showQuestion[10]" #question id="{{SessionsSectionQuestions.VIEW_DELETED_SESSION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Restoring Deleted Sessions - How do I view sessions I have deleted?"(click)="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
         How do I view sessions I have deleted?
       </button>
     </p>
@@ -652,7 +652,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[11]" #question id="{{SessionsSectionQuestions.RESTORE_SESSION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Restoring Deleted Sessions - How do I restore a deleted session?" (click)="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
         How do I restore a deleted session?
       </button>
     </p>
@@ -680,7 +680,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[12]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Restoring Deleted Sessions - How do I permanently delete a session?" (click)="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION] = !questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
         How do I permanently delete a session?
       </button>
     </p>
@@ -708,7 +708,7 @@
   <!-- Question -->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[13]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL] = !questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Restoring Deleted Sessions - How do I restore/delete all sessions from Recycle Bin?" (click)="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL] = !questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" [attr.aria-expanded]="!questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
         How do I restore/delete all sessions from Recycle Bin?
       </button>
     </p>

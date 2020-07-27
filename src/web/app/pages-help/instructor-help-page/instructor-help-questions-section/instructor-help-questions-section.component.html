@@ -1,11 +1,11 @@
-<div>
+<div role="region">
   <h2 class="color-blue" *ngIf="showQuestion.length === 0 || showQuestion.includes(true)">Questions</h2>
   <!-- Section -->
   <h4 *ngIf="displaySubsection(showQuestion, 0, 10)">Setting Up Questions</h4>
   <!-- Question -->
   <div class="instr-help-qn-first" *ngIf="displaySubsection(showQuestion, 0, 1)" #question id="{{QuestionsSectionQuestions.ESSAY}}" >
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.ESSAY] = !questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Essay Questions" (click)="questionsToCollapsed[QuestionsSectionQuestions.ESSAY] = !questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
         Essay Questions
       </button>
     </p>
@@ -42,7 +42,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[1]" #question id="{{QuestionsSectionQuestions.SINGLE_ANSWER_MCQ}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Multiple Choice (Single Answer) Questions " (click)="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
         Multiple Choice (Single Answer) Questions
       </button>
     </p>
@@ -109,7 +109,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[2]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Multiple-choice(Multiple Answers) Questions"(click)="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ] = !questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
         Multiple Choice (Multiple Answers) Questions
       </button>
     </p>
@@ -134,7 +134,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[3]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE] = !questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Numerical Scale Questions" (click)="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE] = !questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
         Numerical Scale Questions
       </button>
     </p>
@@ -193,7 +193,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[4]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Settiung Up Questions - Distribute Points(Among Options) Questions"(click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
         Distribute Points (Among Options) Questions
       </button>
     </p>
@@ -251,7 +251,7 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[5]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Distribute Points(Among Recipients) Questions"(click)="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
         Distribute Points (Among Recipients) Questions
       </button>
     </p>
@@ -294,7 +294,7 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[6]" #question id="{{QuestionsSectionQuestions.CONTRIBUTION}}">
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION] = !questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Team Contribution Questions" (click)="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION] = !questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
         Team Contribution Questions
       </button>
     </p>
@@ -554,7 +554,7 @@
   <!-- Question -->
   <div *ngIf="showQuestion.length === 0 || showQuestion[7]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC] = !questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Rubric Questions" (click)="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC] = !questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
         Rubric Questions
       </button>
     </p>
@@ -653,7 +653,7 @@
   <!--Question-->
   <div *ngIf="showQuestion.length === 0 || showQuestion[8]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
+      <button type="button" class="btn btn-outline-primary" arialabel="Setting Up Questions - Rank(Options) Questions" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
         Rank (Options) Questions
       </button>
     </p>
@@ -699,7 +699,7 @@
   <!--Question-->
   <div class="instr-help-qn-last" *ngIf="showQuestion.length === 0 || showQuestion[9]" #question>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
+      <button type="button" class="btn btn-outline-primary" aria-label="Setting Up Questions - Rank(Recipients) Questions" (click)="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS] = !questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" [attr.aria-expanded]="!questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
         Rank (Recipients) Questions
       </button>
     </p>
