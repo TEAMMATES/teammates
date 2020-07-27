@@ -55,7 +55,7 @@
         </td>
         <td class="text-center no-print">
           <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail"
-                                         [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
+                                         [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
           <button class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
                   *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">

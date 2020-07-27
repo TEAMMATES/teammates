@@ -20,7 +20,7 @@
     <div class="top-padded">
       <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session"
                                      [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"
-                                     [isGiverInstructor]="responses[0].feedbackQuestion.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
+                                     [isGiverInstructor]="responses[0].feedbackQuestion.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
     </div>
   </div>
   <div class="col-md-9">

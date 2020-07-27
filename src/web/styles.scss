@@ -174,3 +174,13 @@ ul {
 .btn-margin {
   margin: var(--btn-margin);
 }
+
+.panel-primary {
+  background-color: lighten(#007BFF, 5%); // 5% lighter than primary
+  color: #FFF;
+}
+
+.panel-secondary {
+  background-color: lighten(#6c757d, 5%); // 5% lighter than secondary
+  color: #FFF;
+}

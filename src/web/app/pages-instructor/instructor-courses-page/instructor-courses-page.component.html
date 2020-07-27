@@ -226,17 +226,17 @@
       <span class="fa fa-trash-alt"></span> Deleted courses
     </h3>
     <div class="card bg-light top-padded">
-      <div id="deleted-table-heading" class="card-header recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+      <div id="deleted-table-heading" class="card-header cursor-pointer panel-secondary" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <div class="row align-items-center">
           <div class="col-4 text-white">
             <b>Recycle Bin</b>
           </div>
           <div class="col-8 text-right">
-            <button id="btn-restore-all" class="btn btn-light btn-sm btn-margin-right" [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+            <button id="btn-restore-all" class="btn btn-secondary btn-sm btn-margin-right " [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                     ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
               <i class="fas fa-check"></i> Restore All
             </button>
-            <button id="btn-delete-all" class="btn btn-light btn-sm text-danger btn-margin-right" [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onDeleteAll()"
+            <button id="btn-delete-all" class="btn btn-secondary btn-sm btn-margin-right" [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onDeleteAll()"
                     ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
               <i class="fas fa-times"></i> Delete All
             </button>

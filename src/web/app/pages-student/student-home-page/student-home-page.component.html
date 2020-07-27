@@ -17,11 +17,11 @@
   </div>
   <ng-container *ngFor="let studentCourse of courses">
     <div class="card bg-light top-padded">
-      <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
+      <div class="card-header panel-primary" *ngIf="studentCourse.course as course">
         <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
         <span class="float-sm-right">
           <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
-             class="btn btn-light btn-sm button">
+             class="btn btn-primary btn-sm button">
             View team
           </a>
         </span>

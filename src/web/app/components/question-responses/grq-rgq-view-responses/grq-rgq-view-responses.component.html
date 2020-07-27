@@ -32,7 +32,7 @@
 
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded border-primary">
-    <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
+    <div class="card-header panel-primary cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       {{ isGrq ? 'From' : 'To' }}:
       <tm-student-name-with-photo [name]="userInfo"
                        [email]="userToEmail[userInfo]"
@@ -44,7 +44,7 @@
       </a>
     <div class="float-right">
       <tm-response-moderation-button class="btn-margin-right" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-                                     [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
+                                     [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY"></tm-response-moderation-button>
       <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
       <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
     </div>
