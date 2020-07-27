@@ -68,7 +68,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
-  hasFailedLoadingStudents: boolean = false;
+  hasLoadingStudentsFailed: boolean = false;
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
@@ -356,7 +356,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   getCourseEnrollPageData(courseid: string): void {
     this.existingStudents = [];
-    this.hasFailedLoadingStudents = false;
+    this.hasLoadingStudentsFailed = false;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseId = courseid;
@@ -375,7 +375,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
     }, (resp: ErrorMessageOutput) => {
-      this.hasFailedLoadingStudents = true;
+      this.hasLoadingStudentsFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }

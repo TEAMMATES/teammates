@@ -18,6 +18,7 @@ import {
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -57,7 +58,7 @@ export class SessionResultPageComponent implements OnInit {
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
-  retryAttempts: number = 2;
+  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
 
