@@ -23,4 +23,9 @@ export const config: any = {
    * e.g. "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" is a site key for test environments.
    */
   captchaSiteKey: '',
+
+  /**
+   * This is the URL address that will show in the {@link RedirectBannerComponent}.
+   */
+  redirectUrl: '',
 };

@@ -23,7 +23,34 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -109,7 +136,34 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -195,7 +249,34 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -359,7 +440,34 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -858,7 +966,34 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1471,7 +1606,34 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1751,7 +1913,34 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -2054,7 +2243,34 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+    <div
+      class="alert alert-primary alert-dismissible fade show"
+      role="alert"
+    >
+       You are viewing the new version of TEAMMATES. To return to the old version, please 
+      <a
+        class="alert-link"
+        href="https://6-dot-teammates-uat.appspot.com"
+      >
+        click here
+      </a>
+      . 
+      <button
+        aria-label="Close"
+        class="close"
+        data-dismiss="alert"
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+      </button>
+    </div>
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
