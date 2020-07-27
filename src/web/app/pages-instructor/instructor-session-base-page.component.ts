@@ -159,13 +159,12 @@ export abstract class InstructorSessionBasePageComponent {
     this.instructorService.loadInstructorPrivilege({
       courseId: model.feedbackSession.courseId,
       feedbackSessionName: model.feedbackSession.feedbackSessionName,
-    },
-    ).subscribe((instructorPrivilege: InstructorPrivilege) => {
+    })
+    .pipe(finalize(() => model.isLoadingInstructorPrivilege = false))
+    .subscribe((instructorPrivilege: InstructorPrivilege) => {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-    }, () => {
-      model.isLoadingInstructorPrivilege = false;
     });
   }
 
