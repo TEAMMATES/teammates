@@ -706,7 +706,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.statusMessageService.showSuccessToast('The questions have been added to this feedback session.');
         }
       });
-    });
+    }, () => {});
   }
 
   /**
