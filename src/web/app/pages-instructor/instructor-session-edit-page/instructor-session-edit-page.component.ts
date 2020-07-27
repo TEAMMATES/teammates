@@ -156,7 +156,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   isAddingQuestionPanelExpanded: boolean = false;
   isLoadingFeedbackSession: boolean = false;
+  hasLoadingFeedbackSessionFailed: boolean = false;
   isLoadingFeedbackQuestions: boolean = false;
+  hasLoadingFeedbackQuestionsFailed: boolean = false;
   isCopyingQuestion: boolean = false;
 
   // all students of the course
@@ -179,15 +181,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
               tableComparatorService: TableComparatorService,
+              ngbModal: NgbModal,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
   }
 
   ngOnInit(): void {
@@ -207,6 +209,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads a feedback session.
    */
   loadFeedbackSession(): void {
+    this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingFeedbackSession = true;
     // load the course of the feedback session first
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
@@ -221,11 +224,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
+        this.hasLoadingFeedbackSessionFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isLoadingFeedbackSession = false;
+      this.hasLoadingFeedbackSessionFailed = true;
     });
   }
 
@@ -442,6 +447,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
+    this.questionEditFormModels = [];
+    this.hasLoadingFeedbackQuestionsFailed = false;
     this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
@@ -456,7 +463,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.loadResponseStatusForQuestion(addedQuestionEditFormModel);
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
           });
-        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+        }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingFeedbackQuestionsFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**

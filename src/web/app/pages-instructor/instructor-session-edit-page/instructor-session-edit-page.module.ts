@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalModule } from '../../components/copy-session-modal/copy-session-modal.module';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
@@ -39,6 +40,7 @@ const routes: Routes = [
     CopySessionModalModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    LoadingRetryModule,
   ],
   entryComponents: [
     TemplateQuestionModalComponent,

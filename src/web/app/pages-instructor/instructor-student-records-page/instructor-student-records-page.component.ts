@@ -67,8 +67,11 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
   photoUrl: string = '';
 
   isStudentLoading: boolean = false;
+  hasStudentLoadingFailed: boolean = false;
   isStudentProfileLoading: boolean = false;
+  hasStudentProfileLoadingFailed: boolean = false;
   isStudentResultsLoading: boolean = false;
+  hasStudentResultsLoadingFailed: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private studentProfileService: StudentProfileService,
@@ -108,6 +111,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's records based on the given course ID and email.
    */
   loadStudentRecords(): void {
+    this.hasStudentLoadingFailed = false;
+    this.hasStudentProfileLoadingFailed = false;
     this.isStudentLoading = true;
     this.isStudentProfileLoading = true;
     this.studentService.getStudent(
@@ -116,12 +121,16 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
       this.studentName = resp.name;
       this.studentTeam = resp.teamName;
       this.studentSection = resp.sectionName;
+    }, (resp: ErrorMessageOutput) => {
+      this.hasStudentLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.studentProfileService.getStudentProfile(
         this.studentEmail, this.courseId,
     ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((resp: StudentProfile) => {
       this.studentProfile = resp;
     }, (resp: ErrorMessageOutput) => {
+      this.hasStudentProfileLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -130,6 +139,8 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
    * Loads the student's feedback session results based on the given course ID and student name.
    */
   loadStudentResults(): void {
+    this.sessionTabs = [];
+    this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId).pipe(
         mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
@@ -168,6 +179,7 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
           });
           results.questions.forEach((questions: QuestionOutput) => this.preprocessComments(questions.allResponses));
         }, (errorMessageOutput: ErrorMessageOutput) => {
+          this.hasStudentResultsLoadingFailed = true;
           this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
         }, () => this.sortFeedbackSessions());
   }
