@@ -374,7 +374,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -384,7 +384,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -400,7 +400,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </button>
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -452,7 +452,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -462,7 +462,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -478,7 +478,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </button>
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -530,7 +530,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -540,7 +540,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -556,7 +556,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </button>
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -608,7 +608,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -618,7 +618,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"
@@ -634,7 +634,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </button>
                         
                         <a
-                          class="btn btn-light btn-sm mr-2"
+                          class="btn btn-light btn-sm btn-margin-right"
                           href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
                           rel="noopener noreferrer"
                           target="_blank"

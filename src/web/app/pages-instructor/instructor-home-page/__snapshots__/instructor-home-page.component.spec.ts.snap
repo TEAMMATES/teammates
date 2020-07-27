@@ -233,7 +233,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -397,7 +397,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -467,13 +467,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 class="float-right"
               >
                 <span
-                  class="padding-right-10px dropdown"
+                  class="dropdown"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm btn-margin-right dropdown-toggle"
                     ngbdropdowntoggle=""
                   >
                      Students 
@@ -896,7 +896,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -966,13 +966,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 class="float-right"
               >
                 <span
-                  class="padding-right-10px dropdown"
+                  class="dropdown"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm btn-margin-right dropdown-toggle"
                     ngbdropdowntoggle=""
                   >
                      Students 
@@ -1509,7 +1509,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -1579,13 +1579,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 class="float-right"
               >
                 <span
-                  class="padding-right-10px dropdown"
+                  class="dropdown"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm btn-margin-right dropdown-toggle"
                     ngbdropdowntoggle=""
                   >
                      Students 
@@ -1789,7 +1789,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -1859,13 +1859,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 class="float-right"
               >
                 <span
-                  class="padding-right-10px dropdown"
+                  class="dropdown"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm btn-margin-right dropdown-toggle"
                     ngbdropdowntoggle=""
                   >
                      Students 
@@ -2092,7 +2092,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -2162,13 +2162,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 class="float-right"
               >
                 <span
-                  class="padding-right-10px dropdown"
+                  class="dropdown"
                   ngbdropdown=""
                 >
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm btn-margin-right dropdown-toggle"
                     ngbdropdowntoggle=""
                   >
                      Students 

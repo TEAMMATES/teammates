@@ -31,7 +31,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
     xmlns="http://www.w3.org/1999/html"
   >
     <div
-      class="card-header text-white question-header cursor-pointer"
+      class="card-header panel-primary cursor-pointer"
     >
       <div
         class="row align-items-center"
@@ -229,7 +229,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           </div>
           <div
             autoclose="outside"
-            class="margin-top-15px dropdown"
+            class="btn-margin dropdown"
             ngbdropdown=""
           >
             <button
@@ -343,7 +343,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
              (Who can see the responses?) 
           </div>
           <div
-            class="margin-top-15px dropdown"
+            class="btn-margin dropdown"
             ngbdropdown=""
           >
             <button
@@ -431,7 +431,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         >
           
           <button
-            class="btn btn-primary"
+            class="btn btn-success"
             disabled=""
           >
             

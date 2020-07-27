@@ -30,7 +30,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -86,7 +86,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -241,7 +241,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-other-actions-0"
                     ngbdropdowntoggle=""
                   >
@@ -347,7 +347,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-other-actions-1"
                     ngbdropdowntoggle=""
                   >
@@ -456,7 +456,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="card bg-light top-padded"
       >
         <div
-          class="card-header recycle-bin-header"
+          class="card-header cursor-pointer panel-secondary"
           id="deleted-table-heading"
         >
           <div
@@ -470,22 +470,24 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </b>
             </div>
             <div
-              class="col-8 text-right bin-header-button"
+              class="col-8 text-right"
             >
-              
-              
               <button
-                class="btn btn-light btn-sm disabled"
+                class="btn btn-secondary btn-sm btn-margin-right "
+                disabled=""
+                id="btn-restore-all"
+                ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
               >
                 <i
                   class="fas fa-check"
                 />
                  Restore All 
               </button>
-              
-              
               <button
-                class="btn btn-light btn-sm disabled text-danger"
+                class="btn btn-secondary btn-sm btn-margin-right"
+                disabled=""
+                id="btn-delete-all"
+                ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
               >
                 <i
                   class="fas fa-times"
@@ -537,7 +539,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -692,7 +694,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-other-actions-0"
                     ngbdropdowntoggle=""
                   >
@@ -798,7 +800,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-other-actions-1"
                     ngbdropdowntoggle=""
                   >
@@ -907,7 +909,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="card bg-light top-padded"
       >
         <div
-          class="card-header recycle-bin-header"
+          class="card-header cursor-pointer panel-secondary"
           id="deleted-table-heading"
         >
           <div
@@ -921,11 +923,10 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </b>
             </div>
             <div
-              class="col-8 text-right bin-header-button"
+              class="col-8 text-right"
             >
-              
               <button
-                class="btn btn-light btn-sm"
+                class="btn btn-secondary btn-sm btn-margin-right "
                 id="btn-restore-all"
                 ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
               >
@@ -934,11 +935,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 />
                  Restore All 
               </button>
-              
-              
-              
               <button
-                class="btn btn-light btn-sm text-danger"
+                class="btn btn-secondary btn-sm btn-margin-right"
                 id="btn-delete-all"
                 ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
               >
@@ -947,8 +945,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 />
                  Delete All 
               </button>
-              
-              
               
               <i
                 class="fas fa-chevron-down text-white"
@@ -994,7 +990,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -1050,7 +1046,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -1226,7 +1222,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-other-actions-0"
                     ngbdropdowntoggle=""
                   >
@@ -1353,7 +1349,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   <button
                     aria-expanded="false"
                     aria-haspopup="true"
-                    class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                    class="btn btn-light btn-sm dropdown-toggle"
                     id="btn-other-actions-1"
                     ngbdropdowntoggle=""
                   >

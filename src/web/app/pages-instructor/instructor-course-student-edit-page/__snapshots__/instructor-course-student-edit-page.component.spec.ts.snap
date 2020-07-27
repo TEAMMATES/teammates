@@ -199,7 +199,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             class="text-center"
           >
             <input
-              class="btn btn-primary"
+              class="btn btn-success"
               id="button_submit"
               type="submit"
               value="Save Changes"
