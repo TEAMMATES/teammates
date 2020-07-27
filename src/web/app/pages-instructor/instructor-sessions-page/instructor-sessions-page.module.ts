@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { RouterModule, Routes } from '@angular/router';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import {
@@ -41,6 +42,7 @@ const routes: Routes = [
     SessionsRecycleBinTableModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    LoadingRetryModule,
   ],
   declarations: [
     InstructorSessionsPageComponent,
