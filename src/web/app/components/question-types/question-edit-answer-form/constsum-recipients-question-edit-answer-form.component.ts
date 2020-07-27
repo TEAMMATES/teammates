@@ -27,11 +27,6 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
    * Assigns a point to the recipient.
    */
   triggerResponse(event: number): void {
-    if (!event) {
-      // reset answer to empty array if user delete the answer
-      this.triggerResponseDetailsChange('answers', []);
-      return;
-    }
 
     let newAnswers: number[] = this.responseDetails.answers.slice();
     // index 0 will the answer

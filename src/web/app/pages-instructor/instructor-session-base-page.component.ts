@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { from, Observable, of } from 'rxjs';
-import { concatMap, last, switchMap } from 'rxjs/operators';
+import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -169,8 +169,8 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
+        .pipe(finalize(() => model.isLoadingResponseRate = false))
         .subscribe((resp: FeedbackSessionStats) => {
-          model.isLoadingResponseRate = false;
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }

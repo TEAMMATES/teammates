@@ -50,7 +50,7 @@
         <td>
           <a href="#" *ngIf="sessionsTableRowModel.responseRate.length === 0 && !sessionsTableRowModel.isLoadingResponseRate" (click)="loadResponseRateEvent.emit(idx); $event.preventDefault()">Show</a>
           <div *ngIf="sessionsTableRowModel.responseRate.length !== 0">{{ sessionsTableRowModel.responseRate }}</div>
-          <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate"></tm-ajax-loading>
+          <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate" [useBlueSpinner]="true"></tm-ajax-loading>
         </td>
         <td class="actions-cell">
           <button type="button" class="btn btn-light btn-sm" (click)="editSessionEvent.emit(idx)"

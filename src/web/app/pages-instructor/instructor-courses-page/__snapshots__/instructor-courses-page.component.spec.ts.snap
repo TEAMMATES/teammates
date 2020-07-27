@@ -176,6 +176,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </thead>
           <tbody>
             
+            
             <tr>
               <td
                 id="course-id-0"
@@ -625,6 +626,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             </tr>
           </thead>
           <tbody>
+            
             
             <tr>
               <td
@@ -1138,6 +1140,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           </thead>
           <tbody>
             
+            
             <tr>
               <td
                 id="course-id-0"
@@ -1155,6 +1158,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                   >
@@ -1166,6 +1170,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                     id="show-statistics-0"
@@ -1178,6 +1183,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                   >
@@ -1189,6 +1195,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                   >
@@ -1282,6 +1289,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                   >
@@ -1293,6 +1301,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                     id="show-statistics-1"
@@ -1305,6 +1314,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                   >
@@ -1316,6 +1326,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               <td>
                 
                 <span>
+                  
                   <a
                     href="null"
                   >
