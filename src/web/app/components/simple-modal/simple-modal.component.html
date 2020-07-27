@@ -34,6 +34,6 @@
           'btn-primary' : type === SimpleModalType.NEUTRAL }"
           (click)="activeModal.close()">{{ confirmMessage }}</button>
 </div>
-<div class="modal-footer" *ngIf="isLoadingData">
+<div class="modal-footer justify-content-center" *ngIf="isLoadingData">
   <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
 </div>
