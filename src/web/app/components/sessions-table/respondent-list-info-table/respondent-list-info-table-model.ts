@@ -11,3 +11,15 @@ export interface StudentListInfoTableRowModel {
 
   isSelected: boolean;
 }
+
+/**
+ * The model for a row of the instructor list info table.
+ */
+export interface InstructorListInfoTableRowModel {
+  email: string;
+  name: string;
+
+  hasSubmittedSession: boolean;
+
+  isSelected: boolean;
+}

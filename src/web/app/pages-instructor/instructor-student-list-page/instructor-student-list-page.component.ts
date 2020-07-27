@@ -208,7 +208,7 @@ export class InstructorStudentListPageComponent implements OnInit {
         return this.tableComparatorService
             .compare(SortBy.SECTION_NAME, order, a.student.sectionName, b.student.sectionName)
           || this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName)
-          || this.tableComparatorService.compare(SortBy.STUDENT_NAME, order, a.student.name, b.student.name);
+          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, order, a.student.name, b.student.name);
       });
     }
     return (a: StudentListRowModel, b: StudentListRowModel): number => {
@@ -219,7 +219,7 @@ export class InstructorStudentListPageComponent implements OnInit {
           strA = a.student.sectionName;
           strB = b.student.sectionName;
           break;
-        case SortBy.STUDENT_NAME:
+        case SortBy.RESPONDENT_NAME:
           strA = a.student.name;
           strB = b.student.name;
           break;
@@ -227,7 +227,7 @@ export class InstructorStudentListPageComponent implements OnInit {
           strA = a.student.teamName;
           strB = b.student.teamName;
           break;
-        case SortBy.EMAIL:
+        case SortBy.RESPONDENT_EMAIL:
           strA = a.student.email;
           strB = b.student.email;
           break;

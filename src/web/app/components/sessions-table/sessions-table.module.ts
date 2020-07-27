@@ -10,10 +10,10 @@ import { AjaxPreloadModule } from '../ajax-preload/ajax-preload.module';
 import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
-import { ResendResultsLinkToStudentModalComponent } from './resend-results-link-to-student-modal/resend-results-link-to-student-modal.component';
-import { SendRemindersToStudentModalComponent } from './send-reminders-to-student-modal/send-reminders-to-student-modal.component';
+import { ResendResultsLinkToRespondentModalComponent } from './resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
+import { RespondentListInfoTableComponent } from './respondent-list-info-table/respondent-list-info-table.component';
+import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { SessionsTableComponent } from './sessions-table.component';
-import { StudentListInfoTableComponent } from './student-list-info-table/student-list-info-table.component';
 import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
 
 /**
@@ -24,9 +24,9 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     SubmissionStatusTooltipPipe,
     PublishStatusTooltipPipe,
     SessionsTableComponent,
-    ResendResultsLinkToStudentModalComponent,
-    SendRemindersToStudentModalComponent,
-    StudentListInfoTableComponent,
+    ResendResultsLinkToRespondentModalComponent,
+    SendRemindersToRespondentsModalComponent,
+    RespondentListInfoTableComponent,
   ],
   imports: [
     CommonModule,
@@ -39,9 +39,9 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     CopySessionModalModule,
   ],
   entryComponents: [
-    ResendResultsLinkToStudentModalComponent,
-    SendRemindersToStudentModalComponent,
+    ResendResultsLinkToRespondentModalComponent,
+    SendRemindersToRespondentsModalComponent,
   ],
-  exports: [SessionsTableComponent, StudentListInfoTableComponent],
+  exports: [SessionsTableComponent, RespondentListInfoTableComponent],
 })
 export class SessionsTableModule {}

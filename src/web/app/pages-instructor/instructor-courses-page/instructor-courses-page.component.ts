@@ -28,6 +28,7 @@ interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
+  isLoadingCourseStats: boolean;
 }
 
 /**
@@ -99,7 +100,9 @@ export class InstructorCoursesPageComponent implements OnInit {
         resp.courses.forEach((course: Course, index: number) => {
           const canModifyCourse: boolean = privileges[index].canModifyCourse;
           const canModifyStudent: boolean = privileges[index].canModifyStudent;
-          const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          const isLoadingCourseStats: boolean = false;
+          const activeCourse: CourseModel = Object.assign({},
+              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
           this.activeCourses.push(activeCourse);
         });
         this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
@@ -120,7 +123,9 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const archivedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          const isLoadingCourseStats: boolean = false;
+          const archivedCourse: CourseModel = Object.assign({},
+              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
           this.archivedCourses.push(archivedCourse);
         }, (error: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
@@ -138,7 +143,9 @@ export class InstructorCoursesPageComponent implements OnInit {
             .subscribe((instructorPrivilege: InstructorPrivilege) => {
               const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
               const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-              const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+              const isLoadingCourseStats: boolean = false;
+              const softDeletedCourse: CourseModel = Object.assign({},
+                  { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
               this.softDeletedCourses.push(softDeletedCourse);
               if (!softDeletedCourse.canModifyCourse) {
                 this.canDeleteAll = false;
@@ -158,22 +165,26 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Constructs the url for course stats from the given course id.
    */
-  getCourseStats(courseId: string): void {
+  getCourseStats(idx: number): void {
+    const course: CourseModel = this.activeCourses[idx];
+    const courseId: string = course.course.courseId;
     if (!courseId) {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
-      this.courseStats[courseId] = {
-        sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
-        teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
-        students: students.students.length,
-        unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED)
-          .length,
-      };
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    course.isLoadingCourseStats = true;
+    this.studentService.getStudentsFromCourse({ courseId })
+        .pipe(finalize(() => course.isLoadingCourseStats = false))
+        .subscribe((students: Students) => {
+          this.courseStats[courseId] = {
+            sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
+            teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
+            students: students.students.length,
+            unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**

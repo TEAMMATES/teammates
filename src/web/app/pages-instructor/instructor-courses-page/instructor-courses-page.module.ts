@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
@@ -34,6 +35,7 @@ const routes: Routes = [
     NgbTooltipModule,
     AddCourseFormModule,
     LoadingSpinnerModule,
+    AjaxLoadingModule,
     LoadingRetryModule,
   ],
 })

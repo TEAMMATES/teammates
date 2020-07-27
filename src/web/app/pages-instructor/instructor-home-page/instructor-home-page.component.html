@@ -49,22 +49,20 @@
               <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess">
                 <span ngbDropdown class="padding-right-10px">
                   <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
-                  <div ngbDropdownMenu>
+                  <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                       <a class="btn btn-info btn-sm dropdown-item"
-
                        routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
                       </a>
                     </ng-container>
                     <a class="btn btn-info btn-sm dropdown-item"
-
                      routerLink="/web/instructor/courses/details" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                     </a>
                   </div>
                 </span>
                 <span ngbDropdown class="padding-right-10px">
                   <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
-                  <div ngbDropdownMenu >
+                  <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <a class="btn btn-light btn-sm dropdown-item"
 
                      routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
@@ -73,7 +71,7 @@
                 </span>
                 <span ngbDropdown class="padding-right-10px">
                   <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
-                  <div ngbDropdownMenu>
+                  <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <a class="btn btn-light btn-sm dropdown-item"
 
                      routerLink='/web/instructor/sessions' [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
@@ -82,19 +80,18 @@
                 </span>
                 <span ngbDropdown class="padding-right-10px">
                   <button class="btn btn-light btn-sm" ngbDropdownToggle> Course </button>
-                  <div ngbDropdownMenu>
+                  <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <a class="btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                     (click)="archiveCourse(courseTabModel.course.courseId); $event.stopPropagation()"> Archive
+                     (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
                     </a>
                     <a class="btn btn-light btn-sm dropdown-item"
-
                      routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                     </a>
                     <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                       <a class="btn btn-light btn-sm dropdown-item"
                        ngbTooltip="Delete the course and its corresponding students and sessions"
-                       (click)="deleteCourse(courseTabModel.course.courseId); $event.stopPropagation()"> Delete
+                       (click)="deleteCourse(courseTabModel.course.courseId)"> Delete
                       </a>
                     </ng-container>
                   </div>
@@ -120,8 +117,8 @@
                 (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
                 (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
                 (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
-                (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
-                (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+                (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
+                (sendRemindersToStudentsEvent)="sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
           </tm-loading-retry>
         </div>
       </div>

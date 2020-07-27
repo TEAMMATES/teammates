@@ -8,11 +8,11 @@ import {
   Student,
 } from '../../../types/api-output';
 import {
-  SendRemindersToStudentModalComponent,
-} from '../../components/sessions-table/send-reminders-to-student-modal/send-reminders-to-student-modal.component';
-import {
   StudentListInfoTableRowModel,
-} from '../../components/sessions-table/student-list-info-table/student-list-info-table-model';
+} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import {
+  SendRemindersToRespondentsModalComponent,
+} from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -81,7 +81,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     const nonResponseStudentEmails: string[] = this.noResponseStudents.map((student: Student) => student.email);
     const nonResponseStudentEmailSet: Set<string> = new Set(nonResponseStudentEmails);
 
-    const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToStudentModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(SendRemindersToRespondentsModalComponent);
     modalRef.componentInstance.courseId = courseId;
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
     modalRef.componentInstance.studentListInfoTableRowModels
