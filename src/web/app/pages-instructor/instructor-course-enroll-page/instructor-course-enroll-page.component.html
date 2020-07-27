@@ -47,6 +47,14 @@
               [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
           </hot-table>
         </div>
+
+        <div *ngIf="showGeneralErrorMessage" class="card card-default">
+          <div class="card-body bg-danger text-white">
+            <button class="float-right fas fa-times close" (click)="showGeneralErrorMessage = false"></button>
+            You may check that: "Section" and "Comment" are optional while "Team", "Name", and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an alphabetical character, unless wrapped by curly brackets {{'"{}"'}}, and should not contain vertical bar "|" and percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some more text. "Team" should not have the same format as email to avoid mis-interpretation.
+          </div>
+        </div>
+
         <div class="card card-default">
           <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
             <div class="float-right margin-left-7px">

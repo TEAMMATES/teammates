@@ -38,6 +38,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   courseid: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
+  showGeneralErrorMessage: boolean = false;
   statusMessage: StatusMessage[] = [];
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
@@ -89,6 +90,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   submitEnrollData(): void {
     this.isEnrolling = true;
+    this.showGeneralErrorMessage = false;
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
 
@@ -217,14 +219,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     if (studentLists[EnrollStatus.ERROR].length > 0) {
-      const generalEnrollErrorMessage: string = 'You may check that: ' +
-          '"Section" and "Comment" are optional while "Team", "Name", and "Email" must be filled. ' +
-          '"Section", "Team", "Name", and "Comment" should start with an alphabetical character, ' +
-          'unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and percentage sign"%". ' +
-          '"Email" should contain some text followed by one \'@\' sign followed by some more text. ' +
-          '"Team" should not have same format of email to avoid mis-interpretation. ';
-      this.statusMessageService.showErrorToast(`Some students failed to be enrolled, see the summary below.
-       ${generalEnrollErrorMessage}`);
+      this.showGeneralErrorMessage = true;
+      this.statusMessageService.showErrorToast('Some students failed to be enrolled, see the summary below.');
     }
     return panels;
   }
