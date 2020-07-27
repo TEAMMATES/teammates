@@ -123,7 +123,7 @@
                               (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
                               [isFeedbackParticipantComment]="true"
                               [questionShowResponsesTo]="model.showResponsesTo"
-                              [shouldHideSavingButton]="false"
+                              [shouldHideSavingButton]="true"
                               (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
                               (saveCommentEvent)="triggerSaveCommentEvent(i)"
                               (closeEditingEvent)="discardEditedParticipantComment(i)"
