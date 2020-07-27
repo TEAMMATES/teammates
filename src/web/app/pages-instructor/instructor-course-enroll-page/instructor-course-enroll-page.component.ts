@@ -38,7 +38,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   courseId: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
-  showGeneralErrorMessage: boolean = false;
+  showEnrollErrorMessage: boolean = false;
+  enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
@@ -92,7 +93,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   submitEnrollData(): void {
     this.isEnrolling = true;
-    this.showGeneralErrorMessage = false;
+    this.showEnrollErrorMessage = false;
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
 
@@ -133,6 +134,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showErrorToast(resp.error.message);
+      this.enrollErrorMessage = resp.error.message;
+      this.showEnrollErrorMessage = true;
     }, () => {
       this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
         this.existingStudents = resp.students;
@@ -221,7 +224,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     if (studentLists[EnrollStatus.ERROR].length > 0) {
-      this.showGeneralErrorMessage = true;
+      this.showEnrollErrorMessage = true;
+      this.enrollErrorMessage = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
+        and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
+        alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
+        percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
+        more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
       this.statusMessageService.showErrorToast('Some students failed to be enrolled, see the summary below.');
     }
     return panels;
