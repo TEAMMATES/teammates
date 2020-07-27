@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
     GrqRgqViewResponsesModule,
@@ -35,6 +36,7 @@ const routes: Routes = [
     GrqRgqViewResponsesModule,
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
+    LoadingRetryModule,
   ],
   providers: [
     CommentToCommentRowModelPipe,
