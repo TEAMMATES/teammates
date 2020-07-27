@@ -226,6 +226,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 feedbackSession,
                 responseRate: '',
                 isLoadingResponseRate: false,
+                isLoadingInstructorPrivilege: false,
                 instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
               };
               model.sessionsTableRowModels.push(m);

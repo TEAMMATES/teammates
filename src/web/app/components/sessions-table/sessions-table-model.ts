@@ -7,7 +7,7 @@ export interface SessionsTableRowModel {
   feedbackSession: FeedbackSession;
   responseRate: string;
   isLoadingResponseRate: boolean;
-
+  isLoadingInstructorPrivilege: boolean;
   instructorPrivilege: InstructorPrivilege;
 }
 

@@ -385,7 +385,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-
+              isLoadingInstructorPrivilege: false,
               instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
             };
             this.sessionsTableRowModels.push(model);
@@ -449,6 +449,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
+            isLoadingInstructorPrivilege: false,
             instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
           };
           this.sessionsTableRowModels.push(m);
@@ -557,6 +558,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           feedbackSession: session,
           responseRate: '',
           isLoadingResponseRate: false,
+          isLoadingInstructorPrivilege: false,
           instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
         };
         this.sessionsTableRowModels.push(m);

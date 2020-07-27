@@ -72,6 +72,7 @@ describe('FeedbackSessionsService', () => {
       },
       responseRate: '',
       isLoadingResponseRate: false,
+      isLoadingInstructorPrivilege: false,
       instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
     };
     mockFeedbackSession.submissionStartTimestamp = Date.now() - 100000;

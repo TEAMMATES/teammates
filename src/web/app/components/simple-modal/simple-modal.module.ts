@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { SimpleModalComponent } from './simple-modal.component';
 
 /**
@@ -10,6 +11,7 @@ import { SimpleModalComponent } from './simple-modal.component';
   exports: [SimpleModalComponent],
   imports: [
     CommonModule,
+    AjaxLoadingModule,
   ],
   entryComponents: [SimpleModalComponent],
 })

@@ -99,6 +99,7 @@ describe('SessionsTableComponent', () => {
     feedbackSession: feedbackSession1,
     responseRate: '8 / 9',
     isLoadingResponseRate: false,
+    isLoadingInstructorPrivilege: false,
     instructorPrivilege: instructorCanEverything,
   };
 
@@ -106,6 +107,7 @@ describe('SessionsTableComponent', () => {
     feedbackSession: feedbackSession2,
     responseRate: '',
     isLoadingResponseRate: true,
+    isLoadingInstructorPrivilege: false,
     instructorPrivilege: instructorCannotEverything,
   };
 

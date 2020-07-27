@@ -22,7 +22,7 @@
   </div>
   <div *ngIf="!isTemplate" [innerHTML]="content"></div>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" *ngIf="!isLoadingData">
   <button type="button" class="btn btn-light modal-btn-cancel" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
     {{ cancelMessage }}
   </button>
@@ -33,4 +33,7 @@
           'btn-info' : type === SimpleModalType.INFO,
           'btn-primary' : type === SimpleModalType.NEUTRAL }"
           (click)="activeModal.close()">{{ confirmMessage }}</button>
+</div>
+<div class="modal-footer" *ngIf="isLoadingData">
+  <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
 </div>

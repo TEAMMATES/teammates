@@ -155,6 +155,7 @@ export abstract class InstructorSessionBasePageComponent {
    * Updates the instructor privilege in {@code SessionsTableRowModel}.
    */
   protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
+    model.isLoadingInstructorPrivilege = true;
     this.instructorService.loadInstructorPrivilege({
       courseId: model.feedbackSession.courseId,
       feedbackSessionName: model.feedbackSession.feedbackSessionName,
@@ -163,6 +164,8 @@ export abstract class InstructorSessionBasePageComponent {
       model.instructorPrivilege = instructorPrivilege;
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
+    }, () => {
+      model.isLoadingInstructorPrivilege = false;
     });
   }
 

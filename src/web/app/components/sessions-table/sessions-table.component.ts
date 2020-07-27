@@ -101,7 +101,9 @@ export class SessionsTableComponent implements OnInit {
     const modalContent: string = 'Session will be moved to the recycle bin.';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete session <strong>${ this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, modalContent);
+        SimpleModalType.WARNING, modalContent, {
+          isLoadingData: this.sessionsTableRowModels[rowIndex].isLoadingInstructorPrivilege,
+        });
     modalRef.result.then(() => {
       this.moveSessionToRecycleBinEvent.emit(rowIndex);
     }, () => {});
@@ -133,7 +135,9 @@ export class SessionsTableComponent implements OnInit {
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Publish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.');
+        SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.', {
+          isLoadingData: this.sessionsTableRowModels[rowIndex].isLoadingInstructorPrivilege,
+        });
 
     modalRef.result.then(() => {
       this.publishSessionEvent.emit(rowIndex);
@@ -150,7 +154,9 @@ export class SessionsTableComponent implements OnInit {
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Unpublish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, modalContent);
+        SimpleModalType.WARNING, modalContent, {
+          isLoadingData: this.sessionsTableRowModels[rowIndex].isLoadingInstructorPrivilege,
+        });
 
     modalRef.result.then(() => {
       this.unpublishSessionEvent.emit(rowIndex);
