@@ -125,7 +125,6 @@
                               [questionShowResponsesTo]="model.showResponsesTo"
                               [shouldHideSavingButton]="true"
                               (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
-                              (saveCommentEvent)="triggerSaveCommentEvent(i)"
                               (closeEditingEvent)="discardEditedParticipantComment(i)"
                               [isDisabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
               <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
