@@ -132,8 +132,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
               studentsEnrollRequest.studentEnrollRequests);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showErrorToast(resp.error.message);
       this.enrollErrorMessage = resp.error.message;
       this.showEnrollErrorMessage = true;
     }, () => {
