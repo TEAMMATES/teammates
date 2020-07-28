@@ -26,31 +26,6 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -146,31 +121,6 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -266,31 +216,6 @@ exports[`InstructorHomePageComponent should snap with one course with error load
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -466,31 +391,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -1003,31 +903,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -1654,31 +1529,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -1967,31 +1817,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
@@ -2308,31 +2133,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
 >
   <tm-redirect-banner>
     
-    <div
-      class="alert alert-primary alert-dismissible fade show"
-      role="alert"
-    >
-       You are using the revamped user interface (beta) of TEAMMATES, released mid-2020. If you would like to go back to the previous user interface, please 
-      <a
-        class="alert-link"
-        href="https://6-dot-teammates-uat.appspot.com"
-      >
-        click here
-      </a>
-      . 
-      <button
-        aria-label="Close"
-        class="close"
-        data-dismiss="alert"
-        type="button"
-      >
-        <span
-          aria-hidden="true"
-        >
-          ×
-        </span>
-      </button>
-    </div>
   </tm-redirect-banner><h1>
     Home
   </h1><div
