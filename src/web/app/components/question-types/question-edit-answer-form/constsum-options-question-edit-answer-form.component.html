@@ -1,8 +1,8 @@
 <div class="form-group row text-left" *ngFor="let option of questionDetails.constSumOptions; let i = index;">
-  <div class="col-12 col-sm-2 text-sm-right col-form-label">
+  <div class="col-md-2 col-xs-12 text-sm-right col-form-label">
     <strong>{{ option }}</strong>
   </div>
-  <div class="col-12 col-sm-5">
+  <div class="col-md-3 col-xs-12">
     <input type="number" class="form-control"
            [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
            (ngModelChange)="triggerResponse(i, $event)"
