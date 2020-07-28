@@ -2,7 +2,7 @@
   <div *ngIf="coursePresent">
     <h1>Enroll Students for {{ courseId }}</h1>
     <tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'" (retryEvent)="getCourseEnrollPageData(courseId)">
-      <div *ngIf='!hasLoadingStudentsFailed'class="card card-primary">
+      <div *ngIf='!hasLoadingStudentsFailed' class="card card-primary">
         <div class="card-body fill-plain">
           <p class="text-muted">
             <i class="fas fa-info-circle"></i>
