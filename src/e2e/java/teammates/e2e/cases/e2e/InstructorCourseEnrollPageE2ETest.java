@@ -66,14 +66,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         // student2 included to test modified without change table
         StudentAttributes[] studentsEnrollingToExistingCourse = {student2, student3, student4, student5};
         enrollPage.enroll(studentsEnrollingToExistingCourse);
-        enrollPage.verifyStatusMessage("Some students failed to be enrolled, see the summary below."
-                + " You may check that: "
-                + "\"Section\" and \"Comment\" are optional while \"Team\", \"Name\", and \"Email\" must be filled. "
-                + "\"Section\", \"Team\", \"Name\", and \"Comment\" should start with an alphabetical character, "
-                + "unless wrapped by curly brackets \"{}\", "
-                + "and should not contain vertical bar \"|\" and percentage sign\"%\". "
-                + "\"Email\" should contain some text followed by one '@' sign followed by some more text. "
-                + "\"Team\" should not have same format of email to avoid mis-interpretation.");
+        enrollPage.verifyStatusMessage("Some students failed to be enrolled, see the summary below.");
 
         StudentAttributes[] newStudentsData = {student4};
         StudentAttributes[] modifiedStudentsData = {student3};
