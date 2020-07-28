@@ -61,6 +61,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
+  hasLoadingStudentsFailed: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private statusMessageService: StatusMessageService,
@@ -112,7 +113,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Loads the students in the course
    */
-  private loadStudents(courseid: string): void {
+  loadStudents(courseid: string): void {
+    this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
@@ -140,6 +142,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       }
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
+      this.isStudentsLoading = false;
+      this.hasLoadingStudentsFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -162,6 +166,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           });
           this.students.push(...students);
         }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingStudentsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }

@@ -42,7 +42,8 @@
     <tbody>
     <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
       <td>
-        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
+        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId"
+                               [useViewPhotoBtn]="true"></tm-view-photo-popover>
       </td>
       <td *ngIf="hasSection()">{{studentModel.student.sectionName}}</td>
       <td>{{studentModel.student.teamName}}</td>
