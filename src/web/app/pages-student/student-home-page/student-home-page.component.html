@@ -1,103 +1,105 @@
-<div *tmIsLoading="isCoursesLoading"></div>
-<div *ngIf="!isCoursesLoading && courses.length == 0; else coursesContainer">
-  You are not enrolled in any courses. Please refer to the <a routerLink="/web/student/help">help page</a>
-  if you need more information.
-</div>
-<ng-template #coursesContainer>
-  <div *ngIf="courses.length" class="row mb-2">
-    <div class="col-12">
-      <div class="float-right">
-        <strong class="d-inline"> Sort By: </strong>
-        <div class="btn-group">
-          <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_ID" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
-          <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_NAME" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
+<tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadStudentCourses()">
+  <div *tmIsLoading="isCoursesLoading"></div>
+  <div *ngIf="!isCoursesLoading && courses.length == 0; else coursesContainer">
+    You are not enrolled in any courses. Please refer to the <a routerLink="/web/student/help">help page</a>
+    if you need more information.
+  </div>
+  <ng-template #coursesContainer>
+    <div *ngIf="courses.length" class="row mb-2">
+      <div class="col-12">
+        <div class="float-right">
+          <strong class="d-inline"> Sort By: </strong>
+          <div class="btn-group">
+            <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_ID" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
+            <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_NAME" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <ng-container *ngFor="let studentCourse of courses">
-    <div class="card bg-light top-padded">
-      <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
-        <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
-        <span class="float-sm-right">
-          <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
-             class="btn btn-light btn-sm button">
-            View team
-          </a>
-        </span>
-      </div>
+    <ng-container *ngFor="let studentCourse of courses">
+      <div class="card bg-light top-padded">
+        <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
+          <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
+          <span class="float-sm-right">
+            <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
+               class="btn btn-light btn-sm button">
+              View team
+            </a>
+          </span>
+        </div>
 
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered margin-0" *ngIf="studentCourse.feedbackSessions && studentCourse.feedbackSessions.length">
-          <thead>
-          <tr>
-            <th>Session Name</th>
-            <th>Deadline</th>
-            <th>Submissions</th>
-            <th>Responses</th>
-            <th>Action(s)</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let session of studentCourse.feedbackSessions">
-            <ng-container>
-              <td>{{ session.session.feedbackSessionName }}</td>
-              <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
-              <td>
-                <a style="border-bottom: 1px dashed black;"
-                   [ngbTooltip]="getSubmissionStatusTooltip(session)">
-                  {{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}
-                </a>
-              </td>
-              <td>
-                <a style="border-bottom: 1px dashed black;"
-                   [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
-                  {{ session.isPublished | sessionResponseStatus }}
-                </a>
-              </td>
-              <td>
-                <a [ngClass]="{'disabled' : !session.isPublished}"
-                   routerLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                   class="btn btn-light btn-sm">
-                  View Responses
-                </a> &nbsp;
-                <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled">
-                  Start Submission
-                </a>
-                <a *ngIf="session.isOpened && !session.isSubmitted"
-                   routerLink="/web/student/sessions/submission"
-                   [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                   class="btn btn-light btn-sm">
-                  Start Submission
-                </a>
-                <a *ngIf="session.isOpened && session.isSubmitted"
-                   routerLink="/web/student/sessions/submission"
-                   [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                   class="btn btn-light btn-sm">
-                  Edit Submission
-                </a>
-                <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
-                   routerLink="/web/student/sessions/submission"
-                   [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                   class="btn btn-light btn-sm">
-                  View Submission
-                </a>
-              </td>
-            </ng-container>
-          </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered margin-0" *ngIf="studentCourse.feedbackSessions && studentCourse.feedbackSessions.length">
+            <thead>
+            <tr>
+              <th>Session Name</th>
+              <th>Deadline</th>
+              <th>Submissions</th>
+              <th>Responses</th>
+              <th>Action(s)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let session of studentCourse.feedbackSessions">
+              <ng-container>
+                <td>{{ session.session.feedbackSessionName }}</td>
+                <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
+                <td>
+                  <a style="border-bottom: 1px dashed black;"
+                     [ngbTooltip]="getSubmissionStatusTooltip(session)">
+                    {{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}
+                  </a>
+                </td>
+                <td>
+                  <a style="border-bottom: 1px dashed black;"
+                     [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
+                    {{ session.isPublished | sessionResponseStatus }}
+                  </a>
+                </td>
+                <td>
+                  <a [ngClass]="{'disabled' : !session.isPublished}"
+                     routerLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     class="btn btn-light btn-sm">
+                    View Responses
+                  </a> &nbsp;
+                  <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled">
+                    Start Submission
+                  </a>
+                  <a *ngIf="session.isOpened && !session.isSubmitted"
+                     routerLink="/web/student/sessions/submission"
+                     [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     class="btn btn-light btn-sm">
+                    Start Submission
+                  </a>
+                  <a *ngIf="session.isOpened && session.isSubmitted"
+                     routerLink="/web/student/sessions/submission"
+                     [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     class="btn btn-light btn-sm">
+                    Edit Submission
+                  </a>
+                  <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
+                     routerLink="/web/student/sessions/submission"
+                     [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     class="btn btn-light btn-sm">
+                    View Submission
+                  </a>
+                </td>
+              </ng-container>
+            </tr>
+            </tbody>
+          </table>
 
-        <table class="table table-striped table-bordered margin-0" *ngIf="!(studentCourse.feedbackSessions && studentCourse.feedbackSessions.length)">
-          <tbody>
-          <tr>
-            <th class="align-center white">
-              Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
-            </th>
-          </tr>
-          </tbody>
-        </table>
+          <table class="table table-striped table-bordered margin-0" *ngIf="!(studentCourse.feedbackSessions && studentCourse.feedbackSessions.length)">
+            <tbody>
+            <tr>
+              <th class="align-center white">
+                Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+              </th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  </ng-container>
-</ng-template>
+    </ng-container>
+  </ng-template>
+</tm-loading-retry>

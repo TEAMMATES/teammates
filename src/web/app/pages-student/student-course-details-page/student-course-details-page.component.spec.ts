@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Course, Gender, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
@@ -18,6 +19,7 @@ describe('StudentCourseDetailsPageComponent', () => {
         RouterTestingModule,
         TeammatesCommonModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();
