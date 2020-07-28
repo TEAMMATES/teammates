@@ -68,9 +68,9 @@ Session Name,CONSTSUM Session
 Question 1,How important are the following factors to you? Give points accordingly.
 
 Summary Statistics
-Option,Points Received,Total Points,Average Points
-Fun,\\"20, 81\\",101,50.5
-Grades,\\"80, 19\\",99,49.5
+Option,Total Points,Average Points,Points Received
+Fun,101,50.5,20,81
+Grades,99,49.5,80,19
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Grades,Fun
@@ -84,7 +84,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,studen
 Question 2,Split points among the teams
 
 Summary Statistics
-Team,Recipient,Points Received,Total Points,Average Points
+Team,Recipient,Total Points,Average Points,Points Received
 ,\\"Team 1.1</td></div>'\\"\\"\\",80,80,80
 ,Team 1.2,20,20,20
 
@@ -97,7 +97,7 @@ Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Team 1.2,Team 1.
 Question 3,How much has each student worked?
 
 Summary Statistics
-Team,Recipient,Points Received,Total Points,Average Points
+Team,Recipient,Total Points,Average Points,Points Received
 \\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",30,30,30
 \\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,20,20,20
 \\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,30,30,30
@@ -368,11 +368,11 @@ Session Name,RANK Session
 Question 1,Rank the other students.
 
 Summary Statistics
-Team,Recipient,Ranks Received,Self Rank,Overall Rank,Overall Rank Excluding Self
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",4,4,4,-
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,\\"3, 2\\",2,1,3
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,\\"2, 3\\",3,1,1
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,\\"4, 3, 1\\",3,3,2
+Team,Recipient,Self Rank,Overall Rank,Overall Rank Excluding Self,Ranks Received
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",4,4,-,4
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,1,3,3,2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,3,1,1,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,3,3,2,4,3,1
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
@@ -405,12 +405,12 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td
 Question 2,Rank the areas of improvement you think your team should make progress in.
 
 Summary Statistics
-Option,Ranks Received,Overall Rank
-Friendliness of teammates,,
-Quality of progress reports,\\"2, 3\\",4
-Quality of work,\\"2, 3, 1, 4, 1\\",3
-Teamwork and communication,\\"1, 1, 4, 1\\",1
-Time management,\\"1, 2, 3, 2\\",2
+Option,Overall Rank,Ranks Received
+Friendliness of teammates,
+Quality of progress reports,4,2,3
+Quality of work,3,2,3,1,4,1
+Teamwork and communication,1,1,1,4,1
+Time management,2,1,2,3,2
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
