@@ -159,10 +159,10 @@ Summary Statistics
 Claimed Contribution (CC) = the contribution claimed by the student.
 Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
 Team,Name,Email,CC,PC,Ratings Received
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,95,N/A,\\"N/A,N/A,N/A\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Not Submitted,75,\\"75,N/A,N/A\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Not Submitted,103,\\"103,N/A,N/A\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Not Submitted,122,\\"122,N/A,N/A\\"
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,95,N/A,N/A,N/A,N/A
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Not Submitted,75,75,N/A,N/A
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Not Submitted,103,103,N/A,N/A
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Not Submitted,122,122,N/A,N/A
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
