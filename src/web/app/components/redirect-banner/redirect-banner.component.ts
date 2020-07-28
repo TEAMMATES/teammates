@@ -19,8 +19,6 @@ export class RedirectBannerComponent {
     this.redirectUrl = environment.redirectUrl
         ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.redirectUrl)
         : null;
-    this.supportEmail = environment.supportEmail
-        ? this.sanitizer.bypassSecurityTrustResourceUrl(`mailto:${environment.supportEmail}`)
-        : null;
+    this.supportEmail = this.sanitizer.bypassSecurityTrustResourceUrl(`mailto:${environment.supportEmail}`);
   }
 }

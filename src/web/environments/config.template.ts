@@ -25,7 +25,7 @@ export const config: any = {
   captchaSiteKey: '',
 
   /**
-   * This is the URL address that will show in the {@link RedirectBannerComponent}.
+   * This URL address that will be used to redirect users to an older version of the application.
    */
   redirectUrl: '',
 };
