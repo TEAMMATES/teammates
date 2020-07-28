@@ -142,3 +142,21 @@ ul {
 .editor.editor-disabled {
   cursor: not-allowed;
 }
+
+.fa-sort-down,
+.fa-sort-up{
+  color: black;
+}
+
+.fa-sort {
+  color: #CCC;
+}
+
+.fa-sort,
+.fa-sort-up,
+.fa-sort-down {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  line-height: inherit;
+}

@@ -5,27 +5,35 @@
       <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === SessionsTableHeaderColorScheme.BLUE }">
         <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">
           Course ID
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.COURSE_ID" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_NAME)">
           Session Name
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.SESSION_NAME" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_START_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
           Start Date
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.SESSION_START_DATE" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_END_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
           End Date
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.SESSION_END_DATE" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
         <th>Submissions</th>
         <th>Responses</th>
