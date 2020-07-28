@@ -46,15 +46,15 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
     }
     statsCalculation.calculateStatistics();
 
-    statsRows.push(['Team', 'Recipient', 'Points Received', 'Total Points', 'Average Points']);
+    statsRows.push(['Team', 'Recipient', 'Total Points', 'Average Points', 'Points Received']);
 
     Object.keys(statsCalculation.pointsPerOption).sort().forEach((recipient: string) => {
       statsRows.push([
         statsCalculation.emailToTeamName[recipient],
         statsCalculation.emailToName[recipient],
-        statsCalculation.pointsPerOption[recipient].join(', '),
         String(statsCalculation.totalPointsPerOption[recipient]),
         String(statsCalculation.averagePointsPerOption[recipient]),
+        ...statsCalculation.pointsPerOption[recipient].map(String),
       ]);
     });
 
