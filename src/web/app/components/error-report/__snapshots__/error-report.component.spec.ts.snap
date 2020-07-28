@@ -6,8 +6,10 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
   errorMessage=""
   errorReportService={[Function ErrorReportService]}
   errorReportSubmitted="false"
+  ngbActiveModal={[Function NgbActiveModal]}
   requestId=""
   sendButtonEnabled={[Function Boolean]}
+  statusMessageService={[Function StatusMessageService]}
   subject={[Function String]}
 >
   <div
