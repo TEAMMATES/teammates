@@ -45,16 +45,14 @@
                 <td>{{ session.session.feedbackSessionName }}</td>
                 <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
                 <td>
-                  <a style="border-bottom: 1px dashed black;"
-                     [ngbTooltip]="getSubmissionStatusTooltip(session)">
+                  <span [ngbTooltip]="getSubmissionStatusTooltip(session)">
                     {{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}
-                  </a>
+                  </span>
                 </td>
                 <td>
-                  <a style="border-bottom: 1px dashed black;"
-                     [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
+                  <span [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
                     {{ session.isPublished | sessionResponseStatus }}
-                  </a>
+                  </span>
                 </td>
                 <td>
                   <a [ngClass]="{'disabled' : !session.isPublished}"
