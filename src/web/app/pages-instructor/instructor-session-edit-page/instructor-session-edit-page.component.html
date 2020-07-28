@@ -11,7 +11,7 @@
   </div>
 
   <div *tmIsLoading="isLoadingFeedbackQuestions">
-    <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
+    <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn">
       <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
                              [numOfQuestions]="questionEditFormModels.length"
                              (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
