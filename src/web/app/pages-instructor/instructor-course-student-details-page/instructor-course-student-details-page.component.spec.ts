@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Gender, JoinState, Student, StudentProfile } from '../../../types/api-output';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
   InstructorCourseStudentDetailsPageComponent,
@@ -50,6 +51,7 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();

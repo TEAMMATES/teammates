@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -24,6 +23,7 @@ interface CourseTab {
   studentSortOrder: SortOrder;
   hasTabExpanded: boolean;
   hasStudentLoaded: boolean;
+  hasLoadingFailed: boolean;
   stats: CourseStatistics;
 }
 
@@ -39,12 +39,13 @@ interface CourseTab {
 export class InstructorStudentListPageComponent implements OnInit {
 
   courseTabList: CourseTab[] = [];
+  hasLoadingFailed: boolean = false;
+  isLoadingCourses: boolean = false;
 
   constructor(private instructorService: InstructorService,
               private courseService: CourseService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
-              private loadingBarService: LoadingBarService,
               private tableComparatorService: TableComparatorService) {
   }
 
@@ -56,9 +57,10 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads courses of current instructor.
    */
   loadCourses(): void {
-    this.loadingBarService.showLoadingBar();
+    this.hasLoadingFailed = false;
+    this.isLoadingCourses = true;
     this.courseService.getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
+        .pipe(finalize(() => this.isLoadingCourses = false))
         .subscribe((courses: Courses) => {
           courses.courses.forEach((course: Course) => {
             const courseTab: CourseTab = {
@@ -68,6 +70,7 @@ export class InstructorStudentListPageComponent implements OnInit {
               studentSortOrder: SortOrder.ASC,
               hasTabExpanded: false,
               hasStudentLoaded: false,
+              hasLoadingFailed: false,
               stats: {
                 numOfSections: 0,
                 numOfStudents: 0,
@@ -78,6 +81,8 @@ export class InstructorStudentListPageComponent implements OnInit {
             this.courseTabList.push(courseTab);
           });
         }, (resp: ErrorMessageOutput) => {
+          this.courseTabList = [];
+          this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         }, () => this.sortCourses());
   }
@@ -96,6 +101,8 @@ export class InstructorStudentListPageComponent implements OnInit {
    * Loads students of a specified course.
    */
   loadStudents(courseTab: CourseTab): void {
+    courseTab.hasLoadingFailed = false;
+    courseTab.hasStudentLoaded = false;
     this.studentService.getStudentsFromCourse({ courseId: courseTab.course.courseId })
         .pipe(finalize(() => courseTab.hasStudentLoaded = true))
         .subscribe((students: Students) => {
@@ -121,6 +128,8 @@ export class InstructorStudentListPageComponent implements OnInit {
 
           courseTab.stats = this.courseService.calculateCourseStatistics(students.students);
         }, (resp: ErrorMessageOutput) => {
+          courseTab.hasLoadingFailed = true;
+          courseTab.studentList = [];
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -141,6 +150,8 @@ export class InstructorStudentListPageComponent implements OnInit {
           courseTab.studentList.push(...students);
           courseTab.studentList.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
         }, (resp: ErrorMessageOutput) => {
+          courseTab.hasLoadingFailed = true;
+          courseTab.studentList = [];
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
