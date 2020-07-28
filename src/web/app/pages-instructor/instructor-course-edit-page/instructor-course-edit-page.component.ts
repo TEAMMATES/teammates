@@ -143,7 +143,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   allSessions: string[] = [];
 
   isCourseLoading: boolean = false;
+  hasCourseLoadingFailed: boolean = false;
   isInstructorsLoading: boolean = false;
+  hasInstructorsLoadingFailed: boolean = false;
   isSavingCourseEdit: boolean = false;
   isSavingNewInstructor: boolean = false;
 
@@ -206,6 +208,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the course being edited.
    */
   loadCourseInfo(): void {
+    this.hasCourseLoadingFailed = false;
     this.isCourseLoading = true;
     this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
       this.isCourseLoading = false;
@@ -213,6 +216,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
+      this.hasCourseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -288,6 +292,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads all instructors in the course.
    */
   loadCourseInstructors(): void {
+    this.hasInstructorsLoadingFailed = false;
     this.isInstructorsLoading = true;
     this.instructorService.loadInstructors({
       courseId: this.courseId,
@@ -304,6 +309,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -658,6 +664,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
       panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
+      this.hasInstructorsLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }

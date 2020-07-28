@@ -10,6 +10,7 @@ import {
 } from '../../../types/api-output';
 import { StudentHomePageComponent } from './student-home-page.component';
 
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
@@ -32,6 +33,7 @@ describe('StudentHomePageComponent', () => {
         RouterTestingModule,
         TeammatesCommonModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();

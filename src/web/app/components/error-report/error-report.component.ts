@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorReportService } from '../../../services/error-report.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorReportRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -20,7 +22,9 @@ export class ErrorReportComponent implements OnInit {
   sendButtonEnabled: boolean = true;
   errorReportSubmitted: boolean = false;
 
-  constructor(private errorReportService: ErrorReportService) {}
+  constructor(private errorReportService: ErrorReportService,
+              private ngbActiveModal: NgbActiveModal,
+              private statusMessageService: StatusMessageService) {}
 
   ngOnInit(): void {
   }
@@ -38,9 +42,11 @@ export class ErrorReportComponent implements OnInit {
     this.sendButtonEnabled = false;
     this.errorReportService.sendErrorReport({ request }).subscribe(() => {
       this.errorReportSubmitted = true;
+      this.statusMessageService.showSuccessToast('Your error report has been successfully sent');
+      this.ngbActiveModal.close();
     }, (res: ErrorMessageOutput) => {
       this.sendButtonEnabled = true;
-      console.error(res);
+      this.statusMessageService.showErrorToast(res.error.message);
     });
   }
 

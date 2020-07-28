@@ -5,7 +5,9 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
   Gender={[Function Object]}
   SortBy={[Function Object]}
   course={[Function Object]}
+  courseId="undefined"
   courseService={[Function CourseService]}
+  hasLoadingFailed="false"
   instructorDetails={[Function Array]}
   instructorService={[Function InstructorService]}
   isLoadingCourse={[Function Boolean]}
@@ -21,7 +23,13 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
-  <div
+  <tm-loading-retry>
+    
+    
+    
+    
+    
+  </tm-loading-retry><div
     class="section"
   >
     <div
@@ -54,7 +62,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   Gender={[Function Object]}
   SortBy={[Function Object]}
   course={[Function Object]}
+  courseId="undefined"
   courseService={[Function CourseService]}
+  hasLoadingFailed="false"
   instructorDetails={[Function Array]}
   instructorService={[Function InstructorService]}
   isLoadingCourse={[Function Boolean]}
@@ -70,7 +80,13 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
-  <div
+  <tm-loading-retry>
+    
+    
+    
+    
+    
+  </tm-loading-retry><div
     class="section"
   >
     <div
@@ -97,7 +113,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   Gender={[Function Object]}
   SortBy={[Function Object]}
   course={[Function Object]}
+  courseId="undefined"
   courseService={[Function CourseService]}
+  hasLoadingFailed="false"
   instructorDetails={[Function Array]}
   instructorService={[Function InstructorService]}
   isLoadingCourse="false"
@@ -117,216 +135,224 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
     class="page-title"
   >
     Team Details for 1.1.c-demo2
-  </h1><div
-    class="section"
-  >
+  </h1><tm-loading-retry>
+    
     
     <div
-      class="card"
+      class="section"
     >
+      
       <div
-        class="card-body fill-plain"
+        class="card"
       >
-        
-        
         <div
-          class="row"
+          class="card-body fill-plain"
         >
+          
+          
           <div
-            class="col-3 text-right"
+            class="row"
           >
-            <label>
-              Course ID:
-            </label>
-          </div>
-          <div
-            class="col-9"
-          >
-            <span
-              id="course-id"
+            <div
+              class="col-3 text-right"
             >
-              1.1.c-demo2
-            </span>
-          </div>
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="col-3 text-right"
-          >
-            <label>
-              Course name:
-            </label>
-          </div>
-          <div
-            class="col-9"
-          >
-            <span
-              id="course-name"
+              <label>
+                Course ID:
+              </label>
+            </div>
+            <div
+              class="col-9"
             >
-              Sample Course 101
-            </span>
-          </div>
-        </div>
-        
-        
-        <div
-          class="row"
-        >
-          <div
-            class="col-3 text-right"
-          >
-            <label>
-              Instructors:
-            </label>
-          </div>
-          <div
-            class="col-9"
-            id="instructors"
-            style="margin-bottom: .5rem;"
-          >
-            
-            <div>
-               Instructor: 
-              <a
-                href="mailto:1@1.com"
+              <span
+                id="course-id"
               >
-                1 (1@1.com)
-              </a>
+                1.1.c-demo2
+              </span>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Course name:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="course-name"
+              >
+                Sample Course 101
+              </span>
+            </div>
+          </div>
+          
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Instructors:
+              </label>
+            </div>
+            <div
+              class="col-9"
+              id="instructors"
+              style="margin-bottom: .5rem;"
+            >
+              
+              <div>
+                 Instructor: 
+                <a
+                  href="mailto:1@1.com"
+                >
+                  1 (1@1.com)
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Your section:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="student-section"
+              >
+                Tutorial Group 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Your team:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="student-team"
+              >
+                Team 2
+              </span>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Your name:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="student-name"
+              >
+                1
+              </span>
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Your email:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="student-email"
+              >
+                1@1.com
+              </span>
             </div>
           </div>
         </div>
-        
-        
-        <div
-          class="row"
-        >
-          <div
-            class="col-3 text-right"
-          >
-            <label>
-              Your section:
-            </label>
-          </div>
-          <div
-            class="col-9"
-          >
-            <span
-              id="student-section"
-            >
-              Tutorial Group 2
-            </span>
-          </div>
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="col-3 text-right"
-          >
-            <label>
-              Your team:
-            </label>
-          </div>
-          <div
-            class="col-9"
-          >
-            <span
-              id="student-team"
-            >
-              Team 2
-            </span>
-          </div>
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="col-3 text-right"
-          >
-            <label>
-              Your name:
-            </label>
-          </div>
-          <div
-            class="col-9"
-          >
-            <span
-              id="student-name"
-            >
-              1
-            </span>
-          </div>
-        </div>
-        <div
-          class="row"
-        >
-          <div
-            class="col-3 text-right"
-          >
-            <label>
-              Your email:
-            </label>
-          </div>
-          <div
-            class="col-9"
-          >
-            <span
-              id="student-email"
-            >
-              1@1.com
-            </span>
-          </div>
-        </div>
       </div>
     </div>
-  </div><div
-    class="card bg-light mb-4"
-  >
+    
     <div
-      class="card-body"
+      class="card bg-light mb-4"
     >
-      <h5
-        class="d-inline"
-      >
-        <strong>
-           Sort By: 
-        </strong>
-      </h5>
       <div
-        class="btn-group"
-        data-toggle="buttons"
+        class="card-body"
       >
-        <button
-          class="btn btn-light"
-          id="sort-name"
+        <h5
+          class="d-inline"
         >
-          Name
-        </button>
-        <button
-          class="btn btn-light"
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
         >
-          Email
-        </button>
-        <button
-          class="btn btn-light"
-        >
-          Gender
-        </button>
-        <button
-          class="btn btn-light"
-        >
-          Institution
-        </button>
-        <button
-          class="btn btn-light"
-        >
-          Nationality
-        </button>
+          <button
+            class="btn btn-light"
+            id="sort-name"
+          >
+            Name
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Email
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Gender
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Institution
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Nationality
+          </button>
+        </div>
       </div>
     </div>
-  </div><div
+    
+    
+  </tm-loading-retry><div
     class="section"
   >
     <div
