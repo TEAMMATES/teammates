@@ -144,7 +144,7 @@ ul {
 }
 
 .fa-sort-down,
-.fa-sort-up{
+.fa-sort-up {
   color: black;
 }
 
@@ -155,6 +155,7 @@ ul {
 .fa-sort,
 .fa-sort-up,
 .fa-sort-down {
+  // copied from fa-stack
   left: 0;
   position: absolute;
   text-align: center;

@@ -47,24 +47,29 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               class="sortable-header"
             >
                Session Name 
-              
-              <span>
+              <span
+                class="fa-stack"
+              >
                 <i
                   class="fas fa-sort"
                 />
+                
+                
               </span>
-              
-              
             </th>
             
             <th
               class="sortable-header"
             >
                Start Date 
-              
-              
-              
-              <span>
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
                 <i
                   class="fas fa-sort-up"
                 />
@@ -75,14 +80,15 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               class="sortable-header"
             >
                End Date 
-              
-              <span>
+              <span
+                class="fa-stack"
+              >
                 <i
                   class="fas fa-sort"
                 />
+                
+                
               </span>
-              
-              
             </th>
             <th>
               Submissions
@@ -440,23 +446,28 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               class="sortable-header"
             >
                Course ID 
-              
-              <span>
+              <span
+                class="fa-stack"
+              >
                 <i
                   class="fas fa-sort"
                 />
+                
+                
               </span>
-              
-              
             </th>
             <th
               class="sortable-header"
             >
                Session Name 
-              
-              
-              
-              <span>
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
                 <i
                   class="fas fa-sort-up"
                 />
