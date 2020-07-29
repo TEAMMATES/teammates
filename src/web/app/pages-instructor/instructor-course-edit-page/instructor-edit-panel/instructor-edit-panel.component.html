@@ -72,7 +72,8 @@
         <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked=""
                type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
                (ngModelChange)="triggerModelChange('isDisplayedToStudents', $event)" [disabled]="!instructor.isEditing">
-        <span ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"> Display to students as:</span>
+        &nbsp;
+        <span ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course">Display to students as:</span>
       </label>
       <div class="col-sm-9">
         <input id="displayed-name-instructor-{{ instructorIndex + 1 }}" class="form-control"
