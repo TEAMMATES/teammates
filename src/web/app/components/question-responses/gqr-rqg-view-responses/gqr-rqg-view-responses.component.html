@@ -88,6 +88,7 @@
                                     [displayContributionStats]="false"
               ></tm-single-statistics>
               <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
+                                              [statistics]="question.questionOutput.questionStatistics"
                                               [indicateMissingResponses]="indicateMissingResponses" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
                                               [instructorCommentTableModel]="instructorCommentTableModel"
                                               (instructorCommentTableModelChange)="triggerModelChange($event)"
