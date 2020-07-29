@@ -20,7 +20,7 @@
             <tm-status-message [messages]="statusMessage"></tm-status-message>
             <div class="card card-default">
               <div id="toggle-existing-students" class="card-header cursor-pointer"
-               (click)="toggleExistingStudentsPanel()">
+                   (click)="toggleExistingStudentsPanel()">
                 <b class="existing-students-status-message">Existing Students</b>
                 <div class="float-right margin-left-7px">
                   <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
@@ -50,9 +50,9 @@
               </hot-table>
             </div>
 
-            <div *ngIf="showEnrollErrorMessage && enrollErrorMessage" class="card card-default">
+            <div *ngIf="enrollErrorMessage" class="card card-default">
               <div class="card-body bg-danger text-white">
-                <button class="float-right fas fa-times close" (click)="showEnrollErrorMessage = false"></button>
+                <button class="float-right fas fa-times close" (click)="enrollErrorMessage = ''"></button>
                 {{ enrollErrorMessage }}
               </div>
             </div>
