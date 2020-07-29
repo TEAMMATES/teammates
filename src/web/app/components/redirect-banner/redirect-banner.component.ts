@@ -13,12 +13,12 @@ import { environment } from '../../../environments/environment';
 export class RedirectBannerComponent {
 
   redirectUrl: SafeResourceUrl | null;
-  supportEmail: SafeResourceUrl | null;
+  supportEmail: string;
 
   constructor(private sanitizer: DomSanitizer) {
     this.redirectUrl = environment.redirectUrl
         ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.redirectUrl)
         : null;
-    this.supportEmail = this.sanitizer.bypassSecurityTrustResourceUrl(`mailto:${environment.supportEmail}`);
+    this.supportEmail = environment.supportEmail;
   }
 }
