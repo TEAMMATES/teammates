@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RedirectBannerComponent } from '../../components/redirect-banner/redirect-banner.component';
 import { IndexPageComponent } from './index-page.component';
 
 describe('IndexPageComponent', () => {
@@ -7,7 +8,7 @@ describe('IndexPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IndexPageComponent],
+      declarations: [IndexPageComponent, RedirectBannerComponent],
     })
     .compileComponents();
   }));

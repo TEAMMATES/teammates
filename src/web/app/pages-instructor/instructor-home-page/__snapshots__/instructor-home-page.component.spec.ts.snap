@@ -24,7 +24,9 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -117,7 +119,9 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -210,7 +214,9 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -383,7 +389,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -903,7 +911,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1538,7 +1548,9 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1824,7 +1836,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -2138,7 +2152,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
