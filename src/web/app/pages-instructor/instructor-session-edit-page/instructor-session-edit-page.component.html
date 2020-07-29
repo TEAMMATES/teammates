@@ -38,7 +38,7 @@
           </ng-container>
         </div>
       </div>
-      <button type="button" class="btn btn-link" (click)="questionsHelpHandler()"><i class="fas fa-info-circle"></i></button>
+      <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" routerLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
       <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>&nbsp;
       <button class="btn btn-primary" (click)="doneEditingHandler()">Done Editing</button>
     </div>
@@ -61,13 +61,31 @@
           <select class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
             <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
           </select>
-          <button class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0" (click)="previewAsStudent()" [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how this session would look like to a student who is submitting feedback.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">Preview as Student</button>
+          <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" routerLink="/web/sessions/submission"
+             [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfStudentToPreview }"
+             target="_blank"
+             rel="noopener noreferrer"
+             [ngbTooltip]="emailOfStudentToPreview.length !== 0 ? 'View how this session would look like to a student who is submitting feedback.' : 'Preview is unavailable if the course has yet to have any student enrolled.'">
+            <ng-container *ngTemplateOutlet="previewStudentBtn"></ng-container>
+          </a>
+          <ng-template #previewStudentBtn>
+            <button class="btn btn-primary" [disabled]="emailOfStudentToPreview.length === 0">Preview as Student</button>
+          </ng-template>
         </div>
         <div class="col-lg-5">
           <select class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
             <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
           </select>
-          <button class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0" (click)="previewAsInstructor()" ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">Preview as Instructor</button>
+          <a *ngIf="false; else previewInstructorBtn" routerLink="/web/instructor/sessions/submission"
+             [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
+             target="_blank"
+             rel="noopener noreferrer"
+             ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list.">
+            <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
+          </a>
+          <ng-template #previewInstructorBtn>
+            <button class="btn btn-primary" [disabled]="false">Preview as Instructor</button>
+          </ng-template>
         </div>
       </div>
     </div>
