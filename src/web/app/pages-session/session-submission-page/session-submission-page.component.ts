@@ -776,35 +776,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         });
   }
 
-  /**
-   * Updates a comment by participants.
-   */
-  updateParticipantComment(questionIndex: number, responseIdx: number): void {
-    const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
-        this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
-
-    if (!recipientSubmissionFormModel.commentByGiver || !recipientSubmissionFormModel.commentByGiver.originalComment) {
-      return;
-    }
-
-    this.commentService.updateComment({
-      commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
-      // we ignore the fields in comment edit model as participant comment
-      // will follow visibilities from question by design
-      showCommentTo: [],
-      showGiverNameTo: [],
-    }, recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
-      key: this.regKey,
-      moderatedperson: this.moderatedPerson,
-    }).subscribe(
-        (comment: FeedbackResponseComment) => {
-          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
-          this.statusMessageService.showSuccessToast('Your comment has been saved!');
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-  }
-
   retryLoadingFeedbackSessionQuestions(): void {
     this.hasFeedbackSessionQuestionsLoadingFailed = false;
     if (this.retryAttempts >= 0) {
