@@ -99,36 +99,34 @@
               </span>
             </td>
             <td class="text-center actions-cell">
-              <button id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
+              <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
                       ngbTooltip="Enroll student into the course"
                       routerLink="/web/instructor/courses/enroll"
                       [queryParams]="{courseid: course.course.courseId}">
                 Enroll
-              </button>
+              </a>
               <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
                 Enroll
               </button>
               <div ngbDropdown class="d-inline-block">
                 <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
                 <div ngbDropdownMenu>
-                  <button class="btn btn-primary btn-sm dropdown-item clickable"
-
+                  <a class="btn btn-primary btn-sm dropdown-item clickable"
                           routerLink="/web/instructor/courses/details"
                           [queryParams]="{courseid: course.course.courseId}">
                     View
-                  </button>
-                  <button class="btn btn-primary btn-sm dropdown-item clickable"
-
+                  </a>
+                  <a class="btn btn-primary btn-sm dropdown-item clickable"
                           routerLink="/web/instructor/courses/edit"
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
-                  </button>
+                  </a>
                   <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
-                          ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)">
+                          ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
                     Archive
                   </button>
                   <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
-                          ngbTooltip="Delete the course and its corresponding students and sessions">
+                          ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
                     Delete
                   </button>
                   <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled" *ngIf="!course.canModifyCourse">
