@@ -663,48 +663,45 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             class="sortable-header"
                           >
                              Session Name 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              Start Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              End Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           <th>
                             Submissions
@@ -1170,48 +1167,45 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             class="sortable-header"
                           >
                              Session Name 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              Start Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              End Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           <th>
                             Submissions
