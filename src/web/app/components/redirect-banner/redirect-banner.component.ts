@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 
 /**
@@ -12,13 +11,11 @@ import { environment } from '../../../environments/environment';
 })
 export class RedirectBannerComponent {
 
-  redirectUrl: SafeResourceUrl | null;
+  redirectUrl: string;
   supportEmail: string;
 
-  constructor(private sanitizer: DomSanitizer) {
-    this.redirectUrl = environment.redirectUrl
-        ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.redirectUrl)
-        : null;
+  constructor() {
+    this.redirectUrl = environment.redirectUrl;
     this.supportEmail = environment.supportEmail;
   }
 }
