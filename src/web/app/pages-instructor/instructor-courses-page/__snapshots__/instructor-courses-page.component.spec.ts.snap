@@ -236,15 +236,15 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   class="text-center actions-cell"
                 >
                   
-                  <button
+                  <a
                     class="btn btn-light btn-sm"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
-                    tabindex="0"
                   >
                      Enroll 
-                  </button>
+                  </a>
                   
                   
                   <div
@@ -265,20 +265,20 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3281"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3281"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -375,20 +375,20 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3282"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3282"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -701,15 +701,15 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   class="text-center actions-cell"
                 >
                   
-                  <button
+                  <a
                     class="btn btn-light btn-sm"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
-                    tabindex="0"
                   >
                      Enroll 
-                  </button>
+                  </a>
                   
                   
                   <div
@@ -730,20 +730,20 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3281"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3281"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -840,20 +840,20 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3282"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3282"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1257,15 +1257,15 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   class="text-center actions-cell"
                 >
                   
-                  <button
+                  <a
                     class="btn btn-light btn-sm"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
-                    tabindex="0"
                   >
                      Enroll 
-                  </button>
+                  </a>
                   
                   
                   <div
@@ -1286,20 +1286,20 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3281"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3281"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -1417,20 +1417,20 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3282"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3282"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
