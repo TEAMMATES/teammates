@@ -1,235 +1,240 @@
-<div *ngIf="coursePresent">
-  <h1>Enroll Students for {{ courseid }}</h1>
-  <div class="card card-primary">
-    <div class="card-body fill-plain">
-      <p class="text-muted">
-        <i class="fas fa-info-circle"></i>
-        <a class="scroll-down" tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
-          <b>&nbsp;</b>
-          <b><u>Scroll down</u></b>
-        </a>
-        to see more information about the spreadsheet interfaces.
-        <br>
-        <i class="fas fa-info-circle"></i> If you want to enroll more than
-        <strong>100</strong> students into one course, divide students into sections containing no more than
-        <strong>100</strong> students.<br>
-      </p>
-      <div class="col-md-12">
-        <tm-status-message [messages]="statusMessage"></tm-status-message>
-        <div class="card card-default">
-          <div id="toggle-existing-students" class="card-header cursor-pointer"
-               (click)="toggleExistingStudentsPanel()">
-            <b class="existing-students-status-message">Existing Students</b>
-            <div class="float-right margin-left-7px">
-              <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
-              <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
-              <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
-              <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+<tm-loading-retry [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
+  <div *ngIf="coursePresent">
+    <h1>Enroll Students for {{ courseId }}</h1>
+    <tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'" (retryEvent)="getCourseEnrollPageData(courseId)">
+      <div *ngIf='!hasLoadingStudentsFailed' class="card card-primary">
+        <div class="card-body fill-plain">
+          <p class="text-muted">
+            <i class="fas fa-info-circle"></i>
+            <a class="scroll-down" tabindex="0" role="button" (click)="navigateToMoreInfo()"> <!--We are just treating it as a button here-->
+              <b>&nbsp;</b>
+              <b><u>Scroll down</u></b>
+            </a>
+            to see more information about the spreadsheet interfaces.
+            <br>
+            <i class="fas fa-info-circle"></i> If you want to enroll more than
+            <strong>100</strong> students into one course, divide students into sections containing no more than
+            <strong>100</strong> students.<br>
+          </p>
+          <div class="col-md-12">
+            <tm-status-message [messages]="statusMessage"></tm-status-message>
+            <div class="card card-default">
+              <div id="toggle-existing-students" class="card-header cursor-pointer"
+                   (click)="toggleExistingStudentsPanel()">
+                <b class="existing-students-status-message">Existing Students</b>
+                <div class="float-right margin-left-7px">
+                  <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
+                  <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
+                  <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
+                  <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+                </div>
+              </div>
+              <hot-table
+                  [licenseKey]="'non-commercial-and-evaluation'"
+                  [hotId]="existingStudentsHOT"
+                  [readOnly]="true"
+                  [height]="400"
+                  [autoWrapRow]="true"
+                  [preventOverflow]="'horizontal'"
+                  [manualColumnResize]="true"
+                  [manualRowResize]="true"
+                  [manualColumnMove]="true"
+                  [rowHeaders]="true"
+                  [colHeaders]="colHeaders"
+                  [columnSorting]="true"
+                  [minRows]="20"
+                  [maxCols]="5"
+                  [maxRows]="100"
+                  [stretchH]="'all'"
+                  [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
+              </hot-table>
             </div>
-          </div>
-          <hot-table
-              [licenseKey]="'non-commercial-and-evaluation'"
-              [hotId]="existingStudentsHOT"
-              [readOnly]="true"
-              [height]="400"
-              [autoWrapRow]="true"
-              [preventOverflow]="'horizontal'"
-              [manualColumnResize]="true"
-              [manualRowResize]="true"
-              [manualColumnMove]="true"
-              [rowHeaders]="true"
-              [colHeaders]="colHeaders"
-              [columnSorting]="true"
-              [minRows]="20"
-              [maxCols]="5"
-              [maxRows]="100"
-              [stretchH]="'all'"
-              [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
-          </hot-table>
-        </div>
-        <div class="card card-default">
-          <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
-            <div class="float-right margin-left-7px">
-              <i class="fas fa-chevron-{{ isNewStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+            <div class="card card-default">
+              <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
+                <div class="float-right margin-left-7px">
+                  <i class="fas fa-chevron-{{ isNewStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+                </div>
+                <div class='float-right'></div>
+                <strong>New students</strong>
+              </div>
+              <hot-table
+                  [licenseKey]="'non-commercial-and-evaluation'"
+                  [hotId]="newStudentsHOT"
+                  [height]="500"
+                  [autoWrapRow]="true"
+                  [preventOverflow]="'horizontal'"
+                  [manualColumnResize]="true"
+                  [manualRowResize]="true"
+                  [manualColumnMove]="true"
+                  [rowHeaders]="true"
+                  [colHeaders]="colHeaders"
+                  [columnSorting]="true"
+                  [minRows]="20"
+                  [maxCols]="5"
+                  [maxRows]="100"
+                  [stretchH]="'all'"
+                  [minSpareRows]="1"
+                  [contextMenu]="contextMenuOptions"
+                  [hidden]="isNewStudentsPanelCollapsed">
+              </hot-table>
             </div>
-            <div class='float-right'></div>
-            <strong>New students</strong>
-          </div>
-          <hot-table
-              [licenseKey]="'non-commercial-and-evaluation'"
-              [hotId]="newStudentsHOT"
-              [height]="500"
-              [autoWrapRow]="true"
-              [preventOverflow]="'horizontal'"
-              [manualColumnResize]="true"
-              [manualRowResize]="true"
-              [manualColumnMove]="true"
-              [rowHeaders]="true"
-              [colHeaders]="colHeaders"
-              [columnSorting]="true"
-              [minRows]="20"
-              [maxCols]="5"
-              [maxRows]="100"
-              [stretchH]="'all'"
-              [minSpareRows]="1"
-              [contextMenu]="contextMenuOptions"
-              [hidden]="isNewStudentsPanelCollapsed">
-          </hot-table>
-        </div>
-        <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
-          <div class="enroll-button-group">
-            <div class="input-group">
-              <button type="button" title="Add" id="btn-add-empty-rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
-                Add row(s)
-              </button>
-              <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
+            <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
+              <div class="enroll-button-group">
+                <div class="input-group">
+                  <button type="button" title="Add" id="btn-add-empty-rows" class="btn btn-primary" (click)="addRows(numOfRows.value)">
+                    Add row(s)
+                  </button>
+                  <input type="number" id="number-of-rows" class="form-control" value="1" min="0" #numOfRows>
+                </div>
+              </div>
+              <div class="enroll-button-group">
+                <button
+                    type="submit"
+                    title="Enroll"
+                    id="btn-enroll"
+                    name="button-enroll"
+                    class="btn btn-primary float-right"
+                    [disabled]="isEnrolling"
+                    (click)="submitEnrollData()">
+                  <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
+                  Enroll students
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="enroll-button-group">
-            <button
-                type="submit"
-                title="Enroll"
-                id="btn-enroll"
-                name="button-enroll"
-                class="btn btn-primary float-right"
-                [disabled]="isEnrolling"
-                (click)="submitEnrollData()">
-              <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
-              Enroll students
-            </button>
           </div>
         </div>
       </div>
+    </tm-loading-retry>
+    <button id="paste" [hidden]="true" (click)="showPasteModalBox()"></button> <!-- Acts as a medium to send the modal box into the JS file -->
+
+    <div class="more-info" #moreInfo [hidden]="showEnrollResults">
+      <h2> More info </h2>
+      <hr>
+      <ul>
+        <li>
+          <span class="more-info-point-title">Spreadsheet Information</span>
+          <ul>
+            <li>
+              If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
+              paste into the <code>New students</code> spreadsheet interface above.<br><br>
+              <table class="table table-striped table-bordered">
+                <tbody><tr>
+                  <th>Section</th>
+                  <th>Team</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Comments</th>
+                </tr>
+                <tr>
+                  <td>Tutorial Group 1</td>
+                  <td>Team 1</td>
+                  <td>Tom Jacobs</td>
+                  <td>tom@example.com</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Tutorial Group 1</td>
+                  <td>Team 1</td>
+                  <td>Jean Wong</td>
+                  <td>jean@example.com</td>
+                  <td>Exchange Student</td>
+                </tr>
+                <tr>
+                  <td>Tutorial Group 1</td>
+                  <td>Team 1</td>
+                  <td>Ravi Kumar</td>
+                  <td>ravi@example.com</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Tutorial Group 2</td>
+                  <td>Team 2</td>
+                  <td>Chun Ling</td>
+                  <td>ling@example.com</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Tutorial Group 2</td>
+                  <td>Team 2</td>
+                  <td>Desmond Wu</td>
+                  <td>desmond@example.com</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Tutorial Group 2</td>
+                  <td>Team 3</td>
+                  <td>Harsha Silva</td>
+                  <td>harsha@example.com</td>
+                  <td></td>
+                </tr>
+                </tbody></table>
+            </li>
+            <li>Each existing cells can be edited by just clicking on it.</li>
+            <li>The entire table can be sorted by just clicking on the column name.</li>
+            <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
+            <li>To access more edit functions, right-click on a cell.</li>
+            <li>Column width can be adjusted.</li>
+            <li>Expand the <code>Existing students</code> spreadsheet interface to view existing students in the course.</li>
+          </ul>
+        </li>
+        <li>
+          <span class="more-info-point-title">Columns Information</span>
+          <ul>
+            <li class="more-info-column-info">
+              <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
+            </li>
+            <li class="more-info-column-info">
+              <samp>Team</samp> [Compulsory]: Team name/ID
+              <ul>
+                <li class="more-info-sub-point-details">
+                  A team must be unique within a course. A team cannot be in 2 different sections.
+                </li>
+                <li class="more-info-sub-point-details">
+                  If you do not have teams in your course, use “N/A” as the team name for all students.
+                </li>
+              </ul>
+            </li>
+            <li class="more-info-column-info">
+              <samp>Name</samp> [Compulsory]: Student name
+            </li>
+            <li class="more-info-column-info">
+              <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
+              <ul>
+                <li class="more-info-sub-point-details">
+                  This need not be a Gmail address.
+                </li>
+                <li class="more-info-sub-point-details">
+                  It should be unique for each student.
+                  If two students are given the same email, they will be considered the same student.
+                </li>
+              </ul>
+            </li>
+            <li class="more-info-column-info">
+              <samp>Comments</samp> [Optional]: Any other information you want to record about a student.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <span class="more-info-point-title">Mass editing enrolled students</span>
+          <ul>
+            <li>
+              To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with
+              the
+              updated data.
+            </li>
+            <li>
+              To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and
+              click the <code>Students -&gt; View/Edit</code> link of the course.
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
-  <button id="paste" [hidden]="true" (click)="showPasteModalBox()"></button> <!-- Acts as a medium to send the modal box into the JS file -->
-  <div class="more-info" #moreInfo [hidden]="showEnrollResults">
-    <h2> More info </h2>
-    <hr>
-    <ul>
-      <li>
-        <span class="more-info-point-title">Spreadsheet Information</span>
-        <ul>
-          <li>
-            If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
-            paste into the <code>New students</code> spreadsheet interface above.<br><br>
-            <table class="table table-striped table-bordered">
-              <tbody><tr>
-                <th>Section</th>
-                <th>Team</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Comments</th>
-              </tr>
-              <tr>
-                <td>Tutorial Group 1</td>
-                <td>Team 1</td>
-                <td>Tom Jacobs</td>
-                <td>tom@example.com</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Tutorial Group 1</td>
-                <td>Team 1</td>
-                <td>Jean Wong</td>
-                <td>jean@example.com</td>
-                <td>Exchange Student</td>
-              </tr>
-              <tr>
-                <td>Tutorial Group 1</td>
-                <td>Team 1</td>
-                <td>Ravi Kumar</td>
-                <td>ravi@example.com</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Tutorial Group 2</td>
-                <td>Team 2</td>
-                <td>Chun Ling</td>
-                <td>ling@example.com</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Tutorial Group 2</td>
-                <td>Team 2</td>
-                <td>Desmond Wu</td>
-                <td>desmond@example.com</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Tutorial Group 2</td>
-                <td>Team 3</td>
-                <td>Harsha Silva</td>
-                <td>harsha@example.com</td>
-                <td></td>
-              </tr>
-              </tbody></table>
-          </li>
-          <li>Each existing cells can be edited by just clicking on it.</li>
-          <li>The entire table can be sorted by just clicking on the column name.</li>
-          <li>You can re-arrange column order by clicking on the column header and dragging them left or right.</li>
-          <li>To access more edit functions, right-click on a cell.</li>
-          <li>Column width can be adjusted.</li>
-          <li>Expand the <code>Existing students</code> spreadsheet interface to view existing students in the course.</li>
-        </ul>
-      </li>
-      <li>
-        <span class="more-info-point-title">Columns Information</span>
-        <ul>
-          <li class="more-info-column-info">
-            <samp>Section</samp> [Compulsory for courses having more than 100 students]: Section name/ID
-          </li>
-          <li class="more-info-column-info">
-            <samp>Team</samp> [Compulsory]: Team name/ID
-            <ul>
-              <li class="more-info-sub-point-details">
-                A team must be unique within a course. A team cannot be in 2 different sections.
-              </li>
-              <li class="more-info-sub-point-details">
-                If you do not have teams in your course, use “N/A” as the team name for all students.
-              </li>
-            </ul>
-          </li>
-          <li class="more-info-column-info">
-            <samp>Name</samp> [Compulsory]: Student name
-          </li>
-          <li class="more-info-column-info">
-            <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
-            <ul>
-              <li class="more-info-sub-point-details">
-                This need not be a Gmail address.
-              </li>
-              <li class="more-info-sub-point-details">
-                It should be unique for each student.
-                If two students are given the same email, they will be considered the same student.
-              </li>
-            </ul>
-          </li>
-          <li class="more-info-column-info">
-            <samp>Comments</samp> [Optional]: Any other information you want to record about a student.
-          </li>
-        </ul>
-      </li>
-      <li>
-        <span class="more-info-point-title">Mass editing enrolled students</span>
-        <ul>
-          <li>
-            To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with
-            the
-            updated data.
-          </li>
-          <li>
-            To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and
-            click the <code>Students -&gt; View/Edit</code> link of the course.
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</div>
+</tm-loading-retry>
 <hr>
 <div id="results-panel" *ngIf="coursePresent && showEnrollResults">
-  <h1>Enrollment Results for {{ courseid }}</h1>
+  <h1>Enrollment Results for {{ courseId }}</h1>
   <div *ngFor="let enrollResultPanel of enrollResultPanelList">
     <div class="card enroll-results-panel" *ngIf="enrollResultPanel.studentList.length > 0">
       <div class="card-header" [ngClass]="{'bg-primary': enrollResultPanel.status === EnrollStatus.NEW,
@@ -240,7 +245,7 @@
        EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">
         {{ enrollResultPanel.messageForEnrollmentStatus }}
       </div>
-      <table class="table table-striped table-bordered table-responsive">
+      <table class="table table-striped table-bordered table-responsive-lg">
         <thead>
           <tr>
             <th>Section</th>

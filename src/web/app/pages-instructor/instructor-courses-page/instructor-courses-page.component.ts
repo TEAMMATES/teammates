@@ -59,6 +59,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
 
   isLoading: boolean = false;
+  hasLoadingFailed: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -86,6 +87,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.hasLoadingFailed = false;
     this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
@@ -94,7 +96,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       forkJoin(
           resp.courses.map((course: Course) =>
               this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
-      ).subscribe((privileges: InstructorPrivilege[]) => {
+      ).pipe(finalize(() => this.isLoading = false)).subscribe((privileges: InstructorPrivilege[]) => {
         resp.courses.forEach((course: Course, index: number) => {
           const canModifyCourse: boolean = privileges[index].canModifyCourse;
           const canModifyStudent: boolean = privileges[index].canModifyStudent;
@@ -105,11 +107,14 @@ export class InstructorCoursesPageComponent implements OnInit {
         });
         this.activeCoursesDefaultSort();
       }, (error: ErrorMessageOutput) => {
+        this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(error.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
+      this.isLoading = false;
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
-    }, () => this.isLoading = false);
+    });
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
@@ -124,10 +129,12 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.archivedCourses.push(archivedCourse);
           this.archivedCoursesDefaultSort();
         }, (error: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(error.error.message);
         });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
 
@@ -147,10 +154,12 @@ export class InstructorCoursesPageComponent implements OnInit {
                 this.canRestoreAll = false;
               }
             }, (error: ErrorMessageOutput) => {
+              this.hasLoadingFailed = true;
               this.statusMessageService.showErrorToast(error.error.message);
             });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -266,7 +275,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -313,7 +322,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -356,7 +365,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
-    }, () => {});
+    });
   }
 
   /**
