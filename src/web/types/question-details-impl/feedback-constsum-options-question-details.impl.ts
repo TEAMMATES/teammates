@@ -51,14 +51,14 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     }
     statsCalculation.calculateStatistics();
 
-    statsRows.push(['Option', 'Points Received', 'Total Points', 'Average Points']);
+    statsRows.push(['Option', 'Total Points', 'Average Points', 'Points Received']);
 
     Object.keys(statsCalculation.pointsPerOption).sort().forEach((option: string) => {
       statsRows.push([
         option,
-        statsCalculation.pointsPerOption[option].join(', '),
         String(statsCalculation.totalPointsPerOption[option]),
         String(statsCalculation.averagePointsPerOption[option]),
+        ...statsCalculation.pointsPerOption[option].map(String),
       ]);
     });
 

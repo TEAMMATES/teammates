@@ -4,7 +4,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, flatMap, map, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -906,13 +905,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Handles question 'Help' link click event.
-   */
-  questionsHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help?questionId=questions&section=questions`);
-  }
-
-  /**
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): void {
@@ -960,23 +952,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
           }
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-  }
-
-  /**
-   * Previews the submission of the feedback session as a student.
-   */
-  previewAsStudent(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/sessions/submission`,
-        { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfStudentToPreview });
-  }
-
-  /**
-   * Previews the submission of the feedback session as an instructor.
-   */
-  previewAsInstructor(): void {
-    this.navigationService.openNewWindow(
-      `${environment.frontendUrl}/web/instructor/sessions/submission`,
-      { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfInstructorToPreview });
   }
 
   expandAll(): void {
