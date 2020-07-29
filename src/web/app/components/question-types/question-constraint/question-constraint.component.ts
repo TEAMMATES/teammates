@@ -1,6 +1,12 @@
+import { EventEmitter, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+
 /**
- * Interface for checking if a constraint is valid.
+ * Base class for constraint components.
  */
-export declare interface QuestionConstraintComponent {
-  isValid(): boolean;
+export abstract class QuestionConstraintComponent {
+  @Output()
+  isValidEvent: EventEmitter<Observable<boolean>> = new EventEmitter();
+
+  abstract isValid(): Observable<boolean>;
 }

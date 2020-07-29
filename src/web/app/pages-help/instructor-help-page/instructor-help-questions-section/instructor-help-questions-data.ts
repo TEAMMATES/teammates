@@ -1499,4 +1499,5 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       ],
     ],
   } as FeedbackRubricQuestionDetails,
+  isValid: true,
 };

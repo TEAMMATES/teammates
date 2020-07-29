@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of numerical scale question.
@@ -8,11 +10,16 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './num-scale-question-constraint.component.html',
   styleUrls: ['./num-scale-question-constraint.component.scss'],
 })
-export class NumScaleQuestionConstraintComponent implements OnInit {
+export class NumScaleQuestionConstraintComponent extends QuestionConstraintComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
   }
 
+  isValid(): Observable<boolean> {
+    return of(true);
+  }
 }

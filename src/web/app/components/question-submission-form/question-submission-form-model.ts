@@ -47,6 +47,8 @@ export interface QuestionSubmissionFormModel {
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
+
+  isValid: boolean;
 }
 
 /**

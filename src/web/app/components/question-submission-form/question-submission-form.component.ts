@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -43,7 +44,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-    // TODO: Add submission validation as part of form model?
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
@@ -84,6 +84,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     showResponsesTo: [],
+
+    isValid: true,
   };
 
   @Output()
@@ -93,6 +95,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
+  isQuestionValid: Observable<boolean> = of(true);
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -136,6 +139,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
+    this.isQuestionValid.subscribe((isValid: boolean) => {
+      this.model.isValid = isValid;
+    });
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice();
     recipientSubmissionForms[index] = {

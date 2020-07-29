@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable, Subscriber } from 'rxjs';
 import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -11,6 +12,7 @@ import {
 import {
   FeedbackResponseRecipientSubmissionFormModel,
 } from '../../question-submission-form/question-submission-form-model';
+import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of rank recipients question.
@@ -20,7 +22,7 @@ import {
   templateUrl: './rank-recipients-question-constraint.component.html',
   styleUrls: ['./rank-recipients-question-constraint.component.scss'],
 })
-export class RankRecipientsQuestionConstraintComponent implements OnInit {
+export class RankRecipientsQuestionConstraintComponent extends QuestionConstraintComponent implements OnInit {
 
   @Input()
   questionDetails: FeedbackRankRecipientsQuestionDetails = DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS();
@@ -28,9 +30,12 @@ export class RankRecipientsQuestionConstraintComponent implements OnInit {
   @Input()
   recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] = [];
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
+    this.isValidEvent.emit(this.isValid());
   }
 
   /**
@@ -116,4 +121,14 @@ export class RankRecipientsQuestionConstraintComponent implements OnInit {
     return numberOfRecipientsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 
+  isValid(): Observable<boolean> {
+    return new Observable((observer: Subscriber<boolean>) => {
+      observer.next(!(
+        (!this.questionDetails.areDuplicatesAllowed && this.isSameRanksAssigned)
+        || (this.isMinRecipientsEnabled && this.isRecipientsRankedLessThanMin)
+        || (this.isMaxRecipientsEnabled && this.isRecipientsRankedMoreThanMax)
+        || (this.isNoRecipientRanked)
+      ));
+    });
+  }
 }

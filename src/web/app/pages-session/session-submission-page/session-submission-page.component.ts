@@ -338,6 +338,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               showGiverNameTo: feedbackQuestion.showGiverNameTo,
               showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
               showResponsesTo: feedbackQuestion.showResponsesTo,
+
+              isValid: true,
             };
             this.questionSubmissionForms.push(model);
             this.loadFeedbackQuestionRecipientsForQuestion(model);
@@ -525,14 +527,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * <p>All empty feedback response will be deleted; For non-empty responses, update/create them if necessary.
    */
   saveFeedbackResponses(): void {
-    // TODO: Add submission validation for constraints
     const notYetAnsweredQuestions: Set<number> = new Set();
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
-
+      if (!questionSubmissionFormModel.isValid) {
+        failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
+            'Invalid answer provided. Please check question constraints.';
+        return;
+      }
       questionSubmissionFormModel.recipientSubmissionForms
           .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
             const isFeedbackResponseDetailsEmpty: boolean =
