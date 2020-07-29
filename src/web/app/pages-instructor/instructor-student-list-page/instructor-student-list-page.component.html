@@ -58,11 +58,11 @@
 
                   <hr/>
 
-                  <button class="btn btn-success"
+                  <a class="btn btn-success"
                     routerLink="/web/instructor/courses/enroll"
                     [queryParams]="{courseid: courseTab.course.courseId}">
                   Enroll Students
-                  </button>
+                  </a>
                   <br/><br/>
                   <tm-student-list
                       [courseId]="courseTab.course.courseId"
