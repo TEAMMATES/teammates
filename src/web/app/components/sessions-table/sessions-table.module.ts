@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   NgbDropdownModule,
   NgbTooltipModule,
@@ -37,6 +38,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     NgbTooltipModule,
     FormsModule,
     CopySessionModalModule,
+    RouterModule,
   ],
   entryComponents: [
     ResendResultsLinkToRespondentModalComponent,
