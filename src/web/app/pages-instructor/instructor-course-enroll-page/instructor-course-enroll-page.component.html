@@ -49,6 +49,14 @@
                   [hidden]="isExistingStudentsPanelCollapsed" @collapseAnim>
               </hot-table>
             </div>
+
+            <div *ngIf="enrollErrorMessage" class="card card-default">
+              <div class="card-body bg-danger text-white">
+                <button class="float-right fas fa-times close" (click)="enrollErrorMessage = ''"></button>
+                {{ enrollErrorMessage }}
+              </div>
+            </div>
+
             <div class="card card-default">
               <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
                 <div class="float-right margin-left-7px">
