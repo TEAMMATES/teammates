@@ -44,6 +44,7 @@ export class RankOptionsQuestionStatisticsCalculation
 
     const averageRanksReceivedPerOptions: Record<string, number> = {};
     for (const option of Object.keys(this.ranksReceivedPerOption)) {
+      this.ranksReceivedPerOption[option].sort();
       const answers: number[] = this.ranksReceivedPerOption[option];
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       if (answers.length === 0) {
