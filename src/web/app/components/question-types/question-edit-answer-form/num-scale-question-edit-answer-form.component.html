@@ -1,10 +1,10 @@
-<div class="row text-left">
-  <div class="col-md-3 col-xs-6">
+<div class="form-row text-left">
+  <div class="col-md-2 col-xs-5 indent ">
     <input type="number" class="form-control" min="{{ questionDetails.minScale }}" max="{{ questionDetails.maxScale }}" step="{{ questionDetails.step }}"
            [ngModel]="responseDetails.answer == NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED ? '' : responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
   </div>
-  <div class="col-md-9 col-xs-6">
-    Possible Acceptable Values are: {{ possibleValues }}
+  <div class="col-md-9 col-xs-6 text-secondary">
+    Possible values: {{ possibleValues }}
   </div>
 </div>
 <div class="row mt-1">
