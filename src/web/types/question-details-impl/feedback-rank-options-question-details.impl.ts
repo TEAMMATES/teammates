@@ -46,13 +46,13 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
     }
     statsCalculation.calculateStatistics();
 
-    statsRows.push(['Option', 'Ranks Received', 'Overall Rank']);
+    statsRows.push(['Option', 'Overall Rank', 'Ranks Received']);
 
     Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((option: string) => {
       statsRows.push([
         option,
-        statsCalculation.ranksReceivedPerOption[option].join(', '),
         statsCalculation.rankPerOption[option] ? String(statsCalculation.rankPerOption[option]) : '',
+        ...statsCalculation.ranksReceivedPerOption[option].map(String),
       ]);
     });
 

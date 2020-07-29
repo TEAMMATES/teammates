@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EnumToArrayPipe } from './enum-to-array.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
@@ -26,6 +26,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     CommonModule,
     RouterModule,
     NgbPopoverModule,
+    NgbTooltipModule,
   ],
   declarations: [
     EnumToArrayPipe,

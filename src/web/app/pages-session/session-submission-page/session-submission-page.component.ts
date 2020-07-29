@@ -35,7 +35,9 @@ import {
   Student,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
+import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -100,6 +102,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   moderatedQuestionId: string = '';
 
   isFeedbackSessionQuestionsLoading: boolean = false;
+  hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
+  retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
 
@@ -306,6 +310,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   loadFeedbackQuestions(): void {
     this.isFeedbackSessionQuestionsLoading = true;
+    this.questionSubmissionForms = [];
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
@@ -342,7 +347,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.questionSubmissionForms.push(model);
             this.loadFeedbackQuestionRecipientsForQuestion(model);
           });
-        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+        }, (resp: ErrorMessageOutput) => {
+          this.handleError(resp);
+        });
   }
 
   /**
@@ -769,32 +776,22 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         });
   }
 
-  /**
-   * Updates a comment by participants.
-   */
-  updateParticipantComment(questionIndex: number, responseIdx: number): void {
-    const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
-        this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
-
-    if (!recipientSubmissionFormModel.commentByGiver || !recipientSubmissionFormModel.commentByGiver.originalComment) {
-      return;
+  retryLoadingFeedbackSessionQuestions(): void {
+    this.hasFeedbackSessionQuestionsLoadingFailed = false;
+    if (this.retryAttempts >= 0) {
+      this.retryAttempts -= 1;
     }
+    this.loadFeedbackQuestions();
+  }
 
-    this.commentService.updateComment({
-      commentText: recipientSubmissionFormModel.commentByGiver.commentEditFormModel.commentText,
-      // we ignore the fields in comment edit model as participant comment
-      // will follow visibilities from question by design
-      showCommentTo: [],
-      showGiverNameTo: [],
-    }, recipientSubmissionFormModel.commentByGiver.originalComment.feedbackResponseCommentId, this.intent, {
-      key: this.regKey,
-      moderatedperson: this.moderatedPerson,
-    }).subscribe(
-        (comment: FeedbackResponseComment) => {
-          recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
-          this.statusMessageService.showSuccessToast('Your comment has been saved!');
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
+  handleError(resp: ErrorMessageOutput): void {
+    this.hasFeedbackSessionQuestionsLoadingFailed = true;
+    if (this.retryAttempts < 0) {
+      const report: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+      report.componentInstance.requestId = resp.error.requestId;
+      report.componentInstance.errorMessage = resp.error.message;
+    } else {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    }
   }
 }

@@ -1,7 +1,8 @@
 import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { from, Observable, of } from 'rxjs';
-import { concatMap, last, switchMap } from 'rxjs/operators';
+import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -16,7 +17,9 @@ import {
     InstructorPrivilege,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
+import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import {
     CopySessionResult,
     SessionsTableRowModel,
@@ -28,13 +31,16 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
+  private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+
   protected constructor(protected router: Router,
                         protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
                         protected feedbackQuestionsService: FeedbackQuestionsService,
-                        protected tableComparatorService: TableComparatorService) { }
+                        protected tableComparatorService: TableComparatorService,
+                        protected ngbModal: NgbModal) { }
 
   /**
    * Copies a feedback session.
@@ -169,8 +175,8 @@ export abstract class InstructorSessionBasePageComponent {
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
+        .pipe(finalize(() => model.isLoadingResponseRate = false))
         .subscribe((resp: FeedbackSessionStats) => {
-          model.isLoadingResponseRate = false;
           model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
@@ -223,7 +229,8 @@ export abstract class InstructorSessionBasePageComponent {
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
-    const filename: string = `${model.feedbackSession.feedbackSessionName.concat('_result')}.csv`;
+    const filename: string =
+        `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
 
     this.feedbackSessionsService.downloadSessionResults(
@@ -255,7 +262,14 @@ export abstract class InstructorSessionBasePageComponent {
 
           this.statusMessageService.showSuccessToast('The feedback session has been published. '
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (!this.publishUnpublishRetryAttempts) {
+            this.openErrorReportModal(resp);
+          } else {
+            this.publishUnpublishRetryAttempts -= 1;
+          }
+        });
   }
 
   /**
@@ -271,6 +285,19 @@ export abstract class InstructorSessionBasePageComponent {
           model.responseRate = '';
 
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (!this.publishUnpublishRetryAttempts) {
+            this.openErrorReportModal(resp);
+          } else {
+            this.publishUnpublishRetryAttempts -= 1;
+          }
+        });
+  }
+
+  openErrorReportModal(resp: ErrorMessageOutput): void {
+    const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+    modal.componentInstance.requestId = resp.error.requestId;
+    modal.componentInstance.errorMessage = resp.error.message;
   }
 }

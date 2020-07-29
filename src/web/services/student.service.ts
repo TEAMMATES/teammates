@@ -156,7 +156,7 @@ export class StudentService {
     students.sort((a: Student, b: Student) => {
       return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
           || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
-          || this.tableComparatorService.compare(SortBy.STUDENT_NAME, SortOrder.ASC, a.name, b.name);
+          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name);
     });
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {

@@ -196,7 +196,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                       <input
                         class="form-control ng-untouched ng-pristine ng-valid"
                         disabled=""
-                        min="0"
+                        min="1"
                         type="number"
                       />
                        words 
@@ -420,30 +420,30 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </ul>
           </div>
         </div>
-      </div>
-      
-      <div
-        class="row margin-top-15px"
-        style=""
-      >
+        
         <div
-          class="col-12 text-right"
+          class="row margin-top-15px"
+          style=""
         >
-          
-          <button
-            class="btn btn-primary"
-            disabled=""
+          <div
+            class="col-12 text-right"
           >
             
-            
-            <span>
-              <i
-                class="fas fa-check"
-              />
-               Save Changes
-            </span>
-            
-          </button>
+            <button
+              class="btn btn-primary"
+              disabled=""
+            >
+              
+              
+              <span>
+                <i
+                  class="fas fa-check"
+                />
+                 Save Changes
+              </span>
+              
+            </button>
+          </div>
         </div>
       </div>
     </div>

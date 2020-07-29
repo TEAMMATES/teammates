@@ -4,9 +4,12 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, flatMap, map, switchMap, tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
+import {
+  CommonVisibilitySetting,
+  FeedbackQuestionsService,
+  NewQuestionModel,
+} from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -27,7 +30,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
-  FeedbackTextQuestionDetails,
+  FeedbackTextQuestionDetails, FeedbackVisibilityType,
   HasResponses,
   Instructor,
   Instructors,
@@ -134,7 +137,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
     } as FeedbackTextQuestionDetails,
@@ -157,7 +159,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   isAddingQuestionPanelExpanded: boolean = false;
   isLoadingFeedbackSession: boolean = false;
+  hasLoadingFeedbackSessionFailed: boolean = false;
   isLoadingFeedbackQuestions: boolean = false;
+  hasLoadingFeedbackQuestionsFailed: boolean = false;
   isCopyingQuestion: boolean = false;
 
   // all students of the course
@@ -180,15 +184,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               feedbackSessionsService: FeedbackSessionsService,
               feedbackQuestionsService: FeedbackQuestionsService,
               tableComparatorService: TableComparatorService,
+              ngbModal: NgbModal,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
   }
 
   ngOnInit(): void {
@@ -208,6 +212,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads a feedback session.
    */
   loadFeedbackSession(): void {
+    this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingFeedbackSession = true;
     // load the course of the feedback session first
     this.courseService.getCourseAsInstructor(this.courseId).subscribe((course: Course) => {
@@ -222,11 +227,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
         this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
       }, (resp: ErrorMessageOutput) => {
+        this.hasLoadingFeedbackSessionFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isLoadingFeedbackSession = false;
+      this.hasLoadingFeedbackSessionFailed = true;
     });
   }
 
@@ -443,6 +450,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Loads feedback questions.
    */
   loadFeedbackQuestions(): void {
+    this.questionEditFormModels = [];
+    this.hasLoadingFeedbackQuestionsFailed = false;
     this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
@@ -457,7 +466,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.loadResponseStatusForQuestion(addedQuestionEditFormModel);
             this.feedbackQuestionModels.set(feedbackQuestion.feedbackQuestionId, feedbackQuestion);
           });
-        }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+        }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingFeedbackQuestionsFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -694,7 +706,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.statusMessageService.showSuccessToast('The questions have been added to this feedback session.');
         }
       });
-    });
+    }, () => {});
   }
 
   /**
@@ -759,16 +771,48 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         SHOW_GIVER_NAME: lastQuestionEditFormModel.showGiverNameTo,
         SHOW_RECIPIENT_NAME: lastQuestionEditFormModel.showRecipientNameTo,
       });
-      this.newQuestionEditFormModel.showResponsesTo =
+      const newQuestionShowResponsesTo: FeedbackVisibilityType[]  =
           newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE);
-      this.newQuestionEditFormModel.showGiverNameTo =
+      const newQuestionShowGiverNameTo: FeedbackVisibilityType[] =
           newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME);
-      this.newQuestionEditFormModel.showRecipientNameTo =
-          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-              VisibilityControl.SHOW_RECIPIENT_NAME);
+      const newQuestionShowRecipientNameTo: FeedbackVisibilityType[] =
+          newQuestionVisibilityStateMachine
+              .getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME);
+
+      let isAllowedToUseInheritedVisibility: boolean = false;
+      if (this.feedbackQuestionsService
+          .isCustomFeedbackVisibilitySettingAllowed(this.newQuestionEditFormModel.questionType)) {
+        isAllowedToUseInheritedVisibility = true;
+      } else {
+        const commonFeedbackVisibilitySettings: CommonVisibilitySetting[] =
+            this.feedbackQuestionsService.getCommonFeedbackVisibilitySettings(
+                newQuestionVisibilityStateMachine, this.newQuestionEditFormModel.questionType);
+        // new question is only allowed to have common visibility settings
+        // check whether the inherited settings fall into that or not
+        for (const commonVisibilityOption of commonFeedbackVisibilitySettings) {
+          if (this.isSameSet(newQuestionShowResponsesTo, commonVisibilityOption.visibilitySettings.SHOW_RESPONSE)
+              && this.isSameSet(newQuestionShowGiverNameTo,
+                  commonVisibilityOption.visibilitySettings.SHOW_GIVER_NAME)
+              && this.isSameSet(newQuestionShowRecipientNameTo,
+                  commonVisibilityOption.visibilitySettings.SHOW_RECIPIENT_NAME)) {
+            isAllowedToUseInheritedVisibility = true;
+            break;
+          }
+        }
+      }
+
+      if (isAllowedToUseInheritedVisibility) {
+        this.newQuestionEditFormModel.showResponsesTo = newQuestionShowResponsesTo;
+        this.newQuestionEditFormModel.showGiverNameTo = newQuestionShowGiverNameTo;
+        this.newQuestionEditFormModel.showRecipientNameTo = newQuestionShowRecipientNameTo;
+      }
     }
 
     this.scrollToNewEditForm();
+  }
+
+  private isSameSet(setA: FeedbackVisibilityType[], setB: FeedbackVisibilityType[]): boolean {
+    return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
   /**
@@ -897,13 +941,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Handles question 'Help' link click event.
-   */
-  questionsHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help?questionId=questions&section=questions`);
-  }
-
-  /**
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): void {
@@ -951,23 +988,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.emailOfInstructorToPreview = this.instructorsCanBePreviewedAs[0].email;
           }
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-  }
-
-  /**
-   * Previews the submission of the feedback session as a student.
-   */
-  previewAsStudent(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/sessions/submission`,
-        { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfStudentToPreview });
-  }
-
-  /**
-   * Previews the submission of the feedback session as an instructor.
-   */
-  previewAsInstructor(): void {
-    this.navigationService.openNewWindow(
-      `${environment.frontendUrl}/web/instructor/sessions/submission`,
-      { courseid: this.courseId, fsname: this.feedbackSessionName, previewas: this.emailOfInstructorToPreview });
   }
 
   expandAll(): void {

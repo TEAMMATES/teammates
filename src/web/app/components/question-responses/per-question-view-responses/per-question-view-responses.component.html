@@ -1,34 +1,42 @@
 <div *ngIf="responsesToShow.length">
-  <table class="table">
+  <table class="table table-bordered">
     <thead>
       <tr class="header">
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" *ngIf="showGiver">
           Team
-          <span *ngIf="sortBy !== SortBy.GIVER_TEAM"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" *ngIf="showGiver">
           Giver
-          <span *ngIf="sortBy !== SortBy.GIVER_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_TEAM)" *ngIf="showRecipient">
           Team
-          <span *ngIf="sortBy !== SortBy.RECIPIENT_TEAM"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" *ngIf="showRecipient">
           Recipient
-          <span *ngIf="sortBy !== SortBy.RECIPIENT_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th>Response</th>
         <th *ngIf="canResponseHasComment">Comment for Response</th>
-        <th class="no-print">Actions</th>
+        <th class="text-center no-print">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -53,7 +61,7 @@
         <td *ngIf="canResponseHasComment">
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
         </td>
-        <td class="no-print">
+        <td class="text-center no-print">
           <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail"
                                          [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
           <button class="btn btn-light btn-sm" style="margin-left: 5px; border: 1px solid #CCC;" [disabled]="isDisplayOnly"

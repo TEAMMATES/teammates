@@ -290,7 +290,7 @@ public final class Const {
         public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
 
         // Text Question
-        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 0 or greater";
+        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 1 or greater";
     }
 
     public static class FeedbackQuestionTypeNames {

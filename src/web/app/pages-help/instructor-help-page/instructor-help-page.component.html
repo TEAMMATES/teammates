@@ -17,23 +17,26 @@
             </div>
           </div>
         </div>
+        <div *ngIf="key" style="margin-top: 20px;">
+          <h4>{{ matchFound }} results found for "{{ key }}"</h4>
+        </div>
         <hr/>
       </div>
     </div>
-    <div id="{{Sections.students}}" class="section-body" tabindex="0">
-      <tm-instructor-help-students-section #studentsHelpSection [key]="key">
+    <div id="{{Sections.students}}" class="section-body">
+      <tm-instructor-help-students-section #studentsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
       </tm-instructor-help-students-section>
     </div>
     <div id="{{Sections.courses}}" class="section-body">
-      <tm-instructor-help-courses-section #coursesHelpSection [key]="key" (collapseStudentEditDetails)="collapseStudentEditDetails()">
+      <tm-instructor-help-courses-section #coursesHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapseStudentEditDetails)="collapseStudentEditDetails()">
       </tm-instructor-help-courses-section>
     </div>
     <div id="{{Sections.sessions}}" class="section-body">
-      <tm-instructor-help-sessions-section #sessionsHelpSection [key]="key">
+      <tm-instructor-help-sessions-section #sessionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)">
       </tm-instructor-help-sessions-section>
     </div>
     <div id="{{Sections.questions}}" class="section-body">
-      <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (collapsePeerEvalTips)="collapsePeerEvalTips()">
+      <tm-instructor-help-questions-section #questionsHelpSection [key]="key" (matchFound)="updateMatchFoundNumber($event)" (collapsePeerEvalTips)="collapsePeerEvalTips()">
       </tm-instructor-help-questions-section>
     </div>
   </div>

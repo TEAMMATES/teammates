@@ -7,4 +7,7 @@ module.exports = {
   ],
   coverageDirectory: './coverage',
   coverageReporters: ['lcov', 'text-summary'],
+  setupFiles: [
+    './jest-setup.ts',
+  ],
 };
