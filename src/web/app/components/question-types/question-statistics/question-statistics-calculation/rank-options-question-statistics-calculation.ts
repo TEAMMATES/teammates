@@ -30,7 +30,7 @@ export class RankOptionsQuestionStatisticsCalculation
       this.ranksReceivedPerOption[option] = [];
     }
     for (const response of this.responses) {
-      const answers: number[] = response.responseDetails.answers;
+      const answers: number[] = this.normalizeRanks(response.responseDetails.answers);
       for (let i: number = 0; i < options.length; i += 1) {
         const option: string = options[i];
         const answer: number = answers[i];
@@ -76,6 +76,23 @@ export class RankOptionsQuestionStatisticsCalculation
         this.rankPerOption[option] = i + 1;
       }
     }
+  }
+
+  private normalizeRanks(ranks: number[]): number[] {
+    const rankMapping: Record<number, number> = {};
+    rankMapping[RANK_OPTIONS_ANSWER_NOT_SUBMITTED] = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
+
+    const rankCopy: number[] = JSON.parse(JSON.stringify(ranks));
+    rankCopy.sort();
+
+    let normalizedRank: number = 1;
+    for (const rank of rankCopy) {
+      if (!rankMapping[rank]) {
+        rankMapping[rank] = normalizedRank;
+        normalizedRank += 1;
+      }
+    }
+    return ranks.map((rank: number) => rankMapping[rank]);
   }
 
 }
