@@ -145,12 +145,20 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             <td
               class="actions-cell"
             >
-              <button
-                class="btn btn-light btn-sm"
-                type="button"
+              
+              <a
+                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review"
+                routerlink="/web/instructor/sessions/edit"
               >
-                Edit
-              </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+              </a>
+              
               <button
                 class="btn btn-light btn-sm"
                 type="button"
@@ -164,13 +172,22 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               >
                 Copy
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ngbtooltip="Start submitting feedback"
-                type="button"
+              
+              <a
+                href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
+                routerlink="/web/instructor/sessions/submission"
               >
-                Submit
-              </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  ngbtooltip="Start submitting feedback"
+                  type="button"
+                >
+                  Submit
+                </button>
+                
+              </a>
+              
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
@@ -188,11 +205,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  <button
+                  <a
                     class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
+                    routerlink="/web/instructor/sessions/result"
                   >
                     View Results
-                  </button>
+                  </a>
                   
                   <button
                     class="btn dropdown-item clickable"
@@ -270,13 +289,15 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             <td
               class="actions-cell"
             >
+              
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
                 type="button"
               >
-                Edit
+                 Edit 
               </button>
+              
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
@@ -291,6 +312,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               >
                 Copy
               </button>
+              
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
@@ -299,6 +321,8 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               >
                 Submit
               </button>
+              
+              
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
@@ -316,11 +340,13 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  <button
+                  <a
                     class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
+                    routerlink="/web/instructor/sessions/result"
                   >
                     View Results
-                  </button>
+                  </a>
                   
                   <button
                     class="btn dropdown-item clickable"
@@ -492,12 +518,20 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             <td
               class="actions-cell"
             >
-              <button
-                class="btn btn-light btn-sm"
-                type="button"
+              
+              <a
+                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review"
+                routerlink="/web/instructor/sessions/edit"
               >
-                Edit
-              </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+              </a>
+              
               <button
                 class="btn btn-light btn-sm"
                 type="button"
@@ -511,13 +545,22 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               >
                 Copy
               </button>
-              <button
-                class="btn btn-light btn-sm"
-                ngbtooltip="Start submitting feedback"
-                type="button"
+              
+              <a
+                href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
+                routerlink="/web/instructor/sessions/submission"
               >
-                Submit
-              </button>
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  ngbtooltip="Start submitting feedback"
+                  type="button"
+                >
+                  Submit
+                </button>
+                
+              </a>
+              
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
@@ -535,11 +578,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  <button
+                  <a
                     class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
+                    routerlink="/web/instructor/sessions/result"
                   >
                     View Results
-                  </button>
+                  </a>
                   
                   <button
                     class="btn dropdown-item clickable"
@@ -610,13 +655,15 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             <td
               class="actions-cell"
             >
+              
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
                 type="button"
               >
-                Edit
+                 Edit 
               </button>
+              
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
@@ -631,6 +678,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               >
                 Copy
               </button>
+              
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
@@ -639,6 +687,8 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               >
                 Submit
               </button>
+              
+              
               <div
                 class="d-inline-block dropdown"
                 ngbdropdown=""
@@ -656,11 +706,13 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   ngbdropdownmenu=""
                   x-placement="bottom"
                 >
-                  <button
+                  <a
                     class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
+                    routerlink="/web/instructor/sessions/result"
                   >
                     View Results
-                  </button>
+                  </a>
                   
                   <button
                     class="btn dropdown-item clickable"
