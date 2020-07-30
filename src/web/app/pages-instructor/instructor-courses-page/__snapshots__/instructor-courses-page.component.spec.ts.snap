@@ -131,38 +131,44 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -199,10 +205,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -313,10 +321,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -596,38 +606,44 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -664,10 +680,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -778,10 +796,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -1131,38 +1151,44 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -1199,10 +1225,12 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -1334,10 +1362,12 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   

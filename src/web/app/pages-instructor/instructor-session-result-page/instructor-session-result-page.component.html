@@ -54,9 +54,9 @@
     <div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
       <div class="card-body row">
         <div class="col-md-6">
-          <div ngbTooltip="View results in different formats">
+          <div>
             <label class="control-label">
-              <b>View:</b>
+              <b ngbTooltip="View results in different formats">View:</b>
             </label>
             <div>
               <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
@@ -68,9 +68,9 @@
               </select>
             </div>
           </div>
-          <div ngbTooltip="View results by sections">
+          <div>
             <label class="control-label mt-md-1">
-              <b>Section:</b>
+              <b ngbTooltip="View results by sections">Section:</b>
             </label>
             <div>
               <select class="form-control" [(ngModel)]="section">
