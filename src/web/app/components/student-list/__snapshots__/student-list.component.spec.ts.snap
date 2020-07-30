@@ -40,53 +40,57 @@ exports[`StudentListComponent should snap with default fields 1`] = `
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -143,66 +147,71 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             class="sortable-header"
           >
              Section 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -597,66 +606,71 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             class="sortable-header"
           >
              Section 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -1044,66 +1058,71 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             class="sortable-header"
           >
              Section 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -1472,66 +1491,71 @@ exports[`StudentListComponent should snap with some student list data and some s
             class="sortable-header"
           >
              Section 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -1902,66 +1926,71 @@ exports[`StudentListComponent should snap with some student list data when not a
             class="sortable-header"
           >
              Section 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -2330,53 +2359,57 @@ exports[`StudentListComponent should snap with some student list data with no se
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
@@ -2509,53 +2542,57 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
             class="sortable-header"
           >
              Team 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Student Name 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Status 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="sortable-header"
           >
              Email 
-            
-            <span>
+            <span
+              class="fa-stack"
+            >
               <i
                 class="fas fa-sort"
               />
+              
+              
             </span>
-            
-            
           </th>
           <th
             class="align-center"
