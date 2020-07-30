@@ -338,14 +338,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       permission: {
         privilege: {
-          canModifyCourse: true,
-          canModifySession: true,
-          canModifyStudent: true,
-          canModifyInstructor: true,
-          canViewStudentInSections: true,
-          canModifySessionCommentsInSections: true,
-          canViewSessionInSections: true,
-          canSubmitSessionInSections: true,
+          canModifyCourse: false,
+          canModifySession: false,
+          canModifyStudent: false,
+          canModifyInstructor: false,
+          canViewStudentInSections: false,
+          canModifySessionCommentsInSections: false,
+          canViewSessionInSections: false,
+          canSubmitSessionInSections: false,
         },
         sectionLevel: [],
       },
