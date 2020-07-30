@@ -61,8 +61,10 @@
           <tr *ngFor="let course of activeCourses; let i = index">
             <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
             <td>{{course.course.courseName}}</td>
-            <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-              {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+            <td>
+              <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+              </span>
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
@@ -307,11 +309,15 @@
             <tr *ngFor="let course of softDeletedCourses; let i = index">
               <td id="deleted-course-id-{{ i }}">{{course.course.courseId}}</td>
               <td>{{course.course.courseName}}</td>
-              <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+              <td>
+                <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                  {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+                </span>
               </td>
-              <td container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+              <td>
+                <span container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                  {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+                </span>
               </td>
               <td class="text-center actions-cell">
                 <button id="btn-restore-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"

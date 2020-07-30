@@ -62,11 +62,15 @@
           <tr *ngFor="let recycleBinFeedbackSessionRowModel of recycleBinFeedbackSessionRowModels">
             <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
             <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
-            <td [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
-              {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+            <td>
+              <span [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
+                {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+              </span>
             </td>
-            <td [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
-              {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+            <td>
+              <span [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
+                {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
+              </span>
             </td>
             <td class="text-center actions-cell">
               <button type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
