@@ -307,7 +307,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           class="card"
         >
           <div
-            class="card-header bg-primary text-white"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b>
               [CS3281]: Thematic Systems
@@ -480,7 +480,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           class="card"
         >
           <div
-            class="card-header bg-primary text-white"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b>
               [CS3281]: Thematic Systems
@@ -991,7 +991,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           class="card"
         >
           <div
-            class="card-header bg-primary text-white"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b>
               [CS3281]: Thematic Systems
@@ -1617,7 +1617,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           class="card"
         >
           <div
-            class="card-header bg-primary text-white"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b>
               [CS3281]: Thematic Systems
@@ -1894,7 +1894,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           class="card"
         >
           <div
-            class="card-header bg-primary text-white"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b>
               [CS3281]: Thematic Systems
@@ -2199,7 +2199,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           class="card"
         >
           <div
-            class="card-header bg-primary text-white"
+            class="card-header bg-primary text-white cursor-pointer"
           >
             <b>
               [CS3243]: Introduction to AI

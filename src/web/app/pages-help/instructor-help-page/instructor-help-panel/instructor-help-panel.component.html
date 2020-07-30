@@ -1,5 +1,5 @@
 <div class="card" [id]="id">
-  <div class="card-header bg-light" (click)="isPanelExpanded = !isPanelExpanded">
+  <div class="card-header bg-light cursor-pointer" (click)="isPanelExpanded = !isPanelExpanded">
     {{ headerText }}
     <div class="card-header-btn-toolbar">
       <tm-panel-chevron [isExpanded]="isPanelExpanded"></tm-panel-chevron>
