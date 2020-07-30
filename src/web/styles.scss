@@ -89,6 +89,7 @@ h6,
   display: inline-block;
   max-height: 90vh;
   max-width: 60vw;
+  min-width: 50vw;
   overflow-y: scroll;
   vertical-align: middle;
 }
@@ -96,6 +97,7 @@ h6,
 @media (max-width: 768px) {
   .modal-dialog {
     max-width: 80vw;
+    min-width: 65vw;
   }
 }
 
