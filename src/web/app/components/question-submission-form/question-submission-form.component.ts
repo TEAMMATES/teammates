@@ -87,8 +87,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
-  @Output()
-  saveCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
@@ -146,13 +144,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
       ...this.model,
       recipientSubmissionForms,
     });
-  }
-
-  /**
-   * Triggers deletion of a participant comment associated with the response.
-   */
-  triggerSaveCommentEvent(index: number): void {
-    this.saveCommentEvent.emit(index);
   }
 
   /**

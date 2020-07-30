@@ -131,38 +131,44 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -199,10 +205,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -236,15 +244,15 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   class="text-center actions-cell"
                 >
                   
-                  <button
+                  <a
                     class="btn btn-light btn-sm"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
-                    tabindex="0"
                   >
                      Enroll 
-                  </button>
+                  </a>
                   
                   
                   <div
@@ -265,32 +273,36 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3281"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3281"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-archive-0"
                         ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                        placement="left"
                       >
                          Archive 
                       </button>
                       
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-soft-delete-0"
                         ngbtooltip="Delete the course and its corresponding students and sessions"
+                        placement="left"
                       >
                          Delete 
                       </button>
@@ -309,10 +321,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -371,24 +385,26 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3282"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3282"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-archive-1"
                         ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                        placement="left"
                       >
                          Archive 
                       </button>
@@ -586,38 +602,44 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -654,10 +676,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -691,15 +715,15 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   class="text-center actions-cell"
                 >
                   
-                  <button
+                  <a
                     class="btn btn-light btn-sm"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
-                    tabindex="0"
                   >
                      Enroll 
-                  </button>
+                  </a>
                   
                   
                   <div
@@ -720,32 +744,36 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3281"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3281"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-archive-0"
                         ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                        placement="left"
                       >
                          Archive 
                       </button>
                       
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-soft-delete-0"
                         ngbtooltip="Delete the course and its corresponding students and sessions"
+                        placement="left"
                       >
                          Delete 
                       </button>
@@ -764,10 +792,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -826,24 +856,26 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3282"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3282"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-archive-1"
                         ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                        placement="left"
                       >
                          Archive 
                       </button>
@@ -1111,38 +1143,44 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -1179,10 +1217,12 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -1237,15 +1277,15 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   class="text-center actions-cell"
                 >
                   
-                  <button
+                  <a
                     class="btn btn-light btn-sm"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
                     id="btn-enroll-0"
                     ngbtooltip="Enroll student into the course"
                     routerlink="/web/instructor/courses/enroll"
-                    tabindex="0"
                   >
                      Enroll 
-                  </button>
+                  </a>
                   
                   
                   <div
@@ -1266,32 +1306,36 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3281"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3281"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-archive-0"
                         ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                        placement="left"
                       >
                          Archive 
                       </button>
                       
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-soft-delete-0"
                         ngbtooltip="Delete the course and its corresponding students and sessions"
+                        placement="left"
                       >
                          Delete 
                       </button>
@@ -1310,10 +1354,12 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -1393,24 +1439,26 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       ngbdropdownmenu=""
                       x-placement="bottom"
                     >
-                      <button
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/details?courseid=CS3282"
                         routerlink="/web/instructor/courses/details"
-                        tabindex="0"
                       >
                          View 
-                      </button>
-                      <button
+                      </a>
+                      <a
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        href="/web/instructor/courses/edit?courseid=CS3282"
                         routerlink="/web/instructor/courses/edit"
-                        tabindex="0"
                       >
                          Edit 
-                      </button>
+                      </a>
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
                         id="btn-archive-1"
                         ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                        placement="left"
                       >
                          Archive 
                       </button>

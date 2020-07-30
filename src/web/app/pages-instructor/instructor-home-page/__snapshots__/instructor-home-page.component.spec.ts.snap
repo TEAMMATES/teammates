@@ -24,7 +24,9 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -117,7 +119,9 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -210,7 +214,9 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -381,7 +387,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -650,48 +658,45 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             class="sortable-header"
                           >
                              Session Name 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              Start Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              End Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           <th>
                             Submissions
@@ -754,12 +759,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                           <td
                             class="actions-cell"
                           >
-                            <button
-                              class="btn btn-light btn-sm"
-                              type="button"
+                            
+                            <a
+                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback"
+                              routerlink="/web/instructor/sessions/edit"
                             >
-                              Edit
-                            </button>
+                              
+                              <button
+                                class="btn btn-light btn-sm"
+                                type="button"
+                              >
+                                 Edit 
+                              </button>
+                            </a>
+                            
                             <button
                               class="btn btn-light btn-sm"
                               type="button"
@@ -773,6 +786,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             >
                               Copy
                             </button>
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
@@ -781,6 +795,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             >
                               Submit
                             </button>
+                            
+                            
                             <div
                               class="d-inline-block dropdown"
                               ngbdropdown=""
@@ -798,11 +814,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 ngbdropdownmenu=""
                                 x-placement="bottom"
                               >
-                                <button
+                                <a
                                   class="btn dropdown-item clickable"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback"
+                                  routerlink="/web/instructor/sessions/result"
                                 >
                                   View Results
-                                </button>
+                                </a>
                                 
                                 <button
                                   class="btn dropdown-item clickable"
@@ -880,7 +898,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1133,48 +1153,45 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             class="sortable-header"
                           >
                              Session Name 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              Start Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           
                           <th
                             class="sortable-header"
                           >
                              End Date 
-                            
                             <span
-                              class="text-secondary"
+                              class="fa-stack"
                             >
                               <i
                                 class="fas fa-sort"
                               />
+                              
+                              
                             </span>
-                            
-                            
                           </th>
                           <th>
                             Submissions
@@ -1237,13 +1254,15 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           <td
                             class="actions-cell"
                           >
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
                               type="button"
                             >
-                              Edit
+                               Edit 
                             </button>
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
@@ -1258,6 +1277,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             >
                               Copy
                             </button>
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
@@ -1266,6 +1286,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             >
                               Submit
                             </button>
+                            
+                            
                             <div
                               class="d-inline-block dropdown"
                               ngbdropdown=""
@@ -1283,11 +1305,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 ngbdropdownmenu=""
                                 x-placement="bottom"
                               >
-                                <button
+                                <a
                                   class="btn dropdown-item clickable"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%201"
+                                  routerlink="/web/instructor/sessions/result"
                                 >
                                   View Results
-                                </button>
+                                </a>
                                 
                                 <button
                                   class="btn dropdown-item clickable"
@@ -1365,13 +1389,15 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           <td
                             class="actions-cell"
                           >
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
                               type="button"
                             >
-                              Edit
+                               Edit 
                             </button>
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
@@ -1386,6 +1412,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             >
                               Copy
                             </button>
+                            
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
@@ -1394,6 +1421,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             >
                               Submit
                             </button>
+                            
+                            
                             <div
                               class="d-inline-block dropdown"
                               ngbdropdown=""
@@ -1411,11 +1440,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 ngbdropdownmenu=""
                                 x-placement="bottom"
                               >
-                                <button
+                                <a
                                   class="btn dropdown-item clickable"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%202"
+                                  routerlink="/web/instructor/sessions/result"
                                 >
                                   View Results
-                                </button>
+                                </a>
                                 
                                 <button
                                   class="btn dropdown-item clickable"
@@ -1493,7 +1524,9 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1768,7 +1801,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -2071,7 +2106,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"

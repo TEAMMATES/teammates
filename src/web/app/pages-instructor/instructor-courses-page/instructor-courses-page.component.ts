@@ -105,7 +105,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
           this.activeCourses.push(activeCourse);
         });
-        this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
+        this.activeCoursesDefaultSort();
       }, (error: ErrorMessageOutput) => {
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(error.error.message);
@@ -127,6 +127,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           const archivedCourse: CourseModel = Object.assign({},
               { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
           this.archivedCourses.push(archivedCourse);
+          this.archivedCoursesDefaultSort();
         }, (error: ErrorMessageOutput) => {
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(error.error.message);
@@ -147,6 +148,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               const softDeletedCourse: CourseModel = Object.assign({},
                   { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
               this.softDeletedCourses.push(softDeletedCourse);
+              this.deletedCoursesDefaultSort();
               if (!softDeletedCourse.canModifyCourse) {
                 this.canDeleteAll = false;
                 this.canRestoreAll = false;
@@ -387,30 +389,66 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the active courses table
    */
   sortCoursesEvent(by: SortBy): void {
+    this.activeTableSortOrder = (this.activeTableSortBy === by) ?
+        this.activeTableSortOrder === SortOrder.ASC ?
+            SortOrder.DESC :
+            SortOrder.ASC :
+        SortOrder.ASC;
     this.activeTableSortBy = by;
-    this.activeTableSortOrder =
-        this.activeTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
+  }
+
+  /**
+   * Active courses default sort on page load
+   */
+  activeCoursesDefaultSort(): void {
+    this.activeTableSortBy = SortBy.COURSE_CREATION_DATE;
+    this.activeTableSortOrder = SortOrder.DESC;
+    this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
   }
 
   /**
    * Sorts the archived courses table
    */
   sortArchivedCoursesEvent(by: SortBy): void {
+    this.archivedTableSortOrder = (this.archivedTableSortBy === by) ?
+        this.archivedTableSortOrder === SortOrder.ASC ?
+            SortOrder.DESC :
+            SortOrder.ASC :
+        SortOrder.ASC;
     this.archivedTableSortBy = by;
-    this.archivedTableSortOrder =
-      this.archivedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
+  }
+
+  /**
+   * Archived courses default sort on page load
+   */
+  archivedCoursesDefaultSort(): void {
+    this.archivedTableSortBy = SortBy.COURSE_CREATION_DATE;
+    this.archivedTableSortOrder = SortOrder.DESC;
+    this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
   }
 
   /**
    * Sorts the soft-deleted courses table
    */
   sortDeletedCoursesEvent(by: SortBy): void {
+    this.deletedTableSortOrder = (this.deletedTableSortBy === by) ?
+        this.deletedTableSortOrder === SortOrder.ASC ?
+            SortOrder.DESC :
+            SortOrder.ASC :
+        SortOrder.ASC;
     this.deletedTableSortBy = by;
-    this.deletedTableSortOrder =
-      this.deletedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
+  }
+
+  /**
+   * Deleted courses default sort on page load
+   */
+  deletedCoursesDefaultSort(): void {
+    this.deletedTableSortBy = SortBy.COURSE_DELETION_DATE;
+    this.deletedTableSortOrder = SortOrder.DESC;
+    this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
   }
 
   /**

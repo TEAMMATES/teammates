@@ -81,7 +81,6 @@
                                  [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
                                  [isDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
-                                 (saveCommentEvent)="updateParticipantComment(i, $event)"
     ></tm-question-submission-form>
 
     <br/>
