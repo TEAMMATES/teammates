@@ -59,7 +59,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
          Essay question 
         
       </div>
-      
       <div
         class="card-header-btn-toolbar"
       >

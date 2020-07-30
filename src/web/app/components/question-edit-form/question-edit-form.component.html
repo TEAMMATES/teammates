@@ -14,7 +14,7 @@
         <div class="collapse-qn-description">{{ model.questionBrief }}</div>
       </ng-container>
     </div>
-    <div class="card-header-btn-toolbar" *ngIf="!model.isCollapsed">
+    <div class="card-header-btn-toolbar">
       <div *ngIf="formMode === QuestionEditFormMode.EDIT">
         <button type="button" class="btn btn-light btn-sm" *ngIf="!model.isEditable"
                 (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
