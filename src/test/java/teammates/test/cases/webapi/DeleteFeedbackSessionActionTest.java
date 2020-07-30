@@ -149,7 +149,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         logic.moveFeedbackSessionToRecycleBin(session.getFeedbackSessionName(), course.getId());
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 }

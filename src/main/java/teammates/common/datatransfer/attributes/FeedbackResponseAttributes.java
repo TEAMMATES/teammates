@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +48,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
         this.giverSection = Const.DEFAULT_SECTION;
         this.recipientSection = Const.DEFAULT_SECTION;
+        this.feedbackResponseId = FeedbackResponse.generateId(feedbackQuestionId, giver, recipient);
     }
 
     public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {
@@ -88,7 +88,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackQuestionType getFeedbackQuestionType() {
-        return responseDetails.questionType;
+        return responseDetails.getQuestionType();
     }
 
     public String getId() {
@@ -220,19 +220,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return new FeedbackTextResponseDetails(serializedResponseDetails);
         }
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
-    }
-
-    /**
-     * Checks if this object represents a missing response.
-     * A missing response should never be written to the database.
-     * It should only be used as a representation.
-     */
-    public boolean isMissingResponse() {
-        return responseDetails == null;
-    }
-
-    public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
     /**

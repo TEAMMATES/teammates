@@ -16,6 +16,12 @@
   border: 1px solid #CED4DA;
 }
 
-.padding-left-260px {
-  padding-left: 260px;
+@media (min-width: 576px) {
+  .padding-left-300px {
+    padding-left: 300px;
+  }
+}
+
+.margin-top-22px {
+  margin-top: 22px;
 }

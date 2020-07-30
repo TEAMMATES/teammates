@@ -12,9 +12,9 @@ apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
 def appengineVersion = "1.9.+"
-def checkstyleVersion = "8.28"
-def pmdVersion = "6.20.0"
-def spotbugsVersion = "3.1.12"
+def checkstyleVersion = "8.33"
+def pmdVersion = "6.24.0"
+def spotbugsVersion = "4.0.6"
 def jacocoVersion = "0.8.5"
 
 buildscript {
@@ -25,12 +25,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.2.0"
-        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:2.0.0"
-        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.19.577") {
+        classpath "com.google.cloud.tools:appengine-gradle-plugin:2.3.0"
+        classpath "gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:4.4.3"
+        classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:28.2-jre"
+        classpath "com.google.guava:guava:29.0-jre"
     }
 }
 
@@ -43,7 +43,7 @@ repositories {
 }
 
 def objectify = "com.googlecode.objectify:objectify:5.1.22"
-def testng = "org.testng:testng:7.1.1"
+def testng = "org.testng:testng:7.2.0"
 
 dependencies {
     staticAnalysis("com.puppycrawl.tools:checkstyle:${checkstyleVersion}")
@@ -53,50 +53,53 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    compile("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
+    implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
 
     // This dependency needs to be resolved individually
     // because the main dependency (appengine-gcs-client) does not have its transitive dependencies up-to-date
-    compile("com.google.appengine.tools:appengine-gcs-client:0.8") {
+    implementation("com.google.appengine.tools:appengine-gcs-client:0.8.1") {
         // Use the newer servlet library instead
         exclude group: "javax.servlet", module: "servlet-api"
     }
-    compile("com.google.api-client:google-api-client-appengine:1.30.7") {
+    implementation("com.google.api-client:google-api-client-appengine:1.30.9") {
         // Use the newer servlet library instead
         exclude group: "javax.servlet", module: "servlet-api"
     }
-    compile("com.google.apis:google-api-services-storage:v1-rev20191011-1.30.3")
+    implementation("com.google.apis:google-api-services-storage:v1-rev20200430-1.30.9")
 
-    compile("com.google.code.gson:gson:2.8.6")
-    compile("com.google.guava:guava:28.2-jre")
-    compile(objectify)
-    compile("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20191001.1")
-    compile("com.mailjet:mailjet-client:4.2.1")
-    compile("com.sendgrid:sendgrid-java:4.4.1")
-    compile("com.sun.jersey:jersey-client:1.19.4")
-    compile("com.sun.jersey:jersey-core:1.19.4")
-    compile("com.sun.jersey.contribs:jersey-multipart:1.19.4")
-    compile("javax.servlet:javax.servlet-api:3.1.0")
-    compile("org.jsoup:jsoup:1.12.1")
+    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.google.guava:guava:29.0-jre")
+    implementation(objectify)
+    implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20200615.1")
+    implementation("com.mailjet:mailjet-client:4.5.0")
+    implementation("com.sendgrid:sendgrid-java:4.6.0")
+    implementation("com.sun.jersey:jersey-client:1.19.4")
+    implementation("com.sun.jersey:jersey-core:1.19.4")
+    implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
+    implementation("javax.servlet:javax.servlet-api:3.1.0")
+    implementation("org.jsoup:jsoup:1.13.1")
 
     testAnnotationProcessor(testng)
 
-    testCompile("com.google.appengine:appengine-api-stubs:${appengineVersion}")
-    testCompile("com.google.appengine:appengine-remote-api:${appengineVersion}")
-    testCompile("com.google.appengine:appengine-testing:${appengineVersion}")
-    testCompile("com.tngtech.archunit:archunit:0.11.0")
-    testCompile("org.httpunit:httpunit:1.7.3")
-    testCompile("org.seleniumhq.selenium:selenium-java:3.141.59")
-    testCompile(testng)
+    testImplementation("com.google.appengine:appengine-api-stubs:${appengineVersion}")
+    testImplementation("com.google.appengine:appengine-remote-api:${appengineVersion}")
+    testImplementation("com.google.appengine:appengine-testing:${appengineVersion}")
+    testImplementation("com.tngtech.archunit:archunit:0.11.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    testImplementation(testng)
     // For access to Google APIs such as HTTP transport, authentication and JSON parsing
-    testCompile("com.google.api-client:google-api-client:1.30.7")
+    testImplementation("com.google.api-client:google-api-client:1.30.9")
     // For supporting authorization code flow locally
-    testCompile("com.google.oauth-client:google-oauth-client-jetty:1.30.5")
+    testImplementation("com.google.oauth-client:google-oauth-client-jetty:1.30.6")
     // For using Gmail API
-    testCompile("com.google.apis:google-api-services-gmail:v1-rev20191113-1.30.3")
+    testImplementation("com.google.apis:google-api-services-gmail:v1-rev20200601-1.30.9")
     // For using JMeter APIs
-    testCompile("org.apache.jmeter:ApacheJMeter_core:5.2.1")
-    testCompile("org.apache.jmeter:ApacheJMeter_http:5.2.1")
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.3") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.3") {
+        exclude group: "org.apache.jmeter", module: "bom"
+    }
 
 }
 
@@ -153,11 +156,18 @@ task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.Genera
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
+    excludeClassPatterns = [
+        "teammates.ui.webapi.output.**Builder"
+    ]
+    excludeClasses = [
+        "teammates.ui.webapi.output.SessionResultsData\$NameInfo"
+    ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.request.**"
+        "teammates.ui.webapi.request.**",
+        "teammates.common.util.EmailType"
     ]
     outputFile = "src/web/types/api-request.ts"
 }
@@ -229,13 +239,13 @@ idea {
 
 task downloadDependencies {
     doFirst {
-        configurations.compile.resolve()
+        configurations.compileClasspath.resolve()
     }
 }
 
 task downloadTestDependencies {
     doFirst {
-        configurations.testCompile.resolve()
+        configurations.testCompileClasspath.resolve()
     }
 }
 
@@ -249,6 +259,14 @@ task downloadLinters {
 
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+processTestResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
 
 appengine {
     tools {
@@ -303,11 +321,11 @@ spotbugs {
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
 }
 
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
+tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {
     reports {
         xml.enabled = false
         html.enabled = false
-        emacs.enabled = true
+        text.enabled = true
     }
 }
 
@@ -317,10 +335,10 @@ spotbugsMain {
 
 task printSpotbugsMainViolations {
     onlyIf {
-        file("${buildDir}/reports/spotbugs/main.emacs").exists()
+        file("${buildDir}/reports/spotbugs/main.txt").exists()
     }
     doFirst {
-        print new File("${buildDir}/reports/spotbugs/main.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/main.txt").getText("UTF-8")
     }
 }
 
@@ -330,10 +348,10 @@ spotbugsTest {
 
 task printSpotbugsTestViolations {
     onlyIf {
-        file("${buildDir}/reports/spotbugs/test.emacs").exists()
+        file("${buildDir}/reports/spotbugs/test.txt").exists()
     }
     doFirst {
-        print new File("${buildDir}/reports/spotbugs/test.emacs").getText("UTF-8")
+        print new File("${buildDir}/reports/spotbugs/test.txt").getText("UTF-8")
     }
 }
 

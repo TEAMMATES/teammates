@@ -1,0 +1,7 @@
+<ngb-toast *ngIf="toast" [delay]="toast.delay || 10000" (hide)="removeToast()" [class]="toast.classes" [autohide]="toast.autohide">
+  <ng-template [ngIf]="isTemplate()">
+    <ng-template [ngTemplateOutlet]="toast.message"></ng-template>
+  </ng-template>
+  <ng-container *ngIf="!isTemplate()">{{ toast.message }}</ng-container>
+  <button type="button" class="close" (click)="removeToast()"><i class="fas fa-times"></i></button>
+</ngb-toast>

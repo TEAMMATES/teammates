@@ -18,14 +18,29 @@ export enum SortBy {
     TEAM_NAME,
 
     /**
-     * Student Name.
+     * Respondent Name (student/instructor).
      */
-    STUDENT_NAME,
+    RESPONDENT_NAME,
 
     /**
-     * The email of the student.
+     * The email of a respondent (student/instructor).
      */
-    EMAIL,
+    RESPONDENT_EMAIL,
+
+    /**
+     * The gender of the student.
+     */
+    STUDENT_GENDER,
+
+    /**
+     * Institution.
+     */
+    INSTITUTION,
+
+    /**
+     * Nationality.
+     */
+    NATIONALITY,
 
     /**
      * Join status
@@ -46,6 +61,11 @@ export enum SortBy {
      * The creation time of the course.
      */
     COURSE_CREATION_DATE,
+
+    /**
+     * The deletion time of the course.
+     */
+    COURSE_DELETION_DATE,
 
     /**
      * Completion status of feedback session.
@@ -106,6 +126,216 @@ export enum SortBy {
      * Name of the recipient of the feedback response.
      */
     RECIPIENT_NAME,
+
+    /**
+     * Average score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE,
+
+    /**
+     * Maximum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MAX,
+
+    /**
+     * Minimum score of the numerical scale question.
+     */
+    NUMERICAL_SCALE_MIN,
+
+    /**
+     * Average score (exclude self-review) of the numerical scale question.
+     */
+    NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
+
+    /**
+     * Option text
+     */
+    MCQ_CHOICE,
+
+    /**
+     * Weight assigned to the option
+     */
+    MCQ_WEIGHT,
+
+    /**
+     * Number of selection of that option
+     */
+    MCQ_RESPONSE_COUNT,
+
+    /**
+     * Percentage of selection of that option
+     */
+    MCQ_PERCENTAGE,
+
+    /**
+     * Weighted percentage of selection of that option
+     */
+    MCQ_WEIGHTED_PERCENTAGE,
+
+    /**
+     * Recipient's Team
+     */
+    MCQ_TEAM,
+
+    /**
+     * Recipient's Name
+     */
+    MCQ_RECIPIENT_NAME,
+
+    /**
+     * Number of times option chosen
+     */
+    MCQ_OPTION_SELECTED_TIMES,
+
+    /**
+     * Sum of weight of options
+     */
+    MCQ_WEIGHT_TOTAL,
+
+    /**
+     * Average of weights
+     */
+    MCQ_WEIGHT_AVERAGE,
+
+    /**
+     * Option text
+     */
+    MSQ_CHOICE,
+
+    /**
+     * Weight assigned to the option
+     */
+    MSQ_WEIGHT,
+
+    /**
+     * Number of selection of that option
+     */
+    MSQ_RESPONSE_COUNT,
+
+    /**
+     * Percentage of selection of that option
+     */
+    MSQ_PERCENTAGE,
+
+    /**
+     * Weighted percentage of selection of that option
+     */
+    MSQ_WEIGHTED_PERCENTAGE,
+
+    /**
+     * Recipient's Team
+     */
+    MSQ_TEAM,
+
+    /**
+     * Recipient's Name
+     */
+    MSQ_RECIPIENT_NAME,
+
+    /**
+     * Number of times option chosen
+     */
+    MSQ_OPTION_SELECTED_TIMES,
+
+    /**
+     * Sum of weight of options
+     */
+    MSQ_WEIGHT_TOTAL,
+
+    /**
+     * Average of weights
+     */
+    MSQ_WEIGHT_AVERAGE,
+
+    /**
+     * Option to rank
+     */
+    RANK_OPTIONS_OPTION,
+
+    /**
+     * Overall ranking of the option
+     */
+    RANK_OPTIONS_OVERALL_RANK,
+
+    /**
+     * Giver's / Recipients's team
+     */
+    RANK_RECIPIENTS_TEAM,
+
+    /**
+     * Recipient's name
+     */
+    RANK_RECIPIENTS_RECIPIENT,
+
+    /**
+     * Recipient's self rank
+     */
+    RANK_RECIPIENTS_SELF_RANK,
+
+    /**
+     * Recipient's overall rank
+     */
+    RANK_RECIPIENTS_OVERALL_RANK,
+
+    /**
+     * Recipient's overall rank excluding self
+     */
+    RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
+
+    /**
+     * Rubric sub question
+     */
+    RUBRIC_SUBQUESTION,
+
+    /**
+     * Frequency of choice
+     */
+    RUBRIC_CHOICE,
+
+    /**
+     * Weight average.
+     */
+    RUBRIC_WEIGHT_AVERAGE,
+
+    /**
+     * Total chosen weight.
+     */
+    RUBRIC_TOTAL_CHOSEN_WEIGHT,
+
+    /**
+     * Option to constsum options
+     */
+    CONSTSUM_OPTIONS_OPTION,
+
+    /**
+     * Option's recieved/total/average points
+     */
+    CONSTSUM_OPTIONS_POINTS,
+
+    /**
+     * Recipient's received/total/average points
+     */
+    CONSTSUM_RECIPIENTS_POINTS,
+
+    /**
+     * Team for contribution measurement
+     */
+    CONTRIBUTION_TEAM,
+
+    /**
+     * Contribution recipient's name
+     */
+    CONTRIBUTION_RECIPIENT,
+
+    /**
+     * Amount of contribution measured in numbers
+     */
+    CONTRIBUTION_VALUE,
+
+    /**
+     * The creation date of a comment
+     */
+    COMMENTS_CREATION_DATE,
 }
 
 /**

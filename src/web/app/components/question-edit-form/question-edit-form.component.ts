@@ -1,15 +1,21 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackTextQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
+
+const CLEAN_PROPERTIES: Set<string> = new Set<string>(['isEditable', 'isCollapsed', 'isChanged']);
 
 /**
  * The question edit form component.
@@ -18,6 +24,7 @@ import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-for
   selector: 'tm-question-edit-form',
   templateUrl: './question-edit-form.component.html',
   styleUrls: ['./question-edit-form.component.scss'],
+  animations: [collapseAnim],
 })
 export class QuestionEditFormComponent implements OnInit {
 
@@ -104,7 +111,6 @@ export class QuestionEditFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
     } as FeedbackTextQuestionDetails,
@@ -125,6 +131,8 @@ export class QuestionEditFormComponent implements OnInit {
     isUsingOtherVisibilitySetting: false,
     isEditable: false,
     isSaving: false,
+    isCollapsed: false,
+    isChanged: false,
   };
 
   @Output()
@@ -156,7 +164,8 @@ export class QuestionEditFormComponent implements OnInit {
 
   visibilityStateMachine: VisibilityStateMachine;
 
-  constructor(private feedbackQuestionsService: FeedbackQuestionsService, private modalService: NgbModal) {
+  constructor(private feedbackQuestionsService: FeedbackQuestionsService,
+              private simpleModalService: SimpleModalService) {
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(
             this.model.giverType, this.model.recipientType);
@@ -171,20 +180,24 @@ export class QuestionEditFormComponent implements OnInit {
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChange(field: string, data: any): void {
+  triggerModelChange(field: keyof QuestionEditFormModel,
+                     data: QuestionEditFormModel[keyof QuestionEditFormModel]): void {
     this.formModelChange.emit({
       ...this.model,
       [field]: data,
+      ...(!this.model.isChanged && !CLEAN_PROPERTIES.has(field) && { isChanged: true }),
     });
   }
 
   /**
    * Triggers the change of the model for the form.
    */
-  triggerModelChangeBatch(obj: {[key: string]: any}): void {
+  triggerModelChangeBatch(obj: Partial<QuestionEditFormModel>): void {
     this.formModelChange.emit({
       ...this.model,
       ...obj,
+      ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
+          && { isChanged: true }),
     });
   }
 
@@ -258,29 +271,45 @@ export class QuestionEditFormComponent implements OnInit {
   /**
    * Handle event to discard changes users made.
    */
-  discardChangesHandler(modal: any): void {
-    this.modalService.open(modal).result.then(() => {
-      if (this.formMode === QuestionEditFormMode.EDIT) {
-        this.discardExistingQuestionChangesEvent.emit();
-      }
-      if (this.formMode === QuestionEditFormMode.ADD) {
-        this.discardNewQuestionEvent.emit();
-      }
+  discardChangesHandler(isNewQuestion: boolean): void {
+    if (!this.model.isChanged) {
+      this.discardChanges();
+      return;
+    }
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost');
+    modalRef.result.then(() => {
+      this.discardChanges();
     }, () => {});
+  }
+
+  private discardChanges(): void {
+    if (this.formMode === QuestionEditFormMode.EDIT) {
+      this.discardExistingQuestionChangesEvent.emit();
+    }
+    if (this.formMode === QuestionEditFormMode.ADD) {
+      this.discardNewQuestionEvent.emit();
+    }
   }
 
   /**
    * Saves the question.
    */
-  saveQuestionHandler(modal: any): void {
+  saveQuestionHandler(): void {
     if (this.formMode === QuestionEditFormMode.EDIT) {
       // alert user that editing question may result in deletion of responses
-      if (this.model.isQuestionHasResponses) {
-        this.modalService.open(modal).result.then(() => {
+      if (!this.model.isQuestionHasResponses || !this.model.isChanged) {
+        this.saveExistingQuestionEvent.emit();
+      } else {
+        const modalContent: string = `
+            <p>Editing fields affecting responders' answers may result in <b>all existing responses for this question to be deleted.</b></p>
+            <p>Are you sure you want to continue?</p>
+        `;
+        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.DANGER, modalContent);
+        modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      } else {
-        this.saveExistingQuestionEvent.emit();
       }
     }
     if (this.formMode === QuestionEditFormMode.ADD) {
@@ -298,8 +327,11 @@ export class QuestionEditFormComponent implements OnInit {
   /**
    * Handles event for deleting the current question.
    */
-  deleteCurrentQuestionHandler(modal: any): void {
-    this.modalService.open(modal).result.then(() => {
+  deleteCurrentQuestionHandler(): void {
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
+            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
+    modalRef.result.then(() => {
       this.deleteCurrentQuestionEvent.emit();
     }, () => {});
   }

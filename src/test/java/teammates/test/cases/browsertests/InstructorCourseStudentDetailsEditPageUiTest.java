@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.StringHelperExtension;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
@@ -15,7 +14,7 @@ import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE}.
  */
-public class InstructorCourseStudentDetailsEditPageUiTest extends BaseE2ETestCase {
+public class InstructorCourseStudentDetailsEditPageUiTest extends BaseLegacyUiTestCase {
     private InstructorCourseStudentDetailsEditPage editPage;
 
     @Override

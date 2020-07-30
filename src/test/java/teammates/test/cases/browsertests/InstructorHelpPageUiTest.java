@@ -5,14 +5,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.test.pageobjects.AppPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 
 /**
  * SUT: {@link InstructorHelpPage}.
  */
-public class InstructorHelpPageUiTest extends BaseE2ETestCase {
+public class InstructorHelpPageUiTest extends BaseLegacyUiTestCase {
     private static final By SEARCH_RESULTS = By.id("searchResults");
     private InstructorHelpPage helpPage;
 

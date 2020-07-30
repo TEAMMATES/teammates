@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -30,6 +31,10 @@ export class AdminAccountsPageComponent implements OnInit {
     createdAtTimeStamp: 0,
   };
 
+  isLoadingAccountInfo: boolean = false;
+  isLoadingStudentCourses: boolean = false;
+  isLoadingInstructorCourses: boolean = false;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private instructorService: InstructorService,
@@ -49,27 +54,36 @@ export class AdminAccountsPageComponent implements OnInit {
    * Loads the account information based on the given ID.
    */
   loadAccountInfo(instructorid: string): void {
-    this.accountService.getAccount(instructorid).subscribe((resp: Account) => {
-      this.accountInfo = resp;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+    this.isLoadingAccountInfo = true;
+    this.accountService.getAccount(instructorid)
+        .pipe(finalize(() => this.isLoadingAccountInfo = false))
+        .subscribe((resp: Account) => {
+          this.accountInfo = resp;
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
 
-    this.courseService.getStudentCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
-      this.studentCourses = resp.courses;
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status !== 403) {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      }
-    });
+    this.isLoadingStudentCourses = true;
+    this.courseService.getStudentCoursesInMasqueradeMode(instructorid)
+        .pipe(finalize(() => this.isLoadingStudentCourses = false))
+        .subscribe((resp: Courses) => {
+          this.studentCourses = resp.courses;
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status !== 403) {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          }
+        });
 
-    this.courseService.getInstructorCoursesInMasqueradeMode(instructorid).subscribe((resp: Courses) => {
-      this.instructorCourses = resp.courses;
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status !== 403) {
-        this.statusMessageService.showErrorMessage(resp.error.message);
-      }
-    });
+    this.isLoadingInstructorCourses = true;
+    this.courseService.getInstructorCoursesInMasqueradeMode(instructorid)
+        .pipe(finalize(() => this.isLoadingInstructorCourses = false))
+        .subscribe((resp: Courses) => {
+          this.instructorCourses = resp.courses;
+        }, (resp: ErrorMessageOutput) => {
+          if (resp.status !== 403) {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          }
+        });
   }
 
   /**
@@ -79,9 +93,9 @@ export class AdminAccountsPageComponent implements OnInit {
     const id: string = this.accountInfo.googleId;
     this.accountService.downgradeAccount(id).subscribe(() => {
       this.loadAccountInfo(id);
-      this.statusMessageService.showSuccessMessage('Instructor account is successfully downgraded to student.');
+      this.statusMessageService.showSuccessToast('Instructor account is successfully downgraded to student.');
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -94,7 +108,7 @@ export class AdminAccountsPageComponent implements OnInit {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
           `Instructor account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -107,9 +121,9 @@ export class AdminAccountsPageComponent implements OnInit {
       googleId: this.accountInfo.googleId,
     }).subscribe(() => {
       this.studentCourses = this.studentCourses.filter((course: Course) => course.courseId !== courseId);
-      this.statusMessageService.showSuccessMessage(`Student is successfully deleted from course "${courseId}"`);
+      this.statusMessageService.showSuccessToast(`Student is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -122,9 +136,9 @@ export class AdminAccountsPageComponent implements OnInit {
       instructorId: this.accountInfo.googleId,
     }).subscribe(() => {
       this.instructorCourses = this.instructorCourses.filter((course: Course) => course.courseId !== courseId);
-      this.statusMessageService.showSuccessMessage(`Instructor is successfully deleted from course "${courseId}"`);
+      this.statusMessageService.showSuccessToast(`Instructor is successfully deleted from course "${courseId}"`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Course, FeedbackSession, FeedbackSessionPublishStatus,
@@ -61,7 +61,7 @@ describe('InstructorHomePageComponent', () => {
         InstructorHomePageModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        MatSnackBarModule,
+        BrowserAnimationsModule,
       ],
     })
     .compileComponents();
@@ -97,6 +97,7 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
+    component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -113,6 +114,7 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
+    component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -129,6 +131,7 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: false,
       isTabExpanded: true,
     };
+    component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -145,6 +148,7 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: false,
     };
+    component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -167,6 +171,7 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
+    component.hasCoursesLoaded = true;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -237,6 +242,24 @@ describe('InstructorHomePageComponent', () => {
       isAjaxSuccess: true,
       isTabExpanded: true,
     };
+    component.hasCoursesLoaded = true;
+    component.courseTabModels = [courseTabModels];
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when courses are still loading', () => {
+    const courseTabModels: any = {
+      instructorPrivilege,
+      course: defaultCourse,
+      sessionsTableRowModels: [],
+      sessionsTableRowModelsSortBy: SortBy.NONE,
+      sessionsTableRowModelsSortOrder: SortOrder.ASC,
+      hasPopulated: true,
+      isAjaxSuccess: true,
+      isTabExpanded: true,
+    };
+    component.hasCoursesLoaded = false;
     component.courseTabModels = [courseTabModels];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

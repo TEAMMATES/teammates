@@ -2,16 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
-import moment from 'moment-timezone';
-
 import { FormGroup } from '@angular/forms';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatAll, tap } from 'rxjs/operators';
+import { concatAll, finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -31,19 +30,16 @@ import {
 } from '../../../types/api-output';
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import { Sections } from '../../pages-help/instructor-help-page/sections';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
   InstructorSessionLevelPermission,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import {
-  DeleteInstructorConfirmModalComponent,
-} from './delete-instructor-confirm-model/delete-instructor-confirm-modal.component';
 import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
-import {
-  ResendInvitationEmailModalComponent,
-} from './resend-invitation-email-modal/resend-invitation-email-modal.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
@@ -51,6 +47,18 @@ interface InstructorEditPanelDetail {
   originalPanel: InstructorEditPanel;
   editPanel: InstructorEditPanel;
 }
+
+interface Timezone {
+  id: string;
+  offset: string;
+}
+
+const formatTwoDigits: Function = (n: number): string => {
+  if (n < 10) {
+    return `0${n}`;
+  }
+  return String(n);
+};
 
 /**
  * Instructor course edit page.
@@ -62,14 +70,16 @@ interface InstructorEditPanelDetail {
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
-  @ViewChild('courseForm', { static: false }) form!: FormGroup;
+  @ViewChild('courseForm') form!: FormGroup;
 
   // enum
   EditMode: typeof EditMode = EditMode;
   FormValidator: typeof FormValidator = FormValidator;
+  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
+  Sections: typeof Sections = Sections;
 
   courseId: string = '';
-  timezones: string[] = [];
+  timezones: Timezone[] = [];
   isEditingCourse: boolean = false;
   course: Course = {
     courseName: '',
@@ -125,11 +135,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
     },
 
     isEditing: true,
+    isSavingInstructorEdit: false,
   };
 
   // for fine-grain permission setting
   allSections: string[] = [];
   allSessions: string[] = [];
+
+  isCourseLoading: boolean = false;
+  hasCourseLoadingFailed: boolean = false;
+  isInstructorsLoading: boolean = false;
+  hasInstructorsLoadingFailed: boolean = false;
+  isSavingCourseEdit: boolean = false;
+  isSavingNewInstructor: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -141,7 +159,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private authService: AuthService,
-              private modalService: NgbModal) { }
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -151,10 +170,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.loadCurrInstructorInfo();
 
       // load all section and session name
-      forkJoin(
-          this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
-          this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
-      ).subscribe((vals: any[]) => {
+      forkJoin([
+        this.studentService.getStudentsFromCourse({ courseId: this.courseId }),
+        this.feedbackSessionsService.getFeedbackSessionsForInstructor(this.courseId),
+      ]).subscribe((vals: any[]) => {
         const students: Students = vals[0] as Students;
         const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
 
@@ -167,25 +186,38 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
     });
 
-    this.timezones = Object.keys(this.timezoneService.getTzOffsets());
+    for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
+      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
+      const minOffset: number = Math.abs(offset) % 60;
+      const sign: string = offset < 0 ? '-' : '+';
+      this.timezones.push({
+        id,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
+      });
+    }
   }
 
   /**
    * Replaces the timezone value with the detected timezone.
    */
   detectTimezone(): void {
-    this.course.timeZone = moment.tz.guess();
+    this.course.timeZone = this.timezoneService.guessTimezone();
   }
 
   /**
    * Loads the course being edited.
    */
   loadCourseInfo(): void {
-    this.courseService.getCourseAsInstructor(this.courseId).subscribe((resp: Course) => {
+    this.hasCourseLoadingFailed = false;
+    this.isCourseLoading = true;
+    this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
+      this.isCourseLoading = false;
+    })).subscribe((resp: Course) => {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.hasCourseLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -199,14 +231,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
     }).subscribe((resp: InstructorPrivilege) => {
       this.currInstructorCoursePrivilege = resp;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     // login credential
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       this.currInstructorGoogleId = res.user === undefined ? '' : res.user.id;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -218,7 +250,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses',
           `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -230,16 +262,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
       Object.values(this.form.controls).forEach((control: any) => control.markAsTouched());
       return;
     }
+    this.isSavingCourseEdit = true;
     this.courseService.updateCourse(this.courseId, {
       courseName: this.course.courseName,
       timeZone: this.course.timeZone,
-    }).subscribe((resp: Course) => {
-      this.statusMessageService.showSuccessMessage('The course has been edited.');
+    }).pipe(finalize(() => this.isSavingCourseEdit = false)).subscribe((resp: Course) => {
+      this.statusMessageService.showSuccessToast('The course has been edited.');
       this.isEditingCourse = false;
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     Object.values(this.form.controls).forEach((control: any) => control.markAsUntouched());
     Object.values(this.form.controls).forEach((control: any) => control.markAsPristine());
@@ -259,6 +292,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads all instructors in the course.
    */
   loadCourseInstructors(): void {
+    this.hasInstructorsLoadingFailed = false;
+    this.isInstructorsLoading = true;
     this.instructorService.loadInstructors({
       courseId: this.courseId,
       intent: Intent.FULL_DETAIL,
@@ -268,12 +303,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
             originalInstructor: Object.assign({}, i),
             originalPanel: this.getInstructorEditPanelModel(i),
             editPanel: this.getInstructorEditPanelModel(i),
+            isSavingInstructorEdit: false,
           }));
           this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
             this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.hasInstructorsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -301,19 +338,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       permission: {
         privilege: {
-          canModifyCourse: true,
-          canModifySession: true,
-          canModifyStudent: true,
-          canModifyInstructor: true,
-          canViewStudentInSections: true,
-          canModifySessionCommentsInSections: true,
-          canViewSessionInSections: true,
-          canSubmitSessionInSections: true,
+          canModifyCourse: false,
+          canModifySession: false,
+          canModifyStudent: false,
+          canModifyInstructor: false,
+          canViewStudentInSections: false,
+          canModifySessionCommentsInSections: false,
+          canViewSessionInSections: false,
+          canSubmitSessionInSections: false,
         },
         sectionLevel: [],
       },
 
       isEditing: false,
+      isSavingInstructorEdit: false,
     };
   }
 
@@ -321,15 +359,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Shows the model of details permission for a role.
    */
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
-    const modalRef: NgbModalRef = this.modalService.open(ViewRolePrivilegesModalComponent);
+    const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
     modalRef.result.then(() => {}, () => {});
     this.instructorService.loadInstructorPrivilege({
       courseId: this.courseId,
       instructorRole: role,
     }).subscribe((resp: InstructorPrivilege) => {
       modalRef.componentInstance.instructorPrivilege = resp;
+      modalRef.componentInstance.role = role;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -346,6 +385,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   saveInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
+    panelDetail.editPanel.isSavingInstructorEdit = true;
     const reqBody: InstructorCreateRequest = {
       id: panelDetail.originalInstructor.joinState === JoinState.JOINED
           ? panelDetail.originalInstructor.googleId : undefined,
@@ -360,7 +400,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
       requestBody: reqBody,
-    }).subscribe((resp: Instructor) => {
+    }).pipe(finalize(() => panelDetail.editPanel.isSavingInstructorEdit = false)).subscribe((resp: Instructor) => {
       panelDetail.originalInstructor = Object.assign({}, resp);
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
@@ -369,10 +409,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
 
-      this.statusMessageService.showSuccessMessage(`The instructor ${resp.name} has been updated.`);
+      this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
 
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
 
     panelDetail.editPanel.isEditing = false;
@@ -384,9 +424,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   deleteInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalRef: NgbModalRef = this.modalService.open(DeleteInstructorConfirmModalComponent);
-    modalRef.componentInstance.instructorToDelete = panelDetail.originalInstructor;
-    modalRef.componentInstance.isDeletingSelf = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
+    const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
+    const modalContent: string = isDeletingSelf ?
+        `Are you sure you want to delete your instructor role from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
+        You will not be able to access the course anymore.`
+        : `Are you sure you want to delete the instructor <strong>${ panelDetail.originalInstructor.name }</strong> from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
+        He/she will not be able to access the course anymore.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Delete instructor <strong>${ panelDetail.originalInstructor.name }</strong>?`,
+        SimpleModalType.DANGER, modalContent);
 
     modalRef.result.then(() => {
       this.instructorService.deleteInstructor({
@@ -398,10 +444,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
                   this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
         } else {
           this.instructorDetailPanels.splice(index, 1);
-          this.statusMessageService.showSuccessMessage('Instructor is successfully deleted.');
+          this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
         }
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
     }, () => {});
   }
@@ -411,16 +457,17 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalRef: NgbModalRef = this.modalService.open(ResendInvitationEmailModalComponent);
-    modalRef.componentInstance.instructorToResend = panelDetail.originalInstructor;
+    const modalContent: string = `Do you wish to re-send the invitation email to instructor ${ panelDetail.originalInstructor.name } from course ${ panelDetail.originalInstructor.courseId }?`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        'Re-send invitation email?', SimpleModalType.INFO, modalContent);
 
     modalRef.result.then(() => {
       this.courseService
           .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
           .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessMessage(resp.message);
+            this.statusMessageService.showSuccessToast(resp.message);
           }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorMessage(resp.error.message);
+            this.statusMessageService.showErrorToast(resp.error.message);
           });
     }, () => {});
   }
@@ -429,6 +476,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Adds new instructor.
    */
   addNewInstructor(): void {
+    this.isSavingNewInstructor = true;
     const reqBody: InstructorCreateRequest = {
       name: this.newInstructorPanel.name,
       email: this.newInstructorPanel.email,
@@ -438,6 +486,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     } as InstructorCreateRequest;
 
     this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
+        .pipe(finalize(() => this.isSavingNewInstructor = false))
         .subscribe((resp: Instructor) => {
           const newDetailPanels: InstructorEditPanelDetail = {
             originalInstructor: Object.assign({}, resp),
@@ -448,7 +497,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
           newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
           this.instructorDetailPanels.push(newDetailPanels);
-          this.statusMessageService.showSuccessMessage(`"The instructor ${resp.name} has been added successfully.
+          this.statusMessageService.showSuccessToast(`"The instructor ${resp.name} has been added successfully.
           An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes."`);
 
           this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
@@ -479,9 +528,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
             },
 
             isEditing: true,
+            isSavingInstructorEdit: false,
           };
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -493,6 +543,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const permission: InstructorOverallPermission = panel.editPanel.permission;
 
     if (instructor.role !== InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM) {
+      this.isInstructorsLoading = false;
       return;
     }
 
@@ -566,7 +617,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     });
 
     // get all permission
-    forkJoin(requests).subscribe(() => {
+    forkJoin(requests).pipe(finalize(() => this.isInstructorsLoading = false)).subscribe(() => {
       permission.sectionLevel = permission.sectionLevel
           .filter((sectionLevelPermission: InstructorSectionLevelPermission) => {
             // discard section level permission that is consistent with the overall permission
@@ -613,7 +664,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
       panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.hasInstructorsLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -700,7 +752,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       permission.sectionLevel = permission.sectionLevel.filter(
           (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 }

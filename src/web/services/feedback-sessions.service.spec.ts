@@ -52,7 +52,7 @@ describe('FeedbackSessionsService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(FeedbackSessionsService);
+    service = TestBed.inject(FeedbackSessionsService);
     model = {
       feedbackSession: {
         courseId: 'CS3281',
@@ -127,7 +127,7 @@ describe('FeedbackSessionsService', () => {
       intent: Intent.FULL_DETAIL,
     };
 
-    service.getFeedbackSessionsResult({
+    service.getFeedbackSessionResults({
       courseId: paramMap.courseid,
       feedbackSessionName: paramMap.fsname,
       intent: Intent.FULL_DETAIL,

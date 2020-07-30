@@ -25,7 +25,7 @@ describe('CourseService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(CourseService);
+    service = TestBed.inject(CourseService);
   });
 
   it('should be created', () => {
@@ -242,15 +242,5 @@ describe('CourseService', () => {
     };
     service.getCourseSectionNames(paramMap.courseid);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_SECTIONS, paramMap);
-  });
-
-  it('should execute GET when getting students enrolled in course', () => {
-    const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-    };
-    service.getStudentsEnrolledInCourse({
-      courseId: paramMap.courseid,
-    });
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.COURSE_ENROLL_STUDENTS, paramMap);
   });
 });

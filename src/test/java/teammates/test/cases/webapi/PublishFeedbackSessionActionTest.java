@@ -115,7 +115,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getFeedbackSessionName(),
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 }

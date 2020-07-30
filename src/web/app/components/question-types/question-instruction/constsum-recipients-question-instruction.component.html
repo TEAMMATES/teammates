@@ -1,13 +1,12 @@
-<div>
-  <p class="text-color-blue text-left font-weight-bold">Note:</p>
-  <p class="text-color-blue padding-left-35px">
-    <span class="fa fa-info-circle"></span> Total points distributed should add up to {{ totalPoints }}.
+<div class="text-info">
+  <p class="font-weight-bold">Note:</p>
+  <p>
+    <span class="fa fa-info-circle"></span> Total points distributed should <strong>add up to {{ totalPoints }}.</strong>
   </p>
-  <p class="text-color-blue padding-left-35px" *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY">
-    <span class="fa fa-info-circle"></span> At least one recipient should be allocated different number of points.
+  <p *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY">
+    <span class="fa fa-info-circle"></span> At least one recipient should be allocated <strong>different number of points.</strong>
   </p>
-  <p class="text-color-blue padding-left-35px" *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">
-    <span class="fa fa-info-circle"></span> Every recipient should be allocated different number of points.
+  <p *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">
+    <span class="fa fa-info-circle"></span> Every recipient should be allocated <strong>different number of points.</strong>
   </p>
-  <hr class="margin-top-0 border-top-dark-gray">
 </div>

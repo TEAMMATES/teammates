@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { JoinState } from '../../../types/api-output';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { InstructorCourseStudentEditPageComponent } from './instructor-course-student-edit-page.component';
 
 describe('InstructorCourseStudentEditPageComponent', () => {
@@ -17,7 +18,8 @@ describe('InstructorCourseStudentEditPageComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         HttpClientTestingModule,
-        MatSnackBarModule,
+        LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();
@@ -55,6 +57,13 @@ describe('InstructorCourseStudentEditPageComponent', () => {
       newstudentemail: new FormControl('jake@gmail.com'),
       comments: new FormControl('Cool cool cool.'),
     });
+    component.isStudentLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when student is still loading', () => {
+    component.isStudentLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

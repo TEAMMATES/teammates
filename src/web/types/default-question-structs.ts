@@ -33,7 +33,6 @@ import {
 export const DEFAULT_TEXT_QUESTION_DETAILS: () => FeedbackTextQuestionDetails =
     (): FeedbackTextQuestionDetails => {
       return {
-        recommendedLength: 0,
         questionType: FeedbackQuestionType.TEXT,
         questionText: '',
       };

@@ -34,7 +34,6 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     }
 
     @Override
-    @Test
     protected void testExecute() {
         // See test cases below.
     }

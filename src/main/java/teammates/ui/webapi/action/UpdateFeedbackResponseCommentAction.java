@@ -80,6 +80,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             gateKeeper.verifyOwnership(frc, instructorAsFeedbackParticipant.getEmail());
             break;
         case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges();
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             if (instructor != null && frc.getCommentGiver().equals(instructor.getEmail())) { // giver, allowed by default
                 return;

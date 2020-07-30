@@ -1,12 +1,10 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -50,13 +48,6 @@ public final class StringHelper {
     }
 
     /**
-     * Returns true if the given string is empty or consists of only whitespace.
-     */
-    public static boolean isWhiteSpace(String string) {
-        return string.trim().isEmpty();
-    }
-
-    /**
      * Checks whether the input string matches the regex.
      * @param input The string to be matched
      * @param regex The regex  used for the matching
@@ -75,20 +66,6 @@ public final class StringHelper {
     }
 
     /**
-     * Checks whether the {@code inputString} is longer than a specified length
-     * if so returns the truncated name appended by ellipsis,
-     * otherwise returns the original input. <br>
-     * E.g., "12345678" truncated to length 6 returns "123..."
-     */
-    public static String truncate(String inputString, int truncateLength) {
-        if (inputString.length() <= truncateLength) {
-            return inputString;
-        }
-
-        return inputString.substring(0, truncateLength - 3) + "...";
-    }
-
-    /**
      * Trims head of the String if it is longer than specified Length.
      *  E.g., String "12345678" with maximumStringLength = 6, returns "345678"
      * @param maximumStringLength - maximum required length of the string
@@ -100,27 +77,6 @@ public final class StringHelper {
             return inputString;
         }
         return inputString.substring(inputStringLength - maximumStringLength);
-    }
-
-    /**
-     * Checks whether the {@code longId} is longer than the length specified
-     * in {@link Const.SystemParams},
-     * if so returns the truncated longId appended by ellipsis,
-     * otherwise returns the original longId.
-     */
-    public static String truncateLongId(String longId) {
-        return truncate(longId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
-    }
-
-    /**
-     * Substitutes the middle third of the given string with dots
-     * and returns the "obscured" string.
-     */
-    public static String obscure(String inputString) {
-        Assumption.assertNotNull(inputString);
-        String frontPart = inputString.substring(0, inputString.length() / 3);
-        String endPart = inputString.substring(2 * inputString.length() / 3);
-        return frontPart + ".." + endPart;
     }
 
     /**
@@ -347,140 +303,12 @@ public final class StringHelper {
     }
 
     /**
-     * Converts a csv string to a html table string for displaying.
-     * @return html table string
-     */
-    public static String csvToHtmlTable(String str) {
-        String[] lines = handleNewLine(str).split(System.lineSeparator());
-
-        StringBuilder result = new StringBuilder();
-
-        for (String line : lines) {
-
-            List<String> rowData = getTableData(line);
-
-            if (checkIfEmptyRow(rowData)) {
-                continue;
-            }
-
-            result.append("<tr>");
-            for (String td : rowData) {
-                result.append(String.format("<td>%s</td>", SanitizationHelper.sanitizeForHtml(td)));
-            }
-            result.append("</tr>");
-        }
-
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">%s</table>",
-                             result.toString());
-    }
-
-    private static String handleNewLine(String str) {
-
-        StringBuilder buffer = new StringBuilder();
-        char[] chars = str.toCharArray();
-
-        boolean isInQuote = false;
-
-        for (char c : chars) {
-            if (c == '"') {
-                isInQuote = !isInQuote;
-            }
-
-            if (c == '\n' && isInQuote) {
-                buffer.append("<br>");
-            } else {
-                buffer.append(c);
-            }
-        }
-
-        return buffer.toString();
-    }
-
-    private static List<String> getTableData(String str) {
-        List<String> data = new ArrayList<>();
-
-        boolean inquote = false;
-        StringBuilder buffer = new StringBuilder();
-        char[] chars = str.toCharArray();
-
-        for (int i = 0; i < chars.length; i++) {
-            if (chars[i] == '"') {
-                if (i + 1 < chars.length && chars[i + 1] == '"') {
-                    i++; // NOPMD loop variable deliberately increased
-                } else {
-                    inquote = !inquote;
-                    continue;
-                }
-            }
-
-            if (chars[i] == ',') {
-                if (inquote) {
-                    buffer.append(chars[i]);
-                } else {
-                    data.add(buffer.toString());
-                    buffer.delete(0, buffer.length());
-                }
-            } else {
-                buffer.append(chars[i]);
-            }
-
-        }
-
-        data.add(buffer.toString().trim());
-
-        return data;
-    }
-
-    private static boolean checkIfEmptyRow(List<String> rowData) {
-        return rowData.stream()
-                .allMatch(r -> r.isEmpty());
-    }
-
-    /**
-     * From: http://stackoverflow.com/questions/11969840/how-to-convert-a-base-10-number-to-alphabetic-like-ordered-list-in-html
-     * Converts an integer to alphabetical form (base26)
-     * 1 - a
-     * 2 - b
-     * ...
-     * 26 - z
-     * 27 - aa
-     * 28 - ab
-     * ...
-     *
-     * @param n - number to convert
-     */
-    public static String integerToLowerCaseAlphabeticalIndex(int n) {
-        StringBuilder result = new StringBuilder();
-        int n0 = n;
-        while (n0 > 0) {
-            n0--; // 1 => a, not 0 => a
-            int remainder = n0 % 26;
-            char digit = (char) (remainder + 97);
-            result.append(digit);
-            n0 = (n0 - remainder) / 26;
-        }
-        return result.reverse().toString();
-    }
-
-    /**
      * Trims the string if it is not null.
      *
      * @return the trimmed string or null (if the parameter was null).
      */
     public static String trimIfNotNull(String string) {
         return string == null ? null : string.trim();
-    }
-
-    /**
-     * Counts the number of empty strings passed as the argument. Null is
-     * considered an empty string, while whitespace is not.
-     *
-     * @return number of empty strings passed
-     */
-    public static int countEmptyStrings(String... strings) {
-        return Math.toIntExact(Arrays.stream(strings)
-                .filter(s -> isEmpty(s))
-                .count());
     }
 
     /**
@@ -491,71 +319,6 @@ public final class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return str == null ? "" : str;
-    }
-
-    /**
-     * Removes the outermost enclosing square brackets surrounding a string.
-     *
-     * @return the string without the outermost enclosing square brackets
-     *         if the given string is enclosed by square brackets <br>
-     *         the string itself if the given string is not enclosed by square brackets <br>
-     *         null if the given string is null
-     */
-    public static String removeEnclosingSquareBrackets(String str) {
-        if (str == null) {
-            return null;
-        }
-
-        Pattern p = Pattern.compile("^\\[(.*)]$");
-        Matcher m = p.matcher(str);
-        return m.find() ? m.group(1) : str;
-    }
-
-    /**
-     * Returns a String array after removing white spaces leading and
-     * trailing any string in the input array.
-     */
-    public static String[] trim(String[] stringsToTrim) {
-        return Arrays.stream(stringsToTrim)
-                .map(s -> s.trim())
-                .toArray(size -> new String[size]);
-    }
-
-    /**
-     * Returns a String array after converting them to lower case.
-     */
-    public static String[] toLowerCase(String[] stringsToConvertToLowerCase) {
-        return Arrays.stream(stringsToConvertToLowerCase)
-                .map(s -> s.toLowerCase())
-                .toArray(size -> new String[size]);
-    }
-
-    /**
-     * Returns text with all non-ASCII characters removed.
-     */
-    public static String removeNonAscii(String text) {
-        return text.replaceAll("[^\\x00-\\x7F]", "");
-    }
-
-    /**
-     * Returns a new String composed of copies of the String elements joined together
-     * with a copy of the specified delimiter.
-     */
-    public static String join(String delimiter, List<Integer> elements) {
-        return String.join(delimiter, toStringArray(elements));
-    }
-
-    /**
-     * Converts list of integer to array of strings.
-     */
-    private static String[] toStringArray(List<Integer> elements) {
-        if (elements == null) {
-            throw new IllegalArgumentException("Provided arguments cannot be null");
-        }
-
-        return elements.stream()
-                .map(s -> String.valueOf(s))
-                .toArray(size -> new String[size]);
     }
 
     /**

@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { HttpRequestService } from '../../../services/http-request.service';
 import { ErrorReportComponent } from './error-report.component';
@@ -17,7 +18,7 @@ describe('ErrorReportComponent', () => {
         FormsModule,
         HttpClientTestingModule,
       ],
-      providers: [HttpRequestService],
+      providers: [HttpRequestService, NgbActiveModal],
     })
     .compileComponents();
   }));
@@ -25,7 +26,7 @@ describe('ErrorReportComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ErrorReportComponent);
     component = fixture.componentInstance;
-    httpRequestService = TestBed.get(HttpRequestService);
+    httpRequestService = TestBed.inject(HttpRequestService);
     fixture.detectChanges();
   });
 

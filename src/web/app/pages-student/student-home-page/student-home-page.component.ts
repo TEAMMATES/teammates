@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
@@ -15,6 +15,7 @@ import {
   FeedbackSessionSubmissionStatus,
   HasResponses,
 } from '../../../types/api-output';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface StudentCourse {
@@ -40,6 +41,9 @@ interface StudentSession {
 })
 export class StudentHomePageComponent implements OnInit {
 
+  // enum
+  SortBy: typeof SortBy = SortBy;
+
   // Tooltip messages
   studentFeedbackSessionStatusPublished: string =
       'The responses for the session have been published and can now be viewed.';
@@ -52,35 +56,40 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
 
   courses: StudentCourse[] = [];
+  isCoursesLoading: boolean = false;
+  hasCoursesLoadingFailed: boolean = false;
+
+  sortBy: SortBy = SortBy.NONE;
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService,
               private timezoneService: TimezoneService,
-              private loadingBarService: LoadingBarService) {
+              private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion();
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(() => {
-      this.getStudentCourses();
+      this.loadStudentCourses();
     });
   }
 
   /**
-   * Gets the courses and feedback sessions involving the student.
+   * Load the courses and feedback sessions involving the student.
    */
-  getStudentCourses(): void {
-    this.loadingBarService.showLoadingBar();
+  loadStudentCourses(): void {
+    this.hasCoursesLoadingFailed = false;
+    this.isCoursesLoading = true;
+    this.courses = [];
     this.courseService.getAllCoursesAsStudent().subscribe((resp: Courses) => {
-      if (resp.courses.length === 0) {
-        this.loadingBarService.hideLoadingBar();
-        return;
+      if (!resp.courses.length) {
+        this.isCoursesLoading = false;
       }
       for (const course of resp.courses) {
         this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
-          .pipe(finalize(() => this.loadingBarService.hideLoadingBar()))
+          .pipe(finalize(() => this.isCoursesLoading = false))
           .subscribe((fss: FeedbackSessions) => {
             const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
@@ -96,16 +105,23 @@ export class StudentHomePageComponent implements OnInit {
                   const isSubmitted: boolean = hasRes.hasResponses;
                   studentSessions.push(Object.assign({},
                     { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
+                }, (error: ErrorMessageOutput) => {
+                  this.hasCoursesLoadingFailed = true;
+                  this.statusMessageService.showErrorToast(error.error.message);
                 });
             }
 
             this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>
               (a.course.courseId > b.course.courseId) ? 1 : -1);
+          }, (error: ErrorMessageOutput) => {
+            this.hasCoursesLoadingFailed = true;
+            this.statusMessageService.showErrorToast(error.error.message);
           });
       }
     }, (e: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(e.error.message);
+      this.hasCoursesLoadingFailed = true;
+      this.statusMessageService.showErrorToast(e.error.message);
     });
   }
 
@@ -147,5 +163,31 @@ export class StudentHomePageComponent implements OnInit {
         .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
             b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
             ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+  }
+
+  sortCoursesBy(by: SortBy): void {
+    this.sortBy = by;
+    this.courses.sort(this.sortPanelsBy(by));
+  }
+
+  sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
+    return ((a: StudentCourse, b: StudentCourse): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.COURSE_NAME:
+          strA = a.course.courseName;
+          strB = b.course.courseName;
+          break;
+        case SortBy.COURSE_ID:
+          strA = a.course.courseId;
+          strB = b.course.courseId;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(by, SortOrder.ASC, strA, strB);
+    });
   }
 }

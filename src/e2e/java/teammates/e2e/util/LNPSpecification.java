@@ -5,24 +5,22 @@ package teammates.e2e.util;
  */
 public class LNPSpecification {
 
-    /*
-        Note: Consider applying the builder pattern if this class gets more complicated.
-    */
-
+    /**
+     * Maximum allowable threshold for the ratio of failed request
+     * (between 0 and 1) to the test endpoint.
+     */
     private double errorRateLimit;
-    private double meanResTimeLimit;
-    private String resultsErrorMessage = "";
 
     /**
-     * Create a specification class with the specified limits.
-     * @param errorRateLimit Maximum allowable threshold for the percentage of failed requests
-     *                       (0 to 100) to the test endpoint.
-     * @param meanResTimeLimit Maximum allowable threshold for the mean response time
-     *                         (in seconds) for the test endpoint.
+     * Maximum allowable threshold for the mean response time
+     * (in seconds) for the test endpoint.
      */
-    public LNPSpecification(double errorRateLimit, double meanResTimeLimit) {
-        this.errorRateLimit = errorRateLimit;
-        this.meanResTimeLimit = meanResTimeLimit;
+    private double meanResTimeLimit;
+
+    private String resultsErrorMessage = "";
+
+    // This class should always be constructed using builder() instead of constructor
+    private LNPSpecification() {
     }
 
     /**
@@ -59,5 +57,40 @@ public class LNPSpecification {
             resultsErrorMessage += "Error rate is " + String.format("%.2f", exceededErrorRate)
                     + "% higher than the specified threshold. ";
         }
+    }
+
+    /**
+     * Returns a builder for {@link LNPSpecification}.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * A builder class for {@link LNPSpecification}.
+     */
+    public static class Builder {
+
+        private LNPSpecification specification;
+
+        private Builder() {
+            specification = new LNPSpecification();
+        }
+
+        //CHECKSTYLE.OFF:MissingJavadocMethod
+        public Builder withErrorRateLimit(double errorRateLimit) {
+            specification.errorRateLimit = errorRateLimit;
+            return this;
+        }
+
+        public Builder withMeanRespTimeLimit(double meanResTimeLimit) {
+            specification.meanResTimeLimit = meanResTimeLimit;
+            return this;
+        }
+
+        public LNPSpecification build() {
+            return specification;
+        }
+        //CHECKSTYLE.ON:MissingJavadocMethod
     }
 }

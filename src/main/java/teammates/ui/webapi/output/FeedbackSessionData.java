@@ -18,6 +18,8 @@ public class FeedbackSessionData extends ApiOutput {
 
     private final Long submissionStartTimestamp;
     private final Long submissionEndTimestamp;
+    @Nullable
+    private Long resultVisibleFromTimestamp;
     private Long gracePeriod;
 
     private SessionVisibleSetting sessionVisibleSetting;
@@ -34,7 +36,7 @@ public class FeedbackSessionData extends ApiOutput {
     private Boolean isClosingEmailEnabled;
     private Boolean isPublishedEmailEnabled;
 
-    private final long createdAtTimestamp;
+    private long createdAtTimestamp;
     @Nullable
     private final Long deletedAtTimestamp;
 
@@ -45,6 +47,7 @@ public class FeedbackSessionData extends ApiOutput {
         this.instructions = feedbackSessionAttributes.getInstructions();
         this.submissionStartTimestamp = feedbackSessionAttributes.getStartTime().toEpochMilli();
         this.submissionEndTimestamp = feedbackSessionAttributes.getEndTime().toEpochMilli();
+        this.resultVisibleFromTimestamp = feedbackSessionAttributes.getResultsVisibleFromTime().toEpochMilli();
         this.gracePeriod = feedbackSessionAttributes.getGracePeriodMinutes();
 
         Instant sessionVisibleTime = feedbackSessionAttributes.getSessionVisibleFromTime();
@@ -122,6 +125,10 @@ public class FeedbackSessionData extends ApiOutput {
         return submissionEndTimestamp;
     }
 
+    public Long getResultVisibleFromTimestamp() {
+        return resultVisibleFromTimestamp;
+    }
+
     public Long getGracePeriod() {
         return gracePeriod;
     }
@@ -156,6 +163,10 @@ public class FeedbackSessionData extends ApiOutput {
 
     public Boolean getIsPublishedEmailEnabled() {
         return isPublishedEmailEnabled;
+    }
+
+    public void setResultVisibleFromTimestamp(Long resultVisibleFromTimestamp) {
+        this.resultVisibleFromTimestamp = resultVisibleFromTimestamp;
     }
 
     public void setGracePeriod(Long gracePeriod) {
@@ -194,6 +205,10 @@ public class FeedbackSessionData extends ApiOutput {
         return createdAtTimestamp;
     }
 
+    public void setCreatedAtTimestamp(long timestamp) {
+        createdAtTimestamp = timestamp;
+    }
+
     public Long getDeletedAtTimestamp() {
         return deletedAtTimestamp;
     }
@@ -202,12 +217,21 @@ public class FeedbackSessionData extends ApiOutput {
      * Hides some attributes to student.
      */
     public void hideInformationForStudent() {
-        setGracePeriod(null);
+        hideInformationForInstructor();
+        setResultVisibleFromTimestamp(null);
         setSessionVisibleSetting(null);
         setCustomSessionVisibleTimestamp(null);
         setResponseVisibleSetting(null);
         setCustomResponseVisibleTimestamp(null);
+    }
+
+    /**
+     * Hides some attributes to instructor without appropriate privilege.
+     */
+    public void hideInformationForInstructor() {
         setClosingEmailEnabled(null);
         setPublishedEmailEnabled(null);
+        setGracePeriod(null);
+        setCreatedAtTimestamp(0);
     }
 }

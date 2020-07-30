@@ -25,7 +25,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text font-weight-bold cursor-pointer"
                   (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
-                  (click)="deleteSubQuestion(i, deleteSubQuestionModal)"><i class="fas fa-times"></i></span>
+                  (click)="deleteSubQuestion(i)"><i class="fas fa-times"></i></span>
           </div>
           <textarea class="form-control" [ngModel]="model.rubricSubQuestions[i]"
                     (ngModelChange)="triggerRubricSubQuestionChange($event, i)" rows="3" [disabled]="!isEditable"></textarea>
@@ -45,7 +45,7 @@
         <div class="btn-group">
           <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable" ngbTooltip="Move column left"
                   (click)="moveChoice(j, j - 1)"><i class="fas fa-arrow-left"></i></button>
-          <button type="button" class="btn btn-light" (click)="deleteChoice(j, deleteChoiceModal)"
+          <button type="button" class="btn btn-light" (click)="deleteChoice(j)"
                   (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
                   [disabled]="model.numOfRubricChoices === 1 || !isEditable"
           ><i class="fas fa-times"></i></button>
@@ -65,35 +65,3 @@
     <button type="button" class="btn btn-primary btn-sm" (click)="addNewChoice()" [disabled]="!isEditable">Add Column <i class="fas fa-arrow-right"></i></button>
   </div>
 </div>
-
-<ng-template #deleteSubQuestionModal let-modal>
-  <div class="modal-header bg-warning">
-    <h5 class="modal-title text-white"><i class="fas fa-times-circle"></i> Confirm Deletion</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to clear the column?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-  </div>
-</ng-template>
-
-<ng-template #deleteChoiceModal let-modal>
-  <div class="modal-header bg-warning">
-    <h5 class="modal-title text-white"><i class="fas fa-times-circle"></i> Confirm Deletion</h5>
-    <button type="button" class="close" (click)="modal.dismiss()">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>Are you sure you want to clear the row?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">No, cancel the operation</button>
-    <button type="button" class="btn btn-warning" (click)="modal.close()">Yes</button>
-  </div>
-</ng-template>

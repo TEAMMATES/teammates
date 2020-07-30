@@ -2,15 +2,14 @@
   border: 1px solid #CED4DA;
   background-color: #FFF;
   border-radius: .25rem;
-  padding: .375rem .75rem;
+
+  ::ng-deep .mce-content-body {
+    height: 100%;
+    padding: .375rem .75rem;
+  }
 }
 
 .editor-disabled {
   background-color: #E9ECEF;
   opacity: 1;
-}
-
-.placeholder {
-  padding: .375rem .75rem;
-  position: absolute;
 }

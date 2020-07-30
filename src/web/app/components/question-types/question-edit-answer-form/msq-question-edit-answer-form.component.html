@@ -15,7 +15,7 @@
       </label>
       <input #inputTextBoxOther class="form-control" style="display: inline; width: 60%;" type="text" [disabled]="!responseDetails.isOther || isDisabled"
              [ngModel]="responseDetails.otherFieldContent"
-             (ngModelChange)="triggerResponseDetailsChange('otherFieldContent', $event)">
+             (ngModelChange)="updateOtherAnswerField($event)">
     </div>
     <div class="check-box" *ngIf="questionDetails.minSelectableChoices === NO_VALUE">
       <label class="margin-right-15px">

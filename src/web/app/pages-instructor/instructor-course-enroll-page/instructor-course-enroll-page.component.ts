@@ -1,39 +1,25 @@
-import { Component, ContentChild, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Handsontable from 'handsontable';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StatusMessage } from '../../components/status-message/status-message';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { EnrollStatus } from './enroll-status';
-
-interface StudentAttributes {
-  email: string;
-  course: string;
-  name: string;
-  lastName: string;
-  comments: string;
-  team: string;
-  section: string;
-}
 
 interface EnrollResultPanel {
   status: EnrollStatus;
   messageForEnrollmentStatus: string;
   studentList: Student[];
-}
-
-/**
- * List of enrolled students and their attributes.
- */
-export interface StudentListResults {
-  enrolledStudents: StudentAttributes[];
 }
 
 /**
@@ -43,18 +29,19 @@ export interface StudentListResults {
   selector: 'tm-instructor-course-enroll-page',
   templateUrl: './instructor-course-enroll-page.component.html',
   styleUrls: ['./instructor-course-enroll-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
-  courseid: string = '';
+  courseId: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
+  enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
 
-  @ViewChild('moreInfo', { static: false }) moreInfo?: ElementRef;
-  @ContentChild('pasteModalBox', { static: false }) pasteModalBox?: NgbModal;
+  @ViewChild('moreInfo') moreInfo?: ElementRef;
 
   @Input() isNewStudentsPanelCollapsed: boolean = false;
   @Input() isExistingStudentsPanelCollapsed: boolean = true;
@@ -82,17 +69,20 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
+  hasLoadingStudentsFailed: boolean = false;
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
+  isEnrolling: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private ngbModal: NgbModal) { }
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      this.courseId = queryParams.courseid;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
   }
@@ -101,6 +91,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Submits enroll data
    */
   submitEnrollData(): void {
+    this.isEnrolling = true;
+    this.enrollErrorMessage = '';
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
 
@@ -128,22 +120,28 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])],
         })));
 
-    this.studentService.enrollStudents(this.courseid, studentsEnrollRequest).subscribe((resp: Students) => {
+    this.studentService.enrollStudents(
+        this.courseId, studentsEnrollRequest,
+    ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: Students) => {
       const enrolledStudents: Student[] = resp.students;
       this.showEnrollResults = true;
       this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showSuccessMessage('Enrollment successful. Summary given below.');
+      this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
       this.enrollResultPanelList =
           this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
               studentsEnrollRequest.studentEnrollRequests);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.enrollErrorMessage = resp.error.message;
+    }, () => {
+      this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
+        this.existingStudents = resp.students;
+        if (!this.isExistingStudentsPanelCollapsed) {
+          const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+          this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+        }
+        this.isExistingStudentsPresent = true;
+      });
     });
-    this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
-      this.existingStudents = resp.students;
-    });
-    this.isExistingStudentsPresent = true;
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
@@ -151,8 +149,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const panels: EnrollResultPanel[] = [];
     const studentLists: Student[][] = [];
+    const statuses: (string | EnrollStatus)[] = Object.values(EnrollStatus)
+        .filter((value: string | EnrollStatus) => typeof value === 'string');
 
-    for (const _ of Object.values(EnrollStatus).filter((value: EnrollStatus) => typeof value === 'string')) {
+    for (const _ of statuses) {
       studentLists.push([]);
     }
 
@@ -192,7 +192,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
           email: request.email,
-          courseId: this.courseid,
+          courseId: this.courseId,
           name: request.name,
           sectionName: request.section,
           teamName: request.team,
@@ -211,7 +211,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       4: `${studentLists[EnrollStatus.UNMODIFIED].length} student(s) remain unmodified:`,
     };
 
-    for (const status of Object.values(EnrollStatus).filter((value: EnrollStatus) => typeof value === 'string')) {
+    for (const status of statuses) {
       panels.push({
         status: EnrollStatus[status as keyof typeof EnrollStatus],
         messageForEnrollmentStatus: statusMessage[EnrollStatus[status as keyof typeof EnrollStatus]],
@@ -220,14 +220,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     if (studentLists[EnrollStatus.ERROR].length > 0) {
-      const generalEnrollErrorMessage: string = 'You may check that: ' +
-          '"Section" and "Comment" are optional while "Team", "Name", and "Email" must be filled. ' +
-          '"Section", "Team", "Name", and "Comment" should start with an alphabetical character, ' +
-          'unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and percentage sign"%". ' +
-          '"Email" should contain some text followed by one \'@\' sign followed by some more text. ' +
-          '"Team" should not have same format of email to avoid mis-interpretation. ';
-      this.statusMessageService.showErrorMessage(`Some students failed to be enrolled, see the summary below.
-       ${generalEnrollErrorMessage}`);
+      this.enrollErrorMessage = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
+        and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
+        alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
+        percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
+        more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
+      this.statusMessageService.showErrorToast('Some students failed to be enrolled, see the summary below.');
     }
     return panels;
   }
@@ -277,16 +275,24 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   /**
    * Converts returned student list to a suitable format required by Handsontable.
    */
-  studentListDataToHandsontableData(studentsData: StudentAttributes[], handsontableColHeader: any[]): string[][] {
+  studentListDataToHandsontableData(studentsData: Student[], handsontableColHeader: any[]): string[][] {
     const headers: string[] = handsontableColHeader.map(this.unCapitalizeFirstLetter);
-    return studentsData.map((student: StudentAttributes) => (headers.map(
-        (header: string) => (student as any)[header])));
+    return studentsData.map((student: Student) => (headers.map(
+        (header: string) => {
+          if (header === 'team') {
+            return (student as any).teamName;
+          }  if (header === 'section') {
+            return (student as any).sectionName;
+          }
+          return (student as any)[header];
+        },
+    )));
   }
 
   /**
    * Loads existing student data into the spreadsheet interface.
    */
-  loadExistingStudentsData(existingStudentsHOTInstance: Handsontable, studentsData: StudentAttributes[]): void {
+  loadExistingStudentsData(existingStudentsHOTInstance: Handsontable, studentsData: Student[]): void {
     existingStudentsHOTInstance.loadData(this.studentListDataToHandsontableData(
         studentsData, (existingStudentsHOTInstance.getColHeader() as any[])));
   }
@@ -307,17 +313,17 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.courseService.getStudentsEnrolledInCourse({ courseId: this.courseid }).subscribe(
-        (resp: StudentListResults) => {
-          if (resp.enrolledStudents.length !== 0) {
-            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.enrolledStudents);
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
+        (resp: Students) => {
+          if (resp.students.length !== 0) {
+            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
           } else {
             // Shows a message if there are no existing students. Panel would not be expanded.
             this.isExistingStudentsPresent = false;
             this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
           }
         }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
     });
@@ -337,39 +343,39 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Shows modal box when user clicks on the 'paste' option in the
    * Handsontable context menu
    */
-  showPasteModalBox(pasteModalBox: any): void {
-    this.ngbModal.open(pasteModalBox);
-  }
-
-  /**
-   * Reset page to default view
-   */
-  hideEnrollResults(): void {
-    this.showEnrollResults = false;
-    this.statusMessage.pop();
-    window.scroll(0, 0);
+  showPasteModalBox(): void {
+    const modalContent: string = `Pasting data through the context menu is not supported due to browser restrictions.<br>
+      Please use <kbd>Ctrl + V</kbd> or <kbd>⌘ + V</kbd> to paste your data instead.`;
+    this.simpleModalService.openInformationModal('Pasting data through the context menu',
+        SimpleModalType.WARNING, modalContent);
   }
 
   /**
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
+    this.existingStudents = [];
+    this.hasLoadingStudentsFailed = false;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
-      this.courseid = courseid;
+      this.courseId = courseid;
       if (resp.hasResponses) {
-        this.statusMessageService.showWarningMessageModal('Existing feedback responses',
-        'There are existing feedback responses for this course.',
-        'Modifying records of enrolled students will result in some existing responses '
-            + 'from those modified students to be deleted. You may wish to download the data '
-            + 'before you make the changes.');
+        const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
+          Modifying records of enrolled students will result in some existing responses
+          from those modified students to be deleted. You may wish to download the data
+          before you make the changes.`;
+        this.simpleModalService.openInformationModal(
+            'Existing feedback responses', SimpleModalType.WARNING, modalContent);
       }
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
+    }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingStudentsFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -380,5 +386,4 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     (this.moreInfo as ElementRef)
         .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
-
 }

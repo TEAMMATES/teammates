@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map, mergeMap } from 'rxjs/operators';
-import { SearchStudentsTable } from '../app/pages-instructor/instructor-search-page/instructor-search-page.component';
-import { StudentListSectionData } from '../app/pages-instructor/student-list/student-list-section-data';
+import { StudentListRowModel } from '../app/components/student-list/student-list.component';
 import {
-  Course,
+  SearchCommentsTable,
+} from '../app/pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
+import {
+  SearchStudentsListRowTable,
+} from '../app/pages-instructor/instructor-search-page/student-result-table/student-result-table.component';
+import { ResourceEndpoints } from '../types/api-endpoints';
+import {
+  CommentSearchResult,
+  CommentSearchResults,
+  Course, FeedbackSession,
   FeedbackSessions,
   Instructor,
   InstructorPermissionRole,
@@ -19,6 +27,7 @@ import { FeedbackSessionsService } from './feedback-sessions.service';
 import { HttpRequestService } from './http-request.service';
 import { InstructorService } from './instructor.service';
 import { LinkService } from './link.service';
+import { TimezoneService } from './timezone.service';
 
 /**
  * Handles the logic for search.
@@ -34,36 +43,47 @@ export class SearchService {
     private feedbackSessionService: FeedbackSessionsService,
     private courseService: CourseService,
     private linkService: LinkService,
+    private timezoneService: TimezoneService,
   ) {}
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
-    return this.searchStudents(searchKey).pipe(
-      map((studentsRes: Students) => this.getCoursesWithSections(studentsRes)),
-      mergeMap((coursesWithSections: SearchStudentsTable[]) =>
+    return this.searchStudents(searchKey, 'instructor').pipe(
+      map((studentsRes: Students) => this.getCoursesWithStudents(studentsRes)),
+      mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
         forkJoin([
-          of(coursesWithSections),
-          this.getPrivileges(coursesWithSections),
+          of(coursesWithStudents),
+          this.getPrivileges(coursesWithStudents),
         ]),
       ),
-      map((res: [SearchStudentsTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
+      map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
+    );
+  }
+
+  /**
+   * Search session, response, comments on response with {@code searchKey} and
+   * parses the results
+   */
+  searchComment(searchKey: string): Observable<InstructorSearchResult> {
+    return this.searchComments(searchKey).pipe(
+      map((commentsRes: CommentSearchResults) => this.getSearchCommentsTable(commentsRes)),
     );
   }
 
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
-    return forkJoin(
-      this.searchStudents(searchKey),
+    return forkJoin([
+      this.searchStudents(searchKey, 'admin'),
       this.searchInstructors(searchKey),
-    ).pipe(
+    ]).pipe(
       map((value: [Students, Instructors]): [Student[], Instructor[]] =>
         [value[0].students, value[1].instructors],
       ),
       flatMap((value: [Student[], Instructor[]]) => {
         const [students, instructors]: [Student[], Instructor[]] = value;
-        return forkJoin(
+        return forkJoin([
           of(students),
           of(instructors),
           this.getDistinctFields(students, instructors),
-        );
+        ]);
       }),
       map((value: [Student[], Instructor[], DistinctFields]) => {
         return {
@@ -74,96 +94,112 @@ export class SearchService {
     );
   }
 
-  searchStudents(searchKey: string): Observable<Students> {
+  searchStudents(searchKey: string, entityType: string): Observable<Students> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
+      entitytype: entityType,
     };
-    return this.httpRequestService.get('/search/students', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
   }
 
   searchInstructors(searchKey: string): Observable<Instructors> {
     const paramMap: { [key: string]: string } = {
       searchkey: searchKey,
     };
-    return this.httpRequestService.get('/search/instructors', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   }
 
-  getCoursesWithSections(studentsRes: Students): SearchStudentsTable[] {
+  /**
+   * Searches sessions, responses, and comments for any matches against the {@code searchKey}.
+   * Only responses with comments will be searched.
+   */
+  searchComments(searchKey: string): Observable<CommentSearchResults> {
+    const paramMap: { [key: string]: string } = {
+      searchkey: searchKey,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.SEARCH_COMMENTS, paramMap);
+  }
+
+  getCoursesWithStudents(studentsRes: Students): SearchStudentsListRowTable[] {
     const { students }: { students: Student[] } = studentsRes;
 
     const distinctCourses: string[] = Array.from(
       new Set(students.map((s: Student) => s.courseId)),
     );
-    const coursesWithSections: SearchStudentsTable[] = distinctCourses.map(
+    const coursesWithStudents: SearchStudentsListRowTable[] = distinctCourses.map(
       (courseId: string) => ({
         courseId,
-        sections: Array.from(
+        students: Array.from(
           new Set(
             students
-              .filter((s: Student) => s.courseId === courseId)
-              .map((s: Student) => s.sectionName),
+              .filter((s: Student) => s.courseId === courseId),
           ),
-        ).map((sectionName: string) => ({
-          sectionName,
+        ).map((s: Student) => ({
+          student: s,
           isAllowedToViewStudentInSection: false,
           isAllowedToModifyStudent: false,
-          students: students
-            .filter(
-              (s: Student) =>
-                s.courseId === courseId && s.sectionName === sectionName,
-            )
-            .map((s: Student) => ({
-              name: s.name,
-              email: s.email,
-              status: s.joinState,
-              team: s.teamName,
-            })),
         })),
       }),
     );
 
-    return coursesWithSections;
+    return coursesWithStudents;
+  }
+
+  private getSearchCommentsTable(searchResults: CommentSearchResults): InstructorSearchResult {
+    const searchResult: CommentSearchResult[] = searchResults.searchResults;
+    return {
+      searchStudentsTables: [],
+      searchCommentsTables: searchResult.map((res: CommentSearchResult) => ({
+        feedbackSession: res.feedbackSession,
+        questions: res.questions,
+      })),
+    };
   }
 
   getPrivileges(
-    coursesWithSections: SearchStudentsTable[],
+    coursesWithStudents: SearchStudentsListRowTable[],
   ): Observable<InstructorPrivilege[]> {
-    return forkJoin(
-      coursesWithSections.map((course: SearchStudentsTable) => {
-        return course.sections.map((section: StudentListSectionData) => {
-          return this.instructorService.loadInstructorPrivilege({
-            courseId: course.courseId,
-            sectionName: section.sectionName,
-          });
-        });
-      }).reduce(
-        (acc: Observable<InstructorPrivilege>[], val: Observable<InstructorPrivilege>[]) =>
-        acc.concat(val),
-        [],
-      ),
-    );
+    if (coursesWithStudents.length === 0) {
+      return of([]);
+    }
+    const privileges: Observable<InstructorPrivilege>[] = [];
+    coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
+      const sectionToPrivileges: Record<string, Observable<InstructorPrivilege>> = {};
+      Array.from(
+        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
+      ).forEach((section: string) => {
+        sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege(
+          { courseId: course.courseId, sectionName: section },
+        );
+      });
+      course.students.forEach((studentModel: StudentListRowModel) =>
+        privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
+      );
+    });
+    return forkJoin(privileges);
   }
 
   combinePrivileges(
-    [coursesWithSections, privileges]: [SearchStudentsTable[], InstructorPrivilege[]],
+    [coursesWithStudents, privileges]: [SearchStudentsListRowTable[], InstructorPrivilege[]],
   ): InstructorSearchResult {
     /**
      * Pop the privilege objects one at a time and attach them to the results. This is possible
      * because `forkJoin` guarantees that the `InstructorPrivilege` results are returned in the
      * same order the requests were made.
      */
-    for (const course of coursesWithSections) {
-      for (const section of course.sections) {
+    for (const course of coursesWithStudents) {
+      for (const studentModel of course.students) {
         const sectionPrivileges: InstructorPrivilege | undefined = privileges.shift();
         if (!sectionPrivileges) { continue; }
 
-        section.isAllowedToViewStudentInSection = sectionPrivileges.canViewStudentInSections;
-        section.isAllowedToModifyStudent = sectionPrivileges.canModifyStudent;
+        studentModel.isAllowedToViewStudentInSection = sectionPrivileges.canViewStudentInSections;
+        studentModel.isAllowedToModifyStudent = sectionPrivileges.canModifyStudent;
       }
     }
 
     return {
-      searchStudentsTables: coursesWithSections,
+      searchStudentsTables: coursesWithStudents,
+      searchCommentsTables: [],
     };
   }
 
@@ -298,16 +334,22 @@ export class SearchService {
     };
     for (const feedbackSession of feedbackSessions.feedbackSessions) {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
-        feedbackSessionLinks.openSessions[this.feedbackSessionService.generateNameFragment(feedbackSession).toString()]
-          = this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
       } else {
-        feedbackSessionLinks.notOpenSessions[this.feedbackSessionService.generateNameFragment(feedbackSession)]
-          = this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
       }
 
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
-        feedbackSessionLinks.publishedSessions[this.feedbackSessionService.generateNameFragment(feedbackSession)]
-           = this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName);
+        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateResultUrl(student, feedbackSession.feedbackSessionName),
+        };
       }
     }
     return feedbackSessionLinks;
@@ -319,24 +361,24 @@ export class SearchService {
       ...instructors.map((instructor: Instructor) => instructor.courseId),
     ]));
     if (distinctCourseIds.length === 0) {
-      return forkJoin(of({}), of({}), of({}), of({}));
+      return forkJoin([of({}), of({}), of({}), of({})]);
     }
-    return forkJoin(
+    return forkJoin([
       this.getDistinctInstructors(distinctCourseIds),
       this.getDistinctCourses(distinctCourseIds),
       this.getDistinctFeedbackSessions(distinctCourseIds),
-    ).pipe(
+    ]).pipe(
       flatMap((value: [
         DistinctInstructorsMap,
         DistinctCoursesMap,
         DistinctFeedbackSessionsMap],
       ) => {
-        return forkJoin(
+        return forkJoin([
           of(value[0]),
           of(value[1]),
           of(value[2]),
           this.getDistinctInstructorPrivileges(value[0]),
-        );
+        ]);
       }),
     );
   }
@@ -361,7 +403,7 @@ export class SearchService {
   ): Observable<DistinctInstructorPrivilegesMap> {
     const distinctCourseIds: string[] = Object.keys(distinctInstructorsMap);
     const instructorsArray: Instructors[] = Object.values(distinctInstructorsMap);
-    return forkJoin(
+    return forkJoin([
       of(distinctCourseIds),
       forkJoin(instructorsArray.map((instructors: Instructors) => {
         return forkJoin(
@@ -375,7 +417,7 @@ export class SearchService {
           ),
         );
       })),
-    ).pipe(
+    ]).pipe(
       map(
         (value: [string[], InstructorPrivilege[][]]) => {
           const distinctInstructorPrivilegesMap: DistinctInstructorPrivilegesMap = {};
@@ -419,13 +461,23 @@ export class SearchService {
       }),
     );
   }
+
+  private formatProperties(feedbackSession: FeedbackSession): { startTime: string, endTime: string } {
+    const DATE_FORMAT_WITH_ZONE_INFO: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+    const startTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    const endTime: string = this.timezoneService
+        .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, DATE_FORMAT_WITH_ZONE_INFO);
+    return { startTime, endTime };
+  }
 }
 
 /**
  * The typings for the response object returned by the instructor search service.
  */
 export interface InstructorSearchResult {
-  searchStudentsTables: SearchStudentsTable[];
+  searchStudentsTables: SearchStudentsListRowTable[];
+  searchCommentsTables: SearchCommentsTable[];
 }
 
 /**
@@ -460,14 +512,20 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
-  openSessions: { [index: string]: string };
-  notOpenSessions: { [index: string]: string };
-  publishedSessions: { [index: string]: string };
+  openSessions: FeedbackSessionsGroup;
+  notOpenSessions: FeedbackSessionsGroup;
+  publishedSessions: FeedbackSessionsGroup;
 }
 
-// Private interfaces
-interface FeedbackSessionsGroup {
-  [key: string]: string;
+/**
+ * Feedback session inforamtion for search result.
+ */
+export interface FeedbackSessionsGroup {
+  [name: string]: {
+    startTime: string;
+    endTime: string;
+    feedbackSessionUrl: string;
+  };
 }
 
 interface StudentFeedbackSessions {

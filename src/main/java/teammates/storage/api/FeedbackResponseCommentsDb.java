@@ -147,6 +147,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
+     * Gets all comments of a feedback question of a course.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForQuestion(String questionId) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionId);
+
+        return makeAttributes(getFeedbackResponseCommentEntitiesForQuestion(questionId));
+    }
+
+    /**
      * Gets all comments which have its corresponding response given to/from a section of a feedback session of a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(
@@ -156,6 +165,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section));
+    }
+
+    /**
+     * Gets all comments which have its corresponding response given to/from a section of a feedback question of a course.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForQuestionInSection(
+            String questionId, String section) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+
+        return makeAttributes(getFeedbackResponseCommentEntitiesForQuestionInSection(questionId, section));
     }
 
     /**
@@ -393,6 +413,38 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 .filter("courseId =", courseId)
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .list();
+    }
+
+    private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForQuestion(String questionId) {
+        return load()
+                .filter("feedbackQuestionId =", questionId)
+                .list();
+    }
+
+    private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForQuestionInSection(
+            String questionId, String section) {
+        // creating map to remove duplicates
+        Map<Long, FeedbackResponseComment> comments = new HashMap<>();
+
+        List<FeedbackResponseComment> responseCommentsFromSection = load()
+                .filter("feedbackQuestionId =", questionId)
+                .filter("giverSection =", section)
+                .list();
+
+        for (FeedbackResponseComment comment : responseCommentsFromSection) {
+            comments.put(comment.getFeedbackResponseCommentId(), comment);
+        }
+
+        List<FeedbackResponseComment> responseCommentsToSection = load()
+                .filter("feedbackQuestionId =", questionId)
+                .filter("receiverSection =", section)
+                .list();
+
+        for (FeedbackResponseComment comment : responseCommentsToSection) {
+            comments.put(comment.getFeedbackResponseCommentId(), comment);
+        }
+
+        return comments.values();
     }
 
     private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(

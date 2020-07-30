@@ -59,7 +59,10 @@ export class StudentPageComponent implements OnInit {
         }
         this.isFetchingAuthDetails = false;
       }, () => {
-        // TODO
+        this.isInstructor = false;
+        this.isStudent = false;
+        this.isAdmin = false;
+        this.isFetchingAuthDetails = false;
       });
     });
   }

@@ -9,13 +9,13 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.FeedbackResponseCommentData;
 import teammates.ui.webapi.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.webapi.request.Intent;
@@ -32,7 +32,13 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public void checkSpecificAccessControl() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
 
@@ -41,7 +47,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
-        FeedbackQuestionType questionType = question.getQuestionType();
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
@@ -56,7 +61,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
 
-            validQuestionTypeForCommentInSubmission(questionType);
+            validQuestionForCommentInSubmission(question);
             verifyCommentNotExist(feedbackResponseId);
             verifyResponseOwnerShipForStudent(studentAttributes, response, question);
             break;
@@ -71,7 +76,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
 
-            validQuestionTypeForCommentInSubmission(questionType);
+            validQuestionForCommentInSubmission(question);
             verifyCommentNotExist(feedbackResponseId);
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
@@ -82,6 +87,9 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+            if (!question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
+                throw new InvalidHttpParameterException("Invalid question type for instructor comment");
+            }
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -90,7 +98,13 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     public ActionResult execute() {
-        String feedbackResponseId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
+        String feedbackResponseId;
+        try {
+            feedbackResponseId = StringHelper.decrypt(
+                    getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+        }
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);

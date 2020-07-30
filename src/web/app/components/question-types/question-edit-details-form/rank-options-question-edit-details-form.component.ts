@@ -11,7 +11,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 @Component({
   selector: 'tm-rank-options-question-edit-details-form',
   templateUrl: './rank-options-question-edit-details-form.component.html',
-  styleUrls: ['./rank-options-question-edit-details-form.component.scss'],
+  styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
 })
 export class RankOptionsQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {

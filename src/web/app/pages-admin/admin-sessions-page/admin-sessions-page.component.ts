@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
+import { finalize } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessionStats, OngoingSession, OngoingSessions } from '../../../types/api-output';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
@@ -18,6 +20,7 @@ interface OngoingSessionModel {
   selector: 'tm-admin-sessions-page',
   templateUrl: './admin-sessions-page.component.html',
   styleUrls: ['./admin-sessions-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class AdminSessionsPageComponent implements OnInit {
 
@@ -43,13 +46,15 @@ export class AdminSessionsPageComponent implements OnInit {
   startTimeString: string = '';
   endTimeString: string = '';
 
+  isLoadingOngoingSessions: boolean = false;
+
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
               private feedbackSessionsService: FeedbackSessionsService) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = moment.tz.guess();
+    this.timezone = this.timezoneService.guessTimezone();
 
     const now: any = moment();
     this.startDate = {
@@ -102,7 +107,7 @@ export class AdminSessionsPageComponent implements OnInit {
   }
 
   private getMomentInstant(year: number, month: number, day: number, hour: number, minute: number): any {
-    const inst: any = moment.tz(this.timezone);
+    const inst: any = this.timezoneService.getMomentInstance(null, this.timezone);
     inst.set('year', year);
     inst.set('month', month);
     inst.set('date', day);
@@ -123,8 +128,10 @@ export class AdminSessionsPageComponent implements OnInit {
     this.startTimeString = startTime.format(displayFormat);
     this.endTimeString = endTime.format(displayFormat);
     this.timezoneString = this.timezone;
+    this.isLoadingOngoingSessions = true;
 
     this.feedbackSessionsService.getOngoingSessions(startTime.toDate().getTime(), endTime.toDate().getTime())
+        .pipe(finalize(() => this.isLoadingOngoingSessions = false))
         .subscribe((resp: OngoingSessions) => {
           this.totalOngoingSessions = resp.totalOngoingSessions;
           this.totalOpenSessions = resp.totalOpenSessions;
@@ -144,7 +151,7 @@ export class AdminSessionsPageComponent implements OnInit {
             this.institutionPanelsStatus[institution] = true;
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 
@@ -166,7 +173,7 @@ export class AdminSessionsPageComponent implements OnInit {
             sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
 

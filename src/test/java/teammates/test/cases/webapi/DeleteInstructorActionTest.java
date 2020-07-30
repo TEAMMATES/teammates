@@ -4,6 +4,8 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
 import teammates.ui.webapi.action.DeleteInstructorAction;
@@ -55,7 +57,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructor1OfCourse2.email, instructor1OfCourse2.courseId));
+        assertNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse2.courseId, instructor1OfCourse2.email));
 
         ______TS("Typical case: instructor deletes another instructor by google id");
 
@@ -78,8 +80,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructor2OfCourse1.email, instructor1OfCourse1.courseId));
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(instructor1OfCourse1.email, instructor1OfCourse1.courseId));
+        assertNull(instructorsLogic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
+        assertNotNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
 
     }
 
@@ -104,8 +106,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructor2OfCourse1.email, instructor1OfCourse1.courseId));
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(instructor1OfCourse1.email, instructor1OfCourse1.courseId));
+        assertNull(instructorsLogic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
+        assertNotNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
     }
 
     @Test
@@ -130,7 +132,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructor4.email, instructor4.courseId));
+        assertNull(instructorsLogic.getInstructorForEmail(instructor4.courseId, instructor4.email));
     }
 
     @Test
@@ -156,8 +158,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
-        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructor2OfCourse1.email, instructor1OfCourse1.courseId));
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(instructor1OfCourse1.email, instructor1OfCourse1.courseId));
+        assertNull(instructorsLogic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
+        assertNotNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
     }
 
     @Test
@@ -183,8 +185,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
 
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(instructorToDelete.email, courseId));
-        assertTrue(instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorToDelete.googleId, courseId));
+        assertNotNull(instructorsLogic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
+        assertNotNull(instructorsLogic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
     }
 
     @Test
@@ -211,8 +213,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
 
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(instructorToDelete.email, courseId));
-        assertTrue(instructorsLogic.isGoogleIdOfInstructorOfCourse(instructorToDelete.googleId, courseId));
+        assertNotNull(instructorsLogic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
+        assertNotNull(instructorsLogic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
     }
 
     @Test
@@ -237,7 +239,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput messageOutput = (MessageOutput) response.getOutput();
 
         assertEquals("Instructor is successfully deleted.", messageOutput.getMessage());
-        assertFalse(instructorsLogic.isEmailOfInstructorOfCourse(instructorToDelete.email, courseId));
+        assertNull(instructorsLogic.getInstructorForEmail(courseId, instructorToDelete.email));
     }
 
     @Test
@@ -344,15 +346,15 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     @Override
     @Test
-    protected void testAccessControl() {
+    protected void testAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
         };
 
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
         verifyAccessibleForAdmin(submissionParams);
     }
 

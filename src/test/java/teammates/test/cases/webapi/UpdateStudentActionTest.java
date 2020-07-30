@@ -209,7 +209,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String sectionInMaxCapacity = "sectionInMaxCapacity";
 
         StudentAttributes studentToJoinMaxSection = StudentAttributes
-                .builder(courseId, "studentToJoinMaxSection@com")
+                .builder(courseId, "studentToJoinMaxSection@test.com")
                 .withName("studentToJoinMaxSection ")
                 .withSectionName("RandomUniqueSection")
                 .withTeamName("RandomUniqueTeamName")
@@ -220,7 +220,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
             StudentAttributes addedStudent = StudentAttributes
-                    .builder(courseId, i + "email@com")
+                    .builder(courseId, i + "email@test.com")
                     .withName("Name " + i)
                     .withSectionName(sectionInMaxCapacity)
                     .withTeamName("Team " + i)
@@ -289,7 +289,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @Override
     @Test
-    protected void testAccessControl() {
+    protected void testAccessControl() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student3InCourse1");
 
@@ -298,13 +298,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
-        ______TS("Only instructors of same course can access");
-
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyStudentPrivilege(submissionParams);
-
-        ______TS("Instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
     }
 }

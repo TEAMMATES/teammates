@@ -47,7 +47,6 @@ public class JsonUtilsTest extends BaseTestCase {
                     + "  \"feedbackSessionName\": \"testFeedbackSession\",\n"
                     + "  \"courseId\": \"testingCourse\",\n"
                     + "  \"questionDetails\": {\n"
-                    + "    \"recommendedLength\": 0,\n"
                     + "    \"questionType\": \"TEXT\",\n"
                     + "    \"questionText\": \"Question text.\"\n"
                     + "  },\n"
@@ -95,7 +94,8 @@ public class JsonUtilsTest extends BaseTestCase {
                     + "    \"questionType\": \"TEXT\"\n"
                     + "  },\n"
                     + "  \"giverSection\": \"giverSection\",\n"
-                    + "  \"recipientSection\": \"recipientSection\"\n"
+                    + "  \"recipientSection\": \"recipientSection\",\n"
+                    + "  \"feedbackResponseId\": \"questionId%giver@email.com%recipient@email.com\"\n"
                     + "}", serializeString);
         } catch (JsonParseException e) {
             fail("error detected during serializing");

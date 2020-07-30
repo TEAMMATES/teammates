@@ -12,7 +12,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.BackDoor;
@@ -28,7 +27,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
  */
 @Priority(-1)
-public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
+public class InstructorStudentListPageUiTest extends BaseLegacyUiTestCase {
     private InstructorStudentListPage viewPage;
 
     @Override
@@ -181,7 +180,7 @@ public class InstructorStudentListPageUiTest extends BaseE2ETestCase {
 
         StudentAttributes student2 = testData.students.get("Student3Course3");
         viewPage.clickShowPhoto(student2.course, student2.name);
-        String photoUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
+        String photoUrl = createUrl(Const.ResourceURIs.STUDENT_PROFILE_PICTURE)
                                         .withStudentEmail(StringHelper.encrypt(student2.email))
                                         .withCourseId(StringHelper.encrypt(student2.course))
                                         .withUserId(instructorId)

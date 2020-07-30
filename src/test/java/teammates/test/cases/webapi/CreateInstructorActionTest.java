@@ -62,7 +62,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
+        assertNotNull(instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail));
 
         InstructorAttributes instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
@@ -130,7 +130,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         response = (InstructorData) actionOutput.getOutput();
 
-        assertTrue(instructorsLogic.isEmailOfInstructorOfCourse(newInstructorEmail, courseId));
+        assertNotNull(instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail));
 
         instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
@@ -156,12 +156,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         ______TS("only instructors of the same course can access");
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyInstructorPrivilege(submissionParams);
-
-        ______TS("instructors of other courses cannot access");
-
-        verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
 
         // remove the newly added instructor
         InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");

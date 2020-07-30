@@ -17,25 +17,32 @@
     </div>
   </div>
 
-  <input class="student-photo" type="file" (change)="fileChangeEvent($event)"/>
+  <div class="row">
+    <div class="col-md-4">
+      <input class="row col student-photo" type="file" (change)="fileChangeEvent($event)"/>
+      <small>Max Size: 5MB</small>
+    </div>
 
-  <button class="btn btn-primary btn-space" (click)="flipHorizontal()">
-    <i class="fas fa-angle-double-left"></i>
-  </button>
+    <div class="col-md-8 pl-md-5">
+      <button class="btn btn-primary btn-space" (click)="flipHorizontal()" ngbTooltip="Flip Horizontally">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
 
-  <button class="btn btn-primary btn-space" (click)="flipVertical()">
-    <i class="fas fa-angle-double-up"></i>
-  </button>
+      <button class="btn btn-primary btn-space" (click)="flipVertical()" ngbTooltip="Flip Vertically">
+        <i class="fas fa-angle-double-up"></i>
+      </button>
 
-  <button class="btn btn-primary btn-space" (click)="rotateLeft()">
-    <i class="fas fa-redo-alt fa-flip-horizontal"></i>
-  </button>
+      <button class="btn btn-primary btn-space" (click)="rotateLeft()" ngbTooltip="Rotate Anti-clockwise">
+        <i class="fas fa-redo-alt fa-flip-horizontal"></i>
+      </button>
 
-  <button class="btn btn-primary btn-space" (click)="rotateRight()">
-    <i class="fas fa-redo-alt"></i>
-  </button>
+      <button class="btn btn-primary btn-space" (click)="rotateRight()" ngbTooltip="Rotate Clockwise">
+        <i class="fas fa-redo-alt"></i>
+      </button>
+    </div>
+  </div>
 
-  <div>
+  <div class="row">
     <image-cropper
       [imageChangedEvent]="imageChangedEvent"
       [maintainAspectRatio]="false"

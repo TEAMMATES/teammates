@@ -1,7 +1,3 @@
-.bold-label {
-  font-weight: 700 !important;
-}
-
 .fill-plain {
   background-color: #EAEFF5;
 }
@@ -10,6 +6,10 @@
   padding-top: .75rem;
   padding-right: 1.25rem;
   margin-bottom: 0;
+}
+
+.col-form-label {
+  font-weight: bold;
 }
 
 .invalid-field {

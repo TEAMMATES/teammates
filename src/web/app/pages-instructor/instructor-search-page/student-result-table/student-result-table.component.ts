@@ -1,5 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SearchStudentsTable } from '../instructor-search-page.component';
+import { StudentListRowModel } from '../../../components/student-list/student-list.component';
+
+/**
+ * Search result for a list of students in a course
+ */
+export interface SearchStudentsListRowTable {
+  courseId: string;
+  students: StudentListRowModel[];
+}
 
 /**
  * Table to show student results, grouped by courses
@@ -11,7 +19,8 @@ import { SearchStudentsTable } from '../instructor-search-page.component';
 })
 export class StudentResultTableComponent implements OnInit {
 
-  @Input() studentTables: SearchStudentsTable[] = [];
+  @Input() studentTables: SearchStudentsListRowTable[] = [];
+  @Input() isActionButtonsEnabled: boolean = true;
 
   constructor() { }
 

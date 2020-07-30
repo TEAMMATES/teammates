@@ -26,7 +26,7 @@ describe('TimezoneService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(TimezoneService);
+    service = TestBed.inject(TimezoneService);
   });
 
   it('should be created', () => {

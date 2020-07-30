@@ -30,14 +30,14 @@ public class GetStudentAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
 
-        StudentAttributes student = null;
+        StudentAttributes student;
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
 
         if (studentEmail != null) {
             student = logic.getStudentForEmail(courseId, studentEmail);
-            if (student == null || !userInfo.isInstructor) {
+            if (student == null || userInfo == null || !userInfo.isInstructor) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
@@ -47,7 +47,7 @@ public class GetStudentAction extends Action {
         } else if (regKey != null) {
             getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         } else {
-            if (!userInfo.isStudent) {
+            if (userInfo == null || !userInfo.isStudent) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
@@ -59,7 +59,7 @@ public class GetStudentAction extends Action {
     @Override
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        StudentAttributes student = null;
+        StudentAttributes student;
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -83,8 +83,7 @@ public class GetStudentAction extends Action {
 
         // hide information if not an instructor
         if (studentEmail == null) {
-            studentData.setComments(null);
-            studentData.setJoinState(null);
+            studentData.hideInformationForStudent();
         }
 
         return new JsonResult(studentData);

@@ -13,7 +13,6 @@ select {
 
 .student-gender-radio {
   margin-right: 5px;
-  margin-top: 5px;
 }
 
 .student-gender-label {
@@ -24,14 +23,6 @@ select {
   margin-top: 15px;
   font-style: italic;
   color: grey;
-}
-
-::ng-deep.modal-content {
-  padding: 0 !important;
-}
-
-::ng-deep.close:focus {
-  outline: 0;
 }
 
 .profile-pic {

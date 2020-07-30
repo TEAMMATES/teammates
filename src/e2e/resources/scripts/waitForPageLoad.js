@@ -1,3 +1,4 @@
+var numOfTestabilityToRemain = arguments[0];
 var callback = arguments[arguments.length - 1];
 if (document.readyState !== 'complete') {
   callback('document not ready');
@@ -8,12 +9,12 @@ if (document.readyState !== 'complete') {
     }
     var testabilities = window.getAllAngularTestabilities();
     var count = testabilities.length;
-    if (count === 0) {
+    if (count <= numOfTestabilityToRemain) {
       callback('complete');
     }
     var decrement = function () {
       count--;
-      if (count === 0) {
+      if (count <= numOfTestabilityToRemain) {
         callback('complete');
       }
     };

@@ -1,46 +1,74 @@
 <div *ngIf="responsesToShow.length">
-  <table class="table">
+  <table class="table table-bordered">
     <thead>
-      <tr>
+      <tr class="header">
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" *ngIf="showGiver">
           Team
-          <span *ngIf="sortBy !== SortBy.GIVER_TEAM"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" *ngIf="showGiver">
           Giver
-          <span *ngIf="sortBy !== SortBy.GIVER_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_TEAM)" *ngIf="showRecipient">
           Team
-          <span *ngIf="sortBy !== SortBy.RECIPIENT_TEAM"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" *ngIf="showRecipient">
           Recipient
-          <span *ngIf="sortBy !== SortBy.RECIPIENT_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th>Response</th>
-        <th>Actions</th>
+        <th *ngIf="canResponseHasComment">Comment for Response</th>
+        <th class="text-center no-print">Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let response of responsesToShow">
+      <tr *ngFor="let response of responsesToShow" [class.color-neutral]="response.isMissingResponse">
         <td *ngIf="showGiver">{{ response.giverTeam }}</td>
-        <td *ngIf="showGiver">{{ response.giver }}</td>
+        <td *ngIf="showGiver">
+          <tm-student-name-with-photo [name]="response.giver"
+                           [email]="response.giverEmail"
+                           [courseId]="session.courseId"
+          ></tm-student-name-with-photo>
+        </td>
         <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
-        <td *ngIf="showRecipient">{{ response.recipient }}</td>
-        <td>
-          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails"></tm-single-response>
+        <td *ngIf="showRecipient">
+          <tm-student-name-with-photo [name]="response.recipient"
+                           [email]="response.recipientEmail"
+                           [courseId]="session.courseId"
+          ></tm-student-name-with-photo>
         </td>
         <td>
-          <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail" [moderatedQuestionId]="questionId"></tm-response-moderation-button>
+          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
+        </td>
+        <td *ngIf="canResponseHasComment">
+          <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
+        </td>
+        <td class="text-center no-print">
+          <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail"
+                                         [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
+          <button class="btn btn-light btn-sm" style="margin-left: 5px; border: 1px solid #CCC;" [disabled]="isDisplayOnly"
+                  *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
+                  (click)="showCommentTableModel(response, commentTableModal)">Add Comment
+            <span *ngIf="instructorCommentTableModel[response.responseId].commentRows.length" class="badge badge-secondary">{{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
+          </button>
         </td>
       </tr>
     </tbody>
@@ -49,3 +77,15 @@
 <div *ngIf="!responsesToShow.length">
   <i>There are no responses for this question or you may not have the permission to see the response.</i>
 </div>
+
+<ng-template #commentTableModal let-modal>
+  <tm-comment-table-modal *ngIf="currResponseToAdd" [questionShowResponsesTo]="question.showResponsesTo"
+                          [activeModal]="modal"
+                          [model]="instructorCommentTableModel[currResponseToAdd.responseId]"
+                          [response]="currResponseToAdd"
+                          (modelChange)="triggerModelChangeForSingleResponse(currResponseToAdd.responseId, $event)"
+                          (saveNewCommentEvent)="triggerSaveNewCommentEvent(currResponseToAdd.responseId)"
+                          (updateCommentEvent)="triggerUpdateCommentEvent(currResponseToAdd.responseId, $event)"
+                          (deleteCommentEvent)="triggerDeleteCommentEvent(currResponseToAdd.responseId, $event)"
+  ></tm-comment-table-modal>
+</ng-template>

@@ -14,12 +14,23 @@
   padding: 0;
 }
 
+.recycle-bin-header {
+  background-color: var(--secondary);
+  cursor: pointer;
+}
+
 .margin-left-10px {
   margin-left: 10px;
 }
 
 .background-color-medium-gray {
   background-color: #E5E5E6;
+}
+
+.archive-course-header {
+  cursor: pointer;
+  padding-top: .7rem;
+  padding-bottom: .7rem;
 }
 
 .text-color-black {
@@ -44,6 +55,14 @@
   margin-bottom: 0;
 }
 
+.archive-body {
+  padding: 0;
+}
+
+.archive-table {
+  margin-bottom: 0;
+}
+
 .margin-top-30px {
   margin-top: 30px;
 }
@@ -54,4 +73,16 @@
 
 .actions-cell button {
   margin: 2px;
+}
+
+.dropdown-menu {
+  min-width: .5rem;
+}
+
+.table-responsive {
+  overflow: auto;
+}
+
+.d-inline-block {
+  position: inherit;
 }

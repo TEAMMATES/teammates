@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 import teammates.ui.webapi.action.JsonResult;
 import teammates.ui.webapi.action.RemindFeedbackSessionResultAction;
 import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackSessionStudentRemindRequest;
+import teammates.ui.webapi.request.FeedbackSessionRespondentRemindRequest;
 
 /**
  * SUT: {@link RemindFeedbackSessionResultAction}.
@@ -33,6 +33,10 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("closedSession");
         StudentAttributes studentToEmail = typicalBundle.students.get("student1InCourse1");
+        InstructorAttributes instructorToEmail = typicalBundle.instructors.get("instructor2OfCourse1");
+        String[] usersToRemind = new String[2];
+        usersToRemind[0] = studentToEmail.getEmail();
+        usersToRemind[1] = instructorToEmail.getEmail();
 
         loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -55,8 +59,8 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        FeedbackSessionStudentRemindRequest remindRequest = new FeedbackSessionStudentRemindRequest();
-        remindRequest.setUsersToRemind(studentToEmail.getEmail().split(""));
+        FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
+        remindRequest.setUsersToRemind(usersToRemind);
 
         RemindFeedbackSessionResultAction action = getAction(remindRequest, paramsFeedbackSessionNotPublshed);
         JsonResult result = getJsonResult(action);
@@ -94,8 +98,8 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 Const.ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, studentNotSubmitFeedback.getEmail(),
         };
 
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifySessionPrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
     }
 
 }

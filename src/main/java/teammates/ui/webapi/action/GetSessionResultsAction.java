@@ -1,7 +1,7 @@
 package teammates.ui.webapi.action;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
-import teammates.common.datatransfer.SectionDetail;
+import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -25,10 +25,6 @@ public class GetSessionResultsAction extends Action {
 
     @Override
     public void checkSpecificAccessControl() {
-        if (userInfo.isAdmin) {
-            return;
-        }
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -41,14 +37,13 @@ public class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges();
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, fs);
             break;
         case STUDENT_RESULT:
             StudentAttributes student = getStudent(courseId);
-
             gateKeeper.verifyAccessible(student, fs);
-
             if (!fs.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.");
             }
@@ -78,56 +73,24 @@ public class GetSessionResultsAction extends Action {
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
-        FeedbackSessionResultsBundle bundle;
+        SessionResultsBundle bundle;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
-            try {
-                // TODO optimize the logic layer to get rid of functions that are no longer necessary
-                if (questionId == null) {
-                    if (selectedSection == null) {
-                        bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
-                                feedbackSessionName, courseId, instructor.email,
-                                1, Const.FeedbackSessionResults.QUESTION_SORT_TYPE);
-                    } else {
-                        bundle = logic.getFeedbackSessionResultsForInstructorInSection(
-                                feedbackSessionName, courseId, instructor.email, selectedSection,
-                                SectionDetail.EITHER);
-                    }
-                } else {
-                    if (selectedSection == null) {
-                        bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId,
-                                instructor.email, questionId);
-                    } else {
-                        bundle = logic.getFeedbackSessionResultsForInstructorFromQuestionInSection(
-                                feedbackSessionName, courseId,
-                                instructor.email, questionId, selectedSection, SectionDetail.EITHER);
-                    }
-                }
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
+            bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
+                    UserRole.INSTRUCTOR, questionId, selectedSection);
 
-            return new JsonResult(new SessionResultsData(bundle, instructor));
+            return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case STUDENT_RESULT:
             // Question number and section name filters are not applied here
             StudentAttributes student = getStudent(courseId);
 
-            try {
-                bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, student.email);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
+            bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
+                    UserRole.STUDENT, null, null);
 
-            if (bundle.isStudentHasSomethingNewToSee(student)) {
-                // TODO do something
-            } else {
-                // TODO do something else
-            }
-
-            return new JsonResult(new SessionResultsData(bundle, student));
+            return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case INSTRUCTOR_SUBMISSION:
         case STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");

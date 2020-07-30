@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -29,6 +31,8 @@ import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.StudentsLogic;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -39,6 +43,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -151,6 +157,124 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
 
+    }
+
+    @Test
+    public void testGetRecipientsOfQuestion() throws Exception {
+        FeedbackQuestionAttributes question;
+        StudentAttributes studentGiver;
+        InstructorAttributes instructorGiver;
+        CourseRoster courseRoster;
+        Map<String, String> recipients;
+
+        ______TS("response to students, total 5");
+
+        question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 4); // 5 students minus giver himself
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 4); // should produce the same answer
+
+        instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, courseRoster);
+        assertEquals(recipients.size(), 5); // should produce the same answer
+
+        ______TS("response to instructors, total 3");
+
+        question = getQuestionFromDatastore("qn2InSession1InCourse2");
+        instructorGiver = dataBundle.instructors.get("instructor1OfCourse2");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 2); // 3 - giver = 2
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, courseRoster);
+        assertEquals(recipients.size(), 2); // should produce the same answer
+
+        ______TS("empty case: response to team members, but alone");
+
+        question = getQuestionFromDatastore("team.members.feedback");
+        studentGiver = dataBundle.students.get("student5InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 0);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 0); // should produce the same answer
+
+        ______TS("response from team to itself");
+
+        question = getQuestionFromDatastore("graceperiod.session.feedbackFromTeamToSelf");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 1);
+        assertTrue(recipients.containsKey(studentGiver.getTeam()));
+        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 1);
+        assertTrue(recipients.containsKey(studentGiver.getTeam()));
+        assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
+
+        ______TS("special case: response to other team, instructor is also student");
+        question = getQuestionFromDatastore("team.feedback");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.size(), 1);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 1);
+
+        ______TS("to nobody (general feedback)");
+        question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.size(), 1);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
+        assertEquals(recipients.size(), 1);
+
+        ______TS("to self");
+        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        studentGiver = dataBundle.students.get("student1InCourse1");
+        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
+        assertEquals(recipients.get(studentGiver.getEmail()), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.size(), 1);
+        recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
+        assertEquals(recipients.get(studentGiver.getEmail()), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.size(), 1);
     }
 
     @Test
@@ -440,8 +564,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         // the question has some responses and comments
         assertFalse(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
         assertFalse(
-                frcLogic.getFeedbackResponseCommentForSession(
-                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
                         .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
 
         fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
@@ -450,8 +574,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         // the responses and comments should gone
         assertTrue(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
         assertTrue(
-                frcLogic.getFeedbackResponseCommentForSession(
-                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName()).stream()
+                frcLogic.getFeedbackResponseCommentForSessionInSection(
+                        typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
                         .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
 
         // verify that questions are shifted
@@ -703,6 +827,93 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
                 ((FeedbackMsqQuestionDetails) fqa.getQuestionDetails()).getMsqChoices());
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_studentQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes qn1InSession1InCourse1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
+                qn1InSession1InCourse1.getFeedbackSessionName(), qn1InSession1InCourse1.getCourseId());
+
+        Map<String, Set<String>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(session1, qn1InSession1InCourse1, courseRoster);
+
+        assertEquals(5, completeGiverRecipientMap.size());
+        assertEquals(1, completeGiverRecipientMap.get("student1InCourse1@gmail.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("student1InCourse1@gmail.tmt").contains("student1InCourse1@gmail.tmt"));
+        assertEquals(1, completeGiverRecipientMap.get("student2InCourse1@gmail.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("student2InCourse1@gmail.tmt").contains("student2InCourse1@gmail.tmt"));
+        assertEquals(1, completeGiverRecipientMap.get("student3InCourse1@gmail.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("student3InCourse1@gmail.tmt").contains("student3InCourse1@gmail.tmt"));
+        assertEquals(1, completeGiverRecipientMap.get("student4InCourse1@gmail.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("student4InCourse1@gmail.tmt").contains("student4InCourse1@gmail.tmt"));
+        assertEquals(1, completeGiverRecipientMap.get("student5InCourse1@gmail.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("student5InCourse1@gmail.tmt").contains("student5InCourse1@gmail.tmt"));
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_instructorQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes qn4InSession1InCourse1 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
+                qn4InSession1InCourse1.getFeedbackSessionName(), qn4InSession1InCourse1.getCourseId());
+
+        Map<String, Set<String>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(session1, qn4InSession1InCourse1, courseRoster);
+
+        assertEquals(5, completeGiverRecipientMap.size());
+        assertEquals(1, completeGiverRecipientMap.get("instructor1@course1.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("instructor1@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, completeGiverRecipientMap.get("instructor2@course1.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("instructor2@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, completeGiverRecipientMap.get("instructor3@course1.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("instructor3@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, completeGiverRecipientMap.get("helper@course1.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("helper@course1.tmt").contains(Const.GENERAL_QUESTION));
+        assertEquals(1, completeGiverRecipientMap.get("instructorNotYetJoinedCourse1@email.tmt").size());
+        assertTrue(completeGiverRecipientMap.get("instructorNotYetJoinedCourse1@email.tmt")
+                .contains(Const.GENERAL_QUESTION));
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_selfQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes qn3InSession1InCourse1 = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
+                qn3InSession1InCourse1.getFeedbackSessionName(), qn3InSession1InCourse1.getCourseId());
+
+        Map<String, Set<String>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(session1, qn3InSession1InCourse1, courseRoster);
+
+        assertEquals(1, completeGiverRecipientMap.size());
+        assertEquals(1, completeGiverRecipientMap.get(session1.getCreatorEmail()).size());
+        assertTrue(completeGiverRecipientMap.get(session1.getCreatorEmail()).contains(Const.GENERAL_QUESTION));
+    }
+
+    @Test
+    public void testBuildCompleteGiverRecipientMap_teamQuestion_shouldBuildMapCorrectly() {
+        CourseRoster courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
+                instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
+        FeedbackQuestionAttributes teamFeedbackQuestion = getQuestionFromDatastore("team.feedback");
+        FeedbackSessionAttributes session2 = fsLogic.getFeedbackSession(
+                teamFeedbackQuestion.getFeedbackSessionName(), teamFeedbackQuestion.getCourseId());
+
+        Map<String, Set<String>> completeGiverRecipientMap =
+                fqLogic.buildCompleteGiverRecipientMap(session2, teamFeedbackQuestion, courseRoster);
+
+        assertEquals(2, completeGiverRecipientMap.size());
+        assertEquals(1, completeGiverRecipientMap.get("Team 1.1</td></div>'\"").size());
+        assertTrue(completeGiverRecipientMap.get("Team 1.1</td></div>'\"").contains("Team 1.2"));
+        assertEquals(1, completeGiverRecipientMap.get("Team 1.2").size());
+        assertTrue(completeGiverRecipientMap.get("Team 1.2").contains("Team 1.1</td></div>'\""));
     }
 
     private void testGetFeedbackQuestionsForInstructor() throws Exception {

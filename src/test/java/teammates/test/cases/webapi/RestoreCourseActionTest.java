@@ -3,6 +3,7 @@ package teammates.test.cases.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
@@ -57,7 +58,9 @@ public class RestoreCourseActionTest
         };
 
         logic.moveCourseToRecycleBin(courseId);
-        assertEquals(courseId, logic.getSoftDeletedCourseForInstructor(instructor1OfCourse1).getId());
+        CourseAttributes deletedCourse = logic.getCourse(courseId);
+        assertNotNull(deletedCourse);
+        assertTrue(deletedCourse.isCourseDeleted());
 
         action = getAction(submissionParams);
         result = getJsonResult(action);
@@ -96,7 +99,7 @@ public class RestoreCourseActionTest
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
 
-        verifyOnlyInstructorsCanAccess(submissionParams);
-        verifyInaccessibleWithoutModifyCoursePrivilege(submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, submissionParams);
     }
 }

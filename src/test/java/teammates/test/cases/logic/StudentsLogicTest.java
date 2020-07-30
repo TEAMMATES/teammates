@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -58,38 +57,11 @@ public class StudentsLogicTest extends BaseLogicTest {
         testGetStudentsForGoogleId();
         testGetStudentForCourseIdAndGoogleId();
         testGetStudentsForCourse();
-        testGetEncryptedKeyForStudent();
         testIsStudentInAnyCourse();
-        testIsStudentInCourse();
         testIsStudentInTeam();
         testIsStudentsInSameTeam();
-
-        testGetTeamForStudent();
-
         testValidateSections();
         testUpdateStudentCascade();
-    }
-
-    private void testGetTeamForStudent() {
-        ______TS("Typical case: get team of existing student");
-
-        String courseId = "idOfTypicalCourse1";
-        String googleId = "student1InCourse1";
-        StudentAttributes student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
-        TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
-
-        assertEquals("Team 1.1</td></div>'\"", team.name);
-        assertNotNull(team.students);
-        assertEquals(4, team.students.size());
-
-        ______TS("Typical case: get team of non-existing student");
-        courseId = "idOfTypicalCourse1";
-        googleId = "idOfNonExistingStudent";
-        student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
-        team = StudentsLogic.inst().getTeamDetailsForStudent(student);
-
-        assertNull(team);
-
     }
 
     private void testValidateSections() throws Exception {
@@ -286,6 +258,29 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertNull(responseToBeDeleted);
     }
 
+    @Test
+    public void testRegenerateStudentRegistrationKey() throws Exception {
+        ______TS("typical regeneration of course student's registration key");
+
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        verifyPresentInDatastore(student1InCourse1);
+
+        StudentAttributes updatedStudent =
+                        studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, student1InCourse1.email);
+
+        assertNotEquals(student1InCourse1.getKey(), updatedStudent.getKey());
+
+        ______TS("non-existent student");
+
+        String nonExistentEmail = "non-existent@email";
+        assertNull(logic.getStudentForEmail(student1InCourse1.course, nonExistentEmail));
+
+        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+                () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, nonExistentEmail));
+        assertEquals("Student does not exist: [" + student1InCourse1.course + "/" + nonExistentEmail + "]",
+                      ednee.getMessage());
+    }
+
     private void testGetStudentForEmail() {
 
         ______TS("null parameters");
@@ -455,34 +450,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
     }
 
-    private void testGetEncryptedKeyForStudent() throws Exception {
-
-        ______TS("null parameters");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> studentsLogic.getEncryptedKeyForStudent("valid.course.id", null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-
-        ______TS("non-existent student");
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String nonExistStudentEmail = "non@existent";
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> studentsLogic.getEncryptedKeyForStudent(student1InCourse1.course, nonExistStudentEmail));
-        assertEquals("Student does not exist: [" + student1InCourse1.course + "/" + nonExistStudentEmail + "]",
-                ednee.getMessage());
-
-        // the typical case below seems unnecessary though--it is not useful for now
-        // as the method itself is too simple
-        ______TS("typical case");
-
-        String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        String actualKey = studentsLogic.getEncryptedKeyForStudent(course1Id, student1InCourse1.email);
-        String expectedKey = StringHelper.encrypt(
-                studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.googleId).key);
-        assertEquals(expectedKey, actualKey);
-    }
-
     private void testIsStudentInAnyCourse() {
 
         ______TS("non-existent student");
@@ -494,20 +461,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         assertTrue(studentsLogic.isStudentInAnyCourse(student1InCourse1.googleId));
-    }
-
-    private void testIsStudentInCourse() {
-
-        ______TS("non-existent student");
-
-        String nonExistStudentEmail = "nonExist@google.tmt";
-        CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
-        assertFalse(studentsLogic.isStudentInCourse(course1.getId(), nonExistStudentEmail));
-
-        ______TS("typical case");
-
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertTrue(studentsLogic.isStudentInCourse(course1.getId(), student1InCourse1.email));
     }
 
     private void testIsStudentInTeam() {

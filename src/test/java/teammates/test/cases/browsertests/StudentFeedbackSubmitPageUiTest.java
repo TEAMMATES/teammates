@@ -16,7 +16,6 @@ import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.cases.e2e.BaseE2ETestCase;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.AppPage;
@@ -28,7 +27,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
  *
  * <p>The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  */
-public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
+public class StudentFeedbackSubmitPageUiTest extends BaseLegacyUiTestCase {
     private FeedbackSubmitPage submitPage;
 
     @Override
@@ -391,9 +390,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseE2ETestCase {
                 (FeedbackMsqResponseDetails) BackDoor.getFeedbackResponse(fqMsq.getId(),
                                                                           aliceTeam,
                                                                           "Team 2").getResponseDetails();
-        assertFalse(frMsq.contains("UI"));
-        assertTrue(frMsq.contains("Algo"));
-        assertFalse(frMsq.contains("Design"));
+        assertFalse(frMsq.getAnswers().contains("UI"));
+        assertTrue(frMsq.getAnswers().contains("Algo"));
+        assertFalse(frMsq.getAnswers().contains("Design"));
 
         FeedbackNumericalScaleResponseDetails frNumscale = (FeedbackNumericalScaleResponseDetails)
                 BackDoor.getFeedbackResponse(fqNumscale.getId(), "SFSubmitUiT.alice.b@gmail.tmt",

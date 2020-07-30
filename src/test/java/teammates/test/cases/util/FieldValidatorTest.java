@@ -287,16 +287,6 @@ public class FieldValidatorTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetInvalidityInfoForEmailSubject_invalid_returnSpecificErrorString() {
-        String invalidEmailSubject = "";
-        String actual = FieldValidator.getInvalidityInfoForEmailSubject(invalidEmailSubject);
-        assertEquals("Invalid email subject (empty) should return error message that is specific to email subject",
-                     "The field 'email subject' is empty. The value of a/an email subject should be no longer than "
-                         + "200 characters. It should not be empty.",
-                     actual);
-    }
-
-    @Test
     public void testGetInvalidityInfoForRole_null_throwException() {
         assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForRole(null));
     }
@@ -347,7 +337,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid Google ID (typical email) should return empty string", "",
                      FieldValidator.getInvalidityInfoForGoogleId(emailAsId));
 
-        String shortEmailAsId = "e@y";
+        String shortEmailAsId = "e@y.c";
         assertEquals("Valid Google ID (short email) should return empty string", "",
                      FieldValidator.getInvalidityInfoForGoogleId(shortEmailAsId));
 
@@ -415,7 +405,7 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Valid email (typical) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(typicalEmail));
 
-        String shortEmail = "e@y";
+        String shortEmail = "e@y.c";
         assertEquals("Valid email (short) should return empty string", "",
                      FieldValidator.getInvalidityInfoForEmail(shortEmail));
 
@@ -479,26 +469,6 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "sign followed by some more text. It cannot be longer than 254 characters, "
                          + "cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForEmailContent_null_throwException() {
-        assertThrows(AssertionError.class, () -> FieldValidator.getInvalidityInfoForEmailContent(null));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForEmailContent_invalid_returnEmptyString() {
-        String emptyEmailContent = "";
-        assertEquals("Valid Email Content should return empty string",
-                     FieldValidator.EMAIL_CONTENT_ERROR_MESSAGE,
-                     FieldValidator.getInvalidityInfoForEmailContent(emptyEmailContent));
-    }
-
-    @Test
-    public void testGetInvalidityInfoForEmailContent_valid_returnEmptyString() {
-        String validEmailContent = "Hello! I'm a Email Content.";
-        assertEquals("Valid Email Content should return empty string", "",
-                     FieldValidator.getInvalidityInfoForEmailContent(validEmailContent));
     }
 
     @Test
@@ -647,12 +617,16 @@ public class FieldValidatorTest extends BaseTestCase {
         String email = "john@email.com";
         assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
-        ______TS("success: minimum allowed email format");
+        ______TS("failure: no top level domain");
         email = "a@e";
+        assertFalse(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
+
+        ______TS("success: minimum allowed email format");
+        email = "a@e.c";
         assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("success: all allowed special characters");
-        email = "a!#$%&'*/=?^_`{}~@e";
+        email = "a!#$%&'*/=?^_`{}~@e.c";
         assertTrue(StringHelper.isMatching(email, FieldValidator.REGEX_EMAIL));
 
         ______TS("failure: invalid starting character");
@@ -685,17 +659,6 @@ public class FieldValidatorTest extends BaseTestCase {
         ______TS("failure: contains invalid character");
         courseId = "CS101+B";
         assertFalse(StringHelper.isMatching(courseId, FieldValidator.REGEX_COURSE_ID));
-    }
-
-    @Test
-    public void testRegexSampleCourseId() {
-        ______TS("success: typical sample course ID");
-        String courseId = "CS101-demo3";
-        assertTrue(StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID));
-
-        ______TS("failure: non-demo course ID");
-        courseId = "CS101";
-        assertFalse(StringHelper.isMatching(courseId, FieldValidator.REGEX_SAMPLE_COURSE_ID));
     }
 
     @Test

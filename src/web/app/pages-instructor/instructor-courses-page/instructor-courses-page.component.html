@@ -1,170 +1,226 @@
 <div>
-  <button class="btn btn-primary" (click)="isAddNewCourseFormExpanded = true"
+  <button id="btn-add-course" class="btn btn-primary" (click)="isAddNewCourseFormExpanded = true"
           [disabled]="isAddNewCourseFormExpanded"><i class="fas fa-plus"></i> Add New Course
   </button>
 </div>
 
-<div class="course-section" [hidden]="!isAddNewCourseFormExpanded">
+<div class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
   ></tm-add-course-form>
 </div>
 
-<div class="course-section">
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered margin-0">
-      <thead>
-        <tr class="bg-primary text-white">
-          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)">
-            Course ID
-            <span *ngIf="tableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_ID && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)">
-            Course Name
-            <span *ngIf="tableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.COURSE_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th class="sortable-header" (click)="sortCoursesEvent(SortBy.SESSION_CREATION_DATE)">
-            Creation Date
-            <span *ngIf="tableSortBy !== SortBy.SESSION_CREATION_DATE"><i class="fas fa-sort"></i></span>
-            <span *ngIf="tableSortBy === SortBy.SESSION_CREATION_DATE && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-            <span *ngIf="tableSortBy === SortBy.SESSION_CREATION_DATE && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
-          </th>
-          <th>Sections</th>
-          <th>Teams</th>
-          <th>Total Students</th>
-          <th>Total Unregistered</th>
-          <th class="text-center">Action(s)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let course of activeCourses">
-          <td>{{course.course.courseId}}</td>
-          <td>{{course.course.courseName}}</td>
-          <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-            {{course.course.creationTimestamp | date:'d MMM yyyy'}}
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                show
+<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadInstructorCourses()">
+  <ng-template #addCourseAlert>
+    <div class="alert alert-warning margin-top-30px" role="alert">
+      You do not seem to have any active courses. Use the button above to create a new course.
+    </div>
+  </ng-template>
+  <div *tmIsLoading="isLoading">
+    <div class="course-section" *ngIf="activeCourses.length; else addCourseAlert;">
+      <h3>Active courses</h3>
+      <div class="table table-responsive">
+        <table id="active-courses-table" class="table table-striped table-bordered margin-0">
+          <thead>
+          <tr class="bg-primary text-white">
+            <th id="sort-course-id" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)">
+              Course ID
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.ASC"></i>
+              </span>
+            </th>
+            <th id="sort-course-name" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)">
+              Course Name
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.ASC"></i>
+              </span>
+            </th>
+            <th id="sort-creation-date" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_CREATION_DATE)">
+              Creation Date
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.ASC"></i>
+              </span>
+            </th>
+            <th>Sections</th>
+            <th>Teams</th>
+            <th>Total Students</th>
+            <th>Total Unregistered</th>
+            <th class="text-center">Action(s)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-template #loadingSpinner>
+            <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
+          </ng-template>
+          <tr *ngFor="let course of activeCourses; let i = index">
+            <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
+            <td>{{course.course.courseName}}</td>
+            <td>
+              <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].sections }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}" (click)="getCourseStats(i)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].teams }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].students }}
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!courseStats[course.course.courseId]">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                  Show
+                </a>
+              </span>
+              <span *ngIf="courseStats[course.course.courseId]">
+                {{ courseStats[course.course.courseId].unregistered }}
+              </span>
+            </td>
+            <td class="text-center actions-cell">
+              <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
+                      ngbTooltip="Enroll student into the course"
+                      routerLink="/web/instructor/courses/enroll"
+                      [queryParams]="{courseid: course.course.courseId}">
+                Enroll
               </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].sections }}
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].teams }}
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].students }}
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!courseStats[course.course.courseId]">
-              <a (click)="getCourseStats(course.course.courseId)" [routerLink]="">
-                show
-              </a>
-            </span>
-            <span *ngIf="courseStats[course.course.courseId]">
-              {{ courseStats[course.course.courseId].unregistered }}
-            </span>
-          </td>
-          <td class="text-center actions-cell">
-            <button class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
-                ngbTooltip="Enroll student into the course"
-                routerLink="/web/instructor/courses/enroll"
-                [queryParams]="{courseid: course.course.courseId}">
-              Enroll
-            </button>
-            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
-              Enroll
-            </button>
-            <button class="btn btn-light btn-sm"
-                ngbTooltip="View, edit and send invitation emails to the students in the course"
-                routerLink="/web/instructor/courses/details"
-                [queryParams]="{courseid: course.course.courseId}">
-              View
-            </button>
-            <button class="btn btn-light btn-sm"
-                ngbTooltip="Edit Course information and instructor list"
-                routerLink="/web/instructor/courses/edit"
-                [queryParams]="{courseid: course.course.courseId}">
-              Edit
-            </button>
-            <button class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, true)"
-                ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still
-                access it from the 'Courses' tab)">
-              Archive
-            </button>
-            <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
-                ngbTooltip="Delete the course and its corresponding students and sessions">
-              Delete
-            </button>
-            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-      <tr *ngIf="!activeCourses.length">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </table>
-    <p *ngIf="!activeCourses.length">No records found.</p>
+              <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyStudent">
+                Enroll
+              </button>
+              <div ngbDropdown class="d-inline-block">
+                <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
+                <div ngbDropdownMenu>
+                  <a class="btn btn-primary btn-sm dropdown-item clickable"
+                          routerLink="/web/instructor/courses/details"
+                          [queryParams]="{courseid: course.course.courseId}">
+                    View
+                  </a>
+                  <a class="btn btn-primary btn-sm dropdown-item clickable"
+                          routerLink="/web/instructor/courses/edit"
+                          [queryParams]="{courseid: course.course.courseId}">
+                    Edit
+                  </a>
+                  <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"
+                          ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
+                    Archive
+                  </button>
+                  <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
+                          ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
+                    Delete
+                  </button>
+                  <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled" *ngIf="!course.canModifyCourse">
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+          <tr *ngIf="!activeCourses.length">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p *ngIf="!activeCourses.length">No records found.</p>
+      </div>
+    </div>
   </div>
-</div>
+</tm-loading-retry>
 
 <div class="course-section" *ngIf="archivedCourses.length">
-  <h2 class="text-muted">
-    <span class="fa fa-file-archive"></span> Archived Courses
-  </h2>
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered margin-0">
-      <thead>
-        <tr class="bg-info text-white">
-          <th>Course ID</th>
-          <th>Course Name</th>
-          <th>Creation Date</th>
-          <th class="text-center">Action(s)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let course of archivedCourses">
-          <td>{{course.course.courseId}}</td>
+  <h3 class="text-muted">
+    <span class="fa fa-file-archive"></span> Archived courses
+  </h3>
+  <div class="card top-padded">
+    <div id="archived-table-heading" class="card-header archive-course-header bg-info" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
+      <div class="row text-white align-items-center">
+        <div class="col-6">
+          <b>Archive</b>
+        </div>
+        <div class="col-6 text-right">
+          <i class="fas fa-chevron-down" *ngIf="!isArchivedCourseExpanded"></i>
+          <i class="fas fa-chevron-up" *ngIf="isArchivedCourseExpanded"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded" @collapseAnim>
+      <table id="archived-courses-table" class="table table-striped table-bordered archive-table">
+        <thead>
+          <tr class="background-color-medium-gray text-color-gray">
+            <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_ID)">
+              Course ID
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.ASC"></i>
+              </span>
+            </th>
+            <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_NAME)">
+              Course Name
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.ASC"></i>
+              </span>
+            </th>
+            <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_CREATION_DATE)">
+              Creation Date
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.ASC"></i>
+              </span>
+            </th>
+            <th class="text-center">Action(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let course of archivedCourses; let i = index">
+          <td id="archived-course-id-{{ i }}">{{course.course.courseId}}</td>
           <td>{{course.course.courseName}}</td>
-          <td container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">
-            {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+          <td>
+            <span  container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
           <td class="text-center">
-            <button class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
+            <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
               Unarchive
             </button>
-            <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
+            <button id="btn-soft-delete-archived-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
                 ngbTooltip="Delete the course and its corresponding students and sessions">
               Delete
             </button>
@@ -173,31 +229,32 @@
             </button>
           </td>
         </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
 <div class="row course-section margin-top-30px" *ngIf="softDeletedCourses.length">
   <div class="col-12">
-   <h2 class="text-muted">
-      <span class="fa fa-trash-alt"></span> Deleted Courses
-    </h2>
+   <h3 class="text-muted">
+      <span class="fa fa-trash-alt"></span> Deleted courses
+    </h3>
     <div class="card bg-light top-padded">
-      <div class="card-header bg-secondary recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+      <div id="deleted-table-heading" class="card-header recycle-bin-header" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <div class="row align-items-center">
-          <div class="col-6 text-white">
+          <div class="col-4 text-white">
             <b>Recycle Bin</b>
           </div>
-          <div class="col-6 text-right bin-header-button">
-            <button class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+          <div class="col-8 text-right bin-header-button">
+            <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                     ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
               <i class="fas fa-check"></i> Restore All
             </button>
             <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
               <i class="fas fa-check"></i> Restore All
             </button>
-            <button class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
+            <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
                     ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
               <i class="fas fa-times"></i> Delete All
             </button>
@@ -209,29 +266,61 @@
           </div>
         </div>
       </div>
-      <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded">
-        <table class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
+      <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded" @collapseAnim>
+        <table id="deleted-courses-table" class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
           <thead>
             <tr class="background-color-medium-gray text-color-gray">
-              <th>Course ID</th>
-              <th>Course Name</th>
-              <th>Creation Date</th>
-              <th>Deletion Date</th>
+              <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_ID)">
+                Course ID
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_NAME)">
+                Course Name
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_CREATION_DATE)">
+                Creation Date
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
+              </th>
+              <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_DELETION_DATE)">
+                Deletion Date
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
+              </th>
               <th class="text-center">Action(s)</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let course of softDeletedCourses">
-              <td>{{course.course.courseId}}</td>
+            <tr *ngFor="let course of softDeletedCourses; let i = index">
+              <td id="deleted-course-id-{{ i }}">{{course.course.courseId}}</td>
               <td>{{course.course.courseName}}</td>
-              <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+              <td>
+                <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                  {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+                </span>
               </td>
-              <td container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+              <td>
+                <span container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                  {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+                </span>
               </td>
               <td class="text-center actions-cell">
-                <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
+                <button id="btn-restore-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
                         (click)="onRestore(course.course.courseId)"
                         ngbTooltip="Restore the deleted course and its corresponding students and sessions">
                   Restore
@@ -239,7 +328,7 @@
                 <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
                   Restore
                 </button>
-                <button class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" style="color: red;"
+                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" style="color: red;"
                         (click)="onDeletePermanently(course.course.courseId)"
                         ngbTooltip="Permanently delete the course and its corresponding students and sessions">
                   Delete Permanently

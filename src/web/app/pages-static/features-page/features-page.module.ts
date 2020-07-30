@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { FeaturesPageComponent } from './features-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: FeaturesPageComponent,
+  },
+];
 
 /**
  * Module for features page.
@@ -15,7 +22,7 @@ import { FeaturesPageComponent } from './features-page.component';
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    RouterModule.forChild(routes),
   ],
 })
 export class FeaturesPageModule { }

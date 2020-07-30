@@ -70,14 +70,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
 
     /**
      * Sets up the specification for this L&P test case.
-     * @param errorRateLimit Maximum allowable threshold for the percentage of failed requests
-     *                       (0 to 100) to the test endpoint.
-     * @param meanRespTimeLimit Maximum allowable threshold for the mean response time
-     *                          (in seconds) for the test endpoint.
      */
-    protected void setupSpecification(double errorRateLimit, double meanRespTimeLimit) {
-        this.specification = new LNPSpecification(errorRateLimit, meanRespTimeLimit);
-    }
+    protected abstract void setupSpecification();
 
     /**
      * Returns the path to the generated JSON data bundle file.

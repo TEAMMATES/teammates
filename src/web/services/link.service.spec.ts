@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 
 import { Instructor, InstructorPermissionRole, JoinState, Student } from '../types/api-output';
 import { LinkService } from './link.service';
@@ -8,10 +7,7 @@ describe('Link Service', () => {
   let service: LinkService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [MatSnackBarModule],
-    });
-    service = TestBed.get(LinkService);
+    service = TestBed.inject(LinkService);
   });
 
   const mockStudent: Student = {
@@ -69,14 +65,14 @@ describe('Link Service', () => {
   it('should generate the submit url', () => {
     expect(service.generateSubmitUrl(mockStudent, 'did you ever hear the tragedy of darth plagueis the wise'))
       .toBe('http://localhost:4200/web/sessions/submission?courseid=dog.gma-demo&key=keyheehe'
-            + 'e&studentemail=alice.b.tmms%40gmail.tmt&fsName=did%20you%20'
+            + 'e&studentemail=alice.b.tmms%40gmail.tmt&fsname=did%20you%20'
             + 'ever%20hear%20the%20tragedy%20of%20darth%20plagueis%20the%20wise');
   });
 
   it('should generate the result url', () => {
     expect(service.generateResultUrl(mockStudent, 'another happy landing'))
       .toBe('http://localhost:4200/web/sessions/result?courseid'
-            + '=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsName=another%20happy%20landing');
+            + '=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsname=another%20happy%20landing');
   });
 
   it('filterEmptyParams should filter empty params', () => {

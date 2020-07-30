@@ -2,6 +2,14 @@
   margin-top: 20px;
 }
 
+.card-body {
+  padding: 0 1rem 1rem;
+}
+
 .margin-right-10px {
   margin-right: 10px;
+}
+
+.background-color-warning {
+  background-color: lighten(#FFF3CD, 5%);
 }

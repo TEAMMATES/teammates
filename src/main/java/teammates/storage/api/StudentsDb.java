@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -37,6 +38,8 @@ import teammates.storage.search.StudentSearchQuery;
 public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
+
+    private static final int MAX_KEY_REGENERATION_TRIES = 5;
 
     /**
      * Creates or updates search document for the given student.
@@ -117,6 +120,33 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
+     * Regenerates the registration key of a student in a course.
+     *
+     * @return the updated student
+     * @throws RegenerateStudentException if a new registration key could not be generated
+     */
+    public StudentAttributes regenerateEntityKey(StudentAttributes originalStudent) throws RegenerateStudentException {
+        int numTries = 0;
+
+        while (numTries < MAX_KEY_REGENERATION_TRIES) {
+            CourseStudent updatedEntity = originalStudent.toEntity();
+
+            if (!updatedEntity.getRegistrationKey().equals(originalStudent.getKey())) {
+                saveEntity(updatedEntity);
+
+                StudentAttributes updatedStudent = makeAttributes(updatedEntity);
+                putDocument(updatedStudent);
+
+                return updatedStudent;
+            }
+
+            numTries++;
+        }
+
+        throw new RegenerateStudentException("Could not regenerate a new course registration key for the student.");
+    }
+
+    /**
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -194,16 +224,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Gets all students in a section of a course.
-     */
-    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sectionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-
-        return makeAttributes(getCourseStudentEntitiesForSection(sectionName, courseId));
-    }
-
-    /**
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
@@ -238,7 +258,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
-
         }
 
         StudentAttributes newAttributes = makeAttributes(student);
@@ -367,13 +386,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     private List<CourseStudent> getCourseStudentEntitiesForTeam(String teamName, String courseId) {
         return load()
                 .filter("teamName =", teamName)
-                .filter("courseId =", courseId)
-                .list();
-    }
-
-    private List<CourseStudent> getCourseStudentEntitiesForSection(String sectionName, String courseId) {
-        return load()
-                .filter("sectionName =", sectionName)
                 .filter("courseId =", courseId)
                 .list();
     }

@@ -1,3 +1,20 @@
 .margin-bottom-15px {
   margin-bottom: 15px;
 }
+
+// The clickable parts of the boxes should change the cursor to a pointer
+
+.card-header {
+  cursor: pointer;
+}
+
+.card-body {
+  width: inherit;
+  display: block;
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.stats-table {
+  min-width: 800px;
+}

@@ -25,7 +25,7 @@ describe('HttpRequestService', () => {
         { provide: HttpClient, useValue: spyHttpClient },
       ],
     });
-    service = TestBed.get(HttpRequestService);
+    service = TestBed.inject(HttpRequestService);
   });
 
   it('should be created', () => {
@@ -53,6 +53,7 @@ describe('HttpRequestService', () => {
     service.get('/url');
     expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, {
       withCredentials,
+      headers: expect.any(Object),
       params: expect.any(Object), responseType: 'json' as 'text',
     });
   });

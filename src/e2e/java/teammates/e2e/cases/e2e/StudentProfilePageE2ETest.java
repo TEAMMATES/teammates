@@ -5,8 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
-import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentProfilePage;
 
 /**
@@ -26,8 +24,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Log in with filled profile values");
 
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_PROFILE_PAGE).withUserId("SProfUiT.student");
-        loginAdminToPage(url, StudentHomePage.class);
-        StudentProfilePage profilePage = AppPage.getNewPageInstance(browser, url, StudentProfilePage.class);
+        StudentProfilePage profilePage = loginAdminToPage(url, StudentProfilePage.class);
 
         profilePage.ensureProfileContains("Ben", "i.m.benny@gmail.tmt", "TEAMMATES Test Institute 4",
                 "Singaporean", StudentProfileAttributes.Gender.MALE, "I am just another student :P");
@@ -47,9 +44,9 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
+        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
     }
 }

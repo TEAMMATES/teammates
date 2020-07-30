@@ -37,7 +37,7 @@ export class NavigationService {
    */
   navigateWithErrorMessage(router: Router, url: string, message: string): void {
     router.navigateByUrl(url).then(() => {
-      this.statusMessageService.showErrorMessage(message);
+      this.statusMessageService.showErrorToast(message);
     });
   }
 
@@ -46,7 +46,7 @@ export class NavigationService {
    */
   navigateWithSuccessMessage(router: Router, url: string, message: string, params: Record<string, string> = {}): void {
     this.navigateByURLWithParamEncoding(router, url, params).then(() => {
-      this.statusMessageService.showSuccessMessage(message);
+      this.statusMessageService.showSuccessToast(message);
     });
   }
 
@@ -55,7 +55,7 @@ export class NavigationService {
    */
   navigateWithSuccessMessagePreservingParams(router: Router, url: string, message: string): void {
     router.navigate([url], { queryParamsHandling: 'preserve' }).then(() => {
-      this.statusMessageService.showSuccessMessage(message);
+      this.statusMessageService.showSuccessToast(message);
     });
   }
 
@@ -63,10 +63,15 @@ export class NavigationService {
    * Opens a new browser window.
    */
   openNewWindow(urlStr: string, params: Record<string, string> = {}): void {
-    const url: URL = new URL(`${urlStr}${this.encodeParams(params)}`);
+    let url: URL;
+    if (urlStr.startsWith('/')) {
+      url = new URL(`${window.location.origin}${urlStr}${this.encodeParams(params)}`);
+    } else {
+      url = new URL(`${urlStr}${this.encodeParams(params)}`);
+    }
     if (this.masqueradeModeService.isInMasqueradingMode()) {
       url.searchParams.set('user', this.masqueradeModeService.getMasqueradeUser());
     }
-    window.open(url.toString());
+    window.open(url.toString().replace(/\+/g, '%20'));
   }
 }

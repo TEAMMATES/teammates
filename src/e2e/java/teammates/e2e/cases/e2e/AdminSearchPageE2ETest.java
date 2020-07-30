@@ -12,9 +12,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AdminSearchPage;
-import teammates.e2e.pageobjects.AppPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -32,10 +30,9 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @Test
     public void allTests() {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
-        loginAdminToPage(url, AdminHomePage.class);
-        searchPage = AppPage.getNewPageInstance(browser, url, AdminSearchPage.class);
+        searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
-        browser.waitForPageLoad();
+        searchPage.waitForPageToLoad();
         StudentAttributes student = testData.students.get("student1InCourse1");
         AccountAttributes studentAccount = testData.accounts.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
@@ -52,6 +49,15 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.resetStudentGoogleId(student);
         student.googleId = null;
         verifyStudentRowContent(student, studentAccount);
+
+        ______TS("Typical case: Regenerate all links for a course student");
+        searchPage.clickExpandStudentLinks();
+        WebElement studentRow = searchPage.getStudentRow(student);
+        String originalJoinLink = searchPage.getStudentJoinLink(studentRow);
+
+        searchPage.regenerateLinksForStudent(student);
+        verifyRegenerateStudentCourseLinks(studentRow, originalJoinLink);
+        searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");
         searchPage.clearSearchBox();
@@ -120,7 +126,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedStudentManageAccountLink(StudentAttributes student) {
         return student.isRegistered() ? createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId(student.googleId)
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.googleId)
                 .toAbsoluteString()
                 : "";
     }
@@ -187,7 +193,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
         String googleId = instructor.isRegistered() ? instructor.googleId : "";
         return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
-                .withInstructorId(googleId)
+                .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
     }
 
@@ -222,10 +228,20 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.clickExpandInstructorLinks();
         searchPage.clickCollapseStudentLinks();
+        searchPage.waitUntilAnimationFinish();
+
         numExpandedStudentRows = searchPage.getNumExpandedRows(studentRow);
         numExpandedInstructorRows = searchPage.getNumExpandedRows(instructorRow);
         assertEquals(numExpandedStudentRows, 0);
         assertNotEquals(numExpandedInstructorRows, 0);
+    }
+
+    private void verifyRegenerateStudentCourseLinks(WebElement studentRow, String originalJoinLink) {
+        searchPage.verifyStatusMessage("Student's links for this course have been successfully regenerated,"
+                + " and the email has been sent.");
+
+        String regeneratedJoinLink = searchPage.getStudentJoinLink(studentRow);
+        assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
 }

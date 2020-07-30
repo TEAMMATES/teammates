@@ -5,6 +5,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.ActionMappingException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.MockHttpServletRequest;
@@ -25,7 +26,7 @@ public class ActionFactoryTest extends BaseTestCase {
 
         MockHttpServletRequest existingActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH);
-        existingActionServletRequest.addHeader("Backdoor-Key", "samplekey");
+        existingActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         Action existingAction = actionFactory.getAction(existingActionServletRequest, HttpGet.METHOD_NAME);
         assertTrue(existingAction instanceof GetAuthInfoAction);
 
@@ -33,7 +34,7 @@ public class ActionFactoryTest extends BaseTestCase {
 
         MockHttpServletRequest nonExistentActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + "blahblahblah");
-        nonExistentActionServletRequest.addHeader("Backdoor-Key", "samplekey");
+        nonExistentActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         ActionMappingException nonExistentActionException = assertThrows(ActionMappingException.class,
                 () -> actionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
         assertTrue(nonExistentActionException.getMessage()
@@ -43,7 +44,7 @@ public class ActionFactoryTest extends BaseTestCase {
 
         MockHttpServletRequest nonExistentMethodOnActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH);
-        nonExistentMethodOnActionServletRequest.addHeader("Backdoor-Key", "samplekey");
+        nonExistentMethodOnActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         ActionMappingException nonExistentMethodOnActionException = assertThrows(ActionMappingException.class,
                 () -> actionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
         assertTrue(nonExistentMethodOnActionException.getMessage()

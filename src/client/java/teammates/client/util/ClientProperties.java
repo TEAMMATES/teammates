@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.Url;
+import teammates.test.driver.UrlExtension;
 
 /**
  * Represents properties in client.properties file.
@@ -23,7 +23,7 @@ public final class ClientProperties {
                 prop.load(testPropStream);
             }
 
-            TARGET_URL = Url.trimTrailingSlash(prop.getProperty("client.target.url"));
+            TARGET_URL = UrlExtension.trimTrailingSlash(prop.getProperty("client.target.url"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);

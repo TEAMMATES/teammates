@@ -15,9 +15,6 @@
     "importHelpers": true,
     "strict": true,
     "target": "es2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "paths": {
       "moment-timezone": [
         "./node_modules/moment-timezone/builds/moment-timezone.min.js"
@@ -29,7 +26,7 @@
     ]
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": false,
+    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
   }
 }

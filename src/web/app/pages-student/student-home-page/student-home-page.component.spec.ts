@@ -10,7 +10,8 @@ import {
 } from '../../../types/api-output';
 import { StudentHomePageComponent } from './student-home-page.component';
 
-import { MatSnackBarModule } from '@angular/material';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { ResponseStatusPipe } from '../../pipes/session-response-status.pipe';
 import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe';
@@ -30,8 +31,9 @@ describe('StudentHomePageComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         RouterTestingModule,
-        MatSnackBarModule,
         TeammatesCommonModule,
+        LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();
@@ -63,6 +65,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [],
     };
     component.courses = [studentCourse];
+    component.isCoursesLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -181,6 +184,13 @@ describe('StudentHomePageComponent', () => {
     };
 
     component.courses = [studentCourseA, studentCourseB];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when courses are still loading', () => {
+    component.isCoursesLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

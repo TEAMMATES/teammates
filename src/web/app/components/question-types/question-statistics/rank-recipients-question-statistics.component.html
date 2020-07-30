@@ -1,0 +1,17 @@
+<div *ngIf="responses.length && !isStudent">
+  <div class="row">
+    <div class="col-sm-4 text-color-gray mt-2">
+      <strong>
+        Response Summary
+      </strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 table-responsive">
+      <tm-sortable-table [rows]="rowsData"
+                         [columns]="columnsData"
+                         [initialSortBy]="SortBy.RANK_RECIPIENTS_OVERALL_RANK"
+      ></tm-sortable-table>
+    </div>
+  </div>
+</div>

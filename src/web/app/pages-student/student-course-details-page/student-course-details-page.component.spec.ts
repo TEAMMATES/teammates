@@ -1,8 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Course, Gender, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent, StudentProfileWithPicture } from './student-course-details-page.component';
 
@@ -17,7 +18,8 @@ describe('StudentCourseDetailsPageComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         TeammatesCommonModule,
-        MatSnackBarModule,
+        LoadingSpinnerModule,
+        LoadingRetryModule,
       ],
     })
     .compileComponents();
@@ -71,15 +73,13 @@ describe('StudentCourseDetailsPageComponent', () => {
     const teammateProfiles: StudentProfileWithPicture[] = [
       {
         photoUrl: '/assets/images/profile_picture_default.png',
-        studentProfile: {
-          email: 'iam2@hello.com',
-          gender: Gender.MALE,
-          institute: 'nus',
-          moreInfo: 'Misc',
-          name: '2',
-          nationality: 'Andorran',
-          shortName: 'I am 2',
-        },
+        email: 'iam2@hello.com',
+        gender: Gender.MALE,
+        institute: 'nus',
+        moreInfo: 'Misc',
+        name: '2',
+        nationality: 'Andorran',
+        shortName: 'I am 2',
       },
     ];
 
@@ -87,6 +87,20 @@ describe('StudentCourseDetailsPageComponent', () => {
     component.instructorDetails = instructorDetails;
     component.student = student;
     component.teammateProfiles = teammateProfiles;
+    component.isLoadingStudent = false;
+    component.isLoadingInstructor = false;
+    component.isLoadingTeammates = false;
+    component.isLoadingCourse = false;
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when all data are still loading', () => {
+    component.isLoadingStudent = true;
+    component.isLoadingInstructor = true;
+    component.isLoadingTeammates = true;
+    component.isLoadingCourse = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

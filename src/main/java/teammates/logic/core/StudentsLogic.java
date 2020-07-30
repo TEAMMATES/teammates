@@ -6,17 +6,16 @@ import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -84,10 +83,6 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }
 
-    public List<StudentAttributes> getStudentsForSection(String sectionName, String courseId) {
-        return studentsDb.getStudentsForSection(sectionName, courseId);
-    }
-
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
@@ -106,23 +101,8 @@ public final class StudentsLogic {
         return studentsDb.searchStudentsInWholeSystem(queryString);
     }
 
-    public String getEncryptedKeyForStudent(String courseId, String email) throws EntityDoesNotExistException {
-
-        StudentAttributes studentData = getStudentForEmail(courseId, email);
-
-        if (studentData == null) {
-            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
-        }
-
-        return StringHelper.encrypt(studentData.key);
-    }
-
     public boolean isStudentInAnyCourse(String googleId) {
         return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
-    }
-
-    public boolean isStudentInCourse(String courseId, String studentEmail) {
-        return studentsDb.getStudentForEmail(courseId, studentEmail) != null;
     }
 
     public boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
@@ -204,8 +184,27 @@ public final class StudentsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resting google ID shall not cause: " + e.getMessage());
+            Assumption.fail("Resetting google ID shall not cause: " + e.getMessage());
         }
+    }
+
+    /**
+     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
+     *
+     * @return the student attributes with the new registration key.
+     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     *          original one.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
+            throws EntityDoesNotExistException, RegenerateStudentException {
+
+        StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
+        if (originalStudent == null) {
+            throw new EntityDoesNotExistException("Student does not exist: [" + courseId + "/" + email + "]");
+        }
+
+        return studentsDb.regenerateEntityKey(originalStudent);
     }
 
     /**
@@ -222,25 +221,6 @@ public final class StudentsLogic {
         String errorMessage = getSectionInvalidityInfo(mergedList) + getTeamInvalidityInfo(mergedList);
 
         if (!errorMessage.isEmpty()) {
-            throw new EnrollException(errorMessage);
-        }
-
-    }
-
-    /**
-     * Validates teams for any team name violations.
-     */
-    public void validateTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
-
-        List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
-
-        if (mergedList.size() < 2) { // no conflicts
-            return;
-        }
-
-        String errorMessage = getTeamInvalidityInfo(mergedList);
-
-        if (errorMessage.length() > 0) {
             throw new EnrollException(errorMessage);
         }
 
@@ -412,17 +392,6 @@ public final class StudentsLogic {
     private boolean isSectionChanged(String originalSection, String newSection) {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
-    }
-
-    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {
-        if (student != null) {
-            TeamDetailsBundle teamResult = new TeamDetailsBundle();
-            teamResult.name = student.team;
-            teamResult.students = getStudentsForTeam(student.team, student.course);
-            StudentAttributes.sortByNameAndThenByEmail(teamResult.students);
-            return teamResult;
-        }
-        return null;
     }
 
 }

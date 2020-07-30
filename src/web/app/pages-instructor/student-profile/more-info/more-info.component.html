@@ -1,25 +1,10 @@
 <ng-template #notSpecified><i class="text-muted">Not Specified</i></ng-template>
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">{{studentName}}'s Profile - More Info</h4>
-    <button type="button" class="close" aria-hidden="true" (click)="modal.dismiss()">&times;</button>
-  </div>
-  <div class="modal-body">
-    <!-- Note: When an element has class text-preserve-space, do not insert HTML spaces -->
-    <p class="text-preserve-space height-fixed-md">
-      <span *ngIf="moreInfoText; else notSpecified">{{moreInfoText}}</span>
-    </p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="modal.dismiss()">Close</button>
-  </div>
-</ng-template>
 <div class="row">
   <div class="col-12">
     <div class="card border-gray">
       <div class="card-body">
         <span class="text-muted float-right fas fa-expand-arrows-alt cursor-pointer"
-            (click)="openModal(content)" *ngIf="moreInfoText"></span>
+            (click)="openMoreInfoModal()" *ngIf="moreInfoText"></span>
         <h4 class="font-weight-bold">More Info:</h4>
         <!-- Note: When an element has class text-preserve-space, do not insert HTML spaces -->
         <p class="text-preserve-space height-fixed-md">

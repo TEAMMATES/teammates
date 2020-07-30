@@ -1,20 +1,18 @@
-<div class="col-sm-9">
-  <div class="form-group row" *ngFor="let option of questionDetails.constSumOptions; let i = index;">
-    <div class="col-sm-2 text-right align-self-center">
-      <strong>{{ option }}</strong>
-    </div>
-    <div class="col-sm-3">
-      <input type="number" class="form-control"
-             [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
-             (ngModelChange)="triggerResponse(i, $event)"
-             [disabled]="isDisabled"
-             min="0" step="1">
-    </div>
+<div class="form-group row text-left" *ngFor="let option of questionDetails.constSumOptions; let i = index;">
+  <div class="col-md-2 col-xs-12 text-sm-right col-form-label">
+    <strong>{{ option }}</strong>
   </div>
-  <div class="form-group row" *ngIf="responseDetails.answers.length !== 0">
-    <div class="col-sm-5 text-right">
-      <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])" [disabled]="isDisabled">Clear Points</button>
-    </div>
+  <div class="col-md-3 col-xs-12">
+    <input type="number" class="form-control"
+           [ngModel]="i < responseDetails.answers.length ? responseDetails.answers[i] : ''"
+           (ngModelChange)="triggerResponse(i, $event)"
+           [disabled]="isDisabled"
+           min="0" step="1">
+  </div>
+</div>
+<div class="form-group row" *ngIf="responseDetails.answers.length !== 0">
+  <div class="col-12 col-sm-5 offset-sm-2">
+    <button type="button" class="btn btn-light btn-sm" (click)="triggerResponseDetailsChange('answers', [])" [disabled]="isDisabled">Clear Points</button>
   </div>
 </div>
 <div class="row" *ngIf="responseDetails.answers.length !== 0">

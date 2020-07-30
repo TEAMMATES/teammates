@@ -1,12 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
+exports[`StudentHomePageComponent should snap when courses are still loading 1`] = `
 <tm-student-home-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  loadingBarService={[Function LoadingBarService]}
+  hasCoursesLoadingFailed="false"
+  isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
+  sortBy="0"
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -14,372 +17,411 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
-  <div
-    class="card bg-light top-padded"
-  >
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+    
+    
+    
+    
+    
+  </tm-loading-retry>
+</tm-student-home-page>
+`;
+
+exports[`StudentHomePageComponent should snap with all feedback sessions over 2 courses 1`] = `
+<tm-student-home-page
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoadingFailed="false"
+  isCoursesLoading="false"
+  route={[Function ActivatedRoute]}
+  sortBy="0"
+  statusMessageService={[Function StatusMessageService]}
+  studentFeedbackSessionStatusAwaiting={[Function String]}
+  studentFeedbackSessionStatusClosed={[Function String]}
+  studentFeedbackSessionStatusNotPublished={[Function String]}
+  studentFeedbackSessionStatusPending={[Function String]}
+  studentFeedbackSessionStatusPublished={[Function String]}
+  studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <div />
+    
     
     <div
-      class="card-header bg-primary text-white"
+      class="row mb-2"
     >
-      <strong>
-        [CS2103]: Software Engineering
-      </strong>
-      <span
-        class="float-sm-right"
+      <div
+        class="col-12"
       >
-        <a
-          class="btn btn-light btn-sm button"
-          href="/course?courseid=CS2103"
-          ng-reflect-ngb-tooltip="View and edit information rega"
-          ng-reflect-query-params="[object Object]"
-          ng-reflect-router-link="../course"
-          ngbtooltip="View and edit information regarding your team"
-          routerlink="../course"
+        <div
+          class="float-right"
         >
-           View team 
-        </a>
-      </span>
+          <strong
+            class="d-inline"
+          >
+             Sort By: 
+          </strong>
+          <div
+            class="btn-group"
+          >
+            <button
+              class="btn btn-light"
+            >
+              Course ID
+            </button>
+            <button
+              class="btn btn-light"
+            >
+              Course Name
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div
-      class="table-responsive"
-    >
-      
-      <table
-        class="table table-striped table-bordered margin-0"
-      >
-        <thead>
-          <tr>
-            <th>
-              Session Name
-            </th>
-            <th>
-              Deadline
-            </th>
-            <th>
-              Submissions
-            </th>
-            <th>
-              Responses
-            </th>
-            <th>
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            
-            <td>
-              First Session
-            </td>
-            
-            <td>
-              Sat, 02 Feb 2019, 16:15 PM +08
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="The session is not open for su"
-                style="border-bottom: 1px dashed black;"
-              >
-                 Submitted 
-              </a>
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="The responses for the session "
-                style="border-bottom: 1px dashed black;"
-              >
-                 Published 
-              </a>
-            </td>
-            <td>
-              <a
-                class="btn btn-light btn-sm"
-                href="/sessions/result?courseid=CS2103&fsname=First%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
-                ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
-              >
-                 View Responses 
-              </a>
-                 
-              
-              <a
-                class="btn btn-light btn-sm disabled"
-              >
-                 Start Submission 
-              </a>
-              
-              
-              <a
-                class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2103&fsname=First%20Session"
-                ng-reflect-ngb-tooltip="Edit submitted feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
-                ngbtooltip="Edit submitted feedback"
-                routerlink="../sessions/submission"
-              >
-                 Edit Submission 
-              </a>
-              
-              
-            </td>
-          </tr>
-          <tr>
-            
-            <td>
-              Second Session
-            </td>
-            
-            <td>
-              Sat, 02 Feb 2019, 16:15 PM +08
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="The feedback session is yet to"
-                style="border-bottom: 1px dashed black;"
-              >
-                 Pending 
-              </a>
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="The responses for the session "
-                style="border-bottom: 1px dashed black;"
-              >
-                 Not Published 
-              </a>
-            </td>
-            <td>
-              <a
-                class="btn btn-light btn-sm disabled"
-                href="/sessions/result?courseid=CS2103&fsname=Second%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
-                ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
-              >
-                 View Responses 
-              </a>
-                 
-              
-              
-              <a
-                class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2103&fsname=Second%20Session"
-                ng-reflect-ngb-tooltip="Start submitting feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
-                ngbtooltip="Start submitting feedback"
-                routerlink="../sessions/submission"
-              >
-                 Start Submission 
-              </a>
-              
-              
-              
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      
-    </div>
-  </div><div
-    class="card bg-light top-padded"
-  >
+    
     
     <div
-      class="card-header bg-primary text-white"
+      class="card bg-light top-padded"
     >
-      <strong>
-        [CS2102]: Databases
-      </strong>
-      <span
-        class="float-sm-right"
+      
+      <div
+        class="card-header bg-primary text-white"
       >
-        <a
-          class="btn btn-light btn-sm button"
-          href="/course?courseid=CS2102"
-          ng-reflect-ngb-tooltip="View and edit information rega"
-          ng-reflect-query-params="[object Object]"
-          ng-reflect-router-link="../course"
-          ngbtooltip="View and edit information regarding your team"
-          routerlink="../course"
+        <strong>
+          [CS2103]: Software Engineering
+        </strong>
+        <span
+          class="float-sm-right"
         >
-           View team 
-        </a>
-      </span>
+          <a
+            class="btn btn-light btn-sm button"
+            href="/web/student/course?courseid=CS2103"
+            routerlink="/web/student/course"
+          >
+             View team 
+          </a>
+        </span>
+      </div>
+      <div
+        class="table-responsive"
+      >
+        
+        <table
+          class="table table-striped table-bordered margin-0"
+        >
+          <thead>
+            <tr>
+              <th>
+                Session Name
+              </th>
+              <th>
+                Deadline
+              </th>
+              <th>
+                Submissions
+              </th>
+              <th>
+                Responses
+              </th>
+              <th>
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              
+              <td>
+                First Session
+              </td>
+              
+              <td>
+                Sat, 02 Feb 2019, 16:15 PM +08
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Submitted 
+                </a>
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Published 
+                </a>
+              </td>
+              <td>
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
+                  routerlink="/web/student/sessions/result"
+                >
+                   View Responses 
+                </a>
+                   
+                
+                <a
+                  class="btn btn-light btn-sm disabled"
+                >
+                   Start Submission 
+                </a>
+                
+                
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
+                  routerlink="/web/student/sessions/submission"
+                >
+                   Edit Submission 
+                </a>
+                
+              </td>
+            </tr>
+            <tr>
+              
+              <td>
+                Second Session
+              </td>
+              
+              <td>
+                Sat, 02 Feb 2019, 16:15 PM +08
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Pending 
+                </a>
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Not Published 
+                </a>
+              </td>
+              <td>
+                <a
+                  class="btn btn-light btn-sm disabled"
+                  href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
+                  routerlink="/web/student/sessions/result"
+                >
+                   View Responses 
+                </a>
+                   
+                
+                
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
+                  routerlink="/web/student/sessions/submission"
+                >
+                   Start Submission 
+                </a>
+                
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
     </div>
+    
     <div
-      class="table-responsive"
+      class="card bg-light top-padded"
     >
       
-      <table
-        class="table table-striped table-bordered margin-0"
+      <div
+        class="card-header bg-primary text-white"
       >
-        <thead>
-          <tr>
-            <th>
-              Session Name
-            </th>
-            <th>
-              Deadline
-            </th>
-            <th>
-              Submissions
-            </th>
-            <th>
-              Responses
-            </th>
-            <th>
-              Action(s)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
+        <strong>
+          [CS2102]: Databases
+        </strong>
+        <span
+          class="float-sm-right"
+        >
+          <a
+            class="btn btn-light btn-sm button"
+            href="/web/student/course?courseid=CS2102"
+            routerlink="/web/student/course"
+          >
+             View team 
+          </a>
+        </span>
+      </div>
+      <div
+        class="table-responsive"
+      >
+        
+        <table
+          class="table table-striped table-bordered margin-0"
+        >
+          <thead>
+            <tr>
+              <th>
+                Session Name
+              </th>
+              <th>
+                Deadline
+              </th>
+              <th>
+                Submissions
+              </th>
+              <th>
+                Responses
+              </th>
+              <th>
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
             
-            <td>
-              Third Session
-            </td>
-            
-            <td>
-              Sat, 02 Feb 2019, 16:15 PM +08
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="You have submitted your feedba"
-                style="border-bottom: 1px dashed black;"
-              >
-                 Submitted 
-              </a>
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="The responses for the session "
-                style="border-bottom: 1px dashed black;"
-              >
-                 Not Published 
-              </a>
-            </td>
-            <td>
-              <a
-                class="btn btn-light btn-sm disabled"
-                href="/sessions/result?courseid=CS2102&fsname=Third%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
-                ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
-              >
-                 View Responses 
-              </a>
-                 
+            <tr>
               
+              <td>
+                Third Session
+              </td>
               
+              <td>
+                Sat, 02 Feb 2019, 16:15 PM +08
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Submitted 
+                </a>
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Not Published 
+                </a>
+              </td>
+              <td>
+                <a
+                  class="btn btn-light btn-sm disabled"
+                  href="/web/student/sessions/result?courseid=CS2102&fsname=Third%20Session"
+                  routerlink="/web/student/sessions/result"
+                >
+                   View Responses 
+                </a>
+                   
+                
+                
+                
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/submission?courseid=CS2102&fsname=Third%20Session"
+                  routerlink="/web/student/sessions/submission"
+                >
+                   Edit Submission 
+                </a>
+                
+              </td>
+            </tr>
+            <tr>
               
-              <a
-                class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2102&fsname=Third%20Session"
-                ng-reflect-ngb-tooltip="Edit submitted feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
-                ngbtooltip="Edit submitted feedback"
-                routerlink="../sessions/submission"
-              >
-                 Edit Submission 
-              </a>
+              <td>
+                Fourth Session
+              </td>
               
-              
-            </td>
-          </tr>
-          <tr>
-            
-            <td>
-              Fourth Session
-            </td>
-            
-            <td>
-              Sat, 02 Feb 2019, 16:15 PM +08
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="You have submitted your feedba"
-                style="border-bottom: 1px dashed black;"
-              >
-                 Closed 
-              </a>
-            </td>
-            <td>
-              <a
-                ng-reflect-ngb-tooltip="The responses for the session "
-                style="border-bottom: 1px dashed black;"
-              >
-                 Not Published 
-              </a>
-            </td>
-            <td>
-              <a
-                class="btn btn-light btn-sm disabled"
-                href="/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
-                ng-reflect-klass="btn btn-light btn-sm"
-                ng-reflect-ng-class="[object Object]"
-                ng-reflect-ngb-tooltip="View the submitted responses f"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/result"
-                ngbtooltip="View the submitted responses for this feedback session"
-                routerlink="../sessions/result"
-              >
-                 View Responses 
-              </a>
-                 
-              
-              
-              
-              
-              <a
-                class="btn btn-light btn-sm"
-                href="/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
-                ng-reflect-ngb-tooltip="View submitted feedback"
-                ng-reflect-query-params="[object Object]"
-                ng-reflect-router-link="../sessions/submission"
-                ngbtooltip="View submitted feedback"
-                routerlink="../sessions/submission"
-              >
-                 View Submission 
-              </a>
-              
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      
+              <td>
+                Sat, 02 Feb 2019, 16:15 PM +08
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Closed 
+                </a>
+              </td>
+              <td>
+                <a
+                  style="border-bottom: 1px dashed black;"
+                >
+                   Not Published 
+                </a>
+              </td>
+              <td>
+                <a
+                  class="btn btn-light btn-sm disabled"
+                  href="/web/student/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
+                  routerlink="/web/student/sessions/result"
+                >
+                   View Responses 
+                </a>
+                   
+                
+                
+                
+                
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
+                  routerlink="/web/student/sessions/submission"
+                >
+                   View Submission 
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
     </div>
-  </div>
+    
+    
+    
+    
+  </tm-loading-retry>
 </tm-student-home-page>
 `;
 
 exports[`StudentHomePageComponent should snap with default fields 1`] = `
 <tm-student-home-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  loadingBarService={[Function LoadingBarService]}
+  hasCoursesLoadingFailed="false"
+  isCoursesLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
+  sortBy="0"
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -387,30 +429,48 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
-  <div>
-     You are not enrolled in any courses. Please refer to the 
-    <a
-      href="/web/student/help"
-      ng-reflect-router-link="/web/student/help"
-      routerlink="/web/student/help"
-    >
-      help page
-    </a>
-     if you need more information.
-  
-  </div>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+    
+    
+    
+    
+    
+  </tm-loading-retry>
 </tm-student-home-page>
 `;
 
 exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
 <tm-student-home-page
+  SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
-  loadingBarService={[Function LoadingBarService]}
+  hasCoursesLoadingFailed="false"
+  isCoursesLoading="false"
   route={[Function ActivatedRoute]}
+  sortBy="0"
   statusMessageService={[Function StatusMessageService]}
   studentFeedbackSessionStatusAwaiting={[Function String]}
   studentFeedbackSessionStatusClosed={[Function String]}
@@ -418,53 +478,94 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   studentFeedbackSessionStatusPending={[Function String]}
   studentFeedbackSessionStatusPublished={[Function String]}
   studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
-  <div
-    class="card bg-light top-padded"
-  >
+  <tm-loading-retry>
+    
+    
+    <div />
+    
     
     <div
-      class="card-header bg-primary text-white"
+      class="row mb-2"
     >
-      <strong>
-        [CS3281]: Thematic Systems
-      </strong>
-      <span
-        class="float-sm-right"
+      <div
+        class="col-12"
       >
-        <a
-          class="btn btn-light btn-sm button"
-          href="/course?courseid=CS3281"
-          ng-reflect-ngb-tooltip="View and edit information rega"
-          ng-reflect-query-params="[object Object]"
-          ng-reflect-router-link="../course"
-          ngbtooltip="View and edit information regarding your team"
-          routerlink="../course"
+        <div
+          class="float-right"
         >
-           View team 
-        </a>
-      </span>
+          <strong
+            class="d-inline"
+          >
+             Sort By: 
+          </strong>
+          <div
+            class="btn-group"
+          >
+            <button
+              class="btn btn-light"
+            >
+              Course ID
+            </button>
+            <button
+              class="btn btn-light"
+            >
+              Course Name
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+    
+    
     <div
-      class="table-responsive"
+      class="card bg-light top-padded"
     >
       
-      
-      <table
-        class="table table-striped table-bordered margin-0"
+      <div
+        class="card-header bg-primary text-white"
       >
-        <tbody>
-          <tr>
-            <th
-              class="align-center white"
-            >
-               Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified. 
-            </th>
-          </tr>
-        </tbody>
-      </table>
+        <strong>
+          [CS3281]: Thematic Systems
+        </strong>
+        <span
+          class="float-sm-right"
+        >
+          <a
+            class="btn btn-light btn-sm button"
+            href="/web/student/course?courseid=CS3281"
+            routerlink="/web/student/course"
+          >
+             View team 
+          </a>
+        </span>
+      </div>
+      <div
+        class="table-responsive"
+      >
+        
+        
+        <table
+          class="table table-striped table-bordered margin-0"
+        >
+          <tbody>
+            <tr>
+              <th
+                class="align-center white"
+              >
+                 Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified. 
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
+    
+    
+    
+    
+  </tm-loading-retry>
 </tm-student-home-page>
 `;

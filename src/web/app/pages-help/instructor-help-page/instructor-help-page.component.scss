@@ -5,9 +5,16 @@
 .side-nav {
   width: 150px;
   top: 100px;
+  right: 5%;
+  position: fixed;
 }
 
 .flex-container {
   display: flex;
   flex-wrap: nowrap;
+  padding-right: 160px;
+}
+
+.section-body {
+  padding-bottom: 5px;
 }
