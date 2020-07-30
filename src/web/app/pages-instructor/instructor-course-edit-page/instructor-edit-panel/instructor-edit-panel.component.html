@@ -80,7 +80,8 @@
                type="text"
                (ngModelChange)="triggerModelChange('displayedToStudentsAs', $event)"
                [disabled]="!instructor.isDisplayedToStudents || !instructor.isEditing"
-               placeholder="Instructor"
+               [defaultValue]="'Instructor'"
+               placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
                [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
       </div>
     </div>

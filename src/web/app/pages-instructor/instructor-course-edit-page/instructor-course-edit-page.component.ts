@@ -115,7 +115,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     courseId: '',
     email: '',
     isDisplayedToStudents: true,
-    displayedToStudentsAs: '',
+    displayedToStudentsAs: 'Instructor',
     name: '',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.NOT_JOINED,
