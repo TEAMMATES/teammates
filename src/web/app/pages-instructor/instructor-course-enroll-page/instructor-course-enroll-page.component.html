@@ -21,12 +21,12 @@
             <div class="card card-default">
               <div id="toggle-existing-students" class="card-header cursor-pointer"
                    (click)="toggleExistingStudentsPanel()">
-                <b class="existing-students-status-message">Existing Students</b>
-                <div class="float-right margin-left-7px">
+                <b>Existing Students</b>
+                <div class="card-header-btn-toolbar">
                   <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
                   <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
                   <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
-                  <i class="fas fa-chevron-{{ isExistingStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+                  <tm-panel-chevron [isExpanded]="!isExistingStudentsPanelCollapsed"></tm-panel-chevron>
                 </div>
               </div>
               <hot-table
@@ -59,11 +59,10 @@
 
             <div class="card card-default">
               <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
-                <div class="float-right margin-left-7px">
-                  <i class="fas fa-chevron-{{ isNewStudentsPanelCollapsed ? 'down' : 'up' }}"></i>
+                <b>New Students</b>
+                <div class="card-header-btn-toolbar">
+                  <tm-panel-chevron [isExpanded]="!isNewStudentsPanelCollapsed"></tm-panel-chevron>
                 </div>
-                <div class='float-right'></div>
-                <strong>New students</strong>
               </div>
               <hot-table
                   [licenseKey]="'non-commercial-and-evaluation'"

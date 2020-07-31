@@ -444,28 +444,26 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       class="card top-padded"
     >
       <div
-        class="card-header archive-course-header bg-info"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
+        <b>
+          Archive
+        </b>
         <div
-          class="row text-white align-items-center"
+          class="card-header-btn-toolbar"
         >
-          <div
-            class="col-6"
-          >
-            <b>
-              Archive
-            </b>
-          </div>
-          <div
-            class="col-6 text-right"
-          >
-            
-            <i
-              class="fas fa-chevron-down"
-            />
-            
-          </div>
+          <tm-panel-chevron>
+            <div
+              class="chevron"
+            >
+              
+              <i
+                class="fas fa-chevron-down"
+              />
+              
+            </div>
+          </tm-panel-chevron>
         </div>
       </div>
       
@@ -488,48 +486,46 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="card bg-light top-padded"
       >
         <div
-          class="card-header recycle-bin-header"
+          class="card-header bg-secondary text-white cursor-pointer"
           id="deleted-table-heading"
         >
+          <b>
+            Recycle Bin
+          </b>
           <div
-            class="row align-items-center"
+            class="card-header-btn-toolbar"
           >
-            <div
-              class="col-4 text-white"
+            
+            
+            <button
+              class="btn btn-light btn-sm disabled"
             >
-              <b>
-                Recycle Bin
-              </b>
-            </div>
-            <div
-              class="col-8 text-right bin-header-button"
-            >
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled"
-              >
-                <i
-                  class="fas fa-check"
-                />
-                 Restore All 
-              </button>
-              
-              
-              <button
-                class="btn btn-light btn-sm disabled text-danger"
-              >
-                <i
-                  class="fas fa-times"
-                />
-                 Delete All 
-              </button>
-              
               <i
-                class="fas fa-chevron-down text-white"
+                class="fas fa-check"
               />
-              
-            </div>
+               Restore All 
+            </button>
+            
+            
+            <button
+              class="btn btn-light btn-sm disabled text-danger"
+            >
+              <i
+                class="fas fa-times"
+              />
+               Delete All 
+            </button>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                <i
+                  class="fas fa-chevron-down"
+                />
+                
+              </div>
+            </tm-panel-chevron>
           </div>
         </div>
         
@@ -919,28 +915,26 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       class="card top-padded"
     >
       <div
-        class="card-header archive-course-header bg-info"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
+        <b>
+          Archive
+        </b>
         <div
-          class="row text-white align-items-center"
+          class="card-header-btn-toolbar"
         >
-          <div
-            class="col-6"
-          >
-            <b>
-              Archive
-            </b>
-          </div>
-          <div
-            class="col-6 text-right"
-          >
-            
-            <i
-              class="fas fa-chevron-down"
-            />
-            
-          </div>
+          <tm-panel-chevron>
+            <div
+              class="chevron"
+            >
+              
+              <i
+                class="fas fa-chevron-down"
+              />
+              
+            </div>
+          </tm-panel-chevron>
         </div>
       </div>
       
@@ -963,54 +957,52 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="card bg-light top-padded"
       >
         <div
-          class="card-header recycle-bin-header"
+          class="card-header bg-secondary text-white cursor-pointer"
           id="deleted-table-heading"
         >
+          <b>
+            Recycle Bin
+          </b>
           <div
-            class="row align-items-center"
+            class="card-header-btn-toolbar"
           >
-            <div
-              class="col-4 text-white"
+            
+            <button
+              class="btn btn-light btn-sm"
+              id="btn-restore-all"
+              ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
             >
-              <b>
-                Recycle Bin
-              </b>
-            </div>
-            <div
-              class="col-8 text-right bin-header-button"
-            >
-              
-              <button
-                class="btn btn-light btn-sm"
-                id="btn-restore-all"
-                ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
-              >
-                <i
-                  class="fas fa-check"
-                />
-                 Restore All 
-              </button>
-              
-              
-              
-              <button
-                class="btn btn-light btn-sm text-danger"
-                id="btn-delete-all"
-                ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
-              >
-                <i
-                  class="fas fa-times"
-                />
-                 Delete All 
-              </button>
-              
-              
-              
               <i
-                class="fas fa-chevron-down text-white"
+                class="fas fa-check"
               />
-              
-            </div>
+               Restore All 
+            </button>
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm text-danger"
+              id="btn-delete-all"
+              ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
+            >
+              <i
+                class="fas fa-times"
+              />
+               Delete All 
+            </button>
+            
+            
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                <i
+                  class="fas fa-chevron-down"
+                />
+                
+              </div>
+            </tm-panel-chevron>
           </div>
         </div>
         

@@ -8,6 +8,7 @@ import { CommentToCommentRowModelPipe } from '../../components/comment-box/comme
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import {
   GqrRqgViewResponsesModule,
 } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.module';
@@ -61,6 +62,7 @@ describe('InstructorSessionResultPageComponent', () => {
         LoadingSpinnerModule,
         AjaxLoadingModule,
         LoadingRetryModule,
+        PanelChevronModule,
       ],
       providers: [
         CommentsToCommentTableModelPipe,

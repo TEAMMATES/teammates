@@ -1,30 +1,26 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed" [message]="'Failed to load course'" (retryEvent)="loadCourseInfo()">
   <div *tmIsLoading="isCourseLoading" class="card bg-light top-padded text-center">
     <div class="card-header bg-primary text-white">
-      <div class="row">
-        <div class="col-3 col-md-6 text-md-left align-self-center">
-          <strong>Course</strong>
-        </div>
-        <div class="col-9 col-md-6 text-right">
-          <button id="btn-edit-course" class="btn btn-light btn-sm btn-course"
-                  [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
-                  *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
-            <i class="fa fa-pen" aria-hidden="true"></i>
-            Edit
-          </button>
-          <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-light btn-sm"
+      <strong>Course</strong>
+      <div class="card-header-btn-toolbar">
+        <button id="btn-edit-course" class="btn btn-light btn-sm btn-course"
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
+                *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
+          <i class="fa fa-pen" aria-hidden="true"></i>
+          Edit
+        </button>
+        <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-light btn-sm"
 
-                  [disabled]="isSavingCourseEdit"
-                  (click)="cancelEditingCourse()">
-            <i class="fa fa-times" aria-hidden="true"></i>
-            Cancel
-          </button>&nbsp;
-          <button id="btn-delete-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
-                  [disabled]="!currInstructorCoursePrivilege.canModifyCourse || isSavingCourseEdit" (click)="deleteCourse()">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-            Delete
-          </button>
-        </div>
+                [disabled]="isSavingCourseEdit"
+                (click)="cancelEditingCourse()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>
+        <button id="btn-delete-course" class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse || isSavingCourseEdit" (click)="deleteCourse()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Delete
+        </button>
       </div>
     </div>
     <div class="card-body fill-plain">
