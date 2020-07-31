@@ -594,9 +594,6 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionDetailsBundle details =
                 new FeedbackSessionDetailsBundle(fsa);
 
-        details.stats.expectedTotal = 0;
-        details.stats.submittedTotal = 0;
-
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
         List<FeedbackQuestionAttributes> questions =
@@ -604,18 +601,18 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
 
         if (!studentQns.isEmpty()) {
-            details.stats.expectedTotal += students.size();
+            details.expectedTotal += students.size();
         }
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns =
                     fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty()) {
-                details.stats.expectedTotal += 1;
+                details.expectedTotal += 1;
             }
         }
 
-        details.stats.submittedTotal += fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
+        details.submittedTotal += fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
 
         return details;
     }

@@ -345,8 +345,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         FeedbackSessionDetailsBundle details =
                 logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents, details.submittedTotal);
+        assertEquals(totalStudents + totalInstructors, details.expectedTotal);
 
         ______TS("Change the feedback path of a question with no unique respondents, "
                 + "response rate should not be updated");
@@ -372,8 +372,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         numStudentRespondents--;
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents + numInstructorRespondents, details.submittedTotal);
+        assertEquals(totalStudents + totalInstructors, details.expectedTotal);
 
         ______TS("Change the feedback path of a question with a unique instructor respondent, "
                 + "response rate changed");
@@ -393,8 +393,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents, details.submittedTotal);
+        assertEquals(totalStudents + totalInstructors, details.expectedTotal);
 
         ______TS("Change the feedback path of a question so that some possible respondents are removed");
 
@@ -414,8 +414,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // (except session creator) are no longer possible respondents
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         details = logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + 1, details.stats.expectedTotal);
+        assertEquals(numStudentRespondents, details.submittedTotal);
+        assertEquals(totalStudents + 1, details.expectedTotal);
     }
 
     private FeedbackQuestionUpdateRequest getTypicalTextQuestionUpdateRequest() {
