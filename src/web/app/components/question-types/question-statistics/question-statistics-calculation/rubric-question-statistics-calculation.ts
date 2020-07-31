@@ -50,6 +50,9 @@ export class RubricQuestionStatisticsCalculation
     this.percentages = [];
     this.answersExcludeSelf = [];
     this.percentagesExcludeSelf = [];
+    this.subQuestionWeightAverage = [];
+    this.subQuestionWeightAverageExcludeSelf = [];
+    this.perRecipientStatsMap = {};
 
     this.subQuestions = this.question.rubricSubQuestions;
     this.choices = this.question.rubricChoices;

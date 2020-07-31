@@ -66,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 margin-top-10px">
+          <div class="col-12 margin-top-10px indent">
             <tm-contribution-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="model.questionDetails"
                                                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                       [shouldShowHelpLink]="i === 0"
@@ -118,7 +118,7 @@
                                                            [isDisabled]="isDisabled"></tm-constsum-recipients-question-edit-answer-form>
           </div>
 
-          <div *ngIf="allowedToHaveParticipantComment" class="col-12">
+          <div *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
               <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                               [model]="recipientSubmissionFormModel.commentByGiver"
