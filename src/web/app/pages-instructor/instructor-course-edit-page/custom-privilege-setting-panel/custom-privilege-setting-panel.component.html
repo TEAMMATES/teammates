@@ -95,7 +95,7 @@
                 <input type="checkbox" [ngModel]="sectionLevel.sectionNames.includes(section)"
                        (ngModelChange)="editSectionToSectionLevelPermission(i, section, $event)"
                        [disabled]="!sectionLevel.sectionNames.includes(section) && hasSectionLevelPermission(section)">
-                {{ section }}
+                {{ section === 'None' ? 'Students not in a section' : section }}
               </label>
             </div>
           </div>
