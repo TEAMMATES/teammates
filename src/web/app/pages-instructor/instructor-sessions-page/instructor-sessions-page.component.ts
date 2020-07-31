@@ -95,7 +95,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     submissionStartDate: { year: 0, month: 0, day: 0 },
     submissionEndTime: { hour: 23, minute: 59 },
     submissionEndDate: { year: 0, month: 0, day: 0 },
-    gracePeriod: 0,
+    gracePeriod: 15,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     customSessionVisibleTime: { hour: 23, minute: 59 },

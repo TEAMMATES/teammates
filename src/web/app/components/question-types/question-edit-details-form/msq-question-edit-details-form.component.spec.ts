@@ -1,6 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
@@ -14,7 +15,9 @@ describe('MsqQuestionEditDetailsFormComponent', () => {
       declarations: [
         MsqQuestionEditDetailsFormComponent,
         MsqFieldComponent,
-        WeightFieldComponent],
+        WeightFieldComponent,
+        GeneratedChoicePipe,
+      ],
       imports: [
         FormsModule,
         DragDropModule,

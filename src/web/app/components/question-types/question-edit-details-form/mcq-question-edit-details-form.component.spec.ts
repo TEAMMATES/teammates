@@ -1,6 +1,7 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
 import { OptionRichTextEditorModule } from './option-rich-text-editor/option-rich-text-editor.module';
@@ -15,7 +16,9 @@ describe('McqQuestionEditDetailsFormComponent', () => {
       declarations: [
         McqQuestionEditDetailsFormComponent,
         McqFieldComponent,
-        WeightFieldComponent],
+        WeightFieldComponent,
+        GeneratedChoicePipe,
+      ],
       imports: [
         FormsModule,
         OptionRichTextEditorModule,

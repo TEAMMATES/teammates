@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
@@ -28,7 +28,6 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   key: String = '';
   matchFound: number = 0;
 
-  scrollFinishEvent: EventEmitter<boolean> = new EventEmitter();
   questionIdToExpand: string = '';
   section: string = '';
 
@@ -51,7 +50,6 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.scrollFinishEvent.subscribe(() => this.expandQuestionTab());
   }
 
   ngAfterViewInit(): void {
@@ -103,12 +101,12 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   }
 
   scrollTo(target: string, timeout?: number): void {
+    this.expandQuestionTab();
     setTimeout(() => this.pageScrollService.scroll({
       document: this.document,
       duration: 500,
       scrollTarget: `#${target}`,
       scrollOffset: 70,
-      scrollFinishListener: this.scrollFinishEvent,
     }), timeout ? timeout : 500);
   }
 

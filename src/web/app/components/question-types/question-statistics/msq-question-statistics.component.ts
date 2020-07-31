@@ -50,10 +50,10 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
     this.summaryRowsData = Object.keys(this.answerFrequency).map((key: string) => {
       return [
         { value: key },
-        { value: this.weightPerOption[key] || '-' },
+        { value: this.weightPerOption[key] === 0 ? 0 : (this.weightPerOption[key] || '-') },
         { value: this.answerFrequency[key] },
         { value: this.percentagePerOption[key] },
-        { value: this.weightedPercentagePerOption[key] || '-' },
+        { value: this.weightedPercentagePerOption[key] === 0 ? 0 : (this.weightedPercentagePerOption[key] || '-') },
       ];
     });
 
