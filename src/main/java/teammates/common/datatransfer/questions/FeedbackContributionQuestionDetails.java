@@ -48,9 +48,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionResultStatisticsJson(
             FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responses = bundle.getQuestionResponseMap().get(question.getId());
-        if (responses.isEmpty()) {
-            return "";
-        }
 
         boolean isStudent = studentEmail != null;
 

@@ -405,8 +405,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
-    const filename: string = `
-      ${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
+    const filename: string =
+        `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
     this.feedbackSessionsService.downloadSessionResults(
         this.session.courseId,
