@@ -88,8 +88,8 @@ export class RubricQuestionStatisticsCalculation
     this.percentagesExcludeSelf = this.calculatePercentages(this.answersExcludeSelf);
     // apply weights average if applicable
     if (this.hasWeights) {
-      this.subQuestionWeightAverage = this.calculateSubQuestionWeightAverage(this.percentages);
-      this.subQuestionWeightAverageExcludeSelf = this.calculateSubQuestionWeightAverage(this.percentagesExcludeSelf);
+      this.subQuestionWeightAverage = this.calculateSubQuestionWeightAverage(this.answers);
+      this.subQuestionWeightAverageExcludeSelf = this.calculateSubQuestionWeightAverage(this.answersExcludeSelf);
     }
 
     if (!this.hasWeights) {
@@ -122,14 +122,20 @@ export class RubricQuestionStatisticsCalculation
 
       perRecipientStats.percentages = this.calculatePercentages(perRecipientStats.answers);
       perRecipientStats.subQuestionWeightAverage =
-          this.calculateSubQuestionWeightAverage(perRecipientStats.percentages);
+          this.calculateSubQuestionWeightAverage(perRecipientStats.answers);
     }
   }
 
-  private calculateSubQuestionWeightAverage(percentages: number[][]): number[] {
-    return percentages.map((subQuestionPercentage: number[], subQuestionIdx: number): number =>
-        subQuestionPercentage.reduce((previousValue: number, currentValue: number, currentIndex: number): number =>
-            previousValue + currentValue * this.weights[subQuestionIdx][currentIndex], 0) / 100);
+  private calculateSubQuestionWeightAverage(answers: number[][]): number[] {
+    const sums: number[] = answers.map((weightedAnswers: number[]) =>
+        weightedAnswers.reduce((a: number, b: number) => a + b, 0));
+
+    return answers.map((subQuestionAnswer: number[], subQuestionIdx: number): number => {
+      const weightAverage: number = sums[subQuestionIdx] === 0 ? 0
+          : subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
+              prevValue + currValue * this.weights[subQuestionIdx][currentIndex], 0) / sums[subQuestionIdx];
+      return Math.round(weightAverage * 100) / 100;
+    });
   }
 
   private calculatePercentages(answers: number[][]): number[][] {
@@ -143,7 +149,7 @@ export class RubricQuestionStatisticsCalculation
     // Calculate the percentages based on the entry of each cell and the sum of each row
     for (let i: number = 0; i < answers.length; i += 1) {
       for (let j: number = 0; j < answers[i].length; j += 1) {
-        percentages[i][j] = sums[i] === 0 ? 0 : Math.round(percentages[i][j] / sums[i] * 100);
+        percentages[i][j] = sums[i] === 0 ? 0 : Math.round(percentages[i][j] / sums[i] * 1000) / 10;
       }
     }
 

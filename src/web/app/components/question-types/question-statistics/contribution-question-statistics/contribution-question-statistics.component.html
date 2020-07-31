@@ -15,7 +15,7 @@
         </div>
         <div class="col-sm-8">
           <strong>of others:</strong>&nbsp;
-          <span *ngFor="let other of questionStatisticsForStudent.claimedOthers; let i = index;">
+          <span *ngFor="let other of questionStatisticsForStudent.claimedOthersValues; let i = index;">
             <span *ngIf="i !== 0">,&nbsp;</span>
             <tm-contribution [value]="other"></tm-contribution>
           </span>
