@@ -21,14 +21,14 @@ export class StatusMessageService {
   /**
    * Shows a success toast on the page.
    */
-  showSuccessToast(message: string, delay: number = 5000): void {
+  showSuccessToast(message: string, delay: number = 10000): void {
     this.showToast(message, 'bg-success text-light', delay);
   }
 
   /**
    * Shows a warning toast on the page.
    */
-  showWarningToast(message: string, delay: number = 5000): void {
+  showWarningToast(message: string, delay: number = 10000): void {
     this.showToast(message, 'bg-warning', delay);
   }
 
@@ -51,7 +51,7 @@ export class StatusMessageService {
   /**
    * Shows a success toast containing HTML on the page
    */
-  showSuccessToastTemplate(template: TemplateRef<any>, delay: number = 5000): void {
+  showSuccessToastTemplate(template: TemplateRef<any>, delay: number = 10000): void {
     this.showToastTemplate(template, 'bg-success text-light', delay);
   }
 

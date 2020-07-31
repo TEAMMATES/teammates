@@ -2,3 +2,6 @@
   <span *ngIf="i !== 0">,&nbsp;</span>
   <tm-contribution [value]="rating"></tm-contribution>
 </span>
+<span *ngIf="!ratingsList.length">
+  <tm-contribution [value]="CONTRIBUTION_POINT_NOT_SUBMITTED"></tm-contribution>
+</span>

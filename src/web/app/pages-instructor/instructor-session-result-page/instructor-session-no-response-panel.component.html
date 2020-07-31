@@ -26,7 +26,7 @@
           <td>{{ noResponseStudent.teamName }}</td>
           <td>{{ noResponseStudent.name }}</td>
           <td>
-            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/student/sessions/submission"
+            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/sessions/submission"
                [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
                class="btn btn-light btn-sm button">
               Submit response

@@ -38,6 +38,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   courseId: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
+  enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
@@ -91,6 +92,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   submitEnrollData(): void {
     this.isEnrolling = true;
+    this.enrollErrorMessage = '';
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
 
@@ -129,8 +131,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
               studentsEnrollRequest.studentEnrollRequests);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.enrollErrorMessage = resp.error.message;
     }, () => {
       this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
         this.existingStudents = resp.students;
@@ -219,14 +220,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     if (studentLists[EnrollStatus.ERROR].length > 0) {
-      const generalEnrollErrorMessage: string = 'You may check that: ' +
-          '"Section" and "Comment" are optional while "Team", "Name", and "Email" must be filled. ' +
-          '"Section", "Team", "Name", and "Comment" should start with an alphabetical character, ' +
-          'unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and percentage sign"%". ' +
-          '"Email" should contain some text followed by one \'@\' sign followed by some more text. ' +
-          '"Team" should not have same format of email to avoid mis-interpretation. ';
-      this.statusMessageService.showErrorToast(`Some students failed to be enrolled, see the summary below.
-       ${generalEnrollErrorMessage}`);
+      this.enrollErrorMessage = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
+        and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
+        alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
+        percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
+        more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
+      this.statusMessageService.showErrorToast('Some students failed to be enrolled, see the summary below.');
     }
     return panels;
   }

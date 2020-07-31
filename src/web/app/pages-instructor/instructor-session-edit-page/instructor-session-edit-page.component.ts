@@ -5,7 +5,11 @@ import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, flatMap, map, switchMap, tap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackQuestionsService, NewQuestionModel } from '../../../services/feedback-questions.service';
+import {
+  CommonVisibilitySetting,
+  FeedbackQuestionsService,
+  NewQuestionModel,
+} from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
@@ -26,7 +30,7 @@ import {
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionSubmissionStatus,
-  FeedbackTextQuestionDetails,
+  FeedbackTextQuestionDetails, FeedbackVisibilityType,
   HasResponses,
   Instructor,
   Instructors,
@@ -702,7 +706,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.statusMessageService.showSuccessToast('The questions have been added to this feedback session.');
         }
       });
-    });
+    }, () => {});
   }
 
   /**
@@ -767,16 +771,48 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         SHOW_GIVER_NAME: lastQuestionEditFormModel.showGiverNameTo,
         SHOW_RECIPIENT_NAME: lastQuestionEditFormModel.showRecipientNameTo,
       });
-      this.newQuestionEditFormModel.showResponsesTo =
+      const newQuestionShowResponsesTo: FeedbackVisibilityType[]  =
           newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE);
-      this.newQuestionEditFormModel.showGiverNameTo =
+      const newQuestionShowGiverNameTo: FeedbackVisibilityType[] =
           newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME);
-      this.newQuestionEditFormModel.showRecipientNameTo =
-          newQuestionVisibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
-              VisibilityControl.SHOW_RECIPIENT_NAME);
+      const newQuestionShowRecipientNameTo: FeedbackVisibilityType[] =
+          newQuestionVisibilityStateMachine
+              .getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME);
+
+      let isAllowedToUseInheritedVisibility: boolean = false;
+      if (this.feedbackQuestionsService
+          .isCustomFeedbackVisibilitySettingAllowed(this.newQuestionEditFormModel.questionType)) {
+        isAllowedToUseInheritedVisibility = true;
+      } else {
+        const commonFeedbackVisibilitySettings: CommonVisibilitySetting[] =
+            this.feedbackQuestionsService.getCommonFeedbackVisibilitySettings(
+                newQuestionVisibilityStateMachine, this.newQuestionEditFormModel.questionType);
+        // new question is only allowed to have common visibility settings
+        // check whether the inherited settings fall into that or not
+        for (const commonVisibilityOption of commonFeedbackVisibilitySettings) {
+          if (this.isSameSet(newQuestionShowResponsesTo, commonVisibilityOption.visibilitySettings.SHOW_RESPONSE)
+              && this.isSameSet(newQuestionShowGiverNameTo,
+                  commonVisibilityOption.visibilitySettings.SHOW_GIVER_NAME)
+              && this.isSameSet(newQuestionShowRecipientNameTo,
+                  commonVisibilityOption.visibilitySettings.SHOW_RECIPIENT_NAME)) {
+            isAllowedToUseInheritedVisibility = true;
+            break;
+          }
+        }
+      }
+
+      if (isAllowedToUseInheritedVisibility) {
+        this.newQuestionEditFormModel.showResponsesTo = newQuestionShowResponsesTo;
+        this.newQuestionEditFormModel.showGiverNameTo = newQuestionShowGiverNameTo;
+        this.newQuestionEditFormModel.showRecipientNameTo = newQuestionShowRecipientNameTo;
+      }
     }
 
     this.scrollToNewEditForm();
+  }
+
+  private isSameSet(setA: FeedbackVisibilityType[], setB: FeedbackVisibilityType[]): boolean {
+    return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
   /**
