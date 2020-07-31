@@ -50,7 +50,13 @@ export class UserJoinPageComponent implements OnInit {
       this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
         this.hasJoined = resp.hasJoined;
         this.userId = resp.userId || '';
-        this.isLoading = false;
+        if (this.hasJoined && this.userId) {
+          // The regkey has been used and there is a logged in user.
+          // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
+          window.location.href = `${window.location.origin}/web/${this.entityType}/home`;
+        } else {
+          this.isLoading = false;
+        }
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 403) {
           this.isLoading = false;
