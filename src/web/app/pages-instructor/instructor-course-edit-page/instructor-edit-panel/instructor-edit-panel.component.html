@@ -8,7 +8,7 @@
               (click)="sendRemindJoinEmail.emit()">
         <i class="fa fa-envelope" aria-hidden="true"></i>
         Resend Invite
-      </button>&nbsp;
+      </button>
       <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-light btn-sm"
               [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
               (click)="triggerModelChange('isEditing', true)">
@@ -21,7 +21,7 @@
               (click)="cancelEditing.emit()">
         <i class="fa fa-times" aria-hidden="true"></i>
         Cancel
-      </button>&nbsp;
+      </button>
       <button id="btn-delete-instructor-{{ instructorIndex + 1 }}" *ngIf="editMode == EditMode.EDIT" class="btn btn-light btn-sm"
               ngbTooltip="Delete the instructor from the course" placement="top-right"
               [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
