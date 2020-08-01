@@ -12,10 +12,10 @@
     </p>
     <ul>
       <li>
-        From the <b>Home</b> page, click on the <button class="btn btn-primary btn-sm">Students</button> button of the corresponding course, and choose <b>Enroll</b>.
+        From the <b>Home</b> page, click on the <button class="btn btn-primary btn-sm" tabindex="-1">Students</button> button of the corresponding course, and choose <b>Enroll</b>.
       </li>
       <li>
-        From the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm">Enroll</button> button of the corresponding course.
+        From the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm" tabindex="-1">Enroll</button> button of the corresponding course.
       </li>
     </ul>
   </tm-instructor-help-panel>
@@ -61,7 +61,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
     <p>
       To specify a section for each student at the time of enrollment, include a <b>Section</b> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
-      To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm" type="button">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
+      To view more information, go to the <b>Courses</b> page, click on the <button class="btn btn-secondary btn-sm" type="button" tabindex="-1">Enroll</button> button for any course and scroll down to the <b>More Info</b> section.
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
@@ -72,7 +72,7 @@
                             headerText="How do I add instructors to my course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
     <p>
-      From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page, which will look similar to the example below.<br>
+      From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button" tabindex="-1">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page, which will look similar to the example below.<br>
       Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
     </p>
     <p>
@@ -80,13 +80,13 @@
     </p>
     <ol>
       <li>
-        Click the <button class="btn btn-primary btn-sm" type="button">Add New Instructor</button> button at the bottom of the page. A form will appear for you to specify the necessary information about the new instructor.
+        Click the <button class="btn btn-primary btn-sm" type="button" tabindex="-1">Add New Instructor</button> button at the bottom of the page. A form will appear for you to specify the necessary information about the new instructor.
       </li>
       <li>
         Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, hover your cursor over the input field to view the tooltip for explanation of the field.<br>
       </li>
       <li>
-        Click <button class="btn btn-primary btn-sm" type="button">Add Instructor</button> to add the instructor.
+        Click <button class="btn btn-primary btn-sm" type="button" tabindex="-1">Add Instructor</button> to add the instructor.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -97,7 +97,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
     <p>
       To edit the name, email and visible role of Instructor A from Course B, first go to the <b>Edit Course</b> page of Course B.<br>
-      From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
+      From your <b>Home</b> or <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button" tabindex="-1">Edit</button> button of the course you would like to edit. You will be directed to the <b>Edit Course</b> page.<br>
     </p>
     <p>
       To edit Instructor A's information:
@@ -107,13 +107,13 @@
         Scroll to the panel showing Instructor A's information.<br>
       </li>
       <li>
-        Click the <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-pencil-alt"></span> Edit</button> button in the top right hand corner of Instructor A's information panel. <br>
+        Click the <button class="btn btn-primary btn-sm" type="button" tabindex="-1"><span class="fa fa-pencil-alt"></span> Edit</button> button in the top right hand corner of Instructor A's information panel. <br>
       </li>
       <li>
         Update the relevant fields with Instructor A's new information.
       </li>
       <li>
-        Click <button class="btn btn-primary btn-sm" type="button">Save changes</button> to save the changes and complete the edit process.
+        Click <button class="btn btn-primary btn-sm" type="button" tabindex="-1">Save changes</button> to save the changes and complete the edit process.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -175,11 +175,11 @@
     </p>
     <ul>
       <li>
-        From the <b>Home</b> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-sm">Students <span class="caret dropdown-toggle"></span></button>
+        From the <b>Home</b> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-sm" tabindex="-1">Students <span class="caret dropdown-toggle"></span></button>
         and then select <b>View/Edit</b>.
       </li>
       <li>
-        From the <b>Courses</b> page, click <button class="btn btn-secondary btn-sm">View</button> button of the row corresponding to Course A.
+        From the <b>Courses</b> page, click <button class="btn btn-secondary btn-sm" tabindex="-1">View</button> button of the row corresponding to Course A.
       </li>
     </ul>
   </tm-instructor-help-panel>
@@ -196,13 +196,13 @@
         Go to the <b>Students</b> page and click Course B's panel heading. You will see a list of students enrolled in Course B.
       </li>
       <li>
-        Click the <button class="btn btn-secondary btn-sm">Edit</button> button in the last column of the row corresponding to Student A.
+        Click the <button class="btn btn-secondary btn-sm" tabindex="-1">Edit</button> button in the last column of the row corresponding to Student A.
       </li>
       <li>
         A new page will open that allows you to <button class="btn btn-link" (click)="collapseStudentEditDetails.emit(true);">edit the student's profile</button>, including a field to edit the student's section.<br>
       </li>
       <li>
-        After editing the section name, click <button class="btn btn-primary btn-sm">Save Changes</button> to confirm Student A's new section.
+        After editing the section name, click <button class="btn btn-primary btn-sm" tabindex="-1">Save Changes</button> to confirm Student A's new section.
       </li>
     </ol>
   </tm-instructor-help-panel>
@@ -229,7 +229,7 @@
         <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true" [routerLink]="">View the student list</a> of Course B.
       </li>
       <li>
-        In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm">Delete</button> button.
+        In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm" tabindex="-1">Delete</button> button.
       </li>
       <li>
         Click <b>OK</b> to confirm that you would like to delete Student A from Course B.
@@ -248,12 +248,12 @@
     </p>
     <p>
       In your <b>Home</b> page, you will see panels for each course and a table of feedback sessions inside it, similar to the example below.<br>
-      Click on the <button class="btn btn-primary btn-sm" type="button">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
-      Then select <button class="btn btn-secondary btn-sm" type="button">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
+      Click on the <button class="btn btn-primary btn-sm" type="button" tabindex="-1">Course <span class="caret"></span></button> button on the card heading of the course you want to archive.<br>
+      Then select <button class="btn btn-secondary btn-sm" type="button" tabindex="-1">Archive</button> in the drop-down menu and click <b>OK</b> to confirm.
     </p>
     <p>
       You can also archive a course from the <b>Courses</b> page.<br>
-      Under 'Active Courses', click on the <button class="btn btn-secondary btn-sm" type="button">Archive</button> button in the row corresponding to the course you want to archive.
+      Under 'Active Courses', click on the <button class="btn btn-secondary btn-sm" type="button" tabindex="-1">Archive</button> button in the row corresponding to the course you want to archive.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
@@ -277,7 +277,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
     <p>
       To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [routerLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
-      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
+      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button" tabindex="-1">Unarchive</button> button corresponding to the course you want to unarchive.
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
@@ -303,7 +303,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
     <p>
       To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
-      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
+      Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button" tabindex="-1">Restore</button> button corresponding to the course you want to restore.
     </p>
     <p>
       After restoring the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be restored.
@@ -316,7 +316,7 @@
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
     <p>
       To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
-      Then, click on the <button href="#" class="btn btn-secondary btn-sm color-negative" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
+      Then, click on the <button href="#" class="btn btn-secondary btn-sm color-negative" type="button" tabindex="-1">Delete Permanently</button> button corresponding to the course you want to delete.
     </p>
     <p>
       After deleting the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be permanently deleted.
