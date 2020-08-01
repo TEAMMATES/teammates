@@ -42,42 +42,36 @@ export class UserJoinPageComponent implements OnInit {
       this.institute = queryParams.instructorinstitution;
       this.mac = queryParams.mac;
 
-      this.authService.getAuthUser().subscribe((auth: AuthInfo) => {
-        if (auth.user) {
-          // If there is a logged in user, "joining" is meaningless.
-          // Simply redirect the user to their home page.
+      if (this.institute != null && this.mac == null) {
+        this.validUrl = false;
+        return;
+      }
+
+      this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+        this.hasJoined = resp.hasJoined;
+        this.userId = resp.userId || '';
+        if (this.hasJoined && this.userId) {
+          // The regkey has been used and there is a logged in user.
+          // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
           window.location.href = `${window.location.origin}/web/${this.entityType}/home`;
         } else {
-          this.validateJoinLink();
+          this.isLoading = false;
+        }
+      }, (resp: ErrorMessageOutput) => {
+        if (resp.status === 403) {
+          this.isLoading = false;
+          const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+          this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+            if (!auth.user) {
+              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            }
+          });
+        } else {
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = resp.error.message;
         }
       });
-    });
-  }
-
-  private validateJoinLink(): void {
-    if (this.institute != null && this.mac == null) {
-      this.validUrl = false;
-      return;
-    }
-
-    this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
-      this.hasJoined = resp.hasJoined;
-      this.userId = resp.userId || '';
-      this.isLoading = false;
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status === 403) {
-        this.isLoading = false;
-        const nextUrl: string = `${window.location.pathname}${window.location.search}`;
-        this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
-          if (!auth.user) {
-            window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-          }
-        });
-      } else {
-        const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-        modalRef.componentInstance.requestId = resp.error.requestId;
-        modalRef.componentInstance.errorMessage = resp.error.message;
-      }
     });
   }
 

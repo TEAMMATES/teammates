@@ -57,7 +57,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         JoinStatus output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
-        assertNull(output.getUserId());
+        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Normal case: student is not registered");
 
@@ -107,7 +107,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
-        assertNull(output.getUserId());
+        assertEquals("unreg.user", output.getUserId());
 
         ______TS("Normal case: instructor is not registered");
 
