@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -39,8 +42,12 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.CoursesData;
+import teammates.ui.webapi.output.FeedbackSessionData;
+import teammates.ui.webapi.output.FeedbackSessionsData;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
+import teammates.ui.webapi.output.ResponseVisibleSetting;
+import teammates.ui.webapi.output.SessionVisibleSetting;
 import teammates.ui.webapi.output.StudentData;
 import teammates.ui.webapi.request.Intent;
 
@@ -423,6 +430,91 @@ public final class BackDoor {
             student.withLastName(studentData.getLastName());
         }
         return student.build();
+    }
+
+    /**
+     * Get feedback session data from datastore.
+     */
+    public static FeedbackSessionData getFeedbackSessionData(String courseId, String feedbackSessionName) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
+        params.put(Const.ParamsNames.INTENT, new String[] { Intent.FULL_DETAIL.toString() });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        return JsonUtils.fromJson(response.responseBody, FeedbackSessionData.class);
+    }
+
+    /**
+     * Get feedback session from datastore.
+     */
+    public static FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
+        FeedbackSessionData sessionData = getFeedbackSessionData(courseId, feedbackSessionName);
+        if (sessionData == null) {
+            return null;
+        }
+
+        FeedbackSessionAttributes sessionAttributes = FeedbackSessionAttributes
+                .builder(sessionData.getFeedbackSessionName(), sessionData.getCourseId())
+                .withInstructions(sessionData.getInstructions())
+                .withStartTime(Instant.ofEpochMilli(sessionData.getSubmissionStartTimestamp()))
+                .withEndTime(Instant.ofEpochMilli(sessionData.getSubmissionEndTimestamp()))
+                .withTimeZone(ZoneId.of(sessionData.getTimeZone()))
+                .withGracePeriod(Duration.ofMinutes(sessionData.getGracePeriod()))
+                .withIsClosingEmailEnabled(sessionData.getIsClosingEmailEnabled())
+                .withIsPublishedEmailEnabled(sessionData.getIsPublishedEmailEnabled())
+                .build();
+
+        sessionAttributes.setCreatedTime(Instant.ofEpochMilli(sessionData.getCreatedAtTimestamp()));
+
+        if (sessionData.getSessionVisibleSetting().equals(SessionVisibleSetting.AT_OPEN)) {
+            sessionAttributes.setSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING);
+        } else {
+            sessionAttributes.setSessionVisibleFromTime(Instant.ofEpochMilli(
+                    sessionData.getCustomSessionVisibleTimestamp()));
+        }
+
+        if (sessionData.getResponseVisibleSetting().equals(ResponseVisibleSetting.AT_VISIBLE)) {
+            sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_VISIBLE);
+        } else if (sessionData.getResponseVisibleSetting().equals(ResponseVisibleSetting.LATER)) {
+            sessionAttributes.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        } else {
+            sessionAttributes.setResultsVisibleFromTime(Instant.ofEpochMilli(
+                    sessionData.getCustomResponseVisibleTimestamp()));
+        }
+
+        return sessionAttributes;
+    }
+
+    /**
+     * Get soft deleted feedback session from datastore.
+     */
+    public static FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.ENTITY_TYPE, new String[] { Const.EntityType.INSTRUCTOR });
+        params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, new String[] { "true" });
+        params.put(Const.ParamsNames.USER_ID, new String[] { instructorId });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
+        FeedbackSessionData feedbackSession = sessionsData.getFeedbackSessions()
+                .stream()
+                .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
+                .findFirst()
+                .orElse(null);
+
+        if (feedbackSession == null) {
+            return null;
+        }
+
+        return FeedbackSessionAttributes
+                .builder(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName())
+                .build();
     }
 
     /**

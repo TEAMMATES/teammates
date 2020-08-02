@@ -186,6 +186,8 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private void equalizeIrrelevantData(FeedbackSessionAttributes expected, FeedbackSessionAttributes actual) {
         expected.setRespondingInstructorList(actual.getRespondingInstructorList());
         expected.setRespondingStudentList(actual.getRespondingStudentList());
+        expected.setCreatedTime(actual.getCreatedTime());
+        expected.setCreatorEmail(actual.getCreatorEmail());
     }
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {

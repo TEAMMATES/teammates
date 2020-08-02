@@ -129,6 +129,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         });
     }
 
+    protected FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+        return BackDoor.getSoftDeletedSession(feedbackSessionName, instructorId);
+    }
+
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
         throw new UnsupportedOperationException("Method not used");
@@ -140,7 +144,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        return null; // BackDoor.getFeedbackSession(courseId, feedbackSessionName);
+        return BackDoor.getFeedbackSession(courseId, feedbackSessionName);
     }
 
     @Override
