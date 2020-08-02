@@ -261,9 +261,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void copySessionToOtherCourse(CourseAttributes otherCourse, String sessionName) {
         click(fsCopyButton);
-        By copyFsModalId = By.id("copy-course-modal");
-        waitForElementPresence(copyFsModalId);
-        WebElement copyFsModal = browser.driver.findElement(copyFsModalId);
+        WebElement copyFsModal = waitForElementPresence(By.id("copy-course-modal"));
 
         fillTextBox(copyFsModal.findElement(By.id("copy-session-name")), sessionName);
         List<WebElement> options = copyFsModal.findElements(By.className("form-check"));
@@ -286,9 +284,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         WebElement newQuestionDropdown = browser.driver.findElement(By.id("new-question-dropdown"));
         click(newQuestionDropdown.findElements(By.tagName("button")).get(0));
-        By templateQuestionModalId = By.id("template-question-modal");
-        waitForElementPresence(templateQuestionModalId);
-        WebElement templateQuestionModal = browser.driver.findElement(templateQuestionModalId);
+        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
 
         click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
         click(browser.driver.findElement(By.id("btn-confirm-template")));
@@ -296,9 +292,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void copyQuestion(String courseId, String questionText) {
         click(copyQuestionButton);
-        By copyQuestionModalId = By.id("copy-question-modal");
-        waitForElementPresence(copyQuestionModalId);
-        WebElement copyQuestionModal = browser.driver.findElement(copyQuestionModalId);
+        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
 
         List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
         for (WebElement row : rows) {
