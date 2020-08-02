@@ -7,10 +7,11 @@
 <tm-loading-retry [shouldShowRetry]="hasStudentResultsLoadingFailed" [message]="'Failed to load student results'" (retryEvent)="loadStudentResults()">
   <div *tmIsLoading="isStudentResultsLoading">
     <div *ngFor="let session of sessionTabs" class="card card-default mb-4">
-      <div class="card-header font-weight-bold cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
-        Feedback Session : {{session.feedbackSession.feedbackSessionName}}
-        <span class="float-right fas"
-              [ngClass]="{'fa-chevron-up': !session.isCollapsed, 'fa-chevron-down': session.isCollapsed}"></span>
+      <div class="card-header cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
+        <strong>Feedback Session: {{ session.feedbackSession.feedbackSessionName }}</strong>
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="!session.isCollapsed"></tm-panel-chevron>
+        </div>
       </div>
       <div class="card-body" *ngIf="!session.isCollapsed" @collapseAnim>
         <tm-grq-rgq-view-responses *ngIf="session.responsesReceivedByStudent.length > 0"
@@ -20,10 +21,9 @@
                                    (saveNewCommentEvent)="saveNewComment($event)" (deleteCommentEvent)="deleteComment($event)" (updateCommentEvent)="updateComment($event)"
                                    [isExpandAll]="true">
         </tm-grq-rgq-view-responses>
-        <div *ngIf="session.responsesReceivedByStudent.length === 0">
+        <div *ngIf="session.responsesReceivedByStudent.length === 0" class="mb-3">
           No feedback responses for {{studentName}} ({{studentTeam}}) found.
         </div>
-        <br/>
         <tm-grq-rgq-view-responses *ngIf="session.responsesGivenByStudent.length > 0"
                                    [session]="session.feedbackSession"
                                    [responses]="session.responsesGivenByStudent" [groupByTeam]="false" [section]="" [sectionType]=""

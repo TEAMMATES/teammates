@@ -4,27 +4,35 @@
       <tr class="header">
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" *ngIf="showGiver">
           Team
-          <span *ngIf="sortBy !== SortBy.GIVER_TEAM"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" *ngIf="showGiver">
           Giver
-          <span *ngIf="sortBy !== SortBy.GIVER_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.GIVER_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_TEAM)" *ngIf="showRecipient">
           Team
-          <span *ngIf="sortBy !== SortBy.RECIPIENT_TEAM"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_TEAM && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" *ngIf="showRecipient">
           Recipient
-          <span *ngIf="sortBy !== SortBy.RECIPIENT_NAME"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+            <i *ngIf="sortBy === SortBy.RECIPIENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+          </span>
         </th>
         <th>Response</th>
         <th *ngIf="canResponseHasComment">Comment for Response</th>
@@ -48,7 +56,8 @@
           ></tm-student-name-with-photo>
         </td>
         <td>
-          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
+          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"
+                              [giverEmail]="response.giverEmail" [recipientEmail]="response.recipientEmail" [statistics]="statistics"></tm-single-response>
         </td>
         <td *ngIf="canResponseHasComment">
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>
@@ -58,8 +67,8 @@
                                          [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
           <button class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
                   *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
-                  (click)="showCommentTableModel(response, commentTableModal)">Add Comment <span class="badge badge-secondary">
-            {{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
+                  (click)="showCommentTableModel(response, commentTableModal)">Add Comment
+            <span *ngIf="instructorCommentTableModel[response.responseId].commentRows.length" class="badge badge-secondary">{{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
           </button>
         </td>
       </tr>

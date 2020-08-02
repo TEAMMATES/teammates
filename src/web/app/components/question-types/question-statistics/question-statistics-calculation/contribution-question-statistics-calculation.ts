@@ -8,6 +8,10 @@ import {
 import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
 
+interface ContributionStatisticsEntryExt extends ContributionStatisticsEntry {
+  claimedOthersValues: number[];
+}
+
 /**
  * Class to calculate stats for contribution question.
  */
@@ -22,7 +26,7 @@ export class ContributionQuestionStatisticsCalculation
   emailToName: Record<string, string> = {};
   emailToDiff: Record<string, number> = {};
   questionOverallStatistics?: ContributionStatistics;
-  questionStatisticsForStudent?: ContributionStatisticsEntry;
+  questionStatisticsForStudent?: ContributionStatisticsEntryExt;
 
   constructor(question: FeedbackContributionQuestionDetails) {
     super(question);
@@ -38,7 +42,8 @@ export class ContributionQuestionStatisticsCalculation
     this.questionStatisticsForStudent = {
       claimed: 0,
       perceived: 0,
-      claimedOthers: [],
+      claimedOthers: {},
+      claimedOthersValues: [],
       perceivedOthers: [],
     };
 
@@ -47,7 +52,10 @@ export class ContributionQuestionStatisticsCalculation
       if (this.isStudent) {
         const results: ContributionStatisticsEntry[] = Object.values(statisticsObject.results);
         if (results.length) {
-          this.questionStatisticsForStudent = results[0];
+          this.questionStatisticsForStudent = {
+            ...results[0],
+            claimedOthersValues: Object.values(results[0].claimedOthers).sort((a: number, b: number) => b - a),
+          };
         }
       } else {
         for (const response of this.responses) {

@@ -54,13 +54,17 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
         ...this.choices.map((_: string, choiceIndex: number) => {
           if (this.excludeSelf) {
-            return { value: `${ this.percentagesExcludeSelf[questionIndex][choiceIndex] }% \
-(${ this.answersExcludeSelf[questionIndex][choiceIndex] }) \
-${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
+            return {
+              value: `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%`
+                  + ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})`
+                  + `${this.hasWeights ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+            };
           }
-          return { value: `${ this.percentages[questionIndex][choiceIndex] }% \
-(${ this.answers[questionIndex][choiceIndex] }) \
-${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` };
+          return {
+            value: `${this.percentages[questionIndex][choiceIndex]}%`
+                + ` (${this.answers[questionIndex][choiceIndex]})`
+                + `${this.hasWeights ? ` [${this.weights[questionIndex][choiceIndex]}]` : ''}`,
+          };
         }),
       ];
       if (this.hasWeights) {
@@ -97,9 +101,9 @@ ${ this.hasWeights ? `[${ this.weights[questionIndex][choiceIndex] }]` : '' }` }
           { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
           ...this.choices.map((_: string, choiceIndex: number) => {
             return {
-              value: `${perRecipientStats.percentages[questionIndex][choiceIndex]}% \
-(${perRecipientStats.answers[questionIndex][choiceIndex]}) \
-[${this.weights[questionIndex][choiceIndex]}]`,
+              value: `${perRecipientStats.percentages[questionIndex][choiceIndex]}%`
+                  + ` (${perRecipientStats.answers[questionIndex][choiceIndex]})`
+                  + ` [${this.weights[questionIndex][choiceIndex]}]`,
             };
           }),
           { value: perRecipientStats.subQuestionTotalChosenWeight[questionIndex] },

@@ -1,13 +1,13 @@
-<span class="d-inline-flex row no-gutters">
+<span class="d-inline-flex row align-items-center no-gutters">
   <span *ngIf="shouldShowDownloadQuestionResult" class="col-auto">
-    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link text-white padding-0 mr-1" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
+    <button ngbTooltip="Download Question Results" type="button" class="btn btn-link text-white padding-0" (click)="downloadQuestionResultEvent.emit(); $event.stopPropagation();">
       <b>Question {{ questionNumber }}:</b>
     </button>
   </span>
   <span *ngIf="!shouldShowDownloadQuestionResult" class="col-auto">
-    <b>Question {{ questionNumber }}:</b>
+    <b>Question {{ questionNumber }}:&nbsp;</b>
   </span>
-  <span class="col-auto">{{ questionDetails.questionText }}</span>
+  <span class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
   <a class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
   </a>

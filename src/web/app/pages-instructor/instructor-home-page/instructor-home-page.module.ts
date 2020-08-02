@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { RedirectBannerModule } from '../../components/redirect-banner/redirect-banner.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 
@@ -32,6 +34,8 @@ const routes: Routes = [
     NgbTooltipModule,
     LoadingSpinnerModule,
     LoadingRetryModule,
+    PanelChevronModule,
+    RedirectBannerModule,
   ],
   exports: [
     InstructorHomePageComponent,

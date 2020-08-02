@@ -1,26 +1,28 @@
-<div class="card mt-4" xmlns="http://www.w3.org/1999/html">
-  <div class="card-header panel-primary">
-    <b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}
+<div class="card">
+  <div class="card-header text-white question-header">
+    <span><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
   <div class="card-body">
-    <div class="card" *ngIf="model.questionDescription" xmlns="http://www.w3.org/1999/html">
+    <div class="card mb-3" *ngIf="model.questionDescription">
       <div class="card-header">
         <b>More details</b>
       </div>
       <div class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
     </div>
 
-    <p class="text-secondary">Only the following persons can see your responses: </p>
-    <ul class="text-secondary">
-      <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
-      <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
-        <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
-          {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
-        </li>
-      </ng-container>
-      <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
-    </ul>
+    <div class="card-body visibility-card">
+      <p class="text-secondary">Only the following persons can see your responses: </p>
+      <ul class="text-secondary">
+        <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+        <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+          <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+            {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+          </li>
+        </ng-container>
+        <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+      </ul>
+    </div>
 
     <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-instruction>
     <tm-text-question-instruction *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-instruction>
@@ -64,7 +66,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 margin-top-10px">
+          <div class="col-12 margin-top-10px indent">
             <tm-contribution-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="model.questionDetails"
                                                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                       [shouldShowHelpLink]="i === 0"
@@ -116,16 +118,15 @@
                                                            [isDisabled]="isDisabled"></tm-constsum-recipients-question-edit-answer-form>
           </div>
 
-          <div *ngIf="allowedToHaveParticipantComment" class="col-12">
+          <div *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
               <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                               [model]="recipientSubmissionFormModel.commentByGiver"
                               (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
                               [isFeedbackParticipantComment]="true"
                               [questionShowResponsesTo]="model.showResponsesTo"
-                              [shouldHideSavingButton]="false"
+                              [shouldHideSavingButton]="true"
                               (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
-                              (saveCommentEvent)="triggerSaveCommentEvent(i)"
                               (closeEditingEvent)="discardEditedParticipantComment(i)"
                               [isDisabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
               <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">

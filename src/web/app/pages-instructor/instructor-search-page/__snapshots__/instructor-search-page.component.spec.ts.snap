@@ -3,7 +3,7 @@
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
@@ -107,14 +107,17 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar>
+  </tm-instructor-search-bar><div>
+    
+    
+  </div>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
@@ -219,447 +222,456 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar><tm-student-result-table>
-    <div
-      class="card border border-primary mb-4"
-    >
+  </tm-instructor-search-bar><div>
+    
+    <tm-student-result-table>
       <div
-        class="card-header text-white bg-primary font-weight-bold"
+        class="card border border-primary mb-4"
       >
-        Students
-      </div>
-      <div
-        class="card-body p-3"
-      >
-        
         <div
-          class="card border border-light-blue mb-3"
+          class="card-header text-white bg-primary font-weight-bold"
         >
+          Students
+        </div>
+        <div
+          class="card-body p-3"
+        >
+          
           <div
-            class="card-header text-dark-blue bg-light-blue font-weight-bold"
+            class="card border border-light-blue mb-3"
           >
-            [test-exa.demo]
-          </div>
-          <div
-            class="card-body p-0"
-          >
-            <tm-student-list>
-              <div
-                class="table-responsive"
-              >
-                <table
-                  class="table table-bordered table-striped m-0"
+            <div
+              class="card-header text-dark-blue bg-light-blue font-weight-bold"
+            >
+              [test-exa.demo]
+            </div>
+            <div
+              class="card-body p-0"
+            >
+              <tm-student-list>
+                <div
+                  class="table-responsive"
                 >
-                  <thead
-                    class="thead-gray"
+                  <table
+                    class="table table-bordered table-striped m-0"
                   >
-                    <tr>
-                      <th>
-                        Photo
-                      </th>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         Section 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Team 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Student Name 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Status 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="sortable-header"
-                      >
-                         Email 
-                        
-                        <span>
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th
-                        class="align-center"
-                      >
-                        Action(s)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    <tr
-                      s=""
+                    <thead
+                      class="thead-gray"
                     >
-                      <td>
-                        <tm-view-photo-popover>
-                          
+                      <tr>
+                        <th>
+                          Photo
+                        </th>
+                        
+                        <th
+                          class="sortable-header"
+                        >
+                           Section 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Team 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Student Name 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Status 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="sortable-header"
+                        >
+                           Email 
+                          <span
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                            
+                            
+                          </span>
+                        </th>
+                        <th
+                          class="align-center"
+                        >
+                          Action(s)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      <tr
+                        s=""
+                      >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
+                        
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          tester
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          tester@tester.com
+                        </td>
+                        <td
+                          class="no-print align-center"
+                        >
                           
                           
                           <a
-                            href="/"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             View
                           </a>
-                          
-                          
-                          
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        tester
-                      </td>
-                      <td>
-                        Joined
-                      </td>
-                      <td>
-                        tester@tester.com
-                      </td>
-                      <td
-                        class="no-print align-center"
-                      >
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                        >
-                          Delete
-                        </button>
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td>
-                        <tm-view-photo-popover>
-                          
                           
                           
                           <a
-                            href="/"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=tester@tester.com"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             Edit
                           </a>
                           
                           
+                          <button
+                            class="btn btn-light btn-sm mr-2"
+                          >
+                            Delete
+                          </button>
                           
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        Benny Charles
-                      </td>
-                      <td>
-                        Joined
-                      </td>
-                      <td>
-                        benny.c.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=tester@tester.com"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                      <tr
+                        s=""
                       >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
                         
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          Benny Charles
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          benny.c.tmms@gmail.tmt
+                        </td>
+                        <td
+                          class="no-print align-center"
                         >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                        >
-                          Delete
-                        </button>
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td>
-                        <tm-view-photo-popover>
-                          
                           
                           
                           <a
-                            href="/"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             View
                           </a>
-                          
-                          
-                          
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        Alice Betsy
-                      </td>
-                      <td>
-                        Joined
-                      </td>
-                      <td>
-                        alice.b.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
-                      >
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           View
-                        </a>
-                        
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           Edit
-                        </a>
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                        >
-                          Delete
-                        </button>
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                    <tr
-                      s=""
-                    >
-                      <td>
-                        <tm-view-photo-popover>
-                          
                           
                           
                           <a
-                            href="/"
-                            queryparamshandling="preserve"
-                            role="button"
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
                           >
-                             View Photo 
+                             Edit
                           </a>
                           
                           
+                          <button
+                            class="btn btn-light btn-sm mr-2"
+                          >
+                            Delete
+                          </button>
                           
-                        </tm-view-photo-popover>
-                      </td>
-                      
-                      <td>
-                        Tutorial Group 1
-                      </td>
-                      <td>
-                        Team 1
-                      </td>
-                      <td>
-                        Danny Engrid
-                      </td>
-                      <td>
-                        Joined
-                      </td>
-                      <td>
-                        danny.e.tmms@gmail.tmt
-                      </td>
-                      <td
-                        class="no-print align-center"
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=benny.c.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                      <tr
+                        s=""
                       >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
                         
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          Alice Betsy
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          alice.b.tmms@gmail.tmt
+                        </td>
+                        <td
+                          class="no-print align-center"
                         >
-                           View
-                        </a>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             View
+                          </a>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             Edit
+                          </a>
+                          
+                          
+                          <button
+                            class="btn btn-light btn-sm mr-2"
+                          >
+                            Delete
+                          </button>
+                          
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=alice.b.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                      <tr
+                        s=""
+                      >
+                        <td>
+                          <tm-view-photo-popover>
+                            
+                            
+                            
+                            <a
+                              href="/"
+                              queryparamshandling="preserve"
+                              role="button"
+                            >
+                               View Photo 
+                            </a>
+                            
+                            
+                            
+                          </tm-view-photo-popover>
+                        </td>
                         
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
+                        <td>
+                          Tutorial Group 1
+                        </td>
+                        <td>
+                          Team 1
+                        </td>
+                        <td>
+                          Danny Engrid
+                        </td>
+                        <td>
+                          Joined
+                        </td>
+                        <td>
+                          danny.e.tmms@gmail.tmt
+                        </td>
+                        <td
+                          class="no-print align-center"
                         >
-                           Edit
-                        </a>
-                        
-                        
-                        <button
-                          class="btn btn-light btn-sm mr-2"
-                        >
-                          Delete
-                        </button>
-                        
-                        <a
-                          class="btn btn-light btn-sm btn-margin-right"
-                          href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                           All Records
-                        </a>
-                        
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </tm-student-list>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/details?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             View
+                          </a>
+                          
+                          
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/courses/student/edit?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             Edit
+                          </a>
+                          
+                          
+                          <button
+                            class="btn btn-light btn-sm mr-2"
+                          >
+                            Delete
+                          </button>
+                          
+                          <a
+                            class="btn btn-light btn-sm mr-2"
+                            href="/web/instructor/students/records?courseid=test-exa.demo&studentemail=danny.e.tmms@gmail.tmt"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                             All Records
+                          </a>
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </tm-student-list>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </tm-student-result-table>
+    </tm-student-result-table>
+    
+  </div>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
@@ -764,6 +776,9 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </div>
-  </tm-instructor-search-bar>
+  </tm-instructor-search-bar><div>
+    
+    
+  </div>
 </tm-instructor-search-page>
 `;

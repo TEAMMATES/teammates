@@ -131,38 +131,44 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -199,10 +205,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -313,10 +321,12 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -434,28 +444,26 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
       class="card top-padded"
     >
       <div
-        class="card-header archive-course-header bg-info"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
+        <b>
+          Archive
+        </b>
         <div
-          class="row text-white align-items-center"
+          class="card-header-btn-toolbar"
         >
-          <div
-            class="col-6"
-          >
-            <b>
-              Archive
-            </b>
-          </div>
-          <div
-            class="col-6 text-right"
-          >
-            
-            <i
-              class="fas fa-chevron-down"
-            />
-            
-          </div>
+          <tm-panel-chevron>
+            <div
+              class="chevron"
+            >
+              
+              <i
+                class="fas fa-chevron-down"
+              />
+              
+            </div>
+          </tm-panel-chevron>
         </div>
       </div>
       
@@ -478,50 +486,46 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         class="card bg-light top-padded"
       >
         <div
-          class="card-header cursor-pointer panel-secondary"
+          class="card-header bg-secondary text-white cursor-pointer"
           id="deleted-table-heading"
         >
+          <b>
+            Recycle Bin
+          </b>
           <div
-            class="row align-items-center"
+            class="card-header-btn-toolbar"
           >
-            <div
-              class="col-4 text-white"
+            
+            
+            <button
+              class="btn btn-light btn-sm disabled"
             >
-              <b>
-                Recycle Bin
-              </b>
-            </div>
-            <div
-              class="col-8 text-right"
-            >
-              <button
-                class="btn btn-secondary btn-sm btn-margin-right "
-                disabled=""
-                id="btn-restore-all"
-                ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
-              >
-                <i
-                  class="fas fa-check"
-                />
-                 Restore All 
-              </button>
-              <button
-                class="btn btn-secondary btn-sm btn-margin-right"
-                disabled=""
-                id="btn-delete-all"
-                ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
-              >
-                <i
-                  class="fas fa-times"
-                />
-                 Delete All 
-              </button>
-              
               <i
-                class="fas fa-chevron-down text-white"
+                class="fas fa-check"
               />
-              
-            </div>
+               Restore All 
+            </button>
+            
+            
+            <button
+              class="btn btn-light btn-sm disabled text-danger"
+            >
+              <i
+                class="fas fa-times"
+              />
+               Delete All 
+            </button>
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                <i
+                  class="fas fa-chevron-down"
+                />
+                
+              </div>
+            </tm-panel-chevron>
           </div>
         </div>
         
@@ -598,38 +602,44 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -666,10 +676,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -780,10 +792,12 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   
@@ -901,28 +915,26 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
       class="card top-padded"
     >
       <div
-        class="card-header archive-course-header bg-info"
+        class="card-header bg-info text-white cursor-pointer"
         id="archived-table-heading"
       >
+        <b>
+          Archive
+        </b>
         <div
-          class="row text-white align-items-center"
+          class="card-header-btn-toolbar"
         >
-          <div
-            class="col-6"
-          >
-            <b>
-              Archive
-            </b>
-          </div>
-          <div
-            class="col-6 text-right"
-          >
-            
-            <i
-              class="fas fa-chevron-down"
-            />
-            
-          </div>
+          <tm-panel-chevron>
+            <div
+              class="chevron"
+            >
+              
+              <i
+                class="fas fa-chevron-down"
+              />
+              
+            </div>
+          </tm-panel-chevron>
         </div>
       </div>
       
@@ -945,48 +957,52 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         class="card bg-light top-padded"
       >
         <div
-          class="card-header cursor-pointer panel-secondary"
+          class="card-header bg-secondary text-white cursor-pointer"
           id="deleted-table-heading"
         >
+          <b>
+            Recycle Bin
+          </b>
           <div
-            class="row align-items-center"
+            class="card-header-btn-toolbar"
           >
-            <div
-              class="col-4 text-white"
+            
+            <button
+              class="btn btn-light btn-sm"
+              id="btn-restore-all"
+              ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
             >
-              <b>
-                Recycle Bin
-              </b>
-            </div>
-            <div
-              class="col-8 text-right"
-            >
-              <button
-                class="btn btn-secondary btn-sm btn-margin-right "
-                id="btn-restore-all"
-                ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
-              >
-                <i
-                  class="fas fa-check"
-                />
-                 Restore All 
-              </button>
-              <button
-                class="btn btn-secondary btn-sm btn-margin-right"
-                id="btn-delete-all"
-                ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
-              >
-                <i
-                  class="fas fa-times"
-                />
-                 Delete All 
-              </button>
-              
               <i
-                class="fas fa-chevron-down text-white"
+                class="fas fa-check"
               />
-              
-            </div>
+               Restore All 
+            </button>
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm text-danger"
+              id="btn-delete-all"
+              ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
+            >
+              <i
+                class="fas fa-times"
+              />
+               Delete All 
+            </button>
+            
+            
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                <i
+                  class="fas fa-chevron-down"
+                />
+                
+              </div>
+            </tm-panel-chevron>
           </div>
         </div>
         
@@ -1127,38 +1143,44 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                   id="sort-course-id"
                 >
                    Course ID 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-course-name"
                 >
                    Course Name 
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
                     <i
                       class="fas fa-sort"
                     />
+                    
+                    
                   </span>
-                  
-                  
                 </th>
                 <th
                   class="sortable-header"
                   id="sort-creation-date"
                 >
                    Creation Date 
-                  
-                  
-                  
-                  <span>
+                  <span
+                    class="fa-stack"
+                  >
+                    <i
+                      class="fas fa-sort"
+                    />
+                    
+                    
                     <i
                       class="fas fa-sort-up"
                     />
@@ -1195,10 +1217,12 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   Modifiable Students and Courses
                 </td>
-                <td
-                  container="body"
-                >
-                   5 Nov 2018 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     5 Nov 2018 
+                  </span>
                 </td>
                 <td>
                   
@@ -1330,10 +1354,12 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 <td>
                   Nothing modifiable
                 </td>
-                <td
-                  container="body"
-                >
-                   2 Feb 2019 
+                <td>
+                  <span
+                    container="body"
+                  >
+                     2 Feb 2019 
+                  </span>
                 </td>
                 <td>
                   

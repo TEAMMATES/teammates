@@ -20,6 +20,7 @@ import {
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
+import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 
 describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;
@@ -47,6 +48,7 @@ describe('QuestionEditFormComponent', () => {
         NgbModule,
         VisibilityMessagesModule,
         BrowserAnimationsModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();

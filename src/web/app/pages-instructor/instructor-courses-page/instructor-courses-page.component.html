@@ -25,21 +25,27 @@
           <tr class="bg-primary text-white">
             <th id="sort-course-id" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)">
               Course ID
-              <span *ngIf="activeTableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
-              <span *ngIf="activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.ASC"></i>
+              </span>
             </th>
             <th id="sort-course-name" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)">
               Course Name
-              <span *ngIf="activeTableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
-              <span *ngIf="activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.ASC"></i>
+              </span>
             </th>
             <th id="sort-creation-date" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_CREATION_DATE)">
               Creation Date
-              <span *ngIf="activeTableSortBy !== SortBy.COURSE_CREATION_DATE"><i class="fas fa-sort"></i></span>
-              <span *ngIf="activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.ASC"></i>
+              </span>
             </th>
             <th>Sections</th>
             <th>Teams</th>
@@ -55,8 +61,10 @@
           <tr *ngFor="let course of activeCourses; let i = index">
             <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
             <td>{{course.course.courseName}}</td>
-            <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-              {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+            <td>
+              <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+              </span>
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
@@ -159,15 +167,10 @@
     <span class="fa fa-file-archive"></span> Archived courses
   </h3>
   <div class="card top-padded">
-    <div id="archived-table-heading" class="card-header archive-course-header bg-info" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
-      <div class="row text-white align-items-center">
-        <div class="col-6">
-          <b>Archive</b>
-        </div>
-        <div class="col-6 text-right">
-          <i class="fas fa-chevron-down" *ngIf="!isArchivedCourseExpanded"></i>
-          <i class="fas fa-chevron-up" *ngIf="isArchivedCourseExpanded"></i>
-        </div>
+    <div id="archived-table-heading" class="card-header bg-info text-white cursor-pointer" (click)="isArchivedCourseExpanded = !isArchivedCourseExpanded">
+      <b>Archive</b>
+      <div class="card-header-btn-toolbar">
+        <tm-panel-chevron [isExpanded]="isArchivedCourseExpanded"></tm-panel-chevron>
       </div>
     </div>
     <div class="card-body archive-body table-responsive" *ngIf="isArchivedCourseExpanded" @collapseAnim>
@@ -176,21 +179,27 @@
           <tr class="background-color-medium-gray text-color-gray">
             <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_ID)">
               Course ID
-              <span *ngIf="archivedTableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
-              <span *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_ID && archivedTableSortOrder === SortOrder.ASC"></i>
+              </span>
             </th>
             <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_NAME)">
               Course Name
-              <span *ngIf="archivedTableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
-              <span *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_NAME && archivedTableSortOrder === SortOrder.ASC"></i>
+              </span>
             </th>
             <th class="sortable-header" (click)="sortArchivedCoursesEvent(SortBy.COURSE_CREATION_DATE)">
               Creation Date
-              <span *ngIf="archivedTableSortBy !== SortBy.COURSE_CREATION_DATE"><i class="fas fa-sort"></i></span>
-              <span *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-              <span *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+              <span class="fa-stack">
+                <i class="fas fa-sort"></i>
+                <i class="fas fa-sort-down" *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.DESC"></i>
+                <i class="fas fa-sort-up" *ngIf="archivedTableSortBy === SortBy.COURSE_CREATION_DATE && archivedTableSortOrder === SortOrder.ASC"></i>
+              </span>
             </th>
             <th class="text-center">Action(s)</th>
           </tr>
@@ -227,23 +236,24 @@
       <span class="fa fa-trash-alt"></span> Deleted courses
     </h3>
     <div class="card bg-light top-padded">
-      <div id="deleted-table-heading" class="card-header cursor-pointer panel-secondary" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
-        <div class="row align-items-center">
-          <div class="col-4 text-white">
-            <b>Recycle Bin</b>
-          </div>
-          <div class="col-8 text-right">
-            <button id="btn-restore-all" class="btn btn-secondary btn-sm btn-margin-right " [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
-                    ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
-              <i class="fas fa-check"></i> Restore All
-            </button>
-            <button id="btn-delete-all" class="btn btn-secondary btn-sm btn-margin-right" [disabled]="!canRestoreAll" (click)="$event.stopPropagation(); onDeleteAll()"
-                    ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
-              <i class="fas fa-times"></i> Delete All
-            </button>
-            <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
-            <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
-          </div>
+      <div id="deleted-table-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+        <b>Recycle Bin</b>
+        <div class="card-header-btn-toolbar">
+          <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+                  ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
+            <i class="fas fa-check"></i> Restore All
+          </button>
+          <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
+            <i class="fas fa-check"></i> Restore All
+          </button>
+          <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
+                  ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
+            <i class="fas fa-times"></i> Delete All
+          </button>
+          <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
+            <i class="fas fa-times"></i> Delete All
+          </button>
+          <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
         </div>
       </div>
       <div class="card-body recycle-bin-body table-responsive" *ngIf="isRecycleBinExpanded" @collapseAnim>
@@ -252,27 +262,35 @@
             <tr class="background-color-medium-gray text-color-gray">
               <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_ID)">
                 Course ID
-                <span *ngIf="deletedTableSortBy !== SortBy.COURSE_ID"><i class="fas fa-sort"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
               </th>
               <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_NAME)">
                 Course Name
-                <span *ngIf="deletedTableSortBy !== SortBy.COURSE_NAME"><i class="fas fa-sort"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
               </th>
               <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_CREATION_DATE)">
                 Creation Date
-                <span *ngIf="deletedTableSortBy !== SortBy.COURSE_CREATION_DATE"><i class="fas fa-sort"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
               </th>
               <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_DELETION_DATE)">
                 Deletion Date
-                <span *ngIf="deletedTableSortBy !== SortBy.COURSE_DELETION_DATE"><i class="fas fa-sort"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-                <span *ngIf="deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+                <span class="fa-stack">
+                  <i class="fas fa-sort"></i>
+                  <i class="fas fa-sort-down" *ngIf="deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.DESC"></i>
+                  <i class="fas fa-sort-up" *ngIf="deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.ASC"></i>
+                </span>
               </th>
               <th class="text-center">Action(s)</th>
             </tr>
@@ -281,11 +299,15 @@
             <tr *ngFor="let course of softDeletedCourses; let i = index">
               <td id="deleted-course-id-{{ i }}">{{course.course.courseId}}</td>
               <td>{{course.course.courseName}}</td>
-              <td container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+              <td>
+                <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                  {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+                </span>
               </td>
-              <td container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+              <td>
+                <span container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                  {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+                </span>
               </td>
               <td class="text-center actions-cell">
                 <button id="btn-restore-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"

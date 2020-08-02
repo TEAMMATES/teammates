@@ -14,14 +14,12 @@
   padding: 0;
 }
 
-.background-color-medium-gray {
-  background-color: #E5E5E6;
+.margin-left-10px {
+  margin-left: 10px;
 }
 
-.archive-course-header {
-  cursor: pointer;
-  padding-top: .7rem;
-  padding-bottom: .7rem;
+.background-color-medium-gray {
+  background-color: #E5E5E6;
 }
 
 .text-color-black {
@@ -58,8 +56,8 @@
   margin-top: 30px;
 }
 
-.actions-cell button:not(.dropdown-item) {
-  margin-left: var(--btn-margin);
+.actions-cell button {
+  margin: 2px;
 }
 
 .dropdown-menu {
