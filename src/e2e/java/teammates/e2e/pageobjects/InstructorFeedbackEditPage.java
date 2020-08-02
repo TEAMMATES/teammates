@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the instructor feedback edit page of the website.
@@ -282,7 +283,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void addTemplateQuestion(int optionNum) {
         click(addNewQuestionButton);
 
-        WebElement newQuestionDropdown = browser.driver.findElement(By.id("new-question-dropdown"));
+        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
         click(newQuestionDropdown.findElements(By.tagName("button")).get(0));
         WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
 
@@ -498,7 +499,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
         selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
         click(previewAsStudentButton);
-        waitForPageToLoad();
+        ThreadHelper.waitFor(2000);
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
     }
@@ -506,7 +507,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
         selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
         click(previewAsInstructorButton);
-        waitForPageToLoad();
+        ThreadHelper.waitFor(2000);
         switchToNewWindow();
         return changePageType(FeedbackSubmitPage.class);
     }
