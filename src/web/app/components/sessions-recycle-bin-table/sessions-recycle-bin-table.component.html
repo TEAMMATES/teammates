@@ -4,21 +4,21 @@
       <i class="fas fa-trash-alt"></i> Deleted Feedback Sessions
     </h2>
       <div class="card bg-light top-padded">
-        <div class="card-header bg-secondary text-white cursor-pointer" (click)="recycleBinExpandEvent.emit()">
+        <div id="deleted-sessions-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="recycleBinExpandEvent.emit()">
           <b>Recycle Bin</b>
           <div class="card-header-btn-toolbar">
-            <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
+            <button id="btn-restore-all" type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
                     (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
-            <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
+            <button id="btn-delete-all" type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
                     (click)="$event.stopPropagation(); permanentDeleteAllSessionsEvent.emit()"><i class="fas fa-times"></i> Delete All</button>
             <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
           </div>
         </div>
       <div *ngIf="isRecycleBinExpanded" @collapseAnim>
-        <table class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
+        <table id="deleted-sessions-table" class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
           <thead class="recycle-bin-table-header">
           <tr>
-            <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header">
+            <th id="sort-deleted-course-id" (click)="sortRecycleBinFeedbackSessionRows(SortBy.COURSE_ID)" class="sortable-header">
               Course ID
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
@@ -26,7 +26,7 @@
                 <i *ngIf="recycleBinFeedbackSessionRowModelsSortBy === SortBy.COURSE_ID && recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
               </span>
             </th>
-            <th (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_NAME)" class="sortable-header">
+            <th id="sort-deleted-session-name" (click)="sortRecycleBinFeedbackSessionRows(SortBy.SESSION_NAME)" class="sortable-header">
               Session Name
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
@@ -54,7 +54,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let recycleBinFeedbackSessionRowModel of recycleBinFeedbackSessionRowModels">
+          <tr *ngFor="let recycleBinFeedbackSessionRowModel of recycleBinFeedbackSessionRowModels; let i = index">
             <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
             <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
             <td>
@@ -68,8 +68,8 @@
               </span>
             </td>
             <td class="text-center actions-cell">
-              <button type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
-              <button type="button" class="btn btn-light btn-sm text-danger" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
+              <button id="btn-restore-{{ i }}" type="button" class="btn btn-light btn-sm" (click)="restoreSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Restore</button>
+              <button id="btn-delete-{{ i }}" type="button" class="btn btn-light btn-sm text-danger" (click)="permanentlyDeleteSessionEvent.emit(recycleBinFeedbackSessionRowModel)">Delete Permanently</button>
             </td>
           </tr>
           </tbody>

@@ -26,6 +26,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
@@ -377,6 +378,14 @@ public abstract class AppPage {
     }
 
     /**
+     * Write rich text to the active editor.
+     */
+    protected void writeToActiveRichTextEditor(String text) {
+        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
+                + " tinyMCE.activeEditor.save()", text));
+    }
+
+    /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
@@ -396,6 +405,22 @@ public abstract class AppPage {
         if (checkBox.isSelected()) {
             click(checkBox);
         }
+    }
+
+    /**
+     * Returns the text of the option selected in the dropdown.
+     */
+    protected String getSelectedDropdownOptionText(WebElement dropdown) {
+        Select select = new Select(dropdown);
+        return select.getFirstSelectedOption().getText();
+    }
+
+    /**
+     * Selects option in dropdown based on visible text.
+     */
+    protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
     }
 
     /**
