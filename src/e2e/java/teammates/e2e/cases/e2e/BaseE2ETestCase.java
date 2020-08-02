@@ -19,6 +19,7 @@ import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.FileHelper;
 
 /**
  * Base class for all browser tests.
@@ -46,6 +47,14 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
+    }
+
+    protected String getTestResultsFolder() {
+        return TestProperties.TEST_RESULTS_FOLDER;
+    }
+
+    protected String getTestDownloadsFolder() {
+        return TestProperties.TEST_DOWNLOADS_FOLDER;
     }
 
     @AfterClass(alwaysRun = true)
@@ -146,4 +155,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         return loginAdminToPage(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
 
+    /**
+     * Deletes file with fileName from the downloads folder.
+     */
+    protected void deleteDownloadsFile(String fileName) {
+        String filePath = getTestDownloadsFolder() + fileName;
+        FileHelper.deleteFile(filePath);
+    }
+
+    /**
+     * Compares file with fileName in the downloads folder with expected file in results folder.
+     */
+    protected void compareDownloadedFileContent(String expectedFileName, String actualFileName) {
+        try {
+            String expectedFilePath = getTestResultsFolder() + expectedFileName;
+            String actualFilePath = getTestDownloadsFolder() + actualFileName;
+            assertEquals(FileHelper.readFile(expectedFilePath), FileHelper.readFile(actualFilePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

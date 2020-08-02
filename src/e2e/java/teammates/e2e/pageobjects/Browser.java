@@ -1,8 +1,11 @@
 package teammates.e2e.pageobjects;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -119,6 +122,14 @@ public class Browser {
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
+        String downloadPath;
+        try {
+            downloadPath = new File(TestProperties.TEST_DOWNLOADS_FOLDER).getCanonicalPath();
+            System.out.println("Download path: " + downloadPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         String browser = TestProperties.BROWSER;
         if (TestProperties.BROWSER_FIREFOX.equals(browser)) {
             System.out.println("Using Firefox with driver path: " + TestProperties.GECKODRIVER_PATH);
@@ -149,7 +160,7 @@ public class Browser {
             profile.setPreference("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.download.folderList", 2);
-            profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
+            profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
             return new FirefoxDriver(options);
@@ -159,7 +170,11 @@ public class Browser {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
 
+            Map<String, Object> chromePrefs = new HashMap<>();
+            chromePrefs.put("download.default_directory", downloadPath);
+            chromePrefs.put("profile.default_content_settings.popups", 0);
             ChromeOptions options = new ChromeOptions();
+            options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
             if (!TestProperties.isDevServer()) {
                 // Get user data from browser to bypass google blocking automated log in.
