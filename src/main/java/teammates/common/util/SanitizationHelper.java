@@ -151,7 +151,7 @@ public final class SanitizationHelper {
      */
     public static String sanitizeForUri(String uri) {
         try {
-            return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
+            return URLEncoder.encode(uri, Const.SystemParams.ENCODING).replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException wontHappen) {
             log.warning("Unexpected UnsupportedEncodingException in "
                         + "SanitizationHelper.sanitizeForUri(" + uri + ", " + Const.SystemParams.ENCODING + ")");

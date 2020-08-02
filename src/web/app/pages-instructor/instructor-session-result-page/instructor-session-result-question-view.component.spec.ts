@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import {
   PerQuestionViewResponsesModule,
 } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
@@ -24,6 +25,7 @@ describe('InstructorSessionResultQuestionViewComponent', () => {
         SingleStatisticsModule,
         NgbModule,
         LoadingSpinnerModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();

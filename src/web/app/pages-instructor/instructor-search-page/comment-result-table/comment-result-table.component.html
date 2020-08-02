@@ -16,6 +16,9 @@
             <tm-single-response
                 [isStudentPage]="false"
                 [questionDetails]="question.feedbackQuestion.questionDetails"
+                [statistics]="question.questionStatistics"
+                [giverEmail]="response.giverEmail"
+                [recipientEmail]="response.recipientEmail"
                 [responseDetails]="response.responseDetails">
             </tm-single-response>
           </div>

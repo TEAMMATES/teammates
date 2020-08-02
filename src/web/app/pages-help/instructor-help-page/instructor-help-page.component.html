@@ -10,10 +10,10 @@
         </p>
         <div class="row">
           <div class="col-md-9">
-            <div class="input-group input-group-lg">
-              <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-lg" placeholder="How can we help?" (keyup.enter)="search()">
-              <button class="btn btn-primary btn-lg" (click)="search()"><i class="fas fa-search"></i></button>
-              <button class="btn btn-danger btn-lg" (click)="clear()"><i class="fas fa-times"></i></button>
+            <div class="input-group">
+              <input type="text" [(ngModel)]="searchTerm" class="form-control" placeholder="How can we help?" (keyup.enter)="search()">
+              <button class="btn btn-primary" (click)="search()"><i class="fas fa-search"></i></button>
+              <button class="btn btn-danger" (click)="clear()"><i class="fas fa-times"></i></button>
             </div>
           </div>
         </div>

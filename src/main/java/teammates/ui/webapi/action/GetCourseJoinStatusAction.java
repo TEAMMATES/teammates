@@ -53,7 +53,7 @@ public class GetCourseJoinStatusAction extends Action {
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
-        JoinStatus result = new JoinStatus(hasJoined, hasJoined ? null : userInfo.id);
+        JoinStatus result = new JoinStatus(hasJoined, userInfo.id);
         return new JsonResult(result);
     }
 }

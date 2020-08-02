@@ -42,21 +42,21 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
     statsRows.push([
       'Team',
       'Recipient',
-      'Ranks Received',
       'Self Rank',
       'Overall Rank',
       'Overall Rank Excluding Self',
+      'Ranks Received',
     ]);
 
     Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((recipient: string) => {
       statsRows.push([
         statsCalculation.emailToTeamName[recipient],
         statsCalculation.emailToName[recipient],
-        statsCalculation.ranksReceivedPerOption[recipient].join(', '),
         statsCalculation.selfRankPerOption[recipient] ? String(statsCalculation.selfRankPerOption[recipient]) : '-',
         statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : '-',
         statsCalculation.rankPerOptionExcludeSelf[recipient] ?
             String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : '-',
+        ...statsCalculation.ranksReceivedPerOption[recipient].map(String),
       ]);
     });
 

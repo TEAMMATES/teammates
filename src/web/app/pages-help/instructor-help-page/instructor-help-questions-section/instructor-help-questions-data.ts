@@ -925,17 +925,44 @@ export const EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT: ResponseOutput[] = [
  */
 export const EXAMPLE_CONTRIBUTION_STATISTICS: ContributionStatistics = {
   results: {
-    'emma@gmail.com': {
-      claimed: 110,
-      perceived: 106,
-      claimedOthers: [],
-      perceivedOthers: [110, 110, 100],
+    'alice@gmail.com': {
+      claimed: -999,
+      perceived: -9999,
+      claimedOthers: {
+        'bob@gmail.com': 90,
+        'emma@gmail.com': 110,
+      },
+      perceivedOthers: [],
     },
     'bob@gmail.com': {
       claimed: 100,
-      perceived: 93,
-      claimedOthers: [],
-      perceivedOthers: [90, 70, 120],
+      perceived: 92,
+      claimedOthers: {},
+      perceivedOthers: [109, 90, 78, -9999],
+    },
+    'charles@gmail.com': {
+      claimed: -999,
+      perceived: -9999,
+      claimedOthers: {
+        'bob@gmail.com': 78,
+        'emma@gmail.com': 122,
+      },
+      perceivedOthers: [],
+    },
+    'david@gmail.com': {
+      claimed: -999,
+      perceived: -9999,
+      claimedOthers: {
+        'bob@gmail.com': 109,
+        'emma@gmail.com': 91,
+      },
+      perceivedOthers: [],
+    },
+    'emma@gmail.com': {
+      claimed: 110,
+      perceived: 108,
+      claimedOthers: {},
+      perceivedOthers: [122, 110, 91, -9999],
     },
   },
 };

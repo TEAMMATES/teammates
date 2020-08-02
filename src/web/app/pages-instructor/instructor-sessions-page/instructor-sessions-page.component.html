@@ -1,4 +1,4 @@
-<div class="alert alert-warning" role="alert" *ngIf="hasCoursesLoaded && courseCandidates.length === 0">
+<div class="alert alert-warning" role="alert" *ngIf="hasCoursesLoaded && courseCandidates.length === 0 && !hasCourseLoadingFailed">
   You have not created any courses yet, or you have no active courses. Go <a href="#" (click)="createOrUnarchiveCourse(); $event.preventDefault()">here</a> to create or unarchive a course.
 </div>
 
@@ -16,46 +16,50 @@
   ></tm-session-edit-form>
 </div>
 
-<div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
-  You have not created any sessions yet. Use the form above to create a session.
-</div>
-
-<div class="margin-top-30px">
-  <tm-sessions-table *tmIsLoading="!hasCoursesLoaded"
-                     [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
-                     [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
-                     [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
-                     (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
-                     (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
-                     (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
-                     (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
-                     (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
-                     (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
-                     (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(sessionsTableRowModels[$event])"
-                     (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
-</div>
-
-<br/>
-<div class="row">
-  <div class="col-12 text-muted">
-    <p>
-      Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
-      To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
-    </p>
+<tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed" [message]="'Failed to load data'"
+                  (retryEvent)="retryLoadingAllData()">
+  <div class="margin-top-30px">
+    <div *tmIsLoading="!hasCoursesLoaded">
+      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
+        You have not created any sessions yet. Use the form above to create a session.
+      </div>
+      <tm-sessions-table *tmIsLoading="!hasCoursesLoaded"
+                         [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
+                         [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
+                         [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
+                         (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
+                         (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
+                         (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
+                         (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
+                         (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
+                         (downloadSessionResultsEvent)="downloadSessionResultEventHandler($event)"
+                         (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(sessionsTableRowModels[$event])"
+                         (sendRemindersToStudentsEvent)="sendRemindersToRespondentsEventHandler(sessionsTableRowModels[$event])"></tm-sessions-table>
+    </div>
   </div>
-</div>
+  <br/>
 
-<div class="margin-top-30px">
-      <tm-sessions-recycle-bin-table
-                     [isRecycleBinExpanded]="isRecycleBinExpanded"
-                     [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
-                     [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"
-                     [recycleBinFeedbackSessionRowModelsSortOrder]="recycleBinFeedbackSessionRowModelsSortOrder"
-                     (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
-                     (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
-                     (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
-                     (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions()"
-                     (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)"
-                     (recycleBinExpandEvent)="isRecycleBinExpanded = !isRecycleBinExpanded;">
-      </tm-sessions-recycle-bin-table>
-</div>
+  <div class="row">
+    <div class="col-12 text-muted">
+      <p>
+        Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
+        To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
+      </p>
+    </div>
+  </div>
+
+  <div class="margin-top-30px">
+    <tm-sessions-recycle-bin-table
+        [isRecycleBinExpanded]="isRecycleBinExpanded"
+        [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
+        [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"
+        [recycleBinFeedbackSessionRowModelsSortOrder]="recycleBinFeedbackSessionRowModelsSortOrder"
+        (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
+        (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
+        (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
+        (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions()"
+        (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)"
+        (recycleBinExpandEvent)="isRecycleBinExpanded = !isRecycleBinExpanded;">
+    </tm-sessions-recycle-bin-table>
+  </div>
+</tm-loading-retry>

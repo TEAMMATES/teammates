@@ -86,12 +86,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyCourseArchivedInDatastore(instructorId, newCourse);
 
         ______TS("unarchive course");
+        CourseAttributes[] activeCoursesWithNewCourseSortedByName = { newCourse, courses[0] };
         coursesPage.unarchiveCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course has been unarchived.");
         coursesPage.verifyNumArchivedCourses(1);
         coursesPage.sortByCourseName();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
+        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByName);
         verifyCourseNotArchivedInDatastore(instructorId, newCourse);
 
         ______TS("move active course to recycle bin");
@@ -107,13 +108,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore active course");
         newCourse.deletedAt = null;
-        CourseAttributes[] activeCoursesWithNewCourseSorted = { newCourse, courses[0] };
+        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { newCourse, courses[0] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
         coursesPage.verifyNumDeletedCourses(1);
-        coursesPage.sortByCreationDate();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSorted);
+        // No need to call sortByCreationDate() here because it is the default sort in DESC order
+        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
         assertFalse(isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("move archived course to recycle bin");

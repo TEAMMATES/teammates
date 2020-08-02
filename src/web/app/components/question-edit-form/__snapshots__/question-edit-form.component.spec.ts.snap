@@ -28,24 +28,31 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
 >
   <div
     class="card"
-    xmlns="http://www.w3.org/1999/html"
   >
     <div
-      class="card-header text-white question-header cursor-pointer"
+      class="card-header bg-primary text-white cursor-pointer"
     >
       <div
-        class="row align-items-center"
+        class="collapse-caret"
       >
+<<<<<<< HEAD
         <div
           class="col-5"
           id="question-type"
         >
           <span>
+=======
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
+>>>>>>> 6b91a5781369b0b298c8389e4d17a0fb849a88ac
             
             
             <i
-              class="fas fa-chevron-up collapse-caret"
+              class="fas fa-chevron-up"
             />
+<<<<<<< HEAD
           </span>
           <strong>
             Question 
@@ -56,14 +63,30 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               0
             </span>
           </strong>
+=======
+          </div>
+        </tm-panel-chevron>
+      </div>
+      <div>
+        <strong>
+          Question 
+>>>>>>> 6b91a5781369b0b298c8389e4d17a0fb849a88ac
           
-           Essay question 
-        </div>
+          <span>
+            0
+          </span>
+        </strong>
         
-        <div
-          class="col-7 text-right"
-        >
+         Essay question 
+        
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        
+        <div>
           
+<<<<<<< HEAD
           <div>
             
             <button
@@ -101,10 +124,42 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                Duplicate
             </button>
           </div>
+=======
+          <button
+            class="btn btn-light btn-sm"
+            type="button"
+          >
+            <i
+              class="fas fa-pencil-alt"
+            />
+             Edit 
+          </button>
+>>>>>>> 6b91a5781369b0b298c8389e4d17a0fb849a88ac
           
+          
+          <button
+            class="btn btn-light btn-sm"
+            type="button"
+          >
+            <i
+              class="fas fa-trash"
+            />
+             Delete 
+          </button>
+          <button
+            class="btn btn-light btn-sm"
+            container="body"
+            ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+            type="button"
+          >
+            <i
+              class="far fa-copy"
+            />
+             Duplicate 
+          </button>
         </div>
+        
       </div>
-      
     </div>
     
     <div
@@ -435,30 +490,30 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </ul>
           </div>
         </div>
-      </div>
-      
-      <div
-        class="row margin-top-15px"
-        style=""
-      >
+        
         <div
-          class="col-12 text-right"
+          class="row margin-top-15px"
+          style=""
         >
-          
-          <button
-            class="btn btn-primary"
-            disabled=""
+          <div
+            class="col-12 text-right"
           >
             
-            
-            <span>
-              <i
-                class="fas fa-check"
-              />
-               Save Changes
-            </span>
-            
-          </button>
+            <button
+              class="btn btn-primary"
+              disabled=""
+            >
+              
+              
+              <span>
+                <i
+                  class="fas fa-check"
+                />
+                 Save Changes
+              </span>
+              
+            </button>
+          </div>
         </div>
       </div>
     </div>

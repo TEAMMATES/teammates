@@ -24,7 +24,7 @@
           "INSTRUCTORS"
         ]
       },
-      "questionStatistics": "{\n  \"results\": {\n    \"student3InCourseWithSections@gmail.tmt\": {\n      \"claimed\": 100,\n      \"perceived\": -9999,\n      \"claimedOthers\": [],\n      \"perceivedOthers\": []\n    },\n    \"student1InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": [],\n      \"perceivedOthers\": [\n        -9999\n      ]\n    },\n    \"student4InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": [],\n      \"perceivedOthers\": []\n    },\n    \"student2InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": [],\n      \"perceivedOthers\": [\n        -9999\n      ]\n    }\n  }\n}",
+      "questionStatistics": "{\n  \"results\": {\n    \"student3InCourseWithSections@gmail.tmt\": {\n      \"claimed\": 100,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": []\n    },\n    \"student1InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": [\n        -9999\n      ]\n    },\n    \"student4InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": []\n    },\n    \"student2InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": [\n        -9999\n      ]\n    }\n  }\n}",
       "allResponses": [
         {
           "isMissingResponse": false,

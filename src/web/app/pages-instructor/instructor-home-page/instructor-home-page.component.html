@@ -1,3 +1,4 @@
+<tm-redirect-banner></tm-redirect-banner>
 <h1>Home</h1>
 <div class="card bg-light mb-4">
   <div class="card-body">
@@ -36,90 +37,81 @@
   </div>
 </div>
 
-<div *tmIsLoading="!hasCoursesLoaded">
-  <div *ngIf="courseTabModels.length > 0">
-    <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-      <div class="card-header bg-primary text-white course-tab-header" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
-        <div class="row">
-          <div class="course-header col-md-6">
-            <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
-          </div>
-          <div class="btn-toolbar col-md-6">
-            <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
-              <span ngbDropdown class="padding-right-10px">
-                <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
-                <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
-                    <a class="btn btn-info btn-sm dropdown-item"
-                     routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
-                    </a>
-                  </ng-container>
+<tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'" (retryEvent)="loadCourses()">
+  <div *tmIsLoading="!hasCoursesLoaded">
+    <div *ngIf="courseTabModels.length > 0">
+      <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
+        <div class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
+          <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
+          <div class="card-header-btn-toolbar" *ngIf="courseTabModel.isAjaxSuccess">
+            <span ngbDropdown>
+              <button class="btn btn-light btn-sm" ngbDropdownToggle> Students </button>
+              <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                   <a class="btn btn-info btn-sm dropdown-item"
+                     routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
+                  </a>
+                </ng-container>
+                <a class="btn btn-info btn-sm dropdown-item"
                    routerLink="/web/instructor/courses/details" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-                  </a>
-                </div>
-              </span>
-              <span ngbDropdown class="padding-right-10px">
-                <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
-                <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <a class="btn btn-light btn-sm dropdown-item"
-                   routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-                  </a>
-                </div>
-              </span>
-              <span ngbDropdown class="padding-right-10px">
-                <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
-                <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <a class="btn btn-light btn-sm dropdown-item"
-                   routerLink='/web/instructor/sessions' [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
-                  </a>
-                </div>
-              </span>
-              <span ngbDropdown class="padding-right-10px">
-                <button class="btn btn-light btn-sm" ngbDropdownToggle> Course </button>
-                <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                  <a class="btn btn-light btn-sm dropdown-item"
+                </a>
+              </div>
+            </span>
+            <span ngbDropdown>
+              <button class="btn btn-light btn-sm" ngbDropdownToggle> Instructors </button>
+              <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                <a class="btn btn-light btn-sm dropdown-item"
+                   routerLink="/web/instructor/courses/edit" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
+                </a>
+              </div>
+            </span>
+            <span ngbDropdown>
+              <button class="btn btn-light btn-sm" ngbDropdownToggle> Sessions </button>
+              <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                <a class="btn btn-light btn-sm dropdown-item"
+                   routerLink="/web/instructor/sessions" [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
+                </a>
+              </div>
+            </span>
+            <span ngbDropdown>
+              <button class="btn btn-light btn-sm" ngbDropdownToggle> Course </button>
+              <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                <a class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
-                  </a>
-                  <a class="btn btn-light btn-sm dropdown-item"
+                </a>
+                <a class="btn btn-light btn-sm dropdown-item"
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
-                  </a>
-                  <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                    <a class="btn btn-light btn-sm dropdown-item"
+                </a>
+                <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
+                  <a class="btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
                      (click)="deleteCourse(courseTabModel.course.courseId)"> Delete
-                    </a>
-                  </ng-container>
-                </div>
-              </span>
-            </div>
-            <div class="float-right" *ngIf="courseTabModel.isAjaxSuccess; else errorLoadingFeedbackSessions">
-              <i class="fas fa-chevron-down" *ngIf="!courseTabModel.isTabExpanded"></i>
-              <i class="fas fa-chevron-up" *ngIf="courseTabModel.isTabExpanded"></i>
-            </div>
+                  </a>
+                </ng-container>
+              </div>
+            </span>
           </div>
+          <tm-panel-chevron [isExpanded]="courseTabModel.isTabExpanded"></tm-panel-chevron>
         </div>
-      </div>
-
-      <ng-template #errorLoadingFeedbackSessions>
-        Error loading feedback sessions. Click here to retry.
-      </ng-template>
-
-      <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
-        <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
-            [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
-            [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
-            [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
-            (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
-            (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
-            (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
-            (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
-            (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
-            (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
-            (resendResultsLinkToStudentsEvent)="resendResultsLinkToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
-            (sendRemindersToStudentsEvent)="sendRemindersToStudentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+        <div class="card-body padding-0" *ngIf="courseTabModel.isTabExpanded" @collapseAnim>
+          <tm-loading-retry [shouldShowRetry]="courseTabModel.hasLoadingFailed" [message]="'Error loading feedback sessions'"
+                            (retryEvent)="loadFeedbackSessions(idx)">
+            <tm-sessions-table *tmIsLoading="!courseTabModel.hasPopulated"
+                [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels" [sessionsTableRowModelsSortBy]="courseTabModel.sessionsTableRowModelsSortBy"
+                [sessionsTableRowModelsSortOrder]="courseTabModel.sessionsTableRowModelsSortOrder" [courseCandidates]="courseCandidates"
+                [headerColorScheme]="SessionsTableHeaderColorScheme.WHITE" [columnsToShow]="[ SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE ]"
+                (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+                (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)" (editSessionEvent)="editSessionEventHandler(idx, $event)"
+                (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)" (copySessionEvent)="copySessionEventHandler(idx, $event)"
+                (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)" (viewSessionResultEvent)="viewSessionResultEventHandler(idx, $event)"
+                (publishSessionEvent)="publishSessionEventHandler(idx, $event)" (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+                (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
+                (resendResultsLinkToStudentsEvent)="resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"
+                (sendRemindersToStudentsEvent)="sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])"></tm-sessions-table>
+          </tm-loading-retry>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</tm-loading-retry>

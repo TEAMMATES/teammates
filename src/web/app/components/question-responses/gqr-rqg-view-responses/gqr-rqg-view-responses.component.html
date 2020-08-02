@@ -3,9 +3,8 @@
     <div class="card top-padded">
       <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key }}
-        <div class="float-right">
-          <i class="fas fa-chevron-down" *ngIf="!teamExpanded[teamInfo.key]"></i>
-          <i class="fas fa-chevron-up" *ngIf="teamExpanded[teamInfo.key]"></i>
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
         </div>
       </div>
       <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim>
@@ -52,20 +51,21 @@
 <ng-template #userTab let-userInfo='userInfo'>
   <div class="card top-padded border-primary">
     <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
-      {{ isGqr ? 'From' : 'To' }}:
-      <tm-student-name-with-photo [name]="userInfo"
-                       [email]="userToEmail[userInfo]"
-                       [courseId]="session.courseId"
-      ></tm-student-name-with-photo>
-      <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
-        [{{ userToEmail[userInfo] }}]
-      </a>
-      <div class="float-right">
+      <div>
+        {{ isGqr ? 'From' : 'To' }}:
+        <tm-student-name-with-photo [name]="userInfo"
+                                    [email]="userToEmail[userInfo]"
+                                    [courseId]="session.courseId"
+        ></tm-student-name-with-photo>
+        <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
+          [{{ userToEmail[userInfo] }}]
+        </a>
+      </div>
+      <div class="card-header-btn-toolbar">
         <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
                                        [relatedGiverEmail]="userToRelatedEmail[userInfo]"
                                        [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
-        <i class="fas fa-chevron-down" *ngIf="!userExpanded[userInfo]"></i>
-        <i class="fas fa-chevron-up" *ngIf="userExpanded[userInfo]"></i>
+        <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </div>
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
@@ -75,9 +75,8 @@
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
             ></tm-question-text-with-info>
-            <div class="float-right">
-              <i class="fas fa-chevron-down" *ngIf="!question.isTabExpanded"></i>
-              <i class="fas fa-chevron-up" *ngIf="question.isTabExpanded"></i>
+            <div class="card-header-btn-toolbar">
+              <tm-panel-chevron [isExpanded]="question.isTabExpanded"></tm-panel-chevron>
             </div>
           </div>
           <div *ngIf="question.isTabExpanded" @collapseAnim>
@@ -89,6 +88,7 @@
                                     [displayContributionStats]="false"
               ></tm-single-statistics>
               <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
+                                              [statistics]="question.questionOutput.questionStatistics"
                                               [indicateMissingResponses]="indicateMissingResponses" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
                                               [instructorCommentTableModel]="instructorCommentTableModel"
                                               (instructorCommentTableModelChange)="triggerModelChange($event)"

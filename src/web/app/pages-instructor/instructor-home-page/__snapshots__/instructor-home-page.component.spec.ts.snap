@@ -10,12 +10,13 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -23,7 +24,9 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -68,21 +71,27 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -96,12 +105,13 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -109,7 +119,9 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -154,21 +166,27 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -182,12 +200,13 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -195,7 +214,9 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -275,64 +296,70 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         </div>
       </div>
     </div>
-  </div><div>
+  </div><tm-loading-retry>
+    
     
     <div>
       
-      <div
-        class="card"
-      >
+      <div>
+        
         <div
-          class="card-header bg-primary text-white course-tab-header"
+          class="card"
         >
           <div
-            class="row"
+            class="card-header bg-primary text-white cursor-pointer"
           >
-            <div
-              class="course-header col-md-6"
-            >
-              <b>
-                [CS3281]: Thematic Systems
-              </b>
-            </div>
-            <div
-              class="btn-toolbar col-md-6"
-            >
-              
-               Error loading feedback sessions. Click here to retry. 
-              
-               Error loading feedback sessions. Click here to retry. 
-            </div>
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
+            <tm-panel-chevron>
+              <div
+                class="chevron"
+              >
+                
+                
+                <i
+                  class="fas fa-chevron-up"
+                />
+              </div>
+            </tm-panel-chevron>
           </div>
-        </div>
-        
-        
-        <div
-          class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
-        >
           
-          <tm-loading-spinner
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <div
-              class="loading-container"
-            >
-              <div
-                class="row spinner-border text-primary"
-                role="status"
-              />
-              <div
-                class="row text-secondary"
+            <tm-loading-retry>
+              
+              
+              <tm-loading-spinner
+                style=""
               >
-                Loading...
-              </div>
-            </div>
-          </tm-loading-spinner>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </tm-loading-spinner>
+              
+              
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -346,12 +373,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -359,7 +387,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -439,165 +469,158 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         </div>
       </div>
     </div>
-  </div><div>
+  </div><tm-loading-retry>
+    
     
     <div>
       
-      <div
-        class="card"
-      >
+      <div>
+        
         <div
-          class="card-header bg-primary text-white course-tab-header"
+          class="card"
         >
           <div
-            class="row"
+            class="card-header bg-primary text-white cursor-pointer"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="course-header col-md-6"
+              class="card-header-btn-toolbar"
             >
-              <b>
-                [CS3281]: Thematic Systems
-              </b>
-            </div>
-            <div
-              class="btn-toolbar col-md-6"
-            >
-              
-              <div
-                class="float-right"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Students 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    
-                    
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/enroll?courseid=CS3281"
-                      routerlink="/web/instructor/courses/enroll"
-                    >
-                       Enroll 
-                    </a>
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/details?courseid=CS3281"
-                      routerlink="/web/instructor/courses/details"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    routerlink="/web/instructor/courses/enroll"
                   >
-                     Instructors 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Sessions 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/sessions?courseid=CS3281"
-                      routerlink="/web/instructor/sessions"
-                    >
-                       Add 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
                   >
-                     Course 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    >
-                       Archive 
-                    </a>
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Delete the course and its corresponding students and sessions"
-                    >
-                       Delete 
-                    </a>
-                    
-                  </div>
-                </span>
-              </div>
-              
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+            </div>
+            <tm-panel-chevron>
               <div
-                class="float-right"
+                class="chevron"
               >
                 
                 
@@ -605,233 +628,249 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   class="fas fa-chevron-up"
                 />
               </div>
-            </div>
+            </tm-panel-chevron>
           </div>
-        </div>
-        
-        
-        <div
-          class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
-        >
           
-          <tm-sessions-table
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            
-            <div
-              class="row"
-            >
-              <div
-                class="col-12"
+            <tm-loading-retry>
+              
+              
+              <tm-sessions-table
+                style=""
               >
-                <table
-                  class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                
+                <div
+                  class="row"
                 >
-                  <thead>
-                    <tr>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         Session Name 
-                        
-                        <span
-                          class="text-secondary"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         Start Date 
-                        
-                        <span
-                          class="text-secondary"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         End Date 
-                        
-                        <span
-                          class="text-secondary"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th>
-                        Submissions
-                      </th>
-                      <th>
-                        Responses
-                      </th>
-                      <th
-                        container="body"
-                        ngbtooltip="Number of students submitted / Class size"
-                      >
-                        <span>
-                          Response Rate
-                        </span>
-                      </th>
-                      <th
-                        class="text-center"
-                      >
-                        Action(s)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    <tr>
-                      
-                      <td>
-                        Feedback
-                      </td>
-                      
-                      <td>
-                        <span>
-                          19 Jan 6:43 AM
-                        </span>
-                      </td>
-                      
-                      <td>
-                        <span>
-                          19 Jan 6:46 AM
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          Awaiting
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          Not Published
-                        </span>
-                      </td>
-                      <td>
-                        
-                        
-                        <div>
-                          0 / 6
-                        </div>
-                        
-                      </td>
-                      <td
-                        class="actions-cell"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          type="button"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          type="button"
-                        >
-                          Delete
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          ngbtooltip="Copy feedback session details"
-                          type="button"
-                        >
-                          Copy
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          ngbtooltip="Start submitting feedback"
-                          type="button"
-                        >
-                          Submit
-                        </button>
-                        <div
-                          class="d-inline-block dropdown"
-                          ngbdropdown=""
-                        >
-                          <button
-                            aria-expanded="false"
-                            aria-haspopup="true"
-                            class="btn btn-light btn-sm dropdown-toggle"
-                            ngbdropdowntoggle=""
+                  <div
+                    class="col-12"
+                  >
+                    <table
+                      class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                    >
+                      <thead>
+                        <tr>
+                          
+                          <th
+                            class="sortable-header"
                           >
-                            Results
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            ngbdropdownmenu=""
-                            x-placement="bottom"
-                          >
-                            <button
-                              class="btn dropdown-item clickable"
+                             Session Name 
+                            <span
+                              class="fa-stack"
                             >
-                              View Results
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             Start Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             End Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          <th>
+                            Submissions
+                          </th>
+                          <th>
+                            Responses
+                          </th>
+                          <th
+                            container="body"
+                            ngbtooltip="Number of students submitted / Class size"
+                          >
+                            <span>
+                              Response Rate
+                            </span>
+                          </th>
+                          <th
+                            class="text-center"
+                          >
+                            Action(s)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          
+                          <td>
+                            Feedback
+                          </td>
+                          
+                          <td>
+                            <span>
+                              19 Jan 6:43 AM
+                            </span>
+                          </td>
+                          
+                          <td>
+                            <span>
+                              19 Jan 6:46 AM
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              Awaiting
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              Not Published
+                            </span>
+                          </td>
+                          <td>
+                            
+                            
+                            <div>
+                              0 / 6
+                            </div>
+                            
+                          </td>
+                          <td
+                            class="actions-cell"
+                          >
+                            
+                            <a
+                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback"
+                              routerlink="/web/instructor/sessions/edit"
+                            >
+                              
+                              <button
+                                class="btn btn-light btn-sm"
+                                type="button"
+                              >
+                                 Edit 
+                              </button>
+                            </a>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                            <button
+                              class="btn btn-light btn-sm"
+                              ngbtooltip="Copy feedback session details"
+                              type="button"
+                            >
+                              Copy
                             </button>
                             
                             <button
-                              class="btn dropdown-item clickable"
-                              container="body"
+                              class="btn btn-light btn-sm"
                               disabled=""
-                              ngbtooltip="Make session responses available for viewing"
-                              placement="left"
+                              ngbtooltip="Start submitting feedback"
+                              type="button"
                             >
-                              Publish Results
+                              Submit
                             </button>
                             
                             
-                            
-                            <button
-                              class="btn dropdown-item clickable"
+                            <div
+                              class="d-inline-block dropdown"
+                              ngbdropdown=""
                             >
-                              Download Results
-                            </button>
-                          </div>
-                        </div>
-                        <div
-                          class="d-inline-block"
-                          ngbdropdown=""
-                          ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-                        >
-                          <button
-                            class="btn btn-light btn-sm"
-                            disabled=""
-                          >
-                            Remind
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-          </tm-sessions-table>
+                              <button
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm dropdown-toggle"
+                                ngbdropdowntoggle=""
+                              >
+                                Results
+                              </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <a
+                                  class="btn dropdown-item clickable"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback"
+                                  routerlink="/web/instructor/sessions/result"
+                                >
+                                  View Results
+                                </a>
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  container="body"
+                                  disabled=""
+                                  ngbtooltip="Make session responses available for viewing"
+                                  placement="left"
+                                >
+                                  Publish Results
+                                </button>
+                                
+                                
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  Download Results
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="d-inline-block"
+                              ngbdropdown=""
+                              ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                            >
+                              <button
+                                class="btn btn-light btn-sm"
+                                disabled=""
+                              >
+                                Remind
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+              </tm-sessions-table>
+              
+              
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -845,12 +884,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -858,7 +898,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -938,149 +980,142 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         </div>
       </div>
     </div>
-  </div><div>
+  </div><tm-loading-retry>
+    
     
     <div>
       
-      <div
-        class="card"
-      >
+      <div>
+        
         <div
-          class="card-header bg-primary text-white course-tab-header"
+          class="card"
         >
           <div
-            class="row"
+            class="card-header bg-primary text-white cursor-pointer"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="course-header col-md-6"
+              class="card-header-btn-toolbar"
             >
-              <b>
-                [CS3281]: Thematic Systems
-              </b>
-            </div>
-            <div
-              class="btn-toolbar col-md-6"
-            >
-              
-              <div
-                class="float-right"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Students 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/details?courseid=CS3281"
-                      routerlink="/web/instructor/courses/details"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
                   >
-                     Instructors 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Sessions 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/sessions?courseid=CS3281"
-                      routerlink="/web/instructor/sessions"
-                    >
-                       Add 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
                   >
-                     Course 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    >
-                       Archive 
-                    </a>
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                    
-                  </div>
-                </span>
-              </div>
-              
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                </div>
+              </span>
+            </div>
+            <tm-panel-chevron>
               <div
-                class="float-right"
+                class="chevron"
               >
                 
                 
@@ -1088,363 +1123,380 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   class="fas fa-chevron-up"
                 />
               </div>
-            </div>
+            </tm-panel-chevron>
           </div>
-        </div>
-        
-        
-        <div
-          class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
-        >
           
-          <tm-sessions-table
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            
-            <div
-              class="row"
-            >
-              <div
-                class="col-12"
+            <tm-loading-retry>
+              
+              
+              <tm-sessions-table
+                style=""
               >
-                <table
-                  class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                
+                <div
+                  class="row"
                 >
-                  <thead>
-                    <tr>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         Session Name 
-                        
-                        <span
-                          class="text-secondary"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         Start Date 
-                        
-                        <span
-                          class="text-secondary"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      
-                      <th
-                        class="sortable-header"
-                      >
-                         End Date 
-                        
-                        <span
-                          class="text-secondary"
-                        >
-                          <i
-                            class="fas fa-sort"
-                          />
-                        </span>
-                        
-                        
-                      </th>
-                      <th>
-                        Submissions
-                      </th>
-                      <th>
-                        Responses
-                      </th>
-                      <th
-                        container="body"
-                        ngbtooltip="Number of students submitted / Class size"
-                      >
-                        <span>
-                          Response Rate
-                        </span>
-                      </th>
-                      <th
-                        class="text-center"
-                      >
-                        Action(s)
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    
-                    <tr>
-                      
-                      <td>
-                        Feedback 1
-                      </td>
-                      
-                      <td>
-                        <span>
-                          1 Jan 7:30 AM
-                        </span>
-                      </td>
-                      
-                      <td>
-                        <span>
-                          1 Jan 7:30 AM
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          Closed
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          Published
-                        </span>
-                      </td>
-                      <td>
-                        
-                        
-                        <div>
-                          0 / 6
-                        </div>
-                        
-                      </td>
-                      <td
-                        class="actions-cell"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          type="button"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          type="button"
-                        >
-                          Delete
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          ngbtooltip="Copy feedback session details"
-                          type="button"
-                        >
-                          Copy
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          ngbtooltip="Start submitting feedback"
-                          type="button"
-                        >
-                          Submit
-                        </button>
-                        <div
-                          class="d-inline-block dropdown"
-                          ngbdropdown=""
-                        >
-                          <button
-                            aria-expanded="false"
-                            aria-haspopup="true"
-                            class="btn btn-light btn-sm dropdown-toggle"
-                            ngbdropdowntoggle=""
+                  <div
+                    class="col-12"
+                  >
+                    <table
+                      class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                    >
+                      <thead>
+                        <tr>
+                          
+                          <th
+                            class="sortable-header"
                           >
-                            Results
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            ngbdropdownmenu=""
-                            x-placement="bottom"
-                          >
-                            <button
-                              class="btn dropdown-item clickable"
+                             Session Name 
+                            <span
+                              class="fa-stack"
                             >
-                              View Results
-                            </button>
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             Start Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          
+                          <th
+                            class="sortable-header"
+                          >
+                             End Date 
+                            <span
+                              class="fa-stack"
+                            >
+                              <i
+                                class="fas fa-sort"
+                              />
+                              
+                              
+                            </span>
+                          </th>
+                          <th>
+                            Submissions
+                          </th>
+                          <th>
+                            Responses
+                          </th>
+                          <th
+                            container="body"
+                            ngbtooltip="Number of students submitted / Class size"
+                          >
+                            <span>
+                              Response Rate
+                            </span>
+                          </th>
+                          <th
+                            class="text-center"
+                          >
+                            Action(s)
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                        <tr>
+                          
+                          <td>
+                            Feedback 1
+                          </td>
+                          
+                          <td>
+                            <span>
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          
+                          <td>
+                            <span>
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              Closed
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              Published
+                            </span>
+                          </td>
+                          <td>
+                            
+                            
+                            <div>
+                              0 / 6
+                            </div>
+                            
+                          </td>
+                          <td
+                            class="actions-cell"
+                          >
                             
                             <button
-                              class="btn dropdown-item clickable"
-                              container="body"
+                              class="btn btn-light btn-sm"
                               disabled=""
-                              ngbtooltip="Make responses no longer visible"
-                              placement="left"
+                              type="button"
                             >
-                              Unpublish Results
-                            </button>
-                            
-                            
-                            
-                            <button
-                              class="btn dropdown-item clickable"
-                            >
-                              Resend link to view results
-                            </button>
-                            <button
-                              class="btn dropdown-item clickable"
-                            >
-                              Download Results
-                            </button>
-                          </div>
-                        </div>
-                        <div
-                          class="d-inline-block"
-                          ngbdropdown=""
-                          ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-                        >
-                          <button
-                            class="btn btn-light btn-sm"
-                            disabled=""
-                          >
-                            Remind
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      
-                      <td>
-                        Feedback 2
-                      </td>
-                      
-                      <td>
-                        <span>
-                          1 Jan 7:30 AM
-                        </span>
-                      </td>
-                      
-                      <td>
-                        <span>
-                          1 Jan 7:30 AM
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          Open
-                        </span>
-                      </td>
-                      <td>
-                        <span>
-                          Not Published
-                        </span>
-                      </td>
-                      <td>
-                        
-                        
-                        <div>
-                          5 / 6
-                        </div>
-                        
-                      </td>
-                      <td
-                        class="actions-cell"
-                      >
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          type="button"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          type="button"
-                        >
-                          Delete
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          ngbtooltip="Copy feedback session details"
-                          type="button"
-                        >
-                          Copy
-                        </button>
-                        <button
-                          class="btn btn-light btn-sm"
-                          disabled=""
-                          ngbtooltip="Start submitting feedback"
-                          type="button"
-                        >
-                          Submit
-                        </button>
-                        <div
-                          class="d-inline-block dropdown"
-                          ngbdropdown=""
-                        >
-                          <button
-                            aria-expanded="false"
-                            aria-haspopup="true"
-                            class="btn btn-light btn-sm dropdown-toggle"
-                            ngbdropdowntoggle=""
-                          >
-                            Results
-                          </button>
-                          <div
-                            class="dropdown-menu"
-                            ngbdropdownmenu=""
-                            x-placement="bottom"
-                          >
-                            <button
-                              class="btn dropdown-item clickable"
-                            >
-                              View Results
+                               Edit 
                             </button>
                             
                             <button
-                              class="btn dropdown-item clickable"
-                              container="body"
+                              class="btn btn-light btn-sm"
                               disabled=""
-                              ngbtooltip="Make session responses available for viewing"
-                              placement="left"
+                              type="button"
                             >
-                              Publish Results
+                              Delete
                             </button>
-                            
-                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              ngbtooltip="Copy feedback session details"
+                              type="button"
+                            >
+                              Copy
+                            </button>
                             
                             <button
-                              class="btn dropdown-item clickable"
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              ngbtooltip="Start submitting feedback"
+                              type="button"
                             >
-                              Download Results
+                              Submit
                             </button>
-                          </div>
-                        </div>
-                        <div
-                          class="d-inline-block"
-                          ngbdropdown=""
-                          ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
-                        >
-                          <button
-                            class="btn btn-light btn-sm"
-                            disabled=""
+                            
+                            
+                            <div
+                              class="d-inline-block dropdown"
+                              ngbdropdown=""
+                            >
+                              <button
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm dropdown-toggle"
+                                ngbdropdowntoggle=""
+                              >
+                                Results
+                              </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <a
+                                  class="btn dropdown-item clickable"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%201"
+                                  routerlink="/web/instructor/sessions/result"
+                                >
+                                  View Results
+                                </a>
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  container="body"
+                                  disabled=""
+                                  ngbtooltip="Make responses no longer visible"
+                                  placement="left"
+                                >
+                                  Unpublish Results
+                                </button>
+                                
+                                
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  Resend link to view results
+                                </button>
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  Download Results
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="d-inline-block"
+                              ngbdropdown=""
+                              ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                            >
+                              <button
+                                class="btn btn-light btn-sm"
+                                disabled=""
+                              >
+                                Remind
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          
+                          <td>
+                            Feedback 2
+                          </td>
+                          
+                          <td>
+                            <span>
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          
+                          <td>
+                            <span>
+                              1 Jan 7:30 AM
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              Open
+                            </span>
+                          </td>
+                          <td>
+                            <span>
+                              Not Published
+                            </span>
+                          </td>
+                          <td>
+                            
+                            
+                            <div>
+                              5 / 6
+                            </div>
+                            
+                          </td>
+                          <td
+                            class="actions-cell"
                           >
-                            Remind
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-          </tm-sessions-table>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              type="button"
+                            >
+                               Edit 
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              type="button"
+                            >
+                              Delete
+                            </button>
+                            <button
+                              class="btn btn-light btn-sm"
+                              ngbtooltip="Copy feedback session details"
+                              type="button"
+                            >
+                              Copy
+                            </button>
+                            
+                            <button
+                              class="btn btn-light btn-sm"
+                              disabled=""
+                              ngbtooltip="Start submitting feedback"
+                              type="button"
+                            >
+                              Submit
+                            </button>
+                            
+                            
+                            <div
+                              class="d-inline-block dropdown"
+                              ngbdropdown=""
+                            >
+                              <button
+                                aria-expanded="false"
+                                aria-haspopup="true"
+                                class="btn btn-light btn-sm dropdown-toggle"
+                                ngbdropdowntoggle=""
+                              >
+                                Results
+                              </button>
+                              <div
+                                class="dropdown-menu"
+                                ngbdropdownmenu=""
+                                x-placement="bottom"
+                              >
+                                <a
+                                  class="btn dropdown-item clickable"
+                                  href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%202"
+                                  routerlink="/web/instructor/sessions/result"
+                                >
+                                  View Results
+                                </a>
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                  container="body"
+                                  disabled=""
+                                  ngbtooltip="Make session responses available for viewing"
+                                  placement="left"
+                                >
+                                  Publish Results
+                                </button>
+                                
+                                
+                                
+                                <button
+                                  class="btn dropdown-item clickable"
+                                >
+                                  Download Results
+                                </button>
+                              </div>
+                            </div>
+                            <div
+                              class="d-inline-block"
+                              ngbdropdown=""
+                              ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+                            >
+                              <button
+                                class="btn btn-light btn-sm"
+                                disabled=""
+                              >
+                                Remind
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                
+              </tm-sessions-table>
+              
+              
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -1458,12 +1510,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -1471,7 +1524,9 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1551,165 +1606,158 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         </div>
       </div>
     </div>
-  </div><div>
+  </div><tm-loading-retry>
+    
     
     <div>
       
-      <div
-        class="card"
-      >
+      <div>
+        
         <div
-          class="card-header bg-primary text-white course-tab-header"
+          class="card"
         >
           <div
-            class="row"
+            class="card-header bg-primary text-white cursor-pointer"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="course-header col-md-6"
+              class="card-header-btn-toolbar"
             >
-              <b>
-                [CS3281]: Thematic Systems
-              </b>
-            </div>
-            <div
-              class="btn-toolbar col-md-6"
-            >
-              
-              <div
-                class="float-right"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Students 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    
-                    
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/enroll?courseid=CS3281"
-                      routerlink="/web/instructor/courses/enroll"
-                    >
-                       Enroll 
-                    </a>
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/details?courseid=CS3281"
-                      routerlink="/web/instructor/courses/details"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    routerlink="/web/instructor/courses/enroll"
                   >
-                     Instructors 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Sessions 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/sessions?courseid=CS3281"
-                      routerlink="/web/instructor/sessions"
-                    >
-                       Add 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
                   >
-                     Course 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    >
-                       Archive 
-                    </a>
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Delete the course and its corresponding students and sessions"
-                    >
-                       Delete 
-                    </a>
-                    
-                  </div>
-                </span>
-              </div>
-              
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+            </div>
+            <tm-panel-chevron>
               <div
-                class="float-right"
+                class="chevron"
               >
                 
                 <i
@@ -1717,14 +1765,15 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 />
                 
               </div>
-            </div>
+            </tm-panel-chevron>
           </div>
+          
         </div>
-        
-        
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -1738,12 +1787,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -1751,7 +1801,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -1831,165 +1883,158 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         </div>
       </div>
     </div>
-  </div><div>
+  </div><tm-loading-retry>
+    
     
     <div>
       
-      <div
-        class="card"
-      >
+      <div>
+        
         <div
-          class="card-header bg-primary text-white course-tab-header"
+          class="card"
         >
           <div
-            class="row"
+            class="card-header bg-primary text-white cursor-pointer"
           >
+            <b>
+              [CS3281]: Thematic Systems
+            </b>
+            
             <div
-              class="course-header col-md-6"
+              class="card-header-btn-toolbar"
             >
-              <b>
-                [CS3281]: Thematic Systems
-              </b>
-            </div>
-            <div
-              class="btn-toolbar col-md-6"
-            >
-              
-              <div
-                class="float-right"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Students 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    
-                    
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/enroll?courseid=CS3281"
-                      routerlink="/web/instructor/courses/enroll"
-                    >
-                       Enroll 
-                    </a>
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/details?courseid=CS3281"
-                      routerlink="/web/instructor/courses/details"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3281"
+                    routerlink="/web/instructor/courses/enroll"
                   >
-                     Instructors 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3281"
+                    routerlink="/web/instructor/courses/details"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Sessions 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/sessions?courseid=CS3281"
-                      routerlink="/web/instructor/sessions"
-                    >
-                       Add 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
                   >
-                     Course 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3281"
+                    routerlink="/web/instructor/sessions"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    >
-                       Archive 
-                    </a>
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3281"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Delete the course and its corresponding students and sessions"
-                    >
-                       Delete 
-                    </a>
-                    
-                  </div>
-                </span>
-              </div>
-              
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3281"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+            </div>
+            <tm-panel-chevron>
               <div
-                class="float-right"
+                class="chevron"
               >
                 
                 
@@ -1997,37 +2042,43 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   class="fas fa-chevron-up"
                 />
               </div>
-            </div>
+            </tm-panel-chevron>
           </div>
-        </div>
-        
-        
-        <div
-          class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
-        >
           
-          <tm-loading-spinner
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            <div
-              class="loading-container"
-            >
-              <div
-                class="row spinner-border text-primary"
-                role="status"
-              />
-              <div
-                class="row text-secondary"
+            <tm-loading-retry>
+              
+              
+              <tm-loading-spinner
+                style=""
               >
-                Loading...
-              </div>
-            </div>
-          </tm-loading-spinner>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </tm-loading-spinner>
+              
+              
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;
 
@@ -2041,12 +2092,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
+  hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
-  loadingBarService={[Function LoadingBarService]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
@@ -2054,7 +2106,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <tm-redirect-banner>
+    
+  </tm-redirect-banner><h1>
     Home
   </h1><div
     class="card bg-light mb-4"
@@ -2134,165 +2188,158 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         </div>
       </div>
     </div>
-  </div><div>
+  </div><tm-loading-retry>
+    
     
     <div>
       
-      <div
-        class="card"
-      >
+      <div>
+        
         <div
-          class="card-header bg-primary text-white course-tab-header"
+          class="card"
         >
           <div
-            class="row"
+            class="card-header bg-primary text-white cursor-pointer"
           >
+            <b>
+              [CS3243]: Introduction to AI
+            </b>
+            
             <div
-              class="course-header col-md-6"
+              class="card-header-btn-toolbar"
             >
-              <b>
-                [CS3243]: Introduction to AI
-              </b>
-            </div>
-            <div
-              class="btn-toolbar col-md-6"
-            >
-              
-              <div
-                class="float-right"
+              <span
+                class="dropdown"
+                ngbdropdown=""
               >
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Students 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    
-                    
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/enroll?courseid=CS3243"
-                      routerlink="/web/instructor/courses/enroll"
-                    >
-                       Enroll 
-                    </a>
-                    <a
-                      class="btn btn-info btn-sm dropdown-item"
-                      href="/web/instructor/courses/details?courseid=CS3243"
-                      routerlink="/web/instructor/courses/details"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Students 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  
+                  
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/enroll?courseid=CS3243"
+                    routerlink="/web/instructor/courses/enroll"
                   >
-                     Instructors 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     Enroll 
+                  </a>
+                  <a
+                    class="btn btn-info btn-sm dropdown-item"
+                    href="/web/instructor/courses/details?courseid=CS3243"
+                    routerlink="/web/instructor/courses/details"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3243"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
-                  >
-                     Sessions 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
-                  >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/sessions?courseid=CS3243"
-                      routerlink="/web/instructor/sessions"
-                    >
-                       Add 
-                    </a>
-                  </div>
-                </span>
-                <span
-                  class="padding-right-10px dropdown"
-                  ngbdropdown=""
+                   Instructors 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
                 >
-                  <button
-                    aria-expanded="false"
-                    aria-haspopup="true"
-                    class="btn btn-light btn-sm dropdown-toggle"
-                    ngbdropdowntoggle=""
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3243"
+                    routerlink="/web/instructor/courses/edit"
                   >
-                     Course 
-                  </button>
-                  <div
-                    class="dropdown-menu"
-                    ngbdropdownmenu=""
-                    x-placement="bottom"
+                     View / Edit 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Sessions 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/sessions?courseid=CS3243"
+                    routerlink="/web/instructor/sessions"
                   >
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
-                    >
-                       Archive 
-                    </a>
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      href="/web/instructor/courses/edit?courseid=CS3243"
-                      routerlink="/web/instructor/courses/edit"
-                    >
-                       View / Edit 
-                    </a>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm dropdown-item"
-                      ngbtooltip="Delete the course and its corresponding students and sessions"
-                    >
-                       Delete 
-                    </a>
-                    
-                  </div>
-                </span>
-              </div>
-              
+                     Add 
+                  </a>
+                </div>
+              </span>
+              <span
+                class="dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  ngbdropdowntoggle=""
+                >
+                   Course 
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
+                  >
+                     Archive 
+                  </a>
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    href="/web/instructor/courses/edit?courseid=CS3243"
+                    routerlink="/web/instructor/courses/edit"
+                  >
+                     View / Edit 
+                  </a>
+                  
+                  
+                  <a
+                    class="btn btn-light btn-sm dropdown-item"
+                    ngbtooltip="Delete the course and its corresponding students and sessions"
+                  >
+                     Delete 
+                  </a>
+                  
+                </div>
+              </span>
+            </div>
+            <tm-panel-chevron>
               <div
-                class="float-right"
+                class="chevron"
               >
                 
                 
@@ -2300,30 +2347,36 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   class="fas fa-chevron-up"
                 />
               </div>
-            </div>
+            </tm-panel-chevron>
           </div>
-        </div>
-        
-        
-        <div
-          class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
-          style=""
-        >
           
-          <tm-sessions-table
+          <div
+            class="card-body padding-0 ng-trigger ng-trigger-collapseAnim ng-animating"
             style=""
           >
-            
-            <div
-              class="no-session-message"
-            >
-               There are no feedback sessions in this course. 
-            </div>
-            
-          </tm-sessions-table>
+            <tm-loading-retry>
+              
+              
+              <tm-sessions-table
+                style=""
+              >
+                
+                <div
+                  class="no-session-message"
+                >
+                   There are no feedback sessions in this course. 
+                </div>
+                
+              </tm-sessions-table>
+              
+              
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-home-page>
 `;

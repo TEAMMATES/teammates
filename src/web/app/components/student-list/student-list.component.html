@@ -8,33 +8,43 @@
       <th>Photo</th>
       <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)">
         Section
-        <span *ngIf="tableSortBy !== SortBy.SECTION_NAME"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
       <th class="sortable-header" (click)="sortStudentList(SortBy.TEAM_NAME)">
         Team
-        <span *ngIf="tableSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.STUDENT_NAME)">
+      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
         Student Name
-        <span *ngIf="tableSortBy !== SortBy.STUDENT_NAME"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
       <th class="sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
         Status
-        <span *ngIf="tableSortBy !== SortBy.JOIN_STATUS"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.EMAIL)">
+      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_EMAIL)">
         Email
-        <span *ngIf="tableSortBy !== SortBy.EMAIL"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.EMAIL && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.EMAIL && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
       <th class="align-center">Action(s)</th>
     </tr>
@@ -42,7 +52,8 @@
     <tbody>
     <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
       <td>
-        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
+        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId"
+                               [useViewPhotoBtn]="true"></tm-view-photo-popover>
       </td>
       <td *ngIf="hasSection()">{{studentModel.student.sectionName}}</td>
       <td>{{studentModel.student.teamName}}</td>

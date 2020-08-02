@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -27,6 +28,7 @@ interface CourseModel {
   course: Course;
   canModifyCourse: boolean;
   canModifyStudent: boolean;
+  isLoadingCourseStats: boolean;
 }
 
 /**
@@ -57,6 +59,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
 
   isLoading: boolean = false;
+  hasLoadingFailed: boolean = false;
   isRecycleBinExpanded: boolean = false;
   canDeleteAll: boolean = true;
   canRestoreAll: boolean = true;
@@ -84,6 +87,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Loads instructor courses required for this page.
    */
   loadInstructorCourses(): void {
+    this.hasLoadingFailed = false;
     this.isLoading = true;
     this.activeCourses = [];
     this.archivedCourses = [];
@@ -92,20 +96,25 @@ export class InstructorCoursesPageComponent implements OnInit {
       forkJoin(
           resp.courses.map((course: Course) =>
               this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
-      ).subscribe((privileges: InstructorPrivilege[]) => {
+      ).pipe(finalize(() => this.isLoading = false)).subscribe((privileges: InstructorPrivilege[]) => {
         resp.courses.forEach((course: Course, index: number) => {
           const canModifyCourse: boolean = privileges[index].canModifyCourse;
           const canModifyStudent: boolean = privileges[index].canModifyStudent;
-          const activeCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          const isLoadingCourseStats: boolean = false;
+          const activeCourse: CourseModel = Object.assign({},
+              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
           this.activeCourses.push(activeCourse);
         });
-        this.sortCoursesEvent(SortBy.COURSE_CREATION_DATE);
+        this.activeCoursesDefaultSort();
       }, (error: ErrorMessageOutput) => {
+        this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(error.error.message);
       });
     }, (resp: ErrorMessageOutput) => {
+      this.isLoading = false;
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
-    }, () => this.isLoading = false);
+    });
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
@@ -114,13 +123,18 @@ export class InstructorCoursesPageComponent implements OnInit {
         }).subscribe((instructorPrivilege: InstructorPrivilege) => {
           const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
           const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const archivedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+          const isLoadingCourseStats: boolean = false;
+          const archivedCourse: CourseModel = Object.assign({},
+              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
           this.archivedCourses.push(archivedCourse);
+          this.archivedCoursesDefaultSort();
         }, (error: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(error.error.message);
         });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
 
@@ -130,17 +144,22 @@ export class InstructorCoursesPageComponent implements OnInit {
             .subscribe((instructorPrivilege: InstructorPrivilege) => {
               const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
               const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-              const softDeletedCourse: CourseModel = Object.assign({}, { course, canModifyCourse, canModifyStudent });
+              const isLoadingCourseStats: boolean = false;
+              const softDeletedCourse: CourseModel = Object.assign({},
+                  { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
               this.softDeletedCourses.push(softDeletedCourse);
+              this.deletedCoursesDefaultSort();
               if (!softDeletedCourse.canModifyCourse) {
                 this.canDeleteAll = false;
                 this.canRestoreAll = false;
               }
             }, (error: ErrorMessageOutput) => {
+              this.hasLoadingFailed = true;
               this.statusMessageService.showErrorToast(error.error.message);
             });
       }
     }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -148,22 +167,26 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Constructs the url for course stats from the given course id.
    */
-  getCourseStats(courseId: string): void {
+  getCourseStats(idx: number): void {
+    const course: CourseModel = this.activeCourses[idx];
+    const courseId: string = course.course.courseId;
     if (!courseId) {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    this.studentService.getStudentsFromCourse({ courseId }).subscribe((students: Students) => {
-      this.courseStats[courseId] = {
-        sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
-        teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
-        students: students.students.length,
-        unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED)
-          .length,
-      };
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    course.isLoadingCourseStats = true;
+    this.studentService.getStudentsFromCourse({ courseId })
+        .pipe(finalize(() => course.isLoadingCourseStats = false))
+        .subscribe((students: Students) => {
+          this.courseStats[courseId] = {
+            sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
+            teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
+            students: students.students.length,
+            unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
+          };
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -252,7 +275,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -299,7 +322,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -342,7 +365,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
-    }, () => {});
+    });
   }
 
   /**
@@ -366,30 +389,66 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the active courses table
    */
   sortCoursesEvent(by: SortBy): void {
+    this.activeTableSortOrder = (this.activeTableSortBy === by) ?
+        this.activeTableSortOrder === SortOrder.ASC ?
+            SortOrder.DESC :
+            SortOrder.ASC :
+        SortOrder.ASC;
     this.activeTableSortBy = by;
-    this.activeTableSortOrder =
-        this.activeTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
+  }
+
+  /**
+   * Active courses default sort on page load
+   */
+  activeCoursesDefaultSort(): void {
+    this.activeTableSortBy = SortBy.COURSE_CREATION_DATE;
+    this.activeTableSortOrder = SortOrder.DESC;
+    this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
   }
 
   /**
    * Sorts the archived courses table
    */
   sortArchivedCoursesEvent(by: SortBy): void {
+    this.archivedTableSortOrder = (this.archivedTableSortBy === by) ?
+        this.archivedTableSortOrder === SortOrder.ASC ?
+            SortOrder.DESC :
+            SortOrder.ASC :
+        SortOrder.ASC;
     this.archivedTableSortBy = by;
-    this.archivedTableSortOrder =
-      this.archivedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.archivedCourses.sort(this.sortBy(by, this.archivedTableSortOrder));
+  }
+
+  /**
+   * Archived courses default sort on page load
+   */
+  archivedCoursesDefaultSort(): void {
+    this.archivedTableSortBy = SortBy.COURSE_CREATION_DATE;
+    this.archivedTableSortOrder = SortOrder.DESC;
+    this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
   }
 
   /**
    * Sorts the soft-deleted courses table
    */
   sortDeletedCoursesEvent(by: SortBy): void {
+    this.deletedTableSortOrder = (this.deletedTableSortBy === by) ?
+        this.deletedTableSortOrder === SortOrder.ASC ?
+            SortOrder.DESC :
+            SortOrder.ASC :
+        SortOrder.ASC;
     this.deletedTableSortBy = by;
-    this.deletedTableSortOrder =
-      this.deletedTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
+  }
+
+  /**
+   * Deleted courses default sort on page load
+   */
+  deletedCoursesDefaultSort(): void {
+    this.deletedTableSortBy = SortBy.COURSE_DELETION_DATE;
+    this.deletedTableSortOrder = SortOrder.DESC;
+    this.softDeletedCourses.sort(this.sortBy(this.deletedTableSortBy, this.deletedTableSortOrder));
   }
 
   /**

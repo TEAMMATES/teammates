@@ -1,88 +1,89 @@
 <h1 class="page-title" *ngIf="course.courseId">Team Details for {{ course.courseId }}</h1>
-<div class="section" *ngIf="course.courseId">
-  <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
-    <div class="card-body fill-plain">
-      <ng-container *ngIf="course.courseId">
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Course ID:</label>
-          </div>
-          <div class="col-9">
-            <span id="course-id">{{ course.courseId }}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Course name:</label>
-          </div>
-          <div class="col-9">
-            <span id="course-name">{{ course.courseName }}</span>
-          </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="instructorDetails && instructorDetails.length">
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Instructors:</label>
-          </div>
-          <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
-            <div *ngFor="let instructorDetail of instructorDetails">
-              {{ instructorDetail.displayedToStudentsAs }}:
-              <a href="mailto:{{ instructorDetail.email }}">{{ instructorDetail.name }} ({{ instructorDetail.email }})</a>
+<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load details'" (retryEvent)="retryLoading()">
+  <div class="section" *ngIf="course.courseId">
+    <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
+      <div class="card-body fill-plain">
+        <ng-container *ngIf="course.courseId">
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Course ID:</label>
+            </div>
+            <div class="col-9">
+              <span id="course-id">{{ course.courseId }}</span>
             </div>
           </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="student.courseId">
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Your section:</label>
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Course name:</label>
+            </div>
+            <div class="col-9">
+              <span id="course-name">{{ course.courseName }}</span>
+            </div>
           </div>
-          <div class="col-9">
-            <span id="student-section">{{ student.sectionName }}</span>
+        </ng-container>
+        <ng-container *ngIf="instructorDetails && instructorDetails.length">
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Instructors:</label>
+            </div>
+            <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
+              <div *ngFor="let instructorDetail of instructorDetails">
+                {{ instructorDetail.displayedToStudentsAs }}:
+                <a href="mailto:{{ instructorDetail.email }}">{{ instructorDetail.name }} ({{ instructorDetail.email }})</a>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Your team:</label>
+        </ng-container>
+        <ng-container *ngIf="student.courseId">
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Your section:</label>
+            </div>
+            <div class="col-9">
+              <span id="student-section">{{ student.sectionName }}</span>
+            </div>
           </div>
-          <div class="col-9">
-            <span id="student-team">{{ student.teamName }}</span>
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Your team:</label>
+            </div>
+            <div class="col-9">
+              <span id="student-team">{{ student.teamName }}</span>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Your name:</label>
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Your name:</label>
+            </div>
+            <div class="col-9">
+              <span id="student-name">{{ student.name }}</span>
+            </div>
           </div>
-          <div class="col-9">
-            <span id="student-name">{{ student.name }}</span>
+          <div class="row">
+            <div class="col-3 text-right">
+              <label>Your email:</label>
+            </div>
+            <div class="col-9">
+              <span id="student-email">{{ student.email }}</span>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-3 text-right">
-            <label>Your email:</label>
-          </div>
-          <div class="col-9">
-            <span id="student-email">{{ student.email }}</span>
-          </div>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
   </div>
-</div>
-
-<div *ngIf="!isLoadingTeammates && teammateProfiles.length" class="card bg-light mb-4">
-  <div class="card-body">
-    <h5 class="d-inline"><strong> Sort By: </strong></h5>
-    <div class="btn-group" data-toggle="buttons">
-      <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_NAME)" (click)="sortTeammatesBy(SortBy.STUDENT_NAME)">Name</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.EMAIL)" (click)="sortTeammatesBy(SortBy.EMAIL)">Email</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
-      <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
+  <div *ngIf="!isLoadingTeammates && teammateProfiles.length" class="card bg-light mb-4">
+    <div class="card-body">
+      <h5 class="d-inline"><strong> Sort By: </strong></h5>
+      <div class="btn-group" data-toggle="buttons">
+        <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.STUDENT_GENDER)" (click)="sortTeammatesBy(SortBy.STUDENT_GENDER)">Gender</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.INSTITUTION)" (click)="sortTeammatesBy(SortBy.INSTITUTION)">Institution</button>
+        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.NATIONALITY)" (click)="sortTeammatesBy(SortBy.NATIONALITY)">Nationality</button>
+      </div>
     </div>
   </div>
-</div>
+</tm-loading-retry>
 
 <div class="section">
   <div class="row top-padded">

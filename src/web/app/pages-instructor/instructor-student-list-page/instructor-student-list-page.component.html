@@ -6,83 +6,76 @@
 </p>
 <hr/>
 
-<ng-container>
-  <div *ngFor="let courseTab of courseTabList">
-    <div class="card">
-      <div class="card-header justify-content-between course-card-header cursor-pointer"
-        (click)="toggleCard(courseTab)">
-        <div class="row course-card-content">
-          <div class="col-11">
-            <div class="course-card-header-text">
-              <i class="fas fa-chalkboard-teacher"
-                style="color: white;"></i>&nbsp;[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}
-            </div>
-          </div>
-          <div class="col-1">
-            <button *ngIf="!courseTab.hasTabExpanded"
-              class="btn float-right"><i class="fas fa-chevron-circle-down fa-lg"
-              style="color: white;"></i></button>
-            <button *ngIf="courseTab.hasTabExpanded"
-              class="btn float-right"><i class="fas fa-chevron-circle-up fa-lg" style="color: white;"></i></button>
+<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadCourses()">
+  <div *tmIsLoading="isLoadingCourses"></div>
+  <ng-container>
+    <div *ngFor="let courseTab of courseTabList">
+      <div class="card">
+        <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">
+          <strong>[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
+          <div class="card-header-btn-toolbar">
+            <tm-panel-chevron [isExpanded]="courseTab.hasTabExpanded"></tm-panel-chevron>
           </div>
         </div>
-      </div>
 
-      <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
-        <div *tmIsLoading="!courseTab.hasStudentLoaded" class="card-body">
-          <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
-            <div class="card-deck text-center text-sm-left" *ngIf="courseTab.stats">
-              <div class="card">
-                <div class="card-body">
-                  <h3 class="card-title">{{courseTab.stats.numOfStudents}}</h3>
-                  <h5 class="card-text">Students</h5>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-body">
-                  <h3 class="card-title">{{courseTab.stats.numOfSections}}</h3>
-                  <h5 class="card-text">Sections</h5>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-body">
-                  <h3 class="card-title">{{courseTab.stats.numOfTeams}}</h3>
-                  <h5 class="card-text">Teams</h5>
-                </div>
+        <div *ngIf="courseTab.hasTabExpanded" @collapseAnim>
+          <tm-loading-retry [shouldShowRetry]="courseTab.hasLoadingFailed" [message]="'Failed to load students'" (retryEvent)="loadStudents(courseTab)">
+            <div *tmIsLoading="!courseTab.hasStudentLoaded">
+              <div *ngIf="!courseTab.hasLoadingFailed" class="card-body">
+                <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
+                  <div class="card-deck text-center text-sm-left" *ngIf="courseTab.stats">
+                    <div class="card">
+                      <div class="card-body">
+                        <h3 class="card-title">{{courseTab.stats.numOfStudents}}</h3>
+                        <h5 class="card-text">Students</h5>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <h3 class="card-title">{{courseTab.stats.numOfSections}}</h3>
+                        <h5 class="card-text">Sections</h5>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <h3 class="card-title">{{courseTab.stats.numOfTeams}}</h3>
+                        <h5 class="card-text">Teams</h5>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr/>
+
+                  <a class="btn btn-success"
+                    routerLink="/web/instructor/courses/enroll"
+                    [queryParams]="{courseid: courseTab.course.courseId}">
+                  Enroll Students
+                  </a>
+                  <br/><br/>
+                  <tm-student-list
+                      [courseId]="courseTab.course.courseId"
+                      [students]="courseTab.studentList"
+                      [tableSortBy]="courseTab.studentSortBy"
+                      [tableSortOrder]="courseTab.studentSortOrder"
+                      [useGrayHeading]="false"
+                      [enableRemindButton]="true"
+                      (sortStudentListEvent)="sortStudentList(courseTab, $event)"
+                      (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+                  </tm-student-list>
+                </ng-container>
               </div>
             </div>
+          </tm-loading-retry>
+        </div>
 
-            <hr/>
-
-            <button class="btn btn-success"
-              routerLink="/web/instructor/courses/enroll"
-              [queryParams]="{courseid: courseTab.course.courseId}">
+        <ng-template #noStudentsTemplate>
+          <h5>There are no students in this course.</h5>
+          <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
             Enroll Students
-            </button>
-            <br/><br/>
-            <tm-student-list
-                [courseId]="courseTab.course.courseId"
-                [students]="courseTab.studentList"
-                [tableSortBy]="courseTab.studentSortBy"
-                [tableSortOrder]="courseTab.studentSortOrder"
-                [useGrayHeading]="false"
-                [enableRemindButton]="true"
-                (sortStudentListEvent)="sortStudentList(courseTab, $event)"
-                (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)">
+          </button>
+        </ng-template>
 
-            </tm-student-list>
-          </ng-container>
-        </div>
       </div>
-
-      <ng-template #noStudentsTemplate>
-        <h5>There are no students in this course.</h5>
-        <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
-          Enroll Students
-        </button>
-      </ng-template>
-
     </div>
-    <br/>
-  </div>
-</ng-container>
+  </ng-container>
+</tm-loading-retry>

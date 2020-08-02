@@ -7,7 +7,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { Gender, StudentProfile } from '../../../types/api-output';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import {
   GrqRgqViewResponsesModule,
 } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.module';
@@ -43,6 +45,8 @@ describe('InstructorStudentRecordsPageComponent', () => {
         NgbModule,
         GrqRgqViewResponsesModule,
         LoadingSpinnerModule,
+        LoadingRetryModule,
+        PanelChevronModule,
       ],
       providers: [
         {

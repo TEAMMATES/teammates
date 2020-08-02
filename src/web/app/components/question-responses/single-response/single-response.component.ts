@@ -25,6 +25,9 @@ export class SingleResponseComponent implements OnInit {
   };
 
   @Input() isStudentPage: boolean = false;
+  @Input() statistics: string = '';
+  @Input() giverEmail: string = '';
+  @Input() recipientEmail: string = '';
 
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;

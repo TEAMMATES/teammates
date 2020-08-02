@@ -35,9 +35,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
-  courseid: string = '';
+  courseId: string = '';
   coursePresent?: boolean;
   showEnrollResults?: boolean = false;
+  enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
@@ -68,6 +69,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
+  hasLoadingStudentsFailed: boolean = false;
   loading: boolean = false;
   isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
@@ -80,6 +82,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
+      this.courseId = queryParams.courseid;
       this.getCourseEnrollPageData(queryParams.courseid);
     });
   }
@@ -89,6 +92,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   submitEnrollData(): void {
     this.isEnrolling = true;
+    this.enrollErrorMessage = '';
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
 
@@ -117,7 +121,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         })));
 
     this.studentService.enrollStudents(
-        this.courseid, studentsEnrollRequest,
+        this.courseId, studentsEnrollRequest,
     ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: Students) => {
       const enrolledStudents: Student[] = resp.students;
       this.showEnrollResults = true;
@@ -127,10 +131,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
               studentsEnrollRequest.studentEnrollRequests);
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.enrollErrorMessage = resp.error.message;
     }, () => {
-      this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe((resp: Students) => {
+      this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
         this.existingStudents = resp.students;
         if (!this.isExistingStudentsPanelCollapsed) {
           const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
@@ -189,7 +192,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
           email: request.email,
-          courseId: this.courseid,
+          courseId: this.courseId,
           name: request.name,
           sectionName: request.section,
           teamName: request.team,
@@ -217,14 +220,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     if (studentLists[EnrollStatus.ERROR].length > 0) {
-      const generalEnrollErrorMessage: string = 'You may check that: ' +
-          '"Section" and "Comment" are optional while "Team", "Name", and "Email" must be filled. ' +
-          '"Section", "Team", "Name", and "Comment" should start with an alphabetical character, ' +
-          'unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and percentage sign"%". ' +
-          '"Email" should contain some text followed by one \'@\' sign followed by some more text. ' +
-          '"Team" should not have same format of email to avoid mis-interpretation. ';
-      this.statusMessageService.showErrorToast(`Some students failed to be enrolled, see the summary below.
-       ${generalEnrollErrorMessage}`);
+      this.enrollErrorMessage = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
+        and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
+        alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
+        percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
+        more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
+      this.statusMessageService.showErrorToast('Some students failed to be enrolled, see the summary below.');
     }
     return panels;
   }
@@ -312,7 +313,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return;
     }
 
-    this.studentService.getStudentsFromCourse({ courseId: this.courseid }).subscribe(
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
         (resp: Students) => {
           if (resp.students.length !== 0) {
             this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
@@ -353,9 +354,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    * Checks whether the course is present
    */
   getCourseEnrollPageData(courseid: string): void {
+    this.existingStudents = [];
+    this.hasLoadingStudentsFailed = false;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
-      this.courseid = courseid;
+      this.courseId = courseid;
       if (resp.hasResponses) {
         const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
@@ -370,6 +373,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     });
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;
+    }, (resp: ErrorMessageOutput) => {
+      this.hasLoadingStudentsFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -380,5 +386,4 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     (this.moreInfo as ElementRef)
         .nativeElement.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
-
 }

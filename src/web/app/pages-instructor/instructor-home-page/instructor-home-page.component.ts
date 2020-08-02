@@ -6,7 +6,6 @@ import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -43,6 +42,7 @@ interface CourseTabModel {
   hasPopulated: boolean;
   isAjaxSuccess: boolean;
   isTabExpanded: boolean;
+  hasLoadingFailed: boolean;
 }
 
 /**
@@ -69,6 +69,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   courseTabModels: CourseTabModel[] = [];
 
   hasCoursesLoaded: boolean = false;
+  hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
 
   constructor(router: Router,
@@ -81,8 +82,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
               private simpleModalService: SimpleModalService,
-              private courseService: CourseService,
-              private loadingBarService: LoadingBarService) {
+              private courseService: CourseService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
         feedbackQuestionsService, tableComparatorService, ngbModal, studentService);
   }
@@ -166,11 +166,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Loads courses of current instructor.
    */
   loadCourses(): void {
+    this.hasCoursesLoaded = false;
+    this.hasCoursesLoadingFailed = false;
     this.courseTabModels = [];
-    this.loadingBarService.showLoadingBar();
     this.courseService.getInstructorCoursesThatAreActive()
       .pipe(finalize(() => {
-        this.loadingBarService.hideLoadingBar();
         this.hasCoursesLoaded = true;
       })).subscribe((courses: Courses) => {
         courses.courses.forEach((course: Course) => {
@@ -181,6 +181,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             isTabExpanded: false,
             isAjaxSuccess: true,
             hasPopulated: false,
+            hasLoadingFailed: false,
             sessionsTableRowModelsSortBy: SortBy.NONE,
             sessionsTableRowModelsSortOrder: SortOrder.ASC,
           };
@@ -190,7 +191,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         });
         this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
         this.sortCoursesBy(this.instructorCoursesSortBy);
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      }, (resp: ErrorMessageOutput) => {
+        this.hasCoursesLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+
+      });
   }
 
   /**
@@ -201,6 +206,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       .subscribe((instructorPrivilege: InstructorPrivilege) => {
         model.instructorPrivilege = instructorPrivilege;
       }, (resp: ErrorMessageOutput) => {
+        this.courseTabModels = [];
+        this.hasCoursesLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
@@ -210,6 +217,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   loadFeedbackSessions(index: number): void {
     const model: CourseTabModel = this.courseTabModels[index];
+    model.hasLoadingFailed = false;
     if (!model.hasPopulated) {
       this.feedbackSessionsService.getFeedbackSessionsForInstructor(model.course.courseId)
           .subscribe((response: FeedbackSessions) => {
@@ -228,7 +236,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               model.isAjaxSuccess = true;
             }
           }, (resp: ErrorMessageOutput) => {
-            model.isAjaxSuccess = false;
+            model.hasLoadingFailed = true;
             this.statusMessageService.showErrorToast(resp.error.message);
           }, () => this.sortSessionsTableRowModelsEvent(index, SortBy.SESSION_END_DATE));
     }

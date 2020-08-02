@@ -48,9 +48,6 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public String getQuestionResultStatisticsJson(
             FeedbackQuestionAttributes question, String studentEmail, SessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responses = bundle.getQuestionResponseMap().get(question.getId());
-        if (responses.isEmpty()) {
-            return "";
-        }
 
         boolean isStudent = studentEmail != null;
 
@@ -80,23 +77,23 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             String currentUserTeam = bundle.getRoster().getInfoForIdentifier(studentEmail).getTeamName();
             TeamEvalResult currentUserTeamResults = teamResults.get(currentUserTeam);
             if (currentUserTeamResults != null) {
-                int currentUserIndex = teamMembersEmail.get(currentUserTeam).indexOf(studentEmail);
+                List<String> teamEmails = teamMembersEmail.get(currentUserTeam);
+                int currentUserIndex = teamEmails.indexOf(studentEmail);
                 int[] claimedNumbers = currentUserTeamResults.claimed[currentUserIndex];
                 int[] perceivedNumbers = currentUserTeamResults.denormalizedAveragePerceived[currentUserIndex];
 
                 int claimed = 0;
                 int perceived = 0;
-                List<Integer> claimedOthers = new ArrayList<>();
+                Map<String, Integer> claimedOthers = new HashMap<>();
                 List<Integer> perceivedOthers = new ArrayList<>();
 
                 for (int i = 0; i < claimedNumbers.length; i++) {
                     if (i == currentUserIndex) {
                         claimed = claimedNumbers[i];
                     } else {
-                        claimedOthers.add(claimedNumbers[i]);
+                        claimedOthers.put(teamEmails.get(i), claimedNumbers[i]);
                     }
                 }
-                claimedOthers.sort(Comparator.reverseOrder());
 
                 for (int i = 0; i < perceivedNumbers.length; i++) {
                     if (i == currentUserIndex) {
@@ -108,7 +105,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 perceivedOthers.sort(Comparator.reverseOrder());
 
                 output.results.put(studentEmail, new ContributionStatisticsEntry(claimed, perceived,
-                        claimedOthers.stream().mapToInt(i -> i).toArray(),
+                        claimedOthers,
                         perceivedOthers.stream().mapToInt(i -> i).toArray()));
             }
         } else {
@@ -121,9 +118,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 List<String> teamEmails = teamMembersEmail.get(team);
                 TeamEvalResult teamResult = teamResults.get(team);
                 int studentIndex = teamEmails.indexOf(email);
+                Map<String, Integer> claimedOthers = new HashMap<>();
                 List<Integer> perceivedOthers = new ArrayList<>();
                 for (int i = 0; i < teamResult.normalizedPeerContributionRatio.length; i++) {
                     if (i != studentIndex) {
+                        claimedOthers.put(teamEmails.get(i), teamResult.normalizedPeerContributionRatio[studentIndex][i]);
                         perceivedOthers.add(teamResult.normalizedPeerContributionRatio[i][studentIndex]);
                     }
                 }
@@ -131,7 +130,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
                 output.results.put(email, new ContributionStatisticsEntry(summary.claimedToInstructor,
                         summary.perceivedToInstructor,
-                        new int[] {}, perceivedOthers.stream().mapToInt(i -> i).toArray()));
+                        claimedOthers, perceivedOthers.stream().mapToInt(i -> i).toArray()));
             }
         }
 
@@ -309,10 +308,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public static class ContributionStatisticsEntry {
         public final int claimed;
         public final int perceived;
-        public final int[] claimedOthers;
+        public final Map<String, Integer> claimedOthers;
         public final int[] perceivedOthers;
 
-        public ContributionStatisticsEntry(int claimed, int perceived, int[] claimedOthers, int[] perceivedOthers) {
+        public ContributionStatisticsEntry(int claimed, int perceived, Map<String, Integer> claimedOthers,
+                                           int[] perceivedOthers) {
             this.claimed = claimed;
             this.perceived = perceived;
             this.claimedOthers = claimedOthers;

@@ -50,6 +50,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     createdAtTimestamp: 0,
   };
   @Input() isDisplayOnly: boolean = false;
+  @Input() statistics: string = '';
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;

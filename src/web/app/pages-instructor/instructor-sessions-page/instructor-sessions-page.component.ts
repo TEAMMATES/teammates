@@ -95,7 +95,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     submissionStartDate: { year: 0, month: 0, day: 0 },
     submissionEndTime: { hour: 23, minute: 59 },
     submissionEndDate: { year: 0, month: 0, day: 0 },
-    gracePeriod: 0,
+    gracePeriod: 15,
 
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     customSessionVisibleTime: { hour: 23, minute: 59 },
@@ -131,6 +131,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   hasCoursesLoaded: boolean = false;
+  hasCourseLoadingFailed: boolean = false;
+  hasFeedbackSessionLoadingFailed: boolean = false;
 
   constructor(router: Router,
               statusMessageService: StatusMessageService,
@@ -179,19 +181,24 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                 + `?courseid=${createdFeedbackSession.courseId}&fsname=${createdFeedbackSession.feedbackSessionName}`,
                 'The feedback session has been copied. Please modify settings/questions as necessary.');
           }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-    }, () => {});
+    });
   }
 
   /**
    * Loads courses owned by the current user.
    */
   loadCandidatesCourse(): void {
+    this.hasCoursesLoaded = false;
     this.courseService.getInstructorCoursesThatAreActive()
         .pipe(finalize(() => this.hasCoursesLoaded = true)).subscribe((courses: Courses) => {
           this.courseCandidates = courses.courses;
 
           this.initDefaultValuesForSessionEditForm();
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.resetAllModels();
+          this.hasCourseLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -385,6 +392,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             this.updateInstructorPrivilege(model);
           });
         }, (resp: ErrorMessageOutput) => {
+          this.resetAllModels();
+          this.hasFeedbackSessionLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         }, () => this.sortSessionsTableRowModelsEvent(SortBy.COURSE_ID));
   }
@@ -522,6 +531,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             });
           });
         }, (resp: ErrorMessageOutput) => {
+          this.resetAllModels();
+          this.hasFeedbackSessionLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         }, () => this.sortRecycleBinFeedbackSessionRowsEvent(SortBy.SESSION_DELETION_DATE));
   }
@@ -576,7 +587,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
   }
 
   /**
@@ -604,6 +615,23 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => {});
+    });
+  }
+
+  /**
+   * Attempts to load all data again.
+   */
+  retryLoadingAllData(): void {
+    this.hasFeedbackSessionLoadingFailed = false;
+    this.hasCourseLoadingFailed = false;
+    this.loadCandidatesCourse();
+    this.loadFeedbackSessions();
+    this.loadRecycleBinFeedbackSessions();
+  }
+
+  resetAllModels(): void {
+    this.courseCandidates = [];
+    this.sessionsTableRowModels = [];
+    this.recycleBinFeedbackSessionRowModels = [];
   }
 }
