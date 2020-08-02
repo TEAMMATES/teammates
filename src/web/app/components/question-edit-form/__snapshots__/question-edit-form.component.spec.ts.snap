@@ -35,44 +35,27 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
       <div
         class="collapse-caret"
       >
-<<<<<<< HEAD
-        <div
-          class="col-5"
-          id="question-type"
-        >
-          <span>
-=======
         <tm-panel-chevron>
           <div
             class="chevron"
           >
->>>>>>> 6b91a5781369b0b298c8389e4d17a0fb849a88ac
             
             
             <i
               class="fas fa-chevron-up"
             />
-<<<<<<< HEAD
-          </span>
-          <strong>
-            Question 
-            
-            <span
-              id="question-number"
-            >
-              0
-            </span>
-          </strong>
-=======
           </div>
         </tm-panel-chevron>
       </div>
-      <div>
+      <div
+        id="question-type"
+      >
         <strong>
           Question 
->>>>>>> 6b91a5781369b0b298c8389e4d17a0fb849a88ac
           
-          <span>
+          <span
+            id="question-number"
+          >
             0
           </span>
         </strong>
@@ -86,47 +69,9 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         
         <div>
           
-<<<<<<< HEAD
-          <div>
-            
-            <button
-              class="btn btn-primary btn-sm"
-              id="btn-edit-question"
-              type="button"
-            >
-              <i
-                class="fas fa-pencil-alt"
-              />
-               Edit
-            </button>
-            
-            
-            <button
-              class="btn btn-primary btn-sm"
-              id="btn-delete-question"
-              type="button"
-            >
-              <i
-                class="fas fa-trash"
-              />
-               Delete
-            </button>
-            <button
-              class="btn btn-primary btn-sm"
-              container="body"
-              id="btn-duplicate-question"
-              ngbtooltip="Make a copy of the existing question and add to the current feedback session."
-              type="button"
-            >
-              <i
-                class="far fa-copy"
-              />
-               Duplicate
-            </button>
-          </div>
-=======
           <button
             class="btn btn-light btn-sm"
+            id="btn-edit-question"
             type="button"
           >
             <i
@@ -134,11 +79,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             />
              Edit 
           </button>
->>>>>>> 6b91a5781369b0b298c8389e4d17a0fb849a88ac
           
           
           <button
             class="btn btn-light btn-sm"
+            id="btn-delete-question"
             type="button"
           >
             <i
@@ -149,6 +94,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           <button
             class="btn btn-light btn-sm"
             container="body"
+            id="btn-duplicate-question"
             ngbtooltip="Make a copy of the existing question and add to the current feedback session."
             type="button"
           >
