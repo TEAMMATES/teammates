@@ -511,68 +511,68 @@ public class InstructorFeedbackEditPage extends AppPage {
         return changePageType(FeedbackSubmitPage.class);
     }
 
-    public String getCourseId() {
+    private String getCourseId() {
         return courseIdTextBox.getText();
     }
 
-    public String getCourseName() {
+    private String getCourseName() {
         return courseNameTextBox.getText();
     }
 
-    public String getTimeZone() {
+    private String getTimeZone() {
         return timezoneDropDown.getText();
     }
 
-    public String getFeedbackSessionName() {
+    private String getFeedbackSessionName() {
         return sessionNameTextBox.getText();
     }
 
-    public String getInstructions() {
+    private String getInstructions() {
         WebElement iframe = instructionsEditor.findElement(By.tagName("iframe"));
         return getEditorRichText(iframe);
     }
 
-    public String getStartDate() {
+    private String getStartDate() {
         return startDateBox.getAttribute("value");
     }
 
-    public String getStartTime() {
+    private String getStartTime() {
         return getSelectedDropdownOptionText(startTimeDropdown.findElement(By.tagName("select")));
     }
 
-    public String getEndDate() {
+    private String getEndDate() {
         return endDateBox.getAttribute("value");
     }
 
-    public String getEndTime() {
+    private String getEndTime() {
         return getSelectedDropdownOptionText(endTimeDropdown.findElement(By.tagName("select")));
     }
 
-    public String getSessionVisibilityDate() {
+    private String getSessionVisibilityDate() {
         return sessionVisibilityDateBox.getAttribute("value");
     }
 
-    public String getSessionVisibilityTime() {
+    private String getSessionVisibilityTime() {
         return getSelectedDropdownOptionText(sessionVisibilityTimeDropdown.findElement(By.tagName("select")));
     }
 
-    public String getResponseVisibilityDate() {
+    private String getResponseVisibilityDate() {
         return responseVisibilityDateBox.getAttribute("value");
     }
 
-    public String getResponseVisibilityTime() {
+    private String getResponseVisibilityTime() {
         return getSelectedDropdownOptionText(responseVisibilityTimeDropdown.findElement(By.tagName("select")));
     }
 
-    public String getGracePeriod() {
+    private String getGracePeriod() {
         return getSelectedDropdownOptionText(gracePeriodDropdown);
     }
 
-    public String getSubmissionStatus() {
+    private String getSubmissionStatus() {
         return submissionStatusTextBox.getText();
     }
 
-    public String getPublishedStatus() {
+    private String getPublishedStatus() {
         return publishStatusTextBox.getText();
     }
 
