@@ -354,8 +354,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles editing existing session event.
    */
   editExistingSessionHandler(): void {
-    this.sessionEditFormModel.isSaving = true;
+    this.sessionEditFormModel.isEditable = false;
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
+    this.sessionEditFormModel.isSaving = true;
 
     forkJoin([
       this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
