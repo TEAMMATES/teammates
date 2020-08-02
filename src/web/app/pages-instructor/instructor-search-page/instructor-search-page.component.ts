@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { LoadingBarService } from '../../../services/loading-bar.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -28,11 +27,11 @@ export class InstructorSearchPageComponent implements OnInit {
   };
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   commentTables: SearchCommentsTable[] = [];
+  isSearching: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private statusMessageService: StatusMessageService,
-    private loadingBarService: LoadingBarService,
     private searchService: SearchService,
   ) {}
 
@@ -55,7 +54,7 @@ export class InstructorSearchPageComponent implements OnInit {
         || this.searchParams.searchKey === '') {
       return;
     }
-    this.loadingBarService.showLoadingBar();
+    this.isSearching = true;
     forkJoin([
       this.searchParams.isSearchForComments
           ? this.searchService.searchComment(this.searchParams.searchKey)
@@ -64,7 +63,7 @@ export class InstructorSearchPageComponent implements OnInit {
           ? this.searchService.searchInstructor(this.searchParams.searchKey)
           : of({}) as Observable<InstructorSearchResult>,
     ]).pipe(
-        finalize(() => this.loadingBarService.hideLoadingBar()),
+        finalize(() => this.isSearching = false),
     ).subscribe((resp: InstructorSearchResult[]) => {
       this.commentTables = resp[0].searchCommentsTables;
       const searchStudentsTable: SearchStudentsListRowTable[] = resp[1].searchStudentsTables;
