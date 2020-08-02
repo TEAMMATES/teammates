@@ -33,7 +33,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     private FeedbackSessionAttributes closedSession;
     private FeedbackSessionAttributes newSession;
 
-    private String actualFileName;
+    private String fileName;
 
     @Override
     protected void prepareTestData() {
@@ -64,13 +64,13 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 .withIsPublishedEmailEnabled(true)
                 .build();
 
-        actualFileName = "/" + openSession.getCourseId() + "_" + openSession.getFeedbackSessionName()
+        fileName = "/" + openSession.getCourseId() + "_" + openSession.getFeedbackSessionName()
                 + "_result.csv";
     }
 
     @BeforeClass
     public void classSetup() {
-        deleteDownloadsFile(actualFileName);
+        deleteDownloadsFile(fileName);
     }
 
     @Test
@@ -177,7 +177,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         ______TS("download results");
         feedbackSessionsPage.downloadResults(openSession);
         ThreadHelper.waitFor(5000);
-        compareDownloadedFileContent("/InstructorFeedbackSessionsPageE2ETest.csv", actualFileName);
+        verifyDownloadedFile(fileName);
 
         ______TS("soft delete session");
         closedSession.setDeletedTime(Instant.now());

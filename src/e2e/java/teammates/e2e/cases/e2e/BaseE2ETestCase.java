@@ -2,6 +2,9 @@ package teammates.e2e.cases.e2e;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -50,10 +53,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
-    }
-
-    protected String getTestResultsFolder() {
-        return TestProperties.TEST_RESULTS_FOLDER;
     }
 
     protected String getTestDownloadsFolder() {
@@ -167,16 +166,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     /**
-     * Compares file with fileName in the downloads folder with expected file in results folder.
+     * Verify file with fileName is in the downloads folder.
      */
-    protected void compareDownloadedFileContent(String expectedFileName, String actualFileName) {
-        try {
-            String expectedFilePath = getTestResultsFolder() + expectedFileName;
-            String actualFilePath = getTestDownloadsFolder() + actualFileName;
-            assertEquals(FileHelper.readFile(expectedFilePath), FileHelper.readFile(actualFilePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    protected void verifyDownloadedFile(String expectedFileName) {
+        Path path = Paths.get(getTestDownloadsFolder() + expectedFileName);
+        assertTrue(Files.exists(path));
     }
 
     /**
