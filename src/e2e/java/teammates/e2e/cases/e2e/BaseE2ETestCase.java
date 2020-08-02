@@ -7,8 +7,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AdminHomePage;
@@ -18,6 +20,7 @@ import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
+import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
 import teammates.test.driver.FileHelper;
 
@@ -175,4 +178,30 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Verifies that email with subject is found in the student inbox.
+     * Student email used must be an authentic gmail account.
+     */
+    protected void verifyEmailSent(StudentAttributes student, String subject) {
+        if (TestProperties.isDevServer()) {
+            return;
+        }
+        EmailAccount email = new EmailAccount(student.getEmail());
+        try {
+            email.getUserAuthenticated();
+            int retryLimit = 5;
+            boolean actual = email.isEmailWithSubjectPresent(subject);
+            while (!actual && retryLimit > 0) {
+                retryLimit--;
+                ThreadHelper.waitFor(1000);
+                actual = email.isEmailWithSubjectPresent(subject);
+            }
+            email.markAllUnreadEmailAsRead();
+            assertTrue(actual);
+        } catch (Exception e) {
+            fail("Failed to verify email sent:" + e);
+        }
+    }
+
 }
