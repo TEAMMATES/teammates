@@ -239,18 +239,18 @@
       <div id="deleted-table-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <b>Recycle Bin</b>
         <div class="card-header-btn-toolbar">
-          <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+          <button id="btn-restore-all" class="btn btn-secondary btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                   ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
             <i class="fas fa-check"></i> Restore All
           </button>
-          <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
+          <button class="btn btn-secondary btn-sm disabled" *ngIf="!canRestoreAll">
             <i class="fas fa-check"></i> Restore All
           </button>
-          <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
+          <button id="btn-delete-all" class="btn btn-secondary btn-sm" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
                   ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
             <i class="fas fa-times"></i> Delete All
           </button>
-          <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
+          <button class="btn btn-secondary btn-sm disabled" *ngIf="!canDeleteAll">
             <i class="fas fa-times"></i> Delete All
           </button>
           <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>

@@ -130,7 +130,15 @@ h6,
   text-align: right;
 
   button {
-    margin-right: 10px;
+    margin-right: var(--btn-margin);
+  }
+
+  .btn-primary {
+    background-color: darken(#007BFF, 5%); // 5% darker than primary
+  }
+
+  .btn-secondary {
+    background-color: darken(#6C757D, 10%); // 10% darker than secondary
   }
 }
 
@@ -235,24 +243,8 @@ h6,
   margin-right: var(--btn-margin);
 }
 
-.btn-margin-top {
-  margin-top: var(--btn-margin);
-}
-
-.btn-margin-bottom {
-  margin-bottom: var(--btn-margin);
-}
-
 .btn-margin {
   margin: var(--btn-margin);
-}
-
-.panel-primary > .btn {
-  background-color: darken(#007BFF, 5%); // 5% lighter than primary
-}
-
-.panel-secondary > .btn {
-  background-color: darken(#6C757D, 5%); // 5% lighter than secondary
 }
 
 .fa-sort-down,

@@ -113,7 +113,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
     >
       
       <div
-        class="card-header panel-primary"
+        class="card-header bg-primary text-white"
       >
         <strong>
           [CS2103]: Software Engineering
@@ -254,7 +254,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
     >
       
       <div
-        class="card-header panel-primary"
+        class="card-header bg-primary text-white"
       >
         <strong>
           [CS2102]: Databases
@@ -505,7 +505,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
     >
       
       <div
-        class="card-header panel-primary"
+        class="card-header bg-primary text-white"
       >
         <strong>
           [CS3281]: Thematic Systems

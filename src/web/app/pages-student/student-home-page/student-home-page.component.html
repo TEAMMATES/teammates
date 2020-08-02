@@ -18,7 +18,7 @@
     </div>
     <ng-container *ngFor="let studentCourse of courses">
       <div class="card bg-light top-padded">
-        <div class="card-header panel-primary" *ngIf="studentCourse.course as course">
+        <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
           <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
           <div class="card-header-btn-toolbar">
             <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"

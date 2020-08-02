@@ -562,14 +562,14 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     
                     <button
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                     >
                       Send Invite
                     </button>
                     
                     
                     <button
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                     >
                       Delete
                     </button>
