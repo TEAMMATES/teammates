@@ -650,12 +650,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   >
                     <table
                       class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                      id="sessions-table"
                     >
                       <thead>
                         <tr>
                           
                           <th
                             class="sortable-header"
+                            id="sort-session-name"
                           >
                              Session Name 
                             <span
@@ -751,7 +753,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                           <td>
                             
                             
-                            <div>
+                            <div
+                              id="response-rate-0"
+                            >
                               0 / 6
                             </div>
                             
@@ -775,12 +779,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             
                             <button
                               class="btn btn-light btn-sm"
+                              id="btn-soft-delete-0"
                               type="button"
                             >
                               Delete
                             </button>
                             <button
                               class="btn btn-light btn-sm"
+                              id="btn-copy-0"
                               ngbtooltip="Copy feedback session details"
                               type="button"
                             >
@@ -805,6 +811,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 aria-expanded="false"
                                 aria-haspopup="true"
                                 class="btn btn-light btn-sm dropdown-toggle"
+                                id="btn-results-0"
                                 ngbdropdowntoggle=""
                               >
                                 Results
@@ -826,6 +833,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   class="btn dropdown-item clickable"
                                   container="body"
                                   disabled=""
+                                  id="btn-publish-0"
                                   ngbtooltip="Make session responses available for viewing"
                                   placement="left"
                                 >
@@ -836,6 +844,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 
                                 <button
                                   class="btn dropdown-item clickable"
+                                  id="btn-download-0"
                                 >
                                   Download Results
                                 </button>
@@ -849,6 +858,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
+                                id="btn-remind-0"
                               >
                                 Remind
                               </button>
@@ -1145,12 +1155,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   >
                     <table
                       class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+                      id="sessions-table"
                     >
                       <thead>
                         <tr>
                           
                           <th
                             class="sortable-header"
+                            id="sort-session-name"
                           >
                              Session Name 
                             <span
@@ -1246,7 +1258,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           <td>
                             
                             
-                            <div>
+                            <div
+                              id="response-rate-0"
+                            >
                               0 / 6
                             </div>
                             
@@ -1266,12 +1280,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
+                              id="btn-soft-delete-0"
                               type="button"
                             >
                               Delete
                             </button>
                             <button
                               class="btn btn-light btn-sm"
+                              id="btn-copy-0"
                               ngbtooltip="Copy feedback session details"
                               type="button"
                             >
@@ -1296,6 +1312,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 aria-expanded="false"
                                 aria-haspopup="true"
                                 class="btn btn-light btn-sm dropdown-toggle"
+                                id="btn-results-0"
                                 ngbdropdowntoggle=""
                               >
                                 Results
@@ -1317,6 +1334,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   class="btn dropdown-item clickable"
                                   container="body"
                                   disabled=""
+                                  id="btn-unpublish-0"
                                   ngbtooltip="Make responses no longer visible"
                                   placement="left"
                                 >
@@ -1327,11 +1345,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 
                                 <button
                                   class="btn dropdown-item clickable"
+                                  id="btn-resend-0"
                                 >
                                   Resend link to view results
                                 </button>
                                 <button
                                   class="btn dropdown-item clickable"
+                                  id="btn-download-0"
                                 >
                                   Download Results
                                 </button>
@@ -1345,6 +1365,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
+                                id="btn-remind-0"
                               >
                                 Remind
                               </button>
@@ -1381,7 +1402,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           <td>
                             
                             
-                            <div>
+                            <div
+                              id="response-rate-1"
+                            >
                               5 / 6
                             </div>
                             
@@ -1401,12 +1424,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             <button
                               class="btn btn-light btn-sm"
                               disabled=""
+                              id="btn-soft-delete-1"
                               type="button"
                             >
                               Delete
                             </button>
                             <button
                               class="btn btn-light btn-sm"
+                              id="btn-copy-1"
                               ngbtooltip="Copy feedback session details"
                               type="button"
                             >
@@ -1431,6 +1456,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 aria-expanded="false"
                                 aria-haspopup="true"
                                 class="btn btn-light btn-sm dropdown-toggle"
+                                id="btn-results-1"
                                 ngbdropdowntoggle=""
                               >
                                 Results
@@ -1452,6 +1478,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   class="btn dropdown-item clickable"
                                   container="body"
                                   disabled=""
+                                  id="btn-publish-1"
                                   ngbtooltip="Make session responses available for viewing"
                                   placement="left"
                                 >
@@ -1462,6 +1489,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 
                                 <button
                                   class="btn dropdown-item clickable"
+                                  id="btn-download-1"
                                 >
                                   Download Results
                                 </button>
@@ -1475,6 +1503,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                               <button
                                 class="btn btn-light btn-sm"
                                 disabled=""
+                                id="btn-remind-1"
                               >
                                 Remind
                               </button>
