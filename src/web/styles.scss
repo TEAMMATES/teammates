@@ -91,7 +91,14 @@ h6,
   max-width: 70vw;
   min-width: 30vw;
   overflow-y: scroll;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;  // IE10+
   vertical-align: middle;
+
+  &::-webkit-scrollbar { // Webkit-based browsers
+    width: 0;
+    height: 0;
+  }
 }
 
 @media (max-width: 768px) {
