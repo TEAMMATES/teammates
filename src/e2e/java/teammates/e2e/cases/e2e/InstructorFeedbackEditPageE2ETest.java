@@ -68,6 +68,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.addTemplateQuestion(1);
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
+        ThreadHelper.waitFor(1000);
         feedbackEditPage.verifyNumQuestions(1);
         feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
         verifyPresentInDatastore(templateQuestion);
