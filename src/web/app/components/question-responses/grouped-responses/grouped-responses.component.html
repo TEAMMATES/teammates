@@ -34,7 +34,10 @@
             <tm-single-response
                     [class.color-neutral]="response.allResponses[0].isMissingResponse"
                     [responseDetails]="response.allResponses[0].responseDetails"
-                    [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+                    [questionDetails]="response.feedbackQuestion.questionDetails"
+                    [giverEmail]="response.allResponses[0].giverEmail"
+                    [recipientEmail]="response.allResponses[0].recipientEmail"
+                    [statistics]="response.questionStatistics"></tm-single-response>
             <button (click)="toggleAddComment(response.allResponses[0].responseId)"
                     *ngIf="!response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'"
                     ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm comment-button">

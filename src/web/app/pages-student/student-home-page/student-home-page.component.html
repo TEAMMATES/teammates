@@ -20,12 +20,12 @@
       <div class="card bg-light top-padded">
         <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
           <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
-          <span class="float-sm-right">
+          <div class="card-header-btn-toolbar">
             <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
                class="btn btn-light btn-sm button">
               View team
             </a>
-          </span>
+          </div>
         </div>
 
         <div class="table-responsive">
@@ -45,16 +45,14 @@
                 <td>{{ session.session.feedbackSessionName }}</td>
                 <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
                 <td>
-                  <a style="border-bottom: 1px dashed black;"
-                     [ngbTooltip]="getSubmissionStatusTooltip(session)">
+                  <span [ngbTooltip]="getSubmissionStatusTooltip(session)">
                     {{ session.isOpened | sessionSubmissionStatus: session.isWaitingToOpen : session.isSubmitted }}
-                  </a>
+                  </span>
                 </td>
                 <td>
-                  <a style="border-bottom: 1px dashed black;"
-                     [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
+                  <span [ngbTooltip]="getResponseStatusTooltip(session.isPublished)">
                     {{ session.isPublished | sessionResponseStatus }}
-                  </a>
+                  </span>
                 </td>
                 <td>
                   <a [ngClass]="{'disabled' : !session.isPublished}"

@@ -5,6 +5,7 @@ import { HotTableModule } from '@handsontable/angular';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../../components/ajax-preload/ajax-preload.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { StatusMessageModule } from '../../components/status-message/status-message.module';
 import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-page.component';
 
@@ -33,6 +34,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AjaxLoadingModule,
     LoadingRetryModule,
+    PanelChevronModule,
   ],
 })
 export class InstructorCourseEnrollPageModule { }

@@ -71,7 +71,7 @@
     </label>
     <select class="form-control" [disabled]="!isGeneratedOptionsEnabled || !isEditable"
             [ngModel]="model.generateOptionsFor" (ngModelChange)="triggerModelChange('generateOptionsFor', $event)">
-      <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option }}</option>
+      <option *ngFor="let option of PARTICIPANT_TYPES" [value]="option">{{ option | generatedChoice }}</option>
     </select>
     <br>
     <label class="form-check-label">

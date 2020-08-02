@@ -16,6 +16,7 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -203,6 +204,9 @@ public class SessionResultsData extends ApiOutput {
         String giverSection = response.getGiverSection();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
         if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
+            InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(response.getGiver());
+            giverName = instructor.getName();
+            giverLastName = StringHelper.splitName(giverName)[1]; // get the last name from full name
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
             giverSection = Const.DEFAULT_SECTION;
         }
@@ -216,6 +220,9 @@ public class SessionResultsData extends ApiOutput {
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
         String recipientSection = response.getRecipientSection();
         if (question.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+            InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(response.getRecipient());
+            recipientName = instructor.getName();
+            recipientLastName = StringHelper.splitName(giverName)[1]; // get the last name from full name
             recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
             recipientSection = Const.DEFAULT_SECTION;
         }

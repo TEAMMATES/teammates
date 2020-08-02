@@ -4,19 +4,14 @@
       <i class="fas fa-trash-alt"></i> Deleted Feedback Sessions
     </h2>
       <div class="card bg-light top-padded">
-        <div class="card-header bg-secondary recycle-bin-header" (click)="recycleBinExpandEvent.emit()">
-          <div class="row align-items-center">
-            <div class="col-4 text-white">
-              <b>Recycle Bin</b>
-            </div>
-            <div class="col-8 text-right bin-header-button">
-              <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
-                      (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
-              <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
-                      (click)="$event.stopPropagation(); permanentDeleteAllSessionsEvent.emit()"><i class="fas fa-times"></i> Delete All</button>
-              <i class="fas fa-chevron-down text-white" *ngIf="!isRecycleBinExpanded"></i>
-              <i class="fas fa-chevron-up text-white" *ngIf="isRecycleBinExpanded"></i>
-            </div>
+        <div class="card-header bg-secondary text-white cursor-pointer" (click)="recycleBinExpandEvent.emit()">
+          <b>Recycle Bin</b>
+          <div class="card-header-btn-toolbar">
+            <button type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
+                    (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
+            <button type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
+                    (click)="$event.stopPropagation(); permanentDeleteAllSessionsEvent.emit()"><i class="fas fa-times"></i> Delete All</button>
+            <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
           </div>
         </div>
       <div *ngIf="isRecycleBinExpanded" @collapseAnim>

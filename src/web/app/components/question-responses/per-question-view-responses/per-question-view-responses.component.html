@@ -56,7 +56,8 @@
           ></tm-student-name-with-photo>
         </td>
         <td>
-          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"></tm-single-response>
+          <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"
+                              [giverEmail]="response.giverEmail" [recipientEmail]="response.recipientEmail" [statistics]="statistics"></tm-single-response>
         </td>
         <td *ngIf="canResponseHasComment">
           <div *ngIf="response.participantComment" [innerHTML]="response.participantComment.commentText | safeHtml"></div>

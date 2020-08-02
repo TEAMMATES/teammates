@@ -48,8 +48,10 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
 
   private filterResponses(): void {
     this.responsesToUse = this.responses.filter((response: ResponseOutput) => {
-      if (response.isMissingResponse) {
+      if (response.isMissingResponse && this.question.questionType !== FeedbackQuestionType.CONTRIB) {
         // Missing response is meaningless for statistics
+        // For contribution question statistics, need to keep the missing response
+        // to build the response summary
         return false;
       }
 

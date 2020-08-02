@@ -11,7 +11,7 @@
   </div>
 
   <div *tmIsLoading="isLoadingFeedbackQuestions">
-    <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn" [ngClass]="questionEditFormModel.isCollapsed ? 'margin-bottom-30px' : 'margin-bottom-70px'">
+    <div *ngFor="let questionEditFormModel of questionEditFormModels; let i = index; trackBy: trackQuestionEditFormByFn">
       <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT"
                              [numOfQuestions]="questionEditFormModels.length"
                              (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
@@ -76,7 +76,7 @@
           <select class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
             <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
           </select>
-          <a *ngIf="false; else previewInstructorBtn" routerLink="/web/instructor/sessions/submission"
+          <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" routerLink="/web/instructor/sessions/submission"
              [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
              target="_blank"
              rel="noopener noreferrer"
@@ -84,7 +84,7 @@
             <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
           </a>
           <ng-template #previewInstructorBtn>
-            <button class="btn btn-primary" [disabled]="false">Preview as Instructor</button>
+            <button class="btn btn-primary" [disabled]="emailOfInstructorToPreview.length === 0">Preview as Instructor</button>
           </ng-template>
         </div>
       </div>

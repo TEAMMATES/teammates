@@ -1,40 +1,52 @@
-<div class="card" xmlns="http://www.w3.org/1999/html">
-  <div class="card-header text-white question-header cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
-    <div class="row align-items-center">
-      <div class="col-5">
-        <span>
-          <i class="fas fa-chevron-down collapse-caret" *ngIf="model.isCollapsed"></i>
-          <i class="fas fa-chevron-up collapse-caret" *ngIf="!model.isCollapsed"></i>
-        </span>
-        <strong>Question <span *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
-        <select class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
-          <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
-        </select>
-        {{ model.questionType | questionTypeName }}
-      </div>
-      <div class="col-7 text-right" *ngIf="!isDisplayOnly">
-        <div *ngIf="formMode === QuestionEditFormMode.EDIT">
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="!model.isEditable" (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();" [disabled]="model.isSaving"
-                  ><i class="fas fa-pencil-alt"></i> Edit</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable" (click)="saveQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save</button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
-                  (click)="discardChangesHandler(false); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel</button>
-          <button type="button" class="btn btn-primary btn-sm" (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
-          <button type="button" class="btn btn-primary btn-sm"
-                  (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"
-                  ngbTooltip="Make a copy of the existing question and add to the current feedback session." container="body"><i class="far fa-copy"></i> Duplicate</button>
-        </div>
-        <div *ngIf="formMode === QuestionEditFormMode.ADD">
-          <button type="button" class="btn btn-primary btn-sm"
-                  (click)="discardChangesHandler(true); $event.stopPropagation();" [disabled]="model.isSaving">
-            <i class="fas fa-ban"></i>
-            Cancel
-          </button>
-        </div>
-      </div>
+<div class="card">
+  <div class="card-header bg-primary text-white cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
+    <div class="collapse-caret">
+      <tm-panel-chevron [isExpanded]="!model.isCollapsed"></tm-panel-chevron>
     </div>
-    <div class="row align-items-center" *ngIf="model.isCollapsed">
-      <div class="collapse-qn-description">{{model.questionBrief}}</div>
+    <div>
+      <strong>Question <span *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
+      <select class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
+        <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
+      </select>
+      {{ model.questionType | questionTypeName }}
+      <ng-container *ngIf="model.isCollapsed">
+        <br>
+        <div class="collapse-qn-description">{{ model.questionBrief }}</div>
+      </ng-container>
+    </div>
+    <div class="card-header-btn-toolbar">
+      <div *ngIf="formMode === QuestionEditFormMode.EDIT">
+        <button type="button" class="btn btn-light btn-sm" *ngIf="!model.isEditable"
+                (click)="triggerModelChangeBatch({'isEditable': true, 'isCollapsed': false}); $event.stopPropagation();"
+                [disabled]="model.isSaving">
+          <i class="fas fa-pencil-alt"></i> Edit
+        </button>
+        <button type="button" class="btn btn-light btn-sm" *ngIf="model.isEditable"
+                (click)="saveQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving">
+          <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save
+        </button>
+        <button type="button" class="btn btn-light btn-sm" *ngIf="model.isEditable"
+                (click)="discardChangesHandler(false); $event.stopPropagation();" [disabled]="model.isSaving">
+          <i class="fas fa-ban"></i> Cancel
+        </button>
+        <button type="button" class="btn btn-light btn-sm"
+                (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving">
+          <i class="fas fa-trash"></i> Delete
+        </button>
+        <button type="button" class="btn btn-light btn-sm" container="body"
+                (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"
+                ngbTooltip="Make a copy of the existing question and add to the current feedback session."
+                container="body">
+          <i class="far fa-copy"></i> Duplicate
+        </button>
+      </div>
+      <div *ngIf="formMode === QuestionEditFormMode.ADD">
+        <button type="button" class="btn btn-light btn-sm"
+                (click)="discardChangesHandler(true); $event.stopPropagation();" [disabled]="model.isSaving">
+          <i class="fas fa-ban"></i>
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
   <div *ngIf="!model.isCollapsed" @collapseAnim>

@@ -1,4 +1,4 @@
-<tm-contribution-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.CONTRIB" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-contribution-question-response>
+<tm-contribution-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.CONTRIB" [responseDetails]="responseDetails" [questionDetails]="questionDetails" [statistics]="statistics" [giverEmail]="giverEmail" [recipientEmail]="recipientEmail"></tm-contribution-question-response>
 <tm-text-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.TEXT" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-text-question-response>
 <tm-constsum-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.CONSTSUM" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-constsum-question-response>
 <tm-num-scale-question-response *ngIf="responseDetails.questionType === FeedbackQuestionType.NUMSCALE" [responseDetails]="responseDetails" [questionDetails]="questionDetails"></tm-num-scale-question-response>
