@@ -7,13 +7,9 @@
 }
 
 .action-btn {
-  margin-bottom: 15px;
+  margin-bottom: var(--btn-margin);
   width: 100%;
   white-space: nowrap;
-}
-
-.expand-btn {
-  width: 100%;
 }
 
 .action-btn-group {

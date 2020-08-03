@@ -39,8 +39,8 @@
         </div>
       </div>
       <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" routerLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
-      <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>&nbsp;Copy Question</button>&nbsp;
-      <button class="btn btn-primary" (click)="doneEditingHandler()">Done Editing</button>
+      <button class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>&nbsp;Copy Question</button>
+      <button class="btn btn-primary btn-margin-left" (click)="doneEditingHandler()">Done Editing</button>
     </div>
   </div>
   <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
