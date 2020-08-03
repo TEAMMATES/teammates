@@ -20,10 +20,10 @@
                   (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
     <div *tmIsLoading="!hasCoursesLoaded">
-      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
+      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0 && hasFeedbackSessionsLoaded">
         You have not created any sessions yet. Use the form above to create a session.
       </div>
-      <tm-sessions-table *tmIsLoading="!hasCoursesLoaded"
+      <tm-sessions-table *tmIsLoading="!hasFeedbackSessionsLoaded"
                          [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
                          [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                          [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
@@ -50,6 +50,7 @@
 
   <div class="margin-top-30px">
     <tm-sessions-recycle-bin-table
+        *tmIsLoading="!hasRecycleBinLoaded"
         [isRecycleBinExpanded]="isRecycleBinExpanded"
         [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
         [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"

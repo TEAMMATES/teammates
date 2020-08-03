@@ -131,6 +131,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   hasCoursesLoaded: boolean = false;
+  hasFeedbackSessionsLoaded: boolean = false;
+  hasRecycleBinLoaded: boolean = false;
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
@@ -378,7 +380,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions that can be accessed by current user.
    */
   loadFeedbackSessions(): void {
+    this.hasFeedbackSessionsLoaded = false;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
+        .pipe(finalize(() => this.hasFeedbackSessionsLoaded = true))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
@@ -523,7 +527,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
+    this.hasRecycleBinLoaded = false;
     this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
+        .pipe(finalize(() => this.hasRecycleBinLoaded = true))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             this.recycleBinFeedbackSessionRowModels.push({
