@@ -134,7 +134,7 @@
                 <div class="input-group">
                   <input type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionStartDate" (ngModelChange)="triggerModelChange('submissionStartDate', $event)"  #startTimeDp="ngbDatepicker" [disabled]="!model.isEditable"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
-                    <button class="btn btn-secondary" (click)="startTimeDp.toggle()" type="button">
+                    <button class="btn btn-light" (click)="startTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
                     </button>
                   </div>
@@ -159,7 +159,7 @@
                   <input type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionEndDate" (ngModelChange)="triggerModelChange('submissionEndDate', $event)"
                          #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
-                    <button class="btn btn-secondary" (click)="endTimeDp.toggle()" type="button">
+                    <button class="btn btn-light" (click)="endTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
                     </button>
                   </div>
@@ -217,7 +217,7 @@
                   <input type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="maxDateForSessionVisible"
                          [ngModel]="model.customSessionVisibleDate" (ngModelChange)="triggerModelChange('customSessionVisibleDate', $event)" [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"/>
                   <div class="input-group-append" *ngIf="model.sessionVisibleSetting === SessionVisibleSetting.CUSTOM && model.isEditable">
-                    <button class="btn btn-secondary" (click)="sessionVisibleTimeDp.toggle()" type="button">
+                    <button class="btn btn-light" (click)="sessionVisibleTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
                     </button>
                   </div>
@@ -256,7 +256,7 @@
                     <input type="text" class="form-control" ngbDatepicker #responseVisibleTimeDp="ngbDatepicker" [minDate]="minDateForResponseVisible"
                            [ngModel]="model.customResponseVisibleDate" (ngModelChange)="triggerModelChange('customResponseVisibleDate', $event)" [disabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"/>
                     <div class="input-group-append" *ngIf="model.responseVisibleSetting === ResponseVisibleSetting.CUSTOM && model.isEditable">
-                      <button class="btn btn-secondary" (click)="responseVisibleTimeDp.toggle()" type="button">
+                      <button class="btn btn-light" (click)="responseVisibleTimeDp.toggle()" type="button">
                         <i class="fas fa-calendar-alt"></i>
                       </button>
                     </div>
@@ -334,7 +334,7 @@
           <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>
         </div>
         <div *ngIf="formMode === SessionEditFormMode.EDIT">
-          <button type="button" class="btn btn-primary" [disabled]="model.isSaving || !model.isEditable" *ngIf="formMode === SessionEditFormMode.EDIT" (click)="submitFormHandler()">
+          <button type="button" class="btn btn-success" [disabled]="model.isSaving || !model.isEditable" *ngIf="formMode === SessionEditFormMode.EDIT" (click)="submitFormHandler()">
             <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save Changes
           </button>
         </div>

@@ -135,7 +135,7 @@
             </div>
             <ng-template #newComment>
               <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
-                <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-secondary btn-sm"
+                <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
                         (click)="addNewParticipantCommentToResponse(i)"
                         [disabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
                   <i class="fas fa-comment"></i> [Optional] Comment on your response

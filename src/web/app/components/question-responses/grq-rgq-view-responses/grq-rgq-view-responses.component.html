@@ -44,8 +44,8 @@
         </a>
       </div>
       <div class="card-header-btn-toolbar">
-        <tm-response-moderation-button class="mr-2" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-                                       [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
+        <tm-response-moderation-button class="btn-margin-right" *ngIf="isGrq && userToRelatedEmail[userInfo]" [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+                                       [session]="session" [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY"></tm-response-moderation-button>
         <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </div>

@@ -254,7 +254,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -427,7 +427,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -938,7 +938,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -1564,7 +1564,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -1841,7 +1841,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
@@ -2146,7 +2146,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       class="col-4"
     >
       <a
-        class="btn btn-primary text-white"
+        class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
