@@ -55,6 +55,7 @@ export class RespondentListInfoTableComponent implements OnInit {
         this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => Object.assign({}, oldModel))
             .sort(this.sortStudentRowsBy(by, this.studentListInfoTableSortOrder)),
     );
+    this.studentListInfoTableSortBy = by;
   }
 
   sortInstructorsTableRows(by: SortBy): void {
@@ -67,6 +68,7 @@ export class RespondentListInfoTableComponent implements OnInit {
             (oldModel: InstructorListInfoTableRowModel) => Object.assign({}, oldModel))
             .sort(this.sortInstructorRowsBy(by, this.instructorListInfoTableSortOrder)),
     );
+    this.instructorListInfoTableSortBy = by;
   }
 
   /**
