@@ -2,7 +2,7 @@
   <div class="card-header bg-light" (click)="isPanelExpanded = !isPanelExpanded">
     {{ headerText }}
   </div>
-  <div class="panel-content card-body" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'">
+  <div class="panel-content card-body" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'" tabindex="0">
     <ng-content></ng-content>
   </div>
 </div>
