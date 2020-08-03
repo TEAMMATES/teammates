@@ -861,9 +861,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles 'Copy Question' click event.
    */
   copyQuestionsFromOtherSessionsHandler(): void {
+    this.isCopyingQuestion = true;
     const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
+        finalize(() => this.isCopyingQuestion = false),
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
         flatMap((session: FeedbackSession) => {
           return this.feedbackQuestionsService.getFeedbackQuestions({
