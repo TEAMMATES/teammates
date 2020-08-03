@@ -224,9 +224,11 @@ export class SessionEditFormComponent implements OnInit {
    */
   deleteHandler(): void {
     this.simpleModalService.openConfirmationModal(`Delete the session <strong>${ this.model.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, 'The session will be moved to the recycle bin.').result.then(() => {
-          this.deleteExistingSessionEvent.emit();
-        }, () => {});
+        SimpleModalType.WARNING,
+        'The session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).',
+    ).result.then(() => {
+      this.deleteExistingSessionEvent.emit();
+    }, () => {});
   }
 
   /**
