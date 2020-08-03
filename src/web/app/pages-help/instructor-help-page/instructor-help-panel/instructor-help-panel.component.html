@@ -1,5 +1,5 @@
-<div class="card" [id]="id" tabindex="0">
-  <div class="card-header bg-light" (click)="isPanelExpanded = !isPanelExpanded">
+<div class="card" [id]="id" tabindex="-1">
+  <div class="card-header bg-light" tabindex="0" (keydown.enter)="isPanelExpanded = !isPanelExpanded" (click)="isPanelExpanded = !isPanelExpanded">
     {{ headerText }}
   </div>
   <div class="panel-content card-body" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'" tabindex="0">
