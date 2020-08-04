@@ -43,7 +43,7 @@
   </div>
 </div>
 
-<div class="card card-plain" *tmIsLoading="!hasFeedbackSessionLoaded">
+<div class="card card-plain" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
     <br/>
     <div class="row text-center">
@@ -75,7 +75,7 @@
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
-  <div *tmIsLoading="!(hasFeedbackSessionQuestionsLoaded && hasFeedbackSessionResponsesLoaded)">
+  <div *tmIsLoading="isFeedbackSessionQuestionsLoading || isFeedbackSessionQuestionResponsesLoading">
     <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
                                  [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                  [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"

@@ -101,10 +101,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
 
-  hasFeedbackSessionLoaded: boolean = false;
-  hasFeedbackSessionQuestionsLoaded: boolean = false;
+  isFeedbackSessionLoading: boolean = true;
+  isFeedbackSessionQuestionsLoading: boolean = true;
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
-  hasFeedbackSessionResponsesLoaded: boolean = false;
+  isFeedbackSessionQuestionResponsesLoading: boolean = true;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
@@ -245,7 +245,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads the feedback session information.
    */
   loadFeedbackSession(): void {
-    this.hasFeedbackSessionLoaded = false;
+    this.isFeedbackSessionLoading = true;
     const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
       courseId: this.courseId,
@@ -254,7 +254,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
       previewAs: this.previewAsPerson,
-    }).pipe(finalize(() => this.hasFeedbackSessionLoaded = true))
+    }).pipe(finalize(() => this.isFeedbackSessionLoading = false))
       .subscribe((feedbackSession: FeedbackSession) => {
         this.feedbackSessionInstructions = feedbackSession.instructions;
         this.formattedSessionOpeningTime = this.timezoneService
@@ -313,7 +313,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads feedback questions to submit.
    */
   loadFeedbackQuestions(): void {
-    this.hasFeedbackSessionQuestionsLoaded = false;
+    this.isFeedbackSessionQuestionsLoading = true;
     this.questionSubmissionForms = [];
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: this.courseId,
@@ -322,9 +322,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
       previewAs: this.previewAsPerson,
-    }).pipe(finalize(() => this.hasFeedbackSessionQuestionsLoaded = true))
+    }).pipe(finalize(() => this.isFeedbackSessionQuestionsLoading = false))
         .subscribe((response: FeedbackQuestionsResponse) => {
-          if (response.questions.length === 0) { this.hasFeedbackSessionResponsesLoaded = true; }
+          if (response.questions.length === 0) { this.isFeedbackSessionQuestionResponsesLoading = false; }
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const model: QuestionSubmissionFormModel = {
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
@@ -396,7 +396,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             responseId: '',
           });
         });
-        this.hasFeedbackSessionResponsesLoaded = true;
+        this.isFeedbackSessionQuestionResponsesLoading = false;
       } else {
         this.loadFeedbackResponses(model);
       }
@@ -422,13 +422,13 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads the responses of the feedback question to {@recipientSubmissionForms} in the model.
    */
   loadFeedbackResponses(model: QuestionSubmissionFormModel): void {
-    this.hasFeedbackSessionResponsesLoaded = false;
+    this.isFeedbackSessionQuestionResponsesLoading = true;
     this.feedbackResponsesService.getFeedbackResponse({
       questionId: model.feedbackQuestionId,
       intent: this.intent,
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
-    }).pipe(finalize(() => this.hasFeedbackSessionResponsesLoaded = true))
+    }).pipe(finalize(() => this.isFeedbackSessionQuestionResponsesLoading = false))
       .subscribe((existingResponses: FeedbackResponsesResponse) => {
       // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
         this.shouldSendConfirmationEmail = this.shouldSendConfirmationEmail && existingResponses.responses.length === 0;
