@@ -1,5 +1,5 @@
 <div>
-  <button id="btn-add-course" class="btn btn-primary" (click)="isAddNewCourseFormExpanded = true"
+  <button id="btn-add-course" class="btn btn-success" (click)="isAddNewCourseFormExpanded = true"
           [disabled]="isAddNewCourseFormExpanded"><i class="fas fa-plus"></i> Add New Course
   </button>
 </div>
@@ -117,7 +117,7 @@
                 Enroll
               </button>
               <div ngbDropdown class="d-inline-block">
-                <button id="btn-other-actions-{{ i }}" class="action-dropdown btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
+                <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
                 <div ngbDropdownMenu>
                   <a class="btn btn-primary btn-sm dropdown-item clickable"
                           routerLink="/web/instructor/courses/details"
@@ -211,7 +211,7 @@
           <td>
             <span  container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
-          <td class="text-center">
+          <td class="text-center actions-cell">
             <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
               Unarchive
             </button>
@@ -239,18 +239,18 @@
       <div id="deleted-table-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
         <b>Recycle Bin</b>
         <div class="card-header-btn-toolbar">
-          <button id="btn-restore-all" class="btn btn-light btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
+          <button id="btn-restore-all" class="btn btn-secondary btn-sm" *ngIf="canRestoreAll" (click)="$event.stopPropagation(); onRestoreAll()"
                   ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
             <i class="fas fa-check"></i> Restore All
           </button>
-          <button class="btn btn-light btn-sm disabled" *ngIf="!canRestoreAll">
+          <button class="btn btn-secondary btn-sm disabled" *ngIf="!canRestoreAll">
             <i class="fas fa-check"></i> Restore All
           </button>
-          <button id="btn-delete-all" class="btn btn-light btn-sm text-danger" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
+          <button id="btn-delete-all" class="btn btn-secondary btn-sm" *ngIf="canDeleteAll" (click)="$event.stopPropagation(); onDeleteAll()"
                   ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
             <i class="fas fa-times"></i> Delete All
           </button>
-          <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!canDeleteAll">
+          <button class="btn btn-secondary btn-sm disabled" *ngIf="!canDeleteAll">
             <i class="fas fa-times"></i> Delete All
           </button>
           <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
@@ -318,13 +318,12 @@
                 <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
                   Restore
                 </button>
-                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" style="color: red;"
+                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger" *ngIf="course.canModifyCourse"
                         (click)="onDeletePermanently(course.course.courseId)"
                         ngbTooltip="Permanently delete the course and its corresponding students and sessions">
                   Delete Permanently
                 </button>
-                <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse"
-                        style="color: red;">
+                <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
                   Delete Permanently
                 </button>
               </td>
