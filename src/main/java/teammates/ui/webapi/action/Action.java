@@ -76,6 +76,10 @@ public abstract class Action {
         return userInfo.isAdmin && authType == AuthType.MASQUERADE;
     }
 
+    public boolean isBackdoor() {
+        return Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"));
+    }
+
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
@@ -95,7 +99,7 @@ public abstract class Action {
     }
 
     private void initAuthInfo() {
-        if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
+        if (isBackdoor()) {
             authType = AuthType.ALL_ACCESS;
             userInfo = new UserInfo(getRequestParamValue(Const.ParamsNames.USER_ID));
             userInfo.isAdmin = true;

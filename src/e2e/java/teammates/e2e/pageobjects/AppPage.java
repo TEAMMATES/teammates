@@ -268,9 +268,7 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        By headerTag = By.tagName("h1");
-        waitForElementPresence(headerTag);
-        return browser.driver.findElement(headerTag).getText();
+        return waitForElementPresence(By.tagName("h1")).getText();
     }
 
     public void click(By by) {
@@ -374,6 +372,14 @@ public abstract class AppPage {
             String filePath = new File(fileName).getAbsolutePath();
             fileBoxElement.sendKeys(filePath);
         }
+    }
+
+    /**
+     * Write rich text to the active editor.
+     */
+    protected void writeToActiveRichTextEditor(String text) {
+        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
+                + " tinyMCE.activeEditor.save()", text));
     }
 
     /**

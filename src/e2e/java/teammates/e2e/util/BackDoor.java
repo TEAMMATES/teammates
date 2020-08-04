@@ -402,27 +402,31 @@ public final class BackDoor {
         if (studentData == null) {
             return null;
         }
-        StudentAttributes.Builder student = StudentAttributes.builder(studentData.getCourseId(),
+        StudentAttributes.Builder builder = StudentAttributes.builder(studentData.getCourseId(),
                 studentData.getEmail());
         if (studentData.getGoogleId() != null) {
-            student.withGoogleId(studentData.getGoogleId());
+            builder.withGoogleId(studentData.getGoogleId());
         }
         if (studentData.getName() != null) {
-            student.withName(studentData.getName());
+            builder.withName(studentData.getName());
         }
         if (studentData.getSectionName() != null) {
-            student.withSectionName(studentData.getSectionName());
+            builder.withSectionName(studentData.getSectionName());
         }
         if (studentData.getTeamName() != null) {
-            student.withTeamName(studentData.getTeamName());
+            builder.withTeamName(studentData.getTeamName());
         }
         if (studentData.getComments() != null) {
-            student.withComment(studentData.getComments());
+            builder.withComment(studentData.getComments());
         }
         if (studentData.getLastName() != null) {
-            student.withLastName(studentData.getLastName());
+            builder.withLastName(studentData.getLastName());
         }
-        return student.build();
+        StudentAttributes student = builder.build();
+        if (studentData.getKey() != null) {
+            student.key = studentData.getKey();
+        }
+        return student;
     }
 
     /**
