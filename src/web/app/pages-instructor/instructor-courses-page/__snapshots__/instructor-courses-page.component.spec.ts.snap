@@ -207,6 +207,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      5 Nov 2018 
@@ -323,6 +324,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      2 Feb 2019 
@@ -678,6 +680,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      5 Nov 2018 
@@ -794,6 +797,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      2 Feb 2019 
@@ -1219,6 +1223,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      5 Nov 2018 
@@ -1356,6 +1361,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      2 Feb 2019 

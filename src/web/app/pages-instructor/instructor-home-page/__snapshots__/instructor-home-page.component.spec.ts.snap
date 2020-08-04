@@ -705,6 +705,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             Responses
                           </th>
                           <th
+                            class="ngb-tooltip-class"
                             container="body"
                             ngbtooltip="Number of students submitted / Class size"
                           >
@@ -728,23 +729,31 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                           </td>
                           
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               19 Jan 6:43 AM
                             </span>
                           </td>
                           
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               19 Jan 6:46 AM
                             </span>
                           </td>
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               Awaiting
                             </span>
                           </td>
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               Not Published
                             </span>
                           </td>
@@ -1200,6 +1209,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             Responses
                           </th>
                           <th
+                            class="ngb-tooltip-class"
                             container="body"
                             ngbtooltip="Number of students submitted / Class size"
                           >
@@ -1223,23 +1233,31 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           </td>
                           
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               1 Jan 7:30 AM
                             </span>
                           </td>
                           
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               1 Jan 7:30 AM
                             </span>
                           </td>
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               Closed
                             </span>
                           </td>
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               Published
                             </span>
                           </td>
@@ -1358,23 +1376,31 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                           </td>
                           
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               1 Jan 7:30 AM
                             </span>
                           </td>
                           
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               1 Jan 7:30 AM
                             </span>
                           </td>
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               Open
                             </span>
                           </td>
                           <td>
-                            <span>
+                            <span
+                              class="ngb-tooltip-class"
+                            >
                               Not Published
                             </span>
                           </td>
