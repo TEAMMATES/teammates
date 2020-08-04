@@ -62,9 +62,9 @@
         </a>
       </div>
       <div class="card-header-btn-toolbar">
-        <tm-response-moderation-button class="mr-md-3" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
+        <tm-response-moderation-button class="btn-margin-right" *ngIf="isGqr && userToRelatedEmail[userInfo]" [session]="session"
                                        [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-                                       [isGiverInstructor]="userIsInstructor[userInfo]"></tm-response-moderation-button>
+                                       [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY"></tm-response-moderation-button>
         <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
     </div>

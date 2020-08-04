@@ -7,7 +7,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show generated option message
 >
   Multiple-choice (multiple answers) question options:
   <div>
-     The options for this question is automatically generated from the list of all %s in this course.
+     The options for this question is automatically generated from the list of all students in this course.
   
   </div>
 </tm-msq-question-additional-info>

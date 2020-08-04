@@ -130,7 +130,15 @@ h6,
   text-align: right;
 
   button {
-    margin-right: 10px;
+    margin-right: var(--btn-margin);
+  }
+
+  .btn-primary {
+    background-color: darken(#007BFF, 5%); // 5% darker than primary
+  }
+
+  .btn-secondary {
+    background-color: darken(#6C757D, 10%); // 10% darker than secondary
   }
 }
 
@@ -213,6 +221,30 @@ h6,
 [disabled],
 .editor.editor-disabled {
   cursor: not-allowed;
+}
+
+.btn-light {
+  border: 1px solid #DDD;
+
+  &[disabled] {
+    border: 1px solid #EEE;
+  }
+}
+
+:root {
+  --btn-margin: 10px;
+}
+
+.btn-margin-left {
+  margin-left: var(--btn-margin);
+}
+
+.btn-margin-right {
+  margin-right: var(--btn-margin);
+}
+
+.btn-margin {
+  margin: var(--btn-margin);
 }
 
 .fa-sort-down,
