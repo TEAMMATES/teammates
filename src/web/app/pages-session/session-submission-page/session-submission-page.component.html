@@ -96,7 +96,7 @@
         <label><input id="confirmation-email-checkbox" type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
       </div>
       <div class="col-12 text-center">
-        <button id="btn-submit" type="submit" class="btn btn-primary"
+        <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
                 (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
         ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>&nbsp;Submit Feedback</button>

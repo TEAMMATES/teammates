@@ -32,10 +32,10 @@
 
         <i class="fa fa-eye" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
 
-        <div class="float-right comment-row">
-          <button id="btn-edit-comment" type="button" class="btn btn-secondary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
+        <div class="float-right">
+          <button id="btn-edit-comment" type="button" class="btn btn-light btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
                   (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
-          <button id="btn-delete-comment" type="button" class="btn btn-secondary btn-sm" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
+          <button id="btn-delete-comment" type="button" class="btn btn-light btn-sm btn-margin-left" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
                   (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
         </div>
       </div>

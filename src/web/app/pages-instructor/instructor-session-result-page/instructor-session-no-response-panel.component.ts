@@ -26,6 +26,9 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
 
+  // enum
+  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+
   @Input() isDisplayOnly: boolean = false;
   @Input() allStudents: Student[] = [];
   @Input() noResponseStudents: Student[] = [];

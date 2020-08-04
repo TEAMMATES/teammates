@@ -39,7 +39,7 @@ export class ConstsumOptionsQuestionStatisticsCalculation
       }
     }
     for (const option of Object.keys(this.pointsPerOption)) {
-      this.pointsPerOption[option].sort();
+      this.pointsPerOption[option].sort((a: number, b: number) => a - b);
       const answers: number[] = this.pointsPerOption[option];
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       this.totalPointsPerOption[option] = sum;

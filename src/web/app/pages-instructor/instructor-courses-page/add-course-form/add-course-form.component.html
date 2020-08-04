@@ -29,14 +29,14 @@
             <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
           <span class="input-group-btn" style="margin-left: 5px;">
-            <button class="btn btn-primary" (click)="onAutoDetectTimezone()" [disabled]="isAddingCourse">Auto Detect</button>
+            <button class="btn btn-primary btn-margin-left" (click)="onAutoDetectTimezone()" [disabled]="isAddingCourse">Auto Detect</button>
           </span>
         </div>
       </div>
     </div>
     <div class="form-group row">
       <div class="col-md-9 offset-md-3 text-md-left">
-        <button id="btn-save-course" class="btn btn-primary" (click)="onSubmit()" [disabled]="isAddingCourse">
+        <button id="btn-save-course" class="btn btn-success" (click)="onSubmit()" [disabled]="isAddingCourse">
           <tm-ajax-loading *ngIf="isAddingCourse"></tm-ajax-loading>
           Add Course
         </button>

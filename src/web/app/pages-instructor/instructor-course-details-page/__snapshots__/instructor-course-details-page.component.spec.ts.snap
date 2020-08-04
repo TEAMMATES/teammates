@@ -364,7 +364,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 class="text-center"
               >
                 <button
-                  class="btn btn-primary mb-2"
+                  class="btn btn-primary"
                   type="button"
                   value="Remind Students to Join"
                 >
@@ -374,7 +374,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                    Remind Students to Join 
                 </button>
                 <button
-                  class="btn btn-primary mb-2"
+                  class="btn btn-primary btn-margin-left"
                   type="button"
                 >
                   
@@ -385,7 +385,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                    Download Student List 
                 </button>
                 <button
-                  class="btn btn-danger mb-2"
+                  class="btn btn-danger btn-margin-left"
                   type="button"
                   value="Delete All Students"
                 >
@@ -539,7 +539,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     
                     <a
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -549,7 +549,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     
                     <a
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
                       rel="noopener noreferrer"
                       target="_blank"
@@ -562,20 +562,20 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     
                     <button
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                     >
                       Send Invite
                     </button>
                     
                     
                     <button
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                     >
                       Delete
                     </button>
                     
                     <a
-                      class="btn btn-light btn-sm mr-2"
+                      class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
                       rel="noopener noreferrer"
                       target="_blank"
