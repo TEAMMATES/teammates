@@ -13,7 +13,7 @@
   </button>
 </div>
 <div class="modal-body">
-  <p *ngIf="notYetAnsweredQuestions.length !== 0">
+  <p id="not-answered-questions" *ngIf="notYetAnsweredQuestions.length !== 0">
     <i class="fas fa-exclamation"></i> Note that some questions are yet to be answered.
     They are: {{ notYetAnsweredQuestions }}.
   </p>
@@ -36,7 +36,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn"
+  <button id="btn-close" type="button" class="btn"
           [ngClass]="
                 {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"
           (click)="activeModal.close()">OK</button>

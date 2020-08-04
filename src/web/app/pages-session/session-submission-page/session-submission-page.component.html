@@ -48,27 +48,27 @@
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Course ID:</b></div>
-      <div class="col-md-6">{{ courseId }}</div>
+      <div id="course-id" class="col-md-6">{{ courseId }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Session:</b></div>
-      <div class="col-md-6">{{ feedbackSessionName }}</div>
+      <div id="fs-name" class="col-md-6">{{ feedbackSessionName }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Opening time:</b></div>
-      <div class="col-md-6">{{ formattedSessionOpeningTime }}</div>
+      <div id="opening-time" class="col-md-6">{{ formattedSessionOpeningTime }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Closing time:</b></div>
-      <div class="col-md-6">{{ formattedSessionClosingTime }}</div>
+      <div id="closing-time" class="col-md-6">{{ formattedSessionClosingTime }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Instructions:</b></div>
-      <div class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+      <div id="instructions" class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
     <br/>
   </div>
@@ -93,10 +93,10 @@
     </div>
     <div class="row" *ngIf="hasAnyResponseToSubmit">
       <div class="col-12 text-center">
-        <label><input type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
+        <label><input id="confirmation-email-checkbox" type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
       </div>
       <div class="col-12 text-center">
-        <button type="submit" class="btn btn-primary"
+        <button id="btn-submit" type="submit" class="btn btn-primary"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
                 (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
         ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>&nbsp;Submit Feedback</button>
