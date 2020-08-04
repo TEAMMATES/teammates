@@ -27,7 +27,7 @@
             <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/sessions/submission"
                [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
                class="btn btn-light btn-sm button">
-              Submit response
+              Submit responses
             </a>
             <ng-template #displayOnlySubmitResponseButton><a class="btn btn-light btn-sm button">Submit response</a></ng-template>
           </td>
