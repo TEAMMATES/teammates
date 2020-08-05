@@ -865,7 +865,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
-        finalize(() => this.isCopyingQuestion = false),
         switchMap((sessions: FeedbackSessions) => of(...sessions.feedbackSessions)),
         flatMap((session: FeedbackSession) => {
           return this.feedbackQuestionsService.getFeedbackQuestions({
@@ -886,6 +885,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                   }),
               );
         }),
+        finalize(() => this.isCopyingQuestion = false),
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {
