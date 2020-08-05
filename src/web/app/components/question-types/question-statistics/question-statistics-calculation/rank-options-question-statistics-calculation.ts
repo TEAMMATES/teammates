@@ -44,7 +44,7 @@ export class RankOptionsQuestionStatisticsCalculation
 
     const averageRanksReceivedPerOptions: Record<string, number> = {};
     for (const option of Object.keys(this.ranksReceivedPerOption)) {
-      this.ranksReceivedPerOption[option].sort();
+      this.ranksReceivedPerOption[option].sort((a: number, b: number) => a - b);
       const answers: number[] = this.ranksReceivedPerOption[option];
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       if (answers.length === 0) {
@@ -83,7 +83,7 @@ export class RankOptionsQuestionStatisticsCalculation
     rankMapping[RANK_OPTIONS_ANSWER_NOT_SUBMITTED] = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
     const rankCopy: number[] = JSON.parse(JSON.stringify(ranks));
-    rankCopy.sort();
+    rankCopy.sort((a: number, b: number) => a - b);
 
     let normalizedRank: number = 1;
     for (const rank of rankCopy) {
