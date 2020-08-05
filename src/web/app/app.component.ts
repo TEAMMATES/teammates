@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
               private masqueradeModeService: MasqueradeModeService, tooltipConfig: NgbTooltipConfig) {
     tooltipConfig.openDelay = 400;
     tooltipConfig.closeDelay = 100;
+    tooltipConfig.triggers = 'hover';
   }
 
   ngOnInit(): void {

@@ -14,8 +14,20 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Team</th>
-          <th>Name</th>
+          <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
+            Team
+            <span class="fa-stack"><i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </th>
+          <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
+            Name
+            <span class="fa-stack"><i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </th>
           <th>Actions</th>
         </tr>
         </thead>
@@ -24,10 +36,10 @@
           <td>{{ noResponseStudent.teamName }}</td>
           <td>{{ noResponseStudent.name }}</td>
           <td>
-            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/sessions/submission"
+            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
                [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
                class="btn btn-light btn-sm button">
-              Submit response
+              Submit responses
             </a>
             <ng-template #displayOnlySubmitResponseButton><a class="btn btn-light btn-sm button">Submit response</a></ng-template>
           </td>

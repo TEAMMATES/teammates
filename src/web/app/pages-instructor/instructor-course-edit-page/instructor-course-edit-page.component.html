@@ -48,11 +48,12 @@
           </div>
         </div>
         <div class="form-row form-group">
-          <label class="col-xs-12 col-sm-3 font-weight-bold text-md-right">Time Zone:</label>
+          <label class="col-xs-12 col-sm-3 font-weight-bold text-md-right"><span class="ngb-tooltip-class" ngbTooltip="You should not need to change this as it is auto-detected based on your
+                device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
+            Time Zone:</span></label>
           <div class="col-xs-12 col-sm-9">
             <div class="input-group">
-              <select id="time-zone" class="form-control" ngbTooltip=" You should not need to change this as it is auto-detected based on your
-                device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
+              <select id="time-zone" class="form-control"
                 [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
                 <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
               </select>
@@ -105,7 +106,7 @@
     Add New Instructor
   </button>
 </div>
-<div *ngIf="isAddingNewInstructor">
+<div *ngIf="isAddingNewInstructor" @collapseAnim>
   <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
                             [isSavingNewInstructor]="isSavingNewInstructor"
                             [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"

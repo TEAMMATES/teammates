@@ -190,21 +190,8 @@ h6,
   cursor: pointer;
 }
 
-[ng-reflect-ngb-tooltip] {
+.ngb-tooltip-class {
   text-decoration: underline dotted #808080;
-
-  &.btn,
-  &.fa,
-  &.fas,
-  &.far,
-  &.fab,
-  &.fal {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
 
   &:hover {
     text-decoration: underline dotted #000;

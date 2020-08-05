@@ -210,7 +210,7 @@
           <tbody>
             <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
               <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType)">
-                <td [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body"> {{ visibilityType | visibilityTypeName }}</td>
+                <td><span class="ngb-tooltip-class" [ngbTooltip]="visibilityType | visibilityTypeDescription" container="body">{{ visibilityType | visibilityTypeName }}</span></td>
                 <td *ngFor="let visibilityControl of VisibilityControl | enumToArray" class="text-center">
                   <input type="checkbox"
                          (click)="modifyVisibilityControl($event.target.checked, visibilityType, visibilityControl)"

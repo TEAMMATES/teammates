@@ -38,7 +38,7 @@
                                                  [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
-      <span ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
+      <span class="ngb-tooltip-class" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
     </p>
 
     <div class="alert alert-primary" role="alert" *ngIf="model.giverType === FeedbackParticipantType.TEAMS">

@@ -20,12 +20,13 @@
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-md-3 text-md-right col-form-label">Time Zone:</label>
-      <div class="col-md-6 text-md-left">
-        <div class="input-group">
-          <select id="new-time-zone" class="form-control" [(ngModel)]="timezone" [disabled]="isAddingCourse" ngbTooltip="You should not
+      <label class="col-md-3 text-md-right col-form-label ngb-tooltip-class"><span ngbTooltip="You should not
                 need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                 to match the current time offset in your area, including clock changes due to daylight saving time.">
+        Time Zone:</span></label>
+      <div class="col-md-6 text-md-left">
+        <div class="input-group">
+          <select id="new-time-zone" class="form-control" [(ngModel)]="timezone" [disabled]="isAddingCourse">
             <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
           <span class="input-group-btn" style="margin-left: 5px;">
