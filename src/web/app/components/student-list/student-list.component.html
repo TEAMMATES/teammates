@@ -63,7 +63,7 @@
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
                      let-routerLink="routerLink" let-queryParams="queryParams">
-          <a class="btn btn-light btn-sm mr-2" target="_blank" rel="noopener noreferrer"
+          <a class="btn btn-light btn-sm btn-margin-right" target="_blank" rel="noopener noreferrer"
              [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
              [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
              [routerLink]="routerLink"
@@ -88,7 +88,7 @@
       }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
         <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
-          <button class="btn btn-light btn-sm mr-2"
+          <button class="btn btn-light btn-sm btn-margin-right"
             [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
             [disabled]=!isActionButtonsEnabled
             [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
@@ -99,7 +99,7 @@
             (click)="openRemindModal(studentModel)">Send Invite</button>
         </ng-container>
       </ng-container>
-      <button class="btn btn-light btn-sm mr-2"
+      <button class="btn btn-light btn-sm btn-margin-right"
         [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
         [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
           ? 'Delete the student and the corresponding submissions from the course'

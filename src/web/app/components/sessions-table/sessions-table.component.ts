@@ -98,7 +98,7 @@ export class SessionsTableComponent implements OnInit {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(rowIndex: number): void {
-    const modalContent: string = 'Session will be moved to the recycle bin.';
+    const modalContent: string = 'Session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete session <strong>${ this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName }</strong>?`,
         SimpleModalType.WARNING, modalContent);

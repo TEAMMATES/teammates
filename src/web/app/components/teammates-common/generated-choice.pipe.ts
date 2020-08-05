@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackParticipantType } from '../../../../types/api-output';
+import { FeedbackParticipantType } from '../../../types/api-output';
 
 /**
  * Transforms {@link FeedbackParticipantType} to a description for generated MCQ/MSQ choices.

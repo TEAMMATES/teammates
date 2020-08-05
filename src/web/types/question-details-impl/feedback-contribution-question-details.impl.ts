@@ -64,8 +64,7 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       const ratingsReceivedStr: string[] =
           statsCalculation.questionOverallStatistics.results[email].perceivedOthers
               .concat()
-              .sort()
-              .reverse()
+              .sort((a: number, b: number) => b - a)
               .map(this.getContributionPointToText);
       if (ratingsReceivedStr.length === 0) {
         ratingsReceivedStr[0] = 'N/A';
