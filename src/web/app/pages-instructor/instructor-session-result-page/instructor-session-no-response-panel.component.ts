@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
-  FeedbackSession, FeedbackSessionPublishStatus,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
 } from '../../../types/api-output';
-import {
-  StudentListInfoTableRowModel,
-} from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
-import {
-  SendRemindersToRespondentsModalComponent,
-} from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
+import { SendRemindersToRespondentsModalComponent } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-modal.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -28,6 +27,8 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+  SortBy: typeof SortBy = SortBy;
+  SortOrder: typeof SortOrder = SortOrder;
 
   @Input() isDisplayOnly: boolean = false;
   @Input() allStudents: Student[] = [];
@@ -51,12 +52,15 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   };
   isTabExpanded: boolean = false;
 
+  sortBy: SortBy = SortBy.NONE;
+  sortOrder: SortOrder = SortOrder.ASC;
+
   noResponseStudentsInSection: Student[] = [];
 
   @Output() studentsToRemindEvent: EventEmitter<StudentListInfoTableRowModel[]> = new EventEmitter();
 
-  constructor(
-    private ngbModal: NgbModal) { }
+  constructor(private ngbModal: NgbModal,
+              private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.filterStudentsBySection();
@@ -124,4 +128,30 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     this.isTabExpanded = false;
   }
 
+  /**
+   * Sorts the no response panel.
+   */
+  sortParticipantsBy(sortBy: SortBy): void {
+    this.sortBy = sortBy;
+    this.sortOrder = this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
+
+    this.noResponseStudentsInSection.sort((a: Student, b: Student) => {
+      let strA: string;
+      let strB: string;
+      switch (this.sortBy) {
+        case SortBy.TEAM_NAME:
+          strA = a.teamName;
+          strB = b.teamName;
+          break;
+        case SortBy.RESPONDENT_NAME:
+          strA = a.name;
+          strB = b.name;
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+      return this.tableComparatorService.compare(this.sortBy, this.sortOrder, strA, strB);
+    });
+  }
 }
