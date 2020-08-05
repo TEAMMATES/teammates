@@ -246,9 +246,13 @@ h6,
 .fa-sort,
 .fa-sort-up,
 .fa-sort-down {
-  // copied from fa-stack
+  // copied from fa-stack-X
   left: 0;
   position: absolute;
   text-align: center;
   line-height: inherit;
+}
+
+.fa-stack {
+  width: auto;
 }
