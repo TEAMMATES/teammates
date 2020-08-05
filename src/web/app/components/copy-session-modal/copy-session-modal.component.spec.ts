@@ -93,7 +93,7 @@ describe('CopySessionModalComponent', () => {
     component.sessionToCopyCourseId = courseSessionIn.courseId;
     fixture.detectChanges();
 
-    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="radio"]'));
+    const options: DebugElement[] = fixture.debugElement.queryAll(By.css('input[type="checkbox"]'));
     const secondOption: any = options[1];
     secondOption.triggerEventHandler('change', { target: secondOption.nativeElement });
     fixture.detectChanges();

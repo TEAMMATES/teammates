@@ -4,7 +4,7 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
-  copyToCourseId=""
+  copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
   newFeedbackSessionName=""
   sessionToCopyCourseId=""
@@ -85,7 +85,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
-  copyToCourseId=""
+  copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
   newFeedbackSessionName={[Function String]}
   sessionToCopyCourseId={[Function String]}
@@ -147,9 +147,9 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             class="form-check-label"
           >
             <input
-              class="form-check-input ng-untouched ng-pristine ng-valid"
+              class="form-check-input"
               name="copySessionChooseCourse"
-              type="radio"
+              type="checkbox"
             />
              [
             <span
@@ -173,9 +173,9 @@ exports[`CopySessionModalComponent should snap with some session and courses can
             class="form-check-label"
           >
             <input
-              class="form-check-input ng-untouched ng-pristine ng-valid"
+              class="form-check-input"
               name="copySessionChooseCourse"
-              type="radio"
+              type="checkbox"
             />
              [
             <span>

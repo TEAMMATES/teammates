@@ -17,8 +17,8 @@
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">
         <label class="form-check-label">
-          <input type="radio" name="copySessionChooseCourse" class="form-check-input"
-                 [(ngModel)]="copyToCourseId" [value]="course.courseId">
+          <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
+                 (change)="select(course.courseId)">
           [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]
           : {{ course.courseName }}
           <span *ngIf="sessionToCopyCourseId === course.courseId" class="text-danger">
@@ -32,5 +32,5 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
   <button type="button" class="btn btn-primary" (click)="copy()"
-          [disabled]="!newFeedbackSessionName || !copyToCourseId">Copy</button>
+          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
 </div>

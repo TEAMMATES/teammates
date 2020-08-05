@@ -195,14 +195,18 @@ export abstract class InstructorSessionBasePageComponent {
    * Copies the feedback session.
    */
   copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
-    this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
-        .subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessage(
-              this.router,
-              '/web/instructor/sessions/edit',
-              'The feedback session has been copied. Please modify settings/questions as necessary.',
-              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    result.copyToCourseList.forEach((copyToCourseId: string) => {
+      this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
+          .subscribe((createdSession: FeedbackSession) => {
+            if (result.copyToCourseList.length > 1) { return; }
+            this.navigationService.navigateWithSuccessMessage(
+                this.router,
+                '/web/instructor/sessions/edit',
+                'The feedback session has been copied. Please modify settings/questions as necessary.',
+                { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    });
+    if (result.copyToCourseList.length > 1) { window.location.reload(); }
   }
 
   /**
