@@ -40,7 +40,7 @@
       <div class="col-sm-9" *ngIf="instructor.joinState == JoinState.JOINED">
         <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="3" [ngModel]="instructor.googleId" disabled>
       </div>
-      <span class="text-warning" *ngIf="instructor.joinState == JoinState.NOT_JOINED">
+      <span class="text-danger col-sm-9 text-left margin-bottom-label" *ngIf="instructor.joinState == JoinState.NOT_JOINED">
         Not available. Instructor is yet to join this course.
       </span>
     </div>
@@ -69,7 +69,7 @@
                type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
                (ngModelChange)="triggerModelChange('isDisplayedToStudents', $event)" [disabled]="!instructor.isEditing">
         &nbsp;
-        <span ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course">Display to students as:</span>
+        <span class="ngb-tooltip-class" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course">Display to students as:</span>
       </label>
       <div class="col-sm-9">
         <input id="displayed-name-instructor-{{ instructorIndex + 1 }}" class="form-control"

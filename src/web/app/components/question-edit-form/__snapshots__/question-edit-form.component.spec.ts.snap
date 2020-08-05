@@ -183,6 +183,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     >
                        [Optional] 
                       <span
+                        class="ngb-tooltip-class"
                         ngbtooltip="The recommended length is shown to the respondent but not enforced"
                       >
                          Recommended length 
