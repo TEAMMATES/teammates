@@ -105,7 +105,7 @@
     Add New Instructor
   </button>
 </div>
-<div *ngIf="isAddingNewInstructor">
+<div *ngIf="isAddingNewInstructor" @collapseAnim>
   <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
                             [isSavingNewInstructor]="isSavingNewInstructor"
                             [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"

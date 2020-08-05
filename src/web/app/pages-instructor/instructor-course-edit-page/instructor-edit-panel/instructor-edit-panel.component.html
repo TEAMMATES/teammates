@@ -40,7 +40,7 @@
       <div class="col-sm-9" *ngIf="instructor.joinState == JoinState.JOINED">
         <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="3" [ngModel]="instructor.googleId" disabled>
       </div>
-      <span class="text-warning" *ngIf="instructor.joinState == JoinState.NOT_JOINED">
+      <span class="text-danger col-sm-9 text-left margin-bottom-label" *ngIf="instructor.joinState == JoinState.NOT_JOINED">
         Not available. Instructor is yet to join this course.
       </span>
     </div>
