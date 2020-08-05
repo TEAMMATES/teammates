@@ -97,6 +97,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               Responses
             </th>
             <th
+              class="ngb-tooltip-class"
               container="body"
               ngbtooltip="Number of students submitted / Class size"
             >
@@ -120,23 +121,31 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             </td>
             
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 19 Jan 7:30 AM
               </span>
             </td>
             
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 19 Jan 7:32 AM
               </span>
             </td>
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Open
               </span>
             </td>
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Not Published
               </span>
             </td>
@@ -257,23 +266,31 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             </td>
             
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 19 Jan 7:13 AM
               </span>
             </td>
             
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 19 Jan 7:15 AM
               </span>
             </td>
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Closed
               </span>
             </td>
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Published
               </span>
             </td>
@@ -482,6 +499,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               Responses
             </th>
             <th
+              class="ngb-tooltip-class"
               container="body"
               ngbtooltip="Number of students submitted / Class size"
             >
@@ -509,12 +527,16 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             
             
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Open
               </span>
             </td>
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Not Published
               </span>
             </td>
@@ -639,12 +661,16 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             
             
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Closed
               </span>
             </td>
             <td>
-              <span>
+              <span
+                class="ngb-tooltip-class"
+              >
                 Published
               </span>
             </td>
