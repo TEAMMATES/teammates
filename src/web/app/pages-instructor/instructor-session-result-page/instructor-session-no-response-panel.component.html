@@ -14,14 +14,14 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
+          <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
             Team
             <span class="fa-stack"><i class="fas fa-sort"></i>
               <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
               <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
             </span>
           </th>
-          <th (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
+          <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
             Name
             <span class="fa-stack"><i class="fas fa-sort"></i>
               <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
