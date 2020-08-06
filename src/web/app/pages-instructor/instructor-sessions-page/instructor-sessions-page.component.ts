@@ -380,9 +380,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions that can be accessed by current user.
    */
   loadFeedbackSessions(): void {
-    this.isFeedbackSessionsLoading = false;
+    this.isFeedbackSessionsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
-        .pipe(finalize(() => this.isFeedbackSessionsLoading = true))
+        .pipe(finalize(() => this.isFeedbackSessionsLoading = false))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
