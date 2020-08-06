@@ -391,9 +391,13 @@ public abstract class AppPage {
     }
 
     /**
-     * Write rich text to the active editor.
+     * Write rich text to editor.
      */
-    protected void writeToActiveRichTextEditor(String text) {
+    protected void writeToRichTextEditor(WebElement iframe, String text) {
+        browser.driver.switchTo().frame(iframe);
+        click(browser.driver.findElement(By.id("tinymce")));
+        browser.driver.switchTo().defaultContent();
+
         executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
                 + " tinyMCE.activeEditor.save()", text));
     }

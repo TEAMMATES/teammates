@@ -594,8 +594,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setInstructions(String newInstructions) {
-        click(instructionsEditor);
-        writeToActiveRichTextEditor(newInstructions);
+        writeToRichTextEditor(instructionsEditor.findElement(By.tagName("iframe")), newInstructions);
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
@@ -751,8 +750,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setQuestionDescription(int questionNum, String newDescription) {
-        click(getQuestionForm(questionNum).findElement(By.id("question-description")));
-        writeToActiveRichTextEditor(newDescription);
+        WebElement iframe = getQuestionForm(questionNum)
+                .findElement(By.id("question-description"))
+                .findElement(By.tagName("iframe"));
+        writeToRichTextEditor(iframe, newDescription);
     }
 
     private void setFeedbackPath(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
