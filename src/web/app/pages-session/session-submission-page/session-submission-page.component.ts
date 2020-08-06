@@ -324,7 +324,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       previewAs: this.previewAsPerson,
     }).pipe(finalize(() => this.isFeedbackSessionQuestionsLoading = false))
         .subscribe((response: FeedbackQuestionsResponse) => {
-          if (response.questions.length === 0) { this.isFeedbackSessionQuestionResponsesLoading = false; }
+          this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const model: QuestionSubmissionFormModel = {
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
@@ -430,11 +430,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       moderatedPerson: this.moderatedPerson,
     }).pipe(finalize(() => this.isFeedbackSessionQuestionResponsesLoading = false))
       .subscribe((existingResponses: FeedbackResponsesResponse) => {
-      // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
+        // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
         this.shouldSendConfirmationEmail = this.shouldSendConfirmationEmail && existingResponses.responses.length === 0;
 
         if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
-        // need to generate a full list of submission forms
+          // need to generate a full list of submission forms
           model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
             const matchedExistingResponse: FeedbackResponse | undefined =
               existingResponses.responses.find(
@@ -450,7 +450,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         }
 
         if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
-        // need to generate limited number of submission forms
+          // need to generate limited number of submission forms
           let numberOfRecipientSubmissionFormsNeeded: number =
             model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.responses.length;
 
@@ -462,7 +462,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             });
           });
 
-        // generate empty submission forms
+          // generate empty submission forms
           while (numberOfRecipientSubmissionFormsNeeded > 0) {
             model.recipientSubmissionForms.push({
               recipientIdentifier: '',
@@ -473,7 +473,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           }
         }
 
-      // load comments
+        // load comments
         this.loadParticipantComment(model);
       }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
