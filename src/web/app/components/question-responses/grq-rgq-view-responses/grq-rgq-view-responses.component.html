@@ -21,7 +21,7 @@
   </div>
 </div>
 <div *ngIf="!groupByTeam">
-  <div *ngFor="let userInfo of userExpanded | keyvalue">
+  <div *ngFor="let userInfo of userExpanded | keyvalue; trackBy: trackByName">
     <ng-container
         [ngTemplateOutlet]="userTab"
         [ngTemplateOutletContext]="{userInfo:userInfo.key}">
