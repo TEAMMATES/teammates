@@ -18,7 +18,7 @@
       <div class="form-check" *ngFor="let course of courseCandidates">
         <label class="form-check-label">
           <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
-                 (change)="select(course.courseId)">
+                 [checked]="copyToCourseSet.has(course.courseId)" (click)="select(course.courseId)">
           [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]
           : {{ course.courseName }}
           <span *ngIf="sessionToCopyCourseId === course.courseId" class="text-danger">
