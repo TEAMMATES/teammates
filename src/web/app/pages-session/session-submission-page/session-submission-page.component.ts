@@ -101,8 +101,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   isModerationHintExpanded: boolean = false;
   moderatedQuestionId: string = '';
 
-  isFeedbackSessionQuestionsLoading: boolean = false;
+  isFeedbackSessionLoading: boolean = true;
+  isFeedbackSessionQuestionsLoading: boolean = true;
   hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
+  isFeedbackSessionQuestionResponsesLoading: boolean = true;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
@@ -243,6 +245,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads the feedback session information.
    */
   loadFeedbackSession(): void {
+    this.isFeedbackSessionLoading = true;
     const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
       courseId: this.courseId,
@@ -251,58 +254,59 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
       previewAs: this.previewAsPerson,
-    }).subscribe((feedbackSession: FeedbackSession) => {
-      this.feedbackSessionInstructions = feedbackSession.instructions;
-      this.formattedSessionOpeningTime = this.timezoneService
+    }).pipe(finalize(() => this.isFeedbackSessionLoading = false))
+      .subscribe((feedbackSession: FeedbackSession) => {
+        this.feedbackSessionInstructions = feedbackSession.instructions;
+        this.formattedSessionOpeningTime = this.timezoneService
           .formatToString(feedbackSession.submissionStartTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
-      this.formattedSessionClosingTime = this.timezoneService
+        this.formattedSessionClosingTime = this.timezoneService
           .formatToString(feedbackSession.submissionEndTimestamp, feedbackSession.timeZone, TIME_FORMAT);
 
-      this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
-      this.feedbackSessionTimezone = feedbackSession.timeZone;
+        this.feedbackSessionSubmissionStatus = feedbackSession.submissionStatus;
+        this.feedbackSessionTimezone = feedbackSession.timeZone;
 
-          // don't show alert modal in moderation
-      if (!this.moderatedPerson) {
-        let modalContent: string;
-        switch (feedbackSession.submissionStatus) {
-          case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-            this.isSubmissionFormsDisabled = true;
-            modalContent = `<p><strong>The feedback session is currently not open for submissions.</strong></p>
+        // don't show alert modal in moderation
+        if (!this.moderatedPerson) {
+          let modalContent: string;
+          switch (feedbackSession.submissionStatus) {
+            case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
+              this.isSubmissionFormsDisabled = true;
+              modalContent = `<p><strong>The feedback session is currently not open for submissions.</strong></p>
                 <p>You can view the questions and any submitted responses
                 for this feedback session but cannot submit new responses.</p>`;
-            this.simpleModalService.openInformationModal(
-                'Feedback Session Not Open', SimpleModalType.WARNING, modalContent);
-            break;
-          case FeedbackSessionSubmissionStatus.OPEN:
-            // closing in 15 minutes
-            if (feedbackSession.submissionEndTimestamp - Date.now() < 15 * 60 * 1000) {
-              modalContent = 'Warning: you have less than 15 minutes before the submission deadline expires!';
               this.simpleModalService.openInformationModal(
+                'Feedback Session Not Open', SimpleModalType.WARNING, modalContent);
+              break;
+            case FeedbackSessionSubmissionStatus.OPEN:
+              // closing in 15 minutes
+              if (feedbackSession.submissionEndTimestamp - Date.now() < 15 * 60 * 1000) {
+                modalContent = 'Warning: you have less than 15 minutes before the submission deadline expires!';
+                this.simpleModalService.openInformationModal(
                   'Feedback Session Will Be Closing Soon!', SimpleModalType.WARNING, modalContent);
-            }
-            break;
-          case FeedbackSessionSubmissionStatus.CLOSED:
-            this.isSubmissionFormsDisabled = true;
-            modalContent = `<p><strong>Feedback Session is Closed</strong></p>
+              }
+              break;
+            case FeedbackSessionSubmissionStatus.CLOSED:
+              this.isSubmissionFormsDisabled = true;
+              modalContent = `<p><strong>Feedback Session is Closed</strong></p>
                 <p>You can view the questions and any submitted responses
                 for this feedback session but cannot submit new responses.</p>`;
-            this.simpleModalService.openInformationModal(
+              this.simpleModalService.openInformationModal(
                 'Feedback Session Closed', SimpleModalType.WARNING, modalContent);
-            break;
-          case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-          default:
+              break;
+            case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+            default:
+          }
         }
-      }
 
-      this.loadFeedbackQuestions();
-    }, (resp: ErrorMessageOutput) => {
-      if (resp.status === 404) {
-        this.simpleModalService.openInformationModal('Feedback Session Deleted!', SimpleModalType.DANGER,
+        this.loadFeedbackQuestions();
+      }, (resp: ErrorMessageOutput) => {
+        if (resp.status === 404) {
+          this.simpleModalService.openInformationModal('Feedback Session Deleted!', SimpleModalType.DANGER,
             'The feedback session has been permanently deleted and is no longer accessible.');
-      }
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+        }
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   /**
@@ -320,6 +324,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       previewAs: this.previewAsPerson,
     }).pipe(finalize(() => this.isFeedbackSessionQuestionsLoading = false))
         .subscribe((response: FeedbackQuestionsResponse) => {
+          this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const model: QuestionSubmissionFormModel = {
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
@@ -391,6 +396,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             responseId: '',
           });
         });
+        this.isFeedbackSessionQuestionResponsesLoading = false;
       } else {
         this.loadFeedbackResponses(model);
       }
@@ -416,58 +422,60 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads the responses of the feedback question to {@recipientSubmissionForms} in the model.
    */
   loadFeedbackResponses(model: QuestionSubmissionFormModel): void {
+    this.isFeedbackSessionQuestionResponsesLoading = true;
     this.feedbackResponsesService.getFeedbackResponse({
       questionId: model.feedbackQuestionId,
       intent: this.intent,
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
-    }).subscribe((existingResponses: FeedbackResponsesResponse) => {
-      // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
-      this.shouldSendConfirmationEmail = this.shouldSendConfirmationEmail && existingResponses.responses.length === 0;
+    }).pipe(finalize(() => this.isFeedbackSessionQuestionResponsesLoading = false))
+      .subscribe((existingResponses: FeedbackResponsesResponse) => {
+        // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
+        this.shouldSendConfirmationEmail = this.shouldSendConfirmationEmail && existingResponses.responses.length === 0;
 
-      if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
-        // need to generate a full list of submission forms
-        model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
-          const matchedExistingResponse: FeedbackResponse | undefined =
+        if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
+          // need to generate a full list of submission forms
+          model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
+            const matchedExistingResponse: FeedbackResponse | undefined =
               existingResponses.responses.find(
                   (response: FeedbackResponse) => response.recipientIdentifier === recipient.recipientIdentifier);
-          model.recipientSubmissionForms.push({
-            recipientIdentifier: recipient.recipientIdentifier,
-            responseDetails: matchedExistingResponse
+            model.recipientSubmissionForms.push({
+              recipientIdentifier: recipient.recipientIdentifier,
+              responseDetails: matchedExistingResponse
                 ? matchedExistingResponse.responseDetails
                 : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
-            responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
+              responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
+            });
           });
-        });
-      }
+        }
 
-      if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
-        // need to generate limited number of submission forms
-        let numberOfRecipientSubmissionFormsNeeded: number =
+        if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
+          // need to generate limited number of submission forms
+          let numberOfRecipientSubmissionFormsNeeded: number =
             model.customNumberOfEntitiesToGiveFeedbackTo - existingResponses.responses.length;
 
-        existingResponses.responses.forEach((response: FeedbackResponse) => {
-          model.recipientSubmissionForms.push({
-            recipientIdentifier: response.recipientIdentifier,
-            responseDetails: response.responseDetails,
-            responseId: response.feedbackResponseId,
+          existingResponses.responses.forEach((response: FeedbackResponse) => {
+            model.recipientSubmissionForms.push({
+              recipientIdentifier: response.recipientIdentifier,
+              responseDetails: response.responseDetails,
+              responseId: response.feedbackResponseId,
+            });
           });
-        });
 
-        // generate empty submission forms
-        while (numberOfRecipientSubmissionFormsNeeded > 0) {
-          model.recipientSubmissionForms.push({
-            recipientIdentifier: '',
-            responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
-            responseId: '',
-          });
-          numberOfRecipientSubmissionFormsNeeded -= 1;
+          // generate empty submission forms
+          while (numberOfRecipientSubmissionFormsNeeded > 0) {
+            model.recipientSubmissionForms.push({
+              recipientIdentifier: '',
+              responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
+              responseId: '',
+            });
+            numberOfRecipientSubmissionFormsNeeded -= 1;
+          }
         }
-      }
 
-      // load comments
-      this.loadParticipantComment(model);
-    }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+        // load comments
+        this.loadParticipantComment(model);
+      }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
   }
 
   /**
