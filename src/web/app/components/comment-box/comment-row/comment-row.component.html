@@ -21,21 +21,21 @@
         </span>
         <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
           <span>{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
-          <span style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
+          <span class="ngb-tooltip-class" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
             {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span>
           <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
             <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
-            <span style="margin-right: .25rem;"
+            <span style="margin-right: .25rem;" class="ngb-tooltip-class"
                   [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
           </ng-container>
         </span>
 
         <i class="fa fa-eye" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
 
-        <div class="float-right comment-row">
-          <button type="button" class="btn btn-secondary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
+        <div class="float-right">
+          <button type="button" class="btn btn-light btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
                   (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
-          <button type="button" class="btn btn-secondary btn-sm" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
+          <button type="button" class="btn btn-light btn-sm btn-margin-left" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
                   (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
         </div>
       </div>

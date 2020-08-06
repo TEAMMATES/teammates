@@ -5,6 +5,7 @@ import {
   FeedbackParticipantType,
   FeedbackQuestionType,
 } from '../../../../types/api-output';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { MsqQuestionAdditionalInfoComponent } from './msq-question-additional-info.component';
 
 describe('MsqQuestionAdditionalInfoComponent', () => {
@@ -14,6 +15,7 @@ describe('MsqQuestionAdditionalInfoComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MsqQuestionAdditionalInfoComponent],
+      imports: [TeammatesCommonModule],
     })
     .compileComponents();
   }));

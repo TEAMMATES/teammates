@@ -1,4 +1,6 @@
-<editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }"
-        [init]="init" [disabled]="isDisabled"
-        [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
-</editor>
+<div inViewport (inViewportAction)="renderEditor($event)">
+  <editor class="editor" [ngClass]="{ 'editor-disabled': isDisabled }" *ngIf="render"
+          [init]="init" [disabled]="isDisabled"
+          [ngModel]="richText" (ngModelChange)="richTextChange.emit($event)" [attr.placeholder]="placeholderText">
+  </editor>
+</div>
