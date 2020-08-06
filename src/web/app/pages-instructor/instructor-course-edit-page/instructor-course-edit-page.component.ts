@@ -31,6 +31,7 @@ import {
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
@@ -67,6 +68,7 @@ const formatTwoDigits: Function = (n: number): string => {
   selector: 'tm-instructor-course-edit-page',
   templateUrl: './instructor-course-edit-page.component.html',
   styleUrls: ['./instructor-course-edit-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
