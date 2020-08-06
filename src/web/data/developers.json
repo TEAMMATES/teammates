@@ -77,11 +77,6 @@
       "username": "AdrianSiwiec"
     },
     {
-      "multiple": true,
-      "name": "Ahmed Bahajjaj",
-      "username": "madanalogy"
-    },
-    {
       "name": "Ahmed Deeb",
       "username": "a-deeb"
     },
@@ -361,11 +356,6 @@
     },
     {
       "multiple": true,
-      "name": "Chong Chee Yuan",
-      "username": "ccyccyccy"
-    },
-    {
-      "multiple": true,
       "name": "Chong Kok Wei"
     },
     {
@@ -412,11 +402,6 @@
     },
     {
       "multiple": true,
-      "name": "Daryl Chan",
-      "username": "dvrylc"
-    },
-    {
-      "multiple": true,
       "name": "Daryl Lim"
     },
     {
@@ -431,11 +416,6 @@
     {
       "name": "Dawid",
       "username": "dawidip"
-    },
-    {
-      "multiple": true,
-      "name": "Derek Zhuang",
-      "username": "Derek-Hardy"
     },
     {
       "multiple": true,
@@ -506,11 +486,6 @@
     {
       "name": "Erik Dodge",
       "username": "dodgees"
-    },
-    {
-      "multiple": true,
-      "name": "Erjill Sison",
-      "username": "erjillsison"
     },
     {
       "name": "Evan Martino",
@@ -692,11 +667,6 @@
       "username": "sneachta96"
     },
     {
-      "multiple": true,
-      "name": "Jason Tan",
-      "username": "jtankw3"
-    },
-    {
       "name": "Jasper Vandemalle",
       "username": "jasper-vandemalle"
     },
@@ -714,11 +684,6 @@
     {
       "name": "Jeffery Luangpakham",
       "username": "Jefferysan"
-    },
-    {
-      "multiple": true,
-      "name": "Jia Zhixin",
-      "username": "nusjzx"
     },
     {
       "multiple": true,
@@ -774,11 +739,6 @@
       "multiple": true,
       "name": "Joshua Lee",
       "username": "lejolly"
-    },
-    {
-      "multiple": true,
-      "name": "Joshua Wong",
-      "username": "hcwong"
     },
     {
       "name": "João Victor",
@@ -914,21 +874,11 @@
     },
     {
       "multiple": true,
-      "name": "Li Yufei",
-      "username": "crizyli"
-    },
-    {
-      "multiple": true,
       "name": "Lian Wenhui Florine"
     },
     {
       "name": "Liew Ken Hua",
       "username": "kenhua-l"
-    },
-    {
-      "multiple": true,
-      "name": "Lim Daekoon",
-      "username": "daekoon"
     },
     {
       "name": "Lim Jia Yee",
@@ -1128,11 +1078,6 @@
     {
       "multiple": true,
       "name": "Nguyen Truong Duy"
-    },
-    {
-      "multiple": true,
-      "name": "Ni Tianzhen",
-      "username": "niqiukun"
     },
     {
       "name": "Nicolás Marzano",
@@ -1584,11 +1529,6 @@
       "username": "tainansv"
     },
     {
-      "multiple": true,
-      "name": "Tan Chee Peng",
-      "username": "t-cheepeng"
-    },
-    {
       "name": "Tan Chee Wee",
       "username": "chweeee"
     },
@@ -1659,11 +1599,6 @@
       "multiple": true,
       "name": "Thng Kai Yuan",
       "username": "thngkaiyuan"
-    },
-    {
-      "multiple": true,
-      "name": "Tiu Wee Han",
-      "username": "tiuweehan"
     },
     {
       "name": "Tom Elliott",
@@ -1844,11 +1779,6 @@
     },
     {
       "multiple": true,
-      "name": "Zhao Pengyu",
-      "username": "Pengyuz"
-    },
-    {
-      "multiple": true,
       "name": "Zheng Pingxia"
     },
     {
@@ -1863,64 +1793,81 @@
   ],
   "committers": [
     {
+      "name": "Derek Zhuang",
+      "username": "Derek-Hardy",
+      "startPeriod": "May 2020",
+      "endPeriod": "Jul 2020"
+    },
+    {
+      "name": "Daryl Chan",
+      "username": "dvrylc",
+      "startPeriod": "Jan 2020",
+      "endPeriod": "May 2020"
+    },
+    {
+      "name": "Lim Daekoon",
+      "username": "daekoon",
+      "startPeriod": "Jan 2020",
+      "endPeriod": "May 2020"
+    },
+    {
+      "name": "Jia Zhixin",
+      "username": "nusjzx",
+      "startPeriod": "Aug 2019",
+      "endPeriod": "May 2020"
+    },
+    {
+      "name": "Erjill Sison",
+      "username": "erjillsison",
+      "startPeriod": "May 2019",
+      "endPeriod": "Aug 2019"
+    },
+    {
+      "name": "Li Yufei",
+      "username": "crizyli",
+      "startPeriod": "May 2019",
+      "endPeriod": "Aug 2019"
+    },
+    {
+      "name": "Zhao Pengyu",
+      "username": "Pengyuz",
+      "startPeriod": "May 2019",
+      "endPeriod": "Aug 2019"
+    },
+    {
       "name": "Amrut Prabhu",
       "username": "amrut-prabhu",
       "image": "assets/images/teammembers/amrut.png",
-      "startPeriod": "Jan 2019"
+      "startPeriod": "Jan 2019",
+      "endPeriod": "May 2019"
     },
     {
       "name": "Chattoraj Ayush",
       "username": "AyushChatto",
       "image": "assets/images/teammembers/ayush.png",
-      "startPeriod": "Jan 2019"
-    },
-    {
-      "name": "Jeremy Choo Wun Ka",
-      "username": "ChooJeremy",
-      "image": "assets/images/teammembers/jeremy.png",
-      "startPeriod": "Jan 2019"
-    },
-    {
-      "name": "Jiang Chunhui",
-      "username": "Adoby7",
-      "image": "assets/images/teammembers/chunhui.png",
-      "startPeriod": "Jan 2019"
-    },
-    {
-      "name": "Joanne Ong",
-      "username": "joanneong",
-      "image": "assets/images/teammembers/joanne.png",
-      "startPeriod": "Jan 2018"
+      "startPeriod": "Jan 2019",
+      "endPeriod": "May 2019"
     },
     {
       "name": "Monika Manuela Hengki",
       "username": "monmanuela",
       "image": "assets/images/teammembers/monika.png",
-      "startPeriod": "Jan 2019"
-    },
-    {
-      "name": "Rahul Rajesh",
-      "username": "rrtheonlyone",
-      "image": "assets/images/teammembers/rahul.png",
-      "startPeriod": "Jan 2019"
+      "startPeriod": "Jan 2019",
+      "endPeriod": "May 2019"
     },
     {
       "name": "Ronak Lakhotia",
       "username": "RonakLakhotia",
       "image": "assets/images/teammembers/ronak.png",
-      "startPeriod": "Jan 2019"
+      "startPeriod": "Jan 2019",
+      "endPeriod": "May 2019"
     },
     {
       "name": "Sun Shengran",
       "username": "dalessr",
       "image": "assets/images/teammembers/shengran.png",
-      "startPeriod": "May 2018"
-    },
-    {
-      "name": "Wang Junming",
-      "username": "junming403",
-      "image": "assets/images/teammembers/junming.png",
-      "startPeriod": "Jan 2019"
+      "startPeriod": "May 2018",
+      "endPeriod": "May 2019"
     },
     {
       "name": "Cara Leong",
@@ -2057,7 +2004,7 @@
       "currentPosition": "Project Mentor (Jun 2017 - )",
       "pastPositions": [
         "Project Lead (Jun 2016 - May 2017)",
-        "Area Lead - DevOps, Results (Jan 2016 - May 2016)",
+        "Area Lead (Jan 2016 - May 2016)",
         "Snr Developer (Aug 2015 - Dec 2015)",
         "Committer (Apr 2015 - May 2015)"
       ]
@@ -2066,17 +2013,121 @@
       "name": "Xiao Pu",
       "username": "xpdavid",
       "image": "assets/images/teammembers/xiaopu.png",
-      "currentPosition": "Project Lead (Jun 2018 - )",
+      "currentPosition": "Project Mentor (Aug 2020 - )",
       "pastPositions": [
+        "Project Lead (Jun 2018 - Aug 2020)",
         "Area Lead (Jan 2018 - May 2018)",
         "Committer (Jan 2017 - Apr 2017)"
       ]
     },
     {
+      "name": "Rahul Rajesh",
+      "username": "rrtheonlyone",
+      "image": "assets/images/teammembers/rahul.png",
+      "currentPosition": "Project Lead (Aug 2020 - )",
+      "pastPositions": [
+        "Snr Developer (Jan 2020 - Jul 2020)",
+        "Committer (Jan 2019 - May 2019)"
+      ]
+    },
+    {
+      "name": "Ahmed Bahajjaj",
+      "username": "madanalogy",
+      "currentPosition": "Project Lead (Aug 2020 - )",
+      "pastPositions": [
+        "Snr Developer (May 2020 - Jul 2020)",
+        "Committer (Jan 2020 - May 2020)"
+      ]
+    },
+    {
+      "name": "Ni Tianzhen",
+      "username": "niqiukun",
+      "currentPosition": "Area Lead (Aug 2020 - )",
+      "pastPositions": [
+        "Committer (Jan 2020 - May 2020)"
+      ]
+    },
+    {
+      "name": "Tiu Wee Han",
+      "username": "tiuweehan",
+      "currentPosition": "Area Lead (Aug 2020 - )",
+      "pastPositions": [
+        "Committer (Jan 2020 - May 2020)"
+      ]
+    },
+    {
+      "name": "Jeremy Choo Wun Ka",
+      "username": "ChooJeremy",
+      "image": "assets/images/teammembers/jeremy.png",
+      "currentPosition": "Snr Developer (Jan 2020 - )",
+      "pastPositions": [
+        "Committer (Jan 2019 - May 2019)"
+      ]
+    },
+    {
+      "name": "Joshua Wong",
+      "username": "hcwong",
+      "currentPosition": "Snr Developer (Aug 2020 - )",
+      "pastPositions": [
+        "Committer (Jan 2020 - May 2020)"
+      ]
+    },
+    {
+      "name": "Jason Tan",
+      "username": "jtankw3",
+      "currentPosition": "Snr Developer (Aug 2020 - )",
+      "pastPositions": [
+        "Committer (Jan 2020 - Jul 2020)"
+      ]
+    },
+    {
+      "name": "Chong Chee Yuan",
+      "username": "ccyccyccy",
+      "currentPosition": "Snr Developer (Aug 2020 - )",
+      "pastPositions": [
+        "Committer (May 2020 - Jul 2020)"
+      ]
+    },
+    {
+      "name": "Tan Chee Peng",
+      "username": "t-cheepeng",
+      "currentPosition": "Snr Developer (Aug 2020 - )",
+      "pastPositions": [
+        "Committer (May 2020 - Jul 2020)"
+      ]
+    },
+    {
+      "name": "Jiang Chunhui",
+      "username": "Adoby7",
+      "image": "assets/images/teammembers/chunhui.png",
+      "pastPositions": [
+        "Snr Developer (Jan 2020 - May 2020)",
+        "Committer (Jan 2019 - May 2019)"
+      ]
+    },
+    {
+      "name": "Wang Junming",
+      "username": "junming403",
+      "image": "assets/images/teammembers/junming.png",
+      "pastPositions": [
+        "Snr Developer (Jan 2020 - May 2020)",
+        "Committer (Jan 2019 - May 2019)"
+      ]
+    },
+    {
+      "name": "Joanne Ong",
+      "username": "joanneong",
+      "image": "assets/images/teammembers/joanne.png",
+      "pastPositions": [
+        "Snr Developer (Jan 2020 - May 2020)",
+        "Committer (Jan 2018 - May 2018)"
+      ]
+    },
+    {
       "name": "Darren Wee",
       "username": "darrenwee",
-      "currentPosition": "Snr Developer (Jan 2019 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2019 - May 2019)",
         "Committer (Jan 2018 - Dec 2018)"
       ]
     },
@@ -2084,8 +2135,8 @@
       "name": "Tan Heng Yeow",
       "username": "tanhengyeow",
       "image": "assets/images/teammembers/hengyeow.png",
-      "currentPosition": "Snr Developer (Jan 2019 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2019 - May 2019)",
         "Committer (May 2018 - Dec 2018)"
       ]
     },
@@ -2093,8 +2144,8 @@
       "name": "Jacob Li",
       "username": "jacoblipech",
       "image": "assets/images/teammembers/jacob.png",
-      "currentPosition": "Snr Developer (Jan 2019 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2019 - May 2019)",
         "Committer (May 2018 - Dec 2018)"
       ]
     },
@@ -2102,8 +2153,8 @@
       "name": "Tran Tien Dat",
       "username": "tran-tien-dat",
       "image": "assets/images/teammembers/dat.png",
-      "currentPosition": "Snr Developer (Jan 2019 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2019 - May 2019)",
         "Committer (Jan 2018 - Dec 2018)"
       ]
     },
@@ -2111,8 +2162,8 @@
       "name": "Wen Xin",
       "username": "wenmogu",
       "image": "assets/images/teammembers/wenxin.png",
-      "currentPosition": "Snr Developer (Jan 2019 - )",
       "pastPositions": [
+        "Snr Developer (Jan 2019 - May 2019)",
         "Committer (Jan 2018 - Dec 2018)"
       ]
     },
