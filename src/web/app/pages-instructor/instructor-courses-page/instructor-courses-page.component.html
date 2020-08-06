@@ -62,7 +62,7 @@
             <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
             <td>{{course.course.courseName}}</td>
             <td>
-              <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+              <span class="ngb-tooltip-class" container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                 {{course.course.creationTimestamp | date:'d MMM yyyy'}}
               </span>
             </td>
@@ -209,7 +209,7 @@
           <td id="archived-course-id-{{ i }}">{{course.course.courseId}}</td>
           <td>{{course.course.courseName}}</td>
           <td>
-            <span  container="body" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
+            <span container="body" class="ngb-tooltip-class" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
           <td class="text-center actions-cell">
             <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
@@ -300,12 +300,12 @@
               <td id="deleted-course-id-{{ i }}">{{course.course.courseId}}</td>
               <td>{{course.course.courseName}}</td>
               <td>
-                <span container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                <span container="body" class="ngb-tooltip-class" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                   {{course.course.creationTimestamp | date:'d MMM yyyy'}}
                 </span>
               </td>
               <td>
-                <span container="body" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
+                <span container="body" class="ngb-tooltip-class" [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                   {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
                 </span>
               </td>

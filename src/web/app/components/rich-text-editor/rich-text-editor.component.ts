@@ -28,6 +28,8 @@ export class RichTextEditorComponent implements OnInit {
   // the argument passed to tinymce.init() in native JavaScript
   init: any = {};
 
+  render: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -61,6 +63,14 @@ export class RichTextEditorComponent implements OnInit {
           + '| alignleft aligncenter alignright alignjustify '
           + '| bullist numlist | link image charmap emoticons',
     };
+  }
+
+  renderEditor(event: any): void {
+    // If the editor has not been rendered before, render it once it gets into the viewport
+    // However, do not destroy it when it gets out of the viewport
+    if (event.visible) {
+      this.render = true;
+    }
   }
 
 }

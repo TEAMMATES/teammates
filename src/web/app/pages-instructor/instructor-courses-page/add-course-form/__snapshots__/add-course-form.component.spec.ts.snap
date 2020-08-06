@@ -79,9 +79,15 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
         class="form-group row"
       >
         <label
-          class="col-md-3 text-md-right col-form-label"
+          class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
         >
-          Time Zone:
+          <span
+            ngbtooltip="You should not
+                  need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+                  to match the current time offset in your area, including clock changes due to daylight saving time."
+          >
+             Time Zone:
+          </span>
         </label>
         <div
           class="col-md-6 text-md-left"
@@ -92,9 +98,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ngbtooltip="You should not
-                  need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
-                  to match the current time offset in your area, including clock changes due to daylight saving time."
             >
               
               <option
@@ -215,9 +218,15 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
         class="form-group row"
       >
         <label
-          class="col-md-3 text-md-right col-form-label"
+          class="col-md-3 text-md-right col-form-label ngb-tooltip-class"
         >
-          Time Zone:
+          <span
+            ngbtooltip="You should not
+                  need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+                  to match the current time offset in your area, including clock changes due to daylight saving time."
+          >
+             Time Zone:
+          </span>
         </label>
         <div
           class="col-md-6 text-md-left"
@@ -228,9 +237,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
               id="new-time-zone"
-              ngbtooltip="You should not
-                  need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
-                  to match the current time offset in your area, including clock changes due to daylight saving time."
             >
               
               <option
