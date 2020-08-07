@@ -567,10 +567,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     recipientSubmissionFormModel.responseId = '';
                     recipientSubmissionFormModel.commentByGiver = undefined;
                   }),
-                  catchError((error: any) => {
-                    this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
-                    failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
-                        (error as ErrorMessageOutput).error.message;
+                  catchError((error: ErrorMessageOutput) => {
+                    failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
                     return of(error);
                   }),
               ));
@@ -594,10 +592,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
                       }),
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
-                      catchError((error: any) => {
-                        this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
-                        failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
-                            (error as ErrorMessageOutput).error.message;
+                      catchError((error: ErrorMessageOutput) => {
+                        failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
                         return of(error);
                       }),
                   ));
