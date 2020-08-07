@@ -621,10 +621,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                         recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
                       }),
                       switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
-                      catchError((error: any) => {
-                        this.statusMessageService.showErrorToast((error as ErrorMessageOutput).error.message);
-                        failToSaveQuestions[questionSubmissionFormModel.questionNumber]
-                            = (error as ErrorMessageOutput).error.message;
+                      catchError((error: ErrorMessageOutput) => {
+                        failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
                         return of(error);
                       }),
                   ));
@@ -640,19 +638,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     let hasSubmissionConfirmationError: boolean = false;
     forkJoin(savingRequests).pipe(
         switchMap(() => {
-          if (Object.keys(failToSaveQuestions).length === 0) {
-            this.statusMessageService.showSuccessToast('All responses submitted successfully!');
-          } else {
-            this.statusMessageService.showErrorToast('Some responses are not saved successfully');
-          }
-
-          if (notYetAnsweredQuestions.size !== 0) {
-            // TODO use showInfoMessage
-            this.statusMessageService.showSuccessToast(
-                `Note that some questions are yet to be answered. They are:
-                ${ Array.from(notYetAnsweredQuestions.values()) }.`);
-          }
-
           return this.feedbackSessionsService.confirmSubmission({
             courseId: this.courseId,
             feedbackSessionName: this.feedbackSessionName,
