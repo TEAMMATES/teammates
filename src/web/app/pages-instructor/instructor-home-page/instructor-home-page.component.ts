@@ -360,6 +360,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
     this.copySession(this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    this.courseTabModels = [];
+    this.loadCourses();
   }
 
   /**

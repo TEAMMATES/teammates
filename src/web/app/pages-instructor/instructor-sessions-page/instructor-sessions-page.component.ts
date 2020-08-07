@@ -482,6 +482,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   copySessionEventHandler(result: CopySessionResult): void {
     this.copySession(this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    this.sessionsTableRowModels = [];
+    this.loadFeedbackSessions();
   }
 
   /**

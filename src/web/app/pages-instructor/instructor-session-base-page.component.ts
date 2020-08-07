@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { from, Observable, of } from 'rxjs';
+import { forkJoin, from, Observable, of } from 'rxjs';
 import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
@@ -195,18 +195,33 @@ export abstract class InstructorSessionBasePageComponent {
    * Copies the feedback session.
    */
   copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
+    const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
-      this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
-          .subscribe((createdSession: FeedbackSession) => {
-            if (result.copyToCourseList.length > 1) { return; }
-            this.navigationService.navigateWithSuccessMessage(
-                this.router,
-                '/web/instructor/sessions/edit',
-                'The feedback session has been copied. Please modify settings/questions as necessary.',
-                { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      copySessionRequests.push(
+          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId));
     });
-    if (result.copyToCourseList.length > 1) { window.location.reload(); }
+    this.copySessionHelper(copySessionRequests);
+  }
+
+  /**
+   * Submits the copy session requests.
+   */
+  copySessionHelper(copySessionRequests: Observable<FeedbackSession>[]): void {
+    const successMessage: string =
+        'The feedback session has been copied. Please modify settings/questions as necessary.';
+    if (copySessionRequests.length === 1) {
+      copySessionRequests[0].subscribe((createdSession: FeedbackSession) => {
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            '/web/instructor/sessions/edit', successMessage,
+            { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    } else if (copySessionRequests.length > 1) {
+      forkJoin(copySessionRequests).subscribe(() => {
+        this.statusMessageService.showSuccessToast(successMessage);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
+    }
   }
 
   /**
