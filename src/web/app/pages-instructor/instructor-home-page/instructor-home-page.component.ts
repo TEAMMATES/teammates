@@ -356,12 +356,23 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Edits the feedback session.
+   * Copies the feedback session.
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
-    this.copySession(this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
-    this.courseTabModels = [];
-    this.loadCourses();
+    this.copySessionTransformer(
+        this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result)
+        .forEach((session: FeedbackSession) => {
+          const model: SessionsTableRowModel = {
+            feedbackSession: session,
+            responseRate: '',
+            isLoadingResponseRate: false,
+
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+          };
+          const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
+              tabModel.course.courseId === session.courseId);
+          if (courseModel) { courseModel.sessionsTableRowModels.push(model); }
+        });
   }
 
   /**

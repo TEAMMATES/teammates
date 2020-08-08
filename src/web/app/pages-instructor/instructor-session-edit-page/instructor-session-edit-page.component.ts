@@ -250,7 +250,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
       modalRef.result.then((result: CopySessionModalResult) => {
-        const copySessionRequests: Observable<any>[] = [];
+        const copySessionRequests: Observable<FeedbackSession>[] = [];
         result.copyToCourseList.forEach((copyToCourseId: string) => {
           copySessionRequests.push(this.feedbackSessionsService.getFeedbackSession({
             courseId: this.courseId,
@@ -259,7 +259,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           }).pipe(switchMap((feedbackSession: FeedbackSession) =>
               this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId))));
         });
-        this.copySessionHelper(copySessionRequests);
+        this.copySession(copySessionRequests);
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
     });
   }

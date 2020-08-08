@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { forkJoin, from, Observable, of } from 'rxjs';
-import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, finalize, last, switchMap, tap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -192,36 +192,50 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Copies the feedback session.
+   * Combines a {@link SessionsTableRowModel} and {@link CopySessionResult} to submit the copy session requests.
    */
-  copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
+  copySessionTransformer(model: SessionsTableRowModel, result: CopySessionResult): FeedbackSession[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
           this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId));
     });
-    this.copySessionHelper(copySessionRequests);
+    return this.copySession(copySessionRequests);
   }
 
   /**
    * Submits the copy session requests.
    */
-  copySessionHelper(copySessionRequests: Observable<FeedbackSession>[]): void {
+  copySession(copySessionRequests: Observable<FeedbackSession>[]): FeedbackSession[] {
     const successMessage: string =
         'The feedback session has been copied. Please modify settings/questions as necessary.';
+    const sessionList: FeedbackSession[] = [];
     if (copySessionRequests.length === 1) {
       copySessionRequests[0].subscribe((createdSession: FeedbackSession) => {
+        sessionList.push(createdSession);
         this.navigationService.navigateWithSuccessMessage(this.router,
             '/web/instructor/sessions/edit', successMessage,
             { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
     } else if (copySessionRequests.length > 1) {
-      forkJoin(copySessionRequests).subscribe(() => {
-        this.statusMessageService.showSuccessToast(successMessage);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+      let isAnyFailed: boolean = false;
+      forkJoin(copySessionRequests).pipe(
+          tap((sessions: FeedbackSession[]) => {
+            sessionList.concat(sessions);
+          }),
+          catchError((error: any) => {
+            isAnyFailed = true;
+            return of(error);
+          }),
+      ).subscribe(() => {
+        if (isAnyFailed) {
+          this.statusMessageService.showErrorToast('The session could not be copied into some courses.');
+        } else {
+          this.statusMessageService.showSuccessToast(successMessage);
+        }
       });
     }
+    return sessionList;
   }
 
   /**
