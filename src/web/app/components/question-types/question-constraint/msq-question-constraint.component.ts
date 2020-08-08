@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component } from '@angular/core';
 import { FeedbackMsqQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
@@ -13,18 +12,15 @@ import { QuestionConstraintComponent } from './question-constraint.component';
   templateUrl: './msq-question-constraint.component.html',
   styleUrls: ['./msq-question-constraint.component.scss'],
 })
-export class MsqQuestionConstraintComponent extends QuestionConstraintComponent {
-
-  @Input()
-  questionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
+export class MsqQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackMsqQuestionDetails> {
 
   readonly NO_VALUE: number = NO_VALUE;
 
   constructor() {
-    super();
+    super(DEFAULT_MSQ_QUESTION_DETAILS());
   }
 
-  isValid(): Observable<boolean> {
-    return of(true);
+  get isValid(): boolean {
+    return true;
   }
 }

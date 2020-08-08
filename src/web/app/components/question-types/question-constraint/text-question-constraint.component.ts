@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
@@ -10,16 +9,13 @@ import { QuestionConstraintComponent } from './question-constraint.component';
   templateUrl: './text-question-constraint.component.html',
   styleUrls: ['./text-question-constraint.component.scss'],
 })
-export class TextQuestionConstraintComponent extends QuestionConstraintComponent implements OnInit {
+export class TextQuestionConstraintComponent extends QuestionConstraintComponent<any> {
 
   constructor() {
-    super();
+    super(null);
   }
 
-  ngOnInit(): void {
-  }
-
-  isValid(): Observable<boolean> {
-    return of(true);
+  get isValid(): boolean {
+    return true;
   }
 }

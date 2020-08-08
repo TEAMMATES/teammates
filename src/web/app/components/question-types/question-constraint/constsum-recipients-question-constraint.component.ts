@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable, Subscriber } from 'rxjs';
+import { Component } from '@angular/core';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
@@ -21,24 +20,15 @@ import { QuestionConstraintComponent } from './question-constraint.component';
   templateUrl: './constsum-recipients-question-constraint.component.html',
   styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
 })
-export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConstraintComponent implements OnInit {
+export class ConstsumRecipientsQuestionConstraintComponent
+    extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
       FeedbackConstantSumDistributePointsType;
 
-  @Input()
-  questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
-
-  @Input()
-  recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] = [];
-
   constructor() {
-    super();
-  }
-
-  ngOnInit(): void {
-    this.isValidEvent.emit(this.isValid());
+    super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
   }
 
   /**
@@ -160,20 +150,8 @@ export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConst
         && this.isSomePointsUneven;
   }
 
-  isValid(): Observable<boolean> {
-    return new Observable((observer: Subscriber<boolean>) => {
-      observer.next(
-          (this.questionDetails.distributePointsFor
-              === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
-              && this.isCorrectlyAllUneven && this.totalAnsweredPoints === this.totalRequiredPoints)
-          || (this.questionDetails.distributePointsFor
-          === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
-          && this.isCorrectlySomeUneven && this.totalAnsweredPoints === this.totalRequiredPoints)
-          || (this.questionDetails.distributePointsFor
-          !== FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
-          && this.questionDetails.distributePointsFor
-          !== FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
-          && this.totalAnsweredPoints === this.totalRequiredPoints));
-    });
+  get isValid(): boolean {
+    return this.isAllPointsDistributed && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
+        || this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE);
   }
 }
