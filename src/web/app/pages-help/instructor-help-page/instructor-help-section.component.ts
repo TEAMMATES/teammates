@@ -145,10 +145,10 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
       scrollTarget: `#${target}`,
       scrollOffset: 70,
     });
-    //Focus moves with the scrolling
-    var elem = document.getElementById(`${target}`);
-    if(elem){
-        elem.focus();
+    // Focus moves with the scrolling
+    const elem: any = document.getElementById(`${target}`);
+    if (elem) {
+      elem.focus();
     }
     return false;
   }
