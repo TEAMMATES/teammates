@@ -38,14 +38,14 @@
         <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
           <button class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
              placement="top" (click)="publishResultHandler()">
-            {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "Unpublish": "Publish"}} Results
+            {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "&#x2717; Unpublish": "&#x2713; Publish"}} Results
           </button>
           <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
             <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>
-            Download Results
+            <i class="fas fa-file-download"></i> Download Results
           </button>
           <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
-            Print View
+            <i class="fas fa-print"></i> Print View
           </button>
         </div>
       </div>
