@@ -258,7 +258,10 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -431,7 +434,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -951,7 +957,10 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -1594,7 +1603,10 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -1871,7 +1883,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -2176,7 +2191,10 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     

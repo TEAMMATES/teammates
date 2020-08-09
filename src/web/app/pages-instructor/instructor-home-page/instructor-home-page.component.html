@@ -23,7 +23,9 @@
 
 <div class="row mb-3" *tmIsLoading="!hasCoursesLoaded">
   <div class="col-4">
-    <a routerLink="/web/instructor/courses" class="btn btn-success" [queryParams]="{isAddNewCourse: true}">Add New Course</a>
+    <a routerLink="/web/instructor/courses" class="btn btn-success" [queryParams]="{isAddNewCourse: true}">
+      <i class="fas fa-plus"></i> Add New Course
+    </a>
   </div>
   <div class="col-8" *ngIf="courseTabModels.length > 0">
     <div class="float-right">
