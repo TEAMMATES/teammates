@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 
 describe('SessionLinksRecoveryPageComponent', () => {
@@ -15,6 +16,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
         ReactiveFormsModule,
         HttpClientTestingModule,
         NgxCaptchaModule,
+        AjaxLoadingModule,
       ],
     })
         .compileComponents();

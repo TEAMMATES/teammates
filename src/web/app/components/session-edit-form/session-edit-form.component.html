@@ -46,7 +46,7 @@
       <div class="card-body">
         <div class="row text-center">
           <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
-            <span ngbTooltip="Course for which the feedback session is for.">Course ID</span>
+            <span class="ngb-tooltip-class" ngbTooltip="Course for which the feedback session is for.">Course ID</span>
           </div>
           <div class="col-md-4 text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
@@ -63,7 +63,7 @@
             Time Zone
           </div>
           <div class="col-md-4 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
-            <span ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">{{ model.timeZone }}</span>
+            <span class="ngb-tooltip-class" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">{{ model.timeZone }}</span>
           </div>
         </div>
         <br/>
@@ -78,7 +78,7 @@
         <br/>
         <div class="row text-center">
           <div class="col-md-2 text-md-right font-bold">
-            <span *ngIf="formMode === SessionEditFormMode.ADD" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
+            <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
             <span *ngIf="formMode !== SessionEditFormMode.ADD">Session Name</span>
           </div>
           <div class="col-md-4 text-md-left">
@@ -94,7 +94,7 @@
         <br/>
         <div class="row text-center">
           <div class="col-md-2 text-md-right font-bold">
-            <span ngbTooltip="Will be displayed at the top of the page when users respond to the session.">Instructions</span>
+            <span class="ngb-tooltip-class" ngbTooltip="Will be displayed at the top of the page when users respond to the session.">Instructions</span>
           </div>
           <div class="col-md-10 text-md-left">
             <tm-rich-text-editor [richText]="model.instructions" (richTextChange)="triggerModelChange('instructions', $event)" [isDisabled]="!model.isEditable"></tm-rich-text-editor>
@@ -124,7 +124,7 @@
           <div class="col-md-5">
             <div class="col-12 text-md-left">
               <div>
-                <label class="label-control font-bold" ngbTooltip="Users can start submitting responses.">
+                <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Users can start submitting responses.">
                   Submission opening time
                 </label>
               </div>
@@ -148,7 +148,7 @@
           <div class="col-md-5 border-left-gray">
             <div class="row text-center">
               <div class="col-12 text-md-left ml-md-2">
-                <label class="label-control font-bold" ngbTooltip="No more submissions from users.">
+                <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="No more submissions from users.">
                   Submission closing time
                 </label>
               </div>
@@ -172,7 +172,7 @@
           </div>
           <div class="col-md-2 border-left-gray">
             <div class="row text-center">
-              <div class="col-12 text-md-left ml-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
+              <div class="ngb-tooltip-class col-12 text-md-left ml-md-2" ngbTooltip="Amount of time the system will continue accepting submissions after the specified deadline.">
                 <label class="control-label font-bold">
                   Grace period
                 </label>
@@ -200,7 +200,7 @@
           <div class="col-md-6 text-center text-md-left">
             <div class="row ml-md-1">
               <div class="col-12">
-                <label class="label-control font-bold" ngbTooltip="Session can be visible before it is open for submissions so that users can preview the questions.">Make session visible </label>
+                <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Session can be visible before it is open for submissions so that users can preview the questions.">Make session visible </label>
               </div>
             </div>
             <div class="row mt-md-2 ml-md-1">
@@ -239,7 +239,7 @@
           <div class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-left">
             <div class="row ml-md-1">
               <div class="col-12">
-                <label class="label-control font-bold" ngbTooltip="Make responses for the feedback session visible to designated recipients.">Make response visible </label>
+                <label class="ngb-tooltip-class label-control font-bold" ngbTooltip="Make responses for the feedback session visible to designated recipients.">Make response visible </label>
               </div>
             </div>
             <div class="row mt-md-2 ml-md-1">
@@ -269,7 +269,7 @@
             <div class="row mt-md-2 ml-md-1">
               <div class="col-12">
                 <div class="form-check">
-                  <label class="form-check-label" ngbTooltip="Same time as when the session becomes visible to users.">
+                  <label class="ngb-tooltip-class form-check-label" ngbTooltip="Same time as when the session becomes visible to users.">
                     <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.AT_VISIBLE" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable">
                     Immediately
                   </label>
@@ -279,7 +279,7 @@
             <div class="row mt-md-2 ml-md-1">
               <div class="col-12">
                 <div class="form-check">
-                  <label class="form-check-label" ngbTooltip="Remember to manually publish the responses for this session later on.">
+                  <label class="ngb-tooltip-class form-check-label" ngbTooltip="Remember to manually publish the responses for this session later on.">
                     <input class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.LATER" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable">
                     Not now (publish manually)
                   </label>
@@ -302,21 +302,21 @@
         <div class="row ml-md-1 mt-md-3">
           <div class="col-md-4">
             <div class="form-check form-check-inline">
-              <label class="form-check-label" ngbTooltip="Notify students when the session is open for submission.">
+              <label class="ngb-tooltip-class form-check-label" ngbTooltip="Notify students when the session is open for submission.">
                 <input class="form-check-input" type="checkbox" checked disabled>Session opening reminder
               </label>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-check form-check-inline">
-              <label class="form-check-label" ngbTooltip="Remind students to submit 24 hours before the end of the session.">
+              <label class="ngb-tooltip-class form-check-label" ngbTooltip="Remind students to submit 24 hours before the end of the session.">
                 <input class="form-check-input" type="checkbox" [ngModel]="model.isClosingEmailEnabled" (ngModelChange)="triggerModelChange('isClosingEmailEnabled', $event)" [disabled]="!model.isEditable"> Session closing reminder
               </label>
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-check form-check-inline">
-              <label class="form-check-label" ngbTooltip="Notify students when the session results is published.">
+              <label class="ngb-tooltip-class form-check-label" ngbTooltip="Notify students when the session results is published.">
                 <input class="form-check-input" type="checkbox" [ngModel]="model.isPublishedEmailEnabled" (ngModelChange)="triggerModelChange('isPublishedEmailEnabled', $event)" [disabled]="!model.isEditable"> Results published announcement
               </label>
             </div>

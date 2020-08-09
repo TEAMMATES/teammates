@@ -861,6 +861,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles 'Copy Question' click event.
    */
   copyQuestionsFromOtherSessionsHandler(): void {
+    this.isCopyingQuestion = true;
     const questionToCopyCandidates: QuestionToCopyCandidate[] = [];
 
     this.feedbackSessionsService.getFeedbackSessionsForInstructor().pipe(
@@ -884,6 +885,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                   }),
               );
         }),
+        finalize(() => this.isCopyingQuestion = false),
     ).subscribe((questionToCopyCandidate: QuestionToCopyCandidate[]) => {
       questionToCopyCandidates.push(...questionToCopyCandidate);
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); }, () => {

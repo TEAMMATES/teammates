@@ -113,7 +113,8 @@ export class RubricQuestionStatisticsCalculation
           continue;
         }
         this.perRecipientStatsMap[response.recipient].answers[i][subAnswer] += 1;
-        this.perRecipientStatsMap[response.recipient].subQuestionTotalChosenWeight[i] += this.weights[i][subAnswer];
+        this.perRecipientStatsMap[response.recipient].subQuestionTotalChosenWeight[i] +=
+            +this.weights[i][subAnswer].toFixed(5);
       }
     }
 
@@ -134,7 +135,7 @@ export class RubricQuestionStatisticsCalculation
       const weightAverage: number = sums[subQuestionIdx] === 0 ? 0
           : subQuestionAnswer.reduce((prevValue: number, currValue: number, currentIndex: number): number =>
               prevValue + currValue * this.weights[subQuestionIdx][currentIndex], 0) / sums[subQuestionIdx];
-      return Math.round(weightAverage * 100) / 100;
+      return +weightAverage.toFixed(2);
     });
   }
 
@@ -149,7 +150,7 @@ export class RubricQuestionStatisticsCalculation
     // Calculate the percentages based on the entry of each cell and the sum of each row
     for (let i: number = 0; i < answers.length; i += 1) {
       for (let j: number = 0; j < answers[i].length; j += 1) {
-        percentages[i][j] = sums[i] === 0 ? 0 : Math.round(percentages[i][j] / sums[i] * 1000) / 10;
+        percentages[i][j] = sums[i] === 0 ? 0 : +(percentages[i][j] / sums[i] * 100).toFixed(2);
       }
     }
 

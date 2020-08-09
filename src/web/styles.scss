@@ -91,7 +91,14 @@ h6,
   max-width: 70vw;
   min-width: 30vw;
   overflow-y: scroll;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;  // IE10+
   vertical-align: middle;
+
+  &::-webkit-scrollbar { // Webkit-based browsers
+    width: 0;
+    height: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -190,21 +197,8 @@ h6,
   cursor: pointer;
 }
 
-[ng-reflect-ngb-tooltip] {
+.ngb-tooltip-class {
   text-decoration: underline dotted #808080;
-
-  &.btn,
-  &.fa,
-  &.fas,
-  &.far,
-  &.fab,
-  &.fal {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
 
   &:hover {
     text-decoration: underline dotted #000;
@@ -232,7 +226,7 @@ h6,
 }
 
 :root {
-  --btn-margin: 10px;
+  --btn-margin: 5px;
 }
 
 .btn-margin-left {
@@ -259,9 +253,13 @@ h6,
 .fa-sort,
 .fa-sort-up,
 .fa-sort-down {
-  // copied from fa-stack
+  // copied from fa-stack-X
   left: 0;
   position: absolute;
   text-align: center;
   line-height: inherit;
+}
+
+.fa-stack {
+  width: auto;
 }

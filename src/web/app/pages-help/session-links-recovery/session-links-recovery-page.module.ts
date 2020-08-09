@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     NgxCaptchaModule,
     RouterModule.forChild(routes),
+    AjaxLoadingModule,
   ],
   declarations: [
     SessionLinksRecoveryPageComponent,

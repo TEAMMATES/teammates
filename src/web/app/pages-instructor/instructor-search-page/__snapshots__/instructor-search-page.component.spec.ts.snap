@@ -241,7 +241,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
             class="card border border-light-blue mb-3"
           >
             <div
-              class="card-header text-dark-blue bg-light-blue font-weight-bold"
+              class="card-header alert-primary font-weight-bold"
             >
               [test-exa.demo]
             </div>

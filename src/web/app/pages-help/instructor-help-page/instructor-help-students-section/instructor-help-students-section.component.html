@@ -17,7 +17,7 @@
         <button class="btn btn-secondary btn-sm">View</button> button in the last column of the row corresponding to Student A. A new page will open displaying the student's profile, similar to the sample profile below.
       </li>
     </ol>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]">
+    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
       <tm-student-profile [studentProfile]="exampleStudentProfile"></tm-student-profile>
       <tm-course-related-info [student]="exampleStudentAttributes"></tm-course-related-info>
     </tm-example-box>
@@ -42,7 +42,7 @@
       Below this is the <b>More Info</b> section containing a personal description given by the student, if any.
       <br> You can press the <span class="text-muted fas fa-expand-arrows-alt cursor-pointer"></span> button in the top-right corner to display the information in a lightbox for better readability.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]">
+    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
       <tm-more-info [studentName]="exampleStudentAttributes.name" [moreInfoText]="exampleStudentProfile.moreInfo"></tm-more-info>
     </tm-example-box>
   </tm-instructor-help-panel>
@@ -74,7 +74,7 @@
     <p>
       Note that moving a student to a different team (i.e. changing the student's Team ID) will change the student's team in all existing sessions in the course.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]">
+    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_EDIT_DETAILS]" @collapseAnim>
       <tm-instructor-course-student-edit-page [isEnabled]="false"></tm-instructor-course-student-edit-page>
     </tm-example-box>
   </tm-instructor-help-panel>
@@ -106,7 +106,7 @@
     <p>
       You can search for students from the <b>Search</b> page. Click the <b>Search</b> tab in the navigation bar at the top of the page. You should see a search bar similar to the one below:
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]"><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
+    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim><tm-instructor-search-bar></tm-instructor-search-bar></tm-example-box>
     <p>
       To search for a student:
     </p>
@@ -131,14 +131,14 @@
     <p>
       If you search for <code>alice</code>, the search results would show something like this (assuming such a student exists):
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
+    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
       <tm-student-result-table [studentTables]="exampleSingleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
     </tm-example-box>
     <p>
       You can search for multiple students based on the attributes mentioned above. To do so, include the terms you wish to search for in the search box separated by spaces.<br>
       For example, if you search for <code>alice Section A Team B jack@email.com</code>, the search would result in something similar to this (assuming the corresponding data exists):
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]">
+    <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_SEARCH]" @collapseAnim>
       <tm-student-result-table [studentTables]="exampleMultipleStudentResultTables" [isActionButtonsEnabled]="false"></tm-student-result-table>
     </tm-example-box>
   </tm-instructor-help-panel>

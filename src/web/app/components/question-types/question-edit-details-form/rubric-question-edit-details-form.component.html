@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 text-left">
     <div class="form-group form-check">
-      <label class="form-check-label tool-tip-decorate"
+      <label class="form-check-label tool-tip-decorate ngb-tooltip-class"
              ngbTooltip="Assign weights to the columns for calculating statistics.">
         <input type="checkbox" class="form-check-input" [disabled]="!isEditable"
                [ngModel]="model.hasAssignedWeights" (ngModelChange)="triggerChoicesWeight($event)">Choices are weighted</label>

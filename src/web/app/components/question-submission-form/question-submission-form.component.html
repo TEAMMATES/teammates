@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header text-white question-header">
+  <div class="card-header bg-primary text-white question-header">
     <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
@@ -38,7 +38,7 @@
                                                  [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
-      <span ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
+      <span class="ngb-tooltip-class" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
     </p>
 
     <div class="alert alert-primary" role="alert" *ngIf="model.giverType === FeedbackParticipantType.TEAMS">
