@@ -54,8 +54,8 @@
     <div class="card bg-light top-padded text-center text-sm-left" *ngIf="session">
       <div class="card-body row">
         <div class="col-md-6">
-          <div>
-            <label class="control-label">
+          <div class="report-config-item">
+            <label class="report-config-label control-label">
               <b ngbTooltip="View results in different formats" class="ngb-tooltip-class">View:</b>
             </label>
             <div>
@@ -68,8 +68,8 @@
               </select>
             </div>
           </div>
-          <div>
-            <label class="control-label mt-md-1">
+          <div class="report-config-item">
+            <label class="report-config-label control-label mt-md-1">
               <b ngbTooltip="View results by sections" class="ngb-tooltip-class">Section:</b>
             </label>
             <div>
@@ -80,9 +80,9 @@
               </select>
             </div>
           </div>
-          <div *ngIf="section">
-          <label class="control-label ngb-tooltip-class" ngbTooltip="Choose the way responses for the selected section is viewed">
-              If showing only a section:
+          <div *ngIf="section" class="report-config-item">
+            <label class="report-config-label control-label mt-md-1">
+              <b ngbTooltip="Choose the way responses for the selected section is viewed" class="ngb-tooltip-class">If showing only a section:</b>
             </label>
             <div>
               <select class="form-control" [(ngModel)]="sectionType">
