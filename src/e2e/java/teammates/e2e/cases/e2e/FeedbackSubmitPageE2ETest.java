@@ -131,7 +131,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.deleteComment(qnToComment, recipientToComment);
 
         submitPage.verifyStatusMessage("Your comment has been deleted!");
-        // Reload page to verify comment persists in datastore
+        // Reload page to verify comment no longer in datastore
         submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
         submitPage.waitForPageToLoad();
         submitPage.verifyNoCommentPresent(qnToComment, recipientToComment);

@@ -375,11 +375,12 @@ public abstract class AppPage {
     }
 
     /**
-     * Write rich text to the active editor.
+     * Write rich text to editor.
      */
-    protected void writeToActiveRichTextEditor(String text) {
-        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
-                + " tinyMCE.activeEditor.save()", text));
+    protected void writeToRichTextEditor(WebElement textarea, String text) {
+        executeScript(String.format("tinyMCE.get('%s').setContent('%s');",
+                textarea.getAttribute("id"), text));
+        executeScript("tinyMCE.activeEditor.save()");
     }
 
     /**

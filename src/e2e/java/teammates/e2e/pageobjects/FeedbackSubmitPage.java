@@ -14,13 +14,11 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the feedback submission page of the website.
@@ -105,14 +103,12 @@ public class FeedbackSubmitPage extends AppPage {
     public void addComment(int qnNumber, int recipientNumber, String newComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipientNumber);
         click(commentSection.findElement(By.id("btn-add-comment")));
-        ThreadHelper.waitFor(1000);
         writeToCommentEditor(commentSection, newComment);
     }
 
     public void editComment(int qnNumber, int recipientNumber, String editedComment) {
         WebElement commentSection = getCommentSection(qnNumber, recipientNumber);
         click(commentSection.findElement(By.id("btn-edit-comment")));
-        ThreadHelper.waitFor(1000);
         writeToCommentEditor(commentSection, editedComment);
     }
 
@@ -275,9 +271,8 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {
-        Actions action = new Actions(browser.driver);
-        action.contextClick(commentSection).perform();
-        writeToActiveRichTextEditor(comment);
+        waitForElementPresence(By.cssSelector("textarea"));
+        writeToRichTextEditor(commentSection.findElement(By.cssSelector("textarea")), comment);
     }
 
     private List<WebElement> getMcqOptions(int qnNumber, int recipientNumber) {
