@@ -39,7 +39,7 @@
     "intersection-observer": "^0.11.0",
     "moment-timezone": "^0.5.31",
     "ng-dynamic-component": "^6.1.0",
-    "ng-in-viewport": "^6.1.1",
+    "ng-in-viewport": "^6.1.3",
     "ngx-captcha": "^8.0.1",
     "ngx-image-cropper": "^1.5.1",
     "ngx-page-scroll-core": "^7.0.1",
