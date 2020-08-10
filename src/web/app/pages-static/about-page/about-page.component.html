@@ -37,28 +37,41 @@
   </p>
 
   <h3>Core Team:</h3>
-  <ol>
-    <li *ngFor="let teamMember of teamMembers">
-      <span *ngIf="teamMember.url">
-        <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
-      </span>
-      <span *ngIf="!teamMember.url">{{ teamMember.name }}</span>
-      <ul>
-        <li><strong>{{ teamMember.currentPosition }}</strong></li>
-        <li *ngFor="let position of teamMember.pastPositions">
+  <table class="core-team-table">
+    <tr *ngFor="let teamMember of teamMembers">
+      <td class="core-team-photo-cell">
+        <img [src]="teamMember.avatarUrl" [alt]="teamMember.name" *ngIf="teamMember.avatarUrl">
+      </td>
+      <td class="core-team-details-cell">
+        <span *ngIf="teamMember.url">
+          <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
+        </span>
+        <span *ngIf="!teamMember.url">{{ teamMember.name }}</span>
+        <br><br>
+        <strong>{{ teamMember.currentPosition }}</strong>
+        <ng-container *ngFor="let position of teamMember.pastPositions">
+          <br>
           {{ position }}
-        </li>
-      </ul>
-    </li>
-  </ol>
+        </ng-container>
+      </td>
+    </tr>
+  </table>
 
-  <h3>Committers:</h3>
-  <ol>
-    <li *ngFor="let committer of committers">
-      <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
-      ({{ committer.startPeriod }} - )
-    </li>
-  </ol>
+  <h3 *ngIf="committers.length">Committers:</h3>
+  <table class="core-team-table" *ngIf="committers.length">
+    <tr *ngFor="let committer of committers">
+      <td class="core-team-photo-cell">
+        <img [src]="committer.avatarUrl" [alt]="committer.name" *ngIf="committer.avatarUrl">
+      </td>
+      <td class="core-team-details-cell">
+        <span *ngIf="committer.url">
+          <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
+        </span>
+        <span *ngIf="!committer.url">{{ committer.name }}</span>
+        ({{ committer.startPeriod }} - )
+      </td>
+    </tr>
+  </table>
 
   <h3>Past Team Members:</h3>
   <ol>
