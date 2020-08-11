@@ -380,8 +380,9 @@ public abstract class AppPage {
     /**
      * Get rich text from editor.
      */
-    protected String getEditorRichText(WebElement iframe) {
-        browser.driver.switchTo().frame(iframe);
+    protected String getEditorRichText(WebElement editor) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
 
         String innerHtml = browser.driver.findElement(By.id("tinymce")).getAttribute("innerHTML");
         // check if editor is empty
@@ -393,8 +394,9 @@ public abstract class AppPage {
     /**
      * Write rich text to editor.
      */
-    protected void writeToRichTextEditor(WebElement iframe, String text) {
-        browser.driver.switchTo().frame(iframe);
+    protected void writeToRichTextEditor(WebElement editor, String text) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
         click(browser.driver.findElement(By.id("tinymce")));
         browser.driver.switchTo().defaultContent();
 

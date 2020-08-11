@@ -149,7 +149,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifySessionDetails(CourseAttributes course, FeedbackSessionAttributes feedbackSession) {
-        waitForElementPresence(By.cssSelector("#instructions iframe"));
+        waitForElementPresence(By.id("instructions"));
         assertEquals(getCourseId(), course.getId());
         assertEquals(getCourseName(), course.getName());
         assertEquals(getTimeZone(), feedbackSession.getTimeZone().toString());
@@ -530,8 +530,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getInstructions() {
-        WebElement iframe = instructionsEditor.findElement(By.tagName("iframe"));
-        return getEditorRichText(iframe);
+        return getEditorRichText(instructionsEditor.findElement(By.tagName("editor")));
     }
 
     private String getStartDate() {
@@ -595,7 +594,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setInstructions(String newInstructions) {
-        writeToRichTextEditor(instructionsEditor.findElement(By.tagName("iframe")), newInstructions);
+        writeToRichTextEditor(instructionsEditor.findElement(By.tagName("editor")), newInstructions);
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
@@ -731,8 +730,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getQuestionDescription(int questionNum) {
-        WebElement iframe = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " iframe"));
-        return getEditorRichText(iframe);
+        WebElement editor = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " editor"));
+        return getEditorRichText(editor);
     }
 
     private String getFeedbackGiver(int questionNum) {
@@ -761,8 +760,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setQuestionDescription(int questionNum, String newDescription) {
-        WebElement iframe = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " iframe"));
-        writeToRichTextEditor(iframe, newDescription);
+        WebElement editor = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " editor"));
+        writeToRichTextEditor(editor, newDescription);
     }
 
     private void setFeedbackPath(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
