@@ -377,9 +377,8 @@ public abstract class AppPage {
     /**
      * Write rich text to editor.
      */
-    protected void writeToRichTextEditor(WebElement textarea, String text) {
-        executeScript(String.format("tinyMCE.get('%s').setContent('%s');",
-                textarea.getAttribute("id"), text));
+    protected void writeToRichTextEditor(WebElement textArea, String text) {
+        executeScript(String.format("tinyMCE.get('%s').setContent('%s');", textArea.getAttribute("id"), text));
         executeScript("tinyMCE.activeEditor.save()");
     }
 
@@ -566,8 +565,15 @@ public abstract class AppPage {
      */
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
-        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
+        scrollElementToCenter(element);
         element.click();
+    }
+
+    /**
+     * Scrolls element to center.
+     */
+    void scrollElementToCenter(WebElement element) {
+        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
     }
 
     /**

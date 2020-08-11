@@ -271,7 +271,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {
-        waitForElementPresence(By.cssSelector("textarea"));
+        scrollElementToCenter(commentSection);
         writeToRichTextEditor(commentSection.findElement(By.cssSelector("textarea")), comment);
     }
 
