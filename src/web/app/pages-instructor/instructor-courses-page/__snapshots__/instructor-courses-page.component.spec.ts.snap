@@ -31,7 +31,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -95,7 +95,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -207,6 +207,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      5 Nov 2018 
@@ -262,7 +263,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <button
                       aria-expanded="false"
                       aria-haspopup="true"
-                      class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                      class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -323,6 +324,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      2 Feb 2019 
@@ -374,7 +376,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                     <button
                       aria-expanded="false"
                       aria-haspopup="true"
-                      class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                      class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >
@@ -498,7 +500,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             
             
             <button
-              class="btn btn-light btn-sm disabled"
+              class="btn btn-secondary btn-sm disabled"
             >
               <i
                 class="fas fa-check"
@@ -508,7 +510,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
             
             
             <button
-              class="btn btn-light btn-sm disabled text-danger"
+              class="btn btn-secondary btn-sm disabled"
             >
               <i
                 class="fas fa-times"
@@ -566,7 +568,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -678,6 +680,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      5 Nov 2018 
@@ -733,7 +736,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <button
                       aria-expanded="false"
                       aria-haspopup="true"
-                      class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                      class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -794,6 +797,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      2 Feb 2019 
@@ -845,7 +849,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                     <button
                       aria-expanded="false"
                       aria-haspopup="true"
-                      class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                      class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >
@@ -968,7 +972,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           >
             
             <button
-              class="btn btn-light btn-sm"
+              class="btn btn-secondary btn-sm"
               id="btn-restore-all"
               ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
             >
@@ -981,7 +985,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
             
             
             <button
-              class="btn btn-light btn-sm text-danger"
+              class="btn btn-secondary btn-sm"
               id="btn-delete-all"
               ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
             >
@@ -1043,7 +1047,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -1107,7 +1111,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
 >
   <div>
     <button
-      class="btn btn-primary"
+      class="btn btn-success"
       id="btn-add-course"
     >
       <i
@@ -1219,6 +1223,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      5 Nov 2018 
@@ -1295,7 +1300,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <button
                       aria-expanded="false"
                       aria-haspopup="true"
-                      class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                      class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-0"
                       ngbdropdowntoggle=""
                     >
@@ -1356,6 +1361,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                 </td>
                 <td>
                   <span
+                    class="ngb-tooltip-class"
                     container="body"
                   >
                      2 Feb 2019 
@@ -1428,7 +1434,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                     <button
                       aria-expanded="false"
                       aria-haspopup="true"
-                      class="action-dropdown btn btn-light btn-sm dropdown-toggle"
+                      class="btn btn-light btn-sm dropdown-toggle"
                       id="btn-other-actions-1"
                       ngbdropdowntoggle=""
                     >

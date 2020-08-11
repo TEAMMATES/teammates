@@ -70,8 +70,12 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         <div>
           
           <button
+<<<<<<< HEAD
             class="btn btn-light btn-sm"
             id="btn-edit-question"
+=======
+            class="btn btn-primary btn-sm"
+>>>>>>> 62ae71574cc873d18e6cfbbb780d0bfa8763b1b2
             type="button"
           >
             <i
@@ -82,8 +86,12 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           
           
           <button
+<<<<<<< HEAD
             class="btn btn-light btn-sm"
             id="btn-delete-question"
+=======
+            class="btn btn-primary btn-sm"
+>>>>>>> 62ae71574cc873d18e6cfbbb780d0bfa8763b1b2
             type="button"
           >
             <i
@@ -92,7 +100,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
              Delete 
           </button>
           <button
-            class="btn btn-light btn-sm"
+            class="btn btn-primary btn-sm"
             container="body"
             id="btn-duplicate-question"
             ngbtooltip="Make a copy of the existing question and add to the current feedback session."
@@ -169,16 +177,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     minheightinpx="100"
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
-                    <editor
-                      class="editor editor-disabled ng-untouched ng-pristine ng-valid"
-                      placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                    <div
+                      inviewport=""
                     >
                       
-                      <textarea
-                        id="tiny-angular_031577836800000"
-                        style="visibility: hidden;"
-                      />
-                    </editor>
+                    </div>
                   </tm-rich-text-editor>
                 </div>
               </div>
@@ -197,6 +200,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     >
                        [Optional] 
                       <span
+                        class="ngb-tooltip-class"
                         ngbtooltip="The recommended length is shown to the respondent but not enforced"
                       >
                          Recommended length 
@@ -446,7 +450,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           >
             
             <button
-              class="btn btn-primary"
+              class="btn btn-success"
               disabled=""
             >
               

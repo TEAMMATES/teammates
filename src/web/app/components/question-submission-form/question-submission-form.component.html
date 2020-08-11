@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header text-white question-header">
+  <div class="card-header bg-primary text-white question-header">
     <span><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
@@ -38,7 +38,7 @@
                                                  [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
     <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
-      <span ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
+      <span class="ngb-tooltip-class" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
     </p>
 
     <div class="alert alert-primary" role="alert" *ngIf="model.giverType === FeedbackParticipantType.TEAMS">
@@ -135,7 +135,7 @@
             </div>
             <ng-template #newComment>
               <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
-                <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-secondary btn-sm"
+                <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
                         (click)="addNewParticipantCommentToResponse(i)"
                         [disabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
                   <i class="fas fa-comment"></i> [Optional] Comment on your response

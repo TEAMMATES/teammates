@@ -22,7 +22,7 @@
           <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
           <div class="card-header-btn-toolbar">
             <a routerLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
-               class="btn btn-light btn-sm button">
+               class="btn btn-primary btn-sm button">
               View team
             </a>
           </div>
@@ -57,9 +57,9 @@
                 <td>
                   <a [ngClass]="{'disabled' : !session.isPublished}"
                      routerLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                     class="btn btn-light btn-sm">
+                     class="btn btn-light btn-sm btn-margin-right">
                     View Responses
-                  </a> &nbsp;
+                  </a>
                   <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled">
                     Start Submission
                   </a>

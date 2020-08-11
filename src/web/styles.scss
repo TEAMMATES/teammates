@@ -91,7 +91,14 @@ h6,
   max-width: 70vw;
   min-width: 30vw;
   overflow-y: scroll;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;  // IE10+
   vertical-align: middle;
+
+  &::-webkit-scrollbar { // Webkit-based browsers
+    width: 0;
+    height: 0;
+  }
 }
 
 @media (max-width: 768px) {
@@ -130,7 +137,15 @@ h6,
   text-align: right;
 
   button {
-    margin-right: 10px;
+    margin-right: var(--btn-margin);
+  }
+
+  .btn-primary {
+    background-color: darken(#007BFF, 5%); // 5% darker than primary
+  }
+
+  .btn-secondary {
+    background-color: darken(#6C757D, 10%); // 10% darker than secondary
   }
 }
 
@@ -182,21 +197,8 @@ h6,
   cursor: pointer;
 }
 
-[ng-reflect-ngb-tooltip] {
+.ngb-tooltip-class {
   text-decoration: underline dotted #808080;
-
-  &.btn,
-  &.fa,
-  &.fas,
-  &.far,
-  &.fab,
-  &.fal {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
 
   &:hover {
     text-decoration: underline dotted #000;
@@ -215,6 +217,30 @@ h6,
   cursor: not-allowed;
 }
 
+.btn-light {
+  border: 1px solid #DDD;
+
+  &[disabled] {
+    border: 1px solid #EEE;
+  }
+}
+
+:root {
+  --btn-margin: 5px;
+}
+
+.btn-margin-left {
+  margin-left: var(--btn-margin);
+}
+
+.btn-margin-right {
+  margin-right: var(--btn-margin);
+}
+
+.btn-margin {
+  margin: var(--btn-margin);
+}
+
 .fa-sort-down,
 .fa-sort-up {
   color: black;
@@ -227,9 +253,13 @@ h6,
 .fa-sort,
 .fa-sort-up,
 .fa-sort-down {
-  // copied from fa-stack
+  // copied from fa-stack-X
   left: 0;
   position: absolute;
   text-align: center;
   line-height: inherit;
+}
+
+.fa-stack {
+  width: auto;
 }

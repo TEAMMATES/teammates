@@ -121,7 +121,7 @@
     <p>
       This is the form used to set up sessions.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]" @collapseAnim>
       <tm-session-edit-form [formMode]="SessionEditFormMode.ADD"
                             [model]="exampleSessionEditFormModel"
                             [courseCandidates]="exampleCourseCandidates"
@@ -156,7 +156,7 @@
         When you are finished adding questions, click <button class="btn btn-primary">Done Editing</button>.
       </li>
     </ol>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
       <div class="card">
         <div class="card-body background-color-light-blue text-center">
           <div ngbDropdown class="d-inline-block">
@@ -194,7 +194,7 @@
       The team member receiving feedback can see the feedback, but not who gave the feedback.
       Instructors can see who received what feedback, and who gave the feedback.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
       <div class="background-color-light-green margin-top-15px padding-15px">
         <div>
           <b class="feedback-path-title">Feedback Path</b> (Who is giving feedback about whom?)
@@ -234,7 +234,7 @@
       To access the preview panel of a specific session, click the <button class="btn btn-sm btn-secondary">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
       <div class="card">
         <div class="card-body background-color-light-blue text-center">
           <div class="row align-items-center">
@@ -299,7 +299,7 @@
     <p>5 different views are available, each denoting the order in which responses are grouped.
       Additionally, you can group the results by team, show or hide statistics, view missing responses and filter responses from a particular section.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
       <div class="card-body row">
         <div class="col-md-6">
           <div>
@@ -368,7 +368,7 @@
       In the example below, results are sorted by <b>Giver > Recipient > Question</b>. Additionally, missing responses
       have been recorded.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
       <tm-instructor-session-result-grq-view [session]="this.exampleFeedbackSession"
                                              [section]="'Section A'"
                                              [sectionType]="InstructorSessionResultSectionType.EITHER"
@@ -390,7 +390,7 @@
       session's results. What they can see is governed by the visibility levels you set when setting up the session.
       Here is an example of what a student might see:
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]" @collapseAnim>
       <div class="card bg-light top-padded" *ngFor="let question of exampleQuestionsWithResponses">
         <div class="card-body" style="padding: 20px;">
           <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" style="font-size: 20px;"></tm-question-text-with-info>
@@ -457,7 +457,7 @@
         Fill in the form, which will appear similar to the example below
       </li>
     </ol>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" @collapseAnim>
       <div class="card-body">
         <tm-comment-edit-form
                 [mode]="CommentRowMode.ADD"
@@ -523,7 +523,7 @@
     <p>
       Assuming the relevant data exists, the results for a search with the keyword <code>good</code> would look something similar to this:
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" @collapseAnim>
       <tm-comment-result-table [commentTables]="exampleCommentSearchResult"></tm-comment-result-table>
     </tm-example-box>
   </tm-instructor-help-panel>
@@ -539,7 +539,7 @@
       You can view all your deleted feedback sessions by navigating to the <b>Sessions</b> page.<br>
       Scroll to the <b>Deleted feedback sessions</b> heading, which looks similar to this:
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" @collapseAnim>
       <tm-sessions-recycle-bin-table
               [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
               [isRecycleBinExpanded]="false">
@@ -559,7 +559,7 @@
       To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
       <tm-sessions-recycle-bin-table
               [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
               [isRecycleBinExpanded]="true">
@@ -578,7 +578,7 @@
       To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
       Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
       <tm-sessions-recycle-bin-table
               [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
               [isRecycleBinExpanded]="true">
@@ -598,7 +598,7 @@
       To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
       to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
     </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
+    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]" @collapseAnim>
       <tm-sessions-recycle-bin-table
               [recycleBinFeedbackSessionRowModels]="exampleRecycleBinFeedbackSessions"
               [isRecycleBinExpanded]="false">

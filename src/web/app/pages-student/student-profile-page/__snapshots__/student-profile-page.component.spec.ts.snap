@@ -96,7 +96,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="col-md-12 cursor-pointer"
             >
               <button
-                class="btn btn-primary upload-edit-photo"
+                class="btn btn-primary upload-edit-photo btn-margin-right"
                 ngbtooltip=".jpg or .png, max size 5 MB"
               >
                  Upload/Edit Photo 
@@ -223,6 +223,7 @@ exports[`StudentProfilePageComponent should snap with a student field without in
               class="form-group"
             >
               <label
+                class="ngb-tooltip-class"
                 ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
               >
                  More Information about Yourself
@@ -361,7 +362,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="col-md-12 cursor-pointer"
             >
               <button
-                class="btn btn-primary upload-edit-photo"
+                class="btn btn-primary upload-edit-photo btn-margin-right"
                 ngbtooltip=".jpg or .png, max size 5 MB"
               >
                  Upload/Edit Photo 
@@ -498,6 +499,7 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
               class="form-group"
             >
               <label
+                class="ngb-tooltip-class"
                 ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
               >
                  More Information about Yourself

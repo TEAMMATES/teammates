@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import {
   ConstsumOptionsQuestionEditDetailsFormComponent,
@@ -11,7 +12,6 @@ import {
   ConstsumRecipientsQuestionEditDetailsFormComponent,
 } from './constsum-recipients-question-edit-details-form.component';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
-import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
 import { MsqFieldComponent } from './msq-field/msq-field.component';
@@ -45,7 +45,6 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     ConstsumOptionsQuestionEditDetailsFormComponent,
     ConstsumOptionsFieldComponent,
     ConstsumRecipientsQuestionEditDetailsFormComponent,
-    GeneratedChoicePipe,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
@@ -69,6 +68,7 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     FormsModule,
     NgbTooltipModule,
     OptionRichTextEditorModule,
+    TeammatesCommonModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }
