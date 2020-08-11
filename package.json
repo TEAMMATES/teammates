@@ -44,7 +44,7 @@
     "ngx-image-cropper": "^1.5.1",
     "ngx-page-scroll-core": "^7.0.1",
     "rxjs": "~6.5.5",
-    "tinymce": "~5.2.2",
+    "tinymce": "~5.4.0",
     "topojson": "^3.0.2",
     "tslib": "^1.13.0",
     "ua-parser-js": "^0.7.21",
