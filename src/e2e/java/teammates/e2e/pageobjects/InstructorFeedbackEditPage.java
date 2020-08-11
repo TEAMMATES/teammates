@@ -310,6 +310,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
+        scrollElementToCenter(getQuestionForm(questionNum));
         assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
         assertEquals(feedbackQuestion.getQuestionDetails().getQuestionText(), getQuestionBrief(questionNum));
@@ -720,7 +721,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getQuestionDescription(int questionNum) {
-        WebElement iframe = getQuestionForm(questionNum).findElement(By.tagName("iframe"));
+        WebElement iframe = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " iframe"));
         return getEditorRichText(iframe);
     }
 
@@ -750,9 +751,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setQuestionDescription(int questionNum, String newDescription) {
-        WebElement iframe = getQuestionForm(questionNum)
-                .findElement(By.id("question-description"))
-                .findElement(By.tagName("iframe"));
+        WebElement iframe = waitForElementPresence(By.cssSelector("#question-form-" + questionNum + " iframe"));
         writeToRichTextEditor(iframe, newDescription);
     }
 

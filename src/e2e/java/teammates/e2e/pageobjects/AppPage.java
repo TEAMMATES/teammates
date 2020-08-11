@@ -601,8 +601,15 @@ public abstract class AppPage {
      */
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
-        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
+        scrollElementToCenter(element);
         element.click();
+    }
+
+    /**
+     * Scrolls element to center.
+     */
+    void scrollElementToCenter(WebElement element) {
+        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
     }
 
     /**
