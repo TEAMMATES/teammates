@@ -288,7 +288,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
 
         click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
-        click(browser.driver.findElement(By.id("btn-confirm-template")));
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
     }
 
     public void copyQuestion(String courseId, String questionText) {
@@ -302,11 +302,11 @@ public class InstructorFeedbackEditPage extends AppPage {
                 markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
             }
         }
-        click(browser.driver.findElement(By.id("btn-confirm-copy-question")));
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(browser.driver.findElements(By.tagName("tm-question-edit-form")).size(), expected);
+        assertEquals(getNumQuestions(), expected);
     }
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
@@ -490,7 +490,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void duplicateQuestion(int questionNum) {
-        click(getQuestionForm(questionNum).findElement(By.id("btn-duplicate-question")));
+        clickAndWaitForNewQuestion(getQuestionForm(questionNum).findElement(By.id("btn-duplicate-question")));
     }
 
     public void deleteQuestion(int questionNum) {
@@ -678,12 +678,22 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    private int getNumQuestions() {
+        return browser.driver.findElements(By.tagName("tm-question-edit-form")).size();
+    }
+
+    private void clickAndWaitForNewQuestion(WebElement button) {
+        int newQuestionNum = getNumQuestions() + 1;
+        click(button);
+        waitForElementPresence(By.id("question-form-" + newQuestionNum));
+    }
+
     private WebElement getQuestionForm(int questionNum) {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).get(questionNum - 1);
     }
 
     private FeedbackQuestionType getQuestionType(int questionNum) {
-        String questionDetails = getQuestionForm(questionNum).findElement(By.id("question-type")).getText();
+        String questionDetails = getQuestionForm(questionNum).findElement(By.id("question-header")).getText();
         String questionType = questionDetails.split(" \\d+ ")[1].trim();
 
         switch (questionType) {
@@ -760,7 +770,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
-            selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION);
+            selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
 
         WebElement questionForm = getQuestionForm(questionNum);

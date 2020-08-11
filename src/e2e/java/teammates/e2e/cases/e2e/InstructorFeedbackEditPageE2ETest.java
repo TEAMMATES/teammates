@@ -68,7 +68,6 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.addTemplateQuestion(1);
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
-        ThreadHelper.waitFor(1000);
         feedbackEditPage.verifyNumQuestions(1);
         feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
         verifyPresentInDatastore(templateQuestion);
@@ -81,7 +80,6 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetails().getQuestionText());
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
-        ThreadHelper.waitFor(1000);
         feedbackEditPage.verifyNumQuestions(2);
         feedbackEditPage.verifyQuestionDetails(2, questionToCopy);
         verifyPresentInDatastore(questionToCopy);
@@ -92,11 +90,10 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.editQuestionNumber(2, 1);
 
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");
-        ThreadHelper.waitFor(1000);
-        feedbackEditPage.verifyQuestionDetails(1, questionToCopy);
-        feedbackEditPage.verifyQuestionDetails(2, templateQuestion);
         verifyReorder(questionToCopy);
         verifyReorder(templateQuestion);
+        feedbackEditPage.verifyQuestionDetails(1, questionToCopy);
+        feedbackEditPage.verifyQuestionDetails(2, templateQuestion);
 
         ______TS("edit question");
         FeedbackQuestionAttributes editedQuestion = getTemplateQuestion();
@@ -115,7 +112,6 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.duplicateQuestion(1);
 
         feedbackEditPage.verifyStatusMessage("The question has been duplicated below.");
-        ThreadHelper.waitFor(1000);
         feedbackEditPage.verifyNumQuestions(3);
         feedbackEditPage.verifyQuestionDetails(3, editedQuestion);
         verifyPresentInDatastore(editedQuestion);

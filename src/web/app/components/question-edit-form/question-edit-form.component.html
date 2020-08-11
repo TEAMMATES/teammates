@@ -1,9 +1,9 @@
-<div class="card">
+<div id="question-form-{{ model.questionNumber }}" class="card">
   <div class="card-header bg-primary text-white cursor-pointer" (click)="triggerModelChange('isCollapsed', !model.isCollapsed)">
     <div class="collapse-caret">
       <tm-panel-chevron [isExpanded]="!model.isCollapsed"></tm-panel-chevron>
     </div>
-    <div id="question-type">
+    <div id="question-header">
       <strong>Question <span id="question-number" *ngIf="!model.isEditable">{{ model.questionNumber }}</span></strong>
       <select id="question-number-dropdown" class="form-control question-number-select" [ngModel]="model.questionNumber" (ngModelChange)="triggerModelChange('questionNumber', $event)" *ngIf="model.isEditable" (click)="$event.stopPropagation()">
         <option *ngFor="let i of range(numOfQuestions)" [ngValue]="i + 1">{{ i + 1 }}</option>
@@ -69,7 +69,7 @@
                 <div class="question-basic-info">[Optional]<br/>Description</div>
               </div>
               <div class="col-md-10">
-                <tm-rich-text-editor id="question-description" [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="100"
+                <tm-rich-text-editor [richText]="model.questionDescription" (richTextChange)="triggerModelChange('questionDescription', $event)" [isDisabled]="!model.isEditable" minHeightInPx="100"
                                      placeholderText="More details about the question e.g. &quot;In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.&quot;"
                 ></tm-rich-text-editor>
               </div>
