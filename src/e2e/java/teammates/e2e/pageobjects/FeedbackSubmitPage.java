@@ -272,7 +272,8 @@ public class FeedbackSubmitPage extends AppPage {
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {
         scrollElementToCenter(commentSection);
-        writeToRichTextEditor(commentSection.findElement(By.cssSelector("textarea")), comment);
+        waitForElementPresence(By.tagName("editor"));
+        writeToRichTextEditor(commentSection.findElement(By.tagName("editor")), comment);
     }
 
     private List<WebElement> getMcqOptions(int qnNumber, int recipientNumber) {

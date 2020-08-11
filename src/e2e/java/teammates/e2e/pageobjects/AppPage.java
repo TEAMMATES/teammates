@@ -377,9 +377,14 @@ public abstract class AppPage {
     /**
      * Write rich text to editor.
      */
-    protected void writeToRichTextEditor(WebElement textArea, String text) {
-        executeScript(String.format("tinyMCE.get('%s').setContent('%s');", textArea.getAttribute("id"), text));
-        executeScript("tinyMCE.activeEditor.save()");
+    protected void writeToRichTextEditor(WebElement editor, String text) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
+        click(browser.driver.findElement(By.id("tinymce")));
+        browser.driver.switchTo().defaultContent();
+
+        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
+                + " tinyMCE.activeEditor.save()", text));
     }
 
     /**
