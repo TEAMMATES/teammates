@@ -16,7 +16,7 @@
         <div class="row profile-pic-row">
           <div class="col-md-12 cursor-pointer">
             <button
-                class="btn btn-primary upload-edit-photo"
+                class="btn btn-primary upload-edit-photo btn-margin-right"
                 ngbTooltip=".jpg or .png, max size 5 MB"
                 (click)="onUploadEdit()">
               Upload/Edit Photo
@@ -81,8 +81,8 @@
             </div>
           </div>
           <div class="form-group">
-          <label ngbTooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc">
-            More Information about Yourself</label>
+            <label class="ngb-tooltip-class" ngbTooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc">
+              More Information about Yourself</label>
             <textarea
                 class="form-control"
                 id="studentprofilemoreinfo"

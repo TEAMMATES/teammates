@@ -122,7 +122,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-light btn-sm button"
+            class="btn btn-primary btn-sm button"
             href="/web/student/course?courseid=CS2103"
             routerlink="/web/student/course"
           >
@@ -179,13 +179,12 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </td>
               <td>
                 <a
-                  class="btn btn-light btn-sm"
+                  class="btn btn-light btn-sm btn-margin-right"
                   href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
-                   
                 
                 <a
                   class="btn btn-light btn-sm disabled"
@@ -225,13 +224,12 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </td>
               <td>
                 <a
-                  class="btn btn-light btn-sm disabled"
+                  class="btn btn-light btn-sm btn-margin-right disabled"
                   href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
-                   
                 
                 
                 <a
@@ -265,7 +263,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-light btn-sm button"
+            class="btn btn-primary btn-sm button"
             href="/web/student/course?courseid=CS2102"
             routerlink="/web/student/course"
           >
@@ -322,13 +320,12 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </td>
               <td>
                 <a
-                  class="btn btn-light btn-sm disabled"
+                  class="btn btn-light btn-sm btn-margin-right disabled"
                   href="/web/student/sessions/result?courseid=CS2102&fsname=Third%20Session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
-                   
                 
                 
                 
@@ -363,13 +360,12 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </td>
               <td>
                 <a
-                  class="btn btn-light btn-sm disabled"
+                  class="btn btn-light btn-sm btn-margin-right disabled"
                   href="/web/student/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
                   routerlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
-                   
                 
                 
                 
@@ -518,7 +514,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           class="card-header-btn-toolbar"
         >
           <a
-            class="btn btn-light btn-sm button"
+            class="btn btn-primary btn-sm button"
             href="/web/student/course?courseid=CS3281"
             routerlink="/web/student/course"
           >

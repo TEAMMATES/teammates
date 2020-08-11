@@ -7,9 +7,9 @@
         <div id="deleted-sessions-heading" class="card-header bg-secondary text-white cursor-pointer" (click)="recycleBinExpandEvent.emit()">
           <b>Recycle Bin</b>
           <div class="card-header-btn-toolbar">
-            <button id="btn-restore-all" type="button" class="btn btn-light btn-sm" ngbTooltip="Restore all feedback sessions"
+            <button id="btn-restore-all" type="button" class="btn btn-secondary btn-sm" ngbTooltip="Restore all feedback sessions"
                     (click)="$event.stopPropagation(); restoreAllRecycleBinFeedbackSessionEvent.emit()"><i class="fas fa-check"></i> Restore All</button>
-            <button id="btn-delete-all" type="button" class="btn btn-light btn-sm text-danger" ngbTooltip="Permanently delete all feedback sessions"
+            <button id="btn-delete-all" type="button" class="btn btn-secondary btn-sm" ngbTooltip="Permanently delete all feedback sessions"
                     (click)="$event.stopPropagation(); permanentDeleteAllSessionsEvent.emit()"><i class="fas fa-times"></i> Delete All</button>
             <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
           </div>
@@ -58,12 +58,12 @@
             <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
             <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
             <td>
-              <span [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
+              <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </span>
             </td>
             <td>
-              <span [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
+              <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.deletedAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}
               </span>
             </td>

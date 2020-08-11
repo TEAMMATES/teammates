@@ -56,7 +56,7 @@
         <div class="col-md-6">
           <div>
             <label class="control-label">
-              <b ngbTooltip="View results in different formats">View:</b>
+              <b ngbTooltip="View results in different formats" class="ngb-tooltip-class">View:</b>
             </label>
             <div>
               <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
@@ -70,7 +70,7 @@
           </div>
           <div>
             <label class="control-label mt-md-1">
-              <b ngbTooltip="View results by sections">Section:</b>
+              <b ngbTooltip="View results by sections" class="ngb-tooltip-class">Section:</b>
             </label>
             <div>
               <select class="form-control" [(ngModel)]="section">
@@ -81,7 +81,7 @@
             </div>
           </div>
           <div *ngIf="section">
-          <label class="control-label" ngbTooltip="Choose the way responses for the selected section is viewed">
+          <label class="control-label ngb-tooltip-class" ngbTooltip="Choose the way responses for the selected section is viewed">
               If showing only a section:
             </label>
             <div>
@@ -112,7 +112,7 @@
   </div>
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
     <div class="top-padded col-md-2 offset-md-10">
-      <button class="btn expand-btn action-btn btn-light" (click)="toggleExpandAllHandler()">
+      <button class="btn action-btn btn-light" (click)="toggleExpandAllHandler()">
         {{this.isExpandAll ? "Collapse": "Expand"}} All
       </button>
     </div>

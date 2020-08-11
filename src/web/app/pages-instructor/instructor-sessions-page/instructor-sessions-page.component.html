@@ -1,9 +1,9 @@
-<div class="alert alert-warning" role="alert" *ngIf="hasCoursesLoaded && courseCandidates.length === 0 && !hasCourseLoadingFailed">
+<div class="alert alert-warning" role="alert" *ngIf="!isCoursesLoading && courseCandidates.length === 0 && !hasCourseLoadingFailed">
   You have not created any courses yet, or you have no active courses. Go <a href="#" (click)="createOrUnarchiveCourse(); $event.preventDefault()">here</a> to create or unarchive a course.
 </div>
 
 <div>
-  <button id="btn-add-session" class="btn btn-primary" (click)="isSessionEditFormExpanded = true"
+  <button id="btn-add-session" class="btn btn-success" (click)="isSessionEditFormExpanded = true"
           [disabled]="isSessionEditFormExpanded"><i class="fas fa-plus"></i> Add New Feedback Session
   </button>
 </div>
@@ -19,11 +19,11 @@
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed" [message]="'Failed to load data'"
                   (retryEvent)="retryLoadingAllData()">
   <div class="margin-top-30px">
-    <div *tmIsLoading="!hasCoursesLoaded">
-      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0">
+    <div *tmIsLoading="isCoursesLoading">
+      <div class="alert alert-warning margin-top-30px" role="alert" *ngIf="sessionsTableRowModels.length === 0 && !isFeedbackSessionsLoading">
         You have not created any sessions yet. Use the form above to create a session.
       </div>
-      <tm-sessions-table *tmIsLoading="!hasCoursesLoaded"
+      <tm-sessions-table *tmIsLoading="isFeedbackSessionsLoading"
                          [sessionsTableRowModels]="sessionsTableRowModels" [sessionsTableRowModelsSortBy]="sessionsTableRowModelsSortBy" [sessionsTableRowModelsSortOrder]="sessionsTableRowModelsSortOrder"
                          [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                          [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
@@ -50,6 +50,7 @@
 
   <div class="margin-top-30px">
     <tm-sessions-recycle-bin-table
+        *tmIsLoading="isRecycleBinLoading"
         [isRecycleBinExpanded]="isRecycleBinExpanded"
         [recycleBinFeedbackSessionRowModels]="recycleBinFeedbackSessionRowModels"
         [recycleBinFeedbackSessionRowModelsSortBy]="recycleBinFeedbackSessionRowModelsSortBy"

@@ -37,7 +37,7 @@
         </th>
         <th>Submissions</th>
         <th>Responses</th>
-        <th ngbTooltip="Number of students submitted / Class size" container="body"><span >Response Rate</span></th>
+        <th class="ngb-tooltip-class" ngbTooltip="Number of students submitted / Class size" container="body"><span >Response Rate</span></th>
         <th class="text-center">Action(s)</th>
       </tr>
       </thead>
@@ -46,14 +46,14 @@
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
         <td>{{ sessionsTableRowModel.feedbackSession.feedbackSessionName }}</td>
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
-          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone" >{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone" >{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
-          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
         <td>
-          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
         </td>
         <td>
-          <span [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>
         </td>
         <td>
           <a id="show-response-rate-{{ idx }}" href="#" *ngIf="sessionsTableRowModel.responseRate.length === 0 && !sessionsTableRowModel.isLoadingResponseRate" (click)="loadResponseRateEvent.emit(idx); $event.preventDefault()">Show</a>
