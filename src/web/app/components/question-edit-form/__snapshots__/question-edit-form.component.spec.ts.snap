@@ -28,6 +28,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
 >
   <div
     class="card"
+    id="question-form-0"
   >
     <div
       class="card-header bg-primary text-white cursor-pointer"
@@ -48,7 +49,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         </tm-panel-chevron>
       </div>
       <div
-        id="question-type"
+        id="question-header"
       >
         <strong>
           Question 
@@ -70,12 +71,8 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         <div>
           
           <button
-<<<<<<< HEAD
-            class="btn btn-light btn-sm"
-            id="btn-edit-question"
-=======
             class="btn btn-primary btn-sm"
->>>>>>> 62ae71574cc873d18e6cfbbb780d0bfa8763b1b2
+            id="btn-edit-question"
             type="button"
           >
             <i
@@ -86,12 +83,8 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           
           
           <button
-<<<<<<< HEAD
-            class="btn btn-light btn-sm"
-            id="btn-delete-question"
-=======
             class="btn btn-primary btn-sm"
->>>>>>> 62ae71574cc873d18e6cfbbb780d0bfa8763b1b2
+            id="btn-delete-question"
             type="button"
           >
             <i
@@ -173,7 +166,6 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   class="col-md-10"
                 >
                   <tm-rich-text-editor
-                    id="question-description"
                     minheightinpx="100"
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
