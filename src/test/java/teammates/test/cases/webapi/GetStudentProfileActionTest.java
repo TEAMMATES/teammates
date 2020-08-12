@@ -93,7 +93,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     }
 
     @Test
-    public void testExecute_getProfileOfUnregisteredStudent_shouldReturnNotFoundMessage() throws Exception {
+    public void testExecute_getProfileOfUnregisteredStudent_shouldReturnEmptyProfile() throws Exception {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         // Prepare an unregistered teammate
         StudentAttributes unregisteredStudentInCourse1 =
@@ -110,9 +110,19 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
                 Const.ParamsNames.COURSE_ID, unregisteredStudentInCourse1.getCourse(),
         };
         loginAsStudent(student1InCourse1.getGoogleId());
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder("").build();
+
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
+        assertEquals("unregistered student in course 1", actualProfile.getName());
+        assertNull(actualProfile.getEmail());
+        assertNull(expectedProfile.shortName, actualProfile.getShortName());
+        assertEquals(expectedProfile.institute, actualProfile.getInstitute());
+        assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
+        assertEquals(expectedProfile.nationality, actualProfile.getNationality());
+        assertEquals(expectedProfile.gender, actualProfile.getGender());
     }
 
     private void testGetCorrectProfile(StudentProfileAttributes expectedProfile,
