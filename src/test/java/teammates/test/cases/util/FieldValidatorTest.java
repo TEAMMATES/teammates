@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.StringHelperExtension;
@@ -41,8 +40,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String actual = FieldValidator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
         assertEquals("Invalid unsanitized input should return error string",
                      "The provided Inconsequential test field name is not acceptable to TEAMMATES as it "
-                         + "cannot contain the following special html characters in brackets: (&lt; &gt; &quot; "
-                         + "&#x2f; &#39; &amp;)",
+                         + "cannot contain the following special html characters in brackets: (< > \" / ' &)",
                      actual);
     }
 
@@ -114,7 +112,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     "\"Dr. Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is "
+                     "\"Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is "
                          + "not acceptable to TEAMMATES as a/an name field because it contains invalid "
                          + "characters. A/An name field must start with an alphanumeric character, and cannot "
                          + "contain any vertical bar (|) or percent sign (%).",
@@ -125,7 +123,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     "\"!Amy-Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
+                     "\"!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is not "
                          + "acceptable to TEAMMATES as a/an name field because it starts with a "
                          + "non-alphanumeric character. A/An name field must start with an alphanumeric "
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
@@ -136,7 +134,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters",
-                     "\"{Amy} -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={}[]\\:;&quot;&lt;&gt;?)\" is not "
+                     "\"{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is not "
                          + "acceptable to TEAMMATES as a/an name field because it contains invalid "
                          + "characters. A/An name field must start with an alphanumeric character, and cannot "
                          + "contain any vertical bar (|) or percent sign (%).",
@@ -147,7 +145,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character",
-                     "\"{Amy -Bén s&#x2f;o O&#39;&amp;|% 2\t\n (~!@#$^*+_={[]\\:;&quot;&lt;&gt;?)\" is not "
+                     "\"{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)\" is not "
                          + "acceptable to TEAMMATES as a/an name field because it starts with a "
                          + "non-alphanumeric character. A/An name field must start with an alphanumeric "
                          + "character, and cannot contain any vertical bar (|) or percent sign (%).",
@@ -230,8 +228,7 @@ public class FieldValidatorTest extends BaseTestCase {
         invalidNationality = "<script> alert('hi!'); </script>";
         actual = FieldValidator.getInvalidityInfoForNationality(invalidNationality);
         assertEquals("Unsanitized, invalid nationality should return sanitized error string",
-                     String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(
-                     invalidNationality)), actual);
+                     String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, invalidNationality), actual);
     }
 
     @Test
@@ -309,8 +306,7 @@ public class FieldValidatorTest extends BaseTestCase {
         invalidRole = "<script> alert('hi!'); </script>";
         actual = FieldValidator.getInvalidityInfoForRole(invalidRole);
         assertEquals("Unsanitized, invalid role should return appropriate error string",
-                String.format(FieldValidator.ROLE_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(invalidRole)),
-                actual);
+                String.format(FieldValidator.ROLE_ERROR_MESSAGE, invalidRole), actual);
     }
 
     @Test
@@ -387,7 +383,7 @@ public class FieldValidatorTest extends BaseTestCase {
 
         String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
         assertEquals("Invalid Google ID (contains HTML characters) should return appropriate error message",
-                     "\"invalid google id with HTML&#x2f;&lt; special characters\" is not acceptable to "
+                     "\"invalid google id with HTML/< special characters\" is not acceptable to "
                          + "TEAMMATES as a/an Google ID because it is not in the correct format. A Google ID "
                          + "must be a valid id already registered with Google. It cannot be longer than 254 "
                          + "characters, cannot be empty and cannot contain spaces.",
