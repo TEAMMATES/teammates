@@ -177,7 +177,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         ______TS("download results");
         feedbackSessionsPage.downloadResults(openSession);
         ThreadHelper.waitFor(5000);
-        verifyDownloadedFile(fileName);
+        verifyDownloadedFile("Question 1,Testing question text", fileName);
 
         ______TS("soft delete session");
         closedSession.setDeletedTime(Instant.now());
