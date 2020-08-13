@@ -43,16 +43,17 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
         verifyNoExistingSession(r);
 
-        ______TS("Typical use case");
+        ______TS("Typical use case; one ongoing session, should be returned");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor1OfCourse1.courseId;
+        String feedbackSessionName = "new-session";
 
         Instant startTime = Instant.now();
         Instant endTime = Instant.now().plus(5, ChronoUnit.DAYS);
 
         logic.createFeedbackSession(
-                FeedbackSessionAttributes.builder("new-session", courseId)
+                FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
                         .withCreatorEmail(instructor1OfCourse1.email)
                         .withStartTime(startTime)
                         .withEndTime(endTime)
@@ -77,6 +78,37 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalOngoingSessions());
         assertEquals(1, response.getTotalInstitutes());
         assertEquals(1, response.getSessions().size());
+
+        ______TS("Typical use case; one future session, should not be returned");
+
+        startTime = Instant.now().minus(2, ChronoUnit.DAYS);
+        endTime = Instant.now().minus(1, ChronoUnit.DAYS);
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(startTime.toEpochMilli()),
+                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(endTime.toEpochMilli()),
+        };
+
+        getOngoingSessionsAction = getAction(params);
+        r = getJsonResult(getOngoingSessionsAction);
+
+        verifyNoExistingSession(r);
+
+        ______TS("Typical use case; one past session, should not be returned");
+
+        startTime = Instant.now().plus(6, ChronoUnit.DAYS);
+        endTime = Instant.now().plus(7, ChronoUnit.DAYS);
+
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_STARTTIME, String.valueOf(startTime.toEpochMilli()),
+                Const.ParamsNames.FEEDBACK_SESSION_ENDTIME, String.valueOf(endTime.toEpochMilli()),
+        };
+
+        getOngoingSessionsAction = getAction(params);
+        r = getJsonResult(getOngoingSessionsAction);
+
+        verifyNoExistingSession(r);
+
     }
 
     @Override
