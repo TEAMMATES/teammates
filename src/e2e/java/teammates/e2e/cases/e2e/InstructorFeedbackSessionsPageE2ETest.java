@@ -140,7 +140,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + "Please allow up to 1 hour for all the notification emails to be sent out.");
         feedbackSessionsPage.verifySessionDetails(openSession);
         verifySessionPublishedState(openSession, true);
-        verifyEmailSent(studentToEmail, "TEAMMATES: Feedback session results published"
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
 
@@ -149,7 +149,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        verifyEmailSent(studentToEmail, "TEAMMATES: Feedback session reminder"
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
 
@@ -159,7 +159,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("Session published notification emails have been resent"
                 + " to those students and instructors. Please allow up to 1 hour for all the notification emails to be"
                 + " sent out.");
-        verifyEmailSent(studentToEmail, "TEAMMATES: Feedback session results published"
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
 
@@ -170,14 +170,15 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been unpublished.");
         feedbackSessionsPage.verifySessionDetails(openSession);
         verifySessionPublishedState(openSession, false);
-        verifyEmailSent(studentToEmail, "TEAMMATES: Feedback session results unpublished"
+        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results unpublished"
                 + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
                 + openSession.getFeedbackSessionName() + "]");
 
         ______TS("download results");
         feedbackSessionsPage.downloadResults(openSession);
         ThreadHelper.waitFor(5000);
-        verifyDownloadedFile("Question 1,Testing question text", fileName);
+        verifyDownloadedFile("Course,CFeedbackSessionsE2eT.CS1101\r\nSession Name,Second Session\r\n"
+                + "\r\n\r\nQuestion 1,Testing question text", fileName);
 
         ______TS("soft delete session");
         closedSession.setDeletedTime(Instant.now());

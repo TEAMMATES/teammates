@@ -7,7 +7,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -175,24 +174,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     /**
-     * Verifies that email with subject is found in the student inbox.
-     * Student email used must be an authentic gmail account.
+     * Verifies that email with subject is found in inbox.
+     * Email used must be an authentic gmail account.
      */
-    protected void verifyEmailSent(StudentAttributes student, String subject) {
+    protected void verifyEmailSent(String email, String subject) {
         if (TestProperties.isDevServer()) {
             return;
         }
-        EmailAccount email = new EmailAccount(student.getEmail());
+        EmailAccount emailAccount = new EmailAccount(email);
         try {
-            email.getUserAuthenticated();
+            emailAccount.getUserAuthenticated();
             int retryLimit = 5;
-            boolean actual = email.isEmailWithSubjectPresent(subject);
+            boolean actual = emailAccount.isEmailWithSubjectPresent(subject);
             while (!actual && retryLimit > 0) {
                 retryLimit--;
                 ThreadHelper.waitFor(1000);
-                actual = email.isEmailWithSubjectPresent(subject);
+                actual = emailAccount.isEmailWithSubjectPresent(subject);
             }
-            email.markAllUnreadEmailAsRead();
+            emailAccount.markAllUnreadEmailAsRead();
             assertTrue(actual);
         } catch (Exception e) {
             fail("Failed to verify email sent:" + e);
