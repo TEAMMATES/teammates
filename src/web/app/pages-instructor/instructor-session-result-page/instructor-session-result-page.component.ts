@@ -19,12 +19,12 @@ import {
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
-  FeedbackSessionPublishStatus,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
   Instructor,
   QuestionOutput,
-  ResponseOutput,
-  SessionResults,
+  ResponseOutput, ResponseVisibleSetting,
+  SessionResults, SessionVisibleSetting,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -108,6 +108,23 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
+
+  session: FeedbackSession = {
+    courseId: '',
+    timeZone: '',
+    feedbackSessionName: '',
+    instructions: '',
+    submissionStartTimestamp: 0,
+    submissionEndTimestamp: 0,
+    gracePeriod: 0,
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+    createdAtTimestamp: 0,
+  };
 
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?:
     InstructorSessionNoResponsePanelComponent;
