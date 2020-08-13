@@ -28,6 +28,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
 >
   <div
     class="card"
+    id="question-form-0"
   >
     <div
       class="card-header bg-primary text-white cursor-pointer"
@@ -47,11 +48,15 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           </div>
         </tm-panel-chevron>
       </div>
-      <div>
+      <div
+        id="question-header"
+      >
         <strong>
           Question 
           
-          <span>
+          <span
+            id="question-number"
+          >
             0
           </span>
         </strong>
@@ -67,6 +72,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           
           <button
             class="btn btn-primary btn-sm"
+            id="btn-edit-question"
             type="button"
           >
             <i
@@ -78,6 +84,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           
           <button
             class="btn btn-primary btn-sm"
+            id="btn-delete-question"
             type="button"
           >
             <i
@@ -88,6 +95,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
           <button
             class="btn btn-primary btn-sm"
             container="body"
+            id="btn-duplicate-question"
             ngbtooltip="Make a copy of the existing question and add to the current feedback session."
             type="button"
           >
@@ -135,6 +143,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <textarea
                     class="form-control ng-untouched ng-pristine ng-valid"
                     disabled=""
+                    id="question-brief"
                     placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
                   />
                 </div>
@@ -233,6 +242,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               aria-haspopup="true"
               class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
+              id="btn-feedback-path"
               ngbdropdowntoggle=""
             >
               
@@ -249,6 +259,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </button>
             <ul
               class="dropdown-menu"
+              id="feedback-path-dropdown"
               ngbdropdownmenu=""
               x-placement="bottom"
             >
@@ -294,6 +305,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     <input
                       class="ng-untouched ng-pristine ng-valid"
                       disabled=""
+                      id="custom-recipients"
                       type="radio"
                     />
                   </div>
@@ -301,6 +313,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 <input
                   class="form-control ng-untouched ng-pristine ng-valid"
                   disabled=""
+                  id="custom-recipients-number"
                   min="1"
                   type="number"
                 />
@@ -318,6 +331,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <input
                     class="form-check-input ng-untouched ng-pristine ng-valid"
                     disabled=""
+                    id="unlimited-recipients"
                     type="radio"
                   />
                    Unlimited 
@@ -347,6 +361,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               aria-haspopup="true"
               class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
+              id="btn-question-visibility"
               ngbdropdowntoggle=""
             >
               
@@ -359,6 +374,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </button>
             <ul
               class="dropdown-menu"
+              id="question-visibility-dropdown"
               ngbdropdownmenu=""
               x-placement="bottom"
             >
