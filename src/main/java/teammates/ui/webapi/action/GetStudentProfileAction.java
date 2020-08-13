@@ -18,8 +18,6 @@ public class GetStudentProfileAction extends Action {
             + " so you cannot view your profile";
     private static final String MESSAGE_STUDENT_NOT_FOUND = "The student is not in the course you are given,"
             + " so you cannot access the profile.";
-    private static final String MESSAGE_STUDENT_NOT_REGISTERED = "The student has not registered,"
-            + " and does not have profile";
 
     @Override
     protected AuthType getMinAuthLevel() {
@@ -52,7 +50,11 @@ public class GetStudentProfileAction extends Action {
         String studentId;
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String studentName = "";
         if (studentEmail == null || courseId == null) {
+            if (userInfo == null) {
+                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+            }
             studentId = userInfo.id;
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
@@ -60,24 +62,26 @@ public class GetStudentProfileAction extends Action {
                 return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
             }
             studentId = student.getGoogleId();
+            studentName = student.getName();
         }
+
+        StudentProfileAttributes studentProfile;
 
         if (StringHelper.isEmpty(studentId)) {
-            // The student has not registered.
-            return new JsonResult(MESSAGE_STUDENT_NOT_REGISTERED, HttpStatus.SC_NOT_FOUND);
+            studentProfile = StudentProfileAttributes.builder("").build();
+        } else {
+            studentProfile = logic.getStudentProfile(studentId);
+            studentName = logic.getAccount(studentId).name;
         }
-
-        StudentProfileAttributes studentProfile = logic.getStudentProfile(studentId);
-        String name = logic.getAccount(studentId).name;
 
         if (studentProfile == null) {
             // create one on the fly
             studentProfile = StudentProfileAttributes.builder(studentId).build();
         }
 
-        StudentProfileData output = new StudentProfileData(name, studentProfile);
+        StudentProfileData output = new StudentProfileData(studentName, studentProfile);
         // If student requesting and is not the student's own profile, hide some fields
-        if (userInfo.isStudent && !userInfo.isInstructor && !studentId.equals(userInfo.id)) {
+        if (userInfo == null || userInfo.isStudent && !userInfo.isInstructor && !studentId.equals(userInfo.id)) {
             output.hideInformationWhenViewedByOtherStudent();
         }
 

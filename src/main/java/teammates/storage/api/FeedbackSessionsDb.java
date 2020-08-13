@@ -52,11 +52,18 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                         Instant.ofEpochMilli(rangeStart.toEpochMilli()).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW))
                 .list();
 
-        // remove duplications
-        endEntities.removeAll(startEntities);
-        endEntities.addAll(startEntities);
+        List<String> startEntitiesIds = startEntities.stream()
+                .map(session -> session.getCourseId() + "::" + session.getFeedbackSessionName())
+                .collect(Collectors.toList());
 
-        return makeAttributes(endEntities);
+        List<FeedbackSession> ongoingSessions = endEntities.stream()
+                .filter(session -> {
+                    String id = session.getCourseId() + "::" + session.getFeedbackSessionName();
+                    return startEntitiesIds.contains(id);
+                })
+                .collect(Collectors.toList());
+
+        return makeAttributes(ongoingSessions);
     }
 
     /**
