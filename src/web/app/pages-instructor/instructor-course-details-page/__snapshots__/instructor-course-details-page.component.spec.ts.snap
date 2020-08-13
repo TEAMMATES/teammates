@@ -16,7 +16,10 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
   students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
     
@@ -58,7 +61,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
   students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
     
@@ -228,7 +234,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
   students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
     
@@ -614,7 +623,10 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
   students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
     
