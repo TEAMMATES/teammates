@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the "Sessions" page for Instructors.
@@ -204,7 +203,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     public void moveToRecycleBin(FeedbackSessionAttributes sessionToDelete) {
         int rowId = getFeedbackSessionRowId(sessionToDelete.getCourseId(), sessionToDelete.getFeedbackSessionName());
         clickAndConfirm(browser.driver.findElement(By.id("btn-soft-delete-" + rowId)));
-        ThreadHelper.waitFor(1000);
+        waitUntilAnimationFinish();
     }
 
     public void restoreSession(FeedbackSessionAttributes sessionToRestore) {
@@ -212,7 +211,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getFeedbackSessionName());
         click(browser.driver.findElement(By.id("btn-restore-" + rowId)));
-        ThreadHelper.waitFor(1000);
+        waitUntilAnimationFinish();
     }
 
     public void deleteSession(FeedbackSessionAttributes sessionToRestore) {
@@ -220,23 +219,23 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getFeedbackSessionName());
         clickAndConfirm(browser.driver.findElement(By.id("btn-delete-" + rowId)));
-        ThreadHelper.waitFor(1000);
+        waitUntilAnimationFinish();
     }
 
     public void restoreAllSessions() {
         click(restoreAllButton);
-        ThreadHelper.waitFor(1000);
+        waitUntilAnimationFinish();
     }
 
     public void deleteAllSessions() {
         clickAndConfirm(deleteAllButton);
-        ThreadHelper.waitFor(1000);
+        waitUntilAnimationFinish();
     }
 
     public void showDeleteTable() {
         if (!isElementVisible(By.id("sort-deleted-course-id"))) {
             click(deleteTableHeading);
-            ThreadHelper.waitFor(1000);
+            waitUntilAnimationFinish();
         }
     }
 
