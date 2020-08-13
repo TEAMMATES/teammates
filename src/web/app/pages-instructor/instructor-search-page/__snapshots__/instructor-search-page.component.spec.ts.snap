@@ -55,53 +55,53 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
                 Search
               </button>
             </div>
+          </div>
+          <div
+            class="input-group mt-md-1"
+          >
             <div
-              class="input-group mt-md-1"
+              class="col-md-3"
             >
-              <div
-                class="col-md-3"
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="studentsCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="studentsCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="studentsCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="studentsCheckbox"
-                >
-                  <b>
-                    Students
-                  </b>
-                </label>
-              </div>
-              <div
-                class="col-md-9"
+                <b>
+                  Students
+                </b>
+              </label>
+            </div>
+            <div
+              class="col-md-9"
+            >
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="commentCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="commentCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="commentCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="commentCheckbox"
-                >
-                  <b>
-                    Questions, responses, comments on responses
-                  </b>
-                </label>
-              </div>
-              <div
-                class="invalid-field mt-md-1"
-                hidden=""
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
-                />
-                   Please select at least one search type. 
-              </div>
+                <b>
+                  Questions, responses, comments on responses
+                </b>
+              </label>
+            </div>
+            <div
+              class="invalid-field mt-md-1"
+              hidden=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+                 Please select at least one search type. 
             </div>
           </div>
         </div>
@@ -170,53 +170,53 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                 Search
               </button>
             </div>
+          </div>
+          <div
+            class="input-group mt-md-1"
+          >
             <div
-              class="input-group mt-md-1"
+              class="col-md-3"
             >
-              <div
-                class="col-md-3"
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="studentsCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="studentsCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="studentsCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="studentsCheckbox"
-                >
-                  <b>
-                    Students
-                  </b>
-                </label>
-              </div>
-              <div
-                class="col-md-9"
+                <b>
+                  Students
+                </b>
+              </label>
+            </div>
+            <div
+              class="col-md-9"
+            >
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="commentCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="commentCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="commentCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="commentCheckbox"
-                >
-                  <b>
-                    Questions, responses, comments on responses
-                  </b>
-                </label>
-              </div>
-              <div
-                class="invalid-field mt-md-1"
-                hidden=""
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
-                />
-                   Please select at least one search type. 
-              </div>
+                <b>
+                  Questions, responses, comments on responses
+                </b>
+              </label>
+            </div>
+            <div
+              class="invalid-field mt-md-1"
+              hidden=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+                 Please select at least one search type. 
             </div>
           </div>
         </div>
@@ -724,53 +724,53 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
                 Search
               </button>
             </div>
+          </div>
+          <div
+            class="input-group mt-md-1"
+          >
             <div
-              class="input-group mt-md-1"
+              class="col-md-3"
             >
-              <div
-                class="col-md-3"
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="studentsCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="studentsCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="studentsCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="studentsCheckbox"
-                >
-                  <b>
-                    Students
-                  </b>
-                </label>
-              </div>
-              <div
-                class="col-md-9"
+                <b>
+                  Students
+                </b>
+              </label>
+            </div>
+            <div
+              class="col-md-9"
+            >
+              <input
+                class="form-check-inline ng-untouched ng-pristine ng-valid"
+                id="commentCheckbox"
+                type="checkbox"
+              />
+              <label
+                class="form-check-label"
+                for="commentCheckbox"
               >
-                <input
-                  class="form-check-inline ng-untouched ng-pristine ng-valid"
-                  id="commentCheckbox"
-                  type="checkbox"
-                />
-                <label
-                  class="form-check-label"
-                  for="commentCheckbox"
-                >
-                  <b>
-                    Questions, responses, comments on responses
-                  </b>
-                </label>
-              </div>
-              <div
-                class="invalid-field mt-md-1"
-                hidden=""
-              >
-                <i
-                  aria-hidden="true"
-                  class="fa fa-exclamation-circle"
-                />
-                   Please select at least one search type. 
-              </div>
+                <b>
+                  Questions, responses, comments on responses
+                </b>
+              </label>
+            </div>
+            <div
+              class="invalid-field mt-md-1"
+              hidden=""
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle"
+              />
+                 Please select at least one search type. 
             </div>
           </div>
         </div>
