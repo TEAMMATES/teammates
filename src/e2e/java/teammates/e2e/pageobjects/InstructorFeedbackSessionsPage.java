@@ -344,8 +344,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     private void setInstructions(String newInstructions) {
-        click(instructionsEditor);
-        writeToActiveRichTextEditor(newInstructions);
+        writeToRichTextEditor(instructionsEditor, newInstructions);
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {

@@ -15,7 +15,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -305,8 +304,8 @@ public final class StudentsLogic {
 
                 errorMessage.add(String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME,
                         currentStudent.team,
-                        SanitizationHelper.sanitizeForHtml(previousStudent.section),
-                        SanitizationHelper.sanitizeForHtml(currentStudent.section)));
+                        previousStudent.section,
+                        currentStudent.section));
 
                 invalidTeamList.add(currentStudent.team);
             }

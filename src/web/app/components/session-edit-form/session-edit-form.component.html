@@ -35,10 +35,10 @@
     <div class="row" *ngIf="formMode === SessionEditFormMode.EDIT">
       <div class="col-12 text-center text-md-right session-form-buttons">
         <button id="btn-fs-edit" type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" [disabled]="model.isSaving" *ngIf="formMode == SessionEditFormMode.EDIT && !model.isEditable"><i class="fas fa-pencil-alt"></i> Edit</button>
-        <button type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable"><i *ngIf="!model.isSaving" class="fas fa-check"></i><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save </button>
+        <button id="btn-fs-save" type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable"><i *ngIf="!model.isSaving" class="fas fa-check"></i><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save </button>
         <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler()" *ngIf="model.isEditable" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel </button>
-        <button type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
-        <button type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()" [disabled]="model.isSaving"><i class="far fa-copy"></i> Copy</button>
+        <button id="btn-fs-delete" type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
+        <button id="btn-fs-copy" type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()" [disabled]="model.isSaving"><i class="far fa-copy"></i> Copy</button>
       </div>
     </div>
 
@@ -57,12 +57,12 @@
                 There is no un-archived course.
               </div>
             </div>
-            <div *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
+            <div id="edit-course-id" *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
           </div>
           <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             Time Zone
           </div>
-          <div class="col-md-4 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+          <div id="time-zone" class="col-md-4 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">{{ model.timeZone }}</span>
           </div>
         </div>
@@ -71,7 +71,7 @@
           <div class="col-md-2 text-md-right font-bold">
             Course Name
           </div>
-          <div class="col-md-4 text-md-left">
+          <div id="course-name" class="col-md-4 text-md-left">
             {{ model.courseName }}
           </div>
         </div>
@@ -88,7 +88,7 @@
                 {{FEEDBACK_SESSION_NAME_MAX_LENGTH - model.feedbackSessionName.length}} characters left
               </div>
             </div>
-            <div *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.feedbackSessionName }} </div>
+            <div id="edit-session-name" *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.feedbackSessionName }} </div>
           </div>
         </div>
         <br/>
@@ -105,13 +105,13 @@
           <div class="col-md-2 text-md-right font-bold">
             Submission Status
           </div>
-          <div class="col-md-4 text-md-left">
+          <div id="submission-status" class="col-md-4 text-md-left">
             {{ model.submissionStatus | submissionStatusName }}
           </div>
           <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0">
             Published Status
           </div>
-          <div class="col-md-4 text-md-left">
+          <div id="published-status" class="col-md-4 text-md-left">
             {{ model.publishStatus | publishStatusName }}
           </div>
         </div>
@@ -243,12 +243,13 @@
               </div>
             </div>
             <div class="row mt-md-2 ml-md-1">
-              <div class="col-md-2 mt-md-1">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input id="response-visibility-custom" class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.CUSTOM" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable"/>
-                    At
-                  </label>
+                <div class="col-md-2 mt-md-1">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input id="response-visibility-custom" class="form-check-input" type="radio" name="responseVisibleRadio" [value]="ResponseVisibleSetting.CUSTOM" [ngModel]="model.responseVisibleSetting" (ngModelChange)="triggerModelChange('responseVisibleSetting', $event)" [disabled]="!model.isEditable"/>
+                      At
+                    </label>
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <div class="input-group">
@@ -261,10 +262,9 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-4">
-                <tm-time-picker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
-              </div>
+                <div class="col-md-4">
+                  <tm-time-picker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
+                </div>
             </div>
             <div class="row mt-md-2 ml-md-1">
               <div class="col-12">

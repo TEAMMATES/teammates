@@ -29,7 +29,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -124,7 +124,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -219,7 +219,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -258,7 +258,10 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -392,7 +395,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -431,7 +434,10 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -922,7 +928,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -961,7 +967,10 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -1584,7 +1593,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -1623,7 +1632,10 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -1861,7 +1873,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -1900,7 +1912,10 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     
@@ -2166,7 +2181,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   </tm-redirect-banner><h1>
     Home
   </h1><div
-    class="card bg-light mb-4"
+    class="card no-border bg-light mb-4"
   >
     <div
       class="card-body"
@@ -2205,7 +2220,10 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         href="/web/instructor/courses?isAddNewCourse=true"
         routerlink="/web/instructor/courses"
       >
-        Add New Course
+        <i
+          class="fas fa-plus"
+        />
+         Add New Course 
       </a>
     </div>
     

@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,20 +33,27 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.CoursesData;
+import teammates.ui.webapi.output.FeedbackQuestionData;
+import teammates.ui.webapi.output.FeedbackQuestionsData;
 import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionsData;
+import teammates.ui.webapi.output.FeedbackVisibilityType;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
+import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.webapi.output.ResponseVisibleSetting;
 import teammates.ui.webapi.output.SessionVisibleSetting;
 import teammates.ui.webapi.output.StudentData;
@@ -313,14 +321,19 @@ public final class BackDoor {
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
+
         CoursesData coursesData = JsonUtils.fromJson(response.responseBody, CoursesData.class);
-        List<CourseData> courseDataList = coursesData.getCourses();
-        for (CourseData courseData : courseDataList) {
-            if (courseData.getCourseId().equals(courseId)) {
-                return courseData;
-            }
+        CourseData courseData = coursesData.getCourses()
+                .stream()
+                .filter(cd -> cd.getCourseId().equals(courseId))
+                .findFirst()
+                .orElse(null);
+
+        if (courseData == null) {
+            return null;
         }
-        return null;
+
+        return courseData;
     }
 
     /**
@@ -350,13 +363,17 @@ public final class BackDoor {
         }
 
         InstructorsData instructorsData = JsonUtils.fromJson(response.responseBody, InstructorsData.class);
-        List<InstructorData> instructorsDataList = instructorsData.getInstructors();
-        for (InstructorData instructor : instructorsDataList) {
-            if (instructor.getEmail().equals(email)) {
-                return instructor;
-            }
+        InstructorData instructorData = instructorsData.getInstructors()
+                .stream()
+                .filter(instructor -> instructor.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+
+        if (instructorData == null) {
+            return null;
         }
-        return null;
+
+        return instructorData;
     }
 
     /**
@@ -515,6 +532,77 @@ public final class BackDoor {
         return FeedbackSessionAttributes
                 .builder(feedbackSession.getCourseId(), feedbackSession.getFeedbackSessionName())
                 .build();
+    }
+
+    /**
+     * Get feedback question from datastore.
+     */
+    public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
+                                                                 int qnNumber) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
+        params.put(Const.ParamsNames.INTENT, new String[] { Intent.FULL_DETAIL.toString() });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.QUESTIONS, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        FeedbackQuestionsData questionsData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
+        FeedbackQuestionData question = questionsData.getQuestions()
+                .stream()
+                .filter(fq -> fq.getQuestionNumber() == qnNumber)
+                .findFirst()
+                .orElse(null);
+
+        if (question == null) {
+            return null;
+        }
+
+        return FeedbackQuestionAttributes.builder()
+                .withCourseId(courseId)
+                .withFeedbackSessionName(feedbackSessionName)
+                .withQuestionDetails(question.getQuestionDetails())
+                .withQuestionDescription(question.getQuestionDescription())
+                .withQuestionNumber(question.getQuestionNumber())
+                .withGiverType(question.getGiverType())
+                .withRecipientType(question.getRecipientType())
+                .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackToSetting()
+                        .equals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED)
+                        ? Const.MAX_POSSIBLE_RECIPIENTS
+                        : question.getCustomNumberOfEntitiesToGiveFeedbackTo())
+                .withShowResponsesTo(convertToFeedbackParticipantType(question.getShowResponsesTo()))
+                .withShowGiverNameTo(convertToFeedbackParticipantType(question.getShowGiverNameTo()))
+                .withShowRecipientNameTo(convertToFeedbackParticipantType(question.getShowRecipientNameTo()))
+                .build();
+    }
+
+    /**
+     * Converts List of FeedbackParticipantType to sorted List of FeedbackVisibilityType.
+     */
+    private static List<FeedbackParticipantType> convertToFeedbackParticipantType(
+            List<FeedbackVisibilityType> feedbackVisibilityTypeList) {
+        List<FeedbackParticipantType> feedbackParticipantTypeList = feedbackVisibilityTypeList.stream()
+                .map(feedbackParticipantType -> {
+                    switch (feedbackParticipantType) {
+                    case STUDENTS:
+                        return FeedbackParticipantType.STUDENTS;
+                    case INSTRUCTORS:
+                        return FeedbackParticipantType.INSTRUCTORS;
+                    case RECIPIENT:
+                        return FeedbackParticipantType.RECEIVER;
+                    case GIVER_TEAM_MEMBERS:
+                        return FeedbackParticipantType.OWN_TEAM_MEMBERS;
+                    case RECIPIENT_TEAM_MEMBERS:
+                        return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
+                    default:
+                        Assumption.fail("Unknown FeedbackVisibilityType " + feedbackParticipantType);
+                        break;
+                    }
+                    return null;
+                }).collect(Collectors.toList());
+        Collections.sort(feedbackParticipantTypeList);
+        return feedbackParticipantTypeList;
     }
 
     /**

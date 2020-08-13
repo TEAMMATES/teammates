@@ -187,6 +187,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         expected.setRespondingInstructorList(actual.getRespondingInstructorList());
         expected.setRespondingStudentList(actual.getRespondingStudentList());
         expected.setCreatedTime(actual.getCreatedTime());
+        // Not available in FeedbackSessionData and thus ignored
         expected.setCreatorEmail(actual.getCreatorEmail());
     }
 
