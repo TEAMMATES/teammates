@@ -20,6 +20,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
@@ -280,29 +281,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(fsDeleteButton);
     }
 
-    public void addTemplateQuestion(int optionNum) {
-        click(addNewQuestionButton);
-
-        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
-        click(newQuestionDropdown.findElements(By.tagName("button")).get(0));
-        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
-
-        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
+        click(previewAsStudentButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
     }
 
-    public void copyQuestion(String courseId, String questionText) {
-        click(copyQuestionButton);
-        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
-
-        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
-            }
-        }
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
+    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
+        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
+        click(previewAsInstructorButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
     }
 
     public void verifyNumQuestions(int expected) {
@@ -470,6 +462,28 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
+    public void addTemplateQuestion(int optionNum) {
+        addNewQuestion(1);
+        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
+
+        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+    }
+
+    public void copyQuestion(String courseId, String questionText) {
+        click(copyQuestionButton);
+        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
+
+        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
+                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
+            }
+        }
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
+    }
+
     public void editQuestionNumber(int questionNum, int newQuestionNumber) {
         clickEditQuestionButton(questionNum);
         selectDropdownOptionByText(getQuestionForm(questionNum).findElement(By.id("question-number-dropdown")),
@@ -478,15 +492,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void editQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        FeedbackQuestionType questionType = getQuestionType(questionNum);
         clickEditQuestionButton(questionNum);
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    private void inputQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetails().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
         }
-        clickSaveQuestionButton(questionNum);
     }
 
     public void duplicateQuestion(int questionNum) {
@@ -497,20 +515,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
-    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
-        click(previewAsStudentButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+    public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
+        String recommendLength = getRecommendedLengthField(questionNum).getAttribute("value");
+        assertEquals(recommendLength, textQuestionDetails.getRecommendedLength().toString());
     }
 
-    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
-        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
-        click(previewAsInstructorButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+    public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(2);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
+        fillTextBox(getRecommendedLengthField(questionNum), questionDetails.getRecommendedLength().toString());
+        clickSaveNewQuestionButton();
+    }
+
+    public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        fillTextBox(getRecommendedLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        clickSaveQuestionButton(questionNum);
     }
 
     private String getCourseId() {
@@ -679,12 +701,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private int getNumQuestions() {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).size();
-    }
-
-    private void clickAndWaitForNewQuestion(WebElement button) {
-        int newQuestionNum = getNumQuestions() + 1;
-        click(button);
-        waitForElementPresence(By.id("question-form-" + newQuestionNum));
     }
 
     private WebElement getQuestionForm(int questionNum) {
@@ -861,5 +877,27 @@ public class InstructorFeedbackEditPage extends AppPage {
                 return;
             }
         }
+    }
+
+    private void clickAndWaitForNewQuestion(WebElement button) {
+        int newQuestionNum = getNumQuestions() + 1;
+        click(button);
+        waitForElementPresence(By.id("question-form-" + newQuestionNum));
+    }
+
+    private void addNewQuestion(int optionNumber) {
+        click(addNewQuestionButton);
+        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
+        click(newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1));
+    }
+
+    private void clickSaveNewQuestionButton() {
+        WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
+        click(saveButton);
+        waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getRecommendedLengthField(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
     }
 }
