@@ -4,26 +4,12 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
  * Action: downgrades an instructor account to student account.
  */
-public class DowngradeAccountAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        // Only admins can downgrade accounts
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class DowngradeAccountAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {

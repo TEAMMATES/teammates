@@ -5,7 +5,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -16,7 +15,7 @@ import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
 /**
  * Regenerates the course join and feedback session links for a given student in a course.
  */
-public class RegenerateStudentCourseLinksAction extends Action {
+public class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
 
     /** Message indicating that the email parameter value is not a valid email address. */
     public static final String STUDENT_NOT_FOUND = "The student with the email %s could not be found for "
@@ -35,18 +34,6 @@ public class RegenerateStudentCourseLinksAction extends Action {
     /** Message indicating that the links regeneration was successful, but corresponding email could not be sent. */
     public static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
                                                         SUCCESSFUL_REGENERATION + " but the email failed to send.";
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
 
     @Override
     public ActionResult execute() {

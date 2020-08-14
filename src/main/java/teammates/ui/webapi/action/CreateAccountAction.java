@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -24,20 +23,7 @@ import teammates.ui.webapi.request.AccountCreateRequest;
 /**
  * Creates a new instructor account with sample courses.
  */
-public class CreateAccountAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        // Only admins can create new accounts
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class CreateAccountAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {

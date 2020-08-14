@@ -3,27 +3,13 @@ package teammates.ui.webapi.action;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.AccountData;
 
 /**
  * Gets account's information.
  */
-public class GetAccountAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        // Only admins can downgrade accounts
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class GetAccountAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {

@@ -6,25 +6,12 @@ import java.time.zone.ZoneRulesProvider;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.ui.webapi.output.TimeZonesData;
 
 /**
  * Action: get supported time zones.
  */
-public class GetTimeZonesAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class GetTimeZonesAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {

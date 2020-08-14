@@ -4,7 +4,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -14,19 +13,7 @@ import teammates.ui.webapi.output.EmailData;
 /**
  * Generate email content.
  */
-public class GenerateEmailAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class GenerateEmailAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {

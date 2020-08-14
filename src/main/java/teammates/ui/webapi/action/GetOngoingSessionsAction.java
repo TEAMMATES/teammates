@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.webapi.output.OngoingSession;
 import teammates.ui.webapi.output.OngoingSessionsData;
@@ -21,22 +20,9 @@ import teammates.ui.webapi.output.OngoingSessionsData;
 /**
  * Gets the list of all ongoing sessions.
  */
-public class GetOngoingSessionsAction extends Action {
+public class GetOngoingSessionsAction extends AdminOnlyAction {
 
     private static final String UNKNOWN_INSTITUTION = "Unknown Institution";
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        // Only admins can get the list of all ongoing sessions
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
 
     @Override
     @SuppressWarnings("PMD.PreserveStackTrace")

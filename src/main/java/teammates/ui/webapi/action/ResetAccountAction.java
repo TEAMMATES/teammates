@@ -7,26 +7,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
  * Action: resets an account ID.
  */
-public class ResetAccountAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        // Only admins can reset accounts
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class ResetAccountAction extends AdminOnlyAction {
 
     @Override
     public ActionResult execute() {

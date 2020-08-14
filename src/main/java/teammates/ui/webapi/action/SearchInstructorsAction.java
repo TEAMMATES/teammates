@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.InstructorData;
@@ -14,20 +13,7 @@ import teammates.ui.webapi.output.InstructorsData;
 /**
  * Searches for instructors.
  */
-public class SearchInstructorsAction extends Action {
-
-    @Override
-    protected AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
-    }
-
-    @Override
-    public void checkSpecificAccessControl() {
-        // Only admins can search for instructors
-        if (!userInfo.isAdmin) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
-        }
-    }
+public class SearchInstructorsAction extends AdminOnlyAction {
 
     private String getInstituteFromGoogleId(String googleId) {
         if (googleId != null) {
