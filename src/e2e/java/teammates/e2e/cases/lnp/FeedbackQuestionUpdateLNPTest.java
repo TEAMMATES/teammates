@@ -306,7 +306,7 @@ public class FeedbackQuestionUpdateLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.QUESTION
+        return Const.ResourceURIs.QUESTION
             + "?courseid=${courseId}&fsname=${fsname}&questionid=${fqname_1}";
     }
 

@@ -265,7 +265,7 @@ public class StudentEmailUpdateLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT
+        return Const.ResourceURIs.STUDENT
             + "?courseid=${courseId}&studentid=${studentId}&studentemail=${studentEmail}";
     }
 

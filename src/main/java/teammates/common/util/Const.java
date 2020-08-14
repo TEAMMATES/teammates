@@ -648,109 +648,115 @@ public final class Const {
         public static final String URI_PREFIX = "/webapi";
         public static final String LOGOUT = "/logout";
 
-        public static final String DATABUNDLE = "/databundle";
-        public static final String DATABUNDLE_DOCUMENTS = "/databundle/documents";
-        public static final String EXCEPTION = "/exception";
-        public static final String ERROR_REPORT = "/errorreport";
-        public static final String AUTH = "/auth";
-        public static final String AUTH_REGKEY = "/auth/regkey";
-        public static final String ACCOUNT = "/account";
-        public static final String ACCOUNT_RESET = "/account/reset";
-        public static final String ACCOUNT_DOWNGRADE = "/account/downgrade";
-        public static final String RESPONSE_COMMENT = "/responsecomment";
-        public static final String COURSE = "/course";
-        public static final String COURSE_ARCHIVE = "/course/archive";
-        public static final String BIN_COURSE = "/bin/course";
-        public static final String COURSE_SECTIONS = "/course/sections";
-        public static final String COURSES = "/courses";
-        public static final String INSTRUCTORS = "/instructors";
-        public static final String INSTRUCTOR = "/instructor";
-        public static final String INSTRUCTOR_PRIVILEGE = "/instructor/privilege";
-        public static final String RESULT = "/result";
-        public static final String STUDENTS = "/students";
-        public static final String STUDENT = "/student";
-        public static final String SESSIONS_ONGOING = "/sessions/ongoing";
-        public static final String SESSION = "/session";
-        public static final String SESSION_PUBLISH = "/session/publish";
-        public static final String SESSION_REMIND_SUBMISSION = "/session/remind/submission";
-        public static final String SESSION_REMIND_RESULT = "/session/remind/result";
-        public static final String SESSION_STATS = "/session/stats";
-        public static final String SESSION_SUBMITTED_GIVER_SET = "/session/submitted/giverset";
-        public static final String SESSIONS = "/sessions";
-        public static final String SEARCH_COMMENTS = "/search/comments";
-        public static final String SEARCH_INSTRUCTORS = "/search/instructors";
-        public static final String SEARCH_STUDENTS = "/search/students";
-        public static final String BIN_SESSION = "/bin/session";
-        public static final String QUESTIONS = "/questions";
-        public static final String QUESTION = "/question";
-        public static final String QUESTION_RECIPIENTS = "/question/recipients";
-        public static final String RESPONSES = "/responses";
-        public static final String HAS_RESPONSES = "/hasResponses";
-        public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";
-        public static final String JOIN = "/join";
-        public static final String JOIN_REMIND = "/join/remind";
-        public static final String TIMEZONE = "/timezone";
-        public static final String LOCAL_DATE_TIME = "/localdatetime";
-        public static final String SESSION_LINKS_RECOVERY = "/sessionlinksrecovery";
-        public static final String NATIONALITIES = "/nationalities";
-        public static final String EMAIL = "/email";
+        public static final String DATABUNDLE = URI_PREFIX + "/databundle";
+        public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
+        public static final String EXCEPTION = URI_PREFIX + "/exception";
+        public static final String ERROR_REPORT = URI_PREFIX + "/errorreport";
+        public static final String AUTH = URI_PREFIX + "/auth";
+        public static final String AUTH_REGKEY = URI_PREFIX + "/auth/regkey";
+        public static final String ACCOUNT = URI_PREFIX + "/account";
+        public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
+        public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
+        public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
+        public static final String COURSE = URI_PREFIX + "/course";
+        public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";
+        public static final String BIN_COURSE = URI_PREFIX + "/bin/course";
+        public static final String COURSE_SECTIONS = URI_PREFIX + "/course/sections";
+        public static final String COURSES = URI_PREFIX + "/courses";
+        public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
+        public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
+        public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
+        public static final String RESULT = URI_PREFIX + "/result";
+        public static final String STUDENTS = URI_PREFIX + "/students";
+        public static final String STUDENT = URI_PREFIX + "/student";
+        public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";
+        public static final String SESSION = URI_PREFIX + "/session";
+        public static final String SESSION_PUBLISH = URI_PREFIX + "/session/publish";
+        public static final String SESSION_REMIND_SUBMISSION = URI_PREFIX + "/session/remind/submission";
+        public static final String SESSION_REMIND_RESULT = URI_PREFIX + "/session/remind/result";
+        public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
+        public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
+        public static final String SESSIONS = URI_PREFIX + "/sessions";
+        public static final String SEARCH_COMMENTS = URI_PREFIX + "/search/comments";
+        public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
+        public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
+        public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
+        public static final String QUESTIONS = URI_PREFIX + "/questions";
+        public static final String QUESTION = URI_PREFIX + "/question";
+        public static final String QUESTION_RECIPIENTS = URI_PREFIX + "/question/recipients";
+        public static final String RESPONSES = URI_PREFIX + "/responses";
+        public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
+        public static final String SUBMISSION_CONFIRMATION = URI_PREFIX + "/submission/confirmation";
+        public static final String JOIN = URI_PREFIX + "/join";
+        public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
+        public static final String TIMEZONE = URI_PREFIX + "/timezone";
+        public static final String LOCAL_DATE_TIME = URI_PREFIX + "/localdatetime";
+        public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
+        public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
+        public static final String EMAIL = URI_PREFIX + "/email";
 
-        public static final String STUDENT_PROFILE_PICTURE = "/student/profilePic";
-        public static final String STUDENT_PROFILE = "/student/profile";
-        public static final String STUDENT_COURSE_LINKS_REGENERATION = "/student/courselinks/regeneration";
+        public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
+        public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
+        public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
     }
 
     public static class CronJobURIs {
-        public static final String AUTOMATED_EXCEPTION_TEST = "/auto/exception";
-        public static final String AUTOMATED_LOG_COMPILATION = "/auto/compileLogs";
-        public static final String AUTOMATED_DATASTORE_BACKUP = "/auto/datastoreBackup";
-        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/auto/feedbackSessionOpeningReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS = "/auto/feedbackSessionClosedReminders";
-        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/auto/feedbackSessionClosingReminders";
-        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/auto/feedbackSessionPublishedReminders";
+        public static final String URI_PREFIX = "/auto";
+
+        public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
+        public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
+        public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS =
+                URI_PREFIX + "/feedbackSessionOpeningReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS =
+                URI_PREFIX + "/feedbackSessionClosedReminders";
+        public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS =
+                URI_PREFIX + "/feedbackSessionClosingReminders";
+        public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS =
+                URI_PREFIX + "/feedbackSessionPublishedReminders";
     }
 
     /**
      * Configurations for task queue.
      */
     public static class TaskQueue {
+        public static final String URI_PREFIX = "/worker";
 
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME =
                 "feedback-session-published-email-queue";
         public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL =
-                "/worker/feedbackSessionPublishedEmail";
+                URI_PREFIX + "/feedbackSessionPublishedEmail";
 
         public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME =
                 "feedback-session-resend-published-email-queue";
         public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL =
-                "/worker/feedbackSessionResendPublishedEmail";
+                URI_PREFIX + "/feedbackSessionResendPublishedEmail";
 
         public static final String FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME = "feedback-session-remind-email-queue";
-        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = "/worker/feedbackSessionRemindEmail";
+        public static final String FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL = URI_PREFIX + "/feedbackSessionRemindEmail";
 
         public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME =
                 "feedback-session-remind-particular-users-email-queue";
         public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL =
-                "/worker/feedbackSessionRemindParticularUsersEmail";
+                URI_PREFIX + "/feedbackSessionRemindParticularUsersEmail";
 
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME =
                 "feedback-session-unpublished-email-queue";
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
-                "/worker/feedbackSessionUnpublishedEmail";
+                URI_PREFIX + "/feedbackSessionUnpublishedEmail";
 
         public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
                 "feedback-session-update-respondent-queue";
         public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =
-                "/worker/feedbackSessionUpdateRespondent";
+                URI_PREFIX + "/feedbackSessionUpdateRespondent";
 
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
-        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/instructorCourseJoinEmail";
+        public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/instructorCourseJoinEmail";
 
         public static final String SEND_EMAIL_QUEUE_NAME = "send-email-queue";
-        public static final String SEND_EMAIL_WORKER_URL = "/worker/sendEmail";
+        public static final String SEND_EMAIL_WORKER_URL = URI_PREFIX + "/sendEmail";
 
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
-        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = "/worker/studentCourseJoinEmail";
+        public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
 
     }
 

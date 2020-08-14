@@ -25,7 +25,7 @@ export class FeedbackResponseCommentService {
   createComment(createRequest: FeedbackResponseCommentCreateRequest,
                 responseId: string, intent: Intent,
                 additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
-    return this.httpRequestService.post('/responsecomment', {
+    return this.httpRequestService.post(ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
       responseid: responseId,
       ...additionalParams,

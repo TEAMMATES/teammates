@@ -25,7 +25,7 @@ public class ActionFactoryTest extends BaseTestCase {
         ______TS("Action exists and is retrieved");
 
         MockHttpServletRequest existingActionServletRequest = new MockHttpServletRequest(
-                HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH);
+                HttpGet.METHOD_NAME, Const.ResourceURIs.AUTH);
         existingActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         Action existingAction = actionFactory.getAction(existingActionServletRequest, HttpGet.METHOD_NAME);
         assertTrue(existingAction instanceof GetAuthInfoAction);
@@ -43,12 +43,12 @@ public class ActionFactoryTest extends BaseTestCase {
         ______TS("Method does not exist on action and ActionMappingException is thrown");
 
         MockHttpServletRequest nonExistentMethodOnActionServletRequest = new MockHttpServletRequest(
-                HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH);
+                HttpGet.METHOD_NAME, Const.ResourceURIs.AUTH);
         nonExistentMethodOnActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         ActionMappingException nonExistentMethodOnActionException = assertThrows(ActionMappingException.class,
                 () -> actionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
         assertTrue(nonExistentMethodOnActionException.getMessage()
                 .equals("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI "
-                + Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.AUTH + "."));
+                + Const.ResourceURIs.AUTH + "."));
     }
 }

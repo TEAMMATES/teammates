@@ -52,7 +52,7 @@
     </servlet-mapping>
 
     <servlet>
-        <description>Servlet that handles requests from web application</description>
+        <description>REST API Servlet</description>
         <servlet-name>WebApiServlet</servlet-name>
         <servlet-class>teammates.ui.webapi.action.WebApiServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
@@ -60,6 +60,8 @@
     <servlet-mapping>
         <servlet-name>WebApiServlet</servlet-name>
         <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -81,26 +83,6 @@
     <servlet-mapping>
         <servlet-name>LegacyUrlMapper</servlet-name>
         <url-pattern>/page/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <description>Servlet that handles cron jobs</description>
-        <servlet-name>CronJobServlet</servlet-name>
-        <servlet-class>teammates.ui.automated.CronJobServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CronJobServlet</servlet-name>
-        <url-pattern>/auto/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <description>Servlet that handles task queues</description>
-        <servlet-name>TaskQueueServlet</servlet-name>
-        <servlet-class>teammates.ui.automated.TaskQueueServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TaskQueueServlet</servlet-name>
-        <url-pattern>/worker/*</url-pattern>
     </servlet-mapping>
 
     <security-constraint>

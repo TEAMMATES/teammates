@@ -14,7 +14,9 @@ import org.apache.http.client.methods.HttpPut;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.ResourceURIs;
+import teammates.common.util.Const.TaskQueue;
 
 /**
  * Generates the matching {@link Action} for a given URI and request method.
@@ -116,10 +118,38 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, DELETE, DeleteStudentProfilePictureAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
+
+        // Cron jobs; use GET request
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/config/cron
+
+        map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
+        map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, GET, FeedbackSessionOpeningRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, GET, FeedbackSessionClosingRemindersAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
+
+        // Task queue workers; use POST request
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/
+
+        map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,
+                FeedbackSessionResendPublishedEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, POST, FeedbackSessionRemindEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, POST,
+                FeedbackSessionRemindParticularUsersEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, POST,
+                FeedbackSessionUnpublishedEmailWorkerAction.class);
+        map(TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL, POST,
+                FeedbackSessionUpdateRespondentWorkerAction.class);
+        map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
+        map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
+        map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
+
     }
 
     private static void map(String uri, String method, Class<? extends Action> actionClass) {
-        ACTION_MAPPINGS.computeIfAbsent(ResourceURIs.URI_PREFIX + uri, k -> new HashMap<>()).put(method, actionClass);
+        ACTION_MAPPINGS.computeIfAbsent(uri, k -> new HashMap<>()).put(method, actionClass);
     }
 
     /**

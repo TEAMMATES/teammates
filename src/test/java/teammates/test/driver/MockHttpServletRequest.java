@@ -45,13 +45,17 @@ public class MockHttpServletRequest implements HttpServletRequest {
     private String requestedSessionId;
     private String body;
 
-    public MockHttpServletRequest(String method, String requestUrl) {
+    public MockHttpServletRequest(String method, String requestUrl, Map<String, List<String>> headers) {
         this.cookies = new ArrayList<>();
         this.parts = new HashMap<>();
-        this.headers = new HashMap<>();
+        this.headers = headers;
         this.params = new HashMap<>();
         this.method = method;
         this.requestUrl = requestUrl;
+    }
+
+    public MockHttpServletRequest(String method, String requestUrl) {
+        this(method, requestUrl, new HashMap<>());
     }
 
     @Override

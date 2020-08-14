@@ -173,7 +173,7 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.COURSE + "?courseid=${courseId}";
+        return Const.ResourceURIs.COURSE + "?courseid=${courseId}";
     }
 
     @Override

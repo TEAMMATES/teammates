@@ -75,16 +75,16 @@ public class WebApiServlet extends HttpServlet {
             ActionResult result = action.execute();
             result.send(resp);
         } catch (ActionMappingException e) {
-            throwError(resp, e.getStatusCode(), e.getMessage());
-        } catch (InvalidHttpRequestBodyException e) {
-            throwError(resp, HttpStatus.SC_BAD_REQUEST, e.getMessage());
-        } catch (InvalidHttpParameterException e) {
-            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: " + e.getMessage());
-            throwError(resp, HttpStatus.SC_BAD_REQUEST, "The request is not valid.");
+            throwErrorBasedOnRequester(req, resp, e, e.getStatusCode());
+        } catch (InvalidHttpRequestBodyException | InvalidHttpParameterException e) {
+            throwErrorBasedOnRequester(req, resp, e, HttpStatus.SC_BAD_REQUEST);
         } catch (UnauthorizedAccessException uae) {
-            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: " + uae.getMessage());
+            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: "
+                    + TeammatesException.toStringWithStackTrace(uae));
             throwError(resp, HttpStatus.SC_FORBIDDEN, "You are not authorized to access this resource.");
         } catch (EntityNotFoundException enfe) {
+            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
+                    + TeammatesException.toStringWithStackTrace(enfe));
             throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
         } catch (DeadlineExceededException | DatastoreTimeoutException e) {
 
@@ -101,6 +101,28 @@ public class WebApiServlet extends HttpServlet {
                     + TeammatesException.toStringWithStackTrace(t));
             throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
                     "The server encountered an error when processing your request.");
+        }
+    }
+
+    private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
+            throws IOException {
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
+
+        if (isRequestFromAppEngineQueue) {
+            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
+                    + TeammatesException.toStringWithStackTrace(e));
+
+            // Response status is not set to 4XX to 5XX to prevent GAE retry mechanism because
+            // if the cause of the exception is improper request URL, no amount of retry is going to help.
+            // The action will be inaccurately marked as "success", but the severe log can be used
+            // to trace the origin of the problem.
+            throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
+        } else {
+            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: "
+                    + TeammatesException.toStringWithStackTrace(e));
+            throwError(resp, statusCode, e.getMessage());
         }
     }
 

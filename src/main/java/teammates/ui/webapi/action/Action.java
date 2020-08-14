@@ -107,7 +107,17 @@ public abstract class Action {
             return;
         }
 
-        userInfo = gateKeeper.getCurrentUser();
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
+        boolean isRequestFromAppEngineQueue = queueNameHeader != null;
+        if (isRequestFromAppEngineQueue) {
+            userInfo = new UserInfo("AppEngine-" + queueNameHeader);
+            userInfo.isAdmin = true;
+        } else {
+            userInfo = gateKeeper.getCurrentUser();
+        }
+
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
