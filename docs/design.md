@@ -244,7 +244,7 @@ Package overview:
 ![Data Transfer Classes](images/dataTransferClasses.png)
 
 1. `Test Driver` can use the `DataBundle` in this manner to send an arbitrary number of objects to be persisted in the database.
-1. This structure can be used to transfer data of a course (e.g., when constructing the home page for an instructor).
+1. This structure can be used to transfer search results of a student or instructor or response comments.
 1. This structure can be used to send results of a feedback session (e.g., when showing a feedback session report to an instructor).
 
 Some of these classes are methodless (and thus more of a data structure rather than a class); these classes use public variables for data for easy access.
