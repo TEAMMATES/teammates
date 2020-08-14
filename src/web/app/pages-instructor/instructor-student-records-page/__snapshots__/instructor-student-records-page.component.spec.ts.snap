@@ -17,7 +17,6 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
-  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
@@ -87,7 +86,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
-  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
@@ -185,7 +183,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   isStudentResultsLoading="false"
   photoUrl={[Function String]}
   route={[Function Object]}
-  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}

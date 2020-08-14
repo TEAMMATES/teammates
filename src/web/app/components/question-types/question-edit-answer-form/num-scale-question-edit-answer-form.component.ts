@@ -41,22 +41,24 @@ export class NumScaleQuestionEditAnswerFormComponent
   get possibleValues(): string {
 
     if (this.numberOfPossibleValues > 6) {
+      const maxAcceptableValue: number =
+          this.questionDetails.minScale + ((this.numberOfPossibleValues - 1) * this.questionDetails.step);
       return `[${this.questionDetails.minScale},
-           ${(Math.round((this.questionDetails.minScale + this.questionDetails.step) * 1000) / 1000).toString()},
-           ${(Math.round((this.questionDetails.minScale + 2 * this.questionDetails.step) * 1000) / 1000).toString()},
+           ${+(this.questionDetails.minScale + this.questionDetails.step).toFixed(3)},
+           ${+(this.questionDetails.minScale + 2 * this.questionDetails.step).toFixed(3)},
            ...,
-           ${(Math.round((this.questionDetails.maxScale - 2 * this.questionDetails.step) * 1000) / 1000).toString()},
-           ${(Math.round((this.questionDetails.maxScale - this.questionDetails.step) * 1000) / 1000).toString()},
-           ${this.questionDetails.maxScale}]`;
+           ${+(maxAcceptableValue - 2 * this.questionDetails.step).toFixed(3)},
+           ${+(maxAcceptableValue - this.questionDetails.step).toFixed(3)},
+           ${+maxAcceptableValue.toFixed(3)}]`;
     }
-    let possibleValuesString: string = `[${this.questionDetails.minScale.toString()}`;
+    let possibleValuesString: string = `${this.questionDetails.minScale}`;
     let currentValue: number = this.questionDetails.minScale + this.questionDetails.step;
 
     while (this.questionDetails.maxScale - currentValue >= -1e-9) {
-      possibleValuesString += `, ${(Math.round(currentValue * 1000) / 1000).toString()}`;
+      possibleValuesString += `, ${+currentValue.toFixed(3)}`;
       currentValue += this.questionDetails.step;
     }
-    return `${possibleValuesString}]`;
+    return `[${possibleValuesString}]`;
   }
 
   /**

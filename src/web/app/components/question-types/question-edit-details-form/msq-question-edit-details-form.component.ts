@@ -26,7 +26,7 @@ export class MsqQuestionEditDetailsFormComponent
   // Used to store and restore user input when user toggles generate option
   storageModel: FeedbackMsqQuestionDetails = {
     ...DEFAULT_MSQ_QUESTION_DETAILS(),
-    msqChoices: [' ', ' '],
+    msqChoices: ['', ''],
     minSelectableChoices: NO_VALUE,
     maxSelectableChoices: NO_VALUE,
   };
