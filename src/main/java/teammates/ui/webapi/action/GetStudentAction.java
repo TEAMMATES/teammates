@@ -80,6 +80,9 @@ public class GetStudentAction extends Action {
         }
 
         StudentData studentData = new StudentData(student);
+        if (isBackdoor()) {
+            studentData.setKey(student.getKey());
+        }
 
         // hide information if not an instructor
         if (studentEmail == null) {

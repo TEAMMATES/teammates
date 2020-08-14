@@ -36,6 +36,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -48,6 +49,8 @@ import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.CoursesData;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackQuestionsData;
+import teammates.ui.webapi.output.FeedbackResponseData;
+import teammates.ui.webapi.output.FeedbackResponsesData;
 import teammates.ui.webapi.output.FeedbackSessionData;
 import teammates.ui.webapi.output.FeedbackSessionsData;
 import teammates.ui.webapi.output.FeedbackVisibilityType;
@@ -426,27 +429,31 @@ public final class BackDoor {
         if (studentData == null) {
             return null;
         }
-        StudentAttributes.Builder student = StudentAttributes.builder(studentData.getCourseId(),
+        StudentAttributes.Builder builder = StudentAttributes.builder(studentData.getCourseId(),
                 studentData.getEmail());
         if (studentData.getGoogleId() != null) {
-            student.withGoogleId(studentData.getGoogleId());
+            builder.withGoogleId(studentData.getGoogleId());
         }
         if (studentData.getName() != null) {
-            student.withName(studentData.getName());
+            builder.withName(studentData.getName());
         }
         if (studentData.getSectionName() != null) {
-            student.withSectionName(studentData.getSectionName());
+            builder.withSectionName(studentData.getSectionName());
         }
         if (studentData.getTeamName() != null) {
-            student.withTeamName(studentData.getTeamName());
+            builder.withTeamName(studentData.getTeamName());
         }
         if (studentData.getComments() != null) {
-            student.withComment(studentData.getComments());
+            builder.withComment(studentData.getComments());
         }
         if (studentData.getLastName() != null) {
-            student.withLastName(studentData.getLastName());
+            builder.withLastName(studentData.getLastName());
         }
-        return student.build();
+        StudentAttributes student = builder.build();
+        if (studentData.getKey() != null) {
+            student.key = studentData.getKey();
+        }
+        return student;
     }
 
     /**
@@ -559,7 +566,7 @@ public final class BackDoor {
             return null;
         }
 
-        return FeedbackQuestionAttributes.builder()
+        FeedbackQuestionAttributes questionAttr = FeedbackQuestionAttributes.builder()
                 .withCourseId(courseId)
                 .withFeedbackSessionName(feedbackSessionName)
                 .withQuestionDetails(question.getQuestionDetails())
@@ -575,6 +582,10 @@ public final class BackDoor {
                 .withShowGiverNameTo(convertToFeedbackParticipantType(question.getShowGiverNameTo()))
                 .withShowRecipientNameTo(convertToFeedbackParticipantType(question.getShowRecipientNameTo()))
                 .build();
+        if (question.getFeedbackQuestionId() != null) {
+            questionAttr.setId(question.getFeedbackQuestionId());
+        }
+        return questionAttr;
     }
 
     /**
@@ -603,6 +614,36 @@ public final class BackDoor {
                 }).collect(Collectors.toList());
         Collections.sort(feedbackParticipantTypeList);
         return feedbackParticipantTypeList;
+    }
+
+    /**
+     * Get feedback response from datastore.
+     */
+    public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
+                                                               String recipient) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, new String[] { feedbackQuestionId });
+        params.put(Const.ParamsNames.INTENT, new String[] { Intent.STUDENT_SUBMISSION.toString() });
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, new String[] { giver });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSES, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        FeedbackResponsesData responsesData = JsonUtils.fromJson(response.responseBody, FeedbackResponsesData.class);
+        FeedbackResponseData fr = responsesData.getResponses()
+                .stream()
+                .filter(r -> r.getGiverIdentifier().equals(giver) && r.getRecipientIdentifier().equals(recipient))
+                .findFirst()
+                .orElse(null);
+
+        if (fr == null) {
+            return null;
+        }
+
+        return FeedbackResponseAttributes.builder(feedbackQuestionId, fr.getGiverIdentifier(), fr.getRecipientIdentifier())
+                .withResponseDetails(fr.getResponseDetails())
+                .build();
     }
 
     /**
