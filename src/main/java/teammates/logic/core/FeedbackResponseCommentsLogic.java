@@ -10,7 +10,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -394,10 +393,10 @@ public final class FeedbackResponseCommentsLogic {
             }
             break;
         case TEAMS:
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(courseId);
+            List<String> teams = coursesLogic.getTeamsForCourse(courseId);
             boolean isTeamPresentInCourse = false;
-            for (TeamDetailsBundle team : teams) {
-                if (team.name.equals(commentGiver)) {
+            for (String team : teams) {
+                if (team.equals(commentGiver)) {
                     isTeamPresentInCourse = true;
                     break;
                 }
