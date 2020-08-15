@@ -78,8 +78,7 @@ public final class JsonUtils {
      * @see JsonParser#parse(String)
      */
     public static JsonElement parse(String json) {
-        JsonParser parser = new JsonParser();
-        return parser.parse(json);
+        return JsonParser.parseString(json);
     }
 
     private static class TeammatesInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
