@@ -1,11 +1,5 @@
 package teammates.common.util;
 
-import java.lang.reflect.Type;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -19,6 +13,13 @@ import com.google.gson.JsonSerializer;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
+
+
+import java.lang.reflect.Type;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Provides means to handle, manipulate, and convert JSON objects to/from strings.
@@ -78,8 +79,7 @@ public final class JsonUtils {
      * @see JsonParser#parse(String)
      */
     public static JsonElement parse(String json) {
-        JsonParser parser = new JsonParser();
-        return parser.parse(json);
+        return JsonParser.parseString(json);
     }
 
     private static class TeammatesInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
