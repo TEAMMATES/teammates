@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
@@ -19,6 +20,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
@@ -535,6 +537,72 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveQuestionButton(questionNum);
     }
 
+    public void verifyMcqQuestionDetails(int questionNum, FeedbackMcqQuestionDetails mcqQuestionDetails) {
+        if (verifyGeneratedOption(questionNum, mcqQuestionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+        verifyMultiChoiceOptions(questionNum, mcqQuestionDetails.getMcqChoices());
+        verifyWeights(questionNum, mcqQuestionDetails.hasAssignedWeights(), mcqQuestionDetails.getMcqWeights());
+        verifyOtherChoice(questionNum, mcqQuestionDetails.isOtherEnabled(), mcqQuestionDetails.getMcqOtherWeight());
+    }
+
+    private boolean verifyGeneratedOption(int questionNum, FeedbackParticipantType participantType) {
+        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+            assertTrue(getGenerateOptionCheckbox(questionNum).isSelected());
+            assertEquals(getSelectedDropdownOptionText(getGenerateOptionDropdown(questionNum)),
+                    getGeneratedOptionString(participantType));
+            return true;
+        }
+        assertFalse(getGenerateOptionCheckbox(questionNum).isSelected());
+        return false;
+    }
+
+    private void verifyMultiChoiceOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getMultiChoiceInputs(questionNum);
+        for (int i = 0; i < options.size(); i++) {
+            assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
+        }
+    }
+
+    private void verifyWeights(int questionNum, boolean hasWeights, List<Double> weights) {
+        if (hasWeights) {
+            assertTrue(getWeightCheckbox(questionNum).isSelected());
+            List<WebElement> weightInputs = getWeightInputs(questionNum);
+            for (int i = 0; i < weights.size(); i++) {
+                assertEquals(getWeightString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
+            }
+        } else {
+            assertFalse(getWeightCheckbox(questionNum).isSelected());
+        }
+    }
+
+    private void verifyOtherChoice(int questionNum, boolean hasOther, Double weight) {
+        if (hasOther) {
+            assertTrue(getOtherCheckbox(questionNum).isSelected());
+            if (weight > 0) {
+                String otherWeight = getOtherWeightInput(questionNum).getAttribute("value");
+                assertEquals(getWeightString(weight), otherWeight);
+            }
+        } else {
+            assertFalse(getOtherCheckbox(questionNum).isSelected());
+        }
+    }
+
+    public void addMcqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(3);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputMcqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editMcqQuestion(int questionNum, FeedbackMcqQuestionDetails mcqQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputMcqDetails(questionNum, mcqQuestionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -899,5 +967,120 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private WebElement getRecommendedLengthField(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
+    }
+
+    private WebElement getGenerateOptionCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("generate-checkbox"));
+    }
+
+    private WebElement getGenerateOptionDropdown(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("generate-dropdown"));
+    }
+
+    private WebElement getWeightCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("weights-checkbox"));
+    }
+
+    private WebElement getOtherCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("other-checkbox"));
+    }
+
+    private String getGeneratedOptionString(FeedbackParticipantType type) {
+        switch (type) {
+        case STUDENTS:
+            return "students";
+        case STUDENTS_EXCLUDING_SELF:
+            return "students (excluding self)";
+        case TEAMS:
+            return "teams";
+        case TEAMS_EXCLUDING_SELF:
+            return "teams (excluding own team)";
+        case INSTRUCTORS:
+            return "instructors";
+        default:
+            return "unknown";
+        }
+    }
+
+    private String getWeightString(Double weight) {
+        return weight % 1 == 0 ? Integer.toString(weight.intValue()) : Double.toString(weight);
+    }
+
+    private WebElement getMultiChoiceSection(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("multi-choices"));
+    }
+
+    private List<WebElement> getMultiChoiceInputs(int questionNum) {
+        WebElement multiChoiceSection = getMultiChoiceSection(questionNum);
+        return multiChoiceSection.findElements(By.cssSelector("input[type='text']"));
+    }
+
+    private List<WebElement> getWeightInputs(int questionNum) {
+        WebElement multiChoiceSection = getMultiChoiceSection(questionNum);
+        return multiChoiceSection.findElements(By.cssSelector("tm-weight-field input"));
+    }
+
+    private WebElement getOtherWeightInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("other-weight"));
+    }
+
+    private void inputMcqDetails(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
+        if (inputGenerateOption(questionNum, questionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+
+        inputMultiChoiceOptions(questionNum, questionDetails.getMcqChoices());
+        inputWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
+    }
+
+    private boolean inputGenerateOption(int questionNum, FeedbackParticipantType participantType) {
+        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+            markCheckBoxAsChecked(getGenerateOptionCheckbox(questionNum));
+            selectDropdownOptionByText(getGenerateOptionDropdown(questionNum),
+                    getGeneratedOptionString(participantType));
+            clickSaveQuestionButton(questionNum);
+            return true;
+        }
+        markCheckBoxAsUnchecked(getGenerateOptionCheckbox(questionNum));
+        return false;
+    }
+
+    private void inputMultiChoiceOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getMultiChoiceInputs(questionNum);
+        int numOptionsNeeded = options.size() - inputs.size();
+        if (numOptionsNeeded > 0) {
+            for (int i = 0; i < numOptionsNeeded; i++) {
+                click(getQuestionForm(questionNum).findElement(By.id("btn-add-option")));
+            }
+            inputs = getMultiChoiceInputs(questionNum);
+        }
+
+        for (int i = 0; i < options.size(); i++) {
+            fillTextBox(inputs.get(i), options.get(i));
+        }
+    }
+
+    private void inputWeights(int questionNum, boolean hasWeights, List<Double> weights) {
+        if (hasWeights) {
+            markCheckBoxAsChecked(getWeightCheckbox(questionNum));
+            List<WebElement> weightInputs = getWeightInputs(questionNum);
+            for (int i = 0; i < weights.size(); i++) {
+                fillTextBox(weightInputs.get(i), getWeightString(weights.get(i)));
+            }
+        } else {
+            markCheckBoxAsUnchecked(getWeightCheckbox(questionNum));
+        }
+    }
+
+    private void inputOtherChoice(int questionNum, boolean hasOther, Double otherWeight) {
+        if (hasOther) {
+            markCheckBoxAsChecked(getOtherCheckbox(questionNum));
+            if (otherWeight > 0) {
+                fillTextBox(getOtherWeightInput(questionNum), getWeightString(otherWeight));
+            }
+        } else {
+            markCheckBoxAsUnchecked(getOtherCheckbox(questionNum));
+        }
     }
 }
