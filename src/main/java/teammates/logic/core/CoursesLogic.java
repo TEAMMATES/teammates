@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -160,50 +159,23 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns Teams for a particular courseId.<br>
-     * <b>Note:</b><br>
-     * This method does not returns any Loner information presently,<br>
-     * Loner information must be returned as we decide to support loners<br>in future.
+     * Returns team names for a particular courseId.
      *
+     * <p>Note: This method does not returns any Loner information presently.
+     * Loner information must be returned as we decide to support loners in future.
      */
-    public List<TeamDetailsBundle> getTeamsForCourse(String courseId) throws EntityDoesNotExistException {
+    public List<String> getTeamsForCourse(String courseId) throws EntityDoesNotExistException {
 
         if (getCourse(courseId) == null) {
             throw new EntityDoesNotExistException("The course " + courseId + " does not exist");
         }
 
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
-        StudentAttributes.sortByTeamName(students);
-
-        List<TeamDetailsBundle> teams = new ArrayList<>();
-
-        TeamDetailsBundle team = null;
-
-        for (int i = 0; i < students.size(); i++) {
-
-            StudentAttributes s = students.get(i);
-
-            // first student of first team
-            if (team == null) {
-                team = new TeamDetailsBundle();
-                team.name = s.team;
-                team.students.add(s);
-            } else if (s.team.equals(team.name)) { // student in the same team as the previous student
-                team.students.add(s);
-            } else { // first student of subsequent teams (not the first team)
-                teams.add(team);
-                team = new TeamDetailsBundle();
-                team.name = s.team;
-                team.students.add(s);
-            }
-
-            // if last iteration
-            if (i == students.size() - 1) {
-                teams.add(team);
-            }
-        }
-
-        return teams;
+        return studentsLogic.getStudentsForCourse(courseId)
+                .stream()
+                .map(StudentAttributes::getTeam)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     /**
