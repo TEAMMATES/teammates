@@ -26,6 +26,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
@@ -377,6 +378,33 @@ public abstract class AppPage {
     }
 
     /**
+     * Get rich text from editor.
+     */
+    protected String getEditorRichText(WebElement editor) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
+
+        String innerHtml = browser.driver.findElement(By.id("tinymce")).getAttribute("innerHTML");
+        // check if editor is empty
+        innerHtml = innerHtml.contains("data-mce-bogus") ? "" : innerHtml;
+        browser.driver.switchTo().defaultContent();
+        return innerHtml;
+    }
+
+    /**
+     * Write rich text to editor.
+     */
+    protected void writeToRichTextEditor(WebElement editor, String text) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
+        click(browser.driver.findElement(By.id("tinymce")));
+        browser.driver.switchTo().defaultContent();
+
+        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
+                + " tinyMCE.activeEditor.save()", text));
+    }
+
+    /**
      * 'check' the check box, if it is not already 'checked'.
      * No action taken if it is already 'checked'.
      */
@@ -396,6 +424,22 @@ public abstract class AppPage {
         if (checkBox.isSelected()) {
             click(checkBox);
         }
+    }
+
+    /**
+     * Returns the text of the option selected in the dropdown.
+     */
+    protected String getSelectedDropdownOptionText(WebElement dropdown) {
+        Select select = new Select(dropdown);
+        return select.getFirstSelectedOption().getText();
+    }
+
+    /**
+     * Selects option in dropdown based on visible text.
+     */
+    protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
     }
 
     /**
@@ -559,8 +603,15 @@ public abstract class AppPage {
      */
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
-        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
+        scrollElementToCenter(element);
         element.click();
+    }
+
+    /**
+     * Scrolls element to center.
+     */
+    void scrollElementToCenter(WebElement element) {
+        executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
     }
 
     /**
@@ -602,6 +653,20 @@ public abstract class AppPage {
     protected void setWindowSize(int x, int y) {
         Dimension d = new Dimension(x, y);
         browser.driver.manage().window().setSize(d);
+    }
+
+    /**
+     * Switches to the new browser window just opened.
+     */
+    protected void switchToNewWindow() {
+        browser.switchToNewWindow();
+    }
+
+    /**
+     * Closes current window and switches back to parent window.
+     */
+    public void closeCurrentWindowAndSwitchToParentWindow() {
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     /**

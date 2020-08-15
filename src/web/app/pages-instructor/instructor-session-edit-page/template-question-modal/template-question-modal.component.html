@@ -4,7 +4,7 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
+<div id="template-question-modal" class="modal-body">
   <div class="card margin-top-20px" *ngFor="let templateQuestionModel of templateQuestionModels">
     <div class="card-header cursor-pointer"
          (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
@@ -22,7 +22,7 @@
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
+  <button id="btn-confirm-template" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
           [disabled]="!hasAnyTemplateQuestionSelected">Add</button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Close</button>
 </div>

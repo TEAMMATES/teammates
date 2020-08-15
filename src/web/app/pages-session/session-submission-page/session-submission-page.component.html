@@ -43,39 +43,39 @@
   </div>
 </div>
 
-<div class="card card-plain">
+<div class="card card-plain" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Course ID:</b></div>
-      <div class="col-md-6">{{ courseId }}</div>
+      <div id="course-id" class="col-md-6">{{ courseId }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Session:</b></div>
-      <div class="col-md-6">{{ feedbackSessionName }}</div>
+      <div id="fs-name" class="col-md-6">{{ feedbackSessionName }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Opening time:</b></div>
-      <div class="col-md-6">{{ formattedSessionOpeningTime }}</div>
+      <div id="opening-time" class="col-md-6">{{ formattedSessionOpeningTime }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Closing time:</b></div>
-      <div class="col-md-6">{{ formattedSessionClosingTime }}</div>
+      <div id="closing-time" class="col-md-6">{{ formattedSessionClosingTime }}</div>
     </div>
     <br/>
     <div class="row text-center">
       <div class="col-md-3"><b>Instructions:</b></div>
-      <div class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+      <div id="instructions" class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
     <br/>
   </div>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
-  <div *tmIsLoading="isFeedbackSessionQuestionsLoading">
+  <div *tmIsLoading="isFeedbackSessionQuestionsLoading || isFeedbackSessionQuestionResponsesLoading">
     <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
                                  [attr.id]="questionSubmissionForm.feedbackQuestionId"
                                  [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"

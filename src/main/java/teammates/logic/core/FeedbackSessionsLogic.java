@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -575,49 +574,37 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets the stats of a feedback session.
+     * Gets the expected number of submissions for a feedback session.
      */
-    public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        FeedbackSessionAttributes fsa = getFeedbackSession(feedbackSessionName, courseId);
-        if (fsa == null) {
-            throw new EntityDoesNotExistException("Feedback session does not exist");
-        }
-        return getFeedbackSessionDetails(fsa);
-    }
-
-    /**
-     * Gets the stats of a feedback session.
-     */
-    private FeedbackSessionDetailsBundle getFeedbackSessionDetails(FeedbackSessionAttributes fsa) {
-
-        FeedbackSessionDetailsBundle details =
-                new FeedbackSessionDetailsBundle(fsa);
-
-        details.stats.expectedTotal = 0;
-        details.stats.submittedTotal = 0;
-
+    public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
         List<StudentAttributes> students = studentsLogic.getStudentsForCourse(fsa.getCourseId());
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(fsa.getCourseId());
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
         List<FeedbackQuestionAttributes> studentQns = fqLogic.getFeedbackQuestionsForStudents(questions);
 
+        int expectedTotal = 0;
+
         if (!studentQns.isEmpty()) {
-            details.stats.expectedTotal += students.size();
+            expectedTotal += students.size();
         }
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns =
                     fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
             if (!instructorQns.isEmpty()) {
-                details.stats.expectedTotal += 1;
+                expectedTotal += 1;
             }
         }
 
-        details.stats.submittedTotal += fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
+        return expectedTotal;
+    }
 
-        return details;
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     */
+    public int getActualTotalSubmission(FeedbackSessionAttributes fsa) {
+        return fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
     }
 
     /**

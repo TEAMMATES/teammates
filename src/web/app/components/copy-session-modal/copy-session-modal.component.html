@@ -7,12 +7,12 @@
     <i class="fas fa-times"></i>
   </button>
 </div>
-<div class="modal-body">
+<div id="copy-course-modal" class="modal-body">
   <div class="row">
     <div class="col-12">
       <div class="form-group">
         <label><b>Name for copied session</b></label>
-        <input type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH">
+        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH">
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">

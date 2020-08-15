@@ -28,7 +28,7 @@
                           [index]="i"
                           [isEditable]="isEditable"
                           [numberOfMsqChoices]="model.msqChoices.length"
-                          [text]="model.msqChoices[i].trim()"></tm-msq-field>
+                          [text]="model.msqChoices[i]"></tm-msq-field>
           </div>
           <div class="col-sm-3" *ngIf="model.hasAssignedWeights">
             <tm-weight-field [isEditable]="isEditable"

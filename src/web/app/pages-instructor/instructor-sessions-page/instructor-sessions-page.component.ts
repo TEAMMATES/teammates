@@ -130,7 +130,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
-  hasCoursesLoaded: boolean = false;
+  isCoursesLoading: boolean = true;
+  isFeedbackSessionsLoading: boolean = true;
+  isRecycleBinLoading: boolean = true;
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
@@ -188,9 +190,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads courses owned by the current user.
    */
   loadCandidatesCourse(): void {
-    this.hasCoursesLoaded = false;
+    this.isCoursesLoading = true;
     this.courseService.getInstructorCoursesThatAreActive()
-        .pipe(finalize(() => this.hasCoursesLoaded = true)).subscribe((courses: Courses) => {
+        .pipe(finalize(() => this.isCoursesLoading = false)).subscribe((courses: Courses) => {
           this.courseCandidates = courses.courses;
 
           this.initDefaultValuesForSessionEditForm();
@@ -378,7 +380,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions that can be accessed by current user.
    */
   loadFeedbackSessions(): void {
+    this.isFeedbackSessionsLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsForInstructor()
+        .pipe(finalize(() => this.isFeedbackSessionsLoading = false))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             const model: SessionsTableRowModel = {
@@ -533,7 +537,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Loads all feedback sessions in recycle bin that can be accessed by current user.
    */
   loadRecycleBinFeedbackSessions(): void {
+    this.isRecycleBinLoading = true;
     this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
+        .pipe(finalize(() => this.isRecycleBinLoading = false))
         .subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
             this.recycleBinFeedbackSessionRowModels.push({

@@ -42,14 +42,14 @@ export class NumScaleQuestionStatisticsCalculation
         stats.max = Math.max(...answersAsArray);
         stats.min = Math.min(...answersAsArray);
         const average: number = answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length;
-        stats.average = Math.round(average * 100) / 100; // Show integers without dp, truncate fractions to 2dp
+        stats.average = +average.toFixed(2); // Show integers without dp, truncate fractions to 2dp
 
         const answersExcludingSelfAsArray: number[] = stats.responses.filter((resp: any) => !resp.isSelf)
             .map((resp: any) => resp.answer);
         if (answersExcludingSelfAsArray.length) {
           const averageExcludingSelf: number = answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0)
               / answersExcludingSelfAsArray.length;
-          stats.averageExcludingSelf = Math.round(averageExcludingSelf * 100) / 100;
+          stats.averageExcludingSelf = +averageExcludingSelf.toFixed(2);
         } else {
           stats.averageExcludingSelf = 0;
         }

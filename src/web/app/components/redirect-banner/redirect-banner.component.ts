@@ -13,8 +13,10 @@ export class RedirectBannerComponent {
 
   redirectUrl: string;
   supportEmail: string;
+  isDismissed: boolean;
 
   constructor() {
+    this.isDismissed = false;
     this.redirectUrl = environment.redirectUrl;
     this.supportEmail = environment.supportEmail;
   }

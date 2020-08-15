@@ -73,6 +73,8 @@
       <div class="card-body p-0 student-table-margin card border">
         <tm-student-list
             [courseId]="courseDetails.course.courseId" [students]="students" [useGrayHeading]="true" [enableRemindButton]="true"
+            [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
+            (sortStudentListEvent)="sortStudentList($event)"
             (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
         ></tm-student-list>
       </div>

@@ -118,8 +118,8 @@ export class MsqQuestionStatisticsCalculation
 
       this.perRecipientResponses[recipient] = {
         recipient,
-        total,
-        average,
+        total: +total.toFixed(5),
+        average: +average.toFixed(2),
         recipientTeam: recipientToTeam[recipient],
         responses: perRecipientResponse[recipient],
       };

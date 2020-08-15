@@ -22,7 +22,7 @@
             "main": "src/web/main.ts",
             "polyfills": "src/web/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/web/assets/",
               {
@@ -34,6 +34,11 @@
                 "glob": "**/*",
                 "input": "node_modules/tinymce/themes",
                 "output": "tinymce/themes"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/tinymce/icons",
+                "output": "tinymce/icons"
               },
               {
                 "glob": "**/*",
@@ -71,6 +76,11 @@
                   "glob": "**/*",
                   "input": "node_modules/tinymce/themes",
                   "output": "tinymce/themes"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/tinymce/icons",
+                  "output": "tinymce/icons"
                 },
                 {
                   "glob": "**/*",
