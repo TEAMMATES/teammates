@@ -37,6 +37,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "node_modules/tinymce/icons",
+                "output": "tinymce/icons"
+              },
+              {
+                "glob": "**/*",
                 "input": "node_modules/tinymce/plugins",
                 "output": "tinymce/plugins"
               }
@@ -71,6 +76,11 @@
                   "glob": "**/*",
                   "input": "node_modules/tinymce/themes",
                   "output": "tinymce/themes"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "node_modules/tinymce/icons",
+                  "output": "tinymce/icons"
                 },
                 {
                   "glob": "**/*",
