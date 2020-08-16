@@ -31,6 +31,6 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="copy()"
+  <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
           [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
 </div>
