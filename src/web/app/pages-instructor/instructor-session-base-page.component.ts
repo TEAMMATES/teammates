@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { forkJoin, from, Observable, of } from 'rxjs';
-import { catchError, concatMap, finalize, last, switchMap, tap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -19,6 +19,7 @@ import {
 import { Intent } from '../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
+import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import {
     CopySessionResult,
@@ -30,6 +31,8 @@ import { ErrorMessageOutput } from '../error-message-output';
  * The base page for session related page.
  */
 export abstract class InstructorSessionBasePageComponent {
+
+  protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
@@ -192,50 +195,84 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Combines a {@link SessionsTableRowModel} and {@link CopySessionResult} to submit the copy session requests.
+   * Creates list of copy session requests from params
+   * @param model the source session model
+   * @param result the result of the copy session modal
+   * @returns the list of copy session requests
    */
-  copySessionTransformer(model: SessionsTableRowModel, result: CopySessionResult): FeedbackSession[] {
+  copySessionFromRowModel(model: SessionsTableRowModel, result: CopySessionResult): Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
+    this.failedToCopySessions = {};
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
-          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId));
+          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
+              .pipe(catchError((err: any) => {
+                this.failedToCopySessions[copyToCourseId] = err.error.message;
+                return of(err);
+              })),
+      );
     });
-    return this.copySession(copySessionRequests);
+    return copySessionRequests;
   }
 
   /**
-   * Submits the copy session requests.
+   * Creates list of copy session requests from params
+   * @param result the result of the copy session modal
+   * @param courseId the source courseId
+   * @param feedbackSessionName the source feedback session name
+   * @returns the list of copy session requests
    */
-  copySession(copySessionRequests: Observable<FeedbackSession>[]): FeedbackSession[] {
-    const successMessage: string =
-        'The feedback session has been copied. Please modify settings/questions as necessary.';
-    const sessionList: FeedbackSession[] = [];
-    if (copySessionRequests.length === 1) {
-      copySessionRequests[0].subscribe((createdSession: FeedbackSession) => {
-        sessionList.push(createdSession);
+  copySessionFromModal(result: CopySessionModalResult, courseId: string, feedbackSessionName: string)
+      : Observable<FeedbackSession>[] {
+    const copySessionRequests: Observable<FeedbackSession>[] = [];
+    this.failedToCopySessions = {};
+    result.copyToCourseList.forEach((copyToCourseId: string) => {
+      copySessionRequests.push(this.feedbackSessionsService.getFeedbackSession({
+        courseId,
+        feedbackSessionName,
+        intent: Intent.FULL_DETAIL,
+      }).pipe(switchMap((feedbackSession: FeedbackSession) =>
+              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)
+          .pipe(catchError((err: any) => {
+            this.failedToCopySessions[copyToCourseId] = err.error.message;
+            return of(err);
+          })),
+      )));
+    });
+    return copySessionRequests;
+  }
+
+  /**
+   * Submits a single copy session request.
+   */
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>): void {
+    copySessionRequest.subscribe((createdSession: FeedbackSession) => {
+      if (Object.keys(this.failedToCopySessions).length === 0) {
         this.navigationService.navigateWithSuccessMessage(this.router,
-            '/web/instructor/sessions/edit', successMessage,
+            '/web/instructor/sessions/edit',
+            'The feedback session has been copied. Please modify settings/questions as necessary.',
             { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-    } else if (copySessionRequests.length > 1) {
-      let isAnyFailed: boolean = false;
-      forkJoin(copySessionRequests).pipe(
-          tap((sessions: FeedbackSession[]) => {
-            sessionList.concat(sessions);
-          }),
-          catchError((error: any) => {
-            isAnyFailed = true;
-            return of(error);
-          }),
-      ).subscribe(() => {
-        if (isAnyFailed) {
-          this.statusMessageService.showErrorToast('The session could not be copied into some courses.');
-        } else {
-          this.statusMessageService.showSuccessToast(successMessage);
-        }
-      });
+      } else {
+        this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+      }
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+  }
+
+  resolveCopyRequest(): void {
+    if (Object.keys(this.failedToCopySessions).length > 0) {
+      this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+    } else {
+      this.statusMessageService.showSuccessToast('Feedback session copied successfully to all courses.');
     }
-    return sessionList;
+  }
+
+  getCopyErrorMessage(): string {
+    let errorMessage: string = '';
+    Object.keys(this.failedToCopySessions).forEach((key: string) => {
+      errorMessage = errorMessage.concat(`Error copying to ${key}:`).concat(' ')
+          .concat(this.failedToCopySessions[key]).concat(' ');
+    });
+    return errorMessage;
   }
 
   /**

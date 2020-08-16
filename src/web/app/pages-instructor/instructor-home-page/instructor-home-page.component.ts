@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -359,20 +360,32 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Copies the feedback session.
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
-    this.copySessionTransformer(
-        this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result)
-        .forEach((session: FeedbackSession) => {
-          const model: SessionsTableRowModel = {
-            feedbackSession: session,
-            responseRate: '',
-            isLoadingResponseRate: false,
+    const requestList: Observable<FeedbackSession>[] = this.copySessionFromRowModel(
+        this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    if (requestList.length === 1) {
+      this.copySingleSession(requestList[0]);
+    }
+    if (requestList.length > 1) {
+      forkJoin(requestList).subscribe((newSessions: FeedbackSession[]) => {
+        if (newSessions.length > 0) {
+          newSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
 
-            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-          };
-          const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
-              tabModel.course.courseId === session.courseId);
-          if (courseModel) { courseModel.sessionsTableRowModels.push(model); }
-        });
+              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            };
+            const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
+                tabModel.course.courseId === session.courseId);
+            if (courseModel) {
+              courseModel.sessionsTableRowModels.push(model);
+            }
+          });
+        }
+        this.resolveCopyRequest();
+      });
+    }
   }
 
   /**
