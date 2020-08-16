@@ -221,7 +221,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   x-placement="bottom"
                 >
                   <a
-                    class="btn dropdown-item clickable "
+                    class="btn dropdown-item clickable"
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
                     routerlink="/web/instructor/sessions/result"
                   >
@@ -613,7 +613,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   x-placement="bottom"
                 >
                   <a
-                    class="btn dropdown-item clickable "
+                    class="btn dropdown-item clickable"
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
                     routerlink="/web/instructor/sessions/result"
                   >

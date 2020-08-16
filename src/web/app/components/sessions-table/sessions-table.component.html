@@ -86,7 +86,7 @@
           <div ngbDropdown class="d-inline-block">
             <button class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
-              <a class="btn dropdown-item clickable {{!sessionsTableRowModel.instructorPrivilege.canViewSessionInSections ? 'disabled' : ''}}"
+              <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
                       (click)="viewSessionResultEvent.emit(idx)"
                       routerLink="/web/instructor/sessions/result"
                       [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results</a>
