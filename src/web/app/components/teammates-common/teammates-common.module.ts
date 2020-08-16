@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EnumToArrayPipe } from './enum-to-array.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { FormatDateDetailPipe } from './format-date-detail.pipe';
 import { FormatPhotoUrlPipe } from './format-photo-url.pipe';
+import { GeneratedChoicePipe } from './generated-choice.pipe';
 import { InstructorRoleDescriptionPipe } from './instructor-role-description.pipe';
 import { InstructorRoleNamePipe } from './instructor-role-name.pipe';
 import { PublishStatusNamePipe } from './publish-status-name.pipe';
@@ -26,6 +27,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     CommonModule,
     RouterModule,
     NgbPopoverModule,
+    NgbTooltipModule,
   ],
   declarations: [
     EnumToArrayPipe,
@@ -40,6 +42,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
+    GeneratedChoicePipe,
     ViewPhotoPopoverComponent,
     StudentNameWithPhotoComponent,
   ],
@@ -56,6 +59,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     InstructorRoleNamePipe,
     FormatDateBriefPipe,
     FormatPhotoUrlPipe,
+    GeneratedChoicePipe,
     ViewPhotoPopoverComponent,
     StudentNameWithPhotoComponent,
   ],

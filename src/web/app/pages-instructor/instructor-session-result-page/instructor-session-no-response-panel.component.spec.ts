@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 
 describe('InstructorSessionNoResponsePanelComponent', () => {
@@ -16,6 +17,7 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
         RouterModule,
         HttpClientTestingModule,
         NgbModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();

@@ -59,6 +59,9 @@ export class RankRecipientsQuestionStatisticsCalculation
       }
     }
 
+    for (const option of Object.keys(this.ranksReceivedPerOption)) {
+      this.ranksReceivedPerOption[option].sort((a: number, b: number) => a - b);
+    }
     this.rankPerOption = this.calculateRankPerOption(this.ranksReceivedPerOption);
     this.rankPerOptionExcludeSelf = this.calculateRankPerOption(ranksReceivedPerOptionExcludeSelf);
   }

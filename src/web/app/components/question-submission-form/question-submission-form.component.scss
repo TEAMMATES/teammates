@@ -6,13 +6,13 @@
   margin-top: 10px;
 }
 
+.margin-bottom-20px {
+  margin-bottom: 20px;
+}
+
 .constraint-margins {
   margin-top: 10px;
   margin-left: 20px;
-}
-
-.question-header {
-  background-color: lighten(#007BFF, 5%);
 }
 
 .evaluee-col {
@@ -23,4 +23,12 @@
 .evaluee-select {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.visibility-card {
+  background-color: rgba(0, 0, 0, .03);
+}
+
+.indent {
+  margin-left: 1%;
 }

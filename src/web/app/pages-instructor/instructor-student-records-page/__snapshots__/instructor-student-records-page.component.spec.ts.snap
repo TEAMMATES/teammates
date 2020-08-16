@@ -7,6 +7,9 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasStudentLoadingFailed="false"
+  hasStudentProfileLoadingFailed="false"
+  hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentLoading="false"
@@ -14,7 +17,6 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
-  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
@@ -33,23 +35,37 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
     >
        - CS1111
     </small>
-  </h1><tm-student-profile /><tm-more-info /><h2>
+  </h1><tm-loading-retry>
+    
+    
+    <tm-student-profile />
+    
+    <tm-more-info />
+    
+    
+  </tm-loading-retry><h2>
     Records in feedback sessions
-  </h2><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+  </h2><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-student-records-page>
 `;
 
@@ -60,6 +76,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasStudentLoadingFailed="false"
+  hasStudentProfileLoadingFailed="false"
+  hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentLoading={[Function Boolean]}
@@ -67,7 +86,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   isStudentResultsLoading={[Function Boolean]}
   photoUrl={[Function String]}
   route={[Function Object]}
-  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
@@ -86,51 +104,65 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
     >
        - su1337
     </small>
-  </h1><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+  </h1><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+    </tm-loading-spinner>
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner><h2>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><h2>
     Records in feedback sessions
-  </h2><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+  </h2><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-student-records-page>
 `;
 
@@ -141,6 +173,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   commentsToCommentTableModel={[Function CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasStudentLoadingFailed="false"
+  hasStudentProfileLoadingFailed="false"
+  hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
   instructorService={[Function InstructorService]}
   isStudentLoading="false"
@@ -148,7 +183,6 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   isStudentResultsLoading="false"
   photoUrl={[Function String]}
   route={[Function Object]}
-  session={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentEmail={[Function String]}
@@ -167,10 +201,24 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
     >
        - su1337
     </small>
-  </h1><tm-student-profile /><tm-more-info /><h2>
-    Records in feedback sessions
-  </h2><div>
+  </h1><tm-loading-retry>
     
-  </div>
+    
+    <tm-student-profile />
+    
+    <tm-more-info />
+    
+    
+  </tm-loading-retry><h2>
+    Records in feedback sessions
+  </h2><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-student-records-page>
 `;

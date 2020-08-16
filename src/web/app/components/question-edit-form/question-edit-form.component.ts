@@ -111,7 +111,6 @@ export class QuestionEditFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
     } as FeedbackTextQuestionDetails,
@@ -329,11 +328,6 @@ export class QuestionEditFormComponent implements OnInit {
    * Handles event for deleting the current question.
    */
   deleteCurrentQuestionHandler(): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
-            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
-    modalRef.result.then(() => {
-      this.deleteCurrentQuestionEvent.emit();
-    }, () => {});
+    this.deleteCurrentQuestionEvent.emit();
   }
 }

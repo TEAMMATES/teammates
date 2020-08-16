@@ -16,10 +16,10 @@
 <div class="card bg-light top-padded" *ngIf="instructors.length">
   <div class="card-header bg-primary text-white">
     <strong>Instructors Found</strong>
-    <span class="float-sm-right">
+    <div class="card-header-btn-toolbar">
       <button id="show-instructor-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllInstructorsLinks()">Expand All</button>
       <button id="hide-instructor-links" class="btn btn-light btn-sm" type="button" (click)="hideAllInstructorsLinks()">Collapse All</button>
-    </span>
+    </div>
   </div>
 
   <div class="table-responsive">
@@ -86,10 +86,10 @@
 <div class="card bg-light top-padded" *ngIf="students.length">
   <div class="card-header bg-primary text-white">
     <strong>Students Found</strong>
-    <span class="float-sm-right">
+    <div class="card-header-btn-toolbar">
       <button id="show-student-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button" (click)="showAllStudentsLinks()">Expand All</button>
       <button id="hide-student-links" class="btn btn-light btn-sm" type="button" (click)="hideAllStudentsLinks()">Collapse All</button>
-    </span>
+    </div>
   </div>
 
   <div class="table-responsive">

@@ -6,19 +6,10 @@
   margin-bottom: 0;
 }
 
-.recycle-bin-header {
-  background-color: #9E9E9E;
-  cursor: pointer;
-}
-
 .recycle-bin-table-header {
   background-color: #E5E5E6;
   color: gray;
   font-weight: normal;
-}
-
-.bin-header-button button {
-  margin-right: .6em;
 }
 
 .sortable-header {
@@ -26,5 +17,5 @@
 }
 
 .actions-cell button {
-  margin: 2px;
+  margin-right: var(--btn-margin);
 }

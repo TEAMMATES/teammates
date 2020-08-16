@@ -1,5 +1,9 @@
 import { Directive } from '@angular/core';
-import { FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails } from '../../../../../types/api-output';
+import {
+  FeedbackMsqQuestionDetails,
+  FeedbackMsqResponseDetails,
+  FeedbackParticipantType,
+} from '../../../../../types/api-output';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../../types/feedback-response-details';
 import { QuestionStatistics } from '../question-statistics';
 import { McqMsqQuestionStatisticsCalculation } from './mcq-msq-question-statistics-calculation';
@@ -114,8 +118,8 @@ export class MsqQuestionStatisticsCalculation
 
       this.perRecipientResponses[recipient] = {
         recipient,
-        total,
-        average,
+        total: +total.toFixed(5),
+        average: +average.toFixed(2),
         recipientTeam: recipientToTeam[recipient],
         responses: perRecipientResponse[recipient],
       };
@@ -136,7 +140,8 @@ export class MsqQuestionStatisticsCalculation
         // ignore 'None of the above' answer
         continue;
       }
-      if (this.question.msqChoices.indexOf(answer) === -1) {
+      if (this.question.msqChoices.indexOf(answer) === -1
+          && this.question.generateOptionsFor === FeedbackParticipantType.NONE) {
         // ignore other answer if any
         continue;
       }

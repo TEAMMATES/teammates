@@ -96,25 +96,25 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(req.getShortName()),
+                        req.getShortName(),
                         FieldValidator.PERSON_NAME_FIELD_NAME,
                         FieldValidator.REASON_CONTAINS_INVALID_CHAR,
                         FieldValidator.PERSON_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(req.getEmail()),
+                        req.getEmail(),
                         FieldValidator.EMAIL_FIELD_NAME,
                         FieldValidator.REASON_INCORRECT_FORMAT,
                         FieldValidator.EMAIL_MAX_LENGTH));
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(req.getInstitute()),
+                        req.getInstitute(),
                         FieldValidator.INSTITUTE_NAME_FIELD_NAME,
                         FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
                         FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
-                        SanitizationHelper.sanitizeForHtml(req.getNationality())));
+                        req.getNationality()));
 
         assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
     }

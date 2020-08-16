@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { AdminSessionsPageComponent } from './admin-sessions-page.component';
 
 describe('AdminSessionsPageComponent', () => {
@@ -16,6 +17,7 @@ describe('AdminSessionsPageComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         LoadingSpinnerModule,
+        PanelChevronModule,
       ],
       declarations: [AdminSessionsPageComponent],
     })

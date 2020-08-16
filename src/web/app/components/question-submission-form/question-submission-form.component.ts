@@ -72,7 +72,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionText: '',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextQuestionDetails,
@@ -89,8 +88,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
-  @Output()
-  saveCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
@@ -150,13 +147,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
       ...this.model,
       recipientSubmissionForms,
     });
-  }
-
-  /**
-   * Triggers deletion of a participant comment associated with the response.
-   */
-  triggerSaveCommentEvent(index: number): void {
-    this.saveCommentEvent.emit(index);
   }
 
   /**

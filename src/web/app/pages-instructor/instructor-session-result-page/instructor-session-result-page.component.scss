@@ -7,15 +7,21 @@
 }
 
 .action-btn {
-  margin-bottom: 15px;
+  margin-bottom: var(--btn-margin);
   width: 100%;
   white-space: nowrap;
 }
 
-.expand-btn {
-  width: 100%;
-}
-
 .action-btn-group {
   max-width: 600px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.report-config-item {
+  margin-bottom: 6px;
+}
+
+.report-config-label {
+  margin-bottom: 2px;
 }

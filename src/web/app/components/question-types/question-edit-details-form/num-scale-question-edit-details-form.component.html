@@ -1,22 +1,22 @@
 <div class="row">
-  <div class="col-sm-4" ngbTooltip="Minimum acceptable response value">
-    Minimum value:
+  <div class="col-sm-4">
+    <span class="ngb-tooltip-class" ngbTooltip="Minimum acceptable response value">Minimum value:</span>
     <input type="number" class="form-control" [ngModel]="model.minScale" (ngModelChange)="triggerModelChange('minScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1">
   </div>
-  <div class="col-sm-4" ngbTooltip="Value to be increased/decreased each step">
-    Increment:
+  <div class="col-sm-4">
+    <span class="ngb-tooltip-class" ngbTooltip="Value to be increased/decreased each step">Increment:</span>
     <input type="number" class="form-control" [ngModel]="model.step" (ngModelChange)="triggerModelChange('step', $event)" [disabled]="!isEditable"
            step="any" min="0">
   </div>
-  <div class="col-sm-4" ngbTooltip="Maximum acceptable response value">
-    Maximum value:
+  <div class="col-sm-4">
+    <span class="ngb-tooltip-class" ngbTooltip="Maximum acceptable response value">Maximum value:</span>
     <input type="number" class="form-control" [ngModel]="model.maxScale" (ngModelChange)="triggerModelChange('maxScale', $event === null ? $event : Math.ceil($event))" [disabled]="!isEditable" [step]="1" min="{{ Math.ceil(model.minScale + model.step) }}">
   </div>
 </div>
 <br>
-<div *ngIf="isIntervalDivisible">
+<div *ngIf="model.step > 0">
   Based on the above settings, acceptable responses are: {{ possibleValues }}
 </div>
-<div class="text-danger" *ngIf="!isIntervalDivisible">
-  The interval {{ model.minScale }} - {{ model.maxScale }} is not divisible by the specified increment!
+<div class="text-danger" *ngIf="model.step <= 0">
+  The step size must be a positive number!
 </div>

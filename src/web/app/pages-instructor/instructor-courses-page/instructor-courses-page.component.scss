@@ -14,23 +14,8 @@
   padding: 0;
 }
 
-.recycle-bin-header {
-  background-color: var(--secondary);
-  cursor: pointer;
-}
-
-.margin-left-10px {
-  margin-left: 10px;
-}
-
 .background-color-medium-gray {
   background-color: #E5E5E6;
-}
-
-.archive-course-header {
-  cursor: pointer;
-  padding-top: .7rem;
-  padding-bottom: .7rem;
 }
 
 .text-color-black {
@@ -67,12 +52,8 @@
   margin-top: 30px;
 }
 
-.bin-header-button button {
-  margin-right: .6em;
-}
-
-.actions-cell button {
-  margin: 2px;
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
 }
 
 .dropdown-menu {

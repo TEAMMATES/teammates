@@ -1,13 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
-
 import {
     CommentBoxModule,
 } from '../../../components/comment-box/comment-box.module';
+import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
 import { SingleStatisticsModule,
 } from '../../../components/question-responses/single-statistics/single-statistics.module';
 import { StudentViewResponsesModule,
@@ -24,6 +25,7 @@ import {
   InstructorSessionResultViewModule,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
 import { ExampleBoxModule } from '../example-box/example-box.module';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section.component';
 
 describe('InstructorHelpSessionsSectionComponent', () => {
@@ -32,13 +34,16 @@ describe('InstructorHelpSessionsSectionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorHelpSessionsSectionComponent],
+      declarations: [
+        InstructorHelpSessionsSectionComponent,
+        InstructorHelpPanelComponent,
+      ],
       imports: [
         CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule, ExampleBoxModule,
-        RouterTestingModule, NgxPageScrollCoreModule,
+        RouterTestingModule, NgxPageScrollCoreModule, NoopAnimationsModule,
         SessionEditFormModule, SessionsRecycleBinTableModule,
         InstructorSearchComponentsModule, InstructorSessionResultViewModule, QuestionTextWithInfoModule,
-        SingleStatisticsModule, StudentViewResponsesModule],
+        SingleStatisticsModule, StudentViewResponsesModule, PanelChevronModule],
     })
     .compileComponents();
   }));

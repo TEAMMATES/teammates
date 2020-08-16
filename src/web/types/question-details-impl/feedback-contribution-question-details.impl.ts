@@ -52,7 +52,7 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       email: string,
       claimedStr: string,
       perceivedStr: string,
-      ratingsReceivedStr: string,
+      ratingsReceivedStr: string[],
     }[] = [];
     for (const email of Object.keys(statsCalculation.emailToName)) {
       const teamName: string = statsCalculation.emailToTeamName[email];
@@ -61,15 +61,13 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       const claimedStr: string = this.getContributionPointToText(claimed);
       const perceived: number = statsCalculation.questionOverallStatistics.results[email].perceived;
       const perceivedStr: string = this.getContributionPointToText(perceived);
-      let ratingsReceivedStr: string =
+      const ratingsReceivedStr: string[] =
           statsCalculation.questionOverallStatistics.results[email].perceivedOthers
               .concat()
-              .sort()
-              .reverse()
-              .map(this.getContributionPointToText)
-              .join(',');
+              .sort((a: number, b: number) => b - a)
+              .map(this.getContributionPointToText);
       if (ratingsReceivedStr.length === 0) {
-        ratingsReceivedStr = 'N/A';
+        ratingsReceivedStr[0] = 'N/A';
       }
       stats.push({
         teamName,
@@ -91,10 +89,10 @@ export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQue
       email: string,
       claimedStr: string,
       perceivedStr: string,
-      ratingsReceivedStr: string,
+      ratingsReceivedStr: string[],
     }) => {
       statsRows.push([value.teamName, value.name, value.email,
-        value.claimedStr, value.perceivedStr, value.ratingsReceivedStr]);
+        value.claimedStr, value.perceivedStr, ...value.ratingsReceivedStr]);
     });
 
     return statsRows;

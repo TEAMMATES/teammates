@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -24,6 +25,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   lang: string = 'en';
 
   formSessionLinksRecovery!: FormGroup;
+  isFormSubmitting: boolean = false;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
@@ -53,10 +55,12 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       return;
     }
 
+    this.isFormSubmitting = true;
+
     this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
       sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls.email.value,
       captchaResponse: this.captchaResponse,
-    }).subscribe((resp: SessionLinksRecoveryResponse) => {
+    }).pipe(finalize(() => this.isFormSubmitting = false)).subscribe((resp: SessionLinksRecoveryResponse) => {
       resp.isEmailSent
             ? this.statusMessageService.showSuccessToast(resp.message)
             : this.statusMessageService.showErrorToast(resp.message);

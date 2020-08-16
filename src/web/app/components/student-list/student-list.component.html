@@ -1,40 +1,50 @@
 <div class="table-responsive">
   <table class="table table-bordered table-striped m-0">
     <thead
-        [ngClass]="{'thead-gray': useGrayHeading, 'text-white bg-primary font-weight-bold': !useGrayHeading}"
+        [ngClass]="{'thead-gray': useGrayHeading, 'alert-primary font-weight-bold': !useGrayHeading}"
         [hidden]="isHideTableHead"
     >
     <tr>
       <th>Photo</th>
       <th class="sortable-header" *ngIf="hasSection()" (click)="sortStudentList(SortBy.SECTION_NAME)">
         Section
-        <span *ngIf="tableSortBy !== SortBy.SECTION_NAME"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.SECTION_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
       <th class="sortable-header" (click)="sortStudentList(SortBy.TEAM_NAME)">
         Team
-        <span *ngIf="tableSortBy !== SortBy.TEAM_NAME"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.STUDENT_NAME)">
+      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
         Student Name
-        <span *ngIf="tableSortBy !== SortBy.STUDENT_NAME"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.STUDENT_NAME && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
       <th class="sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
         Status
-        <span *ngIf="tableSortBy !== SortBy.JOIN_STATUS"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.JOIN_STATUS && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.EMAIL)">
+      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_EMAIL)">
         Email
-        <span *ngIf="tableSortBy !== SortBy.EMAIL"><i class="fas fa-sort"></i></span>
-        <span *ngIf="tableSortBy === SortBy.EMAIL && tableSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="tableSortBy === SortBy.EMAIL && tableSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="tableSortBy === SortBy.RESPONDENT_EMAIL && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
       <th class="align-center">Action(s)</th>
     </tr>
@@ -42,7 +52,8 @@
     <tbody>
     <tr *ngFor="let studentModel of students; trackBy: trackByFn" [hidden]="isStudentToHide(studentModel.student.email)" s>
       <td>
-        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId" [isViewPhotoLinkInPopover]="false"></tm-view-photo-popover>
+        <tm-view-photo-popover [photoUrl]="studentModel.student.email | formatPhotoUrl: courseId"
+                               [useViewPhotoBtn]="true"></tm-view-photo-popover>
       </td>
       <td *ngIf="hasSection()">{{studentModel.student.sectionName}}</td>
       <td>{{studentModel.student.teamName}}</td>
@@ -52,7 +63,7 @@
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
                      let-routerLink="routerLink" let-queryParams="queryParams">
-          <a class="btn btn-light btn-sm mr-2" target="_blank" rel="noopener noreferrer"
+          <a class="btn btn-light btn-sm btn-margin-right" target="_blank" rel="noopener noreferrer"
              [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
              [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
              [routerLink]="routerLink"
@@ -77,7 +88,7 @@
       }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
         <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
-          <button class="btn btn-light btn-sm mr-2"
+          <button class="btn btn-light btn-sm btn-margin-right"
             [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
             [disabled]=!isActionButtonsEnabled
             [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
@@ -88,7 +99,7 @@
             (click)="openRemindModal(studentModel)">Send Invite</button>
         </ng-container>
       </ng-container>
-      <button class="btn btn-light btn-sm mr-2"
+      <button class="btn btn-light btn-sm btn-margin-right"
         [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
         [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
           ? 'Delete the student and the corresponding submissions from the course'

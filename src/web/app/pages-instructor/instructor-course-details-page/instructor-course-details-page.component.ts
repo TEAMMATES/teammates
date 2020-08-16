@@ -9,6 +9,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
   Instructor,
@@ -19,7 +20,9 @@ import {
   Students,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -61,6 +64,10 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
+  hasLoadingStudentsFailed: boolean = false;
+
+  studentSortBy: SortBy = SortBy.NONE;
+  studentSortOrder: SortOrder = SortOrder.ASC;
 
   constructor(private route: ActivatedRoute, private router: Router,
               private statusMessageService: StatusMessageService,
@@ -69,7 +76,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
               private simpleModalService: SimpleModalService,
               private navigationService: NavigationService,
               private studentService: StudentService,
-              private instructorService: InstructorService) { }
+              private instructorService: InstructorService,
+              private tableComparatorService: TableComparatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -112,7 +120,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Loads the students in the course
    */
-  private loadStudents(courseid: string): void {
+  loadStudents(courseid: string): void {
+    this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
@@ -140,6 +149,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       }
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
+      this.isStudentsLoading = false;
+      this.hasLoadingStudentsFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -161,7 +172,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
             }
           });
           this.students.push(...students);
+          this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
         }, (resp: ErrorMessageOutput) => {
+          this.hasLoadingStudentsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -290,5 +303,63 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  /**
+   * Sorts the student list.
+   */
+  sortStudentList(by: SortBy): void {
+    this.studentSortBy = by;
+    this.studentSortOrder =
+      this.studentSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.students.sort(this.sortStudentBy(by, this.studentSortOrder));
+  }
+
+  /**
+   * Returns a function to determine the order of sort for students.
+   */
+  sortStudentBy(by: SortBy, order: SortOrder):
+    ((a: StudentListRowModel , b: StudentListRowModel) => number) {
+    const joinStatePipe: JoinStatePipe = new JoinStatePipe();
+    if (by === SortBy.NONE) {
+      // Default order: section name > team name > student name
+      return ((a: StudentListRowModel, b: StudentListRowModel): number => {
+        return this.tableComparatorService
+            .compare(SortBy.SECTION_NAME, order, a.student.sectionName, b.student.sectionName)
+          || this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName)
+          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, order, a.student.name, b.student.name);
+      });
+    }
+    return (a: StudentListRowModel, b: StudentListRowModel): number => {
+      let strA: string;
+      let strB: string;
+      switch (by) {
+        case SortBy.SECTION_NAME:
+          strA = a.student.sectionName;
+          strB = b.student.sectionName;
+          break;
+        case SortBy.RESPONDENT_NAME:
+          strA = a.student.name;
+          strB = b.student.name;
+          break;
+        case SortBy.TEAM_NAME:
+          strA = a.student.teamName;
+          strB = b.student.teamName;
+          break;
+        case SortBy.RESPONDENT_EMAIL:
+          strA = a.student.email;
+          strB = b.student.email;
+          break;
+        case SortBy.JOIN_STATUS:
+          strA = joinStatePipe.transform(a.student.joinState);
+          strB = joinStatePipe.transform(b.student.joinState);
+          break;
+        default:
+          strA = '';
+          strB = '';
+      }
+
+      return this.tableComparatorService.compare(by, order, strA, strB);
+    };
   }
 }

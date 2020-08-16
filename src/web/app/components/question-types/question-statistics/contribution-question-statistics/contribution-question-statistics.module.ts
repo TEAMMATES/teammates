@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 
@@ -10,6 +11,7 @@ import { ContributionComponent } from './contribution.component';
   declarations: [ContributionComponent, ContributionRatingsListComponent],
   imports: [
     CommonModule,
+    NgbTooltipModule,
   ],
   entryComponents: [
     ContributionComponent, ContributionRatingsListComponent,

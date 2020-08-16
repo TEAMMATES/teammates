@@ -31,6 +31,7 @@ import {
 import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } from '../../../types/api-request';
 import { FormValidator } from '../../../types/form-validator';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
@@ -67,6 +68,7 @@ const formatTwoDigits: Function = (n: number): string => {
   selector: 'tm-instructor-course-edit-page',
   templateUrl: './instructor-course-edit-page.component.html',
   styleUrls: ['./instructor-course-edit-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
 
@@ -115,7 +117,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
     courseId: '',
     email: '',
     isDisplayedToStudents: true,
-    displayedToStudentsAs: '',
+    displayedToStudentsAs: 'Instructor',
     name: '',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.NOT_JOINED,
@@ -143,7 +145,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   allSessions: string[] = [];
 
   isCourseLoading: boolean = false;
+  hasCourseLoadingFailed: boolean = false;
   isInstructorsLoading: boolean = false;
+  hasInstructorsLoadingFailed: boolean = false;
   isSavingCourseEdit: boolean = false;
   isSavingNewInstructor: boolean = false;
 
@@ -206,6 +210,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads the course being edited.
    */
   loadCourseInfo(): void {
+    this.hasCourseLoadingFailed = false;
     this.isCourseLoading = true;
     this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
       this.isCourseLoading = false;
@@ -213,6 +218,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.course = resp;
       this.originalCourse = Object.assign({}, resp);
     }, (resp: ErrorMessageOutput) => {
+      this.hasCourseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
@@ -288,6 +294,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Loads all instructors in the course.
    */
   loadCourseInstructors(): void {
+    this.hasInstructorsLoadingFailed = false;
     this.isInstructorsLoading = true;
     this.instructorService.loadInstructors({
       courseId: this.courseId,
@@ -304,6 +311,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.loadPermissionForInstructor(panel);
           });
         }, (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
   }
@@ -332,14 +340,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       permission: {
         privilege: {
-          canModifyCourse: true,
-          canModifySession: true,
-          canModifyStudent: true,
-          canModifyInstructor: true,
-          canViewStudentInSections: true,
-          canModifySessionCommentsInSections: true,
-          canViewSessionInSections: true,
-          canSubmitSessionInSections: true,
+          canModifyCourse: false,
+          canModifySession: false,
+          canModifyStudent: false,
+          canModifyInstructor: false,
+          canViewStudentInSections: false,
+          canModifySessionCommentsInSections: false,
+          canViewSessionInSections: false,
+          canSubmitSessionInSections: false,
         },
         sectionLevel: [],
       },
@@ -658,6 +666,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
       panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
     }, (resp: ErrorMessageOutput) => {
+      this.hasInstructorsLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }

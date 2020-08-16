@@ -6,7 +6,7 @@
     <div class="card-body">
       <div class="row" style="margin-bottom: 5px;">
         <div class="col-sm-2">
-          <span ngbTooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception">
+          <span class="ngb-tooltip-class" ngbTooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception">
             <strong>My view:</strong>
           </span>
         </div>
@@ -15,7 +15,7 @@
         </div>
         <div class="col-sm-8">
           <strong>of others:</strong>&nbsp;
-          <span *ngFor="let other of questionStatisticsForStudent.claimedOthers; let i = index;">
+          <span *ngFor="let other of questionStatisticsForStudent.claimedOthersValues; let i = index;">
             <span *ngIf="i !== 0">,&nbsp;</span>
             <tm-contribution [value]="other"></tm-contribution>
           </span>
@@ -27,7 +27,7 @@
           <strong>Team view:</strong>
         </div>
         <div class="col-sm-2">
-          <span ngbTooltip="The average contribution the other members of your team attributed to you">
+          <span class="ngb-tooltip-class" ngbTooltip="The average contribution the other members of your team attributed to you">
             <strong>of me:&nbsp;</strong>
           </span>
           <tm-contribution [value]="questionStatisticsForStudent.perceived"></tm-contribution>

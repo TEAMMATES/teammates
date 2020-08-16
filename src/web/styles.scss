@@ -6,15 +6,47 @@
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: .875rem;
 }
 
 ul {
   margin-bottom: 0;
 }
 
-.btn {
-  font-size: .8rem;
+h1,
+.h1 {
+  font-size: 2.1875rem;
+}
+
+h2,
+.h2 {
+  font-size: 1.75rem;
+}
+
+h3,
+.h3 {
+  font-size: 1.53125rem;
+}
+
+h4,
+.h4 {
+  font-size: 1.3125rem;
+}
+
+h5,
+.h5 {
+  font-size: 1.09375rem;
+}
+
+h6,
+.h6 {
+  font-size: .875rem;
+}
+
+.btn,
+.form-control,
+.dropdown-item {
+  font-size: .875rem;
 }
 
 .color-orange {
@@ -31,7 +63,6 @@ ul {
 
 .modal {
   text-align: center;
-  padding: 0 !important;
 }
 
 .modal::before {
@@ -39,14 +70,41 @@ ul {
   display: inline-block;
   height: 100%;
   vertical-align: middle;
-  margin-right: -4px;
+}
+
+.modal-header {
+  padding: .75rem 1rem;
+}
+
+.modal-body {
+  padding: 1rem 1.25rem;
+}
+
+.modal-footer {
+  padding: .3rem .5rem;
 }
 
 .modal-dialog {
   text-align: left;
   display: inline-block;
-  min-width: 800px;
+  max-height: 90vh;
+  max-width: 70vw;
+  min-width: 30vw;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;  // IE10+
   vertical-align: middle;
+
+  &::-webkit-scrollbar { // Webkit-based browsers
+    width: 0;
+    height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 80vw;
+    min-width: 65vw;
+  }
 }
 
 .close:focus {
@@ -62,8 +120,43 @@ ul {
   }
 }
 
+.card {
+  margin-bottom: 20px;
+}
+
 .card-header {
+  align-items: center;
+  display: flex;
   padding: .5rem 1rem;
+}
+
+.card-header-btn-toolbar {
+  align-items: center;
+  margin-left: auto;
+  text-align: right;
+
+  button {
+    margin-right: var(--btn-margin);
+  }
+
+  .btn-primary {
+    background-color: darken(#007BFF, 5%); // 5% darker than primary
+  }
+
+  .btn-secondary {
+    background-color: darken(#6C757D, 10%); // 10% darker than secondary
+  }
+}
+
+.dropdown-item {
+  &:focus,
+  &:hover {
+    background-color: #DAE0E5;
+  }
+}
+
+.form-control::placeholder {
+  opacity: .7;
 }
 
 // The following few properties are for the usermap page.
@@ -103,21 +196,8 @@ ul {
   cursor: pointer;
 }
 
-[ng-reflect-ngb-tooltip] {
+.ngb-tooltip-class {
   text-decoration: underline dotted #808080;
-
-  &.btn,
-  &.fa,
-  &.fas,
-  &.far,
-  &.fab,
-  &.fal {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
 
   &:hover {
     text-decoration: underline dotted #000;
@@ -134,4 +214,51 @@ ul {
 [disabled],
 .editor.editor-disabled {
   cursor: not-allowed;
+}
+
+.btn-light {
+  border: 1px solid #DDD;
+
+  &[disabled] {
+    border: 1px solid #EEE;
+  }
+}
+
+:root {
+  --btn-margin: 5px;
+}
+
+.btn-margin-left {
+  margin-left: var(--btn-margin);
+}
+
+.btn-margin-right {
+  margin-right: var(--btn-margin);
+}
+
+.btn-margin {
+  margin: var(--btn-margin);
+}
+
+.fa-sort-down,
+.fa-sort-up {
+  color: black;
+}
+
+.fa-sort {
+  color: #CCC;
+}
+
+.fa-sort,
+.fa-sort-up,
+.fa-sort-down {
+  // copied from fa-stack-X
+  left: 0;
+  position: absolute;
+  text-align: center;
+  line-height: inherit;
+}
+
+.fa-stack {
+  width: auto;
 }

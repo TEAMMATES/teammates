@@ -1,6 +1,6 @@
 <div class="card border-{{ isSelfResponses ? 'info' : 'primary' }} mt-4">
   <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }} text-white">
-    <b>To:</b> {{ recipient }}
+    <span><b>To:</b> {{ recipient }}</span>
   </div>
   <div class="card-body" style="padding: 0;">
     <table class="table">
@@ -13,7 +13,8 @@
           </tr>
           <tr>
             <td>
-              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails" [isStudentPage]="true"></tm-single-response>
+              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails"
+                                  [isStudentPage]="true" [giverEmail]="response.giverEmail" [recipientEmail]="response.recipientEmail" [statistics]="statistics"></tm-single-response>
             </td>
           </tr>
           <tr *ngIf="response.participantComment">

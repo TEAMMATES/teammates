@@ -28,77 +28,85 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
 >
   <div
     class="card"
-    xmlns="http://www.w3.org/1999/html"
+    id="question-form-0"
   >
     <div
-      class="card-header text-white question-header cursor-pointer"
+      class="card-header bg-primary text-white cursor-pointer"
     >
       <div
-        class="row align-items-center"
+        class="collapse-caret"
       >
-        <div
-          class="col-5"
-        >
-          <span>
+        <tm-panel-chevron>
+          <div
+            class="chevron"
+          >
             
             
             <i
-              class="fas fa-chevron-up collapse-caret"
+              class="fas fa-chevron-up"
             />
-          </span>
-          <strong>
-            Question 
-            
-            <span>
-              0
-            </span>
-          </strong>
+          </div>
+        </tm-panel-chevron>
+      </div>
+      <div
+        id="question-header"
+      >
+        <strong>
+          Question 
           
-           Essay question 
+          <span
+            id="question-number"
+          >
+            0
+          </span>
+        </strong>
+        
+         Essay question 
+        
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        
+        <div>
+          
+          <button
+            class="btn btn-primary btn-sm"
+            id="btn-edit-question"
+            type="button"
+          >
+            <i
+              class="fas fa-pencil-alt"
+            />
+             Edit 
+          </button>
+          
+          
+          <button
+            class="btn btn-primary btn-sm"
+            id="btn-delete-question"
+            type="button"
+          >
+            <i
+              class="fas fa-trash"
+            />
+             Delete 
+          </button>
+          <button
+            class="btn btn-primary btn-sm"
+            container="body"
+            id="btn-duplicate-question"
+            ngbtooltip="Make a copy of the existing question and add to the current feedback session."
+            type="button"
+          >
+            <i
+              class="far fa-copy"
+            />
+             Duplicate 
+          </button>
         </div>
         
-        <div
-          class="col-7 text-right"
-        >
-          
-          <div>
-            
-            <button
-              class="btn btn-primary btn-sm"
-              type="button"
-            >
-              <i
-                class="fas fa-pencil-alt"
-              />
-               Edit
-            </button>
-            
-            
-            <button
-              class="btn btn-primary btn-sm"
-              type="button"
-            >
-              <i
-                class="fas fa-trash"
-              />
-               Delete
-            </button>
-            <button
-              class="btn btn-primary btn-sm"
-              container="body"
-              ngbtooltip="Make a copy of the existing question and add to the current feedback session."
-              type="button"
-            >
-              <i
-                class="far fa-copy"
-              />
-               Duplicate
-            </button>
-          </div>
-          
-        </div>
       </div>
-      
     </div>
     
     <div
@@ -135,6 +143,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <textarea
                     class="form-control ng-untouched ng-pristine ng-valid"
                     disabled=""
+                    id="question-brief"
                     placeholder="A concise version of the question e.g. \\"How well did the team member communicate?\\""
                   />
                 </div>
@@ -160,16 +169,11 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     minheightinpx="100"
                     placeholdertext="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
                   >
-                    <editor
-                      class="editor editor-disabled ng-untouched ng-pristine ng-valid"
-                      placeholder="More details about the question e.g. \\"In answering the question, do consider communications made informally within the team, and formal communications with the instructors and tutors.\\""
+                    <div
+                      inviewport=""
                     >
                       
-                      <textarea
-                        id="tiny-angular_031577836800000"
-                        style="visibility: hidden;"
-                      />
-                    </editor>
+                    </div>
                   </tm-rich-text-editor>
                 </div>
               </div>
@@ -188,6 +192,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     >
                        [Optional] 
                       <span
+                        class="ngb-tooltip-class"
                         ngbtooltip="The recommended length is shown to the respondent but not enforced"
                       >
                          Recommended length 
@@ -196,7 +201,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                       <input
                         class="form-control ng-untouched ng-pristine ng-valid"
                         disabled=""
-                        min="0"
+                        min="1"
                         type="number"
                       />
                        words 
@@ -237,6 +242,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               aria-haspopup="true"
               class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
+              id="btn-feedback-path"
               ngbdropdowntoggle=""
             >
               
@@ -253,6 +259,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </button>
             <ul
               class="dropdown-menu"
+              id="feedback-path-dropdown"
               ngbdropdownmenu=""
               x-placement="bottom"
             >
@@ -298,6 +305,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                     <input
                       class="ng-untouched ng-pristine ng-valid"
                       disabled=""
+                      id="custom-recipients"
                       type="radio"
                     />
                   </div>
@@ -305,6 +313,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 <input
                   class="form-control ng-untouched ng-pristine ng-valid"
                   disabled=""
+                  id="custom-recipients-number"
                   min="1"
                   type="number"
                 />
@@ -322,6 +331,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <input
                     class="form-check-input ng-untouched ng-pristine ng-valid"
                     disabled=""
+                    id="unlimited-recipients"
                     type="radio"
                   />
                    Unlimited 
@@ -351,6 +361,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               aria-haspopup="true"
               class="btn btn-light white-space-normal dropdown-toggle"
               disabled=""
+              id="btn-question-visibility"
               ngbdropdowntoggle=""
             >
               
@@ -363,6 +374,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </button>
             <ul
               class="dropdown-menu"
+              id="question-visibility-dropdown"
               ngbdropdownmenu=""
               x-placement="bottom"
             >
@@ -420,30 +432,30 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             </ul>
           </div>
         </div>
-      </div>
-      
-      <div
-        class="row margin-top-15px"
-        style=""
-      >
+        
         <div
-          class="col-12 text-right"
+          class="row margin-top-15px"
+          style=""
         >
-          
-          <button
-            class="btn btn-primary"
-            disabled=""
+          <div
+            class="col-12 text-right"
           >
             
-            
-            <span>
-              <i
-                class="fas fa-check"
-              />
-               Save Changes
-            </span>
-            
-          </button>
+            <button
+              class="btn btn-success"
+              disabled=""
+            >
+              
+              
+              <span>
+                <i
+                  class="fas fa-check"
+                />
+                 Save Changes
+              </span>
+              
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
@@ -26,8 +26,8 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   instructorGettingStartedPath: string = '';
   searchTerm: String = '';
   key: String = '';
+  matchFound: number = 0;
 
-  scrollFinishEvent: EventEmitter<boolean> = new EventEmitter();
   questionIdToExpand: string = '';
   section: string = '';
 
@@ -50,7 +50,6 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.scrollFinishEvent.subscribe(() => this.expandQuestionTab());
   }
 
   ngAfterViewInit(): void {
@@ -79,6 +78,7 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
    * Filters the help contents and displays only those that matches the filter.
    */
   search(): void {
+    this.matchFound = 0;
     if (this.searchTerm !== '') {
       this.key = this.searchTerm.toLowerCase();
     } else {
@@ -101,12 +101,12 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   }
 
   scrollTo(target: string, timeout?: number): void {
+    this.expandQuestionTab();
     setTimeout(() => this.pageScrollService.scroll({
       document: this.document,
       duration: 500,
       scrollTarget: `#${target}`,
       scrollOffset: 70,
-      scrollFinishListener: this.scrollFinishEvent,
     }), timeout ? timeout : 500);
   }
 
@@ -134,6 +134,10 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
     this.questionIdToExpand = SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL;
     this.section = Sections.sessions;
     this.scrollTo(SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL, 100);
+  }
+
+  updateMatchFoundNumber(n: number): void {
+    this.matchFound += n;
   }
 
 }

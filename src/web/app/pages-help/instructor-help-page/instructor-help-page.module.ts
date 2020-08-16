@@ -11,6 +11,7 @@ import { InstructorHelpPageComponent } from './instructor-help-page.component';
 import {
   CommentBoxModule,
 } from '../../components/comment-box/comment-box.module';
+import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { StudentViewResponsesModule,
 } from '../../components/question-responses/student-view-responses/student-view-responses.module';
@@ -33,6 +34,7 @@ import { ExampleBoxModule } from './example-box/example-box.module';
 import {
   InstructorHelpCoursesSectionComponent,
 } from './instructor-help-courses-section/instructor-help-courses-section.component';
+import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
 import {
   InstructorHelpQuestionsSectionComponent,
 } from './instructor-help-questions-section/instructor-help-questions-section.component';
@@ -74,9 +76,11 @@ const routes: Routes = [
     InstructorSessionResultViewModule,
     InstructorSearchComponentsModule,
     InstructorCourseStudentEditFormModule,
+    PanelChevronModule,
   ],
   declarations: [
     InstructorHelpPageComponent,
+    InstructorHelpPanelComponent,
     InstructorHelpStudentsSectionComponent,
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,

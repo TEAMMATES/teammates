@@ -1,4 +1,4 @@
-<div class="row" style="border-bottom: 1px solid #DDD;"
+<div class="row" [class.border-bottom]="!isLastGroupedResponses"
     *ngIf="responses.length && responses[0].allResponses.length && hasRealResponses">
   <div class="col-md-3">
     <div>
@@ -20,13 +20,13 @@
     <div class="top-padded">
       <tm-response-moderation-button *ngIf="!isGrq && responses[0].allResponses[0].relatedGiverEmail" [session]="session"
                                      [relatedGiverEmail]="responses[0].allResponses[0].relatedGiverEmail"
-                                     [isGiverInstructor]="responses[0].feedbackQuestion.giverType === 'INSTRUCTORS'"></tm-response-moderation-button>
+                                     [isGiverInstructor]="responses[0].feedbackQuestion.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
     </div>
   </div>
   <div class="col-md-9">
     <div *ngFor="let response of responses">
-      <div class="card bottom-padded">
-        <div class="card-header bg-info text-white">
+      <div class="card bottom-padded alert-primary-border">
+        <div class="card-header alert-primary">
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
@@ -34,10 +34,13 @@
             <tm-single-response
                     [class.color-neutral]="response.allResponses[0].isMissingResponse"
                     [responseDetails]="response.allResponses[0].responseDetails"
-                    [questionDetails]="response.feedbackQuestion.questionDetails"></tm-single-response>
+                    [questionDetails]="response.feedbackQuestion.questionDetails"
+                    [giverEmail]="response.allResponses[0].giverEmail"
+                    [recipientEmail]="response.allResponses[0].recipientEmail"
+                    [statistics]="response.questionStatistics"></tm-single-response>
             <button (click)="toggleAddComment(response.allResponses[0].responseId)"
-                    *ngIf="response.feedbackQuestion.questionType !== 'CONTRIB'"
-                    ngbTooltip="Add comment" type="button" class="btn btn-secondary btn-sm comment-button">
+                    *ngIf="!response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'"
+                    ngbTooltip="Add comment" type="button" class="btn btn-light btn-sm comment-button">
               <i class="fas fa-comment"></i>
             </button>
           </div>

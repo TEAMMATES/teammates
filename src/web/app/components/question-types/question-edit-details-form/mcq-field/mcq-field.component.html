@@ -1,12 +1,11 @@
 <div class="input-group">
   <span class="input-group-addon">
-    <input type="radio" class="disabled_radio" disabled>
+    <input type="radio" disabled>
   </span>
-  <tm-option-rich-text-editor class="rich-text-editor" [richText]="text" (richTextChange)="onMcqOptionEntered($event)"
-                       [isDisabled]="!isEditable" [minHeightInPx]="38">
-  </tm-option-rich-text-editor>
+  <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq
+         (ngModelChange)="onMcqOptionEntered($event.trim())">
   <span class="input-group-btn">
-    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial; height: 100%;"
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
             tabindex="-1" [disabled]="!isEditable" (click)="deleteMcqOption()">
       <span aria-hidden="true">&times;</span>
     </button>

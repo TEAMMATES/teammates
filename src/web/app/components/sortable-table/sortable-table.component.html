@@ -1,11 +1,13 @@
-<table class="table table-bordered table-striped margin-0">
+<table class="table table-bordered table-striped margin-bottom-20px">
   <thead>
     <tr>
       <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)">
         <span [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
-        <span *ngIf="column.sortBy && columnToSortBy !== column.header"><i class="fas fa-sort"></i></span>
-        <span *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-        <span *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+        <span class="fa-stack" *ngIf="column.sortBy">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
       </th>
     </tr>
   </thead>

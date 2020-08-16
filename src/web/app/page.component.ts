@@ -64,7 +64,7 @@ export class PageComponent {
     IE: 10,
     Firefox: 40,
     Safari: 7,
-    // Opera: ??
+    Edge: 44,
   };
 
   constructor(private router: Router, private route: ActivatedRoute, private title: Title,
