@@ -108,13 +108,13 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
         feedbackSubmitPage.waitForPageToLoad();
 
-        ______TS("verify loaded Msq question");
+        ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         StudentAttributes receiver = testData.students.get("benny.tmms@FMsqQuestionE2eT.CS2104");
         feedbackSubmitPage.verifyMsqQuestion(1, receiver.getName(),
                 (FeedbackMsqQuestionDetails) question.getQuestionDetails());
 
-        ______TS("verify loaded Msq question with generated options");
+        ______TS("verify loaded question with generated options");
         FeedbackQuestionAttributes generatedQn = testData.feedbackQuestions.get("qn1ForSecondSession");
         feedbackSubmitPage.verifyGeneratedMsqQuestion(3, receiver.getName(),
                 (FeedbackMsqQuestionDetails) generatedQn.getQuestionDetails(), getGeneratedTeams());

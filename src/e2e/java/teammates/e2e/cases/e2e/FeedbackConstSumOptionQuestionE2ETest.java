@@ -106,7 +106,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseE2ETestCase {
         FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
         feedbackSubmitPage.waitForPageToLoad();
 
-        ______TS("verify loaded constsum options question");
+        ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         StudentAttributes receiver = testData.students.get("benny.tmms@FConstSumOptionQuestionE2eT.CS2104");
         feedbackSubmitPage.verifyConstSumQuestion(1, receiver.getName(),

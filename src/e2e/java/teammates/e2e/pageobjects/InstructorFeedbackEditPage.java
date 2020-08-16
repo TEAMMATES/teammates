@@ -711,6 +711,15 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void addConstSumOptionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         addNewQuestion(6);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumRecipientQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(7);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackConstantSumQuestionDetails questionDetails =

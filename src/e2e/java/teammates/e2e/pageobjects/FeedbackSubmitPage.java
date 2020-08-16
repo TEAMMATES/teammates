@@ -255,12 +255,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyUnevenDistribution(int qnNumber, FeedbackConstantSumQuestionDetails questionDetails) {
+        String entityType = questionDetails.isDistributeToRecipients() ? "recipient" : "option";
         if (questionDetails.getDistributePointsFor().equals("All options")) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("all-uneven-message")).getText(),
-                    "Every option should be allocated different number of points.");
+                    "Every " + entityType + " should be allocated different number of points.");
         } else {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("one-uneven-message")).getText(),
-                    "At least one option should be allocated different number of points.");
+                    "At least one " + entityType + " should be allocated different number of points.");
         }
     }
 
@@ -282,6 +283,26 @@ public class FeedbackSubmitPage extends AppPage {
         List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
         for (int i = 0; i < answers.size(); i++) {
             assertEquals(constSumInputs.get(i).getAttribute("value"), Integer.toString(answers.get(i)));
+        }
+    }
+
+    public void submitConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetails();
+            fillTextBox(recipientInputs.get(i), Integer.toString(response.getAnswers().get(0)));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetails();
+            assertEquals(recipientInputs.get(i).getAttribute("value"),
+                    Integer.toString(response.getAnswers().get(0)));
         }
     }
 
@@ -429,4 +450,9 @@ public class FeedbackSubmitPage extends AppPage {
         WebElement constSumOptionSection = getConstSumOptionsSection(qnNumber, recipient);
         return constSumOptionSection.findElements(By.cssSelector("input[type=number]"));
     }
+
+    private List<WebElement> getConstSumRecipientInputs(int qnNumber) {
+        return getQuestionForm(qnNumber).findElements(By.cssSelector("input[type=number]"));
+    }
+
 }

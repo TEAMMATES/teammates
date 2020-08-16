@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FNumScaleQuestionE2eT.instructor",
+      "googleId": "FConstSumRecipientQuestionE2eT.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FNumScaleQuestionE2eT.CS2104",
+      "id": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FNumScaleQuestionE2eT.CS1101",
+      "id": "FConstSumRecipientQuestionE2eT.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FNumScaleQuestionE2eT.instructor",
-      "courseId": "FNumScaleQuestionE2eT.CS2104",
+      "googleId": "FConstSumRecipientQuestionE2eT.instructor",
+      "courseId": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FNumScaleQuestionE2eT.instructor",
-      "courseId": "FNumScaleQuestionE2eT.CS1101",
+      "googleId": "FConstSumRecipientQuestionE2eT.instructor",
+      "courseId": "FConstSumRecipientQuestionE2eT.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,37 +69,37 @@
     }
   },
   "students": {
-    "alice.tmms@FNumScaleQuestionE2eT.CS2104": {
-      "googleId": "FNumScaleQuestionE2eT.alice.tmms",
+    "alice.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
+      "googleId": "FConstSumRecipientQuestionE2eT.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS2104",
+      "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@FNumScaleQuestionE2eT.CS2104": {
-      "googleId": "FNumScaleQuestionE2eT.benny.tmms",
+    "benny.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
+      "googleId": "FConstSumRecipientQuestionE2eT.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS2104",
+      "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "charlie.tmms@FNumScaleQuestionE2eT.CS2104": {
+    "charlie.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
       "googleId": "charlie.tmms",
-      "email": "FNumScaleQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS2104",
+      "email": "FConstSumRecipientQuestionE2eT.charlie.tmms@gmail.tmt",
+      "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1",
       "section": "None"
     },
-    "danny.tmms@FNumScaleQuestionE2eT.CS1101": {
+    "danny.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
       "googleId": "danny.tmms",
-      "email": "FNumScaleQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS1101",
+      "email": "FConstSumRecipientQuestionE2eT.danny.tmms@gmail.tmt",
+      "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -109,7 +109,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FNumScaleQuestionE2eT.CS2104",
+      "courseId": "FConstSumRecipientQuestionE2eT.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -129,7 +129,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FNumScaleQuestionE2eT.CS1101",
+      "courseId": "FConstSumRecipientQuestionE2eT.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -151,13 +151,17 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FNumScaleQuestionE2eT.CS2104",
+      "courseId": "FConstSumRecipientQuestionE2eT.CS2104",
       "questionDetails": {
-        "minScale": 0,
-        "questionText": "Rate your product",
-        "questionType": "NUMSCALE",
-        "maxScale": 10,
-        "step": 0.2
+        "distributeToRecipients": true,
+        "pointsPerOption": false,
+        "questionText": "Split points among the your team members and yourself, according to how much you think each member has contributed.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM_RECIPIENTS",
+        "points": 100,
+        "forceUnevenDistribution": true,
+        "distributePointsFor": "All options",
+        "constSumOptions": []
       },
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
@@ -178,18 +182,22 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FNumScaleQuestionE2eT.CS1101",
+      "courseId": "FConstSumRecipientQuestionE2eT.CS1101",
       "questionDetails": {
-        "minScale": 1,
-        "questionText": "Rate your product",
-        "questionType": "NUMSCALE",
-        "maxScale": 10,
-        "step": 0.005
+        "numOfConstSumOptions": 0,
+        "constSumOptions": [],
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "forceUnevenDistribution": false,
+        "distributePointsFor": "None",
+        "points": 20,
+        "questionType": "CONSTSUM_RECIPIENTS",
+        "questionText": "Split points among the teams"
       },
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
