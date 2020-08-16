@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -22,6 +23,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
@@ -570,7 +572,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             assertTrue(getWeightCheckbox(questionNum).isSelected());
             List<WebElement> weightInputs = getWeightInputs(questionNum);
             for (int i = 0; i < weights.size(); i++) {
-                assertEquals(getWeightString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
+                assertEquals(getDoubleString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
             }
         } else {
             assertFalse(getWeightCheckbox(questionNum).isSelected());
@@ -582,7 +584,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             assertTrue(getOtherCheckbox(questionNum).isSelected());
             if (weight > 0) {
                 String otherWeight = getOtherWeightInput(questionNum).getAttribute("value");
-                assertEquals(getWeightString(weight), otherWeight);
+                assertEquals(getDoubleString(weight), otherWeight);
             }
         } else {
             assertFalse(getOtherCheckbox(questionNum).isSelected());
@@ -647,6 +649,31 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editMsqQuestion(int questionNum, FeedbackMsqQuestionDetails msqQuestionDetails) {
         clickEditQuestionButton(questionNum);
         inputMsqDetails(questionNum, msqQuestionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void verifyNumScaleQuestionDetails(int questionNum, FeedbackNumericalScaleQuestionDetails nsQuestionDetails) {
+        assertEquals(getMinNumscaleInput(questionNum).getAttribute("value"),
+                Integer.toString(nsQuestionDetails.getMinScale()));
+        assertEquals(getIncrementInput(questionNum).getAttribute("value"),
+                getDoubleString(nsQuestionDetails.getStep()));
+        assertEquals(getMaxNumscaleInput(questionNum).getAttribute("value"),
+                Integer.toString(nsQuestionDetails.getMaxScale()));
+    }
+
+    public void addNumScaleQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(5);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackNumericalScaleQuestionDetails questionDetails =
+                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails nsQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputNumScaleDetails(questionNum, nsQuestionDetails);
         clickSaveQuestionButton(questionNum);
     }
 
@@ -1049,8 +1076,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private String getWeightString(Double weight) {
-        return weight % 1 == 0 ? Integer.toString(weight.intValue()) : Double.toString(weight);
+    private String getDoubleString(Double value) {
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
     }
 
     private WebElement getMultiChoiceSection(int questionNum) {
@@ -1113,7 +1140,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             markCheckBoxAsChecked(getWeightCheckbox(questionNum));
             List<WebElement> weightInputs = getWeightInputs(questionNum);
             for (int i = 0; i < weights.size(); i++) {
-                fillTextBox(weightInputs.get(i), getWeightString(weights.get(i)));
+                fillTextBox(weightInputs.get(i), getDoubleString(weights.get(i)));
             }
         } else {
             markCheckBoxAsUnchecked(getWeightCheckbox(questionNum));
@@ -1124,7 +1151,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         if (hasOther) {
             markCheckBoxAsChecked(getOtherCheckbox(questionNum));
             if (otherWeight > 0) {
-                fillTextBox(getOtherWeightInput(questionNum), getWeightString(otherWeight));
+                fillTextBox(getOtherWeightInput(questionNum), getDoubleString(otherWeight));
             }
         } else {
             markCheckBoxAsUnchecked(getOtherCheckbox(questionNum));
@@ -1175,6 +1202,30 @@ public class InstructorFeedbackEditPage extends AppPage {
             markCheckBoxAsChecked(getMinSelectableCheckbox(questionNum));
             fillTextBox(getMinSelectableInput(questionNum), Integer.toString(minSelectableChoices));
         }
+    }
+
+    private WebElement getMinNumscaleInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("min-value"));
+    }
+
+    private WebElement getMaxNumscaleInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("max-value"));
+    }
+
+    private WebElement getIncrementInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("increment-value"));
+    }
+
+    private void inputNumScaleDetails(int questionNum, FeedbackNumericalScaleQuestionDetails nsQuestionDetails) {
+        inputNumScaleValue(getMinNumscaleInput(questionNum), Integer.toString(nsQuestionDetails.getMinScale()));
+        inputNumScaleValue(getIncrementInput(questionNum), getDoubleString(nsQuestionDetails.getStep()));
+        inputNumScaleValue(getMaxNumscaleInput(questionNum), Integer.toString(nsQuestionDetails.getMaxScale()));
+    }
+
+    private void inputNumScaleValue(WebElement input, String value) {
+        input.clear();
+        Actions actions = new Actions(browser.driver);
+        actions.sendKeys(input, value).perform();
     }
 
 }

@@ -19,6 +19,8 @@ import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 
@@ -199,6 +201,33 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void verifyNumScaleQuestion(int qnNumber, String recipient,
+                                       FeedbackNumericalScaleQuestionDetails questionDetails) {
+        double step = questionDetails.getStep();
+        double twoSteps = 2 * step;
+        double min = questionDetails.getMinScale();
+        double max = questionDetails.getMaxScale();
+        String possibleValues = String.format("Possible values: [%s, %s, %s, ..., %s, %s, %s]",
+                getDoubleString(min), getDoubleString(min + step), getDoubleString(min + twoSteps),
+                getDoubleString(max - twoSteps), getDoubleString(max - step), getDoubleString(max));
+        String actualValues = getNumScaleSection(qnNumber, recipient).findElement(By.id("possible-values")).getText();
+        assertEquals(actualValues, possibleValues);
+    }
+
+    public void submitNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackNumericalScaleResponseDetails responseDetails =
+                (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+        fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(responseDetails.getAnswer()));
+        clickSubmitButton();
+    }
+
+    public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackNumericalScaleResponseDetails responseDetails =
+                (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+        assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
+                getDoubleString(responseDetails.getAnswer()));
+    }
+
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
     }
@@ -287,6 +316,10 @@ public class FeedbackSubmitPage extends AppPage {
         return mcqSection.findElements(By.cssSelector("input[type=radio]"));
     }
 
+    private String getDoubleString(Double value) {
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
+    }
+
     private WebElement getMsqSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
@@ -313,4 +346,14 @@ public class FeedbackSubmitPage extends AppPage {
         return msqSection.findElements(By.cssSelector("input[type=checkbox]"));
     }
 
+    private WebElement getNumScaleSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-num-scale-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private WebElement getNumScaleInput(int qnNumber, String recipient) {
+        WebElement numScaleSection = getNumScaleSection(qnNumber, recipient);
+        return numScaleSection.findElement(By.tagName("input"));
+    }
 }
