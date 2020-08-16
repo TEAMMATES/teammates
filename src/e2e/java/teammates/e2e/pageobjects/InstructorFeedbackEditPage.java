@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
@@ -603,6 +604,52 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveQuestionButton(questionNum);
     }
 
+    public void verifyMsqQuestionDetails(int questionNum, FeedbackMsqQuestionDetails msqQuestionDetails) {
+        verifyMaxSelectable(questionNum, msqQuestionDetails.getMaxSelectableChoices());
+        verifyMinSelectable(questionNum, msqQuestionDetails.getMinSelectableChoices());
+        if (verifyGeneratedOption(questionNum, msqQuestionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+        verifyMultiChoiceOptions(questionNum, msqQuestionDetails.getMsqChoices());
+        verifyWeights(questionNum, msqQuestionDetails.hasAssignedWeights(), msqQuestionDetails.getMsqWeights());
+        verifyOtherChoice(questionNum, msqQuestionDetails.isOtherEnabled(), msqQuestionDetails.getMsqOtherWeight());
+    }
+
+    private void verifyMaxSelectable(int questionNum, int maxSelectableChoices) {
+        if (maxSelectableChoices == Integer.MIN_VALUE) {
+            assertFalse(getMaxSelectableCheckbox(questionNum).isSelected());
+        } else {
+            assertTrue(getMaxSelectableCheckbox(questionNum).isSelected());
+            assertEquals(getMaxSelectableInput(questionNum).getAttribute("value"),
+                    Integer.toString(maxSelectableChoices));
+        }
+    }
+
+    private void verifyMinSelectable(int questionNum, int minSelectableChoices) {
+        if (minSelectableChoices == Integer.MIN_VALUE) {
+            assertFalse(getMinSelectableCheckbox(questionNum).isSelected());
+        } else {
+            assertTrue(getMinSelectableCheckbox(questionNum).isSelected());
+            assertEquals(getMinSelectableInput(questionNum).getAttribute("value"),
+                    Integer.toString(minSelectableChoices));
+        }
+    }
+
+    public void addMsqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(4);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputMsqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editMsqQuestion(int questionNum, FeedbackMsqQuestionDetails msqQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputMsqDetails(questionNum, msqQuestionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -1083,4 +1130,51 @@ public class InstructorFeedbackEditPage extends AppPage {
             markCheckBoxAsUnchecked(getOtherCheckbox(questionNum));
         }
     }
+
+    private WebElement getMaxSelectableCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("max-choices-checkbox"));
+    }
+
+    private WebElement getMaxSelectableInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("max-choices"));
+    }
+
+    private WebElement getMinSelectableCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("min-choices-checkbox"));
+    }
+
+    private WebElement getMinSelectableInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("min-choices"));
+    }
+
+    private void inputMsqDetails(int questionNum, FeedbackMsqQuestionDetails questionDetails) {
+        if (inputGenerateOption(questionNum, questionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+
+        inputMultiChoiceOptions(questionNum, questionDetails.getMsqChoices());
+        inputWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
+        inputMaxSelectable(questionNum, questionDetails.getMaxSelectableChoices());
+        inputMinSelectable(questionNum, questionDetails.getMinSelectableChoices());
+    }
+
+    private void inputMaxSelectable(int questionNum, int maxSelectableChoices) {
+        if (maxSelectableChoices == Integer.MIN_VALUE) {
+            markCheckBoxAsUnchecked(getMaxSelectableCheckbox(questionNum));
+        } else {
+            markCheckBoxAsChecked(getMaxSelectableCheckbox(questionNum));
+            fillTextBox(getMaxSelectableInput(questionNum), Integer.toString(maxSelectableChoices));
+        }
+    }
+
+    private void inputMinSelectable(int questionNum, int minSelectableChoices) {
+        if (minSelectableChoices == Integer.MIN_VALUE) {
+            markCheckBoxAsUnchecked(getMinSelectableCheckbox(questionNum));
+        } else {
+            markCheckBoxAsChecked(getMinSelectableCheckbox(questionNum));
+            fillTextBox(getMinSelectableInput(questionNum), Integer.toString(minSelectableChoices));
+        }
+    }
+
 }
