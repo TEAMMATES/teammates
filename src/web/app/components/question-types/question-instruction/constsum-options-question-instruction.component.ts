@@ -34,7 +34,7 @@ export class ConstsumOptionsQuestionInstructionComponent implements OnInit {
    */
   get totalPoints(): number {
     if (this.questionDetails.pointsPerOption) {
-      return this.questionDetails.points * this.questionDetails.numOfConstSumOptions;
+      return this.questionDetails.points * this.questionDetails.constSumOptions.length;
     }
 
     return this.questionDetails.points;

@@ -35,8 +35,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
-        if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions
-                || !this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
+        if (!this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
                 || !newConstSumDetails.constSumOptions.containsAll(this.constSumOptions)) {
             return true;
         }
@@ -63,7 +62,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
-        if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
+        if (!distributeToRecipients && constSumOptions.size() < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
         }
@@ -84,7 +83,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors;
 
-        int numOptions = distributeToRecipients ? numRecipients : numOfConstSumOptions;
+        int numOptions = distributeToRecipients ? numRecipients : constSumOptions.size();
         int totalPoints = pointsPerOption ? points * numOptions : points;
 
         if (distributeToRecipients) {
@@ -102,7 +101,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             FeedbackConstantSumResponseDetails details = (FeedbackConstantSumResponseDetails) response;
 
-            if (details.getAnswers().size() != numOfConstSumOptions) {
+            if (details.getAnswers().size() != constSumOptions.size()) {
                 errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_OPTIONS_NOT_MATCH);
                 return errors;
             }

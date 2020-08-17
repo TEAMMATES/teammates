@@ -22,7 +22,6 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(true);
         constantSumQuestionDetails.setConstSumOptions(new ArrayList<>());
-        constantSumQuestionDetails.setNumOfConstSumOptions(0);
         constantSumQuestionDetails.setPoints(100);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -44,7 +43,6 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(true);
         constantSumQuestionDetails.setConstSumOptions(new ArrayList<>());
-        constantSumQuestionDetails.setNumOfConstSumOptions(0);
         constantSumQuestionDetails.setPoints(100);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -70,7 +68,6 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(false);
         constantSumQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
-        constantSumQuestionDetails.setNumOfConstSumOptions(3);
         constantSumQuestionDetails.setPoints(100);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -115,7 +112,6 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(false);
         constantSumQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
-        constantSumQuestionDetails.setNumOfConstSumOptions(3);
         constantSumQuestionDetails.setPointsPerOption(false);
         constantSumQuestionDetails.setPoints(99);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
