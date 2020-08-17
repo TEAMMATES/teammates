@@ -201,8 +201,14 @@ export class QuestionSubmissionFormComponent implements OnInit {
    * Updates validity of all responses in a question.
    */
   updateValidity(isValid: boolean): void {
-    this.model.recipientSubmissionForms.forEach((model: FeedbackResponseRecipientSubmissionFormModel) => {
+    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+        this.model.recipientSubmissionForms.slice();
+    recipientSubmissionForms.forEach((model: FeedbackResponseRecipientSubmissionFormModel) => {
       model.isValid = isValid;
+    });
+    this.formModelChange.emit({
+      ...this.model,
+      recipientSubmissionForms,
     });
   }
 }
