@@ -75,7 +75,7 @@ public final class JsonUtils {
     /**
      * Parses the specified JSON string into a {@link JsonElement} object.
      *
-     * @see JsonParser#parse(String)
+     * @see JsonParser#parseString(String)
      */
     public static JsonElement parse(String json) {
         return JsonParser.parseString(json);
