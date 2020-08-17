@@ -19,7 +19,7 @@
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[StudentsSectionQuestions.STUDENT_VIEW_PROFILE]" @collapseAnim>
       <tm-student-profile [studentProfile]="exampleStudentProfile"></tm-student-profile>
-      <tm-course-related-info [student]="exampleStudentAttributes"></tm-course-related-info>
+      <tm-course-related-info [student]="exampleStudentAttributes" [isDisplayOnly]="true"></tm-course-related-info>
     </tm-example-box>
     <p>
       The student's profile page displays the student's details and course-related information, such as:

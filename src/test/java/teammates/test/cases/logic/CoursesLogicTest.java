@@ -8,7 +8,6 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -264,11 +263,11 @@ public class CoursesLogicTest extends BaseLogicTest {
         ______TS("typical case");
 
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
-        List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(course.getId());
+        List<String> teams = coursesLogic.getTeamsForCourse(course.getId());
 
         assertEquals(2, teams.size());
-        assertEquals("Team 1.1</td></div>'\"", teams.get(0).name);
-        assertEquals("Team 1.2", teams.get(1).name);
+        assertEquals("Team 1.1</td></div>'\"", teams.get(0));
+        assertEquals("Team 1.2", teams.get(1));
 
         ______TS("course without students");
 

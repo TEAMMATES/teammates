@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -343,10 +342,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         ______TS("Check response rate before editing question 1");
 
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        FeedbackSessionDetailsBundle details =
-                logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
+        int submittedTotal = logic.getActualTotalSubmission(fs);
+        int expectedTotal = logic.getExpectedTotalSubmission(fs);
+        assertEquals(numStudentRespondents + numInstructorRespondents, submittedTotal);
+        assertEquals(totalStudents + totalInstructors, expectedTotal);
 
         ______TS("Change the feedback path of a question with no unique respondents, "
                 + "response rate should not be updated");
@@ -371,9 +370,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // Response rate should decrease by 1 as response from student1 in qn1 is changed
         numStudentRespondents--;
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        details = logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents + numInstructorRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
+        submittedTotal = logic.getActualTotalSubmission(fs);
+        expectedTotal = logic.getExpectedTotalSubmission(fs);
+        assertEquals(numStudentRespondents + numInstructorRespondents, submittedTotal);
+        assertEquals(totalStudents + totalInstructors, expectedTotal);
 
         ______TS("Change the feedback path of a question with a unique instructor respondent, "
                 + "response rate changed");
@@ -392,9 +392,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         // Response rate should decrease by 1 because the response of the unique instructor respondent is deleted
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        details = logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + totalInstructors, details.stats.expectedTotal);
+        submittedTotal = logic.getActualTotalSubmission(fs);
+        expectedTotal = logic.getExpectedTotalSubmission(fs);
+        assertEquals(numStudentRespondents, submittedTotal);
+        assertEquals(totalStudents + totalInstructors, expectedTotal);
 
         ______TS("Change the feedback path of a question so that some possible respondents are removed");
 
@@ -413,9 +414,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // Total possible respondents should decrease because instructors
         // (except session creator) are no longer possible respondents
         fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        details = logic.getFeedbackSessionDetails(fs.getFeedbackSessionName(), fs.getCourseId());
-        assertEquals(numStudentRespondents, details.stats.submittedTotal);
-        assertEquals(totalStudents + 1, details.stats.expectedTotal);
+        submittedTotal = logic.getActualTotalSubmission(fs);
+        expectedTotal = logic.getExpectedTotalSubmission(fs);
+        assertEquals(numStudentRespondents, submittedTotal);
+        assertEquals(totalStudents + 1, expectedTotal);
     }
 
     private FeedbackQuestionUpdateRequest getTypicalTextQuestionUpdateRequest() {
