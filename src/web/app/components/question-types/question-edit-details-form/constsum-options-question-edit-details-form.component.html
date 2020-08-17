@@ -2,7 +2,7 @@
   <br>
   <div class="col-sm-6">
     <div class="row">
-      <div id="multi-choices" class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+      <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div *ngFor="let option of model.constSumOptions; let i = index;
         trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
           <br>

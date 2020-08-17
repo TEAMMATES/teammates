@@ -17,7 +17,7 @@
   <br>
   <div class="col-sm-6">
     <div *ngIf="!isGeneratedOptionsEnabled">
-      <div id="multi-choices" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+      <div id="options-section" cdkDropList (cdkDropListDropped)="onMcqOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div class="row margin-top-22px" *ngFor="let num of model.mcqChoices; let i = index;
         trackBy: trackMcqOption" cdkDrag cdkDragLockAxis="y">
           <br>
