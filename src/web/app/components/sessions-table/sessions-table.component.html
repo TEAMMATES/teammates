@@ -86,7 +86,8 @@
           <div ngbDropdown class="d-inline-block">
             <button class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
-              <a class="btn dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)"
+              <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
+                      (click)="viewSessionResultEvent.emit(idx)"
                       routerLink="/web/instructor/sessions/result"
                       [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results</a>
               <button class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
@@ -99,7 +100,8 @@
                         ngbTooltip="Make session responses available for viewing" placement="left" container="body" (click)="publishSession(idx)">Publish Results</button>
               </ng-template>
               <button class="btn dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
-              <button class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)">Download Results</button>
+              <button class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)"
+                      [disabled]="!sessionsTableRowModel.instructorPrivilege.canViewSessionInSections">Download Results</button>
             </div>
           </div>
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
