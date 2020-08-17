@@ -109,6 +109,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
 
+  readonly TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
+
   session: FeedbackSession = {
     courseId: '',
     timeZone: '',
@@ -164,15 +166,14 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
     }).subscribe((feedbackSession: FeedbackSession) => {
-      const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
-          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, this.TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
-          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
+          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, this.TIME_FORMAT);
       if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
-            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, this.TIME_FORMAT);
       } else {
         this.formattedResultVisibleFromTime = 'Not applicable';
       }
@@ -241,24 +242,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       this.isFeedbackSessionLoading = false;
       this.hasFeedbackSessionLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
-    });
-  }
-
-  loadFeedbackSessionVisibleFromTime(courseId: string, feedbackSessionName: string): void {
-    this.feedbackSessionsService.getFeedbackSession({
-      courseId,
-      feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
-    }).subscribe((feedbackSession: FeedbackSession) => {
-      this.session = feedbackSession;
-      const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
-      this.session = feedbackSession;
-      if (this.session.resultVisibleFromTimestamp) {
-        this.formattedResultVisibleFromTime = this.timezoneService
-          .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
-      } else {
-        this.formattedResultVisibleFromTime = 'Not applicable';
-      }
     });
   }
 
@@ -401,8 +384,14 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           )
       ;
 
-      response.subscribe(() => {
-        this.loadFeedbackSessionVisibleFromTime(this.courseId, this.fsName);
+      response.subscribe((res: FeedbackSession) => {
+        this.session = res;
+        if (this.session.resultVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, this.TIME_FORMAT);
+        } else {
+          this.formattedResultVisibleFromTime = 'Not applicable';
+        }
         if (isPublished) {
           this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
         } else {
