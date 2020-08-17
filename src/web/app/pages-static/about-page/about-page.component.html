@@ -25,11 +25,11 @@
     </li>
     <li>
       <img src="assets/images/yklogo.png" width="100">
-      <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">YourKit LLC</a></b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>.
+      <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">&nbsp;YourKit LLC</a></b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>.
     </li>
     <li>
       <img src="assets/images/saucelabs.png" width="100">
-      <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">SauceLabs</a></b>, for providing us with a free <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for cross-browser testing.
+      <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">&nbsp;SauceLabs</a></b>, for providing us with a free <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for cross-browser testing.
     </li>
   </ul>
   <p>
@@ -37,38 +37,45 @@
   </p>
 
   <h3>Core Team:</h3>
-  <div *ngFor="let teamMember of teamMembers" class="row core-team">
-    <div *ngIf="teamMember.image" class="col-xs-8 offset-xs-2 col-sm-5 offset-sm-0 col-md-4 col-lg-3 text-center">
-      <img class="img-core-team" src="{{ teamMember.image }}" alt="{{ teamMember.name }}">
-    </div>
-    <div class="col-xs-10 offset-xs-1 col-sm-7 offset-sm-0 col-md-8 margin-top-7px">
-      <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer"><strong>{{ teamMember.name }}</strong></a>
-      <br><br>
-      <strong>{{ teamMember.currentPosition }}</strong>
-      <br>
-      <span *ngFor="let position of teamMember.pastPositions">
-        {{ position }}<br>
-      </span>
-    </div>
-  </div>
+  <table class="core-team-table">
+    <tr *ngFor="let teamMember of teamMembers">
+      <td class="core-team-photo-cell">
+        <img [src]="teamMember.avatarUrl" [alt]="teamMember.name" *ngIf="teamMember.avatarUrl">
+      </td>
+      <td class="core-team-details-cell">
+        <span *ngIf="teamMember.url">
+          <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
+        </span>
+        <span *ngIf="!teamMember.url">{{ teamMember.name }}</span>
+        <br><br>
+        <strong>{{ teamMember.currentPosition }}</strong>
+        <ng-container *ngFor="let position of teamMember.pastPositions">
+          <br>
+          {{ position }}
+        </ng-container>
+      </td>
+    </tr>
+  </table>
 
-  <h3>Committers:</h3>
-  <ol>
-    <li *ngFor="let committer of committers">
-      <span *ngIf="committer.image">
-        <img src="{{ committer.image }}" alt="{{ committer.name }}" width="120px"><br>
-      </span>
-      <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
-      ({{ committer.startPeriod }} - )
-    </li>
-  </ol>
+  <h3 *ngIf="committers.length">Committers:</h3>
+  <table class="core-team-table" *ngIf="committers.length">
+    <tr *ngFor="let committer of committers">
+      <td class="core-team-photo-cell">
+        <img [src]="committer.avatarUrl" [alt]="committer.name" *ngIf="committer.avatarUrl">
+      </td>
+      <td class="core-team-details-cell">
+        <span *ngIf="committer.url">
+          <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
+        </span>
+        <span *ngIf="!committer.url">{{ committer.name }}</span>
+        ({{ committer.startPeriod }} - )
+      </td>
+    </tr>
+  </table>
 
   <h3>Past Team Members:</h3>
   <ol>
     <li *ngFor="let teamMember of pastTeamMembers">
-      <span *ngIf="teamMember.image">
-        <img src="{{ teamMember.image }}" alt="{{ teamMember.name }}" width="120px"><br>
-      </span>
       <span *ngIf="teamMember.url">
         <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
       </span>
@@ -84,9 +91,6 @@
   <h3>Past Committers:</h3>
   <ol>
     <li *ngFor="let committer of pastCommitters">
-      <span *ngIf="committer.image">
-        <img src="{{ committer.image }}" alt="{{ committer.name }}" width="120px"><br>
-      </span>
       <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
       ({{ committer.startPeriod }} - {{ committer.endPeriod }})
     </li>
@@ -97,9 +101,6 @@
   <h4>Major contributions:</h4>
   <ol>
     <li *ngFor="let contributor of majorContributors">
-      <span *ngIf="contributor.image">
-        <img src="{{ contributor.image }}" alt="{{ contributor.name }}" width="120px"><br>
-      </span>
       <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.name }}</a>
     </li>
   </ol>

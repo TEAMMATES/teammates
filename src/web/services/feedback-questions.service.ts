@@ -351,7 +351,7 @@ export class FeedbackQuestionsService {
 
         const mcqQuestionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
         mcqQuestionDetails.numOfMcqChoices = 2;
-        mcqQuestionDetails.mcqChoices = [' ', ' '];
+        mcqQuestionDetails.mcqChoices = ['', ''];
 
         return {
           questionBrief: '',
@@ -373,7 +373,7 @@ export class FeedbackQuestionsService {
       case FeedbackQuestionType.MSQ:
 
         const msqQuestionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
-        msqQuestionDetails.msqChoices = [' ', ' '];
+        msqQuestionDetails.msqChoices = ['', ''];
         msqQuestionDetails.minSelectableChoices = NO_VALUE;
         msqQuestionDetails.maxSelectableChoices = NO_VALUE;
 
@@ -400,7 +400,7 @@ export class FeedbackQuestionsService {
         const rankOptionsQuestionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
         rankOptionsQuestionDetails.maxOptionsToBeRanked = NO_VALUE;
         rankOptionsQuestionDetails.minOptionsToBeRanked = NO_VALUE;
-        rankOptionsQuestionDetails.options = [' ', ' '];
+        rankOptionsQuestionDetails.options = ['', ''];
 
         return {
           questionBrief: '',

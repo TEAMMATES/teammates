@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -851,16 +850,25 @@ public class Logic {
     }
 
     /**
-     * Preconditions: <br>
+     * Gets the expected number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
      * * All parameters are non-null.
      */
-    public FeedbackSessionDetailsBundle getFeedbackSessionDetails(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
+    public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
+        Assumption.assertNotNull(fsa);
+        return feedbackSessionsLogic.getExpectedTotalSubmission(fsa);
+    }
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackSessionsLogic.getFeedbackSessionDetails(feedbackSessionName, courseId);
+    /**
+     * Gets the actual number of submissions for a feedback session.
+     *
+     * <br>Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public int getActualTotalSubmission(FeedbackSessionAttributes fsa) {
+        Assumption.assertNotNull(fsa);
+        return feedbackSessionsLogic.getActualTotalSubmission(fsa);
     }
 
     /**

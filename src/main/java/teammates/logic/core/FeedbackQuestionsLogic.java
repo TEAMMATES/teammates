@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -295,12 +294,12 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case TEAMS:
-            List<TeamDetailsBundle> teams = coursesLogic.getTeamsForCourse(question.courseId);
-            for (TeamDetailsBundle team : teams) {
+            List<String> teams = coursesLogic.getTeamsForCourse(question.courseId);
+            for (String team : teams) {
                 // Ensure student('s team) does not evaluate own team.
-                if (!giverTeam.equals(team.name)) {
+                if (!giverTeam.equals(team)) {
                     // recipientEmail doubles as team name in this case.
-                    recipients.put(team.name, team.name);
+                    recipients.put(team, team);
                 }
             }
             break;
@@ -611,14 +610,14 @@ public final class FeedbackQuestionsLogic {
             //fallthrough
         case TEAMS_EXCLUDING_SELF:
             try {
-                List<TeamDetailsBundle> teamList = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
+                List<String> teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
 
                 if (generateOptionsFor == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
-                    teamList.removeIf(teamInList -> teamInList.name.equals(teamOfEntityDoingQuestion));
+                    teams.removeIf(team -> team.equals(teamOfEntityDoingQuestion));
                 }
 
-                for (TeamDetailsBundle team : teamList) {
-                    optionList.add(team.name);
+                for (String team : teams) {
+                    optionList.add(team);
                 }
 
                 optionList.sort(null);
@@ -826,8 +825,8 @@ public final class FeedbackQuestionsLogic {
         if (participantType == FeedbackParticipantType.TEAMS
                 || participantType == FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
             try {
-                List<TeamDetailsBundle> teamList = coursesLogic.getTeamsForCourse(courseId);
-                return teamList.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
+                List<String> teams = coursesLogic.getTeamsForCourse(courseId);
+                return teams.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
             }

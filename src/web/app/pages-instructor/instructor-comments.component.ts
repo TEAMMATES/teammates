@@ -1,12 +1,7 @@
 import { FeedbackResponseCommentService } from '../../services/feedback-response-comment.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
-import {
-    FeedbackResponseComment,
-    FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-    ResponseVisibleSetting,
-    SessionVisibleSetting,
-} from '../../types/api-output';
+import { FeedbackResponseComment } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CommentRowModel } from '../components/comment-box/comment-row/comment-row.component';
@@ -19,22 +14,6 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorCommentsComponent {
 
-  session: FeedbackSession = {
-    courseId: '',
-    timeZone: '',
-    feedbackSessionName: '',
-    instructions: '',
-    submissionStartTimestamp: 0,
-    submissionEndTimestamp: 0,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
-    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
   currInstructorName?: string;
 
   // this is a separate model for instructor comments
@@ -70,7 +49,7 @@ export abstract class InstructorCommentsComponent {
   /**
    * Updates an instructor comment.
    */
-  updateComment(data: { responseId: string, index: number}): void {
+  updateComment(data: { responseId: string, index: number}, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
     // tslint:disable-next-line:no-non-null-assertion
@@ -87,7 +66,7 @@ export abstract class InstructorCommentsComponent {
             commentGiverName: commentRowToUpdate.commentGiverName,
             // the current instructor will become the last editor
             lastEditorName: this.currInstructorName,
-          }, this.session.timeZone);
+          }, timezone);
           this.instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
@@ -99,7 +78,7 @@ export abstract class InstructorCommentsComponent {
   /**
    * Saves an instructor comment.
    */
-  saveNewComment(responseId: string): void {
+  saveNewComment(responseId: string, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
     const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
 
@@ -114,7 +93,7 @@ export abstract class InstructorCommentsComponent {
             // the giver and editor name will be the current login instructor
             commentGiverName: this.currInstructorName,
             lastEditorName: this.currInstructorName,
-          }, this.session.timeZone));
+          }, timezone));
           this.instructorCommentTableModel[responseId] = {
             ...commentTableModel,
             newCommentRow: {

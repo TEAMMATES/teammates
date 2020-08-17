@@ -14,9 +14,9 @@
   </div>
 </div>
 <br>
-<div *ngIf="isIntervalDivisible">
+<div *ngIf="model.step > 0">
   Based on the above settings, acceptable responses are: {{ possibleValues }}
 </div>
-<div class="text-danger" *ngIf="!isIntervalDivisible">
-  The interval {{ model.minScale }} - {{ model.maxScale }} is not divisible by the specified increment!
+<div class="text-danger" *ngIf="model.step <= 0">
+  The step size must be a positive number!
 </div>
