@@ -60,6 +60,8 @@ export interface QuestionTabModel {
   isTabExpanded: boolean;
 }
 
+const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
+
 /**
  * Instructor feedback session result page.
  */
@@ -108,8 +110,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   isExpandAll: boolean = false;
-
-  readonly TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
   session: FeedbackSession = {
     courseId: '',
@@ -168,12 +168,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }).subscribe((feedbackSession: FeedbackSession) => {
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
-          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, this.TIME_FORMAT);
+          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
-          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, this.TIME_FORMAT);
+          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
       if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
-            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, this.TIME_FORMAT);
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
       } else {
         this.formattedResultVisibleFromTime = 'Not applicable';
       }
@@ -388,15 +388,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         this.session = res;
         if (this.session.resultVisibleFromTimestamp) {
           this.formattedResultVisibleFromTime = this.timezoneService
-            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, this.TIME_FORMAT);
-        } else {
-          this.formattedResultVisibleFromTime = 'Not applicable';
-        }
-        if (isPublished) {
-          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
-        } else {
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
           this.statusMessageService.showSuccessToast('The feedback session has been published. '
             + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+        } else {
+          this.formattedResultVisibleFromTime = 'Not applicable';
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
         }
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
