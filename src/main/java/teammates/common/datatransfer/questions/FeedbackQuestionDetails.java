@@ -64,6 +64,13 @@ public abstract class FeedbackQuestionDetails {
     public abstract List<String> validateQuestionDetails();
 
     /**
+     * Validates the list of response details.
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an
+     *         empty list if all response details are valid.
+     */
+    public abstract List<String> validateResponsesDetails(List<FeedbackResponseDetails> responseDetails);
+
+    /**
      * Validates if giverType and recipientType are valid for the question type.
      * Validates visibility options as well.
      *

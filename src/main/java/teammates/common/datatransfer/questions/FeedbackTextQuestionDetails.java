@@ -38,6 +38,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+        return new ArrayList<>();
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

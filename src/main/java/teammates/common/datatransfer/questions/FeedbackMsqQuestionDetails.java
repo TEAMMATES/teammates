@@ -160,6 +160,75 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+        List<String> errors = new ArrayList<>();
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackMsqResponseDetails details = (FeedbackMsqResponseDetails) response;
+
+            // number of Msq options selected including other option
+            int totalChoicesSelected = details.getAnswers().size();
+            boolean isMaxSelectableEnabled = maxSelectableChoices != Integer.MIN_VALUE;
+            boolean isMinSelectableEnabled = minSelectableChoices != Integer.MIN_VALUE;
+            boolean isNoneOfTheAboveOptionEnabled =
+                    details.getAnswers().contains(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
+
+            // if other is not enabled and other is selected as an answer trigger this error
+            if (details.isOther() && !otherEnabled) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+            }
+
+            // if other is not chosen while other field is not empty trigger this error
+            if (otherEnabled && !details.isOther() && !details.getOtherFieldContent().isEmpty()) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+            }
+
+            List<String> validChoices = new ArrayList<>(msqChoices);
+            if (otherEnabled && details.isOther()) {
+                // other field content becomes a valid choice if other is enabled
+                validChoices.add(details.getOtherFieldContent());
+            }
+            // if selected answers are not a part of the Msq option list trigger this error
+            boolean isAnswersPartOfChoices = validChoices.containsAll(details.getAnswers());
+            if (!isAnswersPartOfChoices && !isNoneOfTheAboveOptionEnabled) {
+                errors.add(details.getAnswerString() + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+            }
+
+            // if other option is selected but no text is provided trigger this error
+            if (details.isOther() && "".equals(details.getOtherFieldContent().trim())) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+            }
+
+            // if other option is selected but not in the answer list trigger this error
+            if (details.isOther() && !details.getAnswers().contains(details.getOtherFieldContent())) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+            }
+
+            // if total choices selected exceed maximum choices allowed trigger this error
+            if (isMaxSelectableEnabled && totalChoicesSelected > maxSelectableChoices) {
+                errors.add(Const.FeedbackQuestion.MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM + maxSelectableChoices);
+            }
+
+            if (isMinSelectableEnabled) {
+                // if total choices selected is less than the minimum required choices
+                if (totalChoicesSelected < minSelectableChoices) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM + minSelectableChoices);
+                }
+                // if minimumSelectableChoices is enabled and None of the Above is selected as an answer trigger this error
+                if (isNoneOfTheAboveOptionEnabled) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION);
+                }
+            } else {
+                // if none of the above is selected AND other options are selected trigger this error
+                if ((details.getAnswers().size() > 1 || details.isOther()) && isNoneOfTheAboveOptionEnabled) {
+                    errors.add(Const.FeedbackQuestion.MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER);
+                }
+            }
+        }
+        return errors;
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

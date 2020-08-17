@@ -22,6 +22,11 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+        return new ArrayList<>();
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

@@ -239,6 +239,32 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+        List<String> errors = new ArrayList<>();
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackContributionResponseDetails details = (FeedbackContributionResponseDetails) response;
+            boolean validAnswer = false;
+
+            // Valid answers: 0, 10, 20, .... 190, 200
+            boolean isValidRange = details.getAnswer() >= 0 && details.getAnswer() <= 200;
+            boolean isMultipleOf10 = details.getAnswer() % 10 == 0;
+
+            if (isValidRange && isMultipleOf10) {
+                validAnswer = true;
+            }
+            if (details.getAnswer() == Const.POINTS_NOT_SURE && isNotSureAllowed
+                    || details.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                validAnswer = true;
+            }
+            if (!validAnswer) {
+                errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
+            }
+        }
+        return errors;
+    }
+
+    @Override
     public String validateGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
 

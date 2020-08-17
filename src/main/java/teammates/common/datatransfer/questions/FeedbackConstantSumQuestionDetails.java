@@ -1,7 +1,9 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
@@ -73,6 +75,87 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         if (!FieldValidator.areElementsUnique(constSumOptions)) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        }
+
+        return errors;
+    }
+
+    @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+        List<String> errors = new ArrayList<>();
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackConstantSumResponseDetails details = (FeedbackConstantSumResponseDetails) response;
+
+            if (distributeToRecipients) {
+                if (details.getAnswers().size() != 1) {
+                    // Distribute to recipient must have array size one
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH);
+                    return errors;
+                }
+
+                if (details.getAnswers().get(0) < 0) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
+                    return errors;
+                }
+
+                // TODO difficult to do cross-responses validation
+                return errors;
+            }
+
+            if (details.getAnswers().size() != numOfConstSumOptions) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_OPTIONS_NOT_MATCH);
+                return errors;
+            }
+
+            // Check that all points are >= 0
+            int sum = 0;
+            for (int i : details.getAnswers()) {
+                if (i < 0) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
+                    return errors;
+                }
+
+                sum += i;
+            }
+
+            int totalPoints = pointsPerOption ? points * numOfConstSumOptions : points;
+
+            // Check that points sum up properly
+            if (sum != totalPoints) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
+                return errors;
+            }
+
+            // Check that points are given unevenly for all/at least some options as per the question settings
+            Set<Integer> answerSet = new HashSet<>();
+            if (distributePointsFor.equals(
+                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
+                boolean hasDifferentPoints = false;
+                for (int i : details.getAnswers()) {
+                    if (!answerSet.isEmpty() && !answerSet.contains(i)) {
+                        hasDifferentPoints = true;
+                        break;
+                    }
+                    answerSet.add(i);
+                }
+
+                if (!hasDifferentPoints) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
+                    return errors;
+                }
+            }
+
+            if (distributePointsFor.equals(
+                    FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
+                for (int i : details.getAnswers()) {
+                    if (answerSet.contains(i)) {
+                        errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
+                        return errors;
+                    }
+                    answerSet.add(i);
+                }
+            }
         }
 
         return errors;
