@@ -41,6 +41,10 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         return errors;
     }
 
+    private static double convertTo5dp(double num) {
+        return Double.valueOf(String.format("%.5f", num));
+    }
+
     @Override
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
@@ -56,12 +60,13 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             }
 
             // when the answer is within range but not one of the possible values
-            double remainder = Double.valueOf(String.format("%.5f", (details.getAnswer() - minScale) % step));
+            double interval = details.getAnswer() - minScale;
+            double remainder = convertTo5dp(interval - Math.floor(interval / step) * step);
             boolean isAnswerNotAPossibleValueWithinRange = remainder != 0.0 && !isAnswerOutOfRange;
 
             if (isAnswerNotAPossibleValueWithinRange) {
-                double nextPossibleValueLessThanCurrent = details.getAnswer() - remainder;
-                double nextPossibleValueGreaterThanCurrent = nextPossibleValueLessThanCurrent + step;
+                double nextPossibleValueLessThanCurrent = convertTo5dp(details.getAnswer() - remainder);
+                double nextPossibleValueGreaterThanCurrent = convertTo5dp(nextPossibleValueLessThanCurrent + step);
                 errors.add("Please enter a valid value. The two nearest valid values are "
                         + nextPossibleValueLessThanCurrent + " and " + nextPossibleValueGreaterThanCurrent + ".");
             }
