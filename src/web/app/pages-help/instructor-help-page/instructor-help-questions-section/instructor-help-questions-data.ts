@@ -1483,11 +1483,13 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       responseId: 'response1',
       recipientIdentifier: 'alice',
       responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [0, 2] } as FeedbackRubricResponseDetails,
+      isValid: true,
     },
     {
       responseId: 'response2',
       recipientIdentifier: 'bob',
       responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [1, 3] } as FeedbackRubricResponseDetails,
+      isValid: true,
     },
   ],
   customNumberOfEntitiesToGiveFeedbackTo: 0,
@@ -1526,5 +1528,4 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       ],
     ],
   } as FeedbackRubricQuestionDetails,
-  isValid: true,
 };

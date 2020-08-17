@@ -47,8 +47,6 @@ export interface QuestionSubmissionFormModel {
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
-
-  isValid: boolean;
 }
 
 /**
@@ -66,6 +64,8 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   responseId: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
+
+  isValid: boolean;
 
   // comment by giver
   commentByGiver?: CommentRowModel;

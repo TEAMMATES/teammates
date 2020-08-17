@@ -82,8 +82,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
     showGiverNameTo: [],
     showRecipientNameTo: [],
     showResponsesTo: [],
-
-    isValid: true,
   };
 
   @Output()
@@ -91,7 +89,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
   visibilityStateMachine: VisibilityStateMachine;
   allowedToHaveParticipantComment: boolean = false;
-  isQuestionValid: boolean = true;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private feedbackResponseService: FeedbackResponsesService) {
@@ -135,7 +132,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
    * Triggers the change of the recipient submission form.
    */
   triggerRecipientSubmissionFormChange(index: number, field: string, data: any): void {
-    this.model.isValid = this.isQuestionValid;
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
         this.model.recipientSubmissionForms.slice();
     recipientSubmissionForms[index] = {
@@ -199,5 +195,14 @@ export class QuestionSubmissionFormComponent implements OnInit {
   isFeedbackResponseDetailsEmpty(responseDetails: FeedbackResponseDetails): boolean {
     return this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
         this.model.questionType, responseDetails);
+  }
+
+  /**
+   * Updates validity of all responses in a question.
+   */
+  updateValidity(isValid: boolean): void {
+    this.model.recipientSubmissionForms.forEach((model: FeedbackResponseRecipientSubmissionFormModel) => {
+      model.isValid = isValid;
+    });
   }
 }
