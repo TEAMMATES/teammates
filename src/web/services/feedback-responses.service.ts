@@ -93,18 +93,21 @@ export class FeedbackResponsesService {
       case FeedbackQuestionType.RANK_OPTIONS:
         const rankOptionsDetails: FeedbackRankOptionsResponseDetails = details as FeedbackRankOptionsResponseDetails;
         const numberOfOptionsRanked: number = rankOptionsDetails.answers
-            .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
+            .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED && rank != null).length;
         return numberOfOptionsRanked === 0;
       case FeedbackQuestionType.RANK_RECIPIENTS:
         const rankRecipientsDetails: FeedbackRankRecipientsResponseDetails =
             details as FeedbackRankRecipientsResponseDetails;
-        return rankRecipientsDetails.answer === RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED;
+        return rankRecipientsDetails.answer === RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED
+            || rankRecipientsDetails.answer == null;
       case FeedbackQuestionType.CONTRIB:
         const contributionDetails: FeedbackContributionResponseDetails = details as FeedbackContributionResponseDetails;
-        return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED;
+        return contributionDetails.answer === CONTRIBUTION_POINT_NOT_SUBMITTED
+            || contributionDetails.answer == null;
       case FeedbackQuestionType.NUMSCALE:
         const numScaleDetails: FeedbackNumericalScaleResponseDetails = details as FeedbackNumericalScaleResponseDetails;
-        return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
+        return numScaleDetails.answer === NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED
+            || numScaleDetails.answer == null;
       case FeedbackQuestionType.MCQ:
         const mcqDetails: FeedbackMcqResponseDetails = details as FeedbackMcqResponseDetails;
         return mcqDetails.answer.length === 0 && !mcqDetails.isOther;
@@ -116,12 +119,12 @@ export class FeedbackResponsesService {
         return rubricDetails.answer.length === 0
             || rubricDetails.answer.every((val: number) => val === RUBRIC_ANSWER_NOT_CHOSEN);
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
-        const constumDetails: FeedbackConstantSumResponseDetails = details as FeedbackConstantSumResponseDetails;
-        return constumDetails.answers.length === 0;
+        const constsumDetails: FeedbackConstantSumResponseDetails = details as FeedbackConstantSumResponseDetails;
+        return constsumDetails.answers.length === 0;
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
-        const constumRecipientsDetails: FeedbackConstantSumResponseDetails =
+        const constsumRecipientsDetails: FeedbackConstantSumResponseDetails =
             details as FeedbackConstantSumResponseDetails;
-        return constumRecipientsDetails.answers.length === 0;
+        return constsumRecipientsDetails.answers.length === 0;
       default:
         return true;
     }
