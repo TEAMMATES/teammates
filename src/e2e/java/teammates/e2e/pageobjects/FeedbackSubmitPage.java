@@ -25,6 +25,8 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
@@ -337,6 +339,47 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void verifyRubricQuestion(int qnNumber, String recipient, FeedbackRubricQuestionDetails questionDetails) {
+        List<String> choices = questionDetails.getRubricChoices();
+        List<String> subQuestions = questionDetails.getRubricSubQuestions();
+        List<List<String>> descriptions = questionDetails.getRubricDescriptions();
+
+        String[][] expectedTable = new String[subQuestions.size() + 1][choices.size() + 1];
+        expectedTable[0][0] = "";
+        for (int i = 1; i <= choices.size(); i++) {
+            expectedTable[0][i] = choices.get(i - 1);
+        }
+        for (int i = 1; i <= subQuestions.size(); i++) {
+            expectedTable[i][0] = subQuestions.get(i - 1);
+        }
+        for (int i = 1; i <= descriptions.size(); i++) {
+            List<String> description = descriptions.get(i - 1);
+            for (int j = 1; j <= description.size(); j++) {
+                expectedTable[i][j] = description.get(j - 1);
+            }
+        }
+        verifyTableBodyValues(getRubricTable(qnNumber, recipient), expectedTable);
+    }
+
+    public void submitRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            click(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());
+        }
+    }
+
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
     }
@@ -498,5 +541,20 @@ public class FeedbackSubmitPage extends AppPage {
         } else {
             return "Equal share" + (answer > 100 ? " + " : " - ") + Math.abs(answer - 100) + "%";
         }
+    }
+
+    private WebElement getRubricSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-rubric-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private WebElement getRubricTable(int qnNumber, String recipient) {
+        return getRubricSection(qnNumber, recipient).findElement(By.tagName("table"));
+    }
+
+    private List<WebElement> getRubricInputs(int qnNumber, String recipient, int rowNumber) {
+        WebElement rubricRow = getRubricSection(qnNumber, recipient).findElements(By.tagName("tr")).get(rowNumber - 1);
+        return rubricRow.findElements(By.tagName("input"));
     }
 }
