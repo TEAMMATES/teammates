@@ -2,4 +2,6 @@ Distribute points (among options) question options:
 <ul>
   <li *ngFor="let option of questionDetails.constSumOptions">{{ option }}</li>
 </ul>
-Total Points: {{ questionDetails.pointsPerOption ? questionDetails.constSumOptions.length * questionDetails.points : questionDetails.points }}
+<span *ngIf="questionDetails.pointsPerOption">Points per option:</span>
+<span *ngIf="!questionDetails.pointsPerOption">Total points:</span>
+{{ questionDetails.points }}
