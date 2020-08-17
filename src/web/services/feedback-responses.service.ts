@@ -16,12 +16,13 @@ import {
   FeedbackQuestionType,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
-  FeedbackResponse,
-  FeedbackResponseDetails, FeedbackRubricResponseDetails,
+  FeedbackResponseDetails,
+  FeedbackResponses,
+  FeedbackRubricResponseDetails,
   FeedbackTextResponseDetails,
   ResponseOutput,
 } from '../types/api-output';
-import { FeedbackResponseCreateRequest, FeedbackResponseUpdateRequest, Intent } from '../types/api-request';
+import { FeedbackResponsesRequest, Intent } from '../types/api-request';
 import {
   DEFAULT_CONSTSUM_RESPONSE_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
@@ -174,42 +175,14 @@ export class FeedbackResponsesService {
   }
 
   /**
-   * Creates a feedback response by calling API.
+   * Submits a list of feedback responses for a feedback question by calling API.
    */
-  createFeedbackResponse(questionId: string, additionalParams: { [key: string]: string } = {},
-                         request: FeedbackResponseCreateRequest): Observable<FeedbackResponse> {
-    return this.httpRequestService.post(ResourceEndpoints.RESPONSE, {
+  submitFeedbackResponses(questionId: string, additionalParams: { [key: string]: string } = {},
+                          request: FeedbackResponsesRequest): Observable<FeedbackResponses> {
+    return this.httpRequestService.put(ResourceEndpoints.RESPONSES, {
       questionid: questionId,
       ...additionalParams,
     }, request);
   }
 
-  /**
-   * Updates a feedback response by calling API.
-   */
-  updateFeedbackResponse(responseId: string, additionalParams: { [key: string]: string } = {},
-                         request: FeedbackResponseUpdateRequest): Observable<FeedbackResponse> {
-    return this.httpRequestService.put(ResourceEndpoints.RESPONSE, {
-      responseid: responseId,
-      ...additionalParams,
-    }, request);
-  }
-
-  /**
-   * Deletes a feedback response by calling API.
-   */
-  deleteFeedbackResponse(queryParams: {
-    responseId: string,
-    intent: string,
-    key: string,
-    moderatedPerson: string,
-  }): Observable<FeedbackResponse> {
-    const paramMap: Record<string, string> = {
-      responseid: queryParams.responseId,
-      intent: queryParams.intent,
-      key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
-    };
-    return this.httpRequestService.delete(ResourceEndpoints.RESPONSE, paramMap);
-  }
 }
