@@ -86,7 +86,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     }
 
     @Override
-    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
 
         boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;

@@ -163,13 +163,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         feedbackMsqResponseDetails.setAnswers(Arrays.asList("choiceA"));
 
         List<String> errors = msqQuestionDetails.validateResponsesDetails(
-                Collections.singletonList(feedbackMsqResponseDetails));
+                Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(1, errors.size());
         assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION, errors.get(0));
 
         // now set other field to empty
         feedbackMsqResponseDetails.setOtherFieldContent("");
-        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails));
+        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(0, errors.size());
     }
 
@@ -186,21 +186,21 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         feedbackMsqResponseDetails.setOtherFieldContent("");
         feedbackMsqResponseDetails.setAnswers(Arrays.asList("choiceC"));
         List<String> errors = msqQuestionDetails.validateResponsesDetails(
-                Collections.singletonList(feedbackMsqResponseDetails));
+                Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(1, errors.size());
         assertEquals(feedbackMsqResponseDetails.getAnswerString()
                 + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION, errors.get(0));
 
         // now set choice to be within the valid choices
         feedbackMsqResponseDetails.setAnswers(Arrays.asList("choiceA"));
-        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails));
+        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(0, errors.size());
 
         // when other field is enabled, the other field content will become a valid choice
         feedbackMsqResponseDetails.setOther(true);
         feedbackMsqResponseDetails.setOtherFieldContent("Other");
         feedbackMsqResponseDetails.setAnswers(Arrays.asList("Other1"));
-        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails));
+        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(2, errors.size());
         assertEquals(feedbackMsqResponseDetails.getAnswerString()
                 + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION, errors.get(0));
@@ -210,7 +210,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         feedbackMsqResponseDetails.setOther(true);
         feedbackMsqResponseDetails.setOtherFieldContent("Other");
         feedbackMsqResponseDetails.setAnswers(Arrays.asList("Other"));
-        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails));
+        errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(0, errors.size());
     }
 

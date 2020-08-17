@@ -38,7 +38,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         return new ArrayList<>();
     }
 

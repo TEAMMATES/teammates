@@ -124,7 +124,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
-    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses) {
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
 
         for (FeedbackResponseDetails response : responses) {

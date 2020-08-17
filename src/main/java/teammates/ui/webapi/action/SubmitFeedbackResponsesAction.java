@@ -99,6 +99,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         }
 
         List<FeedbackResponseAttributes> existingResponses;
+        Map<String, String> recipientsOfTheQuestion;
 
         String giverIdentifier;
         String giverSection;
@@ -111,6 +112,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                             ? studentAttributes.getTeam() : studentAttributes.getEmail();
             giverSection = studentAttributes.getSection();
             existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, studentAttributes);
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
                     studentAttributes.getEmail(), studentAttributes.getTeam());
             break;
@@ -119,6 +121,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             giverIdentifier = instructorAttributes.getEmail();
             giverSection = Const.DEFAULT_SECTION;
             existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructorAttributes);
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             logic.populateFieldsToGenerateInQuestion(feedbackQuestion,
                     instructorAttributes.getEmail(), null);
             break;
@@ -172,7 +175,23 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             }
         });
 
-        validateResponsesOfQuestion(feedbackQuestion, feedbackResponsesToValidate);
+        List<FeedbackResponseDetails> responseDetails = feedbackResponsesToValidate.stream()
+                .map(FeedbackResponseAttributes::getResponseDetails)
+                .collect(Collectors.toList());
+
+        int numRecipients = feedbackQuestion.numberOfEntitiesToGiveFeedbackTo;
+        if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
+                || numRecipients > recipientsOfTheQuestion.size()) {
+            numRecipients = recipientsOfTheQuestion.size();
+        }
+
+        List<String> questionSpecificErrors =
+                feedbackQuestion.getQuestionDetails()
+                        .validateResponsesDetails(responseDetails, numRecipients);
+
+        if (!questionSpecificErrors.isEmpty()) {
+            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
+        }
 
         List<String> recipients = submitRequest.getRecipients();
         List<FeedbackResponseAttributes> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
@@ -203,20 +222,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         }
 
         return new JsonResult(new FeedbackResponsesData(output));
-    }
-
-    private void validateResponsesOfQuestion(FeedbackQuestionAttributes questionAttributes,
-                                             List<FeedbackResponseAttributes> responsesToValidate) {
-        List<FeedbackResponseDetails> responseDetails = responsesToValidate.stream()
-                .map(FeedbackResponseAttributes::getResponseDetails)
-                .collect(Collectors.toList());
-
-        List<String> questionSpecificErrors =
-                questionAttributes.getQuestionDetails().validateResponsesDetails(responseDetails);
-
-        if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
-        }
     }
 
 }

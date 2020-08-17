@@ -73,13 +73,13 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
 
         responseDetails.setAnswer(Arrays.asList(1, Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN, 0));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, 0));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
 
     @Test
@@ -96,23 +96,23 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
 
         responseDetails.setAnswer(Arrays.asList());
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(
                 Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN, Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, -2));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(2, 1));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, 1, 0));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails)).isEmpty());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
 
     @Test
