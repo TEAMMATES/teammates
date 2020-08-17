@@ -87,12 +87,12 @@
            [max]="totalSelectableChoices">
     <br>
     <label class="form-check-label">
-      <input id="min-choices-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+      <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
              [ngModel]="isMinSelectableChoicesEnabled"
              (ngModelChange)="triggerMinSelectableOptionsChange($event)">
       <b>Minimum number of options a respondent is allowed to select</b>
     </label>
-    <input id="min-choices" type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
+    <input id="min-options" type="number" class="form-control" [disabled]="!isMinSelectableChoicesEnabled || !isEditable"
            [ngModel]="displayValueForMinSelectableOption"
            (ngModelChange)="triggerModelChange('minSelectableChoices', $event)" min="1" [max]="maxMinSelectableValue">
   </div>

@@ -526,9 +526,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
-    public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
-        String recommendLength = getRecommendedLengthField(questionNum).getAttribute("value");
-        assertEquals(recommendLength, textQuestionDetails.getRecommendedLength().toString());
+    public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails questionDetails) {
+        String recommendLength = getRecommendedTextLengthField(questionNum).getAttribute("value");
+        assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
     }
 
     public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
@@ -536,65 +536,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
-        fillTextBox(getRecommendedLengthField(questionNum), questionDetails.getRecommendedLength().toString());
+        fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
         clickSaveNewQuestionButton();
     }
 
     public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
         clickEditQuestionButton(questionNum);
-        fillTextBox(getRecommendedLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
         clickSaveQuestionButton(questionNum);
     }
 
-    public void verifyMcqQuestionDetails(int questionNum, FeedbackMcqQuestionDetails mcqQuestionDetails) {
-        if (verifyGeneratedOption(questionNum, mcqQuestionDetails.getGenerateOptionsFor())) {
+    public void verifyMcqQuestionDetails(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
+        if (verifyGeneratedOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
             return;
         }
-        verifyOptions(questionNum, mcqQuestionDetails.getMcqChoices());
-        verifyOptionWeights(questionNum, mcqQuestionDetails.hasAssignedWeights(), mcqQuestionDetails.getMcqWeights());
-        verifyOtherChoice(questionNum, mcqQuestionDetails.isOtherEnabled(), mcqQuestionDetails.getMcqOtherWeight());
-    }
-
-    private boolean verifyGeneratedOption(int questionNum, FeedbackParticipantType participantType) {
-        if (!participantType.equals(FeedbackParticipantType.NONE)) {
-            assertTrue(getGenerateOptionCheckbox(questionNum).isSelected());
-            assertEquals(getSelectedDropdownOptionText(getGenerateOptionDropdown(questionNum)),
-                    getGeneratedOptionString(participantType));
-            return true;
-        }
-        assertFalse(getGenerateOptionCheckbox(questionNum).isSelected());
-        return false;
-    }
-
-    private void verifyOptions(int questionNum, List<String> options) {
-        List<WebElement> inputs = getOptionInputs(questionNum);
-        for (int i = 0; i < options.size(); i++) {
-            assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
-        }
-    }
-
-    private void verifyOptionWeights(int questionNum, boolean hasWeights, List<Double> weights) {
-        if (hasWeights) {
-            assertTrue(getWeightCheckbox(questionNum).isSelected());
-            List<WebElement> weightInputs = getOptionWeightInputs(questionNum);
-            for (int i = 0; i < weights.size(); i++) {
-                assertEquals(getDoubleString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
-            }
-        } else {
-            assertFalse(getWeightCheckbox(questionNum).isSelected());
-        }
-    }
-
-    private void verifyOtherChoice(int questionNum, boolean hasOther, Double weight) {
-        if (hasOther) {
-            assertTrue(getOtherCheckbox(questionNum).isSelected());
-            if (weight > 0) {
-                String otherWeight = getOtherWeightInput(questionNum).getAttribute("value");
-                assertEquals(getDoubleString(weight), otherWeight);
-            }
-        } else {
-            assertFalse(getOtherCheckbox(questionNum).isSelected());
-        }
+        verifyOptions(questionNum, questionDetails.getMcqChoices());
+        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
     public void addMcqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
@@ -606,41 +564,21 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
-    public void editMcqQuestion(int questionNum, FeedbackMcqQuestionDetails mcqQuestionDetails) {
+    public void editMcqQuestion(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
-        inputMcqDetails(questionNum, mcqQuestionDetails);
+        inputMcqDetails(questionNum, questionDetails);
         clickSaveQuestionButton(questionNum);
     }
 
-    public void verifyMsqQuestionDetails(int questionNum, FeedbackMsqQuestionDetails msqQuestionDetails) {
-        verifyMaxSelectable(questionNum, msqQuestionDetails.getMaxSelectableChoices());
-        verifyMinSelectable(questionNum, msqQuestionDetails.getMinSelectableChoices());
-        if (verifyGeneratedOption(questionNum, msqQuestionDetails.getGenerateOptionsFor())) {
+    public void verifyMsqQuestionDetails(int questionNum, FeedbackMsqQuestionDetails questionDetails) {
+        verifyMaxOptions(questionNum, questionDetails.getMaxSelectableChoices());
+        verifyMinOptions(questionNum, questionDetails.getMinSelectableChoices());
+        if (verifyGeneratedOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
             return;
         }
-        verifyOptions(questionNum, msqQuestionDetails.getMsqChoices());
-        verifyOptionWeights(questionNum, msqQuestionDetails.hasAssignedWeights(), msqQuestionDetails.getMsqWeights());
-        verifyOtherChoice(questionNum, msqQuestionDetails.isOtherEnabled(), msqQuestionDetails.getMsqOtherWeight());
-    }
-
-    private void verifyMaxSelectable(int questionNum, int maxSelectableChoices) {
-        if (maxSelectableChoices == Integer.MIN_VALUE) {
-            assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
-        } else {
-            assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
-            assertEquals(getMaxOptionsInput(questionNum).getAttribute("value"),
-                    Integer.toString(maxSelectableChoices));
-        }
-    }
-
-    private void verifyMinSelectable(int questionNum, int minSelectableChoices) {
-        if (minSelectableChoices == Integer.MIN_VALUE) {
-            assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
-        } else {
-            assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
-            assertEquals(getMinOptionsInput(questionNum).getAttribute("value"),
-                    Integer.toString(minSelectableChoices));
-        }
+        verifyOptions(questionNum, questionDetails.getMsqChoices());
+        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
     }
 
     public void addMsqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
@@ -658,13 +596,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveQuestionButton(questionNum);
     }
 
-    public void verifyNumScaleQuestionDetails(int questionNum, FeedbackNumericalScaleQuestionDetails nsQuestionDetails) {
+    public void verifyNumScaleQuestionDetails(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         assertEquals(getMinNumscaleInput(questionNum).getAttribute("value"),
-                Integer.toString(nsQuestionDetails.getMinScale()));
-        assertEquals(getIncrementInput(questionNum).getAttribute("value"),
-                getDoubleString(nsQuestionDetails.getStep()));
+                Integer.toString(questionDetails.getMinScale()));
+        assertEquals(getNumScaleIncrementInput(questionNum).getAttribute("value"),
+                getDoubleString(questionDetails.getStep()));
         assertEquals(getMaxNumscaleInput(questionNum).getAttribute("value"),
-                Integer.toString(nsQuestionDetails.getMaxScale()));
+                Integer.toString(questionDetails.getMaxScale()));
     }
 
     public void addNumScaleQuestion(FeedbackQuestionAttributes feedbackQuestion) {
@@ -677,40 +615,36 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
-    public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails nsQuestionDetails) {
+    public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
-        inputNumScaleDetails(questionNum, nsQuestionDetails);
+        inputNumScaleDetails(questionNum, questionDetails);
         clickSaveQuestionButton(questionNum);
     }
 
-    public void verifyConstSumQuestionDetails(int questionNum, FeedbackConstantSumQuestionDetails csQuestionDetails) {
-        if (!csQuestionDetails.isDistributeToRecipients()) {
-            verifyOptions(questionNum, csQuestionDetails.getConstSumOptions());
+    public void verifyConstSumQuestionDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
+        if (!questionDetails.isDistributeToRecipients()) {
+            verifyOptions(questionNum, questionDetails.getConstSumOptions());
         }
-        verifyPointDistribution(questionNum, csQuestionDetails.isPointsPerOption(), csQuestionDetails.getPoints());
-        verifyUnevenDistribution(questionNum, csQuestionDetails.isForceUnevenDistribution(),
-                csQuestionDetails.getDistributePointsFor());
-    }
 
-    private void verifyPointDistribution(int questionNum, boolean isPerOption, int points) {
-        if (isPerOption) {
-            assertTrue(getPerOptionPointsRadioBtn(questionNum).isSelected());
-            assertEquals(getPerOptionPointsInput(questionNum).getAttribute("value"), Integer.toString(points));
-            assertFalse(getTotalPointsRadioBtn(questionNum).isSelected());
+        if (questionDetails.isPointsPerOption()) {
+            assertTrue(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+            assertEquals(getConstSumPerOptionPointsInput(questionNum).getAttribute("value"),
+                    Integer.toString(questionDetails.getPoints()));
+            assertFalse(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
         } else {
-            assertTrue(getTotalPointsRadioBtn(questionNum).isSelected());
-            assertEquals(getTotalPointsInput(questionNum).getAttribute("value"), Integer.toString(points));
-            assertFalse(getPerOptionPointsRadioBtn(questionNum).isSelected());
+            assertTrue(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+            assertEquals(getConstSumTotalPointsInput(questionNum).getAttribute("value"),
+                    Integer.toString(questionDetails.getPoints()));
+            assertFalse(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
         }
-    }
 
-    private void verifyUnevenDistribution(int questionNum, boolean isUneven, String distributeFor) {
-        if (isUneven) {
-            assertTrue(getUnevenDistributionCheckbox(questionNum).isSelected());
-            assertEquals(getSelectedDropdownOptionText(getUnevenDistributionDropdown(questionNum)),
+        if (questionDetails.isForceUnevenDistribution()) {
+            String distributeFor = questionDetails.getDistributePointsFor();
+            assertTrue(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+            assertEquals(getSelectedDropdownOptionText(getConstSumUnevenDistributionDropdown(questionNum)).trim(),
                     "All options".equals(distributeFor) ? "Every option" : distributeFor);
         } else {
-            assertFalse(getUnevenDistributionCheckbox(questionNum).isSelected());
+            assertFalse(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
         }
     }
 
@@ -741,9 +675,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
         if (questionDetails.isNotSureAllowed()) {
-            assertTrue(getNotSureCheckBox(questionNum).isSelected());
+            assertTrue(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
         } else {
-            assertFalse(getNotSureCheckBox(questionNum).isSelected());
+            assertFalse(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
         }
     }
 
@@ -817,9 +751,9 @@ public class InstructorFeedbackEditPage extends AppPage {
             FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
             verifyOptions(questionNum, optionDetails.getOptions());
         }
-        assertEquals(getDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.areDuplicatesAllowed());
-        verifyMaxSelectable(questionNum, questionDetails.getMaxOptionsToBeRanked());
-        verifyMinSelectable(questionNum, questionDetails.getMinOptionsToBeRanked());
+        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.areDuplicatesAllowed());
+        verifyMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
+        verifyMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
 
     public void addRankOptionsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
@@ -832,12 +766,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickSaveNewQuestionButton();
     }
 
-    public void editRankQuestion(int questionNum, FeedbackRankQuestionDetails questionDetails) {
-        clickEditQuestionButton(questionNum);
-        inputRankDetails(questionNum, questionDetails);
-        clickSaveQuestionButton(questionNum);
-    }
-
     public void addRankRecipientsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         addNewQuestion(11);
         int questionNum = getNumQuestions();
@@ -846,6 +774,12 @@ public class InstructorFeedbackEditPage extends AppPage {
                 (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetails();
         inputRankDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
+    }
+
+    public void editRankQuestion(int questionNum, FeedbackRankQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
     }
 
     private String getCourseId() {
@@ -1210,15 +1144,15 @@ public class InstructorFeedbackEditPage extends AppPage {
         waitForElementStaleness(saveButton);
     }
 
-    private WebElement getRecommendedLengthField(int questionNum) {
+    private WebElement getRecommendedTextLengthField(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
     }
 
-    private WebElement getGenerateOptionCheckbox(int questionNum) {
+    private WebElement getGenerateOptionsCheckbox(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("generate-checkbox"));
     }
 
-    private WebElement getGenerateOptionDropdown(int questionNum) {
+    private WebElement getGenerateOptionsDropdown(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("generate-dropdown"));
     }
 
@@ -1226,7 +1160,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getQuestionForm(questionNum).findElement(By.id("weights-checkbox"));
     }
 
-    private WebElement getOtherCheckbox(int questionNum) {
+    private WebElement getOtherOptionCheckbox(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("other-checkbox"));
     }
 
@@ -1269,8 +1203,50 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getQuestionForm(questionNum).findElement(By.id("other-weight"));
     }
 
+    private boolean verifyGeneratedOptions(int questionNum, FeedbackParticipantType participantType) {
+        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+            assertTrue(getGenerateOptionsCheckbox(questionNum).isSelected());
+            assertEquals(getSelectedDropdownOptionText(getGenerateOptionsDropdown(questionNum)),
+                    getGeneratedOptionString(participantType));
+            return true;
+        }
+        assertFalse(getGenerateOptionsCheckbox(questionNum).isSelected());
+        return false;
+    }
+
+    private void verifyOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getOptionInputs(questionNum);
+        for (int i = 0; i < options.size(); i++) {
+            assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
+        }
+    }
+
+    private void verifyOptionWeights(int questionNum, boolean hasWeights, List<Double> weights) {
+        if (hasWeights) {
+            assertTrue(getWeightCheckbox(questionNum).isSelected());
+            List<WebElement> weightInputs = getOptionWeightInputs(questionNum);
+            for (int i = 0; i < weights.size(); i++) {
+                assertEquals(getDoubleString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
+            }
+        } else {
+            assertFalse(getWeightCheckbox(questionNum).isSelected());
+        }
+    }
+
+    private void verifyOtherOption(int questionNum, boolean hasOther, Double weight) {
+        if (hasOther) {
+            assertTrue(getOtherOptionCheckbox(questionNum).isSelected());
+            if (weight > 0) {
+                String otherWeight = getOtherWeightInput(questionNum).getAttribute("value");
+                assertEquals(getDoubleString(weight), otherWeight);
+            }
+        } else {
+            assertFalse(getOtherOptionCheckbox(questionNum).isSelected());
+        }
+    }
+
     private void inputMcqDetails(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
-        if (inputGenerateOption(questionNum, questionDetails.getGenerateOptionsFor())) {
+        if (inputGenerateOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
             return;
         }
 
@@ -1279,29 +1255,29 @@ public class InstructorFeedbackEditPage extends AppPage {
         inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
-    private boolean inputGenerateOption(int questionNum, FeedbackParticipantType participantType) {
+    private boolean inputGenerateOptions(int questionNum, FeedbackParticipantType participantType) {
         if (!participantType.equals(FeedbackParticipantType.NONE)) {
-            markCheckBoxAsChecked(getGenerateOptionCheckbox(questionNum));
-            selectDropdownOptionByText(getGenerateOptionDropdown(questionNum),
+            markCheckBoxAsChecked(getGenerateOptionsCheckbox(questionNum));
+            selectDropdownOptionByText(getGenerateOptionsDropdown(questionNum),
                     getGeneratedOptionString(participantType));
             clickSaveQuestionButton(questionNum);
             return true;
         }
-        markCheckBoxAsUnchecked(getGenerateOptionCheckbox(questionNum));
+        markCheckBoxAsUnchecked(getGenerateOptionsCheckbox(questionNum));
         return false;
     }
 
     private void inputOptions(int questionNum, List<String> options) {
         List<WebElement> inputs = getOptionInputs(questionNum);
-        int numOptionsNeeded = options.size() - inputs.size();
-        if (numOptionsNeeded > 0) {
-            for (int i = 0; i < numOptionsNeeded; i++) {
+        int numInputsNeeded = options.size() - inputs.size();
+        if (numInputsNeeded > 0) {
+            for (int i = 0; i < numInputsNeeded; i++) {
                 click(getQuestionForm(questionNum).findElement(By.id("btn-add-option")));
             }
             inputs = getOptionInputs(questionNum);
         }
-        if (numOptionsNeeded < 0) {
-            for (int i = 0; i < -numOptionsNeeded; i++) {
+        if (numInputsNeeded < 0) {
+            for (int i = 0; i < -numInputsNeeded; i++) {
                 click(getOptionsSection(questionNum).findElement(By.tagName("button")));
             }
             inputs = getOptionInputs(questionNum);
@@ -1326,12 +1302,12 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void inputOtherChoice(int questionNum, boolean hasOther, Double otherWeight) {
         if (hasOther) {
-            markCheckBoxAsChecked(getOtherCheckbox(questionNum));
+            markCheckBoxAsChecked(getOtherOptionCheckbox(questionNum));
             if (otherWeight > 0) {
                 fillTextBox(getOtherWeightInput(questionNum), getDoubleString(otherWeight));
             }
         } else {
-            markCheckBoxAsUnchecked(getOtherCheckbox(questionNum));
+            markCheckBoxAsUnchecked(getOtherOptionCheckbox(questionNum));
         }
     }
 
@@ -1351,8 +1327,28 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getQuestionForm(questionNum).findElement(By.id("min-options"));
     }
 
+    private void verifyMaxOptions(int questionNum, int maxOptions) {
+        if (maxOptions == Integer.MIN_VALUE) {
+            assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
+        } else {
+            assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
+            assertEquals(getMaxOptionsInput(questionNum).getAttribute("value"),
+                    Integer.toString(maxOptions));
+        }
+    }
+
+    private void verifyMinOptions(int questionNum, int minOptions) {
+        if (minOptions == Integer.MIN_VALUE) {
+            assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
+        } else {
+            assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
+            assertEquals(getMinOptionsInput(questionNum).getAttribute("value"),
+                    Integer.toString(minOptions));
+        }
+    }
+
     private void inputMsqDetails(int questionNum, FeedbackMsqQuestionDetails questionDetails) {
-        if (inputGenerateOption(questionNum, questionDetails.getGenerateOptionsFor())) {
+        if (inputGenerateOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
             return;
         }
 
@@ -1389,13 +1385,13 @@ public class InstructorFeedbackEditPage extends AppPage {
         return getQuestionForm(questionNum).findElement(By.id("max-value"));
     }
 
-    private WebElement getIncrementInput(int questionNum) {
+    private WebElement getNumScaleIncrementInput(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("increment-value"));
     }
 
     private void inputNumScaleDetails(int questionNum, FeedbackNumericalScaleQuestionDetails nsQuestionDetails) {
         inputNumScaleValue(getMinNumscaleInput(questionNum), Integer.toString(nsQuestionDetails.getMinScale()));
-        inputNumScaleValue(getIncrementInput(questionNum), getDoubleString(nsQuestionDetails.getStep()));
+        inputNumScaleValue(getNumScaleIncrementInput(questionNum), getDoubleString(nsQuestionDetails.getStep()));
         inputNumScaleValue(getMaxNumscaleInput(questionNum), Integer.toString(nsQuestionDetails.getMaxScale()));
     }
 
@@ -1405,27 +1401,27 @@ public class InstructorFeedbackEditPage extends AppPage {
         actions.sendKeys(input, value).perform();
     }
 
-    private WebElement getTotalPointsRadioBtn(int questionNum) {
+    private WebElement getConstSumTotalPointsRadioBtn(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("total-points-radio"));
     }
 
-    private WebElement getTotalPointsInput(int questionNum) {
+    private WebElement getConstSumTotalPointsInput(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("total-points"));
     }
 
-    private WebElement getPerOptionPointsRadioBtn(int questionNum) {
+    private WebElement getConstSumPerOptionPointsRadioBtn(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("per-option-points-radio"));
     }
 
-    private WebElement getPerOptionPointsInput(int questionNum) {
+    private WebElement getConstSumPerOptionPointsInput(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("per-option-points"));
     }
 
-    private WebElement getUnevenDistributionCheckbox(int questionNum) {
+    private WebElement getConstSumUnevenDistributionCheckbox(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-checkbox"));
     }
 
-    private WebElement getUnevenDistributionDropdown(int questionNum) {
+    private WebElement getConstSumUnevenDistributionDropdown(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-dropdown"));
     }
 
@@ -1434,31 +1430,31 @@ public class InstructorFeedbackEditPage extends AppPage {
             inputOptions(questionNum, questionDetails.getConstSumOptions());
         }
         if (questionDetails.isPointsPerOption()) {
-            click(getPerOptionPointsRadioBtn(questionNum));
-            fillTextBox(getPerOptionPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+            click(getConstSumPerOptionPointsRadioBtn(questionNum));
+            fillTextBox(getConstSumPerOptionPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
         } else {
-            click(getTotalPointsRadioBtn(questionNum));
-            fillTextBox(getTotalPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+            click(getConstSumTotalPointsRadioBtn(questionNum));
+            fillTextBox(getConstSumTotalPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
         }
         String distributeFor = questionDetails.getDistributePointsFor();
         if (questionDetails.isForceUnevenDistribution()) {
-            markCheckBoxAsChecked(getUnevenDistributionCheckbox(questionNum));
-            selectDropdownOptionByText(getUnevenDistributionDropdown(questionNum),
+            markCheckBoxAsChecked(getConstSumUnevenDistributionCheckbox(questionNum));
+            selectDropdownOptionByText(getConstSumUnevenDistributionDropdown(questionNum),
                     "All options".equals(distributeFor) ? "Every option" : distributeFor);
         } else {
-            markCheckBoxAsUnchecked(getUnevenDistributionCheckbox(questionNum));
+            markCheckBoxAsUnchecked(getConstSumUnevenDistributionCheckbox(questionNum));
         }
     }
 
-    private WebElement getNotSureCheckBox(int questionNum) {
+    private WebElement getAllowNotSureConstributionCheckbox(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("not-sure-checkbox"));
     }
 
     private void inputContributionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
         if (questionDetails.isNotSureAllowed()) {
-            markCheckBoxAsChecked(getNotSureCheckBox(questionNum));
+            markCheckBoxAsChecked(getAllowNotSureConstributionCheckbox(questionNum));
         } else {
-            markCheckBoxAsUnchecked(getNotSureCheckBox(questionNum));
+            markCheckBoxAsUnchecked(getAllowNotSureConstributionCheckbox(questionNum));
         }
     }
 
@@ -1559,7 +1555,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
     }
 
-    private WebElement getDuplicateRankCheckbox(int questionNum) {
+    private WebElement getAllowDuplicateRankCheckbox(int questionNum) {
         return getQuestionForm(questionNum).findElement(By.id("duplicate-rank-checkbox"));
     }
 
@@ -1569,9 +1565,9 @@ public class InstructorFeedbackEditPage extends AppPage {
             inputOptions(questionNum, optionDetails.getOptions());
         }
         if (questionDetails.areDuplicatesAllowed()) {
-            markCheckBoxAsChecked(getDuplicateRankCheckbox(questionNum));
+            markCheckBoxAsChecked(getAllowDuplicateRankCheckbox(questionNum));
         } else {
-            markCheckBoxAsUnchecked(getDuplicateRankCheckbox(questionNum));
+            markCheckBoxAsUnchecked(getAllowDuplicateRankCheckbox(questionNum));
         }
         inputMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         inputMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());

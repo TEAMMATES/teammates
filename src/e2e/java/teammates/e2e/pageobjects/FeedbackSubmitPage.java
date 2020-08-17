@@ -150,16 +150,16 @@ public class FeedbackSubmitPage extends AppPage {
         for (int i = 0; i < msqChoices.size(); i++) {
             assertEquals(msqChoices.get(i), optionTexts.get(i).getText());
         }
-        verifyMsqSelectableOptions(qnNumber, questionDetails);
+        verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
     }
 
-    private void verifyMsqSelectableOptions(int qnNumber, FeedbackMsqQuestionDetails questionDetails) {
+    private void verifyMsqSelectableOptionsMessage(int qnNumber, FeedbackMsqQuestionDetails questionDetails) {
         if (questionDetails.getMinSelectableChoices() > Integer.MIN_VALUE) {
-            assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-selectable-message")).getText(),
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
                     "Choose at least " + questionDetails.getMinSelectableChoices() + " options.");
         }
         if (questionDetails.getMaxSelectableChoices() > Integer.MIN_VALUE) {
-            assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-selectable-message")).getText(),
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
                     "Choose no more than " + questionDetails.getMaxSelectableChoices() + " options.");
         }
     }
@@ -170,7 +170,7 @@ public class FeedbackSubmitPage extends AppPage {
         for (int i = 0; i < options.size(); i++) {
             assertEquals(options.get(i), optionTexts.get(i).getText());
         }
-        verifyMsqSelectableOptions(qnNumber, questionDetails);
+        verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
     }
 
     public void submitMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -200,7 +200,7 @@ public class FeedbackSubmitPage extends AppPage {
         for (int i = 0; i < optionTexts.size(); i++) {
             if (answers.contains(optionTexts.get(i).getText())) {
                 assertTrue(checkboxes.get(i).isSelected());
-            } else if (optionTexts.get(i).getText().equals("Others")) {
+            } else if (optionTexts.get(i).getText().equals("Other")) {
                 assertEquals(checkboxes.get(i).isSelected(), responseDetails.isOther());
             } else {
                 assertFalse(checkboxes.get(i).isSelected());
@@ -248,29 +248,23 @@ public class FeedbackSubmitPage extends AppPage {
                 assertEquals(constSumOptions.get(i), optionTexts.get(i).getText());
             }
         }
-        verifyTotalPoints(qnNumber, questionDetails);
-        if (questionDetails.isForceUnevenDistribution()) {
-            verifyUnevenDistribution(qnNumber, questionDetails);
-        }
-    }
 
-    private void verifyTotalPoints(int qnNumber, FeedbackConstantSumQuestionDetails questionDetails) {
         int totalPoints = questionDetails.getPoints();
         if (questionDetails.isPointsPerOption()) {
             totalPoints *= questionDetails.getNumOfConstSumOptions();
         }
         assertEquals(getQuestionForm(qnNumber).findElement(By.id("total-points-message")).getText(),
                 "Total points distributed should add up to " + totalPoints + ".");
-    }
 
-    private void verifyUnevenDistribution(int qnNumber, FeedbackConstantSumQuestionDetails questionDetails) {
-        String entityType = questionDetails.isDistributeToRecipients() ? "recipient" : "option";
-        if (questionDetails.getDistributePointsFor().equals("All options")) {
-            assertEquals(getQuestionForm(qnNumber).findElement(By.id("all-uneven-message")).getText(),
-                    "Every " + entityType + " should be allocated different number of points.");
-        } else {
-            assertEquals(getQuestionForm(qnNumber).findElement(By.id("one-uneven-message")).getText(),
-                    "At least one " + entityType + " should be allocated different number of points.");
+        if (questionDetails.isForceUnevenDistribution()) {
+            String entityType = questionDetails.isDistributeToRecipients() ? "recipient" : "option";
+            if (questionDetails.getDistributePointsFor().equals("All options")) {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("all-uneven-message")).getText(),
+                        "Every " + entityType + " should be allocated different number of points.");
+            } else {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("one-uneven-message")).getText(),
+                        "At least one " + entityType + " should be allocated different number of points.");
+            }
         }
     }
 
@@ -599,7 +593,7 @@ public class FeedbackSubmitPage extends AppPage {
 
     private List<WebElement> getConstSumOptions(int qnNumber, String recipient) {
         WebElement constSumOptionSection = getConstSumOptionsSection(qnNumber, recipient);
-        return constSumOptionSection.findElements(By.cssSelector("strong"));
+        return constSumOptionSection.findElements(By.tagName("strong"));
     }
 
     private List<WebElement> getConstSumInputs(int qnNumber, String recipient) {
@@ -612,7 +606,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private List<WebElement> getContributionDropdowns(int questionNum) {
-        return getQuestionForm(questionNum).findElements(By.cssSelector("select"));
+        return getQuestionForm(questionNum).findElements(By.tagName("select"));
     }
 
     private String getContributionString(int answer) {

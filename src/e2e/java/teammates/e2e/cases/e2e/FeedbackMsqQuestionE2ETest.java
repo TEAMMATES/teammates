@@ -132,8 +132,8 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
-        answers = Arrays.asList("Algo");
-        response = getResponse(questionId, receiver, "This is the edited response.", answers);
+        answers = Arrays.asList("Algo", "This is the edited response.");
+        response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
