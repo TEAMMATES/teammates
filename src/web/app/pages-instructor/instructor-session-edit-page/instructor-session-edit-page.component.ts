@@ -657,16 +657,21 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Deletes the existing question.
    */
   deleteExistingQuestionHandler(index: number): void {
-    const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-    this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId).subscribe(
-        () => {
-          // remove form model
-          this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
-          this.questionEditFormModels.splice(index, 1);
-          this.normalizeQuestionNumberInQuestionForms();
+    const modalRef: NgbModalRef = this.simpleModalService
+        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
+            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
+    modalRef.result.then(() => {
+      const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
+      this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId).subscribe(
+          () => {
+            // remove form model
+            this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
+            this.questionEditFormModels.splice(index, 1);
+            this.normalizeQuestionNumberInQuestionForms();
 
-          this.statusMessageService.showSuccessToast('The question has been deleted.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+            this.statusMessageService.showSuccessToast('The question has been deleted.');
+          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    }, () => {});
   }
 
   /**

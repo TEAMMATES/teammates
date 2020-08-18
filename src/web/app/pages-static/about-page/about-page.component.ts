@@ -23,11 +23,11 @@ export class AboutPageComponent implements OnInit {
   constructor() {}
 
   private setUrl(dev: any): any {
-    if (dev.url) {
-      return dev;
-    }
     if (dev.username) {
-      dev.url = `https://github.com/${dev.username}`;
+      if (!dev.url) {
+        dev.url = `https://github.com/${dev.username}`;
+      }
+      dev.avatarUrl = `https://github.com/${dev.username}.png`;
     }
     return dev;
   }

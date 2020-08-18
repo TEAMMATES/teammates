@@ -837,7 +837,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 x-placement="bottom"
                               >
                                 <a
-                                  class="btn dropdown-item clickable"
+                                  class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback"
                                   routerlink="/web/instructor/sessions/result"
                                 >
@@ -859,6 +859,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 
                                 <button
                                   class="btn dropdown-item clickable"
+                                  disabled=""
                                   id="btn-download-0"
                                 >
                                   Download Results
@@ -1350,7 +1351,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 x-placement="bottom"
                               >
                                 <a
-                                  class="btn dropdown-item clickable"
+                                  class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%201"
                                   routerlink="/web/instructor/sessions/result"
                                 >
@@ -1378,6 +1379,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 </button>
                                 <button
                                   class="btn dropdown-item clickable"
+                                  disabled=""
                                   id="btn-download-0"
                                 >
                                   Download Results
@@ -1502,7 +1504,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 x-placement="bottom"
                               >
                                 <a
-                                  class="btn dropdown-item clickable"
+                                  class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%202"
                                   routerlink="/web/instructor/sessions/result"
                                 >
@@ -1524,6 +1526,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 
                                 <button
                                   class="btn dropdown-item clickable"
+                                  disabled=""
                                   id="btn-download-1"
                                 >
                                   Download Results

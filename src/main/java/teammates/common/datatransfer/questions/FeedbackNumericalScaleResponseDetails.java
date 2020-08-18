@@ -41,7 +41,7 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
         }
 
         // when the answer is within range but not one of the possible values
-        double remainder = (answer - minScale) % step;
+        double remainder = Double.valueOf(String.format("%.5f", (answer - minScale) % step));
         boolean isAnswerNotAPossibleValueWithinRange = remainder != 0.0 && !isAnswerOutOfRange;
 
         if (isAnswerNotAPossibleValueWithinRange) {

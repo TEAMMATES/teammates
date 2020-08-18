@@ -1,6 +1,5 @@
 package teammates.ui.webapi.action;
 
-import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -36,14 +35,15 @@ public class GetSessionResponseStatsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        try {
-            FeedbackSessionDetailsBundle fsdb = logic.getFeedbackSessionDetails(feedbackSessionName, courseId);
-            FeedbackSessionStatsData output =
-                    new FeedbackSessionStatsData(fsdb.stats.submittedTotal, fsdb.stats.expectedTotal);
-            return new JsonResult(output);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
+        FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
+        if (fsa == null) {
+            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not found"));
         }
+
+        int expectedTotal = logic.getExpectedTotalSubmission(fsa);
+        int actualTotal = logic.getActualTotalSubmission(fsa);
+        FeedbackSessionStatsData output = new FeedbackSessionStatsData(actualTotal, expectedTotal);
+        return new JsonResult(output);
     }
 
 }
