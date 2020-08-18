@@ -2,6 +2,9 @@ package teammates.e2e.cases.e2e;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -164,10 +167,22 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     /**
      * Verifies downloaded file has correct fileName and contains expected content.
      */
-    protected void verifyDownloadedFile(String expectedContent, String expectedFileName) {
+    protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
+        String filePath = getTestDownloadsFolder() + expectedFileName;
+        int retryLimit = 5;
+        boolean actual = Files.exists(Paths.get(filePath));
+        while (!actual && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            actual = Files.exists(Paths.get(filePath));
+        }
+        assertTrue(actual);
+
         try {
-            String filePath = getTestDownloadsFolder() + expectedFileName;
-            assertTrue(FileHelper.readFile(filePath).contains(expectedContent));
+            String actualContent = FileHelper.readFile(filePath);
+            for (String content : expectedContent) {
+                assertTrue(actualContent.contains(content));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -2,7 +2,9 @@ package teammates.e2e.cases.e2e;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
@@ -176,9 +178,9 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("download results");
         feedbackSessionsPage.downloadResults(openSession);
-        ThreadHelper.waitFor(5000);
-        verifyDownloadedFile("Course,CFeedbackSessionsE2eT.CS1101\r\nSession Name,Second Session\r\n"
-                + "\r\n\r\nQuestion 1,Testing question text", fileName);
+        List<String> expectedContent = Arrays.asList("Course,CFeedbackSessionsE2eT.CS1101",
+                "Session Name,Second Session", "Question 1,Testing question text");
+        verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("soft delete session");
         closedSession.setDeletedTime(Instant.now());
