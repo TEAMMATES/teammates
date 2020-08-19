@@ -116,12 +116,12 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded question with generated options");
         FeedbackQuestionAttributes generatedQn = testData.feedbackQuestions.get("qn1ForSecondSession");
-        feedbackSubmitPage.verifyGeneratedMsqQuestion(3, receiver.getName(),
+        feedbackSubmitPage.verifyGeneratedMsqQuestion(3, "",
                 (FeedbackMsqQuestionDetails) generatedQn.getQuestionDetails(), getGeneratedTeams());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
-        List<String> answers = Arrays.asList("Testing", "UI");
+        List<String> answers = Arrays.asList("Leadership", "Teamwork");
         FeedbackResponseAttributes response = getResponse(questionId, receiver, "", answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
@@ -132,7 +132,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
-        answers = Arrays.asList("Algo", "This is the edited response.");
+        answers = Arrays.asList("Creativity", "This is the edited response.");
         response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 

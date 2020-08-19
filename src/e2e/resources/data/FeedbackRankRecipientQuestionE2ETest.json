@@ -45,6 +45,29 @@
       }
     },
     "instructor2": {
+      "googleId": "FRankRecipientQuestionE2eT.instructor2",
+      "courseId": "FRankRecipientQuestionE2eT.CS2104",
+      "name": "Teammates Test 2",
+      "email": "tmms.tes2t@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor3": {
       "googleId": "FRankRecipientQuestionE2eT.instructor",
       "courseId": "FRankRecipientQuestionE2eT.CS1101",
       "name": "Teammates Test",
@@ -155,13 +178,13 @@
       "questionDetails": {
         "areDuplicatesAllowed": true,
         "questionType": "RANK_RECIPIENTS",
-        "questionText": "Rank your teammates by contribution.",
+        "questionText": "Rank your instructors by approachability.",
         "minOptionsToBeRanked": 1
       },
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -181,13 +204,13 @@
       "questionDetails": {
         "areDuplicatesAllowed": false,
         "questionType": "RANK_RECIPIENTS",
-        "questionText": "Rank your teammates by contribution.",
+        "questionText": "Rank your instructors by knowledge.",
         "maxOptionsToBeRanked": 3
       },
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "INSTRUCTORS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",

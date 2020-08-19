@@ -154,7 +154,7 @@
       "courseId": "FRankOptionQuestionE2eT.CS2104",
       "questionDetails": {
         "areDuplicatesAllowed": false,
-        "questionText": "As an student, rank for every team, the areas of improve that they should work on",
+        "questionText": "As a student, rank for every teammate, the areas of improvement that they should work on",
         "questionType": "RANK_OPTIONS",
         "maxOptionsToBeRanked" : 3,
         "options": [
@@ -186,7 +186,7 @@
       "courseId": "FRankOptionQuestionE2eT.CS1101",
       "questionDetails": {
         "areDuplicatesAllowed": true,
-        "questionText": "As an student, rank for every team, the areas of improve that they should work on",
+        "questionText": "As an student, rank for every team, the areas of improvement that they should work on",
         "questionType": "RANK_OPTIONS",
         "minOptionsToBeRanked": 1,
         "options": [
@@ -199,7 +199,7 @@
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",

@@ -491,17 +491,32 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private int getRecipientIndex(int qnNumber, String recipient) {
+        // For questions with recipient none or self.
+        if (recipient.isEmpty()) {
+            return 0;
+        }
         WebElement questionForm = getQuestionForm(qnNumber);
+        // For questions with flexible recipient.
         try {
-            int i = 0;
-            while (true) {
-                if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
+            List<WebElement> recipientDropdowns = questionForm.findElements(By.id("recipient-dropdown"));
+            for (int i = 0; i < recipientDropdowns.size(); i++) {
+                String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
+                if (dropdownText.isEmpty()) {
+                    selectDropdownOptionByText(recipientDropdowns.get(i), recipient);
+                    return i;
+                } else if (dropdownText.equals(recipient)) {
                     return i;
                 }
-                i++;
             }
         } catch (NoSuchElementException e) {
-            return -1;
+            // continue
+        }
+        int i = 0;
+        while (true) {
+            if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
+                return i;
+            }
+            i++;
         }
     }
 

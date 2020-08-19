@@ -157,31 +157,29 @@
         "forceUnevenDistribution": true,
         "distributePointsFor": "All options",
         "pointsPerOption": false,
-        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "questionText": "How well did you do in each area? Give points accordingly.",
         "numOfConstSumOptions": 3,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
         "constSumOptions": [
-          "Grades",
-          "Fun",
-          "Learning something new"
+          "Teamwork",
+          "Creativity",
+          "Leadership"
         ]
       },
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     },
     "qn1ForSecondSession": {
@@ -192,31 +190,29 @@
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
         "pointsPerOption": true,
-        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "questionText": "How much did you contribute to this area? Give points accordingly.",
         "numOfConstSumOptions": 3,
         "questionType": "CONSTSUM_OPTIONS",
         "points": 20,
         "constSumOptions": [
-          "Grades",
-          "Fun",
-          "Learning something new"
+          "Algo",
+          "UI",
+          "Testing"
         ]
       },
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "SELF",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     }
   },

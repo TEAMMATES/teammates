@@ -109,30 +109,29 @@ public class FeedbackMcqQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FMcqQuestionE2eT.CS2104");
-        feedbackSubmitPage.verifyMcqQuestion(1, receiver.getName(),
+        feedbackSubmitPage.verifyMcqQuestion(1, "",
                 (FeedbackMcqQuestionDetails) question.getQuestionDetails());
 
         ______TS("verify question with generated options");
-        feedbackSubmitPage.verifyGeneratedMcqQuestion(3, receiver.getName(), getGeneratedStudentOptions());
+        feedbackSubmitPage.verifyGeneratedMcqQuestion(3, "", getGeneratedStudentOptions());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
-        FeedbackResponseAttributes response = getResponse(questionId, receiver, false, "UI");
-        feedbackSubmitPage.submitMcqResponse(1, receiver.getName(), response);
+        FeedbackResponseAttributes response = getResponse(questionId, false, "UI");
+        feedbackSubmitPage.submitMcqResponse(1, "", response);
 
         verifyPresentInDatastore(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.verifyMcqResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.verifyMcqResponse(1, "", response);
 
         ______TS("edit response");
-        response = getResponse(questionId, receiver, true, "This is the edited response.");
-        feedbackSubmitPage.submitMcqResponse(1, receiver.getName(), response);
+        response = getResponse(questionId, true, "This is the edited response.");
+        feedbackSubmitPage.submitMcqResponse(1, "", response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.verifyMcqResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.verifyMcqResponse(1, "", response);
         verifyPresentInDatastore(response);
     }
 
@@ -143,8 +142,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toList());
     }
 
-    private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, boolean isOther,
-                                                   String answer) {
+    private FeedbackResponseAttributes getResponse(String questionId, boolean isOther, String answer) {
         FeedbackMcqResponseDetails details = new FeedbackMcqResponseDetails();
         if (isOther) {
             details.setOther(true);
@@ -152,7 +150,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseE2ETestCase {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
+        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), "%GENERAL%")
                 .withResponseDetails(details)
                 .build();
     }

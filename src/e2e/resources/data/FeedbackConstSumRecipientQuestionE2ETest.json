@@ -84,7 +84,7 @@
       "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1",
+      "team": "Team 2",
       "section": "None"
     },
     "charlie.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
@@ -93,7 +93,7 @@
       "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1",
+      "team": "Team 3",
       "section": "None"
     },
     "danny.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
@@ -102,7 +102,7 @@
       "course": "FConstSumRecipientQuestionE2eT.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
-      "team": "Team 2",
+      "team": "Team 3",
       "section": "None"
     }
   },
@@ -155,7 +155,7 @@
       "questionDetails": {
         "distributeToRecipients": true,
         "pointsPerOption": false,
-        "questionText": "Split points among the your team members and yourself, according to how much you think each member has contributed.",
+        "questionText": "Split points among the teams, according to how well you think each team did.",
         "numOfConstSumOptions": 0,
         "questionType": "CONSTSUM_RECIPIENTS",
         "points": 100,
@@ -166,7 +166,7 @@
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS",
@@ -192,7 +192,7 @@
         "distributePointsFor": "None",
         "points": 20,
         "questionType": "CONSTSUM_RECIPIENTS",
-        "questionText": "Split points among the teams"
+        "questionText": "Split points among the teams, according to how creative you think each team was."
       },
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,

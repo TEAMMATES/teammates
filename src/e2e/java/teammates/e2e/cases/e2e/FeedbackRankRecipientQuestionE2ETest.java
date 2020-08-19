@@ -105,8 +105,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FRankRecipientQuestionE2eT.CS2104");
-        StudentAttributes receiver2 = testData.students.get("charlie.tmms@FRankRecipientQuestionE2eT.CS2104");
+        InstructorAttributes receiver = testData.instructors.get("instructor");
+        InstructorAttributes receiver2 = testData.instructors.get("instructor2");
         feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
                 (FeedbackRankQuestionDetails) question.getQuestionDetails());
 
@@ -136,7 +136,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(response2);
     }
 
-    private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, Integer answer) {
+    private FeedbackResponseAttributes getResponse(String questionId, InstructorAttributes receiver, Integer answer) {
         FeedbackRankRecipientsResponseDetails details = new FeedbackRankRecipientsResponseDetails();
         details.setAnswer(answer);
         return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())

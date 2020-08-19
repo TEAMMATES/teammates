@@ -97,11 +97,11 @@ public class FeedbackTextQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
+        InstructorAttributes receiver = testData.instructors.get("instructor");
         question.setQuestionNumber(1);
         feedbackSubmitPage.verifyTextQuestion(1, (FeedbackTextQuestionDetails) question.getQuestionDetails());
 
         ______TS("submit response");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FTextQuestionE2eT.CS2104");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, "<p>This is the response for qn 1</p>");
         feedbackSubmitPage.submitTextResponse(1, receiver.getName(), response);
@@ -123,9 +123,9 @@ public class FeedbackTextQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(response);
     }
 
-    private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, String answer) {
+    private FeedbackResponseAttributes getResponse(String questionId, InstructorAttributes instructor, String answer) {
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails(answer);
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
+        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), instructor.getEmail())
                 .withResponseDetails(details)
                 .build();
     }

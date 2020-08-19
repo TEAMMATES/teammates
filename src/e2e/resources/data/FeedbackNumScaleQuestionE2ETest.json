@@ -84,7 +84,7 @@
       "course": "FNumScaleQuestionE2eT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1",
+      "team": "Team 2",
       "section": "None"
     },
     "charlie.tmms@FNumScaleQuestionE2eT.CS2104": {
@@ -93,7 +93,7 @@
       "course": "FNumScaleQuestionE2eT.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
-      "team": "Team 1",
+      "team": "Team 3",
       "section": "None"
     },
     "danny.tmms@FNumScaleQuestionE2eT.CS1101": {
@@ -154,7 +154,7 @@
       "courseId": "FNumScaleQuestionE2eT.CS2104",
       "questionDetails": {
         "minScale": 0,
-        "questionText": "Rate your product",
+        "questionText": "Rate this team's product",
         "questionType": "NUMSCALE",
         "maxScale": 10,
         "step": 0.2
@@ -162,8 +162,8 @@
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
         "RECEIVER"
@@ -181,7 +181,7 @@
       "courseId": "FNumScaleQuestionE2eT.CS1101",
       "questionDetails": {
         "minScale": 1,
-        "questionText": "Rate your product",
+        "questionText": "Rate this team's teamwork",
         "questionType": "NUMSCALE",
         "maxScale": 10,
         "step": 0.005
@@ -189,8 +189,8 @@
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
         "RECEIVER"

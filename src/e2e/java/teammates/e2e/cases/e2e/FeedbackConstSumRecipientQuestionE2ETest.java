@@ -138,7 +138,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseE2ETestCase {
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, Integer answer) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(Arrays.asList(answer));
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
+        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getTeam())
                 .withResponseDetails(details)
                 .build();
     }

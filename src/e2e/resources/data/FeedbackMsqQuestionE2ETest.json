@@ -154,12 +154,12 @@
       "courseId": "FMsqQuestionE2eT.CS2104",
       "questionDetails": {
         "questionType": "MSQ",
-        "questionText": "Testing question text for first session",
+        "questionText": "Which area did this student work well in?",
         "numOfMsqChoices": 3,
         "msqChoices": [
-          "UI",
-          "Algo",
-          "Testing"
+          "Teamwork",
+          "Leadership",
+          "Creativity"
         ],
         "otherEnabled": true,
         "hasAssignedWeights": true,
@@ -174,8 +174,8 @@
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
         "INSTRUCTORS",
         "RECEIVER"
@@ -194,7 +194,7 @@
       "questionDetails": {
         "numOfMsqChoices": 0,
         "msqChoices": [],
-        "questionText": "Who is the best student?",
+        "questionText": "Which teams did well in your opinion?",
         "questionType": "MSQ",
         "generateOptionsFor": "TEAMS",
         "otherEnabled": false,
@@ -203,18 +203,16 @@
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     }
   },

@@ -108,34 +108,33 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FConstSumOptionQuestionE2eT.CS2104");
-        feedbackSubmitPage.verifyConstSumQuestion(1, receiver.getName(),
+        feedbackSubmitPage.verifyConstSumQuestion(1, "",
                 (FeedbackConstantSumQuestionDetails) question.getQuestionDetails());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
-        FeedbackResponseAttributes response = getResponse(questionId, receiver, Arrays.asList(50, 20, 30));
-        feedbackSubmitPage.submitConstSumOptionResponse(1, receiver.getName(), response);
+        FeedbackResponseAttributes response = getResponse(questionId, Arrays.asList(50, 20, 30));
+        feedbackSubmitPage.submitConstSumOptionResponse(1, "", response);
 
         verifyPresentInDatastore(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.verifyConstSumOptionResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);
 
         ______TS("edit response");
-        response = getResponse(questionId, receiver, Arrays.asList(23, 47, 30));
-        feedbackSubmitPage.submitConstSumOptionResponse(1, receiver.getName(), response);
+        response = getResponse(questionId, Arrays.asList(23, 47, 30));
+        feedbackSubmitPage.submitConstSumOptionResponse(1, "", response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.verifyConstSumOptionResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);
         verifyPresentInDatastore(response);
     }
 
-    private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, List<Integer> answers) {
+    private FeedbackResponseAttributes getResponse(String questionId, List<Integer> answers) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(answers);
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
+        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), student.getEmail())
                 .withResponseDetails(details)
                 .build();
     }

@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -443,33 +445,38 @@ public class InstructorFeedbackEditPage extends AppPage {
         String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
 
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
         WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowResponsesTo(), 1);
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowGiverNameTo(), 2);
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowRecipientNameTo(), 3);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
     }
 
-    private void assertVisibilityBoxesSelected(WebElement table, List<FeedbackParticipantType> participants,
+    private void assertVisibilityBoxesSelected(WebElement table, FeedbackParticipantType giver,
+                                               FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                                int colNum) {
+        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
+        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        }
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+        if (receiver.equals(FeedbackParticipantType.NONE)
+                || receiver.equals(FeedbackParticipantType.SELF)
+                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER);
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            switch (participant) {
-            case RECEIVER:
-                assertTrue(rows.get(0).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case OWN_TEAM_MEMBERS:
-                assertTrue(rows.get(1).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case STUDENTS:
-                assertTrue(rows.get(2).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case INSTRUCTORS:
-                assertTrue(rows.get(3).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackParticipantType");
-            }
+            assertTrue(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index)
+                    .isSelected());
         }
     }
 
@@ -1036,21 +1043,22 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         WebElement questionForm = getQuestionForm(questionNum);
-        selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toDisplayRecipientName());
-        if ((newRecipient.equals(FeedbackParticipantType.INSTRUCTORS)
-                || newRecipient.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                || newRecipient.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
-                && feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() != Const.MAX_POSSIBLE_RECIPIENTS) {
-            fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
-                    Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
-        } else {
-            click(questionForm.findElement(By.id("unlimited-recipients")));
-        }
-
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), newGiver.toDisplayGiverName());
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
                 newRecipient.toDisplayRecipientName());
+        if (newRecipient.equals(FeedbackParticipantType.INSTRUCTORS)
+                || newRecipient.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
+                || newRecipient.equals(FeedbackParticipantType.STUDENTS)
+                || newRecipient.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF)
+                || newRecipient.equals(FeedbackParticipantType.TEAMS)) {
+            if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+                click(questionForm.findElement(By.id("unlimited-recipients")));
+            } else {
+                click(questionForm.findElement(By.id("custom-recipients")));
+                fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
+                        Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
+            }
+        }
     }
 
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
@@ -1083,33 +1091,37 @@ public class InstructorFeedbackEditPage extends AppPage {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
         }
 
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
         WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowResponsesTo(), 1);
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowGiverNameTo(), 2);
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowRecipientNameTo(), 3);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
     }
 
-    private void selectVisibilityBoxes(WebElement table, List<FeedbackParticipantType> participants,
-            int colNum) {
+    private void selectVisibilityBoxes(WebElement table, FeedbackParticipantType giver,
+                                       FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
+                                       int colNum) {
+        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
+        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        }
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+        if (receiver.equals(FeedbackParticipantType.NONE)
+                || receiver.equals(FeedbackParticipantType.SELF)
+                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER);
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            switch (participant) {
-            case RECEIVER:
-                markCheckBoxAsChecked(rows.get(0).findElements(By.tagName("input")).get(index));
-                break;
-            case OWN_TEAM_MEMBERS:
-                markCheckBoxAsChecked(rows.get(1).findElements(By.tagName("input")).get(index));
-                break;
-            case STUDENTS:
-                markCheckBoxAsChecked(rows.get(2).findElements(By.tagName("input")).get(index));
-                break;
-            case INSTRUCTORS:
-                markCheckBoxAsChecked(rows.get(3).findElements(By.tagName("input")).get(index));
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackParticipantType");
-            }
+            markCheckBoxAsChecked(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
     }
 

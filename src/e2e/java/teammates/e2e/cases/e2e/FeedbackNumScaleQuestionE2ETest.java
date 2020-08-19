@@ -102,33 +102,33 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         StudentAttributes receiver = testData.students.get("benny.tmms@FNumScaleQuestionE2eT.CS2104");
-        feedbackSubmitPage.verifyNumScaleQuestion(1, receiver.getName(),
+        feedbackSubmitPage.verifyNumScaleQuestion(1, receiver.getTeam(),
                 (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetails());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 5.4);
-        feedbackSubmitPage.submitNumScaleResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
 
         verifyPresentInDatastore(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
 
         ______TS("edit response");
         response = getResponse(questionId, receiver, 10.0);
-        feedbackSubmitPage.submitNumScaleResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
         verifyPresentInDatastore(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, Double answer) {
         FeedbackNumericalScaleResponseDetails details = new FeedbackNumericalScaleResponseDetails();
         details.setAnswer(answer);
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
+        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getTeam())
                 .withResponseDetails(details)
                 .build();
     }

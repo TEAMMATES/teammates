@@ -252,18 +252,16 @@
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     }
   },

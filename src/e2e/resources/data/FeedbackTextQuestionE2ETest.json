@@ -45,6 +45,29 @@
       }
     },
     "instructor2": {
+      "googleId": "FTextQuestionE2eT.instructor2",
+      "courseId": "FTextQuestionE2eT.CS2104",
+      "name": "Teammates Test 2",
+      "email": "tmms.test2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor3": {
       "googleId": "FTextQuestionE2eT.instructor",
       "courseId": "FTextQuestionE2eT.CS1101",
       "name": "Teammates Test",
@@ -76,33 +99,6 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
-      "section": "None"
-    },
-    "benny.tmms@FTextQuestionE2eT.CS2104": {
-      "googleId": "FTextQuestionE2eT.benny.tmms",
-      "email": "benny.tmms@gmail.tmt",
-      "course": "FTextQuestionE2eT.CS2104",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 1",
-      "section": "None"
-    },
-    "charlie.tmms@FTextQuestionE2eT.CS1101": {
-      "googleId": "charlie.tmms",
-      "email": "FTextQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FTextQuestionE2eT.CS1101",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "team": "Team 2",
-      "section": "None"
-    },
-    "danny.tmms@FTextQuestionE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "FTextQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FTextQuestionE2eT.CS1101",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "team": "Team 2",
       "section": "None"
     }
   },
@@ -154,24 +150,22 @@
       "courseId": "FTextQuestionE2eT.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Testing question text for first session",
+        "questionText": "What did this instructor do well?",
         "recommendedLength": 1000
       },
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     },
     "qn1ForSecondSession": {
@@ -179,24 +173,22 @@
       "courseId": "FTextQuestionE2eT.CS1101",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Testing question text for second session",
+        "questionText": "How can this instructor improve?",
         "recommendedLength": 100
       },
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
-      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     }
   },

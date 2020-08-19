@@ -77,33 +77,6 @@
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
-    },
-    "benny.tmms@FMcqQuestionE2eT.CS2104": {
-      "googleId": "FMcqQuestionE2eT.benny.tmms",
-      "email": "benny.tmms@gmail.tmt",
-      "course": "FMcqQuestionE2eT.CS2104",
-      "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles",
-      "team": "Team 1",
-      "section": "None"
-    },
-    "charlie.tmms@FMcqQuestionE2eT.CS1101": {
-      "googleId": "charlie.tmms",
-      "email": "FMcqQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FMcqQuestionE2eT.CS2104",
-      "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis",
-      "team": "Team 2",
-      "section": "None"
-    },
-    "danny.tmms@FMcqQuestionE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "FMcqQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FMcqQuestionE2eT.CS1101",
-      "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid",
-      "team": "Team 2",
-      "section": "None"
     }
   },
   "feedbackSessions": {
@@ -154,7 +127,7 @@
       "courseId": "FMcqQuestionE2eT.CS2104",
       "questionDetails": {
         "questionType": "MCQ",
-        "questionText": "Testing question text for first session",
+        "questionText": "Which area did you work on the most?",
         "numOfMcqChoices": 3,
         "mcqChoices": [
           "UI",
@@ -173,18 +146,16 @@
       "questionDescription": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     },
     "qn1ForSecondSession": {
@@ -201,18 +172,16 @@
       "questionDescription": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "OWN_TEAM_MEMBERS",
+      "recipientType": "NONE",
       "numberOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
+        "INSTRUCTORS"
       ]
     }
   },
