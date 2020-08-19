@@ -9,20 +9,20 @@
     <div class="col-12">
       <div class="form-group">
         <label>Create in course</label>
-        <select class="form-control" [(ngModel)]="copyToCourseId">
+        <select id="copy-course-id" class="form-control" [(ngModel)]="copyToCourseId">
           <option *ngFor="let course of courseCandidates"
                   [ngValue]="course.courseId">{{ course.courseId }}</option>
         </select>
       </div>
       <div class="form-group">
         <label><b>Name for new session</b></label>
-        <input type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38"
+        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38"
                placeholder="e.g. Feedback for Project Presentation 1">
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-group">
         <label><b>Copy settings and questions from</b></label>
-        <table class="table-responsive-lg table table-bordered table-hover">
+        <table id="copy-selection-table"  class="table-responsive-lg table table-bordered table-hover">
           <thead class="bg-primary text-white">
           <tr>
             <th>&nbsp;</th>
@@ -42,7 +42,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="copy()"
+  <button id="btn-confirm-copy"  type="button" class="btn btn-primary" (click)="copy()"
           [disabled]="!copyFromFeedbackSession || !copyToCourseId || !newFeedbackSessionName">Copy</button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
 </div>

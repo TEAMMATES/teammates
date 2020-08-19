@@ -2,6 +2,9 @@ package teammates.e2e.cases.e2e;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -9,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AdminHomePage;
@@ -18,7 +22,9 @@ import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
+import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
+import teammates.test.driver.FileHelper;
 
 /**
  * Base class for all browser tests.
@@ -46,6 +52,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
+    }
+
+    protected String getTestDownloadsFolder() {
+        return TestProperties.TEST_DOWNLOADS_FOLDER;
     }
 
     @AfterClass(alwaysRun = true)
@@ -144,6 +154,63 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
     protected AdminHomePage loginAdmin() {
         return loginAdminToPage(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
+    }
+
+    /**
+     * Deletes file with fileName from the downloads folder.
+     */
+    protected void deleteDownloadsFile(String fileName) {
+        String filePath = getTestDownloadsFolder() + fileName;
+        FileHelper.deleteFile(filePath);
+    }
+
+    /**
+     * Verifies downloaded file has correct fileName and contains expected content.
+     */
+    protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
+        String filePath = getTestDownloadsFolder() + expectedFileName;
+        int retryLimit = 5;
+        boolean actual = Files.exists(Paths.get(filePath));
+        while (!actual && retryLimit > 0) {
+            retryLimit--;
+            ThreadHelper.waitFor(1000);
+            actual = Files.exists(Paths.get(filePath));
+        }
+        assertTrue(actual);
+
+        try {
+            String actualContent = FileHelper.readFile(filePath);
+            for (String content : expectedContent) {
+                assertTrue(actualContent.contains(content));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Verifies that email with subject is found in inbox.
+     * Email used must be an authentic gmail account.
+     */
+    protected void verifyEmailSent(String email, String subject) {
+        if (TestProperties.isDevServer()) {
+            return;
+        }
+        EmailAccount emailAccount = new EmailAccount(email);
+        try {
+            emailAccount.getUserAuthenticated();
+            int retryLimit = 5;
+            boolean actual = emailAccount.isEmailWithSubjectPresent(subject);
+            while (!actual && retryLimit > 0) {
+                retryLimit--;
+                ThreadHelper.waitFor(1000);
+                actual = emailAccount.isEmailWithSubjectPresent(subject);
+            }
+            emailAccount.markAllUnreadEmailAsRead();
+            assertTrue(actual);
+        } catch (Exception e) {
+            fail("Failed to verify email sent:" + e);
+        }
     }
 
 }

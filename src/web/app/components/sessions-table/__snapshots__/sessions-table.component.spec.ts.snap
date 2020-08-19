@@ -37,6 +37,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
     >
       <table
         class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="sessions-table"
       >
         <thead>
           <tr
@@ -45,6 +46,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             
             <th
               class="sortable-header"
+              id="sort-session-name"
             >
                Session Name 
               <span
@@ -152,7 +154,9 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             <td>
               
               
-              <div>
+              <div
+                id="response-rate-0"
+              >
                 8 / 9
               </div>
               
@@ -176,12 +180,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               <button
                 class="btn btn-light btn-sm"
+                id="btn-soft-delete-0"
                 type="button"
               >
                 Delete
               </button>
               <button
                 class="btn btn-light btn-sm"
+                id="btn-copy-0"
                 ngbtooltip="Copy feedback session details"
                 type="button"
               >
@@ -211,6 +217,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-0"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -231,6 +238,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <button
                     class="btn dropdown-item clickable"
                     container="body"
+                    id="btn-publish-0"
                     ngbtooltip="Make session responses available for viewing"
                     placement="left"
                   >
@@ -241,6 +249,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   
                   <button
                     class="btn dropdown-item clickable"
+                    id="btn-download-0"
                   >
                     Download Results
                   </button>
@@ -253,6 +262,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               >
                 <button
                   class="btn btn-light btn-sm"
+                  id="btn-remind-0"
                 >
                   Remind
                 </button>
@@ -324,12 +334,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
+                id="btn-soft-delete-1"
                 type="button"
               >
                 Delete
               </button>
               <button
                 class="btn btn-light btn-sm"
+                id="btn-copy-1"
                 ngbtooltip="Copy feedback session details"
                 type="button"
               >
@@ -354,6 +366,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-1"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -375,6 +388,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     class="btn dropdown-item clickable"
                     container="body"
                     disabled=""
+                    id="btn-unpublish-1"
                     ngbtooltip="Make responses no longer visible"
                     placement="left"
                   >
@@ -385,12 +399,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   
                   <button
                     class="btn dropdown-item clickable"
+                    id="btn-resend-1"
                   >
                     Resend link to view results
                   </button>
                   <button
                     class="btn dropdown-item clickable"
                     disabled=""
+                    id="btn-download-1"
                   >
                     Download Results
                   </button>
@@ -404,6 +420,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
+                  id="btn-remind-1"
                 >
                   Remind
                 </button>
@@ -454,6 +471,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
     >
       <table
         class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="sessions-table"
       >
         <thead>
           <tr
@@ -462,6 +480,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             
             <th
               class="sortable-header"
+              id="sort-course-id"
             >
                Course ID 
               <span
@@ -476,6 +495,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             </th>
             <th
               class="sortable-header"
+              id="sort-session-name"
             >
                Session Name 
               <span
@@ -544,7 +564,9 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             <td>
               
               
-              <div>
+              <div
+                id="response-rate-0"
+              >
                 8 / 9
               </div>
               
@@ -568,12 +590,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               <button
                 class="btn btn-light btn-sm"
+                id="btn-soft-delete-0"
                 type="button"
               >
                 Delete
               </button>
               <button
                 class="btn btn-light btn-sm"
+                id="btn-copy-0"
                 ngbtooltip="Copy feedback session details"
                 type="button"
               >
@@ -603,6 +627,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-0"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -623,6 +648,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <button
                     class="btn dropdown-item clickable"
                     container="body"
+                    id="btn-publish-0"
                     ngbtooltip="Make session responses available for viewing"
                     placement="left"
                   >
@@ -633,6 +659,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   
                   <button
                     class="btn dropdown-item clickable"
+                    id="btn-download-0"
                   >
                     Download Results
                   </button>
@@ -645,6 +672,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               >
                 <button
                   class="btn btn-light btn-sm"
+                  id="btn-remind-0"
                 >
                   Remind
                 </button>
@@ -705,12 +733,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               <button
                 class="btn btn-light btn-sm"
                 disabled=""
+                id="btn-soft-delete-1"
                 type="button"
               >
                 Delete
               </button>
               <button
                 class="btn btn-light btn-sm"
+                id="btn-copy-1"
                 ngbtooltip="Copy feedback session details"
                 type="button"
               >
@@ -735,6 +765,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-1"
                   ngbdropdowntoggle=""
                 >
                   Results
@@ -756,6 +787,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     class="btn dropdown-item clickable"
                     container="body"
                     disabled=""
+                    id="btn-unpublish-1"
                     ngbtooltip="Make responses no longer visible"
                     placement="left"
                   >
@@ -766,12 +798,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   
                   <button
                     class="btn dropdown-item clickable"
+                    id="btn-resend-1"
                   >
                     Resend link to view results
                   </button>
                   <button
                     class="btn dropdown-item clickable"
                     disabled=""
+                    id="btn-download-1"
                   >
                     Download Results
                   </button>
@@ -785,6 +819,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                 <button
                   class="btn btn-light btn-sm"
                   disabled=""
+                  id="btn-remind-1"
                 >
                   Remind
                 </button>
