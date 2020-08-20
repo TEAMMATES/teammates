@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.StudentResultSummary;
 import teammates.common.datatransfer.TeamEvalResult;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -23,6 +22,9 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
+
+    private static final int SUMMARY_INDEX_CLAIMED = 0;
+    private static final int SUMMARY_INDEX_PERCEIVED = 1;
 
     private static final Logger log = Logger.getLogger();
 
@@ -109,10 +111,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                         perceivedOthers.stream().mapToInt(i -> i).toArray()));
             }
         } else {
-            Map<String, StudentResultSummary> studentResults = getStudentResults(teamMembersEmail, teamResults);
+            Map<String, int[]> studentResults = getStudentResults(teamMembersEmail, teamResults);
 
-            for (Map.Entry<String, StudentResultSummary> entry : studentResults.entrySet()) {
-                StudentResultSummary summary = entry.getValue();
+            for (Map.Entry<String, int[]> entry : studentResults.entrySet()) {
+                int[] summary = entry.getValue();
                 String email = entry.getKey();
                 String team = bundle.getRoster().getStudentForEmail(email).getTeam();
                 List<String> teamEmails = teamMembersEmail.get(team);
@@ -128,8 +130,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 }
                 perceivedOthers.sort(Comparator.reverseOrder());
 
-                output.results.put(email, new ContributionStatisticsEntry(summary.claimedToInstructor,
-                        summary.perceivedToInstructor,
+                output.results.put(email, new ContributionStatisticsEntry(summary[SUMMARY_INDEX_CLAIMED],
+                        summary[SUMMARY_INDEX_PERCEIVED],
                         claimedOthers, perceivedOthers.stream().mapToInt(i -> i).toArray()));
             }
         }
@@ -137,21 +139,19 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return JsonUtils.toJson(output);
     }
 
-    private Map<String, StudentResultSummary> getStudentResults(
+    private Map<String, int[]> getStudentResults(
             Map<String, List<String>> teamMembersEmail,
             Map<String, TeamEvalResult> teamResults) {
-        Map<String, StudentResultSummary> studentResults = new LinkedHashMap<>();
+        Map<String, int[]> studentResults = new LinkedHashMap<>();
         teamResults.forEach((key, teamResult) -> {
             List<String> teamEmails = teamMembersEmail.get(key);
-            int i = 0;
-            for (String studentEmail : teamEmails) {
-                StudentResultSummary summary = new StudentResultSummary();
-                summary.claimedToInstructor = teamResult.normalizedClaimed[i][i];
-                summary.perceivedToInstructor = teamResult.normalizedAveragePerceived[i];
+            for (int i = 0; i < teamEmails.size(); i++) {
+                String studentEmail = teamEmails.get(i);
+                int[] summary = new int[2];
+                summary[SUMMARY_INDEX_CLAIMED] = teamResult.normalizedClaimed[i][i];
+                summary[SUMMARY_INDEX_PERCEIVED] = teamResult.normalizedAveragePerceived[i];
 
                 studentResults.put(studentEmail, summary);
-
-                i++;
             }
         });
         return studentResults;

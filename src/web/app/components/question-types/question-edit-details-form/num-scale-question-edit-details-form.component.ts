@@ -21,17 +21,6 @@ export class NumScaleQuestionEditDetailsFormComponent
   }
 
   /**
-   * Checks if the interval between min and max is divisible by the step count.
-   */
-  get isIntervalDivisible(): boolean {
-    if (this.model.step <= 0) {
-      return false;
-    }
-    const largestValueInRange: number = this.model.minScale + (this.numberOfPossibleValues - 1) * this.model.step;
-    return largestValueInRange === this.model.maxScale;
-  }
-
-  /**
    * Returns the number of possible values acceptable as answers.
    */
   get numberOfPossibleValues(): number {
@@ -49,20 +38,22 @@ export class NumScaleQuestionEditDetailsFormComponent
   get possibleValues(): string {
 
     if (this.numberOfPossibleValues > 6) {
+      const maxAcceptableValue: number =
+          this.model.minScale + ((this.numberOfPossibleValues - 1) * this.model.step);
       return `[${this.model.minScale},
-           ${(Math.round((this.model.minScale + this.model.step) * 1000) / 1000).toString()},
-           ${(Math.round((this.model.minScale + 2 * this.model.step) * 1000) / 1000).toString()}, ...,
-           ${(Math.round((this.model.maxScale - 2 * this.model.step) * 1000) / 1000).toString()},
-           ${(Math.round((this.model.maxScale - this.model.step) * 1000) / 1000).toString()},
-           ${this.model.maxScale}]`;
+           ${+(this.model.minScale + this.model.step).toFixed(3)},
+           ${+(this.model.minScale + 2 * this.model.step).toFixed(3)}, ...,
+           ${+(maxAcceptableValue - 2 * this.model.step).toFixed(3)},
+           ${+(maxAcceptableValue - this.model.step).toFixed(3)},
+           ${+maxAcceptableValue.toFixed(3)}]`;
     }
-    let possibleValuesString: string = `[${this.model.minScale.toString()}`;
+    let possibleValuesString: string = `${this.model.minScale}`;
     let currentValue: number = this.model.minScale + this.model.step;
 
     while (this.model.maxScale - currentValue >= -1e-9) {
-      possibleValuesString += `, ${(Math.round(currentValue * 1000) / 1000).toString()}`;
+      possibleValuesString += `, ${+currentValue.toFixed(3)}`;
       currentValue += this.model.step;
     }
-    return `${possibleValuesString}]`;
+    return `[${possibleValuesString}]`;
   }
 }

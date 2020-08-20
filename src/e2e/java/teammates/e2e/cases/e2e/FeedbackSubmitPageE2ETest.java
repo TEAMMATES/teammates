@@ -101,7 +101,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.markWithConfirmationEmail();
 
         submitPage.verifyWarningMessageForPartialResponse(gracePeriodUnansweredQuestions);
-        verifyEmailSent(student, "TEAMMATES: Feedback responses successfully recorded"
+        verifyEmailSent(student.getEmail(), "TEAMMATES: Feedback responses successfully recorded"
                 + " [Course: " + testData.courses.get("SFSubmitE2eT.CS2104").getName() + "][Feedback Session: "
                 + gracePeriodSession.getFeedbackSessionName() + "]");
 

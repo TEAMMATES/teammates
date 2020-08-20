@@ -3,7 +3,7 @@
     <input type="radio" disabled>
   </span>
   <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq
-         (ngModelChange)="onMcqOptionEntered($event)">
+         (ngModelChange)="onMcqOptionEntered($event.trim())">
   <span class="input-group-btn">
     <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
             tabindex="-1" [disabled]="!isEditable" (click)="deleteMcqOption()">

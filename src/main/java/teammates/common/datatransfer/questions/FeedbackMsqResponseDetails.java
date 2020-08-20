@@ -35,7 +35,7 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         boolean isOtherEnabled = msqQuestionDetails.isOtherEnabled();
 
         // number of Msq options selected including other option
-        int totalChoicesSelected = answers.size() + (isOther ? 1 : 0);
+        int totalChoicesSelected = answers.size();
         boolean isMaxSelectableEnabled = maxSelectableChoices != Integer.MIN_VALUE;
         boolean isMinSelectableEnabled = minSelectableChoices != Integer.MIN_VALUE;
         boolean isNoneOfTheAboveOptionEnabled = answers.contains(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);

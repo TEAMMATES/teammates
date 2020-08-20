@@ -150,7 +150,12 @@ export class InstructorStudentRecordsPageComponent extends InstructorCommentsCom
             feedbackSessionName: feedbackSession.feedbackSessionName,
             groupBySection: this.studentSection,
             intent: Intent.INSTRUCTOR_RESULT,
-          }).pipe(map((results: SessionResults) => ({ results, feedbackSession })));
+          }).pipe(map((results: SessionResults) => {
+            // sort questions by question number
+            results.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+                a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+            return { results, feedbackSession };
+          }));
         }),
         finalize(() => this.isStudentResultsLoading = false),
     ).subscribe(

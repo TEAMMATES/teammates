@@ -11,7 +11,10 @@
           <label>Course</label>
         </div>
         <div class="col-md-8 text-md-left">
-          <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}">
+          <a href="javascript:;" *ngIf="isDisplayOnly">
+            <span>{{student?.courseId}}</span>
+          </a>
+          <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}" *ngIf="!isDisplayOnly">
             <span>{{student?.courseId}}</span>
           </a>
         </div>

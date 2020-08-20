@@ -26,6 +26,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.ThreadHelper;
@@ -375,6 +376,23 @@ public abstract class AppPage {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Get rich text from editor.
+     */
+    protected String getEditorRichText(WebElement editor) {
+        waitForElementPresence(By.tagName("iframe"));
+        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
+
+        String innerHtml = browser.driver.findElement(By.id("tinymce")).getAttribute("innerHTML");
+        // check if editor is empty
+        innerHtml = innerHtml.contains("data-mce-bogus") ? "" : innerHtml;
+        browser.driver.switchTo().defaultContent();
+        return innerHtml;
+    }
+
+    /**
+>>>>>>> 5c2f44f0c69a6abac594ba5c03ef90c162b336f3
      * Write rich text to editor.
      */
     protected void writeToRichTextEditor(WebElement editor, String text) {
@@ -407,6 +425,22 @@ public abstract class AppPage {
         if (checkBox.isSelected()) {
             click(checkBox);
         }
+    }
+
+    /**
+     * Returns the text of the option selected in the dropdown.
+     */
+    protected String getSelectedDropdownOptionText(WebElement dropdown) {
+        Select select = new Select(dropdown);
+        return select.getFirstSelectedOption().getText();
+    }
+
+    /**
+     * Selects option in dropdown based on visible text.
+     */
+    protected void selectDropdownOptionByText(WebElement dropdown, String text) {
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
     }
 
     /**
@@ -620,6 +654,20 @@ public abstract class AppPage {
     protected void setWindowSize(int x, int y) {
         Dimension d = new Dimension(x, y);
         browser.driver.manage().window().setSize(d);
+    }
+
+    /**
+     * Switches to the new browser window just opened.
+     */
+    protected void switchToNewWindow() {
+        browser.switchToNewWindow();
+    }
+
+    /**
+     * Closes current window and switches back to parent window.
+     */
+    public void closeCurrentWindowAndSwitchToParentWindow() {
+        browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
     /**

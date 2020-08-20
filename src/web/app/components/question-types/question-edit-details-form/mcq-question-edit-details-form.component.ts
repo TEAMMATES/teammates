@@ -23,7 +23,7 @@ export class McqQuestionEditDetailsFormComponent
   storageModel: FeedbackMcqQuestionDetails = {
     ...DEFAULT_MCQ_QUESTION_DETAILS(),
     numOfMcqChoices: 2,
-    mcqChoices: [' ', ' '],
+    mcqChoices: ['', ''],
   };
 
   constructor() {
