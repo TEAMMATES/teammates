@@ -1,9 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.SanitizationHelper;
 
 public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
@@ -24,12 +20,6 @@ public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
     @Override
     public String getAnswerString() {
         return SanitizationHelper.sanitizeForRichText(answer);
-    }
-
-    @Override
-    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
-        // no need to do validation
-        return new ArrayList<>();
     }
 
     public String getAnswer() {

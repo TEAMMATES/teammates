@@ -48,7 +48,12 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
       newAnswer = Array(this.questionDetails.numOfRubricSubQuestions).fill(RUBRIC_ANSWER_NOT_CHOSEN);
     }
 
-    newAnswer[subQuestionIndex] = answerIndex;
+    if (newAnswer[subQuestionIndex] === answerIndex) {
+      // same answer is selected: toggle as unselected
+      newAnswer[subQuestionIndex] = RUBRIC_ANSWER_NOT_CHOSEN;
+    } else {
+      newAnswer[subQuestionIndex] = answerIndex;
+    }
 
     this.triggerResponseDetailsChange('answer', newAnswer);
   }
