@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
@@ -59,6 +59,8 @@ export interface QuestionTabModel {
   hasPopulated: boolean;
   isTabExpanded: boolean;
 }
+
+const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
 /**
  * Instructor feedback session result page.
@@ -137,7 +139,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
               private simpleModalService: SimpleModalService,
-              private router: Router,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
@@ -165,7 +166,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
     }).subscribe((feedbackSession: FeedbackSession) => {
-      const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
@@ -174,6 +174,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
             .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+      } else {
+        this.formattedResultVisibleFromTime = 'Not applicable';
       }
       this.isFeedbackSessionLoading = false;
 
@@ -382,8 +384,17 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           )
       ;
 
-      response.subscribe(() => {
-        this.router.navigateByUrl('/web/instructor/sessions');
+      response.subscribe((res: FeedbackSession) => {
+        this.session = res;
+        if (this.session.resultVisibleFromTimestamp) {
+          this.formattedResultVisibleFromTime = this.timezoneService
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+          this.statusMessageService.showSuccessToast('The feedback session has been published. '
+            + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+        } else {
+          this.formattedResultVisibleFromTime = 'Not applicable';
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+        }
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
