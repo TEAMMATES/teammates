@@ -63,7 +63,7 @@
               ],
               "index": {
                 "input": "src/web/index.prod.html",
-                "output": "index.html",
+                "output": "index.html"
               },
               "assets": [
                 "src/web/assets/",
@@ -158,5 +158,8 @@
       }
     }
   },
-  "defaultProject": "teammates"
+  "defaultProject": "teammates",
+  "cli": {
+    "analytics": "65249922-4f6e-433c-807e-02697cd7f415"
+  }
 }
