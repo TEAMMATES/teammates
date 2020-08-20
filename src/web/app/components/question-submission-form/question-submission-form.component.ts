@@ -202,10 +202,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
    */
   updateValidity(isValid: boolean): void {
     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
-        this.model.recipientSubmissionForms.slice();
-    recipientSubmissionForms.forEach((model: FeedbackResponseRecipientSubmissionFormModel) => {
-      model.isValid = isValid;
-    });
+        this.model.recipientSubmissionForms.slice().map(
+            (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
     this.formModelChange.emit({
       ...this.model,
       recipientSubmissionForms,
