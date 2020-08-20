@@ -17,6 +17,7 @@
             <class name="teammates.e2e.cases.e2e.InstructorCourseEnrollPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorCoursesPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorFeedbackEditPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.InstructorFeedbackSessionsPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentHomePageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentProfilePageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentCourseDetailsPageE2ETest" />

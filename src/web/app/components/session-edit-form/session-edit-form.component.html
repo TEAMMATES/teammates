@@ -12,7 +12,7 @@
             <h5 class="text-center">Create new</h5>
           </div>
           <div class="col-9 col-md-7">
-            <select class="form-control" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
+            <select id="session-type" class="form-control" [ngModel]="model.templateSessionName" (ngModelChange)="triggerModelChange('templateSessionName', $event)">
               <option *ngFor="let templateSession of templateSessions" [ngValue]="templateSession.name">{{ templateSession.name }}</option>
             </select>
           </div>
@@ -27,7 +27,7 @@
             <h5 class="text-md-right">Or: </h5>
           </div>
           <div class="col-md-9 text-md-left">
-            <button type="button" class="btn btn-info" (click)="copyOthersHandler()">Copy from previous feedback sessions</button>
+            <button id="btn-copy-session" type="button" class="btn btn-info" (click)="copyOthersHandler()">Copy from previous feedback sessions</button>
           </div>
         </div>
       </div>
@@ -50,7 +50,7 @@
           </div>
           <div class="col-md-4 text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
-              <select class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
+              <select id="add-course-id" class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
               </select>
               <div class="invalid-feedback" *ngIf="courseCandidates.length === 0">
@@ -83,7 +83,7 @@
           </div>
           <div class="col-md-4 text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
-              <input type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="38" />
+              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="38" />
               <div>
                 {{FEEDBACK_SESSION_NAME_MAX_LENGTH - model.feedbackSessionName.length}} characters left
               </div>
@@ -297,7 +297,7 @@
     <div class="card border-primary margin-top-20px" *ngIf="model.hasEmailSettingsPanelExpanded" @collapseAnim>
       <div class="card-body">
         <div class="col-12 font-bold">
-            Send emails for
+          Send emails for
         </div>
         <div class="row ml-md-1 mt-md-3">
           <div class="col-md-4">
@@ -328,7 +328,7 @@
       <div class="col-12 text-center">
         <span class="loader"></span>
         <div *ngIf="formMode === SessionEditFormMode.ADD">
-          <button type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
+          <button id="btn-create-session" type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
             <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Create Feedback Session
           </button>
           <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>

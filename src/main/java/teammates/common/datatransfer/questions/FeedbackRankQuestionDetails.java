@@ -5,7 +5,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     static final transient int NO_VALUE = Integer.MIN_VALUE;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
-    private boolean areDuplicatesAllowed;
+    protected boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);

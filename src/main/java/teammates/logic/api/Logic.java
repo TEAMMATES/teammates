@@ -1487,4 +1487,14 @@ public class Logic {
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
+    /**
+     * Deletes all feedback responses of a question cascade its associated comments.
+     *
+     * @see FeedbackResponsesLogic#deleteFeedbackResponsesForQuestionCascade(String)
+     */
+    public void deleteFeedbackResponsesForQuestion(String feedbackQuestionId) {
+        Assumption.assertNotNull(feedbackQuestionId);
+        feedbackResponsesLogic.deleteFeedbackResponsesForQuestionCascade(feedbackQuestionId);
+    }
+
 }

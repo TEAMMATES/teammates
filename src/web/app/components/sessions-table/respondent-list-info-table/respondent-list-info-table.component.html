@@ -1,5 +1,5 @@
 <div *ngIf="studentListInfoTableRowModels.length > 0; else noStudentsToShow">
-  <table class="table table-bordered">
+  <table id="student-list-table" class="table table-bordered">
     <tr class="background-color-medium-gray">
       <th>
         <label>
@@ -74,7 +74,7 @@
 </div>
 <br />
 <div *ngIf="instructorListInfoTableRowModels.length > 0; else noInstructorsToShow">
-  <table class="table table-bordered">
+  <table id="instructor-list-table" class="table table-bordered">
     <tr class="background-color-medium-gray">
       <th>
         <label>

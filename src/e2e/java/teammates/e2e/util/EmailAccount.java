@@ -100,6 +100,27 @@ public final class EmailAccount {
     }
 
     /**
+     * Returns true if unread mail contains mail with the specified subject.
+     */
+    public boolean isEmailWithSubjectPresent(String subject)
+            throws IOException, MessagingException {
+
+        List<Message> messageStubs = getListOfUnreadEmailOfUser();
+
+        for (Message messageStub : messageStubs) {
+            Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
+                    .execute();
+
+            MimeMessage email = convertFromMessageToMimeMessage(message);
+
+            if (email.getSubject().equals(subject)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Marks all unread emails in the user's inbox as read.
      */
     public void markAllUnreadEmailAsRead() throws IOException {

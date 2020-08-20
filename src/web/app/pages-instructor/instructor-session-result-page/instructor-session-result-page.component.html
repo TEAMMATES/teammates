@@ -38,7 +38,9 @@
         <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
           <button class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
              placement="top" (click)="publishResultHandler()">
-            {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED? "&#x2717; Unpublish": "&#x2713; Publish"}} Results
+            <i *ngIf="session.publishStatus == FeedbackSessionPublishStatus.NOT_PUBLISHED" class="fas fa-eye"></i>
+            <i *ngIf="session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED" class="fas fa-eye-slash"></i>
+            {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
           </button>
           <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
             <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>
@@ -111,8 +113,8 @@
     </div>
   </div>
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
-    <div class="top-padded col-md-2 offset-md-10">
-      <button class="btn action-btn btn-light" (click)="toggleExpandAllHandler()">
+    <div class="top-padded offset-md-10 margin-vertical-20px">
+      <button class="btn expand-btn btn-light" (click)="toggleExpandAllHandler()">
         {{this.isExpandAll ? "Collapse": "Expand"}} All
       </button>
     </div>
