@@ -395,6 +395,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     ? '' : recipient.recipientIdentifier,
             responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
             responseId: '',
+            isValid: true,
           });
         });
         this.isFeedbackSessionQuestionResponsesLoading = false;
@@ -446,6 +447,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 ? matchedExistingResponse.responseDetails
                 : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
+              isValid: true,
             });
           });
         }
@@ -460,6 +462,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               recipientIdentifier: response.recipientIdentifier,
               responseDetails: response.responseDetails,
               responseId: response.feedbackResponseId,
+              isValid: true,
             });
           });
 
@@ -469,6 +472,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               recipientIdentifier: '',
               responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: '',
+              isValid: true,
             });
             numberOfRecipientSubmissionFormsNeeded -= 1;
           }
@@ -552,6 +556,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
       questionSubmissionFormModel.recipientSubmissionForms
           .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+            if (!recipientSubmissionFormModel.isValid) {
+              failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
+                  'Invalid responses provided. Please check question constraints.';
+              return;
+            }
             const isFeedbackResponseDetailsEmpty: boolean =
                 this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
                     questionSubmissionFormModel.questionType, recipientSubmissionFormModel.responseDetails);

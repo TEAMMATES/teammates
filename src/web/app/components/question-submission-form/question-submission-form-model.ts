@@ -65,6 +65,8 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
 
+  isValid: boolean;
+
   // comment by giver
   commentByGiver?: CommentRowModel;
 }
