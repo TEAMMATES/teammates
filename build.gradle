@@ -534,8 +534,10 @@ task e2eTests {
         doFirst {
             if (isWindows) {
                 commandLine "taskkill", "/f", "/im", "firefox.exe"
+                commandLine "taskkill", "/f", "/im", "geckodriver.exe"
             } else {
                 commandLine "pkill", "firefox"
+                commandLine "pkill", "geckodriver"
             }
             // Silence output for this task
             standardOutput = new ByteArrayOutputStream()

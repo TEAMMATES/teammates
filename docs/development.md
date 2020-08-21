@@ -223,6 +223,7 @@ Test suite | Command | Results can be viewed in
 `Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
 `E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
+Any individual E2E test | `./gradlew e2eTestTry1 --tests TestClassName` | `{project folder}/build/reports/e2e-test-try-1/index.html`
 
 - `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
 - Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
