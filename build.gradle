@@ -485,23 +485,6 @@ task lnpTests(type: Test) {
     }
 }
 
-task failedTests(type: Test) {
-    useTestNG()
-    options.suites "test-output/testng-failed.xml"
-    options.outputDirectory = file("build/reports/test-failed")
-    options.useDefaultListeners = true
-    ignoreFailures false
-    maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
-
 task componentTests {
     description "Runs the full unit test suite and retries failed test up to ${numOfTestRetries} times."
     group "Test"

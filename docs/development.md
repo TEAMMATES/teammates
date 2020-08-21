@@ -222,7 +222,6 @@ Test suite | Command | Results can be viewed in
 ---|---|---
 `Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/component-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
 `E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-`Failed tests` | `./gradlew failedTests` | `{project folder}/build/reports/test-failed/index.html`
 Any individual test | `./gradlew test --tests TestClassName` | `{project folder}/build/reports/tests/index.html`
 
 - `Component tests` and `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
