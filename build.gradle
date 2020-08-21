@@ -440,21 +440,6 @@ def numOfTestRetries = 3
 def isTravis = System.getenv("TRAVIS") != null
 def isAppVeyor = System.getenv("APPVEYOR") != null
 
-test {
-    useTestNG()
-    options.useDefaultListeners = true
-    ignoreFailures false
-    maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
-
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
     useTestNG()
@@ -485,9 +470,26 @@ task lnpTests(type: Test) {
     }
 }
 
-task componentTests {
-    description "Runs the full unit test suite and retries failed test up to ${numOfTestRetries} times."
+task componentTests(type: Test) {
+    description "Runs the full unit and integration test suite."
     group "Test"
+    useTestNG()
+    options.suites "src/test/resources/testng-component.xml"
+    options.useDefaultListeners = true
+    ignoreFailures false
+    maxHeapSize = "1g"
+    reports.html.enabled = false
+    reports.junitXml.enabled = false
+    if (isTravis) {
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+    } else {
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
+    afterTest afterTestClosure
+    afterSuite checkTestNgFailureClosure
+    testLogging {
+        events "passed"
+    }
 }
 
 task e2eTests {
@@ -498,33 +500,6 @@ task e2eTests {
 (1..numOfTestRetries + 1).each { id ->
     def isFirstTry = id == 1
     def isLastRetry = id == numOfTestRetries + 1
-    task "componentTestTry${id}"(type: Test) {
-        useTestNG()
-        options.suites isFirstTry ? "src/test/resources/testng-component.xml" : file("${buildDir}/reports/component-test-try-${id - 1}/testng-failed.xml")
-        options.outputDirectory = file("${buildDir}/reports/component-test-try-${id}")
-        options.useDefaultListeners = true
-        ignoreFailures = !isLastRetry
-        maxHeapSize = "1g"
-        reports.html.enabled = false
-        reports.junitXml.enabled = false
-        if (isTravis) {
-            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        } else {
-            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-        }
-        testLogging {
-            events "passed"
-        }
-        if (isLastRetry) {
-            afterTest afterTestClosure
-        } else if (isFirstTry) {
-            afterSuite checkTestNgFailureClosure
-        }
-        onlyIf {
-            isFirstTry || file("${buildDir}/reports/component-test-try-${id - 1}/testng-failed.xml").exists()
-        }
-    }
-    componentTests.dependsOn "componentTestTry${id}"
 
     task "e2eTestTry${id}"(type: Test) {
         useTestNG()
@@ -592,17 +567,12 @@ jacoco {
     toolVersion = jacocoVersion
 }
 
-task jacocoMerge(type: JacocoMerge) {
-    destinationFile = file("${buildDir}/jacocoMerge/jacocoMerge.exec")
-    executionData fileTree("${buildDir}/jacoco").files
-}
-
 task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
     sourceDirectories.from files(sourceSets.main.java.srcDirs)
     classDirectories.from files(sourceSets.main.output)
-    executionData jacocoMerge.destinationFile
+    executionData fileTree("${buildDir}/jacoco").files
     reports {
         xml.enabled true
         html.enabled true
@@ -612,7 +582,6 @@ task jacocoReport(type: JacocoReport) {
             fileTree(dir: it, exclude: ["**/*.jar"])
         })
     }
-    dependsOn jacocoMerge
 }
 
 // Helper methods

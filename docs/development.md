@@ -220,16 +220,16 @@ Back-end component tests and E2E tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/component-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
+`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
 `E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-Any individual test | `./gradlew test --tests TestClassName` | `{project folder}/build/reports/tests/index.html`
+Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
-- `Component tests` and `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
+- `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
 - Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
 ```sh
-./gradlew appengineRun componentTests jacocoReport
+./gradlew componentTests jacocoReport
 ```
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 
