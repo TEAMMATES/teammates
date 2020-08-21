@@ -248,7 +248,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.deleteAccountCascade(existingId);
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void testJoinCourseForInstructor() throws Exception {
 
