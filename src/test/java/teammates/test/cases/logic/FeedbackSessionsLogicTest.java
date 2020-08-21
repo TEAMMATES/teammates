@@ -30,6 +30,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -345,6 +346,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withName("Test Course")
                         .withTimezone(ZoneId.of("UTC"))
                         .build());
+
+        // wait for very briefly so that the above session will be within the time limit
+        ThreadHelper.waitFor(5);
 
         sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
