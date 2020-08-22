@@ -108,6 +108,27 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        List<String> errors = new ArrayList<>();
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackMcqResponseDetails details = (FeedbackMcqResponseDetails) response;
+
+            // if other option is not selected and selected answer is not part of Mcq option list trigger this error.
+            if (!details.isOther() && !mcqChoices.contains(details.getAnswerString())) {
+                errors.add(details.getAnswerString() + " " + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
+            }
+
+            // if other option is selected but not text is provided trigger this error
+            if (details.isOther() && "".equals(details.getAnswerString().trim())) {
+                errors.add(Const.FeedbackQuestion.MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
+            }
+        }
+
+        return errors;
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return true;
     }

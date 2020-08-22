@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of numerical scale question.
@@ -8,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './num-scale-question-constraint.component.html',
   styleUrls: ['./num-scale-question-constraint.component.scss'],
 })
-export class NumScaleQuestionConstraintComponent implements OnInit {
+export class NumScaleQuestionConstraintComponent extends QuestionConstraintComponent<any> {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
+    super(null);
   }
 
+  get isValid(): boolean {
+    return true;
+  }
 }

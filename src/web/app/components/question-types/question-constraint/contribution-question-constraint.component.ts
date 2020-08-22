@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of contribution question.
@@ -8,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './contribution-question-constraint.component.html',
   styleUrls: ['./contribution-question-constraint.component.scss'],
 })
-export class ContributionQuestionConstraintComponent implements OnInit {
+export class ContributionQuestionConstraintComponent extends QuestionConstraintComponent<any> {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
+    super(null);
   }
 
+  get isValid(): boolean {
+    return true;
+  }
 }

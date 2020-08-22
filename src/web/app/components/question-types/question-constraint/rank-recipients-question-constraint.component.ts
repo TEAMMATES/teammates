@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
@@ -8,9 +8,7 @@ import {
   NO_VALUE,
   RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
 } from '../../../../types/feedback-response-details';
-import {
-  FeedbackResponseRecipientSubmissionFormModel,
-} from '../../question-submission-form/question-submission-form-model';
+import { QuestionConstraintComponent } from './question-constraint.component';
 
 /**
  * Constraint of rank recipients question.
@@ -20,17 +18,11 @@ import {
   templateUrl: './rank-recipients-question-constraint.component.html',
   styleUrls: ['./rank-recipients-question-constraint.component.scss'],
 })
-export class RankRecipientsQuestionConstraintComponent implements OnInit {
+export class RankRecipientsQuestionConstraintComponent
+    extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {
 
-  @Input()
-  questionDetails: FeedbackRankRecipientsQuestionDetails = DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS();
-
-  @Input()
-  recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] = [];
-
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor() {
+    super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
   }
 
   /**
@@ -116,4 +108,10 @@ export class RankRecipientsQuestionConstraintComponent implements OnInit {
     return numberOfRecipientsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 
+  get isValid(): boolean {
+    return !((!this.questionDetails.areDuplicatesAllowed && this.isSameRanksAssigned)
+        || (this.isMinRecipientsEnabled && this.isRecipientsRankedLessThanMin)
+        || (this.isMaxRecipientsEnabled && this.isRecipientsRankedMoreThanMax)
+        || (this.isNoRecipientRanked));
+  }
 }

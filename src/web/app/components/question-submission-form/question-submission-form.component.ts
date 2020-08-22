@@ -43,7 +43,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
@@ -196,5 +195,18 @@ export class QuestionSubmissionFormComponent implements OnInit {
   isFeedbackResponseDetailsEmpty(responseDetails: FeedbackResponseDetails): boolean {
     return this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
         this.model.questionType, responseDetails);
+  }
+
+  /**
+   * Updates validity of all responses in a question.
+   */
+  updateValidity(isValid: boolean): void {
+    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+        this.model.recipientSubmissionForms.slice().map(
+            (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
+    this.formModelChange.emit({
+      ...this.model,
+      recipientSubmissionForms,
+    });
   }
 }
