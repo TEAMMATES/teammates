@@ -43,9 +43,6 @@ public class CourseRoster {
         return studentListByEmail.containsKey(studentEmail);
     }
 
-    /**
-     * Checks whether a team is in course.
-     */
     public boolean isTeamInCourse(String teamName) {
         return teamToMembersTable.containsKey(teamName);
     }
