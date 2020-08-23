@@ -63,7 +63,7 @@
               ],
               "index": {
                 "input": "src/web/index.prod.html",
-                "output": "index.html"
+                "output": "index.html",
               },
               "assets": [
                 "src/web/assets/",
