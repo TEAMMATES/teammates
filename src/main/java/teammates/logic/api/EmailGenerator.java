@@ -575,16 +575,16 @@ public class EmailGenerator {
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject, String feedbackAction,
-            String addtionalContactInformation) {
+            String additionalContactInformation) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
-                    template, subject, feedbackAction, addtionalContactInformation));
+                    template, subject, feedbackAction, additionalContactInformation));
         }
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor,
-                    template, subject, feedbackAction, addtionalContactInformation));
+                    template, subject, feedbackAction, additionalContactInformation));
         }
         return emails;
     }
