@@ -373,6 +373,9 @@ def checkTestNgFailureClosure = { descriptor, result ->
     }
 }
 
+def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
+
 // Displays full exception; to be run after the test fails after the last retry
 def afterTestClosure = { descriptor, result ->
     if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
@@ -437,8 +440,6 @@ task lint {
 // TEST TASKS
 
 def numOfTestRetries = 3
-def isTravis = System.getenv("TRAVIS") != null
-def isAppVeyor = System.getenv("APPVEYOR") != null
 
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
