@@ -380,6 +380,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   cancelEditingInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel = JSON.parse(JSON.stringify(panelDetail.originalPanel));
+    panelDetail.editPanel.isSavingInstructorEdit = false;
   }
 
   /**

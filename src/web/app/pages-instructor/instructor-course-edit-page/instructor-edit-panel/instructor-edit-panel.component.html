@@ -12,7 +12,6 @@
       <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-primary btn-sm"
               [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
               (click)="triggerModelChange('isEditing', true)">
-        <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit"></tm-ajax-loading>
         <i *ngIf="!instructor.isSavingInstructorEdit" class="fa fa-pen" aria-hidden="true"></i>
         Edit
       </button>
@@ -107,7 +106,7 @@
     <tm-custom-privilege-setting-panel class="text-left" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
                                        [permission]="this.instructor.permission" (permissionChange)="triggerModelChange('permission', $event)"
                                        [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
-
+                                        
     <div *ngIf="instructor.isEditing">
       <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-success" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
         <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit || isSavingNewInstructor"></tm-ajax-loading>
