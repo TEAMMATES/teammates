@@ -376,8 +376,6 @@ public abstract class AppPage {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Get rich text from editor.
      */
     protected String getEditorRichText(WebElement editor) {
@@ -392,7 +390,6 @@ public abstract class AppPage {
     }
 
     /**
->>>>>>> 5c2f44f0c69a6abac594ba5c03ef90c162b336f3
      * Write rich text to editor.
      */
     protected void writeToRichTextEditor(WebElement editor, String text) {
@@ -406,24 +403,24 @@ public abstract class AppPage {
     }
 
     /**
-     * 'check' the check box, if it is not already 'checked'.
-     * No action taken if it is already 'checked'.
+     * Select the option, if it is not already selected.
+     * No action taken if it is already selected.
      */
-    protected void markCheckBoxAsChecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (!checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsSelected(WebElement option) {
+        waitForElementVisibility(option);
+        if (!option.isSelected()) {
+            click(option);
         }
     }
 
     /**
-     * 'uncheck' the check box, if it is not already 'unchecked'.
-     * No action taken if it is already 'unchecked'.
+     * Unselect the option, if it is not already unselected.
+     * No action taken if it is already unselected'.
      */
-    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsUnselected(WebElement option) {
+        waitForElementVisibility(option);
+        if (option.isSelected()) {
+            click(option);
         }
     }
 

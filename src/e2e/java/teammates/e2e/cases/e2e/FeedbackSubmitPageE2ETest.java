@@ -7,8 +7,13 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -21,6 +26,7 @@ import teammates.e2e.util.TestProperties;
  */
 public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     private StudentAttributes student;
+    private InstructorAttributes instructor;
 
     private FeedbackSessionAttributes openSession;
     private FeedbackSessionAttributes closedSession;
@@ -36,6 +42,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         }
         removeAndRestoreDataBundle(testData);
 
+        instructor = testData.instructors.get("SFSubmitE2eT.instr");
         openSession = testData.feedbackSessions.get("Open Session");
         closedSession = testData.feedbackSessions.get("Closed Session");
         gracePeriodSession = testData.feedbackSessions.get("Grace Period Session");
@@ -44,7 +51,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withUserId(testData.instructors.get("SFSubmitE2eT.instr").googleId)
+                .withUserId(instructor.getGoogleId())
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
         FeedbackSubmitPage submitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
@@ -91,50 +98,44 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("can submit in grace period");
         AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
         submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
+        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
+        String questionId = getFeedbackQuestion(question).getId();
+        String recipient = "Team 2";
+        FeedbackResponseAttributes response = getMcqResponse(questionId, recipient, false, "UI");
+        submitPage.submitMcqResponse(1, recipient, response);
 
-        int[] gracePeriodUnansweredQuestions = { 1 };
-        submitPage.verifyWarningMessageForPartialResponse(gracePeriodUnansweredQuestions);
+        verifyPresentInDatastore(response);
 
         ______TS("confirmation email");
-        submitPage.selectMultipleChoiceOption(1, 1, 1);
         submitPage.markWithConfirmationEmail();
+        submitPage.submitMcqResponse(1, recipient, response);
 
-        submitPage.verifyWarningMessageForPartialResponse(gracePeriodUnansweredQuestions);
         verifyEmailSent(student.getEmail(), "TEAMMATES: Feedback responses successfully recorded"
                 + " [Course: " + testData.courses.get("SFSubmitE2eT.CS2104").getName() + "][Feedback Session: "
                 + gracePeriodSession.getFeedbackSessionName() + "]");
 
         ______TS("add comment");
+        String responseId = getFeedbackResponse(response).getId();
         int qnToComment = 1;
-        int recipientToComment = 1;
         String comment = "<p>new comment</p>";
-        submitPage.addComment(qnToComment, recipientToComment, comment);
+        submitPage.addComment(qnToComment, recipient, comment);
 
-        submitPage.verifyWarningMessageForPartialResponse(gracePeriodUnansweredQuestions);
-        // Reload page to verify comment persists in datastore
-        submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
-        submitPage.verifyComment(qnToComment, recipientToComment, comment);
+        submitPage.verifyComment(qnToComment, recipient, comment);
+        verifyPresentInDatastore(getFeedbackResponseComment(responseId, comment));
 
         ______TS("edit comment");
         comment = "<p>edited comment</p>";
-        submitPage.editComment(qnToComment, recipientToComment, comment);
+        submitPage.editComment(qnToComment, recipient, comment);
 
-        submitPage.verifyWarningMessageForPartialResponse(gracePeriodUnansweredQuestions);
-        // Reload page to verify comment persists in datastore
-        submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
-        submitPage.verifyComment(qnToComment, recipientToComment, comment);
+        submitPage.verifyComment(qnToComment, recipient, comment);
+        verifyPresentInDatastore(getFeedbackResponseComment(responseId, comment));
 
         ______TS("delete comment");
-        submitPage.deleteComment(qnToComment, recipientToComment);
+        submitPage.deleteComment(qnToComment, recipient);
 
         submitPage.verifyStatusMessage("Your comment has been deleted!");
-        // Reload page to verify comment no longer in datastore
-        submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
-        submitPage.verifyNoCommentPresent(qnToComment, recipientToComment);
+        submitPage.verifyNoCommentPresent(qnToComment, recipient);
+        verifyAbsentInDatastore(getFeedbackResponseComment(responseId, comment));
     }
 
     private AppUrl getStudentSubmitPageUrl(StudentAttributes student, FeedbackSessionAttributes session) {
@@ -170,6 +171,28 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .filter(s -> !s.getTeam().equals(currentStudent.getTeam()))
                 .map(s -> s.getTeam())
                 .collect(Collectors.toSet()));
+    }
+
+    private FeedbackResponseAttributes getMcqResponse(String questionId, String recipient, boolean isOther, String answer) {
+        FeedbackMcqResponseDetails details = new FeedbackMcqResponseDetails();
+        if (isOther) {
+            details.setOther(true);
+            details.setOtherFieldContent(answer);
+        } else {
+            details.setAnswer(answer);
+        }
+        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), recipient)
+                .withResponseDetails(details)
+                .build();
+    }
+
+    private FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId, String comment) {
+        return FeedbackResponseCommentAttributes.builder()
+                .withFeedbackResponseId(responseId)
+                .withCommentGiver(student.getEmail())
+                .withCommentFromFeedbackParticipant(true)
+                .withCommentText(comment)
+                .build();
     }
 }
 

@@ -18,7 +18,9 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 
 /**
  * Represents the feedback submission page of the website.
@@ -35,7 +37,7 @@ public class FeedbackSubmitPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         if (isElementPresent(By.className("modal-content"))) {
-            click(waitForElementPresence(By.className("modal-btn-ok")));
+            waitForConfirmationModalAndClickOk();
         }
         return getPageTitle().contains("Submit Feedback");
     }
@@ -89,7 +91,7 @@ public class FeedbackSubmitPage extends AppPage {
         String expectedString = expectedSb.toString().substring(0, expectedSb.length() - 2) + ".";
         String warningString = waitForElementPresence(By.id("not-answered-questions")).getText();
         assertEquals(warningString.split(": ")[1], expectedString);
-        click(browser.driver.findElement(By.id("btn-close")));
+        waitForConfirmationModalAndClickOk();
     }
 
     public void verifyCannotSubmit() {
@@ -97,42 +99,57 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void markWithConfirmationEmail() {
-        markCheckBoxAsChecked(confirmationEmailCheckbox);
+        markOptionAsSelected(confirmationEmailCheckbox);
     }
 
-    public void addComment(int qnNumber, int recipientNumber, String newComment) {
-        WebElement commentSection = getCommentSection(qnNumber, recipientNumber);
+    private void clickSubmitButton() {
+        clickAndConfirm(browser.driver.findElement(By.id("btn-submit")));
+    }
+
+    public void addComment(int qnNumber, String recipient, String newComment) {
+        WebElement commentSection = getCommentSection(qnNumber, recipient);
         click(commentSection.findElement(By.id("btn-add-comment")));
         writeToCommentEditor(commentSection, newComment);
+        clickSubmitButton();
     }
 
-    public void editComment(int qnNumber, int recipientNumber, String editedComment) {
-        WebElement commentSection = getCommentSection(qnNumber, recipientNumber);
+    public void editComment(int qnNumber, String recipient, String editedComment) {
+        WebElement commentSection = getCommentSection(qnNumber, recipient);
         click(commentSection.findElement(By.id("btn-edit-comment")));
         writeToCommentEditor(commentSection, editedComment);
+        clickSubmitButton();
     }
 
-    public void deleteComment(int qnNumber, int recipientNumber) {
-        clickAndConfirm(getCommentSection(qnNumber, recipientNumber).findElement(By.id("btn-delete-comment")));
+    public void deleteComment(int qnNumber, String recipient) {
+        clickAndConfirm(getCommentSection(qnNumber, recipient).findElement(By.id("btn-delete-comment")));
     }
 
-    public void verifyComment(int qnNumber, int recipientNumber, String expectedComment) {
-        WebElement commentSection = getCommentSection(qnNumber, recipientNumber);
+    public void verifyComment(int qnNumber, String recipient, String expectedComment) {
+        WebElement commentSection = getCommentSection(qnNumber, recipient);
         String actualComment = commentSection.findElement(By.id("comment-text")).getAttribute("innerHTML");
         assertEquals(expectedComment, actualComment);
     }
 
-    public void verifyNoCommentPresent(int qnNumber, int recipientNumber) {
-        try {
-            getCommentSection(qnNumber, recipientNumber).findElement(By.id("btn-add-comment"));
-        } catch (NoSuchElementException e) {
-            fail("Comment is present.");
-        }
+    public void verifyNoCommentPresent(int qnNumber, String recipient) {
+        int numComments = getCommentSection(qnNumber, recipient).findElements(By.id("comment-text")).size();
+        assertEquals(numComments, 0);
     }
 
-    public void selectMultipleChoiceOption(int qnNumber, int recipientNumber, int mcqOption) {
-        List<WebElement> mcqOptions = getMcqOptions(qnNumber, recipientNumber);
-        click(mcqOptions.get(mcqOption - 1));
+    public void submitMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetails();
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMcqOtherOptionRadioBtn(qnNumber, recipient));
+            fillTextBox(getMcqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        } else {
+            List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+            for (int i = 0; i < optionTexts.size(); i++) {
+                if (optionTexts.get(i).getText().equals(responseDetails.getAnswer())) {
+                    markOptionAsSelected(getMcqRadioBtns(qnNumber, recipient).get(i));
+                    break;
+                }
+            }
+        }
+        clickSubmitButton();
     }
 
     private String getCourseId() {
@@ -266,8 +283,9 @@ public class FeedbackSubmitPage extends AppPage {
         return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
     }
 
-    private WebElement getCommentSection(int qnNumber, int recipientNumber) {
-        return getQuestionForm(qnNumber).findElements(By.id("comment-section")).get(recipientNumber - 1);
+    private WebElement getCommentSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        return getQuestionForm(qnNumber).findElements(By.id("comment-section")).get(recipientIndex);
     }
 
     private void writeToCommentEditor(WebElement commentSection, String comment) {
@@ -276,10 +294,59 @@ public class FeedbackSubmitPage extends AppPage {
         writeToRichTextEditor(commentSection.findElement(By.tagName("editor")), comment);
     }
 
-    private List<WebElement> getMcqOptions(int qnNumber, int recipientNumber) {
-        return getQuestionForm(qnNumber)
-                .findElements(By.tagName("tm-mcq-question-edit-answer-form"))
-                .get(recipientNumber - 1)
-                .findElements(By.tagName("input"));
+    private int getRecipientIndex(int qnNumber, String recipient) {
+        // For questions with recipient none or self.
+        if (recipient.isEmpty()) {
+            return 0;
+        }
+        WebElement questionForm = getQuestionForm(qnNumber);
+        // For questions with flexible recipient.
+        try {
+            List<WebElement> recipientDropdowns = questionForm.findElements(By.id("recipient-dropdown"));
+            for (int i = 0; i < recipientDropdowns.size(); i++) {
+                String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
+                if (dropdownText.isEmpty()) {
+                    selectDropdownOptionByText(recipientDropdowns.get(i), recipient);
+                    return i;
+                } else if (dropdownText.equals(recipient)) {
+                    return i;
+                }
+            }
+        } catch (NoSuchElementException e) {
+            // continue
+        }
+        int i = 0;
+        while (true) {
+            if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
+                return i;
+            }
+            i++;
+        }
+    }
+
+    private WebElement getMcqSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-mcq-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private WebElement getMcqOtherOptionRadioBtn(int qnNumber, String recipient) {
+        WebElement mcqSection = getMcqSection(qnNumber, recipient);
+        return mcqSection.findElement(By.cssSelector("#other-option input[type=radio]"));
+    }
+
+    private WebElement getMcqOtherOptionTextbox(int qnNumber, String recipient) {
+        WebElement mcqSection = getMcqSection(qnNumber, recipient);
+        return mcqSection.findElement(By.cssSelector("#other-option input[type=text]"));
+    }
+
+    private List<WebElement> getMcqOptions(int qnNumber, String recipient) {
+        WebElement mcqSection = getMcqSection(qnNumber, recipient);
+        return mcqSection.findElements(By.className("option-text"));
+    }
+
+    private List<WebElement> getMcqRadioBtns(int qnNumber, String recipient) {
+        WebElement mcqSection = getMcqSection(qnNumber, recipient);
+        return mcqSection.findElements(By.cssSelector("input[type=radio]"));
     }
 }
