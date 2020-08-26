@@ -26,8 +26,4 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
     public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
-
-    public List<Integer> getAnswer() {
-        return this.answer;
-    }
 }

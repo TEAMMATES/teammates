@@ -1038,27 +1038,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
+        WebElement questionForm = getQuestionForm(questionNum);
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
+        // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
+                FeedbackParticipantType.STUDENTS.toDisplayGiverName());
+        selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
+                FeedbackParticipantType.STUDENTS.toDisplayRecipientName());
+        if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+            click(questionForm.findElement(By.id("unlimited-recipients")));
+        } else {
+            click(questionForm.findElement(By.id("custom-recipients")));
+            fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
+                    Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
+        }
 
-        WebElement questionForm = getQuestionForm(questionNum);
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), newGiver.toDisplayGiverName());
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
                 newRecipient.toDisplayRecipientName());
-        if (newRecipient.equals(FeedbackParticipantType.INSTRUCTORS)
-                || newRecipient.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                || newRecipient.equals(FeedbackParticipantType.STUDENTS)
-                || newRecipient.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF)
-                || newRecipient.equals(FeedbackParticipantType.TEAMS)) {
-            if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
-                click(questionForm.findElement(By.id("unlimited-recipients")));
-            } else {
-                click(questionForm.findElement(By.id("custom-recipients")));
-                fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
-                        Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
-            }
-        }
     }
 
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
