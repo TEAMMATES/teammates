@@ -527,10 +527,10 @@ public final class BackDoor {
 
         FeedbackSessionsData sessionsData = JsonUtils.fromJson(response.responseBody, FeedbackSessionsData.class);
         FeedbackSessionData feedbackSession = sessionsData.getFeedbackSessions()
-                        .stream()
-                        .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
-                        .findFirst()
-                        .orElse(null);
+                .stream()
+                .filter(fs -> fs.getFeedbackSessionName().equals(feedbackSessionName))
+                .findFirst()
+                .orElse(null);
 
         if (feedbackSession == null) {
             return null;

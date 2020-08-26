@@ -1,7 +1,9 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
@@ -78,6 +80,41 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
         if (options.size() < MIN_NUM_OF_OPTIONS) {
             errors.add(ERROR_NOT_ENOUGH_OPTIONS + MIN_NUM_OF_OPTIONS + ".");
+        }
+
+        return errors;
+    }
+
+    @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        List<String> errors = new ArrayList<>();
+
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackRankOptionsResponseDetails details = (FeedbackRankOptionsResponseDetails) response;
+            List<Integer> filteredAnswers = details.getFilteredSortedAnswerList();
+            Set<Integer> set = new HashSet<>(filteredAnswers);
+            boolean isAnswerContainsDuplicates = set.size() < filteredAnswers.size();
+
+            // if duplicate ranks are not allowed but have been assigned trigger this error
+            if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
+                errors.add("Duplicate Ranks are not allowed.");
+            }
+            // if number of options ranked is less than the minimum required trigger this error
+            if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
+                errors.add("You must rank at least " + minOptionsToBeRanked + " options.");
+            }
+            // if number of options ranked is more than the maximum possible trigger this error
+            if (isMaxOptionsEnabled && filteredAnswers.size() > maxOptionsToBeRanked) {
+                errors.add("You can rank at most " + maxOptionsToBeRanked + " options.");
+            }
+            // if rank assigned is invalid trigger this error
+            boolean isRankInvalid = filteredAnswers.stream().anyMatch(answer -> answer < 1 || answer > options.size());
+            if (isRankInvalid) {
+                errors.add("Invalid rank assigned.");
+            }
         }
 
         return errors;

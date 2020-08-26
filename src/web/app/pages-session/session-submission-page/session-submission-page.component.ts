@@ -27,6 +27,7 @@ import {
   FeedbackQuestionRecipients,
   FeedbackResponse,
   FeedbackResponseComment,
+  FeedbackResponses,
   FeedbackSession,
   FeedbackSessionSubmissionStatus,
   Instructor,
@@ -34,7 +35,7 @@ import {
   RegkeyValidity,
   Student,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
+import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
@@ -394,6 +395,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                     ? '' : recipient.recipientIdentifier,
             responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
             responseId: '',
+            isValid: true,
           });
         });
         this.isFeedbackSessionQuestionResponsesLoading = false;
@@ -445,6 +447,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 ? matchedExistingResponse.responseDetails
                 : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
+              isValid: true,
             });
           });
         }
@@ -459,6 +462,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               recipientIdentifier: response.recipientIdentifier,
               responseDetails: response.responseDetails,
               responseId: response.feedbackResponseId,
+              isValid: true,
             });
           });
 
@@ -468,6 +472,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               recipientIdentifier: '',
               responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: '',
+              isValid: true,
             });
             numberOfRecipientSubmissionFormsNeeded -= 1;
           }
@@ -547,83 +552,67 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
 
+      const responses: FeedbackResponseRequest[] = [];
+
       questionSubmissionFormModel.recipientSubmissionForms
           .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+            if (!recipientSubmissionFormModel.isValid) {
+              failToSaveQuestions[questionSubmissionFormModel.questionNumber] =
+                  'Invalid responses provided. Please check question constraints.';
+              return;
+            }
             const isFeedbackResponseDetailsEmpty: boolean =
                 this.feedbackResponsesService.isFeedbackResponseDetailsEmpty(
                     questionSubmissionFormModel.questionType, recipientSubmissionFormModel.responseDetails);
             isQuestionFullyAnswered = isQuestionFullyAnswered && !isFeedbackResponseDetailsEmpty;
 
-            if (recipientSubmissionFormModel.responseId !== '' && isFeedbackResponseDetailsEmpty) {
-              // existing response but empty details -> delete response
-              savingRequests.push(this.feedbackResponsesService.deleteFeedbackResponse({
-                responseId: recipientSubmissionFormModel.responseId,
-                intent: this.intent,
-                key: this.regKey,
-                moderatedPerson: this.moderatedPerson,
-              }).pipe(
-                  tap(() => {
-                    // clear inputs
-                    recipientSubmissionFormModel.responseId = '';
-                    recipientSubmissionFormModel.commentByGiver = undefined;
-                  }),
-                  catchError((error: ErrorMessageOutput) => {
-                    failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-                    return of(error);
-                  }),
-              ));
-            }
-
-            if (recipientSubmissionFormModel.responseId !== '' && !isFeedbackResponseDetailsEmpty) {
-              // existing response and details is not empty -> update response
-              savingRequests.push(
-                  this.feedbackResponsesService.updateFeedbackResponse(recipientSubmissionFormModel.responseId, {
-                    intent: this.intent,
-                    key: this.regKey,
-                    moderatedperson: this.moderatedPerson,
-                  }, {
-                    recipientIdentifier: recipientSubmissionFormModel.recipientIdentifier,
-                    questionType: questionSubmissionFormModel.questionType,
-                    responseDetails: recipientSubmissionFormModel.responseDetails,
-                  }).pipe(
-                      tap((resp: FeedbackResponse) => {
-                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                      }),
-                      switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
-                      catchError((error: ErrorMessageOutput) => {
-                        failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-                        return of(error);
-                      }),
-                  ));
-            }
-
-            if (recipientSubmissionFormModel.responseId === '' && !isFeedbackResponseDetailsEmpty) {
-              // new response and the details is not empty -> create response
-              savingRequests.push(
-                  this.feedbackResponsesService.createFeedbackResponse(questionSubmissionFormModel.feedbackQuestionId, {
-                    intent: this.intent,
-                    key: this.regKey,
-                    moderatedperson: this.moderatedPerson,
-                  }, {
-                    recipientIdentifier: recipientSubmissionFormModel.recipientIdentifier,
-                    questionType: questionSubmissionFormModel.questionType,
-                    responseDetails: recipientSubmissionFormModel.responseDetails,
-                  }).pipe(
-                      tap((resp: FeedbackResponse) => {
-                        recipientSubmissionFormModel.responseId = resp.feedbackResponseId;
-                        recipientSubmissionFormModel.responseDetails = resp.responseDetails;
-                        recipientSubmissionFormModel.recipientIdentifier = resp.recipientIdentifier;
-                      }),
-                      switchMap(() => this.createCommentRequest(recipientSubmissionFormModel)),
-                      catchError((error: ErrorMessageOutput) => {
-                        failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
-                        return of(error);
-                      }),
-                  ));
+            if (!isFeedbackResponseDetailsEmpty) {
+              responses.push({
+                recipient: recipientSubmissionFormModel.recipientIdentifier,
+                responseDetails: recipientSubmissionFormModel.responseDetails,
+              });
             }
           });
+
+      savingRequests.push(
+          this.feedbackResponsesService.submitFeedbackResponses(questionSubmissionFormModel.feedbackQuestionId, {
+            intent: this.intent,
+            key: this.regKey,
+            moderatedperson: this.moderatedPerson,
+          }, {
+            responses,
+          }).pipe(
+              tap((resp: FeedbackResponses) => {
+                const responsesMap: Record<string, FeedbackResponse> = {};
+                resp.responses.forEach((response: FeedbackResponse) => {
+                  responsesMap[response.recipientIdentifier] = response;
+                });
+
+                questionSubmissionFormModel.recipientSubmissionForms
+                    .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
+                      if (responsesMap[recipientSubmissionFormModel.recipientIdentifier]) {
+                        const correspondingResp: FeedbackResponse =
+                            responsesMap[recipientSubmissionFormModel.recipientIdentifier];
+                        recipientSubmissionFormModel.responseId = correspondingResp.feedbackResponseId;
+                        recipientSubmissionFormModel.responseDetails = correspondingResp.responseDetails;
+                        recipientSubmissionFormModel.recipientIdentifier = correspondingResp.recipientIdentifier;
+                      } else {
+                        recipientSubmissionFormModel.responseId = '';
+                        recipientSubmissionFormModel.commentByGiver = undefined;
+                      }
+                    });
+              }),
+              switchMap(() =>
+                  forkJoin(questionSubmissionFormModel.recipientSubmissionForms
+                      .map((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) =>
+                          this.createCommentRequest(recipientSubmissionFormModel))),
+              ),
+              catchError((error: ErrorMessageOutput) => {
+                failToSaveQuestions[questionSubmissionFormModel.questionNumber] = error.error.message;
+                return of(error);
+              }),
+          ),
+      );
 
       if (!isQuestionFullyAnswered) {
         notYetAnsweredQuestions.add(questionSubmissionFormModel.questionNumber);

@@ -1,5 +1,7 @@
 package teammates.ui.webapi.action;
 
+import org.apache.http.HttpStatus;
+
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -50,8 +52,13 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
+        if (feedbackSession == null) {
+            return new JsonResult("No feedback session with name " + feedbackSessionName
+                    + " for course " + courseId, HttpStatus.SC_NOT_FOUND);
+        }
+
+        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSessionData response = new FeedbackSessionData(feedbackSession);
 
         switch (intent) {
