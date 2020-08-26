@@ -1,14 +1,10 @@
 package teammates.ui.webapi.action;
 
-import java.util.List;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -196,21 +192,4 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-    /**
-     * Validates the response of the corresponding question.
-     */
-    protected void validResponseOfQuestion(FeedbackQuestionAttributes questionAttributes,
-                                           FeedbackResponseAttributes responseToValidate) {
-        List<String> questionSpecificErrors =
-                responseToValidate.getResponseDetails().validateResponseDetails(questionAttributes);
-
-        // validate the response itself
-        if (!questionSpecificErrors.isEmpty()) {
-            throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());
-        }
-
-        // validate responses of the question
-        // TODO: It's troublesome to validate Rank Recipient question's responses as REST requests are sent concurrently.
-        // need to find way to do so.
-    }
 }

@@ -684,7 +684,6 @@ public final class Const {
         public static final String QUESTIONS = "/questions";
         public static final String QUESTION = "/question";
         public static final String QUESTION_RECIPIENTS = "/question/recipients";
-        public static final String RESPONSE = "/response";
         public static final String RESPONSES = "/responses";
         public static final String HAS_RESPONSES = "/hasResponses";
         public static final String SUBMISSION_CONFIRMATION = "/submission/confirmation";

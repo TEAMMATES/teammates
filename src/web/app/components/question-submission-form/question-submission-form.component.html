@@ -163,10 +163,14 @@
     <div class="col-12 constraint-margins">
       <tm-rank-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS"
                                               [recipientSubmissionForms]="model.recipientSubmissionForms"
-                                              [questionDetails]="model.questionDetails"></tm-rank-recipients-question-constraint>
+                                              [questionDetails]="model.questionDetails"
+                                              (isValidEvent)="updateValidity($event)"
+      ></tm-rank-recipients-question-constraint>
       <tm-constsum-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
                                                   [recipientSubmissionForms]="model.recipientSubmissionForms"
-                                                  [questionDetails]="model.questionDetails"></tm-constsum-recipients-question-constraint>
+                                                  [questionDetails]="model.questionDetails"
+                                                  (isValidEvent)="updateValidity($event)"
+      ></tm-constsum-recipients-question-constraint>
     </div>
 
     <div class="alert alert-warning" role="alert" *ngIf="model.recipientList.length === 0">

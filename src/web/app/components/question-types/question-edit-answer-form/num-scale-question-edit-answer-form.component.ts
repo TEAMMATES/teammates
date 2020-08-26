@@ -69,6 +69,10 @@ export class NumScaleQuestionEditAnswerFormComponent
     const maxValue: number = this.questionDetails.maxScale;
     const increment: number = this.questionDetails.step;
 
+    if (value == null) {
+      return true;
+    }
+
     if (isNaN(value)) {
       return false;
     }

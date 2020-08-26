@@ -1,5 +1,6 @@
 package teammates.test.cases.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 
@@ -55,6 +57,62 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = rubricDetails.validateQuestionDetails();
         assertEquals(0, errors.size());
+    }
+
+    @Test
+    public void testValidateResponseDetails_validAnswer_shouldReturnEmptyErrorList() {
+        FeedbackRubricQuestionDetails rubricQuestionDetails = new FeedbackRubricQuestionDetails();
+        rubricQuestionDetails.setHasAssignedWeights(false);
+        rubricQuestionDetails.setRubricWeightsForEachCell(new ArrayList<>());
+        rubricQuestionDetails.setNumOfRubricChoices(2);
+        rubricQuestionDetails.setNumOfRubricSubQuestions(2);
+        rubricQuestionDetails.setRubricChoices(Arrays.asList("a", "b"));
+        rubricQuestionDetails.setRubricSubQuestions(Arrays.asList("q1", "q2"));
+        rubricQuestionDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("d1", "d2"), Arrays.asList("d3", "d4")));
+
+        FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
+
+        responseDetails.setAnswer(Arrays.asList(1, Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN));
+        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN, 0));
+        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(0, 0));
+        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+    }
+
+    @Test
+    public void testValidateResponseDetails_invalidAnswer_shouldReturnNonEmptyErrorList() {
+        FeedbackRubricQuestionDetails rubricQuestionDetails = new FeedbackRubricQuestionDetails();
+        rubricQuestionDetails.setHasAssignedWeights(false);
+        rubricQuestionDetails.setRubricWeightsForEachCell(new ArrayList<>());
+        rubricQuestionDetails.setNumOfRubricChoices(2);
+        rubricQuestionDetails.setNumOfRubricSubQuestions(2);
+        rubricQuestionDetails.setRubricChoices(Arrays.asList("a", "b"));
+        rubricQuestionDetails.setRubricSubQuestions(Arrays.asList("q1", "q2"));
+        rubricQuestionDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("d1", "d2"), Arrays.asList("d3", "d4")));
+
+        FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
+
+        responseDetails.setAnswer(Arrays.asList());
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(0));
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(
+                Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN, Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN));
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(0, -2));
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(2, 1));
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+
+        responseDetails.setAnswer(Arrays.asList(0, 1, 0));
+        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
 
     @Test

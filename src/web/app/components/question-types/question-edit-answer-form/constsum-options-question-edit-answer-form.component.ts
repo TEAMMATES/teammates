@@ -35,9 +35,9 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
   triggerResponse(index: number, event: number): void {
     let newAnswers: number[] = this.responseDetails.answers.slice();
 
-    if (newAnswers.length !== this.questionDetails.numOfConstSumOptions) {
+    if (newAnswers.length !== this.questionDetails.constSumOptions.length) {
       // initialize answers array on the fly
-      newAnswers = Array(this.questionDetails.numOfConstSumOptions).fill(0);
+      newAnswers = Array(this.questionDetails.constSumOptions.length).fill(0);
     }
 
     newAnswers[index] = event ? Math.ceil(event) : 0;
@@ -49,7 +49,7 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
    */
   get totalRequiredPoints(): number {
     if (this.questionDetails.pointsPerOption) {
-      return this.questionDetails.points * this.questionDetails.numOfConstSumOptions;
+      return this.questionDetails.points * this.questionDetails.constSumOptions.length;
     }
     return this.questionDetails.points;
   }

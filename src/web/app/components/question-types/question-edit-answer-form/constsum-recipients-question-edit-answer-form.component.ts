@@ -34,7 +34,11 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
       // initialize answers array on the fly
       newAnswers = [0];
     }
-    newAnswers[0] = event;
+    if (event == null) {
+      newAnswers = [];
+    } else {
+      newAnswers[0] = Math.ceil(event);
+    }
 
     this.triggerResponseDetailsChange('answers', newAnswers);
   }

@@ -1,2 +1,5 @@
 Distribute points (among recipients) question
-Total Points: {{ questionDetails.pointsPerOption ? questionDetails.numOfConstSumOptions * questionDetails.points : questionDetails.points }}
+<br>
+<span *ngIf="questionDetails.pointsPerOption">Points per recipient:</span>
+<span *ngIf="!questionDetails.pointsPerOption">Total points:</span>
+{{ questionDetails.points }}

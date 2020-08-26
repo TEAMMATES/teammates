@@ -1,11 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Const;
-
 public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     private String answer;
     private boolean isOther;
@@ -24,25 +18,6 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
             return otherFieldContent;
         }
         return answer;
-    }
-
-    @Override
-    public List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion) {
-        List<String> errors = new ArrayList<>();
-        List<String> mcqChoices = ((FeedbackMcqQuestionDetails) correspondingQuestion
-                .getQuestionDetails()).getMcqChoices();
-
-        // if other option is not selected and selected answer is not part of Mcq option list trigger this error.
-        if (!isOther && !mcqChoices.contains(getAnswerString())) {
-            errors.add(getAnswerString() + " " + Const.FeedbackQuestion.MCQ_ERROR_INVALID_OPTION);
-        }
-
-        // if other option is selected but not text is provided trigger this error
-        if (isOther && getAnswerString().trim().equals("")) {
-            errors.add(Const.FeedbackQuestion.MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED);
-        }
-
-        return errors;
     }
 
     public String getAnswer() {

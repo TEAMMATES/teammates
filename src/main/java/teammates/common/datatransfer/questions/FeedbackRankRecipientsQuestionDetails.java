@@ -1,7 +1,9 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
@@ -19,6 +21,36 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     @Override
     public List<String> validateQuestionDetails() {
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        List<String> errors = new ArrayList<>();
+
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+
+        Set<Integer> responseRank = new HashSet<>();
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackRankRecipientsResponseDetails details = (FeedbackRankRecipientsResponseDetails) response;
+
+            if (responseRank.contains(details.getAnswer()) && !areDuplicatesAllowed) {
+                errors.add("Duplicate rank " + details.getAnswer() + " in question");
+            } else if (details.getAnswer() > numRecipients || details.getAnswer() < 1) {
+                errors.add("Invalid rank " + details.getAnswer() + " in question");
+            }
+            responseRank.add(details.getAnswer());
+        }
+        // if number of options ranked is less than the minimum required trigger this error
+        if (isMinOptionsEnabled && responses.size() < minOptionsToBeRanked) {
+            errors.add("You must rank at least " + minOptionsToBeRanked + " options.");
+        }
+        // if number of options ranked is more than the maximum possible trigger this error
+        if (isMaxOptionsEnabled && responses.size() > maxOptionsToBeRanked) {
+            errors.add("You can rank at most " + maxOptionsToBeRanked + " options.");
+        }
+
+        return errors;
     }
 
     @Override
