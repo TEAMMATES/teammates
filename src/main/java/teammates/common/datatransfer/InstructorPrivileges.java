@@ -305,7 +305,7 @@ public final class InstructorPrivileges {
      * Removes special settings for all sessionNames in sectionName.
      */
     public void removeSessionsPrivilegesForSection(String sectionName) {
-            this.sessionLevel.remove(sectionName);
+        this.sessionLevel.remove(sectionName);
     }
 
     private boolean isAllowedInCourseLevel(String privilegeName) {
