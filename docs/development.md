@@ -247,7 +247,6 @@ If you are testing against a production server (staging server or live server), 
    * In particular, you will need legitimate Google accounts to be used for testing.
 
 1. Run the full test suite or any subset of it as how you would have done it in dev server.
-   * You may want to run `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first time.
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
 
 <sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
