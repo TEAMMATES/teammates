@@ -88,10 +88,10 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponseAttributes response : responses) {
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
-                    if (isUserGiver) {
-                        qnOutput.responsesFromSelf.add(buildSingleResponseForStudent(response, bundle, student));
-                    } else if (isUserRecipient) {
+                    if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(buildSingleResponseForStudent(response, bundle, student));
+                    } else if (isUserGiver) {
+                        qnOutput.responsesFromSelf.add(buildSingleResponseForStudent(response, bundle, student));
                     } else {
                         // we don't need care about the keys of the map here
                         // as only the values of the map will be used
