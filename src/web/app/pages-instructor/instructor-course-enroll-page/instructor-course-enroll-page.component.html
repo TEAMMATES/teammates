@@ -1,4 +1,5 @@
-<tm-loading-retry [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
+<tm-loading-retry [shouldShowRetry]="isLoading" [message]="'Loading course...'" (retryEvent)="getCourseEnrollPageData(courseId)">
+  <tm-loading-retry [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)"></tm-loading-retry>
   <div *ngIf="coursePresent">
     <h1>Enroll Students for {{ courseId }}</h1>
     <tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'" (retryEvent)="getCourseEnrollPageData(courseId)">

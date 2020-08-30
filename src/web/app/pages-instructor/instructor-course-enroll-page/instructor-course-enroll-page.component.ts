@@ -37,6 +37,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
   courseId: string = '';
   coursePresent?: boolean;
+  isLoading?: boolean;
   showEnrollResults?: boolean = false;
   enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
@@ -356,8 +357,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   getCourseEnrollPageData(courseid: string): void {
     this.existingStudents = [];
     this.hasLoadingStudentsFailed = false;
+    this.isLoading = true;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
+      this.isLoading = false;
       this.courseId = courseid;
       if (resp.hasResponses) {
         const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
@@ -369,6 +372,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       }
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;
+      this.isLoading = false;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
