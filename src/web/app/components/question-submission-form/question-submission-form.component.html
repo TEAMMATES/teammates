@@ -49,11 +49,11 @@
       <div class="evaluee-col col-12">
         <div class="row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
           <div class="col-12 margin-top-10px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
-            <div *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
+            <div id="recipient-name-{{ i }}" *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
               <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
             </div>
             <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-              <select class="form-control font-weight-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+              <select id="recipient-dropdown" class="form-control font-weight-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
                       (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
                       [disabled]="isDisabled">
                 <option value=""></option>

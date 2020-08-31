@@ -7,6 +7,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -280,29 +282,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(fsDeleteButton);
     }
 
-    public void addTemplateQuestion(int optionNum) {
-        click(addNewQuestionButton);
-
-        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
-        click(newQuestionDropdown.findElements(By.tagName("button")).get(0));
-        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
-
-        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
+        click(previewAsStudentButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
     }
 
-    public void copyQuestion(String courseId, String questionText) {
-        click(copyQuestionButton);
-        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
-
-        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
-            }
-        }
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
+    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
+        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
+        click(previewAsInstructorButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
     }
 
     public void verifyNumQuestions(int expected) {
@@ -440,34 +433,61 @@ public class InstructorFeedbackEditPage extends AppPage {
         String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
 
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
         WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowResponsesTo(), 1);
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowGiverNameTo(), 2);
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowRecipientNameTo(), 3);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
     }
 
-    private void assertVisibilityBoxesSelected(WebElement table, List<FeedbackParticipantType> participants,
+    private void assertVisibilityBoxesSelected(WebElement table, FeedbackParticipantType giver,
+                                               FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                                int colNum) {
+        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
+        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        }
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+        if (receiver.equals(FeedbackParticipantType.NONE)
+                || receiver.equals(FeedbackParticipantType.SELF)
+                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER);
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            switch (participant) {
-            case RECEIVER:
-                assertTrue(rows.get(0).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case OWN_TEAM_MEMBERS:
-                assertTrue(rows.get(1).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case STUDENTS:
-                assertTrue(rows.get(2).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case INSTRUCTORS:
-                assertTrue(rows.get(3).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackParticipantType");
+            assertTrue(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index)
+                    .isSelected());
+        }
+    }
+
+    public void addTemplateQuestion(int optionNum) {
+        addNewQuestion(1);
+        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
+
+        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+    }
+
+    public void copyQuestion(String courseId, String questionText) {
+        click(copyQuestionButton);
+        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
+
+        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
+                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
             }
         }
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
     }
 
     public void editQuestionNumber(int questionNum, int newQuestionNumber) {
@@ -478,15 +498,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void editQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        FeedbackQuestionType questionType = getQuestionType(questionNum);
         clickEditQuestionButton(questionNum);
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    private void inputQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetails().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
         }
-        clickSaveQuestionButton(questionNum);
     }
 
     public void duplicateQuestion(int questionNum) {
@@ -495,22 +519,6 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void deleteQuestion(int questionNum) {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
-    }
-
-    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
-        click(previewAsStudentButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
-    }
-
-    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
-        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
-        click(previewAsInstructorButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
     }
 
     private String getCourseId() {
@@ -681,12 +689,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).size();
     }
 
-    private void clickAndWaitForNewQuestion(WebElement button) {
-        int newQuestionNum = getNumQuestions() + 1;
-        click(button);
-        waitForElementPresence(By.id("question-form-" + newQuestionNum));
-    }
-
     private WebElement getQuestionForm(int questionNum) {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).get(questionNum - 1);
     }
@@ -768,21 +770,21 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
+        WebElement questionForm = getQuestionForm(questionNum);
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
-
-        WebElement questionForm = getQuestionForm(questionNum);
+        // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
+                FeedbackParticipantType.STUDENTS.toDisplayGiverName());
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toDisplayRecipientName());
-        if ((newRecipient.equals(FeedbackParticipantType.INSTRUCTORS)
-                || newRecipient.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                || newRecipient.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
-                && feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() != Const.MAX_POSSIBLE_RECIPIENTS) {
+                FeedbackParticipantType.STUDENTS.toDisplayRecipientName());
+        if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+            click(questionForm.findElement(By.id("unlimited-recipients")));
+        } else {
+            click(questionForm.findElement(By.id("custom-recipients")));
             fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
                     Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
-        } else {
-            click(questionForm.findElement(By.id("unlimited-recipients")));
         }
 
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), newGiver.toDisplayGiverName());
@@ -820,33 +822,37 @@ public class InstructorFeedbackEditPage extends AppPage {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
         }
 
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
         WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowResponsesTo(), 1);
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowGiverNameTo(), 2);
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowRecipientNameTo(), 3);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
     }
 
-    private void selectVisibilityBoxes(WebElement table, List<FeedbackParticipantType> participants,
-            int colNum) {
+    private void selectVisibilityBoxes(WebElement table, FeedbackParticipantType giver,
+                                       FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
+                                       int colNum) {
+        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
+        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        }
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+        if (receiver.equals(FeedbackParticipantType.NONE)
+                || receiver.equals(FeedbackParticipantType.SELF)
+                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER);
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            switch (participant) {
-            case RECEIVER:
-                markCheckBoxAsChecked(rows.get(0).findElements(By.tagName("input")).get(index));
-                break;
-            case OWN_TEAM_MEMBERS:
-                markCheckBoxAsChecked(rows.get(1).findElements(By.tagName("input")).get(index));
-                break;
-            case STUDENTS:
-                markCheckBoxAsChecked(rows.get(2).findElements(By.tagName("input")).get(index));
-                break;
-            case INSTRUCTORS:
-                markCheckBoxAsChecked(rows.get(3).findElements(By.tagName("input")).get(index));
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackParticipantType");
-            }
+            markCheckBoxAsChecked(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
     }
 
@@ -861,5 +867,23 @@ public class InstructorFeedbackEditPage extends AppPage {
                 return;
             }
         }
+    }
+
+    private void clickAndWaitForNewQuestion(WebElement button) {
+        int newQuestionNum = getNumQuestions() + 1;
+        click(button);
+        waitForElementPresence(By.id("question-form-" + newQuestionNum));
+    }
+
+    private void addNewQuestion(int optionNumber) {
+        click(addNewQuestionButton);
+        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
+        click(newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1));
+    }
+
+    private void clickSaveNewQuestionButton() {
+        WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
+        click(saveButton);
+        waitForElementStaleness(saveButton);
     }
 }
