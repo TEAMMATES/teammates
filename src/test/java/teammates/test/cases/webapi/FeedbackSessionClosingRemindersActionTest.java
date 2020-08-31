@@ -2,14 +2,13 @@ package teammates.test.cases.webapi;
 
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
@@ -17,6 +16,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.webapi.action.FeedbackSessionClosingRemindersAction;
+import teammates.ui.webapi.request.SendEmailRequest;
 
 /**
  * SUT: {@link FeedbackSessionClosingRemindersAction}.
@@ -119,10 +119,11 @@ public class FeedbackSessionClosingRemindersActionTest
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
-            Map<String, String[]> paramMap = task.getParamMap();
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
             assertEquals(String.format(EmailType.FEEDBACK_CLOSING.getSubject(), courseName,
                                        session1.getFeedbackSessionName()),
-                         paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
+                         email.getSubject());
         }
 
         ______TS("1 session closing soon with emails sent");

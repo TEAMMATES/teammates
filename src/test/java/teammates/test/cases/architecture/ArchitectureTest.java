@@ -72,7 +72,14 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_logicShouldNotTouchUi() {
         noClasses().that().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .and().doNotHaveSimpleName("TaskQueuer")
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .check(forClasses(LOGIC_PACKAGE, UI_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .and().haveSimpleName("TaskQueuer")
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_OUTPUT_PACKAGE))
                 .check(forClasses(LOGIC_PACKAGE, UI_PACKAGE));
     }
 

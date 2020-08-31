@@ -10,6 +10,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.TaskQueuesLogic;
+import teammates.ui.webapi.request.FeedbackSessionRemindRequest;
+import teammates.ui.webapi.request.SendEmailRequest;
 
 /**
  * Allows for adding specific type of tasks to the task queue.
@@ -93,15 +95,12 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackSessionRemindersForParticularUsers(String courseId, String feedbackSessionName,
                                                                    String[] usersToRemind,
-                                                                   String googleIdOfRequestingInstructor) {
-        Map<String, String[]> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
-        paramMap.put(ParamsNames.COURSE_ID, new String[] { courseId });
-        paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
-        paramMap.put(ParamsNames.INSTRUCTOR_ID, new String[] { googleIdOfRequestingInstructor });
+                                                                   String requestingInstructorId) {
+        FeedbackSessionRemindRequest remindRequest =
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, requestingInstructorId, usersToRemind);
 
-        addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
-                             TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap, null);
+        addTask(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);
     }
 
     /**
@@ -129,13 +128,11 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
             String[] usersToEmail) {
-        Map<String, String[]> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
-        paramMap.put(ParamsNames.COURSE_ID, new String[] { courseId });
-        paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, usersToEmail);
+        FeedbackSessionRemindRequest remindRequest =
+                new FeedbackSessionRemindRequest(courseId, feedbackSessionName, null, usersToEmail);
 
-        addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, paramMap, null);
+        addTask(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
+                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, new HashMap<>(), remindRequest);
     }
 
     /**
@@ -233,25 +230,18 @@ public class TaskQueuer {
     }
 
     private void scheduleEmailForSending(EmailWrapper email, long emailDelayTimer) {
-        String emailSubject = email.getSubject();
-        String emailSenderName = email.getSenderName();
-        String emailSender = email.getSenderEmail();
-        String emailReceiver = email.getRecipient();
-        String emailReplyToAddress = email.getReplyTo();
         try {
-            Map<String, String> paramMap = new HashMap<>();
-            paramMap.put(ParamsNames.EMAIL_SUBJECT, emailSubject);
-            paramMap.put(ParamsNames.EMAIL_CONTENT, email.getContent());
-            paramMap.put(ParamsNames.EMAIL_SENDER, emailSender);
-            if (emailSenderName != null && !emailSenderName.isEmpty()) {
-                paramMap.put(ParamsNames.EMAIL_SENDERNAME, emailSenderName);
-            }
-            paramMap.put(ParamsNames.EMAIL_RECEIVER, emailReceiver);
-            paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
+            SendEmailRequest request = new SendEmailRequest(email);
 
             addDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME, TaskQueue.SEND_EMAIL_WORKER_URL,
-                            paramMap, null, emailDelayTimer);
+                            new HashMap<>(), request, emailDelayTimer);
         } catch (Exception e) {
+            String emailSubject = email.getSubject();
+            String emailSenderName = email.getSenderName();
+            String emailSender = email.getSenderEmail();
+            String emailReceiver = email.getRecipient();
+            String emailReplyToAddress = email.getReplyTo();
+
             log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
                        + "Email sender: " + emailSender + "\n"
                        + "Email sender name: " + emailSenderName + "\n"

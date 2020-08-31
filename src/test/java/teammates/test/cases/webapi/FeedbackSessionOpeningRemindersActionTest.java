@@ -1,20 +1,20 @@
 package teammates.test.cases.webapi;
 
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.TimeHelperExtension;
 import teammates.ui.webapi.action.FeedbackSessionOpeningRemindersAction;
+import teammates.ui.webapi.request.SendEmailRequest;
 
 /**
  * SUT: {@link FeedbackSessionOpeningRemindersAction}.
@@ -98,15 +98,16 @@ public class FeedbackSessionOpeningRemindersActionTest
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
-            Map<String, String[]> paramMap = task.getParamMap();
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
             try {
                 assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
                                            session1.getFeedbackSessionName()),
-                             paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
+                             email.getSubject());
             } catch (AssertionError ae) {
                 assertEquals(String.format(EmailType.FEEDBACK_OPENING.getSubject(), courseName,
                                            session2.getFeedbackSessionName()),
-                             paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
+                             email.getSubject());
             }
         }
 

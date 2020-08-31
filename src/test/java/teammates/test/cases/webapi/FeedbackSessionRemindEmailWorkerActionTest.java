@@ -2,7 +2,6 @@ package teammates.test.cases.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.Test;
@@ -13,12 +12,14 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.ui.webapi.action.FeedbackSessionRemindEmailWorkerAction;
+import teammates.ui.webapi.request.SendEmailRequest;
 
 /**
  * SUT: {@link FeedbackSessionRemindEmailWorkerAction}.
@@ -94,14 +95,15 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
-            Map<String, String[]> paramMap = task.getParamMap();
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
             assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
                                        session1.getFeedbackSessionName()),
-                         paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
+                         email.getSubject());
 
             String header = "The email below has been sent to students of course: [" + session1.getCourseId() + "]";
-            String content = paramMap.get(ParamsNames.EMAIL_CONTENT)[0];
-            String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
+            String content = email.getContent();
+            String recipient = email.getRecipient();
 
             if (content.contains(header)) { // notification to only requesting instructors
                 assertTrue(instructorNotifiedList.contains(recipient));

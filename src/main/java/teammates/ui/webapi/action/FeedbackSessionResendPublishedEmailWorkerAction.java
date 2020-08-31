@@ -7,9 +7,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.ui.webapi.request.FeedbackSessionRemindRequest;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
@@ -20,9 +20,10 @@ public class FeedbackSessionResendPublishedEmailWorkerAction extends AdminOnlyAc
 
     @Override
     public JsonResult execute() {
-        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
-        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
-        String[] usersToRemind = getNonNullRequestParamValues(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST);
+        FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
+        String feedbackSessionName = remindRequest.getFeedbackSessionName();
+        String courseId = remindRequest.getCourseId();
+        String[] usersToRemind = remindRequest.getUsersToRemind();
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

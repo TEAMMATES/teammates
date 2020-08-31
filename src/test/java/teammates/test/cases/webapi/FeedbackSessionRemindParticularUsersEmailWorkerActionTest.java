@@ -1,7 +1,6 @@
 package teammates.test.cases.webapi;
 
 import java.util.List;
-import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -9,11 +8,13 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
 import teammates.ui.webapi.action.FeedbackSessionRemindParticularUsersEmailWorkerAction;
+import teammates.ui.webapi.request.FeedbackSessionRemindRequest;
+import teammates.ui.webapi.request.SendEmailRequest;
 
 /**
  * SUT: {@link FeedbackSessionRemindParticularUsersEmailWorkerAction}.
@@ -49,16 +50,14 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
         StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        String[] submissionParams = new String[] {
-                ParamsNames.FEEDBACK_SESSION_NAME, session1.getFeedbackSessionName(),
-                ParamsNames.COURSE_ID, session1.getCourseId(),
-                ParamsNames.SUBMISSION_REMIND_USERLIST, student1.email,
-                ParamsNames.SUBMISSION_REMIND_USERLIST, instructor1.email,
-                ParamsNames.INSTRUCTOR_ID, instructor1.googleId,
-                ParamsNames.SUBMISSION_REMIND_USERLIST, "non-existent",
+        String[] usersToRemind = new String[] {
+                student1.email, instructor1.email, "non-existent",
         };
 
-        FeedbackSessionRemindParticularUsersEmailWorkerAction action = getAction(submissionParams);
+        FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(session1.getCourseId(),
+                session1.getFeedbackSessionName(), instructor1.googleId, usersToRemind);
+
+        FeedbackSessionRemindParticularUsersEmailWorkerAction action = getAction(remindRequest);
         action.execute();
 
         // send 3 emails as specified in the submission parameters
@@ -67,11 +66,12 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
         String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
-            Map<String, String[]> paramMap = task.getParamMap();
+            SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
+            EmailWrapper email = requestBody.getEmail();
             assertEquals(String.format(EmailType.FEEDBACK_SESSION_REMINDER.getSubject(), courseName,
                                        session1.getFeedbackSessionName()),
-                         paramMap.get(ParamsNames.EMAIL_SUBJECT)[0]);
-            String recipient = paramMap.get(ParamsNames.EMAIL_RECEIVER)[0];
+                         email.getSubject());
+            String recipient = email.getRecipient();
             assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
         }
     }
