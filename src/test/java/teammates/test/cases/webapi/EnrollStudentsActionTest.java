@@ -11,11 +11,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.EnrollStudentsAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.StudentData;
-import teammates.ui.webapi.output.StudentsData;
-import teammates.ui.webapi.request.StudentsEnrollRequest;
+import teammates.ui.output.StudentData;
+import teammates.ui.output.StudentsData;
+import teammates.ui.request.StudentsEnrollRequest;
+import teammates.ui.webapi.EnrollStudentsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link EnrollStudentsAction}.

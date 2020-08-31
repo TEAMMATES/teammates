@@ -6,7 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.ui.webapi.action.FeedbackSessionPublishedRemindersAction;
+import teammates.ui.webapi.FeedbackSessionPublishedRemindersAction;
 
 /**
  * SUT: {@link FeedbackSessionPublishedRemindersAction}.

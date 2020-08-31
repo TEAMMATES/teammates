@@ -24,7 +24,7 @@ import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
-import teammates.ui.webapi.request.StudentsEnrollRequest;
+import teammates.ui.request.StudentsEnrollRequest;
 
 /**
  * L&P Test Case for instructor's student enrollment API endpoint.

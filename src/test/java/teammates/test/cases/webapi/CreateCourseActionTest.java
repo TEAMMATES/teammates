@@ -7,11 +7,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.webapi.action.CreateCourseAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseData;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.CourseCreateRequest;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.CourseCreateRequest;
+import teammates.ui.webapi.CreateCourseAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateCourseAction}.

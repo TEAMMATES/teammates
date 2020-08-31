@@ -12,9 +12,9 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SendJoinReminderEmailAction;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SendJoinReminderEmailAction;
 
 /**
  * SUT: {@link SendJoinReminderEmailActionTest}.

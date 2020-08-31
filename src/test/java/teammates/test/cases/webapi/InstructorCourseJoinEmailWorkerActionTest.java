@@ -10,7 +10,7 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.logic.core.AccountsLogic;
-import teammates.ui.webapi.action.InstructorCourseJoinEmailWorkerAction;
+import teammates.ui.webapi.InstructorCourseJoinEmailWorkerAction;
 
 /**
  * SUT: {@link InstructorCourseJoinEmailWorkerAction}.

@@ -12,10 +12,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.GetFeedbackQuestionRecipientsAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackQuestionRecipientsData;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackQuestionRecipientsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackQuestionRecipientsAction}.

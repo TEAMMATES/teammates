@@ -9,9 +9,9 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.MockHttpServletRequest;
-import teammates.ui.webapi.action.Action;
-import teammates.ui.webapi.action.ActionFactory;
-import teammates.ui.webapi.action.GetAuthInfoAction;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ActionFactory;
+import teammates.ui.webapi.GetAuthInfoAction;
 
 /**
  * SUT: {@link ActionFactory}.

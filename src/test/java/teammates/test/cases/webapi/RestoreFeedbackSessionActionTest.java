@@ -8,9 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RestoreFeedbackSessionAction;
-import teammates.ui.webapi.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.RestoreFeedbackSessionAction;
 
 /**
  * SUT: {@link RestoreFeedbackSessionAction}.

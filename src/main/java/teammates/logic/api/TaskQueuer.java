@@ -10,8 +10,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.TaskQueuesLogic;
-import teammates.ui.webapi.request.FeedbackSessionRemindRequest;
-import teammates.ui.webapi.request.SendEmailRequest;
+import teammates.ui.request.FeedbackSessionRemindRequest;
+import teammates.ui.request.SendEmailRequest;
 
 /**
  * Allows for adding specific type of tasks to the task queue.

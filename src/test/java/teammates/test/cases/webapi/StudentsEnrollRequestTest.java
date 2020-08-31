@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
-import teammates.ui.webapi.request.StudentsEnrollRequest;
+import teammates.ui.request.StudentsEnrollRequest;
 
 /**
  * SUT: {@link StudentsEnrollRequest}.

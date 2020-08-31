@@ -6,9 +6,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.DeleteCourseAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.DeleteCourseAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteCourseAction}.

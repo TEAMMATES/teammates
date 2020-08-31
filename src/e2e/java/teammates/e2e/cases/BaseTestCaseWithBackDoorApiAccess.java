@@ -18,7 +18,7 @@ import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
-import teammates.ui.webapi.output.CourseData;
+import teammates.ui.output.CourseData;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.

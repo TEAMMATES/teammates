@@ -12,10 +12,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetHasResponsesAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.HasResponsesData;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.HasResponsesData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.GetHasResponsesAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetHasResponsesAction}.

@@ -15,10 +15,10 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
-import teammates.ui.webapi.action.ConfirmFeedbackSessionSubmissionAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.ConfirmationResponse;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.ConfirmationResponse;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.ConfirmFeedbackSessionSubmissionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link ConfirmFeedbackSessionSubmissionAction}.

@@ -34,9 +34,9 @@ public class ArchitectureTest {
     private static final String LOGIC_API_PACKAGE = LOGIC_PACKAGE + ".api";
 
     private static final String UI_PACKAGE = "teammates.ui";
-    private static final String UI_WEBAPI_PACKAGE = UI_PACKAGE + ".webapi.action";
-    private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".webapi.output";
-    private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".webapi.request";
+    private static final String UI_WEBAPI_PACKAGE = UI_PACKAGE + ".webapi";
+    private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".output";
+    private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".request";
 
     private static final String TEST_PACKAGE = "teammates.test";
 

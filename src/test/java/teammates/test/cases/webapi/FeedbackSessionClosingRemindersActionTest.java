@@ -15,8 +15,8 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.driver.TimeHelperExtension;
-import teammates.ui.webapi.action.FeedbackSessionClosingRemindersAction;
-import teammates.ui.webapi.request.SendEmailRequest;
+import teammates.ui.request.SendEmailRequest;
+import teammates.ui.webapi.FeedbackSessionClosingRemindersAction;
 
 /**
  * SUT: {@link FeedbackSessionClosingRemindersAction}.

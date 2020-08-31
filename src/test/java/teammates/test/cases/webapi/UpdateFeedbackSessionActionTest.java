@@ -10,12 +10,12 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateFeedbackSessionAction;
-import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.output.ResponseVisibleSetting;
-import teammates.ui.webapi.output.SessionVisibleSetting;
-import teammates.ui.webapi.request.FeedbackSessionUpdateRequest;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.request.FeedbackSessionUpdateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateFeedbackSessionAction;
 
 /**
  * SUT: {@link UpdateFeedbackSessionAction}.

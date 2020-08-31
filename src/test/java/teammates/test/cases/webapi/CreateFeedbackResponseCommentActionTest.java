@@ -24,13 +24,13 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.driver.AssertHelper;
-import teammates.ui.webapi.action.CreateFeedbackResponseCommentAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CommentVisibilityType;
-import teammates.ui.webapi.output.FeedbackResponseCommentData;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackResponseCommentCreateRequest;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.CommentVisibilityType;
+import teammates.ui.output.FeedbackResponseCommentData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.FeedbackResponseCommentCreateRequest;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.CreateFeedbackResponseCommentAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateFeedbackResponseCommentAction}.

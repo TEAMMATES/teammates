@@ -4,9 +4,9 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetTimeZonesAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.TimeZonesData;
+import teammates.ui.output.TimeZonesData;
+import teammates.ui.webapi.GetTimeZonesAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetTimeZonesAction}.

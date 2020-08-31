@@ -8,10 +8,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RegenerateStudentCourseLinksAction;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.output.RegenerateStudentCourseLinksData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.output.RegenerateStudentCourseLinksData;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.RegenerateStudentCourseLinksAction;
 
 /**
  * SUT: {@link RegenerateStudentCourseLinksAction}.

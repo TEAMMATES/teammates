@@ -23,8 +23,8 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.GateKeeper;
-import teammates.ui.webapi.action.Action;
-import teammates.ui.webapi.action.ActionFactory;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ActionFactory;
 
 /**
  * Provides a Singleton in-memory simulation of the GAE for unit testing.

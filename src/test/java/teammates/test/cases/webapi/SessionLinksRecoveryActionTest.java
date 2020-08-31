@@ -7,10 +7,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SessionLinksRecoveryAction;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.output.SessionLinksRecoveryResponseData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.output.SessionLinksRecoveryResponseData;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SessionLinksRecoveryAction;
 
 /**
  * SUT: {@link SessionLinksRecoveryAction}.

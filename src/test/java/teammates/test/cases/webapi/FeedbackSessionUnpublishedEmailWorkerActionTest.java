@@ -11,8 +11,8 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.CoursesLogic;
-import teammates.ui.webapi.action.FeedbackSessionUnpublishedEmailWorkerAction;
-import teammates.ui.webapi.request.SendEmailRequest;
+import teammates.ui.request.SendEmailRequest;
+import teammates.ui.webapi.FeedbackSessionUnpublishedEmailWorkerAction;
 
 /**
  * SUT: {@link FeedbackSessionUnpublishedEmailWorkerAction}.

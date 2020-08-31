@@ -7,10 +7,10 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RemindFeedbackSessionSubmissionAction;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.RemindFeedbackSessionSubmissionAction;
 
 /**
  * SUT: {@link RemindFeedbackSessionSubmissionAction}.

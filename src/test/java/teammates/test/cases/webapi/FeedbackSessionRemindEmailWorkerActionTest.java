@@ -18,8 +18,8 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.webapi.action.FeedbackSessionRemindEmailWorkerAction;
-import teammates.ui.webapi.request.SendEmailRequest;
+import teammates.ui.request.SendEmailRequest;
+import teammates.ui.webapi.FeedbackSessionRemindEmailWorkerAction;
 
 /**
  * SUT: {@link FeedbackSessionRemindEmailWorkerAction}.

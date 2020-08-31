@@ -10,7 +10,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
-import teammates.ui.webapi.action.FeedbackSessionUpdateRespondentWorkerAction;
+import teammates.ui.webapi.FeedbackSessionUpdateRespondentWorkerAction;
 
 /**
  * SUT: {@link FeedbackSessionUpdateRespondentWorkerAction}.

@@ -35,7 +35,7 @@ import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
-import teammates.ui.webapi.request.InstructorCreateRequest;
+import teammates.ui.request.InstructorCreateRequest;
 
 /**
 * L&P Test Case for instructor update cascade API.

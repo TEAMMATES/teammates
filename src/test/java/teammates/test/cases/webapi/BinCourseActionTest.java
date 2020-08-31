@@ -10,9 +10,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.BinCourseAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseData;
+import teammates.ui.output.CourseData;
+import teammates.ui.webapi.BinCourseAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link BinCourseAction}.

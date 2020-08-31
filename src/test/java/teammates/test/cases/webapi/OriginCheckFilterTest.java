@@ -12,7 +12,7 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.MockFilterChain;
 import teammates.test.driver.MockHttpServletRequest;
 import teammates.test.driver.MockHttpServletResponse;
-import teammates.ui.webapi.action.OriginCheckFilter;
+import teammates.ui.webapi.OriginCheckFilter;
 
 /**
  * SUT: {@link OriginCheckFilter}.

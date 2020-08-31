@@ -9,11 +9,11 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetInstructorPrivilegeAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.InstructorPermissionRole;
-import teammates.ui.webapi.output.InstructorPrivilegeData;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.InstructorPermissionRole;
+import teammates.ui.output.InstructorPrivilegeData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.GetInstructorPrivilegeAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetInstructorPrivilegeAction}.

@@ -9,14 +9,14 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetFeedbackSessionAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
-import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
-import teammates.ui.webapi.output.ResponseVisibleSetting;
-import teammates.ui.webapi.output.SessionVisibleSetting;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackSessionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackSessionAction}.

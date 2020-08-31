@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.GetCourseJoinStatusAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.JoinStatus;
+import teammates.ui.output.JoinStatus;
+import teammates.ui.webapi.GetCourseJoinStatusAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetCourseJoinStatusAction}.
