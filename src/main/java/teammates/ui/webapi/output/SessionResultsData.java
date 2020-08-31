@@ -88,10 +88,10 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponseAttributes response : responses) {
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
-                    if (isUserGiver) {
-                        qnOutput.responsesFromSelf.add(buildSingleResponseForStudent(response, bundle, student));
-                    } else if (isUserRecipient) {
+                    if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(buildSingleResponseForStudent(response, bundle, student));
+                    } else if (isUserGiver) {
+                        qnOutput.responsesFromSelf.add(buildSingleResponseForStudent(response, bundle, student));
                     } else {
                         // we don't need care about the keys of the map here
                         // as only the values of the map will be used
@@ -117,10 +117,13 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamGiver = question.giverType == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
+        String giverTeam = null;
         if (isUserTeamGiver) {
             giverName = String.format("Your Team (%s)", response.getGiver());
+            giverTeam = response.getGiver();
         } else if (isUserGiver) {
             giverName = "You";
+            giverTeam = student.team;
         } else {
             // we don't want student to figure out who is who by using the hash
             giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle).getName());
@@ -131,10 +134,13 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
+        String recipientTeam = null;
         if (isUserRecipient) {
             recipientName = "You";
+            recipientTeam = student.team;
         } else if (isUserTeamRecipient) {
             recipientName = String.format("Your Team (%s)", response.getRecipient());
+            recipientTeam = response.getRecipient();
         } else {
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle).getName());
@@ -146,17 +152,18 @@ public class SessionResultsData extends ApiOutput {
         Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
         // Student does not need to know the teams for giver and/or recipient
+        // unless the student him/herself is the giver and/or recipient
         return ResponseOutput.builder()
                 .withResponseId(response.getId())
                 .withGiver(giverName)
                 .withGiverLastName(null)
-                .withGiverTeam(null)
+                .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
                 .withRelatedGiverEmail(null)
                 .withGiverSection(response.getGiverSection())
                 .withRecipient(recipientName)
                 .withRecipientLastName(null)
-                .withRecipientTeam(null)
+                .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSection(response.getRecipientSection())
                 .withResponseDetails(response.getResponseDetails())
