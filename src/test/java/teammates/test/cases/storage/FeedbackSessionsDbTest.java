@@ -24,6 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.ThreadHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
@@ -163,6 +164,9 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("invalid params");
+
+        // wait for very briefly so that the start timestamp is guaranteed to change
+        ThreadHelper.waitFor(5);
 
         fsa.setStartTime(Instant.now());
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class, () -> fsDb.createEntity(fsa));
