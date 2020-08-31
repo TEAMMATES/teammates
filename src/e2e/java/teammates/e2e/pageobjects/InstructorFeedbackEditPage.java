@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
@@ -21,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -521,6 +523,53 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
+    public void verifyConstSumQuestionDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
+        if (!questionDetails.isDistributeToRecipients()) {
+            verifyOptions(questionNum, questionDetails.getConstSumOptions());
+        }
+
+        if (questionDetails.isPointsPerOption()) {
+            assertTrue(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+            assertEquals(getConstSumPerOptionPointsInput(questionNum).getAttribute("value"),
+                    Integer.toString(questionDetails.getPoints()));
+            assertFalse(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+        } else {
+            assertTrue(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+            assertEquals(getConstSumTotalPointsInput(questionNum).getAttribute("value"),
+                    Integer.toString(questionDetails.getPoints()));
+            assertFalse(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+        }
+
+        if (questionDetails.isForceUnevenDistribution()) {
+            String distributeFor = questionDetails.getDistributePointsFor();
+            assertTrue(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+            assertEquals(getSelectedDropdownOptionText(getConstSumUnevenDistributionDropdown(questionNum)).trim(),
+                    "All options".equals(distributeFor) ? "Every option" : distributeFor);
+        } else {
+            assertFalse(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+        }
+    }
+
+    public void addConstSumOptionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(6);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackConstantSumQuestionDetails questionDetails =
+                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputConstSumDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editConstSumQuestion(int questionNum, FeedbackConstantSumQuestionDetails csQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputConstSumDetails(questionNum, csQuestionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -885,5 +934,87 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
         click(saveButton);
         waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getOptionsSection(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("options-section"));
+    }
+
+    private List<WebElement> getOptionInputs(int questionNum) {
+        WebElement optionsSection = getOptionsSection(questionNum);
+        return optionsSection.findElements(By.cssSelector("input[type='text']"));
+    }
+
+    private void verifyOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getOptionInputs(questionNum);
+        for (int i = 0; i < options.size(); i++) {
+            assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
+        }
+    }
+
+    private void inputOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getOptionInputs(questionNum);
+        int numInputsNeeded = options.size() - inputs.size();
+        if (numInputsNeeded > 0) {
+            for (int i = 0; i < numInputsNeeded; i++) {
+                click(getQuestionForm(questionNum).findElement(By.id("btn-add-option")));
+            }
+            inputs = getOptionInputs(questionNum);
+        }
+        if (numInputsNeeded < 0) {
+            for (int i = 0; i < -numInputsNeeded; i++) {
+                click(getOptionsSection(questionNum).findElement(By.tagName("button")));
+            }
+            inputs = getOptionInputs(questionNum);
+        }
+
+        for (int i = 0; i < options.size(); i++) {
+            fillTextBox(inputs.get(i), options.get(i));
+        }
+    }
+
+    private WebElement getConstSumTotalPointsRadioBtn(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("total-points-radio"));
+    }
+
+    private WebElement getConstSumTotalPointsInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("total-points"));
+    }
+
+    private WebElement getConstSumPerOptionPointsRadioBtn(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("per-option-points-radio"));
+    }
+
+    private WebElement getConstSumPerOptionPointsInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("per-option-points"));
+    }
+
+    private WebElement getConstSumUnevenDistributionCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-checkbox"));
+    }
+
+    private WebElement getConstSumUnevenDistributionDropdown(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-dropdown"));
+    }
+
+    private void inputConstSumDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
+        if (!questionDetails.isDistributeToRecipients()) {
+            inputOptions(questionNum, questionDetails.getConstSumOptions());
+        }
+        if (questionDetails.isPointsPerOption()) {
+            click(getConstSumPerOptionPointsRadioBtn(questionNum));
+            fillTextBox(getConstSumPerOptionPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+        } else {
+            click(getConstSumTotalPointsRadioBtn(questionNum));
+            fillTextBox(getConstSumTotalPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+        }
+        String distributeFor = questionDetails.getDistributePointsFor();
+        if (questionDetails.isForceUnevenDistribution()) {
+            markCheckBoxAsChecked(getConstSumUnevenDistributionCheckbox(questionNum));
+            selectDropdownOptionByText(getConstSumUnevenDistributionDropdown(questionNum),
+                    "All options".equals(distributeFor) ? "Every option" : distributeFor);
+        } else {
+            markCheckBoxAsUnchecked(getConstSumUnevenDistributionCheckbox(questionNum));
+        }
     }
 }

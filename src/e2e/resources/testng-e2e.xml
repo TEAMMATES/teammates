@@ -13,6 +13,7 @@
             <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
             <class name="teammates.e2e.cases.e2e.AdminHomePageE2ETest" />
             <class name="teammates.e2e.cases.e2e.AdminSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.FeedbackConstSumOptionQuestionE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorCourseEditPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorCourseEnrollPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorCoursesPageE2ETest" />
