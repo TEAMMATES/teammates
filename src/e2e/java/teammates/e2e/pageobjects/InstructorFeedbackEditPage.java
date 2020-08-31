@@ -22,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
@@ -521,6 +522,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
+    public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails questionDetails) {
+        String recommendLength = getRecommendedTextLengthField(questionNum).getAttribute("value");
+        assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
+    }
+
+    public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(2);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
+        fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
+        clickSaveNewQuestionButton();
+    }
+
+    public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -885,5 +906,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
         click(saveButton);
         waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getRecommendedTextLengthField(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
     }
 }
