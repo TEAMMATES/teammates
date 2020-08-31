@@ -75,9 +75,9 @@ public class TaskQueuer {
     public void scheduleFeedbackSessionReminders(String courseId, String feedbackSessionName,
                                                  String googleIdOfRequestingInstructor) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.USER_ID, googleIdOfRequestingInstructor);
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, feedbackSessionName);
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+        paramMap.put(ParamsNames.INSTRUCTOR_ID, googleIdOfRequestingInstructor);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
 
         addTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap, null);
@@ -95,10 +95,10 @@ public class TaskQueuer {
                                                                    String[] usersToRemind,
                                                                    String googleIdOfRequestingInstructor) {
         Map<String, String[]> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
+        paramMap.put(ParamsNames.COURSE_ID, new String[] { courseId });
         paramMap.put(ParamsNames.SUBMISSION_REMIND_USERLIST, usersToRemind);
-        paramMap.put(ParamsNames.USER_ID, new String[] { googleIdOfRequestingInstructor });
+        paramMap.put(ParamsNames.INSTRUCTOR_ID, new String[] { googleIdOfRequestingInstructor });
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
                              TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap, null);
@@ -112,8 +112,8 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackSessionPublishedEmail(String courseId, String feedbackSessionName) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         addTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap, null);
@@ -130,8 +130,8 @@ public class TaskQueuer {
     public void scheduleFeedbackSessionResendPublishedEmail(String courseId, String feedbackSessionName,
             String[] usersToEmail) {
         Map<String, String[]> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.SUBMISSION_FEEDBACK, new String[] { feedbackSessionName });
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, new String[] { courseId });
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
+        paramMap.put(ParamsNames.COURSE_ID, new String[] { courseId });
         paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, usersToEmail);
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
@@ -146,8 +146,8 @@ public class TaskQueuer {
      */
     public void scheduleFeedbackSessionUnpublishedEmail(String courseId, String feedbackSessionName) {
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.EMAIL_COURSE, courseId);
-        paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
+        paramMap.put(ParamsNames.COURSE_ID, courseId);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
 
         addTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
                 TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap, null);

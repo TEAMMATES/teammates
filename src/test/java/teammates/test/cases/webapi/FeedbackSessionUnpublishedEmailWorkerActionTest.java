@@ -43,8 +43,8 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
         FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
-                ParamsNames.EMAIL_COURSE, session1.getCourseId(),
-                ParamsNames.EMAIL_FEEDBACK, session1.getFeedbackSessionName(),
+                ParamsNames.COURSE_ID, session1.getCourseId(),
+                ParamsNames.FEEDBACK_SESSION_NAME, session1.getFeedbackSessionName(),
         };
 
         FeedbackSessionUnpublishedEmailWorkerAction action = getAction(submissionParams);

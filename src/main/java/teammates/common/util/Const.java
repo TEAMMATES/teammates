@@ -512,9 +512,6 @@ public final class Const {
 
         //Email parameters
         public static final String EMAIL_RECEIVER = "user";
-        public static final String EMAIL_COURSE = "course";
-        public static final String EMAIL_FEEDBACK = "feedback";
-
         public static final String EMAIL_CONTENT = "content";
         public static final String EMAIL_SENDER = "sender";
         public static final String EMAIL_SENDERNAME = "sendername";
@@ -524,8 +521,6 @@ public final class Const {
         public static final String SEND_SUBMISSION_EMAIL = "sendsubmissionemail";
 
         //Submission parameters for Task Queue
-        public static final String SUBMISSION_COURSE = "course";
-        public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
         public static final String SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST = "usersToResendEmail";
 

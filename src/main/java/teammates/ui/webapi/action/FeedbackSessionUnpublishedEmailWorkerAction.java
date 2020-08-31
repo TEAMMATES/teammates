@@ -17,8 +17,8 @@ public class FeedbackSessionUnpublishedEmailWorkerAction extends AdminOnlyAction
 
     @Override
     public JsonResult execute() {
-        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.EMAIL_FEEDBACK);
-        String courseId = getNonNullRequestParamValue(ParamsNames.EMAIL_COURSE);
+        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
+        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
 
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (session == null) {

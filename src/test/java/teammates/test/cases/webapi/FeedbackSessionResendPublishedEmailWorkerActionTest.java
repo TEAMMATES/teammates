@@ -50,8 +50,8 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                ParamsNames.SUBMISSION_FEEDBACK, publishedSession.getFeedbackSessionName(),
-                ParamsNames.SUBMISSION_COURSE, publishedSession.getCourseId(),
+                ParamsNames.FEEDBACK_SESSION_NAME, publishedSession.getFeedbackSessionName(),
+                ParamsNames.COURSE_ID, publishedSession.getCourseId(),
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, student1.email,
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, instructor1.email,
                 ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, "non-existent",

@@ -20,10 +20,10 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerAction extends Admin
 
     @Override
     public JsonResult execute() {
-        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
-        String courseId = getNonNullRequestParamValue(ParamsNames.SUBMISSION_COURSE);
+        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
+        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String[] usersToRemind = getNonNullRequestParamValues(ParamsNames.SUBMISSION_REMIND_USERLIST);
-        String googleIdOfInstructorToNotify = getNonNullRequestParamValue(ParamsNames.USER_ID);
+        String googleIdOfInstructorToNotify = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_ID);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

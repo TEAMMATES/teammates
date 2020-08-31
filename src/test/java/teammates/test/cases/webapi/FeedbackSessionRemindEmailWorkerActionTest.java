@@ -60,9 +60,9 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         session1 = fsLogic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
 
         String[] submissionParams = new String[] {
-                ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
-                ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
-                ParamsNames.USER_ID, instructor1.getGoogleId(),
+                ParamsNames.FEEDBACK_SESSION_NAME, session1.getFeedbackSessionName(),
+                ParamsNames.COURSE_ID, session1.getCourseId(),
+                ParamsNames.INSTRUCTOR_ID, instructor1.getGoogleId(),
         };
 
         FeedbackSessionRemindEmailWorkerAction action = getAction(submissionParams);

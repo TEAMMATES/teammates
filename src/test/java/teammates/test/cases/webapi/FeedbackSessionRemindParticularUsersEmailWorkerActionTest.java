@@ -50,11 +50,11 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                ParamsNames.SUBMISSION_FEEDBACK, session1.getFeedbackSessionName(),
-                ParamsNames.SUBMISSION_COURSE, session1.getCourseId(),
+                ParamsNames.FEEDBACK_SESSION_NAME, session1.getFeedbackSessionName(),
+                ParamsNames.COURSE_ID, session1.getCourseId(),
                 ParamsNames.SUBMISSION_REMIND_USERLIST, student1.email,
                 ParamsNames.SUBMISSION_REMIND_USERLIST, instructor1.email,
-                ParamsNames.USER_ID, instructor1.googleId,
+                ParamsNames.INSTRUCTOR_ID, instructor1.googleId,
                 ParamsNames.SUBMISSION_REMIND_USERLIST, "non-existent",
         };
 

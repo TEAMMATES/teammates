@@ -20,9 +20,9 @@ public class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.SUBMISSION_FEEDBACK);
-        String courseId = getNonNullRequestParamValue(ParamsNames.SUBMISSION_COURSE);
-        String instructorId = getNonNullRequestParamValue(ParamsNames.USER_ID);
+        String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
+        String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
+        String instructorId = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_ID);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
