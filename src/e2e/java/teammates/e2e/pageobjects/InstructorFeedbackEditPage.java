@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -521,6 +522,31 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
+    public void verifyNumScaleQuestionDetails(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
+        assertEquals(getMinNumscaleInput(questionNum).getAttribute("value"),
+                Integer.toString(questionDetails.getMinScale()));
+        assertEquals(getNumScaleIncrementInput(questionNum).getAttribute("value"),
+                getDoubleString(questionDetails.getStep()));
+        assertEquals(getMaxNumscaleInput(questionNum).getAttribute("value"),
+                Integer.toString(questionDetails.getMaxScale()));
+    }
+
+    public void addNumScaleQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(5);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackNumericalScaleQuestionDetails questionDetails =
+                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -885,5 +911,32 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
         click(saveButton);
         waitForElementStaleness(saveButton);
+    }
+
+    private String getDoubleString(Double value) {
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
+    }
+
+    private WebElement getMinNumscaleInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("min-value"));
+    }
+
+    private WebElement getMaxNumscaleInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("max-value"));
+    }
+
+    private WebElement getNumScaleIncrementInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("increment-value"));
+    }
+
+    private void inputNumScaleDetails(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
+        inputNumScaleValue(getMinNumscaleInput(questionNum), Integer.toString(questionDetails.getMinScale()));
+        inputNumScaleValue(getNumScaleIncrementInput(questionNum), getDoubleString(questionDetails.getStep()));
+        inputNumScaleValue(getMaxNumscaleInput(questionNum), Integer.toString(questionDetails.getMaxScale()));
+    }
+
+    private void inputNumScaleValue(WebElement input, String value) {
+        input.clear();
+        input.sendKeys(value);
     }
 }
