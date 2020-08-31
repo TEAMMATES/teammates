@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 public class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         logic.deleteAccountCascade(instructorId);
         return new JsonResult("Account is successfully deleted.", HttpStatus.SC_OK);

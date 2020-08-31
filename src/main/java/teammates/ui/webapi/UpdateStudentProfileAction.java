@@ -27,7 +27,7 @@ public class UpdateStudentProfileAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
             return new JsonResult("You are not authorized to update this student's profile.",

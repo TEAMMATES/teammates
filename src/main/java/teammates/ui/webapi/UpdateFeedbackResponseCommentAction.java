@@ -96,7 +96,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);

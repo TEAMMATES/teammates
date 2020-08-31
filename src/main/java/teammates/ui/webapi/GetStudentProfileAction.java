@@ -45,7 +45,7 @@ public class GetStudentProfileAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
 
         String studentId;
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);

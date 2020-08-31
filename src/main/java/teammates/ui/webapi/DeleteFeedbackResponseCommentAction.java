@@ -79,7 +79,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         logic.deleteFeedbackResponseComment(feedbackResponseCommentId);

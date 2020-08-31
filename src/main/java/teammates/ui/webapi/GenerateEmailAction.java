@@ -16,7 +16,7 @@ import teammates.ui.output.EmailData;
 public class GenerateEmailAction extends AdminOnlyAction {
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String emailType = getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE);

@@ -27,7 +27,7 @@ public class DeleteStudentProfilePictureAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(googleId);
         if (studentProfileAttributes == null) {

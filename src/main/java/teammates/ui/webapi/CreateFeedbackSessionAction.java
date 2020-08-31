@@ -32,7 +32,7 @@ public class CreateFeedbackSessionAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());

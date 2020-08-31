@@ -40,7 +40,7 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructorToAdd = extractCompleteInstructor(courseId);
 

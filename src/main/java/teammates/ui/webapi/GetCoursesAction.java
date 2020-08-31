@@ -34,7 +34,7 @@ public class GetCoursesAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:
@@ -47,14 +47,14 @@ public class GetCoursesAction extends Action {
         }
     }
 
-    private ActionResult getStudentCourses() {
+    private JsonResult getStudentCourses() {
         List<CourseAttributes> courses = logic.getCoursesForStudentAccount(userInfo.id);
         CoursesData coursesData = new CoursesData(courses);
         coursesData.getCourses().forEach(CourseData::hideInformationForStudent);
         return new JsonResult(coursesData);
     }
 
-    private ActionResult getInstructorCourses() {
+    private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
         List<CourseAttributes> courses;
         switch (courseStatus) {

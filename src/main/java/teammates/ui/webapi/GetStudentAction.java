@@ -58,7 +58,7 @@ public class GetStudentAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentAttributes student;
 

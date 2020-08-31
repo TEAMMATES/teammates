@@ -27,7 +27,7 @@ public class JoinCourseAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {

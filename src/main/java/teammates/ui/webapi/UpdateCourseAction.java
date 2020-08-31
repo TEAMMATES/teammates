@@ -38,7 +38,7 @@ public class UpdateCourseAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         CourseUpdateRequest courseUpdateRequest = getAndValidateRequestBody(CourseUpdateRequest.class);
         String courseTimeZone = courseUpdateRequest.getTimeZone();
 

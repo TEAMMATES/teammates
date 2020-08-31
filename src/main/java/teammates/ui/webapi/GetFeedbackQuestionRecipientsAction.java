@@ -55,7 +55,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);

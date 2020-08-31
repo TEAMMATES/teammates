@@ -69,7 +69,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(

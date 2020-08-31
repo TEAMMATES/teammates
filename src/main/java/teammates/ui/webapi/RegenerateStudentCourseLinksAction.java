@@ -36,7 +36,7 @@ public class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
                                                         SUCCESSFUL_REGENERATION + " but the email failed to send.";
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 

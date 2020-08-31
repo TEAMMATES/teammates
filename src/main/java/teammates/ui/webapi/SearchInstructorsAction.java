@@ -26,7 +26,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
 

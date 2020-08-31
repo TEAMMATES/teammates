@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 public class ResetAccountAction extends AdminOnlyAction {
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 

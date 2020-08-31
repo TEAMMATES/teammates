@@ -84,7 +84,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {

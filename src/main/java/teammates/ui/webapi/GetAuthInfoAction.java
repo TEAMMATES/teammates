@@ -29,7 +29,7 @@ public class GetAuthInfoAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
         String nextUrl = getRequestParamValue("nextUrl");
         if (frontendUrl == null) {

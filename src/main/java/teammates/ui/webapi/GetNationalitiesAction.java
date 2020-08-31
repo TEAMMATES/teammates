@@ -18,7 +18,7 @@ public class GetNationalitiesAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         NationalitiesData nationalities = new NationalitiesData(NationalityHelper.getNationalities());
         return new JsonResult(nationalities);
     }

@@ -27,7 +27,7 @@ public class SearchCommentsAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
 
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);

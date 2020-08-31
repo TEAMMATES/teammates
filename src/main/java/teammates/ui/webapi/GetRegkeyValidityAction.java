@@ -24,7 +24,7 @@ public class GetRegkeyValidityAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 

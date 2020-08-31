@@ -40,7 +40,7 @@ public class UpdateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    public JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes oldQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
