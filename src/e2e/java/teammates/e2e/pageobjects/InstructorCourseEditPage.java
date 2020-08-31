@@ -16,6 +16,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the instructor course edit page of the website.
@@ -307,7 +308,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
-        waitForPageToLoad(true);
+        ThreadHelper.waitFor(500);
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {
