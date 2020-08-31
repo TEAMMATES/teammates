@@ -123,12 +123,12 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         // verify update session's respondent list task added
         TaskWrapper taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
 
-        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
         assertEquals(session1InCourse1.getFeedbackSessionName(),
-                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
-        assertEquals(student1InCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
-        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
-        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+        assertEquals(student1InCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL));
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR));
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED));
 
         ______TS("Typical success case with student intent, not responded before");
 
@@ -163,12 +163,12 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         // verify update session's respondent list task added
         taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
 
-        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
         assertEquals(session1InCourse1.getFeedbackSessionName(),
-                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
-        assertEquals(student4InCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
-        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
-        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+        assertEquals(student4InCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL));
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR));
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED));
 
         ______TS("Typical success case with instructor intent");
 
@@ -194,12 +194,12 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         // verify update session's respondent list task added
         taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
 
-        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
         assertEquals(session1InCourse1.getFeedbackSessionName(),
-                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
-        assertEquals(instructor1OfCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
-        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
-        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+        assertEquals(instructor1OfCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL));
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR));
+        assertEquals("false", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED));
 
         ______TS("Typical success case with instructor intent, not responded before");
 
@@ -229,12 +229,12 @@ public class ConfirmFeedbackSessionSubmissionActionTest extends BaseActionTest<C
         // verify update session's respondent list task added
         taskAdded = a.getTaskQueuer().getTasksAdded().get(0);
 
-        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(typicalCourse1.getId(), taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
         assertEquals(session1InCourse1.getFeedbackSessionName(),
-                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME)[0]);
-        assertEquals(instructor2OfCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL)[0]);
-        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR)[0]);
-        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED)[0]);
+                taskAdded.getParamMap().get(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+        assertEquals(instructor2OfCourse1.email, taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_EMAIL));
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_INSTRUCTOR));
+        assertEquals("true", taskAdded.getParamMap().get(Const.ParamsNames.RESPONDENT_IS_TO_BE_REMOVED));
 
         ______TS("Failed case with invalid intent");
 

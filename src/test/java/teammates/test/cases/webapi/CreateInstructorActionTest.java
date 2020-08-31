@@ -74,7 +74,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         TaskWrapper taskAdded = createInstructorAction.getTaskQueuer().getTasksAdded().get(0);
 
-        assertEquals(courseId, taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID)[0]);
+        assertEquals(courseId, taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
         assertEquals(instructorAdded.email, reqBody.getEmail());
         assertEquals(instructorId, reqBody.getId());
 
@@ -141,10 +141,10 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
         taskAdded = createInstructorAction.getTaskQueuer().getTasksAdded().get(0);
-        Map<String, String[]> paramMap = taskAdded.getParamMap();
+        Map<String, String> paramMap = taskAdded.getParamMap();
 
-        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
-        assertEquals(instructorAdded.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL)[0]);
+        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
+        assertEquals(instructorAdded.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
     }
 
     @Override

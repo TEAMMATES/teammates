@@ -20,9 +20,7 @@ public class MockTaskQueuer extends TaskQueuer {
 
     @Override
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
-        Map<String, String[]> multisetParamMap = new HashMap<>();
-        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap, requestBody);
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         tasksAdded.add(task);
     }
 
@@ -31,13 +29,6 @@ public class MockTaskQueuer extends TaskQueuer {
                                    long countdownTime) {
         // countdown time not tested, thus fallback to another method
         addTask(queueName, workerUrl, paramMap, requestBody);
-    }
-
-    @Override
-    protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap,
-                                        Object requestBody) {
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
-        tasksAdded.add(task);
     }
 
     @Override

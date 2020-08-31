@@ -25,24 +25,14 @@ public class TaskQueuer {
     // while at the same time allowing this API to be mocked during test.
 
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
-        Map<String, String[]> multisetParamMap = new HashMap<>();
-        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap, requestBody);
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         new TaskQueuesLogic().addTask(task);
     }
 
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
                                    long countdownTime) {
-        Map<String, String[]> multisetParamMap = new HashMap<>();
-        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap, requestBody);
-        new TaskQueuesLogic().addDeferredTask(task, countdownTime);
-    }
-
-    protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap,
-                                        Object requestBody) {
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
-        new TaskQueuesLogic().addTask(task);
+        new TaskQueuesLogic().addDeferredTask(task, countdownTime);
     }
 
     /**

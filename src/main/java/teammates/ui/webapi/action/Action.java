@@ -144,7 +144,11 @@ public abstract class Action {
      * Returns the first value for the specified parameter expected to be present in the HTTP request.
      */
     protected String getNonNullRequestParamValue(String paramName) {
-        return getNonNullRequestParamValues(paramName)[0];
+        String value = req.getParameter(paramName);
+        if (value == null) {
+            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
+        }
+        return value;
     }
 
     /**
@@ -173,24 +177,6 @@ public abstract class Action {
             throw new InvalidHttpParameterException(
                     "Expected long value for " + paramName + " parameter, but found: [" + value + "]");
         }
-    }
-
-    /**
-     * Returns the values for the specified parameter in the HTTP request, or null if such parameter is not found.
-     */
-    protected String[] getRequestParamValues(String paramName) {
-        return req.getParameterValues(paramName);
-    }
-
-    /**
-     * Returns the values for the specified parameter expected to be present in the HTTP request.
-     */
-    protected String[] getNonNullRequestParamValues(String paramName) {
-        String[] values = getRequestParamValues(paramName);
-        if (values == null || values.length == 0) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
-        }
-        return values;
     }
 
     /**

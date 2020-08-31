@@ -10,7 +10,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +79,7 @@ public final class BackDoor {
      *
      * @return The body content and status of the HTTP response
      */
-    public static ResponseBodyAndCode executeGetRequest(String relativeUrl, Map<String, String[]> params) {
+    public static ResponseBodyAndCode executeGetRequest(String relativeUrl, Map<String, String> params) {
         return executeRequest(HttpGet.METHOD_NAME, relativeUrl, params, null);
     }
 
@@ -89,7 +88,7 @@ public final class BackDoor {
      *
      * @return The body content and status of the HTTP response
      */
-    public static ResponseBodyAndCode executePostRequest(String relativeUrl, Map<String, String[]> params, String body) {
+    public static ResponseBodyAndCode executePostRequest(String relativeUrl, Map<String, String> params, String body) {
         return executeRequest(HttpPost.METHOD_NAME, relativeUrl, params, body);
     }
 
@@ -98,7 +97,7 @@ public final class BackDoor {
      *
      * @return The body content and status of the HTTP response
      */
-    public static ResponseBodyAndCode executePutRequest(String relativeUrl, Map<String, String[]> params, String body) {
+    public static ResponseBodyAndCode executePutRequest(String relativeUrl, Map<String, String> params, String body) {
         return executeRequest(HttpPut.METHOD_NAME, relativeUrl, params, body);
     }
 
@@ -107,7 +106,7 @@ public final class BackDoor {
      *
      * @return The body content and status of the HTTP response
      */
-    public static ResponseBodyAndCode executeDeleteRequest(String relativeUrl, Map<String, String[]> params) {
+    public static ResponseBodyAndCode executeDeleteRequest(String relativeUrl, Map<String, String> params) {
         return executeRequest(HttpDelete.METHOD_NAME, relativeUrl, params, null);
     }
 
@@ -117,7 +116,7 @@ public final class BackDoor {
      * @return The content of the HTTP response
      */
     private static ResponseBodyAndCode executeRequest(
-            String method, String relativeUrl, Map<String, String[]> params, String body) {
+            String method, String relativeUrl, Map<String, String> params, String body) {
         String url = TestProperties.TEAMMATES_URL + relativeUrl;
 
         HttpRequestBase request;
@@ -162,11 +161,11 @@ public final class BackDoor {
      *
      * @return The content of the HTTP response
      */
-    private static HttpGet createGetRequest(String url, Map<String, String[]> params) {
+    private static HttpGet createGetRequest(String url, Map<String, String> params) {
         return new HttpGet(createBasicUri(url, params));
     }
 
-    private static HttpPost createPostRequest(String url, Map<String, String[]> params, String body) {
+    private static HttpPost createPostRequest(String url, Map<String, String> params, String body) {
         HttpPost post = new HttpPost(createBasicUri(url, params));
 
         if (body != null) {
@@ -177,7 +176,7 @@ public final class BackDoor {
         return post;
     }
 
-    private static HttpPut createPutRequest(String url, Map<String, String[]> params, String body) {
+    private static HttpPut createPutRequest(String url, Map<String, String> params, String body) {
         HttpPut put = new HttpPut(createBasicUri(url, params));
 
         if (body != null) {
@@ -188,16 +187,14 @@ public final class BackDoor {
         return put;
     }
 
-    private static HttpDelete createDeleteRequest(String url, Map<String, String[]> params) {
+    private static HttpDelete createDeleteRequest(String url, Map<String, String> params) {
         return new HttpDelete(createBasicUri(url, params));
     }
 
-    private static URI createBasicUri(String url, Map<String, String[]> params) {
+    private static URI createBasicUri(String url, Map<String, String> params) {
         List<NameValuePair> postParameters = new ArrayList<>();
         if (params != null) {
-            params.forEach((key, values) -> Arrays.stream(values).forEach(value -> {
-                postParameters.add(new BasicNameValuePair(key, value));
-            }));
+            params.forEach((key, value) -> postParameters.add(new BasicNameValuePair(key, value)));
         }
 
         try {
@@ -273,9 +270,9 @@ public final class BackDoor {
      * Gets a student's profile from the datastore.
      */
     public static StudentProfileAttributes getStudentProfile(String courseId, String studentEmail) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
-        params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { studentEmail });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT_PROFILE, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -288,8 +285,8 @@ public final class BackDoor {
      * Gets course data from the datastore.
      */
     public static CourseData getCourseData(String courseId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSE, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -316,11 +313,11 @@ public final class BackDoor {
      * Gets archived course data from the datastore.
      */
     public static CourseData getArchivedCourseData(String instructorId, String courseId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER_ID, new String[] { instructorId });
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
-        params.put(Const.ParamsNames.ENTITY_TYPE, new String[] { Const.EntityType.INSTRUCTOR });
-        params.put(Const.ParamsNames.COURSE_STATUS, new String[] { Const.CourseStatus.ARCHIVED });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.USER_ID, instructorId);
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
+        params.put(Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ARCHIVED);
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.COURSES, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -359,9 +356,9 @@ public final class BackDoor {
      * Gets instructor data from the datastore.
      */
     public static InstructorData getInstructorData(String courseId, String email) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
-        params.put(Const.ParamsNames.INTENT, new String[] { Intent.FULL_DETAIL.toString() });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.INSTRUCTORS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -417,9 +414,9 @@ public final class BackDoor {
      * Gets student data from the datastore.
      */
     public static StudentData getStudentData(String courseId, String studentEmail) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
-        params.put(Const.ParamsNames.STUDENT_EMAIL, new String[] { studentEmail });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -466,10 +463,10 @@ public final class BackDoor {
      * Get feedback session data from datastore.
      */
     public static FeedbackSessionData getFeedbackSessionData(String courseId, String feedbackSessionName) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
-        params.put(Const.ParamsNames.INTENT, new String[] { Intent.FULL_DETAIL.toString() });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -522,10 +519,10 @@ public final class BackDoor {
      * Get soft deleted feedback session from datastore.
      */
     public static FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.ENTITY_TYPE, new String[] { Const.EntityType.INSTRUCTOR });
-        params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, new String[] { "true" });
-        params.put(Const.ParamsNames.USER_ID, new String[] { instructorId });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
+        params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
+        params.put(Const.ParamsNames.USER_ID, instructorId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -552,10 +549,10 @@ public final class BackDoor {
      */
     public static FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
                                                                  int qnNumber) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSessionName });
-        params.put(Const.ParamsNames.INTENT, new String[] { Intent.FULL_DETAIL.toString() });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.QUESTIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -627,10 +624,10 @@ public final class BackDoor {
      */
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
                                                                  String recipient) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, new String[] { feedbackQuestionId });
-        params.put(Const.ParamsNames.INTENT, new String[] { Intent.STUDENT_SUBMISSION.toString() });
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, new String[] { giver });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
+        params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSES, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -661,9 +658,9 @@ public final class BackDoor {
      * Get feedback response comment from datastore.
      */
     public static FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, new String[] { feedbackResponseId });
-        params.put(Const.ParamsNames.INTENT, new String[] { Intent.STUDENT_SUBMISSION.toString() });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseId);
+        params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSE_COMMENT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -685,8 +682,8 @@ public final class BackDoor {
      * Deletes a student from the datastore.
      */
     public static void deleteStudent(String unregUserId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.STUDENT_ID, new String[] { unregUserId });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.STUDENT_ID, unregUserId);
         executeDeleteRequest(Const.ResourceURIs.STUDENTS, params);
     }
 
@@ -694,9 +691,9 @@ public final class BackDoor {
      * Deletes a feedback session from the datastore.
      */
     public static void deleteFeedbackSession(String feedbackSession, String courseId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, new String[] { feedbackSession });
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession);
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
         executeDeleteRequest(Const.ResourceURIs.SESSION, params);
     }
 
@@ -704,8 +701,8 @@ public final class BackDoor {
      * Deletes a course from the datastore.
      */
     public static void deleteCourse(String courseId) {
-        Map<String, String[]> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, new String[] { courseId });
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
         executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
