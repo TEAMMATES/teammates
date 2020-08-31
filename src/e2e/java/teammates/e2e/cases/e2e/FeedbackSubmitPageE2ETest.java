@@ -98,6 +98,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("can submit in grace period");
         AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
         submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
+        submitPage.waitForPageToLoad();
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
         String questionId = getFeedbackQuestion(question).getId();
         String recipient = "Team 2";
@@ -136,6 +137,58 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.verifyStatusMessage("Your comment has been deleted!");
         submitPage.verifyNoCommentPresent(qnToComment, recipient);
         verifyAbsentInDatastore(getFeedbackResponseComment(responseId, comment));
+
+        ______TS("preview as student");
+        url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                .withUserId(instructor.googleId)
+                .withCourseId(openSession.getCourseId())
+                .withSessionName(openSession.getFeedbackSessionName())
+                .withParam("previewas", student.getEmail());
+        submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        submitPage.waitForPageToLoad();
+
+        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyNumQuestions(4);
+        submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn1InSession1"));
+        submitPage.verifyQuestionDetails(2, testData.feedbackQuestions.get("qn2InSession1"));
+        submitPage.verifyQuestionDetails(3, testData.feedbackQuestions.get("qn3InSession1"));
+        submitPage.verifyQuestionDetails(4, testData.feedbackQuestions.get("qn4InSession1"));
+        submitPage.verifyCannotSubmit();
+
+        ______TS("preview as instructor");
+        url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
+                .withUserId(instructor.googleId)
+                .withCourseId(openSession.getCourseId())
+                .withSessionName(openSession.getFeedbackSessionName())
+                .withParam("previewas", instructor.getEmail());
+        submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        submitPage.waitForPageToLoad();
+
+        submitPage.verifyFeedbackSessionDetails(openSession);
+        submitPage.verifyNumQuestions(1);
+        submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn5InSession1"));
+        submitPage.verifyCannotSubmit();
+
+        ______TS("moderating instructor cannot see questions without instructor visibility");
+        url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                .withUserId(instructor.googleId)
+                .withCourseId(gracePeriodSession.getCourseId())
+                .withSessionName(gracePeriodSession.getFeedbackSessionName())
+                .withParam("moderatedperson", student.getEmail())
+                .withParam("moderatedquestionId", questionId);
+        submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        submitPage.waitForPageToLoad();
+
+        submitPage.verifyFeedbackSessionDetails(gracePeriodSession);
+        // One out of two questions in grace period session should not be visible
+        submitPage.verifyNumQuestions(1);
+        submitPage.verifyQuestionDetails(1, question);
+
+        ______TS("submit moderated response");
+        response = getMcqResponse(questionId, recipient, false, "Algo");
+        submitPage.submitMcqResponse(1, recipient, response);
+
+        verifyPresentInDatastore(response);
     }
 
     private AppUrl getStudentSubmitPageUrl(StudentAttributes student, FeedbackSessionAttributes session) {

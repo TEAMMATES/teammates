@@ -342,8 +342,35 @@
         "questionType": "MCQ",
         "otherEnabled": false
       },
-      "questionNumber": 4,
-      "giverType": "TEAMS",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2InGracePeriodSession": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "SFSubmitE2eT.CS2104",
+      "questionDetails": {
+        "numOfMcqChoices": 0,
+        "questionText": "Which instructor do you think is the most engaging",
+        "questionType": "MCQ",
+        "otherEnabled": false,
+        "generateOptionsFor": "INSTRUCTORS"
+      },
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numberOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": [
