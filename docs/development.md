@@ -220,17 +220,17 @@ Back-end component tests and E2E tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/component-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
+`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
 `E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-`Failed tests` | `./gradlew failedTests` | `{project folder}/build/reports/test-failed/index.html`
-Any individual test | `./gradlew test --tests TestClassName` | `{project folder}/build/reports/tests/index.html`
+Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
+Any individual E2E test | `./gradlew e2eTestTry1 --tests TestClassName` | `{project folder}/build/reports/e2e-test-try-1/index.html`
 
-- `Component tests` and `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
+- `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
 - Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
 ```sh
-./gradlew appengineRun componentTests jacocoReport
+./gradlew componentTests jacocoReport
 ```
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
 
@@ -247,7 +247,6 @@ If you are testing against a production server (staging server or live server), 
    * In particular, you will need legitimate Google accounts to be used for testing.
 
 1. Run the full test suite or any subset of it as how you would have done it in dev server.
-   * You may want to run `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first time.
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
 
 <sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.

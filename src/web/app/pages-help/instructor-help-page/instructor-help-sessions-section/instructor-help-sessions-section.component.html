@@ -403,7 +403,7 @@
             <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="exampleFeedbackSession.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
           </div>
           <div *ngIf="question.responsesFromSelf.length" style="margin-top: 10px;">
-            <strong>Your own responses:</strong>
+            <strong>Your own responses (to others):</strong>
             <div *ngFor="let responseFromSelf of question.responsesFromSelf">
               <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="exampleFeedbackSession.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
             </div>

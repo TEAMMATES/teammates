@@ -23,6 +23,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.ThreadHelper;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -111,6 +112,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         AssertHelper.assertInstantIsNow(feedbackResponse.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
+
+        // wait for very briefly so that the update timestamp is guaranteed to change
+        ThreadHelper.waitFor(5);
 
         String newRecipientEmail = "new-email@tmt.com";
         feedbackResponse.recipient = newRecipientEmail;

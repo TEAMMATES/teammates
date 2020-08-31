@@ -11,6 +11,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
 import teammates.common.util.TaskWrapper;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
@@ -93,6 +94,9 @@ public class FeedbackSessionClosingRemindersActionTest
                         .build());
         session3.setSentOpenEmail(false); // fsLogic will set the flag to true
         verifyPresentInDatastore(session3);
+
+        // wait for very briefly so that the above session will be within the time limit
+        ThreadHelper.waitFor(5);
 
         action = getAction();
         action.execute();
