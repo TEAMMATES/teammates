@@ -80,7 +80,7 @@ public class GetStudentAction extends Action {
         }
 
         StudentData studentData = new StudentData(student);
-        if (isBackdoor()) {
+        if (userInfo != null && userInfo.isAdmin) {
             studentData.setKey(student.getKey());
         }
 
