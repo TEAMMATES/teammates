@@ -22,23 +22,24 @@ public class TaskQueuer {
     // Using this method, the actual logic can still be black-boxed
     // while at the same time allowing this API to be mocked during test.
 
-    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
+    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
         Map<String, String[]> multisetParamMap = new HashMap<>();
         paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap, requestBody);
         new TaskQueuesLogic().addTask(task);
     }
 
-    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
+    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
                                    long countdownTime) {
         Map<String, String[]> multisetParamMap = new HashMap<>();
         paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap, requestBody);
         new TaskQueuesLogic().addDeferredTask(task, countdownTime);
     }
 
-    protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap);
+    protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap,
+                                        Object requestBody) {
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         new TaskQueuesLogic().addTask(task);
     }
 
@@ -79,7 +80,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
 
         addTask(TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.FEEDBACK_SESSION_REMIND_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -100,7 +101,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.USER_ID, new String[] { googleIdOfRequestingInstructor });
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME,
-                             TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap);
+                             TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -115,7 +116,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
 
         addTask(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -134,7 +135,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.SUBMISSION_RESEND_PUBLISHED_EMAIL_USER_LIST, usersToEmail);
 
         addTaskMultisetParam(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -149,7 +150,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.EMAIL_FEEDBACK, feedbackSessionName);
 
         addTask(TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -173,7 +174,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.IS_INSTRUCTOR_REJOINING, String.valueOf(isRejoining));
 
         addTask(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME,
-                TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -189,7 +190,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.IS_STUDENT_REJOINING, String.valueOf(isRejoining));
 
         addTask(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME,
-                TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap);
+                TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -205,7 +206,7 @@ public class TaskQueuer {
         paramMap.put(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, String.valueOf(isToBeRemoved));
 
         addTask(TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL, paramMap);
+                TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL, paramMap, null);
     }
 
     /**
@@ -249,7 +250,7 @@ public class TaskQueuer {
             paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, emailReplyToAddress);
 
             addDeferredTask(TaskQueue.SEND_EMAIL_QUEUE_NAME, TaskQueue.SEND_EMAIL_WORKER_URL,
-                            paramMap, emailDelayTimer);
+                            paramMap, null, emailDelayTimer);
         } catch (Exception e) {
             log.severe("Error when adding email to task queue: " + e.getMessage() + "\n"
                        + "Email sender: " + emailSender + "\n"
