@@ -11,7 +11,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
+import teammates.common.util.Const;
 
 /**
  * Represents the feedback submission page of the website.
@@ -38,6 +43,55 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyNumQuestions(int expected) {
         assertEquals(browser.driver.findElements(By.tagName("tm-question-submission-form")).size(), expected);
+    }
+
+    public void verifyRankQuestion(int qnNumber, String recipient, FeedbackRankQuestionDetails questionDetails) {
+        if (questionDetails.getMaxOptionsToBeRanked() != Integer.MIN_VALUE) {
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
+                    "Rank no more than " + questionDetails.getMaxOptionsToBeRanked() + " options.");
+        }
+        if (questionDetails.getMinOptionsToBeRanked() != Integer.MIN_VALUE) {
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
+                    "Rank at least " + questionDetails.getMinOptionsToBeRanked() + " options.");
+        }
+        if (questionDetails instanceof FeedbackRankOptionsQuestionDetails) {
+            FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
+            List<String> options = optionDetails.getOptions();
+            List<WebElement> optionTexts = getRankOptions(qnNumber, recipient);
+            for (int i = 0; i < options.size(); i++) {
+                assertEquals(options.get(i), optionTexts.get(i).getText());
+            }
+        }
+    }
+
+    public void submitRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i), "");
+            } else {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i),
+                        Integer.toString(answers.get(i)));
+            }
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
+                        "");
+            } else {
+                assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
+                        Integer.toString(answers.get(i)));
+            }
+        }
     }
 
     private String getCourseId() {
@@ -102,5 +156,21 @@ public class FeedbackSubmitPage extends AppPage {
             }
             i++;
         }
+    }
+
+    private WebElement getRankOptionsSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-rank-options-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private List<WebElement> getRankOptions(int questionNum, String recipient) {
+        WebElement rankSection = getRankOptionsSection(questionNum, recipient);
+        return rankSection.findElements(By.tagName("strong"));
+    }
+
+    private List<WebElement> getRankOptionsDropdowns(int questionNum, String recipient) {
+        WebElement rankSection = getRankOptionsSection(questionNum, recipient);
+        return rankSection.findElements(By.tagName("select"));
     }
 }
