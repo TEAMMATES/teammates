@@ -86,7 +86,8 @@ Roles:
 
 1. [Set up TEAMMATES development environment on your computer.](setting-up.md)<br>
    **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
-1. Get *dev green* (more info in [_Development Guidelines_ document](development.md)).
+1. Get all component tests to pass (more info in [_Development Guidelines_ document](development.md)).
+1. (Optional) Get all E2E tests to pass.
    It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 #### Phase B: Learn
