@@ -93,6 +93,26 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void submitConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetails();
+            fillTextBox(recipientInputs.get(i), Integer.toString(response.getAnswers().get(0)));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetails();
+            assertEquals(recipientInputs.get(i).getAttribute("value"),
+                    Integer.toString(response.getAnswers().get(0)));
+        }
+    }
+
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
     }
@@ -171,5 +191,9 @@ public class FeedbackSubmitPage extends AppPage {
     private List<WebElement> getConstSumInputs(int qnNumber, String recipient) {
         WebElement constSumOptionSection = getConstSumOptionsSection(qnNumber, recipient);
         return constSumOptionSection.findElements(By.cssSelector("input[type=number]"));
+    }
+
+    private List<WebElement> getConstSumRecipientInputs(int qnNumber) {
+        return getQuestionForm(qnNumber).findElements(By.cssSelector("input[type=number]"));
     }
 }
