@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -22,6 +24,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
@@ -521,6 +524,55 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
+    public void verifyRubricQuestionDetails(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
+        int numChoices = questionDetails.getNumOfRubricChoices();
+        List<String> choices = questionDetails.getRubricChoices();
+        for (int i = 0; i < numChoices; i++) {
+            assertEquals(choices.get(i), getRubricChoiceInputs(questionNum).get(i).getAttribute("value"));
+        }
+
+        int numSubQn = questionDetails.getNumOfRubricSubQuestions();
+        List<String> subQuestions = questionDetails.getRubricSubQuestions();
+        List<List<String>> descriptions = questionDetails.getRubricDescriptions();
+        for (int i = 0; i < numSubQn; i++) {
+            List<WebElement> textAreas = getRubricTextareas(questionNum, i + 2);
+            assertEquals(subQuestions.get(i), textAreas.get(0).getAttribute("value"));
+            for (int j = 0; j < numChoices; j++) {
+                assertEquals(descriptions.get(i).get(j), textAreas.get(j + 1).getAttribute("value"));
+            }
+        }
+
+        if (questionDetails.hasAssignedWeights()) {
+            assertTrue(getWeightCheckbox(questionNum).isSelected());
+            List<List<Double>> weights = questionDetails.getRubricWeights();
+            for (int i = 0; i < numSubQn; i++) {
+                List<WebElement> rubricWeights = getRubricWeights(questionNum, i + 2);
+                for (int j = 0; j < numChoices; j++) {
+                    assertEquals(rubricWeights.get(j).getAttribute("value"),
+                            getDoubleString(weights.get(i).get(j)));
+                }
+            }
+        } else {
+            assertFalse(getWeightCheckbox(questionNum).isSelected());
+        }
+    }
+
+    public void addRubricQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(9);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRubricQuestionDetails questionDetails =
+                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputRubricDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editRubricQuestion(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputRubricDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -885,5 +937,110 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
         click(saveButton);
         waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getWeightCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("weights-checkbox"));
+    }
+
+    private String getDoubleString(Double value) {
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
+    }
+
+    private WebElement getRubricRow(int questionNum, int rowNumber) {
+        return getQuestionForm(questionNum).findElements(By.cssSelector("tm-rubric-question-edit-details-form tr"))
+                .get(rowNumber - 1);
+    }
+
+    private List<WebElement> getRubricChoiceInputs(int questionNum) {
+        return getRubricRow(questionNum, 1).findElements(By.tagName("input"));
+    }
+
+    private List<WebElement> getRubricTextareas(int questionNum, int rowNum) {
+        return getRubricRow(questionNum, rowNum).findElements(By.tagName("textarea"));
+    }
+
+    private List<WebElement> getRubricWeights(int questionNum, int rowNum) {
+        return getRubricRow(questionNum, rowNum).findElements(By.tagName("input"));
+    }
+
+    private WebElement getRubricDeleteSubQnBtn(int questionNum, int rowNum) {
+        return getRubricRow(questionNum, rowNum).findElement(By.id("btn-delete-subquestion"));
+    }
+
+    private WebElement getRubricDeleteChoiceBtn(int questionNum, int colNum) {
+        return getRubricRow(questionNum, getNumRubricRows(questionNum)).findElements(By.id("btn-delete-choice")).get(colNum);
+    }
+
+    private int getNumRubricRows(int questionNum) {
+        return getQuestionForm(questionNum).findElements(By.cssSelector("tm-rubric-question-edit-details-form tr")).size();
+    }
+
+    private int getNumRubricCols(int questionNum) {
+        return getRubricRow(questionNum, 1).findElements(By.tagName("td")).size();
+    }
+
+    private void inputRubricDetails(int questionNum, FeedbackRubricQuestionDetails questionDetails) {
+        int numSubQn = questionDetails.getNumOfRubricSubQuestions();
+        int numChoices = questionDetails.getNumOfRubricChoices();
+        adjustNumRubricFields(questionNum, numSubQn, numChoices);
+
+        List<String> choices = questionDetails.getRubricChoices();
+        for (int i = 0; i < numChoices; i++) {
+            fillTextBox(getRubricChoiceInputs(questionNum).get(i), choices.get(i));
+        }
+
+        List<String> subQuestions = questionDetails.getRubricSubQuestions();
+        List<List<String>> descriptions = questionDetails.getRubricDescriptions();
+        for (int i = 0; i < numSubQn; i++) {
+            List<WebElement> textAreas = getRubricTextareas(questionNum, i + 2);
+            fillTextBox(textAreas.get(0), subQuestions.get(i));
+            for (int j = 0; j < numChoices; j++) {
+                if (descriptions.get(i).get(j).isEmpty()) {
+                    // using clear does not work here
+                    textAreas.get(j + 1).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+                    textAreas.get(j + 1).sendKeys(Keys.DELETE);
+                } else {
+                    fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
+                }
+            }
+        }
+
+        if (questionDetails.hasAssignedWeights()) {
+            markCheckBoxAsChecked(getWeightCheckbox(questionNum));
+            List<List<Double>> weights = questionDetails.getRubricWeights();
+            for (int i = 0; i < numSubQn; i++) {
+                for (int j = 0; j < numChoices; j++) {
+                    fillTextBox(getRubricWeights(questionNum, i + 2).get(j), getDoubleString(weights.get(i).get(j)));
+                }
+            }
+        } else {
+            markCheckBoxAsUnchecked(getWeightCheckbox(questionNum));
+        }
+    }
+
+    private void adjustNumRubricFields(int questionNum, int numSubQn, int numChoices) {
+        int numSubQnsNeeded = numSubQn - (getNumRubricRows(questionNum) - 2);
+        int numChoicesNeeded = numChoices - (getNumRubricCols(questionNum) - 1);
+        if (numSubQnsNeeded > 0) {
+            for (int i = 0; i < numSubQnsNeeded; i++) {
+                click(getQuestionForm(questionNum).findElement(By.id("btn-add-row")));
+            }
+        }
+        if (numChoicesNeeded > 0) {
+            for (int i = 0; i < numChoicesNeeded; i++) {
+                click(getQuestionForm(questionNum).findElement(By.id("btn-add-col")));
+            }
+        }
+        if (numSubQnsNeeded < 0) {
+            for (int i = 0; i < -numSubQnsNeeded; i++) {
+                click(getRubricDeleteSubQnBtn(questionNum, 2));
+            }
+        }
+        if (numChoicesNeeded < 0) {
+            for (int i = 0; i < -numChoicesNeeded; i++) {
+                clickAndConfirm(getRubricDeleteChoiceBtn(questionNum, 2));
+            }
+        }
     }
 }

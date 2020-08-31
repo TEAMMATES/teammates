@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -11,7 +12,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 
 /**
  * Represents the feedback submission page of the website.
@@ -38,6 +42,47 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyNumQuestions(int expected) {
         assertEquals(browser.driver.findElements(By.tagName("tm-question-submission-form")).size(), expected);
+    }
+
+    public void verifyRubricQuestion(int qnNumber, String recipient, FeedbackRubricQuestionDetails questionDetails) {
+        List<String> choices = questionDetails.getRubricChoices();
+        List<String> subQuestions = questionDetails.getRubricSubQuestions();
+        List<List<String>> descriptions = questionDetails.getRubricDescriptions();
+
+        String[][] expectedTable = new String[subQuestions.size() + 1][choices.size() + 1];
+        expectedTable[0][0] = "";
+        for (int i = 1; i <= choices.size(); i++) {
+            expectedTable[0][i] = choices.get(i - 1);
+        }
+        for (int i = 1; i <= subQuestions.size(); i++) {
+            expectedTable[i][0] = subQuestions.get(i - 1);
+        }
+        for (int i = 1; i <= descriptions.size(); i++) {
+            List<String> description = descriptions.get(i - 1);
+            for (int j = 1; j <= description.size(); j++) {
+                expectedTable[i][j] = description.get(j - 1);
+            }
+        }
+        verifyTableBodyValues(getRubricTable(qnNumber, recipient), expectedTable);
+    }
+
+    public void submitRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            click(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyRubricResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRubricResponseDetails responseDetails =
+                (FeedbackRubricResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswer();
+        for (int i = 0; i < answers.size(); i++) {
+            assertTrue(getRubricInputs(qnNumber, recipient, i + 2).get(answers.get(i)).isSelected());
+        }
     }
 
     private String getCourseId() {
@@ -102,5 +147,20 @@ public class FeedbackSubmitPage extends AppPage {
             }
             i++;
         }
+    }
+
+    private WebElement getRubricSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-rubric-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private WebElement getRubricTable(int qnNumber, String recipient) {
+        return getRubricSection(qnNumber, recipient).findElement(By.tagName("table"));
+    }
+
+    private List<WebElement> getRubricInputs(int qnNumber, String recipient, int rowNumber) {
+        WebElement rubricRow = getRubricSection(qnNumber, recipient).findElements(By.tagName("tr")).get(rowNumber - 1);
+        return rubricRow.findElements(By.tagName("input"));
     }
 }
