@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
@@ -21,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -521,6 +523,30 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
+    public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        if (questionDetails.isNotSureAllowed()) {
+            assertTrue(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
+        } else {
+            assertFalse(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
+        }
+    }
+
+    public void addContributionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(8);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackContributionQuestionDetails questionDetails =
+                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputContributionDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editContributionQuestion(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputContributionDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
     private String getCourseId() {
         return courseIdTextBox.getText();
     }
@@ -885,5 +911,17 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
         click(saveButton);
         waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getAllowNotSureConstributionCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("not-sure-checkbox"));
+    }
+
+    private void inputContributionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        if (questionDetails.isNotSureAllowed()) {
+            markCheckBoxAsChecked(getAllowNotSureConstributionCheckbox(questionNum));
+        } else {
+            markCheckBoxAsUnchecked(getAllowNotSureConstributionCheckbox(questionNum));
+        }
     }
 }

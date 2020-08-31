@@ -1,6 +1,8 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -11,7 +13,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.util.Const;
 
 /**
  * Represents the feedback submission page of the website.
@@ -40,6 +46,33 @@ public class FeedbackSubmitPage extends AppPage {
         assertEquals(browser.driver.findElements(By.tagName("tm-question-submission-form")).size(), expected);
     }
 
+    public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestionDetails questionDetails) {
+        try {
+            selectDropdownOptionByText(getContributionDropdowns(qnNumber).get(0), "Not Sure");
+            assertTrue(questionDetails.isNotSureAllowed());
+        } catch (NoSuchElementException e) {
+            assertFalse(questionDetails.isNotSureAllowed());
+        }
+    }
+
+    public void submitContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getResponseDetails();
+            selectDropdownOptionByText(dropdowns.get(i), getContributionString(response.getAnswer()));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getResponseDetails();
+            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(response.getAnswer()));
+        }
+    }
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
     }
@@ -101,6 +134,20 @@ public class FeedbackSubmitPage extends AppPage {
                 return i;
             }
             i++;
+        }
+    }
+
+    private List<WebElement> getContributionDropdowns(int questionNum) {
+        return getQuestionForm(questionNum).findElements(By.tagName("select"));
+    }
+
+    private String getContributionString(int answer) {
+        if (answer == Const.POINTS_NOT_SURE) {
+            return "Not Sure";
+        } else if (answer == Const.POINTS_EQUAL_SHARE) {
+            return "Equal share";
+        } else {
+            return "Equal share" + (answer > 100 ? " + " : " - ") + Math.abs(answer - 100) + "%";
         }
     }
 }
