@@ -129,6 +129,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
@@ -137,6 +138,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
         verifyPresentInDatastore(response);
     }
