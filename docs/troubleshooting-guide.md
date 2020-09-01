@@ -24,7 +24,7 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 ### Common test errors and solutions
 
-* **ERROR**: Encountered `java.net.ConnectException: Connection refused` when running some tests.
+* **ERROR**: Encountered `java.net.ConnectException: Connection refused` when running E2E tests.
 
   **SOLUTION**: Ensure that your dev server is started prior to running those tests.
 
@@ -51,10 +51,6 @@ Note that some of the screenshots might be outdated, but the instructions will r
 * **ERROR**: Tests fail due to accented characters.
 
   **SOLUTION**: Ensure that the text file encoding for your workspace has been set to `UTF-8` as specified under [Setting up guide](setting-up.md).
-
-* **ERROR**: `InstructorCourseDetailsPageUiTest` fails in production server due to Gmail's access restriction (e.g `javax.mail.AuthenticationFailedException`)
-
-  **SOLUTION**: ["Allow access for less secure apps"](https://support.google.com/accounts/answer/6010255?hl=en) for the accounts used in that particular test. As doing so will leave the accounts more vulnerable to security issues, it is strongly recommended that the access is revoked after the test passes.
 
 * **ERROR (on Linux)**: `java.io.IOException: Directory "/tmpfiles" could not be created`.
 

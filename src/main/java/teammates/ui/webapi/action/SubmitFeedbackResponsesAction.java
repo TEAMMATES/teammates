@@ -91,13 +91,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
         }
 
-        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
-
-        if (submitRequest.getResponses().isEmpty()) {
-            logic.deleteFeedbackResponsesForQuestion(feedbackQuestionId);
-            return new JsonResult(new FeedbackResponsesData(new ArrayList<>()));
-        }
-
         List<FeedbackResponseAttributes> existingResponses;
         Map<String, String> recipientsOfTheQuestion;
 
@@ -135,6 +128,8 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         List<FeedbackResponseAttributes> feedbackResponsesToValidate = new ArrayList<>();
         List<FeedbackResponseAttributes> feedbackResponsesToAdd = new ArrayList<>();
         List<FeedbackResponseAttributes.UpdateOptions> feedbackResponsesToUpdate = new ArrayList<>();
+
+        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
 
         submitRequest.getResponses().forEach(responseRequest -> {
             String recipient = responseRequest.getRecipient();
