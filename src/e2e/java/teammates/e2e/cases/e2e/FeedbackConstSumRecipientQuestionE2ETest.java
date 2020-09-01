@@ -121,6 +121,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);
 
         ______TS("edit response");
@@ -130,6 +131,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitConstSumRecipientResponse(1, responses);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);
         verifyPresentInDatastore(response);
         verifyPresentInDatastore(response2);
