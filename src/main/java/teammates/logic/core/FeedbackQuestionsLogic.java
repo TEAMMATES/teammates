@@ -417,7 +417,7 @@ public final class FeedbackQuestionsLogic {
                 teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
             }
             for (Map.Entry<String, List<StudentAttributes>> team : teamToTeamMembersTable.entrySet()) {
-                if (isInstructorGiver && instructorGiver.isAllowedForPrivilege(
+                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         team.getValue().iterator().next().getSection(),
                         question.getFeedbackSessionName(),
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
