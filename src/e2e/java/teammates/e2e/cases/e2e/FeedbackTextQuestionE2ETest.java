@@ -110,6 +110,7 @@ public class FeedbackTextQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
@@ -119,6 +120,7 @@ public class FeedbackTextQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitTextResponse(1, receiver.getName(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
         verifyPresentInDatastore(response);
     }
