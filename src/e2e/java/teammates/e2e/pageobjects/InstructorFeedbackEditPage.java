@@ -485,7 +485,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
             if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
+                markOptionAsSelected(cells.get(0).findElement(By.tagName("input")));
             }
         }
         clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
@@ -878,7 +878,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            markCheckBoxAsChecked(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
+            markOptionAsSelected(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
     }
 
