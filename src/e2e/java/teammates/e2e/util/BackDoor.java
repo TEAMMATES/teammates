@@ -37,6 +37,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -49,6 +50,7 @@ import teammates.ui.webapi.output.CourseData;
 import teammates.ui.webapi.output.CoursesData;
 import teammates.ui.webapi.output.FeedbackQuestionData;
 import teammates.ui.webapi.output.FeedbackQuestionsData;
+import teammates.ui.webapi.output.FeedbackResponseCommentData;
 import teammates.ui.webapi.output.FeedbackResponseData;
 import teammates.ui.webapi.output.FeedbackResponsesData;
 import teammates.ui.webapi.output.FeedbackSessionData;
@@ -620,7 +622,7 @@ public final class BackDoor {
      * Get feedback response from datastore.
      */
     public static FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
-                                                               String recipient) {
+                                                                 String recipient) {
         Map<String, String[]> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, new String[] { feedbackQuestionId });
         params.put(Const.ParamsNames.INTENT, new String[] { Intent.STUDENT_SUBMISSION.toString() });
@@ -641,8 +643,37 @@ public final class BackDoor {
             return null;
         }
 
-        return FeedbackResponseAttributes.builder(feedbackQuestionId, fr.getGiverIdentifier(), fr.getRecipientIdentifier())
+        FeedbackResponseAttributes responseAttr = FeedbackResponseAttributes
+                .builder(feedbackQuestionId, fr.getGiverIdentifier(), fr.getRecipientIdentifier())
                 .withResponseDetails(fr.getResponseDetails())
+                .build();
+        if (fr.getFeedbackResponseId() != null) {
+            responseAttr.setId(fr.getFeedbackResponseId());
+        }
+        return responseAttr;
+    }
+
+    /**
+     * Get feedback response comment from datastore.
+     */
+    public static FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+        Map<String, String[]> params = new HashMap<>();
+        params.put(Const.ParamsNames.FEEDBACK_RESPONSE_ID, new String[] { feedbackResponseId });
+        params.put(Const.ParamsNames.INTENT, new String[] { Intent.STUDENT_SUBMISSION.toString() });
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSE_COMMENT, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        FeedbackResponseCommentData frc = JsonUtils.fromJson(response.responseBody, FeedbackResponseCommentData.class);
+
+        if (frc == null) {
+            return null;
+        }
+
+        return FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver(frc.getCommentGiver())
+                .withCommentText(frc.getCommentText())
                 .build();
     }
 

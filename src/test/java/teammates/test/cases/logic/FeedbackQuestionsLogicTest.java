@@ -233,6 +233,18 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(recipients.containsKey(studentGiver.getTeam()));
         assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
 
+        ______TS("response to other teams from instructor");
+        question = getQuestionFromDatastore("team.instructor.feedback");
+        instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
+        courseRoster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
+                instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
+
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 2);
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, courseRoster);
+        assertEquals(recipients.size(), 2);
+
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatastore("team.feedback");
         studentGiver = dataBundle.students.get("student1InCourse1");
