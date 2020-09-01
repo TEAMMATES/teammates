@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header bg-primary text-white question-header">
-    <span><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
+    <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
   <div class="card-body">
@@ -8,12 +8,12 @@
       <div class="card-header">
         <b>More details</b>
       </div>
-      <div class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
+      <div id="question-description" class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
     </div>
 
     <div class="card-body visibility-card">
       <p class="text-secondary">Only the following persons can see your responses: </p>
-      <ul class="text-secondary">
+      <ul id="visibility-list" class="text-secondary">
         <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
         <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
           <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
@@ -118,7 +118,7 @@
                                                            [isDisabled]="isDisabled"></tm-constsum-recipients-question-edit-answer-form>
           </div>
 
-          <div *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
+          <div id="comment-section" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
             <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
               <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
                               [model]="recipientSubmissionFormModel.commentByGiver"
@@ -135,7 +135,7 @@
             </div>
             <ng-template #newComment>
               <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
-                <button *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
+                <button id="btn-add-comment" *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
                         (click)="addNewParticipantCommentToResponse(i)"
                         [disabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
                   <i class="fas fa-comment"></i> [Optional] Comment on your response

@@ -129,14 +129,22 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         });
     }
 
+    protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+        return BackDoor.getFeedbackResponseComment(feedbackResponseId);
+    }
+
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        throw new UnsupportedOperationException("Method not used");
+        return getFeedbackResponseComment(frc.feedbackResponseId);
+    }
+
+    protected FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
+        return BackDoor.getFeedbackResponse(feedbackQuestionId, giver, recipient);
     }
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {

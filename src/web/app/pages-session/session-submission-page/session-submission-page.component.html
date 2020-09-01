@@ -93,7 +93,7 @@
     </div>
     <div class="row" *ngIf="hasAnyResponseToSubmit">
       <div class="col-12 text-center">
-        <label><input type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
+        <label><input id="confirmation-email-checkbox" type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
       </div>
       <div class="col-12 text-center">
         <button id="btn-submit" type="submit" class="btn btn-success"

@@ -269,9 +269,7 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        By headerTag = By.tagName("h1");
-        waitForElementPresence(headerTag);
-        return browser.driver.findElement(headerTag).getText();
+        return waitForElementPresence(By.tagName("h1")).getText();
     }
 
     public void click(By by) {
@@ -405,24 +403,24 @@ public abstract class AppPage {
     }
 
     /**
-     * 'check' the check box, if it is not already 'checked'.
-     * No action taken if it is already 'checked'.
+     * Select the option, if it is not already selected.
+     * No action taken if it is already selected.
      */
-    protected void markCheckBoxAsChecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (!checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsSelected(WebElement option) {
+        waitForElementVisibility(option);
+        if (!option.isSelected()) {
+            click(option);
         }
     }
 
     /**
-     * 'uncheck' the check box, if it is not already 'unchecked'.
-     * No action taken if it is already 'unchecked'.
+     * Unselect the option, if it is not already unselected.
+     * No action taken if it is already unselected'.
      */
-    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsUnselected(WebElement option) {
+        waitForElementVisibility(option);
+        if (option.isSelected()) {
+            click(option);
         }
     }
 
