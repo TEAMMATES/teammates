@@ -114,6 +114,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
+        currentBrowser.waitForPageLoad();
         return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
