@@ -228,6 +228,9 @@ public class FeedbackSubmitPage extends AppPage {
     public void submitMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
         List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
         List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
         for (int i = 0; i < optionTexts.size(); i++) {
@@ -247,6 +250,9 @@ public class FeedbackSubmitPage extends AppPage {
     public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
         List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
         List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
         for (int i = 0; i < optionTexts.size(); i++) {

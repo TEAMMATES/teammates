@@ -121,8 +121,8 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
-        List<String> answers = Arrays.asList("Leadership", "Teamwork");
-        FeedbackResponseAttributes response = getResponse(questionId, receiver, "", answers);
+        List<String> answers = Arrays.asList("Leadership", "This is the other response.");
+        FeedbackResponseAttributes response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
         verifyPresentInDatastore(response);
@@ -133,8 +133,8 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
-        answers = Arrays.asList("Creativity", "This is the edited response.");
-        response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
+        answers = Arrays.asList("");
+        response = getResponse(questionId, receiver, "", answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
