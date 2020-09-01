@@ -299,7 +299,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
             if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
+                markOptionAsSelected(cells.get(0).findElement(By.tagName("input")));
             }
         }
         clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
@@ -833,16 +833,16 @@ public class InstructorFeedbackEditPage extends AppPage {
         for (FeedbackParticipantType participant : participants) {
             switch (participant) {
             case RECEIVER:
-                markCheckBoxAsChecked(rows.get(0).findElements(By.tagName("input")).get(index));
+                markOptionAsSelected(rows.get(0).findElements(By.tagName("input")).get(index));
                 break;
             case OWN_TEAM_MEMBERS:
-                markCheckBoxAsChecked(rows.get(1).findElements(By.tagName("input")).get(index));
+                markOptionAsSelected(rows.get(1).findElements(By.tagName("input")).get(index));
                 break;
             case STUDENTS:
-                markCheckBoxAsChecked(rows.get(2).findElements(By.tagName("input")).get(index));
+                markOptionAsSelected(rows.get(2).findElements(By.tagName("input")).get(index));
                 break;
             case INSTRUCTORS:
-                markCheckBoxAsChecked(rows.get(3).findElements(By.tagName("input")).get(index));
+                markOptionAsSelected(rows.get(3).findElements(By.tagName("input")).get(index));
                 break;
             default:
                 throw new IllegalArgumentException("Unknown FeedbackParticipantType");
