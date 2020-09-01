@@ -123,6 +123,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyRankOptionResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
@@ -130,6 +131,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitRankOptionResponse(1, receiver.getName(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyRankOptionResponse(1, receiver.getName(), response);
         verifyPresentInDatastore(response);
     }
