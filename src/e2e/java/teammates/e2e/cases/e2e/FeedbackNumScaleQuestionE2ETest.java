@@ -114,6 +114,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
 
         ______TS("edit response");
@@ -121,6 +122,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
         verifyPresentInDatastore(response);
     }
