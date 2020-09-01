@@ -24,6 +24,7 @@ import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.util.Const;
 
 /**
@@ -199,6 +200,35 @@ public class FeedbackSubmitPage extends AppPage {
                         Integer.toString(answers.get(i)));
             }
         }
+    }
+
+    public void submitRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackRankRecipientsResponseDetails response =
+                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getResponseDetails();
+            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(recipientDropdowns.get(i), "");
+            } else {
+                selectDropdownOptionByText(recipientDropdowns.get(i), Integer.toString(response.getAnswer()));
+            }
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackRankRecipientsResponseDetails response =
+                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getResponseDetails();
+            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
+            } else {
+                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)),
+                        Integer.toString(response.getAnswer()));
+            }
+        }
+        clickSubmitButton();
     }
 
     private String getCourseId() {
@@ -417,5 +447,9 @@ public class FeedbackSubmitPage extends AppPage {
     private List<WebElement> getRankOptionsDropdowns(int questionNum, String recipient) {
         WebElement rankSection = getRankOptionsSection(questionNum, recipient);
         return rankSection.findElements(By.tagName("select"));
+    }
+
+    private List<WebElement> getRankRecipientDropdowns(int questionNum) {
+        return getQuestionForm(questionNum).findElements(By.tagName("select"));
     }
 }
