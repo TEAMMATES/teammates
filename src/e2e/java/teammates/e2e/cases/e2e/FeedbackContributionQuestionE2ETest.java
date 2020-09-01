@@ -121,6 +121,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyContributionResponse(1, responses);
 
         ______TS("edit response");
@@ -131,6 +132,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitContributionResponse(1, responses);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyContributionResponse(1, responses);
         verifyPresentInDatastore(response);
         verifyPresentInDatastore(response2);
