@@ -200,10 +200,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getNameField(instructorIndex), newInstructor.name);
         fillTextBox(getEmailField(instructorIndex), newInstructor.email);
         if (newInstructor.isDisplayedToStudents) {
-            markCheckBoxAsChecked(getDisplayedToStudentCheckBox(instructorIndex));
+            markOptionAsSelected(getDisplayedToStudentCheckBox(instructorIndex));
             fillTextBox(getDisplayNameField(instructorIndex), newInstructor.displayedName);
         } else {
-            markCheckBoxAsUnchecked(getDisplayedToStudentCheckBox(instructorIndex));
+            markOptionAsUnselected(getDisplayedToStudentCheckBox(instructorIndex));
         }
         selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.role));
         clickSaveInstructorButton(instructorIndex);
@@ -225,10 +225,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getNameField(instrNum), instructor.name);
         fillTextBox(getEmailField(instrNum), instructor.email);
         if (instructor.isDisplayedToStudents) {
-            markCheckBoxAsChecked(getDisplayedToStudentCheckBox(instrNum));
+            markOptionAsSelected(getDisplayedToStudentCheckBox(instrNum));
             fillTextBox(getDisplayNameField(instrNum), instructor.displayedName);
         } else {
-            markCheckBoxAsUnchecked(getDisplayedToStudentCheckBox(instrNum));
+            markOptionAsUnselected(getDisplayedToStudentCheckBox(instrNum));
         }
         selectRoleForInstructor(instrNum, getRoleIndex(instructor.role));
         clickSaveInstructorButton(instrNum);

@@ -487,7 +487,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
             if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
+                markOptionAsSelected(cells.get(0).findElement(By.tagName("input")));
             }
         }
         clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
@@ -881,7 +881,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            markCheckBoxAsChecked(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
+            markOptionAsSelected(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
     }
 
@@ -991,18 +991,18 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void inputMaxOptions(int questionNum, int maxOptions) {
         if (maxOptions == Integer.MIN_VALUE) {
-            markCheckBoxAsUnchecked(getMaxOptionsCheckbox(questionNum));
+            markOptionAsUnselected(getMaxOptionsCheckbox(questionNum));
         } else {
-            markCheckBoxAsChecked(getMaxOptionsCheckbox(questionNum));
+            markOptionAsSelected(getMaxOptionsCheckbox(questionNum));
             fillTextBox(getMaxOptionsInput(questionNum), Integer.toString(maxOptions));
         }
     }
 
     private void inputMinOptions(int questionNum, int minOptions) {
         if (minOptions == Integer.MIN_VALUE) {
-            markCheckBoxAsUnchecked(getMinOptionsCheckbox(questionNum));
+            markOptionAsUnselected(getMinOptionsCheckbox(questionNum));
         } else {
-            markCheckBoxAsChecked(getMinOptionsCheckbox(questionNum));
+            markOptionAsSelected(getMinOptionsCheckbox(questionNum));
             fillTextBox(getMinOptionsInput(questionNum), Integer.toString(minOptions));
         }
     }
@@ -1017,9 +1017,9 @@ public class InstructorFeedbackEditPage extends AppPage {
             inputOptions(questionNum, optionDetails.getOptions());
         }
         if (questionDetails.areDuplicatesAllowed()) {
-            markCheckBoxAsChecked(getAllowDuplicateRankCheckbox(questionNum));
+            markOptionAsSelected(getAllowDuplicateRankCheckbox(questionNum));
         } else {
-            markCheckBoxAsUnchecked(getAllowDuplicateRankCheckbox(questionNum));
+            markOptionAsUnselected(getAllowDuplicateRankCheckbox(questionNum));
         }
         inputMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         inputMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
