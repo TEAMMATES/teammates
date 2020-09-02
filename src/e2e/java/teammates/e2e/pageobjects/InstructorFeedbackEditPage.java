@@ -810,7 +810,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void clickSaveQuestionButton(int questionNum) {
         WebElement saveButton = getQuestionForm(questionNum).findElement(By.id("btn-save-question"));
         click(saveButton);
-        waitForElementStaleness(saveButton);
+        ThreadHelper.waitFor(1000);
     }
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
