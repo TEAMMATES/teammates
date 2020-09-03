@@ -114,6 +114,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
+        currentBrowser.waitForPageLoad();
         return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
@@ -194,6 +195,7 @@ public abstract class AppPage {
     public void waitUntilAnimationFinish() {
         WebDriverWait wait = new WebDriverWait(browser.driver, 2);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
+        ThreadHelper.waitFor(500);
     }
 
     /**
@@ -394,12 +396,9 @@ public abstract class AppPage {
      */
     protected void writeToRichTextEditor(WebElement editor, String text) {
         waitForElementPresence(By.tagName("iframe"));
-        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
-        click(browser.driver.findElement(By.id("tinymce")));
-        browser.driver.switchTo().defaultContent();
-
-        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
-                + " tinyMCE.activeEditor.save()", text));
+        String id = editor.findElement(By.tagName("textarea")).getAttribute("id");
+        executeScript(String.format("tinyMCE.get('%s').setContent('%s');"
+                + " tinyMCE.get('%s').save()", id, text, id));
     }
 
     /**

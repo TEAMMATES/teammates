@@ -1046,6 +1046,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "questionDetails": {
+        "recommendedLength": 0,
         "questionType": "TEXT",
         "questionText": "Rate 1 other student's product"
       },
