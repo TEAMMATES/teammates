@@ -32,7 +32,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
-        searchPage.waitForPageToLoad();
         StudentAttributes student = testData.students.get("student1InCourse1");
         AccountAttributes studentAccount = testData.accounts.get("student1InCourse1");
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");

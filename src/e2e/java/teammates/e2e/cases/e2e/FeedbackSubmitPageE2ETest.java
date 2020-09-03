@@ -55,7 +55,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
         FeedbackSubmitPage submitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
 
         ______TS("verify loaded session data");
         submitPage.verifyFeedbackSessionDetails(openSession);
@@ -66,7 +65,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("questions with giver type students");
         submitPage = loginAdminToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
 
         submitPage.verifyNumQuestions(4);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn1InSession1"));
@@ -98,7 +96,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("can submit in grace period");
         AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
         submitPage = AppPage.getNewPageInstance(browser, gracePeriodSessionUrl, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
         String questionId = getFeedbackQuestion(question).getId();
         String recipient = "Team 2";
@@ -145,7 +142,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withParam("previewas", student.getEmail());
         submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
 
         submitPage.verifyFeedbackSessionDetails(openSession);
         submitPage.verifyNumQuestions(4);
@@ -162,7 +158,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withParam("previewas", instructor.getEmail());
         submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
 
         submitPage.verifyFeedbackSessionDetails(openSession);
         submitPage.verifyNumQuestions(1);
@@ -177,7 +172,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withParam("moderatedperson", student.getEmail())
                 .withParam("moderatedquestionId", questionId);
         submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        submitPage.waitForPageToLoad();
 
         submitPage.verifyFeedbackSessionDetails(gracePeriodSession);
         // One out of two questions in grace period session should not be visible
