@@ -10,6 +10,7 @@ import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.ScriptTimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -95,12 +96,16 @@ public class Browser {
      *         as criteria for page load's completion.
      */
     public void waitForPageLoad(boolean excludeToast) {
-        WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
-        wait.until(driver -> {
-            return "complete".equals(
-                    ((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT, excludeToast ? 1 : 0)
-            );
-        });
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
+            wait.until(driver -> {
+                return "complete".equals(
+                        ((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT, excludeToast ? 1 : 0)
+                );
+            });
+        } catch (ScriptTimeoutException e) {
+            System.out.println("Page could not load completely. Trying to continue test.");
+        }
     }
 
     /**

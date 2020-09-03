@@ -24,6 +24,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
@@ -523,6 +524,26 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
+    public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails questionDetails) {
+        String recommendLength = getRecommendedTextLengthField(questionNum).getAttribute("value");
+        assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
+    }
+
+    public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(2);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
+        fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
+        clickSaveNewQuestionButton();
+    }
+
+    public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        clickSaveQuestionButton(questionNum);
+    }
+
     public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
         if (questionDetails.isNotSureAllowed()) {
             assertTrue(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
@@ -838,7 +859,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void clickSaveQuestionButton(int questionNum) {
         WebElement saveButton = getQuestionForm(questionNum).findElement(By.id("btn-save-question"));
         click(saveButton);
-        waitForElementStaleness(saveButton);
+        ThreadHelper.waitFor(1000);
     }
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
@@ -911,6 +932,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
         click(saveButton);
         waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getRecommendedTextLengthField(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
     }
 
     private WebElement getAllowNotSureConstributionCheckbox(int questionNum) {
