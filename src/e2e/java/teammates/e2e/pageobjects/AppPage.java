@@ -114,6 +114,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
+        currentBrowser.waitForPageLoad();
         return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
@@ -194,6 +195,7 @@ public abstract class AppPage {
     public void waitUntilAnimationFinish() {
         WebDriverWait wait = new WebDriverWait(browser.driver, 2);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
+        ThreadHelper.waitFor(500);
     }
 
     /**
