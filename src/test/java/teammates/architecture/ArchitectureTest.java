@@ -38,10 +38,7 @@ public class ArchitectureTest {
     private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".output";
     private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".request";
 
-    private static final String TEST_PACKAGE = "teammates.test";
-
-    private static final String TEST_CASES_PACKAGE = TEST_PACKAGE + ".cases";
-    private static final String TEST_DRIVER_PACKAGE = TEST_PACKAGE + ".driver";
+    private static final String TEST_DRIVER_PACKAGE = "teammates.test";
 
     private static final String E2E_PACKAGE = "teammates.e2e";
 
@@ -53,6 +50,8 @@ public class ArchitectureTest {
     private static final String CLIENT_REMOTEAPI_PACKAGE = CLIENT_PACKAGE + ".remoteapi";
     private static final String CLIENT_SCRIPTS_PACKAGE = CLIENT_PACKAGE + ".scripts";
     private static final String CLIENT_UTIL_PACKAGE = CLIENT_PACKAGE + ".util";
+
+    private static final String TEST_FILE_SUFFIX = "Test";
 
     private static String includeSubpackages(String pack) {
         return pack + "..";
@@ -198,11 +197,15 @@ public class ArchitectureTest {
             if ("DataBundleLogic".equals(logicClassName)) {
                 continue;
             }
+            if (logicClassName.endsWith(TEST_FILE_SUFFIX)) {
+                continue;
+            }
             String dbClassName = logicClassName.replace("Logic", "Db");
 
             noClasses()
                     .that().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
                     .and().doNotHaveSimpleName(logicClassName)
+                    .and().doNotHaveSimpleName(logicClassName + TEST_FILE_SUFFIX)
                     .and().doNotHaveSimpleName("DataBundleLogic")
                     .should()
                     .accessClassesThat(new DescribedPredicate<JavaClass>("") {
@@ -244,63 +247,54 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_common_assumptionClassCanOnlyBeAccessedByProductionCode() {
-        noClasses().that().resideInAPackage(includeSubpackages(TEST_PACKAGE))
+        noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
                 .and().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .and().resideInAPackage(includeSubpackages(CLIENT_PACKAGE))
+                .should().accessClassesThat().haveSimpleName("Assumption")
+                .check(ALL_CLASSES);
+
+        noClasses().that().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
                 .should().accessClassesThat().haveSimpleName("Assumption")
                 .check(ALL_CLASSES);
     }
 
     @Test
     public void testArchitecture_testClasses_testCasesShouldBeIndependent() {
-        noClasses().that(new DescribedPredicate<JavaClass>("") {
-            @Override
-            public boolean apply(JavaClass input) {
-                return input.getPackageName().startsWith(TEST_CASES_PACKAGE) && !input.isInnerClass();
-            }
-        }).should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
-            @Override
-            public boolean apply(JavaClass input) {
-                return input.getPackageName().startsWith(TEST_CASES_PACKAGE)
-                        && !input.getSimpleName().startsWith("Base")
-                        && !input.isInnerClass();
-            }
-        }).check(forClasses(TEST_CASES_PACKAGE));
-    }
-
-    @Test
-    public void testArchitecture_testClasses_onlySomeTestClassesCanAccessEntities() {
-        noClasses().that().resideInAPackage(includeSubpackages(TEST_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".datatransfer"))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".storage"))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .check(forClasses(TEST_PACKAGE, STORAGE_ENTITY_PACKAGE));
-    }
-
-    @Test
-    public void testArchitecture_testClasses_onlySomeTestClassesCanAccessLogic() {
-        noClasses().that().resideInAPackage(includeSubpackages(TEST_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".storage"))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".logic"))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".webapi"))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".search"))
-                .and().doNotHaveSimpleName("BaseComponentTestCase")
-                .and().doNotHaveSimpleName("BaseTestCaseWithMinimalGaeEnvironment")
-                .should().accessClassesThat().haveSimpleName("GaeSimulation")
-                .orShould().accessClassesThat().haveSimpleName("Logic")
-                .check(ALL_CLASSES);
+        noClasses().that().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
+                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getSimpleName().endsWith(TEST_FILE_SUFFIX)
+                                && !input.getSimpleName().startsWith("Base");
+                    }
+                }).check(ALL_CLASSES);
     }
 
     @Test
     public void testArchitecture_testClasses_driverShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
+                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
+                .should().accessClassesThat().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
+                .check(forClasses(TEST_DRIVER_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
                 .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
                     @Override
                     public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(TEST_PACKAGE)
-                                && !input.getPackageName().equals(TEST_DRIVER_PACKAGE);
+                        return input.getPackageName().startsWith(STORAGE_PACKAGE)
+                                && !"OfyHelper".equals(input.getSimpleName());
                     }
-                }).check(forClasses(TEST_PACKAGE));
+                })
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !"Action".equals(input.getSimpleName())
+                                && !"ActionFactory".equals(input.getSimpleName());
+                    }
+                })
+                .check(forClasses(TEST_DRIVER_PACKAGE));
     }
 
     @Test
