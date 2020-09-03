@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.test.driver.UrlExtension;
+import teammates.common.util.UrlExtension;
 
 /**
  * Represents properties in test.properties file.

@@ -3,13 +3,16 @@
 <suite name="component-tests">
     <test name="component-tests">
         <packages>
-            <package name="teammates.test.cases.storage" />
-            <package name="teammates.test.cases.search" />
-            <package name="teammates.test.cases.datatransfer" />
-            <package name="teammates.test.cases.testdriver" />
-            <package name="teammates.test.cases.util" />
-            <package name="teammates.test.cases.logic" />
-            <package name="teammates.test.cases.webapi" />
+            <package name="teammates.test" />
+            <package name="teammates.common.datatransfer.attributes" />
+            <package name="teammates.common.datatransfer.questions" />
+            <package name="teammates.common.datatransfer" />
+            <package name="teammates.common.util" />
+            <package name="teammates.storage.api" />
+            <package name="teammates.storage.search" />
+            <package name="teammates.logic.api" />
+            <package name="teammates.logic.core" />
+            <package name="teammates.ui.webapi" />
         </packages>
     </test>
 </suite>

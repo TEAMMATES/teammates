@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.AppUrl;
+import teammates.common.util.TimeHelperExtension;
 import teammates.e2e.cases.e2e.BaseE2ETestCase;
-import teammates.test.driver.TimeHelperExtension;
 
 /**
  * Base class for all legacy UI tests.

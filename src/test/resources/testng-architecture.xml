@@ -3,7 +3,7 @@
 <suite name="architecture-tests">
     <test name="architecture-tests">
         <packages>
-            <package name="teammates.test.cases.architecture" />
+            <package name="teammates.architecture" />
         </packages>
     </test>
 </suite>
