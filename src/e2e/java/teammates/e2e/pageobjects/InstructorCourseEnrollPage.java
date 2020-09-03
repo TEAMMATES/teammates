@@ -51,6 +51,7 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     public void clickToggleExistingStudentsHeader() {
         click(toggleExistingStudentsHeader);
+        waitUntilAnimationFinish();
     }
 
     public void clickEnrollButton() {
