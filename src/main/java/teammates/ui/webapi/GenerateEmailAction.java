@@ -13,10 +13,10 @@ import teammates.ui.output.EmailData;
 /**
  * Generate email content.
  */
-public class GenerateEmailAction extends AdminOnlyAction {
+class GenerateEmailAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String emailType = getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE);

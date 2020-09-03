@@ -12,7 +12,7 @@ import teammates.ui.output.StudentProfileData;
 /**
  * Get a student's profile by an instructor, a classmate of the student, or the student itself.
  */
-public class GetStudentProfileAction extends Action {
+class GetStudentProfileAction extends Action {
 
     private static final String MESSAGE_NOT_STUDENT_ACCOUNT = "You did not login as a student,"
             + " so you cannot view your profile";
@@ -20,12 +20,12 @@ public class GetStudentProfileAction extends Action {
             + " so you cannot access the profile.";
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (studentEmail == null || courseId == null) {
@@ -45,7 +45,7 @@ public class GetStudentProfileAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
 
         String studentId;
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);

@@ -25,7 +25,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String institute;
     public Instant createdAt;
 
-    AccountAttributes(String googleId) {
+    private AccountAttributes(String googleId) {
         this.googleId = googleId;
     }
 
@@ -257,10 +257,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

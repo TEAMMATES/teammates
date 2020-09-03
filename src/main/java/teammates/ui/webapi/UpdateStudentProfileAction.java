@@ -12,22 +12,22 @@ import teammates.ui.request.StudentProfileUpdateRequest;
 /**
  * Update a student's profile.
  */
-public class UpdateStudentProfileAction extends Action {
+class UpdateStudentProfileAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
         }
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
             return new JsonResult("You are not authorized to update this student's profile.",

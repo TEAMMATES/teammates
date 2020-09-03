@@ -12,22 +12,22 @@ import teammates.ui.request.CourseArchiveRequest;
 /**
  * Changes the archive status of a course.
  */
-public class ArchiveCourseAction extends Action {
+class ArchiveCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, userInfo.id),
                 logic.getCourse(idOfCourseToArchive));
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseArchiveRequest courseArchiveRequest = getAndValidateRequestBody(CourseArchiveRequest.class);

@@ -436,8 +436,7 @@ public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment
                 .withTeamName("team 1")
                 .build();
 
-        assertEquals("Student:name 1[email@email.com]" + System.lineSeparator(), sd.toString());
-        assertEquals("    Student:name 1[email@email.com]" + System.lineSeparator(), sd.toString(4));
+        assertEquals("Student:name 1[email@email.com]", sd.toString());
     }
 
     @Test

@@ -19,7 +19,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.StudentsDb;
 import teammates.test.AssertHelper;
 
 /**
@@ -208,11 +207,8 @@ public class StudentsLogicTest extends BaseLogicTest {
                 StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.course, "non-existent@email")
                         .withName("test")
                         .build();
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+        assertThrows(EntityDoesNotExistException.class,
                 () -> studentsLogic.updateStudentCascade(updateOptions));
-        assertEquals(
-                StudentsDb.ERROR_UPDATE_NON_EXISTENT + updateOptions,
-                ednee.getMessage());
 
         ______TS("check for InvalidParameters");
 

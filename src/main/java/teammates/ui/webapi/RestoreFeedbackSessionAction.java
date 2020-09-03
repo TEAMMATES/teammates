@@ -12,15 +12,15 @@ import teammates.ui.output.FeedbackSessionData;
 /**
  * Restore a feedback session from the recycle bin.
  */
-public class RestoreFeedbackSessionAction extends Action {
+class RestoreFeedbackSessionAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
@@ -32,7 +32,7 @@ public class RestoreFeedbackSessionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);

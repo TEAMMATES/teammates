@@ -10,22 +10,22 @@ import teammates.common.util.JsonUtils;
 /**
  * Deletes a data bundle from the DB.
  */
-public class DeleteDataBundleAction extends Action {
+class DeleteDataBundleAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.ALL_ACCESS;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
         logic.removeDataBundle(dataBundle);
         return new JsonResult("Data bundle successfully persisted.", HttpStatus.SC_OK);

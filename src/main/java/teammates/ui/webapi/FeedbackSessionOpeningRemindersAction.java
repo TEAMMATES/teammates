@@ -10,12 +10,12 @@ import teammates.common.util.Logger;
 /**
  * Cron job: schedules feedback session opening emails to be sent.
  */
-public class FeedbackSessionOpeningRemindersAction extends AdminOnlyAction {
+class FeedbackSessionOpeningRemindersAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
 
         for (FeedbackSessionAttributes session : sessions) {

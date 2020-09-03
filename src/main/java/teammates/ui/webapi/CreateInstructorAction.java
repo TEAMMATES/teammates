@@ -15,15 +15,15 @@ import teammates.ui.request.InstructorCreateRequest;
 /**
  * Action: adds another instructor to a course that already exists.
  */
-public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
+class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -40,7 +40,7 @@ public class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructorToAdd = extractCompleteInstructor(courseId);
 

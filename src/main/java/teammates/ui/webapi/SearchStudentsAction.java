@@ -16,15 +16,15 @@ import teammates.ui.output.StudentsData;
 /**
  * Action for searching for students.
  */
-public class SearchStudentsAction extends Action {
+class SearchStudentsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // Only instructors and admins can search for student
         if (!userInfo.isInstructor && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
@@ -71,7 +71,7 @@ public class SearchStudentsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         List<StudentAttributes> students;

@@ -36,12 +36,12 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String giverSection;
     public String recipientSection;
 
-    protected transient Instant createdAt;
-    protected transient Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private String feedbackResponseId;
 
-    FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
+    private FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
         this.feedbackQuestionId = feedbackQuestionId;
         this.giver = giver;
         this.recipient = recipient;
@@ -361,10 +361,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

@@ -11,10 +11,10 @@ import teammates.ui.output.TimeZonesData;
 /**
  * Action: get supported time zones.
  */
-public class GetTimeZonesAction extends AdminOnlyAction {
+class GetTimeZonesAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String tzVersion = ZoneRulesProvider.getVersions("UTC").firstKey();
         Instant now = Instant.now();
         Map<String, Integer> tzOffsets = new TreeMap<>();

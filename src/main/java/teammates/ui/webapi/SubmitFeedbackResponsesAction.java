@@ -31,15 +31,15 @@ import teammates.ui.request.Intent;
  * <p>This action is meant to completely overwrite the feedback responses that are previously attached to the
  * same feedback question.
  */
-public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
+class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
@@ -84,7 +84,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {

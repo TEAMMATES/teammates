@@ -32,7 +32,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         loginAsAdmin();
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
@@ -119,12 +119,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
     }
 
     @Test
-    public void testGenerateNextDemoCourseId() throws Exception {
+    public void testGenerateNextDemoCourseId() {
         testGenerateNextDemoCourseIdForLengthLimit(40);
         testGenerateNextDemoCourseIdForLengthLimit(20);
     }
 
-    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) throws Exception {
+    private void testGenerateNextDemoCourseIdForLengthLimit(int maximumIdLength) {
         String normalIdSuffix = ".gma-demo";
         String atEmail = "@gmail.tmt";
         int normalIdSuffixLength = normalIdSuffix.length(); // 9
@@ -159,12 +159,9 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                         maximumIdLength));
     }
 
-    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength)
-            throws Exception {
+    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         CreateAccountAction a = new CreateAccountAction();
-        return (String) invokeMethod(a.getClass(), "generateNextDemoCourseId",
-                new Class<?>[] { String.class, int.class },
-                a, new Object[] { instructorEmailOrProposedCourseId, maximumIdLength });
+        return a.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
     }
 
     private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {

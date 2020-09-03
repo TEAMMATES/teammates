@@ -132,7 +132,7 @@ public final class SanitizationHelper {
      *
      * @return recovered string
      */
-    public static String desanitizeFromHtml(String sanitizedString) {
+    static String desanitizeFromHtml(String sanitizedString) {
 
         if (sanitizedString == null) {
             return null;

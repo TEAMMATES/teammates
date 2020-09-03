@@ -13,7 +13,7 @@ import teammates.common.util.Const;
 /**
  * Abstract action: updates an instructor's privileges.
  */
-public abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
+abstract class UpdateInstructorPrivilegesAbstractAction extends Action {
 
     /**
      * Updates section and session level privileges for the instructor.

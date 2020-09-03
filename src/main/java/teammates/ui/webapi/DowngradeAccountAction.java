@@ -9,10 +9,10 @@ import teammates.common.util.Const;
 /**
  * Action: downgrades an instructor account to student account.
  */
-public class DowngradeAccountAction extends AdminOnlyAction {
+class DowngradeAccountAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         try {

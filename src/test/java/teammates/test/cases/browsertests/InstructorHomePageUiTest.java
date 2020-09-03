@@ -165,7 +165,7 @@ public class InstructorHomePageUiTest extends BaseLegacyUiTestCase {
         // update current instructor for CS1101 to have Co-owner privileges
         InstructorAttributes instructor = testData.instructors.get("CHomeUiT.instr.CS1101");
         BackDoor.deleteInstructor(instructor.courseId, instructor.email);
-        instructor.privileges.setDefaultPrivilegesForCoowner();
+        // instructor.privileges.setDefaultPrivilegesForCoowner();
         BackDoor.createInstructor(instructor);
     }
 

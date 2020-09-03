@@ -13,15 +13,15 @@ import teammates.ui.output.HasResponsesData;
  * Checks whether a course or question has responses for instructor.
  * Checks whether a student has responded a feedback session.
  */
-public class GetHasResponsesAction extends Action {
+class GetHasResponsesAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
 
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
@@ -64,7 +64,7 @@ public class GetHasResponsesAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (entityType.equals(Const.EntityType.INSTRUCTOR)) {

@@ -111,7 +111,7 @@ public class InstructorStudentListPageUiTest extends BaseLegacyUiTestCase {
 
         // update current instructor privileges
         BackDoor.deleteInstructor(instructorWith2Courses.courseId, instructorWith2Courses.email);
-        instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
+        // instructorWith2Courses.privileges.setDefaultPrivilegesForCoowner();
         BackDoor.createInstructor(instructorWith2Courses);
 
         viewPage = loginAdminToPageOld(viewPageUrl, InstructorStudentListPage.class);

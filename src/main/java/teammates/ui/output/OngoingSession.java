@@ -42,7 +42,7 @@ public class OngoingSession {
     /**
      * Gets the status for a feedback session to be displayed to the user.
      */
-    public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
+    private String getSessionStatusForShow(FeedbackSessionAttributes fs) {
         List<String> status = new ArrayList<>();
 
         if (fs.isClosed()) {

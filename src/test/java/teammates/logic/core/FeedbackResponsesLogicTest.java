@@ -24,7 +24,6 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.AssertHelper;
 
 /**
@@ -183,14 +182,11 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("failure: no such response");
 
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
+        assertThrows(EntityDoesNotExistException.class,
                 () -> frLogic.updateFeedbackResponseCascade(
                         FeedbackResponseAttributes.updateOptionsBuilder("non-existent")
                                 .withGiver("random")
                                 .build()));
-        AssertHelper.assertContains(
-                FeedbackResponsesDb.ERROR_UPDATE_NON_EXISTENT,
-                ednee.getMessage());
     }
 
     @Test

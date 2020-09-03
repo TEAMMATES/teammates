@@ -49,7 +49,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     }
 
     @Override
-    protected void prepareData() {
+    void prepareData() {
         if (comment == null) {
             return;
         }
@@ -133,7 +133,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     }
 
     @Override
-    public Document toDocument() {
+    Document toDocument() {
 
         // populate related Students/Instructors information
         StringBuilder relatedPeopleBuilder = new StringBuilder("");

@@ -20,13 +20,13 @@ import teammates.ui.output.OngoingSessionsData;
 /**
  * Gets the list of all ongoing sessions.
  */
-public class GetOngoingSessionsAction extends AdminOnlyAction {
+class GetOngoingSessionsAction extends AdminOnlyAction {
 
     private static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
     @Override
     @SuppressWarnings("PMD.PreserveStackTrace")
-    public JsonResult execute() {
+    JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
         long startTime;
         try {
