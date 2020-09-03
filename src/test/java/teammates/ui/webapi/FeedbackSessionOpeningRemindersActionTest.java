@@ -11,8 +11,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.request.SendEmailRequest;
 
 /**
@@ -20,9 +18,6 @@ import teammates.ui.request.SendEmailRequest;
  */
 public class FeedbackSessionOpeningRemindersActionTest
         extends BaseActionTest<FeedbackSessionOpeningRemindersAction> {
-
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -58,14 +53,14 @@ public class FeedbackSessionOpeningRemindersActionTest
         FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(2));
         session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3));
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());
         session1.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withStartTime(session1.getStartTime())
@@ -75,14 +70,14 @@ public class FeedbackSessionOpeningRemindersActionTest
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(2));
         session2.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3));
         session2.setOpeningEmailEnabled(false);
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withStartTime(session2.getStartTime())
                         .withEndTime(session2.getEndTime())
                         .build());
         session2.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-23));
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withStartTime(session2.getStartTime())
@@ -94,7 +89,7 @@ public class FeedbackSessionOpeningRemindersActionTest
         // 5 students and 5 instructors in course1
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 20);
 
-        String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
+        String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
@@ -113,13 +108,13 @@ public class FeedbackSessionOpeningRemindersActionTest
         ______TS("2 sessions opened with emails sent");
 
         session1.setSentOpenEmail(true);
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withSentOpenEmail(session1.isSentOpenEmail())
                         .build());
         session2.setSentOpenEmail(true);
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withSentOpenEmail(session2.isSentOpenEmail())

@@ -20,11 +20,10 @@ import teammates.test.AssertHelper;
  */
 public class StudentSearchTest extends BaseSearchTest {
 
+    private StudentsDb studentsDb = new StudentsDb();
+
     @Test
     public void allTests() {
-
-        StudentsDb studentsDb = new StudentsDb();
-
         StudentAttributes stu1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes stu2InCourse1 = dataBundle.students.get("student2InCourse1");
         StudentAttributes stu1InCourse2 = dataBundle.students.get("student1InCourse2");
@@ -91,8 +90,6 @@ public class StudentSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchStudent_createNewStudent_studentShouldBeSearchable() throws Exception {
-
-        StudentsDb studentsDb = new StudentsDb();
         CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
 
         StudentSearchResultBundle bundle =
@@ -117,8 +114,6 @@ public class StudentSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchStudent_deleteAfterSearch_shouldNotBeSearchable() {
-        StudentsDb studentsDb = new StudentsDb();
-
         StudentAttributes stu1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes stu1InCourse2 = dataBundle.students.get("student1InCourse2");
         StudentAttributes stu1InCourse3 = dataBundle.students.get("student1InCourse3");

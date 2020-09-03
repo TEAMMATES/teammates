@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.StudentsLogic;
 import teammates.ui.output.JoinState;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.StudentData;
@@ -73,7 +72,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         gaeSimulation.logoutUser();
 
         StudentAttributes unregStudent =
-                StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
@@ -270,7 +269,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         ______TS("Unregistered Student - can access with key");
 
         StudentAttributes unregStudent =
-                StudentsLogic.inst().getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),

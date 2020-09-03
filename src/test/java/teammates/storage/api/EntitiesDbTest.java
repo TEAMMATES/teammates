@@ -20,11 +20,11 @@ import teammates.test.BaseComponentTestCase;
  */
 public class EntitiesDbTest extends BaseComponentTestCase {
 
+    // We are using CoursesDb to test EntitiesDb here.
+    private CoursesDb coursesDb = new CoursesDb();
+
     @Test
     public void testCreateEntity() throws Exception {
-        //We are using CoursesDb to test EntitiesDb here.
-        CoursesDb coursesDb = new CoursesDb();
-
         /*Explanation:
          * The SUT (i.e. EntitiesDb::createEntity) has 4 paths. Therefore, we
          * have 4 test cases here, one for each path.

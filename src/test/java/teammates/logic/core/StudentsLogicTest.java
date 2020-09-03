@@ -27,7 +27,9 @@ import teammates.test.AssertHelper;
  */
 public class StudentsLogicTest extends BaseLogicTest {
 
+    private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
@@ -230,11 +232,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToBeDeleted = dataBundle.feedbackResponses.get("response2ForQ2S2C1");
         FeedbackQuestionAttributes feedbackQuestionInDb =
-                logic.getFeedbackQuestion(responseToBeDeleted.feedbackSessionName,
+                fqLogic.getFeedbackQuestion(responseToBeDeleted.feedbackSessionName,
                         responseToBeDeleted.courseId,
                         Integer.parseInt(responseToBeDeleted.feedbackQuestionId));
         responseToBeDeleted =
-                logic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                         responseToBeDeleted.giver, responseToBeDeleted.recipient);
 
         // response exist
@@ -246,7 +248,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .build());
 
         responseToBeDeleted =
-                logic.getFeedbackResponse(feedbackQuestionInDb.getId(),
+                frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
                         responseToBeDeleted.giver, responseToBeDeleted.recipient);
 
         // response should not exist
@@ -268,7 +270,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("non-existent student");
 
         String nonExistentEmail = "non-existent@email";
-        assertNull(logic.getStudentForEmail(student1InCourse1.course, nonExistentEmail));
+        assertNull(studentsLogic.getStudentForEmail(student1InCourse1.course, nonExistentEmail));
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, nonExistentEmail));
@@ -509,7 +511,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentsLogic.deleteStudentCascade(student1InCourse2.getCourse(), student1InCourse2.getEmail());
         // there is only one student in the team
         assertEquals(1,
-                StudentsLogic.inst().getStudentsForTeam(student2InCourse2.getTeam(), student2InCourse2.getCourse()).size());
+                studentsLogic.getStudentsForTeam(student2InCourse2.getTeam(), student2InCourse2.getCourse()).size());
 
         // get the response from DB
         FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C2");
@@ -588,7 +590,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     public void testDeleteStudentsForGoogleIdCascade_typicalCase_shouldDoCascadeDeletion() {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
-        assertNotNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
         assertNotNull(student1InCourse1.googleId);
 
         // the student has response
@@ -602,7 +604,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentsLogic.deleteStudentsForGoogleIdCascade(student1InCourse1.googleId);
 
         // verify that the student is deleted
-        assertNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+        assertNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
 
         // his responses should also be deleted
         assertTrue(
@@ -620,7 +622,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // other students are not affected
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertNotNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
     }
 
     @Test
@@ -628,7 +630,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
         // there are students in the course
-        assertFalse(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        assertFalse(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
         // some have give responses
         assertFalse(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
@@ -640,9 +642,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         studentsLogic.deleteStudentsInCourseCascade(student1InCourse1.getCourse());
 
         // students are deleted
-        assertTrue(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        assertTrue(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
         // but course exist
-        assertNotNull(logic.getCourse(student1InCourse1.getCourse()));
+        assertNotNull(coursesLogic.getCourse(student1InCourse1.getCourse()));
         // their responses are gone
         assertTrue(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
@@ -659,9 +661,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         // the two are in different course
         assertNotEquals(student1InCourse1.getCourse(), student1InArchivedCourse.getCourse());
 
-        assertNotNull(logic.getStudentForEmail(student1InArchivedCourse.getCourse(), student1InArchivedCourse.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InArchivedCourse.getCourse(),
+                student1InArchivedCourse.getEmail()));
         // there are students in the course
-        assertFalse(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        assertFalse(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
 
         studentsLogic.deleteStudents(
                 AttributesDeletionQuery.builder()
@@ -669,9 +672,10 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .build());
 
         // students are deleted
-        assertTrue(logic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
+        assertTrue(studentsLogic.getStudentsForCourse(student1InCourse1.getCourse()).isEmpty());
         // students in other courses are not affected
-        assertNotNull(logic.getStudentForEmail(student1InArchivedCourse.getCourse(), student1InArchivedCourse.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InArchivedCourse.getCourse(),
+                student1InArchivedCourse.getEmail()));
     }
 
     @Test
@@ -680,11 +684,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // other students are not affected
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        assertNotNull(logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
+        assertNotNull(studentsLogic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail()));
     }
 
     @AfterClass
     public void classTearDown() {
-        AccountsLogic.inst().deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
+        accountsLogic.deleteAccountCascade(dataBundle.students.get("student4InCourse1").googleId);
     }
 }

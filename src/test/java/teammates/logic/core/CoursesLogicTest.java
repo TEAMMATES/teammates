@@ -20,9 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
 
 /**
@@ -30,10 +28,15 @@ import teammates.test.AssertHelper;
  */
 public class CoursesLogicTest extends BaseLogicTest {
 
+    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final CoursesDb coursesDb = new CoursesDb();
-    private static final AccountsDb accountsDb = new AccountsDb();
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -56,7 +59,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                         .withTimezone(ZoneId.of("UTC"))
                         .build());
 
-        List<FeedbackSessionAttributes> sessionsOfCourse = logic.getFeedbackSessionsForCourse(typicalCourse1.getId());
+        List<FeedbackSessionAttributes> sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
         assertFalse(sessionsOfCourse.isEmpty());
         assertTrue(sessionsOfCourse.stream().allMatch(s -> s.getTimeZone().equals(ZoneId.of("UTC"))));
     }
@@ -115,10 +118,10 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("omit archived courses");
 
-        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), true);
+        instructorsLogic.setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), true);
         courses = coursesLogic.getCoursesForInstructor(instructorId, true);
         assertEquals(1, courses.size());
-        InstructorsLogic.inst().setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), false);
+        instructorsLogic.setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), false);
 
         ______TS("boundary: instructor without any courses");
 
@@ -264,7 +267,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("course without students");
 
-        AccountsLogic.inst().createAccount(AccountAttributes.builder("instructor1")
+        accountsLogic.createAccount(AccountAttributes.builder("instructor1")
                 .withName("Instructor 1")
                 .withEmail("instructor@email.tmt")
                 .withInstitute("TEAMMATES Test Institute 1")
@@ -280,7 +283,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertEquals(0, teams.size());
 
         coursesLogic.deleteCourseCascade("course1");
-        accountsDb.deleteAccount("instructor1");
+        accountsLogic.deleteAccountCascade("instructor1");
 
         ______TS("non-existent");
 
@@ -411,7 +414,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .withInstitute("TEAMMATES Test Institute 5")
                 .build();
 
-        accountsDb.createEntity(a);
+        accountsLogic.createAccount(a);
         ae = assertThrows(AssertionError.class,
                 () -> coursesLogic.createCourseAndInstructor(i.googleId,
                         CourseAttributes.builder(c.getId())
@@ -424,11 +427,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during course creation");
 
-        accountsDb.updateAccount(
-                AccountAttributes.updateOptionsBuilder(a.googleId)
-                        .withIsInstructor(true)
-                        .build()
-        );
+        accountsLogic.makeAccountInstructor(a.googleId);
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")
@@ -459,7 +458,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .withName("Fresh course for tccai")
                 .withTimezone(ZoneId.of("UTC"))
                 .build();
-        instructorsDb.createEntity(i); //create a duplicate instructor
+        instructorsLogic.createInstructor(i); //create a duplicate instructor
 
         ae = assertThrows(AssertionError.class,
                 () -> coursesLogic.createCourseAndInstructor(i.googleId,
@@ -492,7 +491,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         i.email = "ins.for.iccai@gmail.tmt";
 
         //remove the duplicate instructor object from the datastore.
-        instructorsDb.deleteInstructor(i.courseId, i.email);
+        instructorsLogic.deleteInstructorCascade(i.courseId, i.email);
 
         coursesLogic.createCourseAndInstructor(i.googleId,
                 CourseAttributes.builder(courseWithDuplicateInstructor.getId())
@@ -595,7 +594,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
 
         // Ensure there are entities in the datastore under this course
-        assertFalse(StudentsLogic.inst().getStudentsForCourse(course1OfInstructor.getId()).isEmpty());
+        assertFalse(studentsLogic.getStudentsForCourse(course1OfInstructor.getId()).isEmpty());
 
         verifyPresentInDatastore(course1OfInstructor);
         verifyPresentInDatastore(studentInCourse);
@@ -608,15 +607,14 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         FeedbackResponseAttributes typicalResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes typicalQuestion =
-                FeedbackQuestionsLogic.inst()
-                        .getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
-                                Integer.parseInt(typicalResponse.feedbackQuestionId));
-        typicalResponse = FeedbackResponsesLogic.inst()
+                fqLogic.getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
+                        Integer.parseInt(typicalResponse.feedbackQuestionId));
+        typicalResponse = frLogic
                 .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.giver, typicalResponse.recipient);
         verifyPresentInDatastore(typicalResponse);
         FeedbackResponseCommentAttributes typicalComment =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
-        typicalComment = FeedbackResponseCommentsLogic.inst()
+        typicalComment = frcLogic
                 .getFeedbackResponseComment(typicalResponse.getId(),
                         typicalComment.commentGiver, typicalComment.createdAt);
         verifyPresentInDatastore(typicalComment);

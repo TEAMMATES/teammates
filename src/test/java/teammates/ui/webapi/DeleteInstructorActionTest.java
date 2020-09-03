@@ -7,15 +7,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.logic.core.InstructorsLogic;
 import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link DeleteInstructorAction}.
  */
 public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorAction> {
-
-    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -55,7 +52,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse2.courseId, instructor1OfCourse2.email));
+        assertNull(logic.getInstructorForEmail(instructor1OfCourse2.courseId, instructor1OfCourse2.email));
 
         ______TS("Typical case: instructor deletes another instructor by google id");
 
@@ -78,8 +75,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(instructorsLogic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
-        assertNotNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
+        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
+        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
 
     }
 
@@ -104,8 +101,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(instructorsLogic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
-        assertNotNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
+        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
+        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
     }
 
     @Test
@@ -130,7 +127,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(instructorsLogic.getInstructorForEmail(instructor4.courseId, instructor4.email));
+        assertNull(logic.getInstructorForEmail(instructor4.courseId, instructor4.email));
     }
 
     @Test
@@ -154,10 +151,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-
-        assertNull(instructorsLogic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
-        assertNotNull(instructorsLogic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
+        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
+        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
     }
 
     @Test
@@ -183,8 +178,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
 
-        assertNotNull(instructorsLogic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
-        assertNotNull(instructorsLogic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
+        assertNotNull(logic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
+        assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
     }
 
     @Test
@@ -211,8 +206,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
 
-        assertNotNull(instructorsLogic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
-        assertNotNull(instructorsLogic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
+        assertNotNull(logic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
+        assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
     }
 
     @Test
@@ -237,7 +232,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput messageOutput = (MessageOutput) response.getOutput();
 
         assertEquals("Instructor is successfully deleted.", messageOutput.getMessage());
-        assertNull(instructorsLogic.getInstructorForEmail(courseId, instructorToDelete.email));
+        assertNull(logic.getInstructorForEmail(courseId, instructorToDelete.email));
     }
 
     @Test

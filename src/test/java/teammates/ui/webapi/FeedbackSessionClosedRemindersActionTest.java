@@ -13,8 +13,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.request.SendEmailRequest;
 
 /**
@@ -22,9 +20,6 @@ import teammates.ui.request.SendEmailRequest;
  */
 public class FeedbackSessionClosedRemindersActionTest
         extends BaseActionTest<FeedbackSessionClosedRemindersAction> {
-
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -62,7 +57,7 @@ public class FeedbackSessionClosedRemindersActionTest
         session1.setTimeZone(ZoneId.of("UTC"));
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session1.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withTimeZone(session1.getTimeZone())
@@ -79,7 +74,7 @@ public class FeedbackSessionClosedRemindersActionTest
         session2.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session2.setEndTime(TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         session2.setClosingEmailEnabled(false);
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
                         .withTimeZone(session2.getTimeZone())
@@ -96,7 +91,7 @@ public class FeedbackSessionClosedRemindersActionTest
         session3.setTimeZone(ZoneId.of("UTC"));
         session3.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session3.setEndTime(Instant.now());
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session3.getFeedbackSessionName(), session3.getCourseId())
                         .withTimeZone(session3.getTimeZone())
@@ -112,7 +107,7 @@ public class FeedbackSessionClosedRemindersActionTest
         // 5 students and 5 instructors in course1
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
 
-        String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
+        String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
@@ -125,7 +120,7 @@ public class FeedbackSessionClosedRemindersActionTest
         ______TS("1 session closed recently with closed emails sent");
 
         session1.setSentClosedEmail(true);
-        fsLogic.updateFeedbackSession(
+        logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withSentClosedEmail(session1.isSentClosedEmail())

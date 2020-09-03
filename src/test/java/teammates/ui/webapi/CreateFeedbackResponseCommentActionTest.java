@@ -20,9 +20,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.FeedbackResponseCommentsLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.AssertHelper;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -240,7 +237,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     public void testExecute_publishedSessionForInstructorResult_shouldPass() throws Exception {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        FeedbackSessionsLogic.inst().publishFeedbackSession(session1InCourse1.getFeedbackSessionName(),
+        logic.publishFeedbackSession(session1InCourse1.getFeedbackSessionName(),
                 session1InCourse1.getCourseId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
@@ -286,10 +283,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     protected void testExecute_typicalCaseForSubmission_shouldPass() {
         // clean any existing comments.
-        FeedbackResponseCommentsLogic.inst().deleteFeedbackResponseComments(
+        logic.deleteFeedbackResponseComments(
                 AttributesDeletionQuery.builder().withResponseId(response1ForQ3.getId()).build());
         assertNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId()));
-        FeedbackResponseCommentsLogic.inst().deleteFeedbackResponseComments(
+        logic.deleteFeedbackResponseComments(
                 AttributesDeletionQuery.builder().withResponseId(response1ForQ1.getId()).build());
         assertNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ1.getId()));
 
@@ -598,8 +595,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
      * @return instructor comments
      */
     private List<FeedbackResponseCommentAttributes> getInstructorComments(String responseId, String commentText) {
-        FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-        return frcDb.getFeedbackResponseCommentsForResponse(responseId)
+        return logic.getFeedbackResponseCommentForResponse(responseId)
                 .stream()
                 .filter(comment -> comment.commentText.equals(commentText))
                 .collect(Collectors.toList());

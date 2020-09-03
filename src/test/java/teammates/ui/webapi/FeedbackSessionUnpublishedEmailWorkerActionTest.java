@@ -10,7 +10,6 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.CoursesLogic;
 import teammates.ui.request.SendEmailRequest;
 
 /**
@@ -18,8 +17,6 @@ import teammates.ui.request.SendEmailRequest;
  */
 public class FeedbackSessionUnpublishedEmailWorkerActionTest
         extends BaseActionTest<FeedbackSessionUnpublishedEmailWorkerAction> {
-
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -53,7 +50,7 @@ public class FeedbackSessionUnpublishedEmailWorkerActionTest
         // 5 students and 5 instructors in course1
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
 
-        String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
+        String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();

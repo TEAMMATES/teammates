@@ -25,8 +25,6 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.api.InstructorsDb;
-import teammates.storage.api.StudentsDb;
 import teammates.test.AssertHelper;
 
 /**
@@ -38,6 +36,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private static StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private DataBundle questionTypeBundle;
 
@@ -408,8 +408,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1");
 
         CourseRoster roster = new CourseRoster(
-                new StudentsDb().getStudentsForCourse(fq.courseId),
-                new InstructorsDb().getInstructorsForCourse(fq.courseId));
+                studentsLogic.getStudentsForCourse(fq.courseId),
+                instructorsLogic.getInstructorsForCourse(fq.courseId));
 
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.email, UserRole.INSTRUCTOR, true, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.email, UserRole.INSTRUCTOR, false, roster));

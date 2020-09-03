@@ -17,7 +17,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.InstructorsLogic;
 import teammates.test.AssertHelper;
 import teammates.test.BaseComponentTestCase;
 
@@ -35,6 +34,15 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
             instructorsDb.putEntity(instructor);
         }
+    }
+
+    private void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        instructorsDb.updateInstructorByGoogleId(
+                InstructorAttributes.updateOptionsWithGoogleIdBuilder(courseId, googleId)
+                        .withIsArchived(archiveStatus)
+                        .build()
+        );
     }
 
     @Test
@@ -150,7 +158,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
     public void testGetInstructorForRegistrationKey() {
 
         InstructorAttributes i = dataBundle.instructors.get("instructorNotYetJoinCourse");
-        i = logic.getInstructorById(i.getCourseId(), i.getEmail());
+        i = instructorsDb.getInstructorById(i.getCourseId(), i.getEmail());
 
         ______TS("Success: get an instructor");
 
@@ -193,10 +201,10 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Success: get instructors with specific googleId, with 1 archived course.");
 
-        InstructorsLogic.inst().setArchiveStatusOfInstructor(googleId, instructor1.courseId, true);
+        setArchiveStatusOfInstructor(googleId, instructor1.courseId, true);
         retrieved = instructorsDb.getInstructorsForGoogleId(googleId, true);
         assertEquals(1, retrieved.size());
-        InstructorsLogic.inst().setArchiveStatusOfInstructor(googleId, instructor1.courseId, false);
+        setArchiveStatusOfInstructor(googleId, instructor1.courseId, false);
 
         ______TS("Failure: instructor does not exist");
 

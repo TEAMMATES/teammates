@@ -32,6 +32,7 @@ import teammates.common.util.FieldValidator;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
+    private static AccountsLogic accountsLogic = AccountsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -126,7 +127,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatastore("team.feedback");
         email = dataBundle.students.get("student1InCourse1").email;
-        AccountsLogic.inst().makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
 
@@ -135,7 +136,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to nobody (general feedback)");
         question = getQuestionFromDatastore("qn3InSession1InCourse1");
         email = dataBundle.students.get("student1InCourse1").email;
-        AccountsLogic.inst().makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
@@ -144,7 +145,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to self");
         question = getQuestionFromDatastore("qn1InSession1InCourse1");
         email = dataBundle.students.get("student1InCourse1").email;
-        AccountsLogic.inst().makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
@@ -241,7 +242,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatastore("team.feedback");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -254,7 +255,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to nobody (general feedback)");
         question = getQuestionFromDatastore("qn3InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -269,7 +270,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("to self");
         question = getQuestionFromDatastore("qn1InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
-        AccountsLogic.inst().makeAccountInstructor(studentGiver.getGoogleId());
+        accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
@@ -575,7 +576,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
 
-        assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
+        assertNull(fqLogic.getFeedbackQuestion(typicalQuestion.getId()));
         // the responses and comments should gone
         assertTrue(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
         assertTrue(
@@ -585,7 +586,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         // verify that questions are shifted
         List<FeedbackQuestionAttributes> questionsOfSessions =
-                logic.getFeedbackQuestionsForSession(
+                fqLogic.getFeedbackQuestionsForSession(
                         typicalQuestion.getFeedbackSessionName(), typicalQuestion.getCourseId());
         for (int i = 1; i <= questionsOfSessions.size(); i++) {
             assertEquals(i, questionsOfSessions.get(i - 1).getQuestionNumber());

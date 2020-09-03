@@ -21,6 +21,8 @@ import teammates.test.AssertHelper;
 public class AccountsLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final AccountsDb accountsDb = new AccountsDb();
+    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -121,7 +123,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withComment("")
                 .build();
         studentsLogic.createStudent(studentData);
-        studentData = StudentsLogic.inst().getStudentForEmail(courseId,
+        studentData = studentsLogic.getStudentForEmail(courseId,
                 originalEmail);
         StudentAttributes finalStudent = studentData;
 
@@ -173,7 +175,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(studentData);
         assertEquals(
                 correctStudentId,
-                logic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
         ______TS("failure: already joined");
 
@@ -200,7 +202,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withComment("")
                 .build();
         studentsLogic.createStudent(studentData);
-        studentData = StudentsLogic.inst().getStudentForEmail(courseId,
+        studentData = studentsLogic.getStudentForEmail(courseId,
                 originalEmail);
 
         String encryptedKey = StringHelper.encrypt(studentData.key);
@@ -208,7 +210,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentData.googleId = correctStudentId;
         verifyPresentInDatastore(studentData);
         assertEquals(correctStudentId,
-                logic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
         // check that we have the corresponding new account created.
         accountData.googleId = correctStudentId;
@@ -230,12 +232,12 @@ public class AccountsLogicTest extends BaseLogicTest {
                         .build()
         );
         assertEquals("",
-                logic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
         // rejoin
-        logic.joinCourseForStudent(encryptedKey, correctStudentId);
+        accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
         assertEquals(correctStudentId,
-                logic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
         // check if still instructor
         assertTrue(accountsLogic.isAccountAnInstructor(correctStudentId));
@@ -274,7 +276,6 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor joined but Account object creation goes wrong");
 
         //Delete account to simulate Account object creation goes wrong
-        AccountsDb accountsDb = new AccountsDb();
         accountsDb.deleteAccount(loggedInGoogleId);
 
         //Try to join course again, Account object should be recreated
@@ -467,7 +468,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         verifyAbsentInDatastore(instructor);
         verifyAbsentInDatastore(student);
         // course is deleted because it is the last instructor of the course
-        assertNull(logic.getCourse(instructor.getCourseId()));
+        assertNull(coursesLogic.getCourse(instructor.getCourseId()));
     }
 
     @Test
@@ -481,7 +482,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.deleteAccountCascade(instructor1OfCourse1.getGoogleId());
 
         // course is not deleted
-        assertNotNull(logic.getCourse(instructor1OfCourse1.getCourseId()));
+        assertNotNull(coursesLogic.getCourse(instructor1OfCourse1.getCourseId()));
     }
 
     @Test
@@ -489,20 +490,20 @@ public class AccountsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
 
         assertNotNull(instructor5.getGoogleId());
-        logic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
+        instructorsLogic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
 
         // verify the instructor is the last instructor of a course
         assertEquals(1, instructorsLogic.getInstructorsForCourse(instructor5.getCourseId()).size());
 
         assertTrue(
-                logic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived);
+                instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived);
 
         accountsLogic.deleteAccountCascade(instructor5.getGoogleId());
 
         // the archived instructor is also deleted
-        assertNull(logic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()));
+        assertNull(instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()));
         // the course is also deleted
-        assertNull(logic.getCourse(instructor5.getCourseId()));
+        assertNull(coursesLogic.getCourse(instructor5.getCourseId()));
     }
 
     @Test
@@ -512,6 +513,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.deleteAccountCascade("not_exist");
 
         // other irrelevant instructors remain
-        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
+        assertNotNull(instructorsLogic.getInstructorForEmail(
+                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
     }
 }

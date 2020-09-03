@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
-import teammates.storage.api.CoursesDb;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -84,10 +83,8 @@ public class RestoreCourseActionTest
         };
         action = getAction(nonExistentCourse);
         result = getJsonResult(action);
-        message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(CoursesDb.ERROR_UPDATE_NON_EXISTENT, message.getMessage());
     }
 
     @Override

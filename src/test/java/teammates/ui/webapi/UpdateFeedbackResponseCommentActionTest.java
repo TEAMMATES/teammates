@@ -19,7 +19,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -325,7 +324,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        FeedbackSessionsLogic.inst().publishFeedbackSession(
+        logic.publishFeedbackSession(
                 comment1FromInstructor1Q2.feedbackSessionName, comment1FromInstructor1Q2.courseId);
 
         String[] submissionParams = new String[] {

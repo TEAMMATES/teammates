@@ -14,10 +14,6 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.StudentsLogic;
 import teammates.ui.request.SendEmailRequest;
 
 /**
@@ -25,11 +21,6 @@ import teammates.ui.request.SendEmailRequest;
  */
 public class FeedbackSessionRemindEmailWorkerActionTest
         extends BaseActionTest<FeedbackSessionRemindEmailWorkerAction> {
-
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -57,7 +48,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         // re-read from Datastore to update the respondents list
-        session1 = fsLogic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
+        session1 = logic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
 
         String[] submissionParams = new String[] {
                 ParamsNames.FEEDBACK_SESSION_NAME, session1.getFeedbackSessionName(),
@@ -75,7 +66,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
                 logic.getGiverSetThatAnswerFeedbackSession(session1.getCourseId(), session1.getFeedbackSessionName());
 
         List<String> studentRecipientList = new ArrayList<>();
-        for (StudentAttributes student : studentsLogic.getStudentsForCourse(session1.getCourseId())) {
+        for (StudentAttributes student : logic.getStudentsForCourse(session1.getCourseId())) {
             if (!giverSet.contains(student.getEmail())) {
                 studentRecipientList.add(student.getEmail());
             }
@@ -83,15 +74,15 @@ public class FeedbackSessionRemindEmailWorkerActionTest
 
         List<String> instructorRecipientList = new ArrayList<>();
         List<String> instructorNotifiedList = new ArrayList<>();
-        for (InstructorAttributes instructor : instructorsLogic.getInstructorsForCourse(session1.getCourseId())) {
+        for (InstructorAttributes instructor : logic.getInstructorsForCourse(session1.getCourseId())) {
             if (!giverSet.contains(instructor.getEmail())) {
                 instructorRecipientList.add(instructor.email);
             }
         }
-        instructorNotifiedList.add(instructorsLogic.getInstructorForGoogleId(session1.getCourseId(),
+        instructorNotifiedList.add(logic.getInstructorForGoogleId(session1.getCourseId(),
                 instructor1.getGoogleId()).email);
 
-        String courseName = coursesLogic.getCourse(session1.getCourseId()).getName();
+        String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();

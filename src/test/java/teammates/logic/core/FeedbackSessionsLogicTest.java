@@ -42,6 +42,7 @@ import teammates.test.AssertHelper;
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
@@ -641,7 +642,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     @Test
     public void testUpdateFeedbackSession_shouldAdjustEmailSendingStatusAccordingly() throws Exception {
-        FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes typicalSession = dataBundle.feedbackSessions.get("session1InCourse1");
 
         ______TS("open email sent, whether the updated session is open determines the open email sending status");

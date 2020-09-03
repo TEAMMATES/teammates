@@ -18,10 +18,11 @@ import teammates.test.AssertHelper;
  *      {@link teammates.storage.search.InstructorSearchQuery}.
  */
 public class InstructorSearchTest extends BaseSearchTest {
+
+    private InstructorsDb instructorsDb = new InstructorsDb();
+
     @Test
     public void allTests() throws Exception {
-        InstructorsDb instructorsDb = new InstructorsDb();
-
         InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes ins2InCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes helperInCourse1 = dataBundle.instructors.get("helperOfCourse1");
@@ -135,8 +136,6 @@ public class InstructorSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchInstructor_createNewInstructor_instructorShouldBeSearchable() throws Exception {
-
-        InstructorsDb instructorsDb = new InstructorsDb();
         CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
 
         InstructorSearchResultBundle bundle =
@@ -160,8 +159,6 @@ public class InstructorSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchInstructor_deleteAfterSearch_shouldNotBeSearchable() {
-        InstructorsDb instructorsDb = new InstructorsDb();
-
         InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");

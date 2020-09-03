@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.StudentsLogic;
 import teammates.ui.output.StudentProfileData;
 
 /**
@@ -102,7 +101,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
                 .withSectionName(student1InCourse1.getSection())
                 .withTeamName(student1InCourse1.getTeam())
                 .build();
-        StudentsLogic.inst().createStudent(unregisteredStudentInCourse1);
+        logic.createStudent(unregisteredStudentInCourse1);
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, unregisteredStudentInCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, unregisteredStudentInCourse1.getCourse(),

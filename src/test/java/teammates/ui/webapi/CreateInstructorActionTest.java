@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.InstructorsLogic;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.InstructorCreateRequest;
@@ -18,8 +17,6 @@ import teammates.ui.request.InstructorCreateRequest;
  * SUT: {@link CreateInstructorAction}.
  */
 public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorAction> {
-
-    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -60,9 +57,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        assertNotNull(instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail));
+        assertNotNull(logic.getInstructorForEmail(courseId, newInstructorEmail));
 
-        InstructorAttributes instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
+        InstructorAttributes instructorAdded = logic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, instructorAdded.email);
@@ -111,7 +108,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         ______TS("Masquerade mode: add an instructor");
 
-        instructorsLogic.deleteInstructorCascade(courseId, newInstructorEmail);
+        logic.deleteInstructorCascade(courseId, newInstructorEmail);
 
         loginAsAdmin();
         submissionParams = new String[] {
@@ -128,9 +125,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         response = (InstructorData) actionOutput.getOutput();
 
-        assertNotNull(instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail));
+        assertNotNull(logic.getInstructorForEmail(courseId, newInstructorEmail));
 
-        instructorAdded = instructorsLogic.getInstructorForEmail(courseId, newInstructorEmail);
+        instructorAdded = logic.getInstructorForEmail(courseId, newInstructorEmail);
         assertEquals(newInstructorName, instructorAdded.name);
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, instructorAdded.email);
@@ -158,6 +155,6 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
 
         // remove the newly added instructor
-        InstructorsLogic.inst().deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");
+        logic.deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");
     }
 }

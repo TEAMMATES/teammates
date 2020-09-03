@@ -31,6 +31,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
     private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static InstructorsDb instructorsDb = new InstructorsDb();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
+    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -291,9 +294,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     @Test
     public void testUpdateInstructorByGoogleIdCascade_shouldDoCascadeUpdateToCommentsAndResponses() throws Exception {
-        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-        FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
         InstructorAttributes instructorToBeUpdated = dataBundle.instructors.get("instructor1OfCourse1");
 
         instructorsLogic.updateInstructorByGoogleIdCascade(
@@ -503,15 +503,15 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InstructorAttributes instructorDeleted = instructorsLogic.getInstructorForEmail(courseId, email);
         assertNotNull(instructorDeleted);
         // the instructors has some responses in course
-        assertFalse(FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
-        assertFalse(FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
+        assertFalse(frLogic.getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
 
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
         verifyAbsentInDatastore(instructorDeleted);
         // there should be no response of the instructor
-        assertTrue(FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
-        assertTrue(FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
+        assertTrue(frLogic.getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
+        assertTrue(frLogic.getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
 
         ______TS("failure: null parameter");
 
@@ -561,11 +561,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor5 = dataBundle.instructors.get("instructor5");
 
         assertNotNull(instructor5.getGoogleId());
-        logic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
+        instructorsLogic.setArchiveStatusOfInstructor(instructor5.getGoogleId(), instructor5.getCourseId(), true);
 
         // this is an archived instructor
         assertTrue(
-                logic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived);
+                instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived);
 
         instructorsLogic.deleteInstructorsForGoogleIdCascade(instructor5.getGoogleId());
 
@@ -585,7 +585,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         // make instructor1OfCourse1 to have the same googleId with instructor1OfCourse2
-        logic.updateInstructor(
+        instructorsLogic.updateInstructorByEmail(
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
                         .withGoogleId(instructor1OfCourse2.getGoogleId())
@@ -597,11 +597,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         // instructor1OfCourse1 has some responses in course
         assertFalse(
-                FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
                 .isEmpty());
         assertFalse(
-                FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
                 .isEmpty());
 
@@ -621,11 +621,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
         // instructor1OfCourse1's responses should be deleted also
         assertTrue(
-                FeedbackResponsesLogic.inst().getFeedbackResponsesFromGiverForCourse(
+                frLogic.getFeedbackResponsesFromGiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
                 .isEmpty());
         assertTrue(
-                FeedbackResponsesLogic.inst().getFeedbackResponsesForReceiverForCourse(
+                frLogic.getFeedbackResponsesForReceiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
                 .isEmpty());
         assertNull(instructorsLogic.getInstructorForEmail(

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -17,8 +16,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.retry.RetryableTask;
-import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
 
 /**
  * SUT: {@link FeedbackResponseCommentsDb},
@@ -27,14 +28,10 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
  */
 public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
-    private FeedbackSessionsLogic feedbackSessionsLogic;
-    private FeedbackResponseCommentsDb commentsDb;
-
-    @BeforeClass
-    public void classSetup() {
-        feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-        commentsDb = new FeedbackResponseCommentsDb();
-    }
+    private FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private FeedbackResponseCommentsDb commentsDb = new FeedbackResponseCommentsDb();
+    private FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
 
     @Test
     public void allTests() throws Exception {
@@ -124,9 +121,9 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         verifySearchResults(bundle, frc1I3Q1S2C2);
 
         // session soft-deleted
-        feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
-        assertNotNull(feedbackSessionsLogic
-                .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
+        fsDb.softDeleteFeedbackSession(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
+        assertNotNull(fsDb
+                .getSoftDeletedFeedbackSession(frc1I3Q1S2C2.courseId, frc1I3Q1S2C2.feedbackSessionName));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         assertEquals(0, bundle.comments.size());
         assertEquals(0, bundle.responses.size());
@@ -134,9 +131,9 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
         assertEquals(0, bundle.sessions.size());
 
         // session deleted completely
-        feedbackSessionsLogic.deleteFeedbackSessionCascade(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
-        assertNull(feedbackSessionsLogic
-                .getFeedbackSessionFromRecycleBin(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId));
+        fsDb.deleteFeedbackSession(frc1I3Q1S2C2.feedbackSessionName, frc1I3Q1S2C2.courseId);
+        assertNull(fsDb
+                .getSoftDeletedFeedbackSession(frc1I3Q1S2C2.courseId, frc1I3Q1S2C2.feedbackSessionName));
         bundle = commentsDb.search("\"Instructor 3 comment to instr1C2 response to student1C2\"", instructors);
         assertEquals(0, bundle.comments.size());
         assertEquals(0, bundle.responses.size());
@@ -146,25 +143,23 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchComment_createNewComment_commentShouldBeSearchable() throws Exception {
-
-        FeedbackResponseCommentsDb feedbackResponseCommentsDb = new FeedbackResponseCommentsDb();
         InstructorAttributes instructor3OfCourse1 = dataBundle.instructors.get("instructor3OfCourse1");
         FeedbackResponseAttributes response1ForQ1S1C1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         // get response1ForQ1S1C1 from the datastore
         FeedbackQuestionAttributes correspondingQuestion =
-                logic.getFeedbackQuestion(response1ForQ1S1C1.getFeedbackSessionName(),
+                fqDb.getFeedbackQuestion(response1ForQ1S1C1.getFeedbackSessionName(),
                         response1ForQ1S1C1.getCourseId(), Integer.parseInt(response1ForQ1S1C1.getFeedbackQuestionId()));
-        response1ForQ1S1C1 = logic.getFeedbackResponse(correspondingQuestion.getId(),
+        response1ForQ1S1C1 = frDb.getFeedbackResponse(correspondingQuestion.getId(),
                 response1ForQ1S1C1.getGiver(), response1ForQ1S1C1.getRecipient());
         assertNotNull(response1ForQ1S1C1);
 
         FeedbackResponseCommentSearchResultBundle bundle =
-                feedbackResponseCommentsDb.search("commentABCDE", Arrays.asList(instructor3OfCourse1));
+                commentsDb.search("commentABCDE", Arrays.asList(instructor3OfCourse1));
 
         assertEquals(0, bundle.numberOfResults);
 
         // create a new comment
-        feedbackResponseCommentsDb.createEntity(
+        commentsDb.createEntity(
                 FeedbackResponseCommentAttributes.builder()
                         .withCourseId(response1ForQ1S1C1.getCourseId())
                         .withFeedbackSessionName(response1ForQ1S1C1.getFeedbackSessionName())
@@ -182,7 +177,7 @@ public class FeedbackResponseCommentSearchTest extends BaseSearchTest {
                         .build());
 
         // the newly created comment is searchable
-        bundle = feedbackResponseCommentsDb.search("commentABCDE", Arrays.asList(instructor3OfCourse1));
+        bundle = commentsDb.search("commentABCDE", Arrays.asList(instructor3OfCourse1));
         assertEquals(1, bundle.numberOfResults);
         assertEquals("commentABCDE",
                 bundle.comments.get(response1ForQ1S1C1.getId()).get(0).getCommentText());

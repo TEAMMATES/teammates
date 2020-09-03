@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.CoursesLogic;
 import teammates.test.AssertHelper;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.MessageOutput;
@@ -15,7 +14,6 @@ import teammates.ui.request.CourseCreateRequest;
  * SUT: {@link CreateCourseAction}.
  */
 public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -46,8 +44,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("new-course");
 
-        if (coursesLogic.isCoursePresent("new-course")) {
-            CoursesLogic.inst().deleteCourseCascade("new-course");
+        if (logic.getCourse("new-course") != null) {
+            logic.deleteCourseCascade("new-course");
         }
 
         loginAsInstructor(instructorId);
@@ -60,7 +58,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         assertEquals(courseData.getTimeZone(), "UTC");
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertTrue(coursesLogic.isCoursePresent("new-course"));
+        assertNotNull(logic.getCourse("new-course"));
 
         ______TS("Typical case with existing course id");
 

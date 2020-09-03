@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
-import teammates.logic.core.InstructorsLogic;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
 
@@ -52,7 +51,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         JsonResult result = getJsonResult(archiveCourseAction);
         CourseArchiveData courseArchiveData = (CourseArchiveData) result.getOutput();
 
-        InstructorAttributes theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+        InstructorAttributes theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -67,7 +66,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(archiveCourseAction);
         courseArchiveData = (CourseArchiveData) result.getOutput();
 
-        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+        theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -82,7 +81,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(unarchiveAction);
         courseArchiveData = (CourseArchiveData) result.getOutput();
 
-        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),
+        theInstructor = logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),
                 instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -97,7 +96,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(unarchiveAction);
         courseArchiveData = (CourseArchiveData) result.getOutput();
 
-        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+        theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -113,7 +112,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         result = getJsonResult(archiveCourseAction);
         courseArchiveData = (CourseArchiveData) result.getOutput();
 
-        theInstructor = InstructorsLogic.inst().getInstructorForGoogleId(
+        theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());

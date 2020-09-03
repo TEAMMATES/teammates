@@ -12,8 +12,6 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
-import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.CoursesLogic;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -21,8 +19,6 @@ import teammates.ui.request.StudentUpdateRequest;
  * SUT: {@link UpdateStudentAction}.
  */
 public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction> {
-
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -81,7 +77,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verifyNumberOfEmailsSent(updateAction, 1);
 
         EmailWrapper email = getEmailsSent(updateAction).get(0);
-        String courseName = coursesLogic.getCourse(instructor1OfCourse1.courseId).getName();
+        String courseName = logic.getCourse(instructor1OfCourse1.courseId).getName();
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 instructor1OfCourse1.courseId), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
@@ -153,8 +149,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals("Trying to update to an email that is already in use", invalidParamsOutput.getMessage());
 
         // deleting edited student
-        AccountsLogic.inst().deleteAccountCascade(student2InCourse1.googleId);
-        AccountsLogic.inst().deleteAccountCascade(student1InCourse1.googleId);
+        logic.deleteAccountCascade(student2InCourse1.googleId);
+        logic.deleteAccountCascade(student1InCourse1.googleId);
 
         ______TS("Error case, student does not exist");
 

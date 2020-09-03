@@ -23,17 +23,17 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.retry.RetryManager;
-import teammates.logic.api.Logic;
+import teammates.logic.api.LogicExtension;
 
 /**
  * Base class for all component tests.
- * It runs a simulated Datastore ({@link GaeSimulation}) which can be accessed via {@link Logic}.
+ * It runs a simulated Datastore ({@link GaeSimulation}) which can be accessed via {@link LogicExtension}.
  */
 @Test(singleThreaded = true) // GaeSimulation is not thread safe
 public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
-    protected static final Logic logic = new Logic();
+    protected static final LogicExtension logic = new LogicExtension();
 
     @Override
     @BeforeClass

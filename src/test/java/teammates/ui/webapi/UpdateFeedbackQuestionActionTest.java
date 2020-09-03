@@ -18,7 +18,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
@@ -206,12 +205,11 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("contribSession");
         FeedbackQuestionAttributes fq =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), 1);
-        FeedbackResponsesDb frDb = new FeedbackResponsesDb();
 
         ______TS("Edit text won't delete response");
 
         // There are already responses for this question
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        assertFalse(logic.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         FeedbackQuestionUpdateRequest updateRequest = getTypicalContributionQuestionUpdateRequest();
         updateRequest.setQuestionNumber(fq.getQuestionNumber());
@@ -228,7 +226,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         // All existing responses should remain
-        assertFalse(frDb.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
+        assertFalse(logic.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         ______TS("Edit: Invalid recipient type");
 

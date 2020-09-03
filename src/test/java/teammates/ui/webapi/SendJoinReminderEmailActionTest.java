@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.StudentsLogic;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -105,12 +104,12 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 .withTeamName("Team Unregistered")
                 .withComment("")
                 .build();
-        StudentsLogic.inst().createStudent(unregisteredStudent1);
-        StudentsLogic.inst().createStudent(unregisteredStudent2);
+        logic.createStudent(unregisteredStudent1);
+        logic.createStudent(unregisteredStudent2);
 
         /* Reassign the attributes to retrieve their keys */
-        unregisteredStudent1 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent1.email);
-        unregisteredStudent2 = StudentsLogic.inst().getStudentForEmail(courseId, unregisteredStudent2.email);
+        unregisteredStudent1 = logic.getStudentForEmail(courseId, unregisteredStudent1.email);
+        unregisteredStudent2 = logic.getStudentForEmail(courseId, unregisteredStudent2.email);
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -132,8 +131,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
             assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
         }
 
-        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);
-        StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent2.email);
+        logic.deleteStudentCascade(courseId, unregisteredStudent1.email);
+        logic.deleteStudentCascade(courseId, unregisteredStudent2.email);
 
         ______TS("Typical case: no unregistered students in course");
 

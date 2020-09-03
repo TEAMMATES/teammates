@@ -8,8 +8,6 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.InstructorsLogic;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.InstructorCreateRequest;
@@ -18,7 +16,6 @@ import teammates.ui.request.InstructorCreateRequest;
  * SUT: {@link UpdateInstructorAction}.
  */
 public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorAction> {
-    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected String getActionUri() {
@@ -58,7 +55,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
-        InstructorAttributes editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
+        InstructorAttributes editedInstructor = logic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorName, editedInstructor.name);
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.email);
@@ -115,14 +112,14 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         response = (InstructorData) actionOutput.getOutput();
 
-        editedInstructor = instructorsLogic.getInstructorForGoogleId(courseId, instructorId);
+        editedInstructor = logic.getInstructorForGoogleId(courseId, instructorId);
         assertEquals(newInstructorEmail, editedInstructor.email);
         assertEquals(newInstructorEmail, response.getEmail());
         assertEquals(newInstructorName, editedInstructor.name);
         assertEquals(newInstructorName, response.getName());
 
         //remove the new instructor entity that was created
-        CoursesLogic.inst().deleteCourseCascade("icieat.courseId");
+        logic.deleteCourseCascade("icieat.courseId");
 
         ______TS("Unsuccessful case: test null course id parameter");
 
