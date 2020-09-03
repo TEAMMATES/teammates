@@ -97,7 +97,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
         feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
                 InstructorFeedbackSessionsPage.class);
-        feedbackSessionsPage.waitForPageToLoad();
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
         verifyPresentInDatastore(newSession);
@@ -114,7 +113,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                         + "Please modify settings/questions as necessary.");
         feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
                 InstructorFeedbackSessionsPage.class);
-        feedbackSessionsPage.waitForPageToLoad();
         feedbackSessionsPage.verifySessionDetails(copiedSession);
         verifyPresentInDatastore(copiedSession);
 
@@ -130,7 +128,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + "Please modify settings/questions as necessary.");
         feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
                 InstructorFeedbackSessionsPage.class);
-        feedbackSessionsPage.waitForPageToLoad();
         feedbackSessionsPage.verifySessionDetails(copiedSession2);
         verifyPresentInDatastore(copiedSession2);
 
