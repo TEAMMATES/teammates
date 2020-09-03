@@ -23,6 +23,8 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 
 /**
  * Represents the feedback submission page of the website.
@@ -131,6 +133,26 @@ public class FeedbackSubmitPage extends AppPage {
     public void verifyNoCommentPresent(int qnNumber, String recipient) {
         int numComments = getCommentSection(qnNumber, recipient).findElements(By.id("comment-text")).size();
         assertEquals(numComments, 0);
+    }
+
+    public void verifyTextQuestion(int qnNumber, FeedbackTextQuestionDetails questionDetails) {
+        String recommendedLengthText = getQuestionForm(qnNumber).findElement(By.id("recommended-length")).getText();
+        assertEquals(recommendedLengthText, "Recommended length for the answer: "
+                + questionDetails.getRecommendedLength() + " words");
+    }
+
+    public void submitTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getResponseDetails();
+        writeToRichTextEditor(getTextResponseEditor(qnNumber, recipient), responseDetails.getAnswer());
+        clickSubmitButton();
+    }
+
+    public void verifyTextResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackTextResponseDetails responseDetails = (FeedbackTextResponseDetails) response.getResponseDetails();
+        int responseLength = responseDetails.getAnswer().split(" ").length;
+        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
+        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
+                + " words");
     }
 
     public void submitMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
@@ -347,12 +369,12 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    private String getQuestionDescription(int qnNumber) {
-        return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
-    }
-
     private void clickSubmitButton() {
         clickAndConfirm(browser.driver.findElement(By.id("btn-submit")));
+    }
+
+    private String getQuestionDescription(int qnNumber) {
+        return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
     }
 
     private WebElement getCommentSection(int qnNumber, String recipient) {
@@ -394,6 +416,19 @@ public class FeedbackSubmitPage extends AppPage {
             }
             i++;
         }
+    }
+
+    private WebElement getTextResponseEditor(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        WebElement editor = questionForm.findElements(By.tagName("tm-rich-text-editor")).get(recipientIndex);
+        scrollElementToCenter(editor);
+        return editor;
+    }
+
+    private String getResponseLengthText(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        return getQuestionForm(qnNumber).findElements(By.id("response-length")).get(recipientIndex).getText();
     }
 
     private WebElement getMcqSection(int qnNumber, String recipient) {

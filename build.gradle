@@ -11,7 +11,7 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def appengineVersion = "1.9.+"
+def appengineVersion = "1.9.81"
 def checkstyleVersion = "8.33"
 def pmdVersion = "6.24.0"
 def spotbugsVersion = "4.0.6"
