@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
 
@@ -90,14 +89,10 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(1, instructors[0]);
-        ThreadHelper.waitFor(100);
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        ThreadHelper.waitFor(100);
         editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        ThreadHelper.waitFor(100);
         editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-        ThreadHelper.waitFor(100);
         editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
