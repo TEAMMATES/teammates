@@ -1,4 +1,5 @@
-<tm-rich-text-editor [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
+<textarea class="form-control mobile-visible" [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled"></textarea>
+<tm-rich-text-editor class="mobile-invisible" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
 <div class="margin-top-7px text-secondary text-right">
   <div id="recommended-length" *ngIf="questionDetails.recommendedLength">
     Recommended length for the answer: {{ questionDetails.recommendedLength }} words

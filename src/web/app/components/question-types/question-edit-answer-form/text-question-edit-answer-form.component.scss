@@ -1,3 +1,15 @@
 .margin-top-7px {
   margin-top: 7px;
 }
+
+@media (max-width: 768px) {
+  .mobile-invisible {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-visible {
+    display: none;
+  }
+}
