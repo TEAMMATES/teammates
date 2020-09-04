@@ -190,6 +190,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             'You are not authorized to view this page.');
       });
     });
+
+    // Display note on submission on mobile device
+    if (window.innerWidth < 992) {
+      let modalContent = `Note that you can use the Submit button to save responses already entered, and continue to 
+answer remaining questions after that. You may also edit your submission any number of times before the closing time of 
+this session.`
+      this.simpleModalService.openInformationModal(
+          'Note On Submission', SimpleModalType.INFO, modalContent);
+    }
   }
 
   ngAfterViewInit(): void {
