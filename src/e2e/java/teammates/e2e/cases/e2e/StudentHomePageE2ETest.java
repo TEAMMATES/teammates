@@ -30,8 +30,6 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId("SHomeUiT.student");
         loginAdminToPage(url, StudentHomePage.class);
 
-        browser.waitForPageLoad();
-
         List<String> courseIds = getAllVisibleCourseIds();
 
         for (int i = 0; i < courseIds.size(); i++) {
