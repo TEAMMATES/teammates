@@ -388,11 +388,21 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       if (this.previewAsPerson) {
         // don't load responses in preview mode
         // generate a list of empty response box
+        const formMode: QuestionSubmissionFormMode = this.getQuestionSubmissionFormMode(model);
         model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
+          if (formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT &&
+            model.recipientSubmissionForms.length >=
+            model.customNumberOfEntitiesToGiveFeedbackTo) {
+            return;
+          }
+
+          let recipientIdentifier: string = '';
+          if (formMode !== QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
+            recipientIdentifier = recipient.recipientIdentifier;
+          }
+
           model.recipientSubmissionForms.push({
-            recipientIdentifier:
-                this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT
-                    ? '' : recipient.recipientIdentifier,
+            recipientIdentifier,
             responseDetails: this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
             responseId: '',
             isValid: true,
