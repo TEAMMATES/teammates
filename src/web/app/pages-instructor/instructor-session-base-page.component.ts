@@ -10,21 +10,18 @@ import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
 import {
-    FeedbackQuestion,
-    FeedbackQuestions,
-    FeedbackSession,
-    FeedbackSessionStats,
-    InstructorPrivilege,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackSession,
+  FeedbackSessionStats,
+  InstructorPrivilege,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
 import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
-import {
-    CopySessionResult,
-    SessionsTableRowModel,
-} from '../components/sessions-table/sessions-table-model';
+import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -200,9 +197,9 @@ export abstract class InstructorSessionBasePageComponent {
    * @param result the result of the copy session modal
    * @returns the list of copy session requests
    */
-  copySessionFromRowModel(model: SessionsTableRowModel, result: CopySessionResult): Observable<FeedbackSession>[] {
+  createSessionCopyRequestsFromRowModel(
+      model: SessionsTableRowModel, result: CopySessionResult): Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
-    this.failedToCopySessions = {};
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
           this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
@@ -222,22 +219,22 @@ export abstract class InstructorSessionBasePageComponent {
    * @param feedbackSessionName the source feedback session name
    * @returns the list of copy session requests
    */
-  copySessionFromModal(result: CopySessionModalResult, courseId: string, feedbackSessionName: string)
+  createSessionCopyRequestsFromModal(result: CopySessionModalResult, courseId: string, feedbackSessionName: string)
       : Observable<FeedbackSession>[] {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
-    this.failedToCopySessions = {};
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(this.feedbackSessionsService.getFeedbackSession({
         courseId,
         feedbackSessionName,
         intent: Intent.FULL_DETAIL,
-      }).pipe(switchMap((feedbackSession: FeedbackSession) =>
-              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)
-          .pipe(catchError((err: any) => {
+      }).pipe(
+          switchMap((feedbackSession: FeedbackSession) =>
+              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)),
+          catchError((err: any) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return of(err);
-          })),
-      )));
+          }),
+      ));
     });
     return copySessionRequests;
   }
@@ -258,7 +255,7 @@ export abstract class InstructorSessionBasePageComponent {
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
-  resolveCopyRequest(): void {
+  showCopyStatusMessage(): void {
     if (Object.keys(this.failedToCopySessions).length > 0) {
       this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
     } else {
@@ -267,12 +264,8 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   getCopyErrorMessage(): string {
-    let errorMessage: string = '';
-    Object.keys(this.failedToCopySessions).forEach((key: string) => {
-      errorMessage = errorMessage.concat(`Error copying to ${key}:`).concat(' ')
-          .concat(this.failedToCopySessions[key]).concat(' ');
-    });
-    return errorMessage;
+    return Object.keys(this.failedToCopySessions).map((key: string) =>
+        `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ');
   }
 
   /**

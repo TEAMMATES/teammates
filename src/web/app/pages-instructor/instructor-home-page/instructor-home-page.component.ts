@@ -360,7 +360,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Copies the feedback session.
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
-    const requestList: Observable<FeedbackSession>[] = this.copySessionFromRowModel(
+    this.failedToCopySessions = {};
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {
       this.copySingleSession(requestList[0]);
@@ -383,7 +384,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             }
           });
         }
-        this.resolveCopyRequest();
+        this.showCopyStatusMessage();
       });
     }
   }
