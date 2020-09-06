@@ -8,6 +8,7 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { RedirectBannerModule } from '../../components/redirect-banner/redirect-banner.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
     LoadingRetryModule,
     PanelChevronModule,
     RedirectBannerModule,
+    TeammatesRouterModule,
   ],
   exports: [
     InstructorHomePageComponent,

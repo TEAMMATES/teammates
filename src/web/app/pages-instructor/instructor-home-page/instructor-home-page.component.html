@@ -23,7 +23,7 @@
 
 <div class="row mb-3" *tmIsLoading="!hasCoursesLoaded">
   <div class="col-4">
-    <a routerLink="/web/instructor/courses" class="btn btn-success" [queryParams]="{isAddNewCourse: true}">
+    <a tmRouterLink="/web/instructor/courses" class="btn btn-success" [queryParams]="{isAddNewCourse: true}">
       <i class="fas fa-plus"></i> Add New Course
     </a>
   </div>
@@ -51,11 +51,11 @@
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyStudent">
                   <a class="btn btn-info btn-sm dropdown-item"
-                     routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
+                     tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTabModel.course.courseId}"> Enroll
                   </a>
                 </ng-container>
                 <a class="btn btn-info btn-sm dropdown-item"
-                   routerLink="/web/instructor/courses/details" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
+                   tmRouterLink="/web/instructor/courses/details" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
               </div>
             </span>
@@ -63,7 +63,7 @@
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Instructors </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn btn-light btn-sm dropdown-item"
-                   routerLink="/web/instructor/courses/edit" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
+                   tmRouterLink="/web/instructor/courses/edit" [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
               </div>
             </span>
@@ -71,7 +71,7 @@
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Sessions </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
                 <a class="btn btn-light btn-sm dropdown-item"
-                   routerLink="/web/instructor/sessions" [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
+                   tmRouterLink="/web/instructor/sessions" [queryParams]="{courseid: courseTabModel.course.courseId}"> Add
                 </a>
               </div>
             </span>
@@ -83,7 +83,7 @@
                    (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
                 </a>
                 <a class="btn btn-light btn-sm dropdown-item"
-                   routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
+                   tmRouterLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
                   <a class="btn btn-light btn-sm dropdown-item"

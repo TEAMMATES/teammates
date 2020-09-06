@@ -62,11 +62,11 @@
       <td>{{studentModel.student.email}}</td>
       <td class="no-print align-center">
         <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
-                     let-routerLink="routerLink" let-queryParams="queryParams">
+                     let-tmRouterLink="tmRouterLink" let-queryParams="queryParams">
           <a class="btn btn-light btn-sm btn-margin-right" target="_blank" rel="noopener noreferrer"
              [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
              [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
-             [routerLink]="routerLink"
+             [tmRouterLink]="tmRouterLink"
              [queryParams]="queryParams">
             {{name}}</a>
         </ng-template>
@@ -74,7 +74,7 @@
         isEnabled: studentModel.isAllowedToViewStudentInSection && isActionButtonsEnabled,
         tooltip: 'View the details of the student',
         name: 'View',
-        routerLink: '/web/instructor/courses/student/details',
+        tmRouterLink: '/web/instructor/courses/student/details',
         queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
         <ng-container *ngTemplateOutlet="actionButton; context: {
@@ -83,7 +83,7 @@
           + ' in one go, you can use the enroll page: '
           + 'Simply enroll students using the updated data and existing data will be updated accordingly',
         name: 'Edit',
-        routerLink: '/web/instructor/courses/student/edit',
+        tmRouterLink: '/web/instructor/courses/student/edit',
         queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
@@ -110,7 +110,7 @@
         isEnabled: isActionButtonsEnabled,
         tooltip: 'View all data about this student',
         name: 'All Records',
-        routerLink: '/web/instructor/students/records',
+        tmRouterLink: '/web/instructor/students/records',
         queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
       </td>

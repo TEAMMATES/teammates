@@ -1,7 +1,7 @@
 <h1>Student List</h1>
 <p>
   This page gives the student details for all your courses. Expand the cards below to view your students.
-  Use the <a routerLink="/web/instructor/search">search function</a> if you need to filter for a specific
+  Use the <a tmRouterLink="/web/instructor/search">search function</a> if you need to filter for a specific
   student.
 </p>
 <hr/>
@@ -47,7 +47,7 @@
                   <hr/>
 
                   <a class="btn btn-success"
-                    routerLink="/web/instructor/courses/enroll"
+                    tmRouterLink="/web/instructor/courses/enroll"
                     [queryParams]="{courseid: courseTab.course.courseId}">
                   Enroll Students
                   </a>
@@ -70,7 +70,7 @@
 
         <ng-template #noStudentsTemplate>
           <h5>There are no students in this course.</h5>
-          <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
+          <button class="btn btn-success" tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
             Enroll Students
           </button>
         </ng-template>
