@@ -124,6 +124,34 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        List<String> errors = new ArrayList<>();
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackRubricResponseDetails details = (FeedbackRubricResponseDetails) response;
+            if (details.getAnswer().isEmpty()) {
+                errors.add(Const.FeedbackQuestion.RUBRIC_EMPTY_ANSWER);
+            }
+
+            if (details.getAnswer().size() != numOfRubricSubQuestions) {
+                errors.add(Const.FeedbackQuestion.RUBRIC_INVALID_ANSWER);
+            }
+
+            if (details.getAnswer().stream().anyMatch(choice ->
+                    choice != Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN
+                            && (choice < 0 || choice >= numOfRubricChoices))) {
+                errors.add(Const.FeedbackQuestion.RUBRIC_INVALID_ANSWER);
+            }
+
+            if (details.getAnswer().stream().allMatch(choice -> choice == Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN)) {
+                errors.add(Const.FeedbackQuestion.RUBRIC_INVALID_ANSWER);
+            }
+        }
+
+        return errors;
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }

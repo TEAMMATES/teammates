@@ -38,6 +38,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     }
 
     @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        return new ArrayList<>();
+    }
+
+    @Override
     public boolean isFeedbackParticipantCommentsOnResponsesAllowed() {
         return false;
     }
@@ -51,7 +56,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         return recommendedLength;
     }
 
-    public void setRecommendedLength(int recommendedLength) {
+    public void setRecommendedLength(Integer recommendedLength) {
         this.recommendedLength = recommendedLength;
     }
 }

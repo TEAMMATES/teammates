@@ -1,7 +1,9 @@
 package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
@@ -33,8 +35,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackQuestionDetails newDetails) {
         FeedbackConstantSumQuestionDetails newConstSumDetails = (FeedbackConstantSumQuestionDetails) newDetails;
 
-        if (this.numOfConstSumOptions != newConstSumDetails.numOfConstSumOptions
-                || !this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
+        if (!this.constSumOptions.containsAll(newConstSumDetails.constSumOptions)
                 || !newConstSumDetails.constSumOptions.containsAll(this.constSumOptions)) {
             return true;
         }
@@ -61,7 +62,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
-        if (!distributeToRecipients && numOfConstSumOptions < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
+        if (!distributeToRecipients && constSumOptions.size() < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
                        + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
         }
@@ -73,6 +74,120 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         if (!FieldValidator.areElementsUnique(constSumOptions)) {
             errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+        }
+
+        return errors;
+    }
+
+    @Override
+    public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
+        List<String> errors;
+
+        int numOptions = distributeToRecipients ? numRecipients : constSumOptions.size();
+        int totalPoints = pointsPerOption ? points * numOptions : points;
+
+        if (distributeToRecipients) {
+            errors = getErrorsForConstSumRecipients(responses, totalPoints);
+        } else {
+            errors = getErrorsForConstSumOptions(responses, totalPoints);
+        }
+
+        return errors;
+    }
+
+    private List<String> getErrorsForConstSumOptions(List<FeedbackResponseDetails> responses, int totalPoints) {
+        for (FeedbackResponseDetails response : responses) {
+            List<String> errors = new ArrayList<>();
+
+            FeedbackConstantSumResponseDetails details = (FeedbackConstantSumResponseDetails) response;
+
+            if (details.getAnswers().size() != constSumOptions.size()) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_OPTIONS_NOT_MATCH);
+                return errors;
+            }
+
+            List<Integer> givenPoints = details.getAnswers();
+            errors = getErrors(givenPoints, totalPoints);
+
+            // Return an error if any response is erroneous
+            if (!errors.isEmpty()) {
+                return errors;
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    private List<String> getErrorsForConstSumRecipients(List<FeedbackResponseDetails> responses, int totalPoints) {
+        List<Integer> givenPoints = new ArrayList<>();
+
+        for (FeedbackResponseDetails response : responses) {
+            FeedbackConstantSumResponseDetails details = (FeedbackConstantSumResponseDetails) response;
+
+            List<String> errors = new ArrayList<>();
+
+            if (details.getAnswers().size() != 1) {
+                // Distribute to recipient must have array size one
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH);
+            }
+
+            // Return an error if any response is erroneous
+            if (!errors.isEmpty()) {
+                return errors;
+            }
+
+            int givenPoint = details.getAnswers().get(0);
+            givenPoints.add(givenPoint);
+        }
+
+        return getErrors(givenPoints, totalPoints);
+    }
+
+    private List<String> getErrors(List<Integer> givenPoints, int totalPoints) {
+        List<String> errors = new ArrayList<>();
+
+        // Check that all points are >= 0
+        int sum = 0;
+        for (int i : givenPoints) {
+            if (i < 0) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
+                return errors;
+            }
+
+            sum += i;
+        }
+
+        // Check that points sum up properly
+        if (sum != totalPoints) {
+            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
+            return errors;
+        }
+
+        // Check that points are given unevenly for all/at least some options as per the question settings
+        Set<Integer> answerSet = new HashSet<>();
+        if (distributePointsFor.equals(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption())) {
+            boolean hasDifferentPoints = false;
+            for (int i : givenPoints) {
+                if (!answerSet.isEmpty() && !answerSet.contains(i)) {
+                    hasDifferentPoints = true;
+                    break;
+                }
+                answerSet.add(i);
+            }
+
+            if (!hasDifferentPoints) {
+                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
+                return errors;
+            }
+        } else if (forceUnevenDistribution || distributePointsFor.equals(
+                FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
+            for (int i : givenPoints) {
+                if (answerSet.contains(i)) {
+                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
+                    return errors;
+                }
+                answerSet.add(i);
+            }
         }
 
         return errors;

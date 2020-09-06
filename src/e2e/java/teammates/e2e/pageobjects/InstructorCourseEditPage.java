@@ -16,6 +16,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the instructor course edit page of the website.
@@ -200,10 +201,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getNameField(instructorIndex), newInstructor.name);
         fillTextBox(getEmailField(instructorIndex), newInstructor.email);
         if (newInstructor.isDisplayedToStudents) {
-            markCheckBoxAsChecked(getDisplayedToStudentCheckBox(instructorIndex));
+            markOptionAsSelected(getDisplayedToStudentCheckBox(instructorIndex));
             fillTextBox(getDisplayNameField(instructorIndex), newInstructor.displayedName);
         } else {
-            markCheckBoxAsUnchecked(getDisplayedToStudentCheckBox(instructorIndex));
+            markOptionAsUnselected(getDisplayedToStudentCheckBox(instructorIndex));
         }
         selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.role));
         clickSaveInstructorButton(instructorIndex);
@@ -225,10 +226,10 @@ public class InstructorCourseEditPage extends AppPage {
         fillTextBox(getNameField(instrNum), instructor.name);
         fillTextBox(getEmailField(instrNum), instructor.email);
         if (instructor.isDisplayedToStudents) {
-            markCheckBoxAsChecked(getDisplayedToStudentCheckBox(instrNum));
+            markOptionAsSelected(getDisplayedToStudentCheckBox(instrNum));
             fillTextBox(getDisplayNameField(instrNum), instructor.displayedName);
         } else {
-            markCheckBoxAsUnchecked(getDisplayedToStudentCheckBox(instrNum));
+            markOptionAsUnselected(getDisplayedToStudentCheckBox(instrNum));
         }
         selectRoleForInstructor(instrNum, getRoleIndex(instructor.role));
         clickSaveInstructorButton(instrNum);
@@ -307,7 +308,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
-        waitForPageToLoad(true);
+        ThreadHelper.waitFor(1000);
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {

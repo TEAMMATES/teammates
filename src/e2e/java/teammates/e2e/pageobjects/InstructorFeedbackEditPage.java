@@ -1,12 +1,15 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -19,7 +22,10 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 
@@ -280,29 +286,20 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(fsDeleteButton);
     }
 
-    public void addTemplateQuestion(int optionNum) {
-        click(addNewQuestionButton);
-
-        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
-        click(newQuestionDropdown.findElements(By.tagName("button")).get(0));
-        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
-
-        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
+        click(previewAsStudentButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
     }
 
-    public void copyQuestion(String courseId, String questionText) {
-        click(copyQuestionButton);
-        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
-
-        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
-        for (WebElement row : rows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
-                markCheckBoxAsChecked(cells.get(0).findElement(By.tagName("input")));
-            }
-        }
-        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
+    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
+        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
+        click(previewAsInstructorButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(FeedbackSubmitPage.class);
     }
 
     public void verifyNumQuestions(int expected) {
@@ -440,34 +437,61 @@ public class InstructorFeedbackEditPage extends AppPage {
         String visibility = questionForm.findElement(By.cssSelector("#btn-question-visibility span")).getText();
         assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
 
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
         WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowResponsesTo(), 1);
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowGiverNameTo(), 2);
-        assertVisibilityBoxesSelected(customVisibilityTable, feedbackQuestion.getShowRecipientNameTo(), 3);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        assertVisibilityBoxesSelected(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
     }
 
-    private void assertVisibilityBoxesSelected(WebElement table, List<FeedbackParticipantType> participants,
+    private void assertVisibilityBoxesSelected(WebElement table, FeedbackParticipantType giver,
+                                               FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                                int colNum) {
+        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
+        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        }
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+        if (receiver.equals(FeedbackParticipantType.NONE)
+                || receiver.equals(FeedbackParticipantType.SELF)
+                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER);
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            switch (participant) {
-            case RECEIVER:
-                assertTrue(rows.get(0).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case OWN_TEAM_MEMBERS:
-                assertTrue(rows.get(1).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case STUDENTS:
-                assertTrue(rows.get(2).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            case INSTRUCTORS:
-                assertTrue(rows.get(3).findElements(By.tagName("input")).get(index).isSelected());
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackParticipantType");
+            assertTrue(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index)
+                    .isSelected());
+        }
+    }
+
+    public void addTemplateQuestion(int optionNum) {
+        addNewQuestion(1);
+        WebElement templateQuestionModal = waitForElementPresence(By.id("template-question-modal"));
+
+        click(templateQuestionModal.findElements(By.tagName("input")).get(optionNum - 1));
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-template")));
+    }
+
+    public void copyQuestion(String courseId, String questionText) {
+        click(copyQuestionButton);
+        WebElement copyQuestionModal = waitForElementPresence(By.id("copy-question-modal"));
+
+        List<WebElement> rows = copyQuestionModal.findElements(By.cssSelector("tbody tr"));
+        for (WebElement row : rows) {
+            List<WebElement> cells = row.findElements(By.tagName("td"));
+            if (cells.get(1).getText().equals(courseId) && cells.get(4).getText().equals(questionText)) {
+                markOptionAsSelected(cells.get(0).findElement(By.tagName("input")));
             }
         }
+        clickAndWaitForNewQuestion(browser.driver.findElement(By.id("btn-confirm-copy-question")));
     }
 
     public void editQuestionNumber(int questionNum, int newQuestionNumber) {
@@ -478,15 +502,19 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void editQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        FeedbackQuestionType questionType = getQuestionType(questionNum);
         clickEditQuestionButton(questionNum);
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    private void inputQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetails().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
         }
-        clickSaveQuestionButton(questionNum);
     }
 
     public void duplicateQuestion(int questionNum) {
@@ -497,20 +525,74 @@ public class InstructorFeedbackEditPage extends AppPage {
         clickAndConfirm(getQuestionForm(questionNum).findElement(By.id("btn-delete-question")));
     }
 
-    public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
-        click(previewAsStudentButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+    public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails questionDetails) {
+        String recommendLength = getRecommendedTextLengthField(questionNum).getAttribute("value");
+        assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
     }
 
-    public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
-        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
-        click(previewAsInstructorButton);
-        ThreadHelper.waitFor(2000);
-        switchToNewWindow();
-        return changePageType(FeedbackSubmitPage.class);
+    public void addTextQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(2);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
+        fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
+        clickSaveNewQuestionButton();
+    }
+
+    public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void verifyMcqQuestionDetails(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
+        if (verifyGeneratedOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+        verifyOptions(questionNum, questionDetails.getMcqChoices());
+        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
+    }
+
+    public void addMcqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(3);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputMcqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editMcqQuestion(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputMcqDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void verifyMsqQuestionDetails(int questionNum, FeedbackMsqQuestionDetails questionDetails) {
+        verifyMaxOptions(questionNum, questionDetails.getMaxSelectableChoices());
+        verifyMinOptions(questionNum, questionDetails.getMinSelectableChoices());
+        if (verifyGeneratedOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+        verifyOptions(questionNum, questionDetails.getMsqChoices());
+        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
+    }
+
+    public void addMsqQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(4);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputMsqDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editMsqQuestion(int questionNum, FeedbackMsqQuestionDetails msqQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputMsqDetails(questionNum, msqQuestionDetails);
+        clickSaveQuestionButton(questionNum);
     }
 
     private String getCourseId() {
@@ -681,12 +763,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).size();
     }
 
-    private void clickAndWaitForNewQuestion(WebElement button) {
-        int newQuestionNum = getNumQuestions() + 1;
-        click(button);
-        waitForElementPresence(By.id("question-form-" + newQuestionNum));
-    }
-
     private WebElement getQuestionForm(int questionNum) {
         return browser.driver.findElements(By.tagName("tm-question-edit-form")).get(questionNum - 1);
     }
@@ -768,21 +844,21 @@ public class InstructorFeedbackEditPage extends AppPage {
         FeedbackParticipantType newGiver = feedbackQuestion.getGiverType();
         FeedbackParticipantType newRecipient = feedbackQuestion.getRecipientType();
         String feedbackPath = getFeedbackPath(questionNum);
+        WebElement questionForm = getQuestionForm(questionNum);
         if (!feedbackPath.equals(CUSTOM_FEEDBACK_PATH_OPTION)) {
             selectFeedbackPathDropdownOption(questionNum, CUSTOM_FEEDBACK_PATH_OPTION + "...");
         }
-
-        WebElement questionForm = getQuestionForm(questionNum);
+        // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
+                FeedbackParticipantType.STUDENTS.toDisplayGiverName());
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toDisplayRecipientName());
-        if ((newRecipient.equals(FeedbackParticipantType.INSTRUCTORS)
-                || newRecipient.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF)
-                || newRecipient.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
-                && feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() != Const.MAX_POSSIBLE_RECIPIENTS) {
+                FeedbackParticipantType.STUDENTS.toDisplayRecipientName());
+        if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
+            click(questionForm.findElement(By.id("unlimited-recipients")));
+        } else {
+            click(questionForm.findElement(By.id("custom-recipients")));
             fillTextBox(questionForm.findElement(By.id("custom-recipients-number")),
                     Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
-        } else {
-            click(questionForm.findElement(By.id("unlimited-recipients")));
         }
 
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), newGiver.toDisplayGiverName());
@@ -810,7 +886,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void clickSaveQuestionButton(int questionNum) {
         WebElement saveButton = getQuestionForm(questionNum).findElement(By.id("btn-save-question"));
         click(saveButton);
-        waitForElementStaleness(saveButton);
+        ThreadHelper.waitFor(1000);
     }
 
     private void setQuestionVisibility(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
@@ -820,33 +896,37 @@ public class InstructorFeedbackEditPage extends AppPage {
             selectVisibilityDropdownOption(questionNum, CUSTOM_VISIBILITY_OPTION + "...");
         }
 
+        FeedbackParticipantType giver = feedbackQuestion.getGiverType();
+        FeedbackParticipantType receiver = feedbackQuestion.getRecipientType();
         WebElement customVisibilityTable = questionForm.findElement(By.id("custom-visibility-table"));
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowResponsesTo(), 1);
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowGiverNameTo(), 2);
-        selectVisibilityBoxes(customVisibilityTable, feedbackQuestion.getShowRecipientNameTo(), 3);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowResponsesTo(), 1);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowGiverNameTo(), 2);
+        selectVisibilityBoxes(customVisibilityTable, giver, receiver, feedbackQuestion.getShowRecipientNameTo(), 3);
     }
 
-    private void selectVisibilityBoxes(WebElement table, List<FeedbackParticipantType> participants,
-            int colNum) {
+    private void selectVisibilityBoxes(WebElement table, FeedbackParticipantType giver,
+                                       FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
+                                       int colNum) {
+        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
+        if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        }
+        if (!receiver.equals(FeedbackParticipantType.STUDENTS)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+        if (receiver.equals(FeedbackParticipantType.NONE)
+                || receiver.equals(FeedbackParticipantType.SELF)
+                || receiver.equals(FeedbackParticipantType.OWN_TEAM)) {
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER);
+            possibleTypes.remove(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        }
+
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (FeedbackParticipantType participant : participants) {
-            switch (participant) {
-            case RECEIVER:
-                markCheckBoxAsChecked(rows.get(0).findElements(By.tagName("input")).get(index));
-                break;
-            case OWN_TEAM_MEMBERS:
-                markCheckBoxAsChecked(rows.get(1).findElements(By.tagName("input")).get(index));
-                break;
-            case STUDENTS:
-                markCheckBoxAsChecked(rows.get(2).findElements(By.tagName("input")).get(index));
-                break;
-            case INSTRUCTORS:
-                markCheckBoxAsChecked(rows.get(3).findElements(By.tagName("input")).get(index));
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackParticipantType");
-            }
+            markOptionAsSelected(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index));
         }
     }
 
@@ -860,6 +940,257 @@ public class InstructorFeedbackEditPage extends AppPage {
                 click(option);
                 return;
             }
+        }
+    }
+
+    private void clickAndWaitForNewQuestion(WebElement button) {
+        int newQuestionNum = getNumQuestions() + 1;
+        click(button);
+        waitForElementPresence(By.id("question-form-" + newQuestionNum));
+    }
+
+    private void addNewQuestion(int optionNumber) {
+        click(addNewQuestionButton);
+        WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
+        click(newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1));
+    }
+
+    private void clickSaveNewQuestionButton() {
+        WebElement saveButton = browser.driver.findElement(By.id("btn-save-new"));
+        click(saveButton);
+        waitForElementStaleness(saveButton);
+    }
+
+    private WebElement getRecommendedTextLengthField(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("recommended-length"));
+    }
+
+    private WebElement getGenerateOptionsCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("generate-checkbox"));
+    }
+
+    private WebElement getGenerateOptionsDropdown(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("generate-dropdown"));
+    }
+
+    private WebElement getWeightCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("weights-checkbox"));
+    }
+
+    private WebElement getOtherOptionCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("other-checkbox"));
+    }
+
+    private String getGeneratedOptionString(FeedbackParticipantType type) {
+        switch (type) {
+        case STUDENTS:
+            return "students";
+        case STUDENTS_EXCLUDING_SELF:
+            return "students (excluding self)";
+        case TEAMS:
+            return "teams";
+        case TEAMS_EXCLUDING_SELF:
+            return "teams (excluding own team)";
+        case INSTRUCTORS:
+            return "instructors";
+        default:
+            return "unknown";
+        }
+    }
+
+    private String getDoubleString(Double value) {
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
+    }
+
+    private WebElement getOptionsSection(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("options-section"));
+    }
+
+    private List<WebElement> getOptionInputs(int questionNum) {
+        WebElement optionsSection = getOptionsSection(questionNum);
+        return optionsSection.findElements(By.cssSelector("input[type='text']"));
+    }
+
+    private List<WebElement> getOptionWeightInputs(int questionNum) {
+        WebElement optionsSection = getOptionsSection(questionNum);
+        return optionsSection.findElements(By.cssSelector("tm-weight-field input"));
+    }
+
+    private WebElement getOtherWeightInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("other-weight"));
+    }
+
+    private boolean verifyGeneratedOptions(int questionNum, FeedbackParticipantType participantType) {
+        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+            assertTrue(getGenerateOptionsCheckbox(questionNum).isSelected());
+            assertEquals(getSelectedDropdownOptionText(getGenerateOptionsDropdown(questionNum)),
+                    getGeneratedOptionString(participantType));
+            return true;
+        }
+        assertFalse(getGenerateOptionsCheckbox(questionNum).isSelected());
+        return false;
+    }
+
+    private void verifyOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getOptionInputs(questionNum);
+        for (int i = 0; i < options.size(); i++) {
+            assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
+        }
+    }
+
+    private void verifyOptionWeights(int questionNum, boolean hasWeights, List<Double> weights) {
+        if (hasWeights) {
+            assertTrue(getWeightCheckbox(questionNum).isSelected());
+            List<WebElement> weightInputs = getOptionWeightInputs(questionNum);
+            for (int i = 0; i < weights.size(); i++) {
+                assertEquals(getDoubleString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
+            }
+        } else {
+            assertFalse(getWeightCheckbox(questionNum).isSelected());
+        }
+    }
+
+    private void verifyOtherOption(int questionNum, boolean hasOther, Double weight) {
+        if (hasOther) {
+            assertTrue(getOtherOptionCheckbox(questionNum).isSelected());
+            if (weight > 0) {
+                String otherWeight = getOtherWeightInput(questionNum).getAttribute("value");
+                assertEquals(getDoubleString(weight), otherWeight);
+            }
+        } else {
+            assertFalse(getOtherOptionCheckbox(questionNum).isSelected());
+        }
+    }
+
+    private void inputMcqDetails(int questionNum, FeedbackMcqQuestionDetails questionDetails) {
+        if (inputGenerateOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+
+        inputOptions(questionNum, questionDetails.getMcqChoices());
+        inputOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
+    }
+
+    private boolean inputGenerateOptions(int questionNum, FeedbackParticipantType participantType) {
+        if (!participantType.equals(FeedbackParticipantType.NONE)) {
+            markOptionAsSelected(getGenerateOptionsCheckbox(questionNum));
+            selectDropdownOptionByText(getGenerateOptionsDropdown(questionNum),
+                    getGeneratedOptionString(participantType));
+            clickSaveQuestionButton(questionNum);
+            return true;
+        }
+        markOptionAsUnselected(getGenerateOptionsCheckbox(questionNum));
+        return false;
+    }
+
+    private void inputOptions(int questionNum, List<String> options) {
+        List<WebElement> inputs = getOptionInputs(questionNum);
+        int numInputsNeeded = options.size() - inputs.size();
+        if (numInputsNeeded > 0) {
+            for (int i = 0; i < numInputsNeeded; i++) {
+                click(getQuestionForm(questionNum).findElement(By.id("btn-add-option")));
+            }
+            inputs = getOptionInputs(questionNum);
+        }
+        if (numInputsNeeded < 0) {
+            for (int i = 0; i < -numInputsNeeded; i++) {
+                click(getOptionsSection(questionNum).findElement(By.tagName("button")));
+            }
+            inputs = getOptionInputs(questionNum);
+        }
+
+        for (int i = 0; i < options.size(); i++) {
+            fillTextBox(inputs.get(i), options.get(i));
+        }
+    }
+
+    private void inputOptionWeights(int questionNum, boolean hasWeights, List<Double> weights) {
+        if (hasWeights) {
+            markOptionAsSelected(getWeightCheckbox(questionNum));
+            List<WebElement> weightInputs = getOptionWeightInputs(questionNum);
+            for (int i = 0; i < weights.size(); i++) {
+                fillTextBox(weightInputs.get(i), getDoubleString(weights.get(i)));
+            }
+        } else {
+            markOptionAsUnselected(getWeightCheckbox(questionNum));
+        }
+    }
+
+    private void inputOtherChoice(int questionNum, boolean hasOther, Double otherWeight) {
+        if (hasOther) {
+            markOptionAsSelected(getOtherOptionCheckbox(questionNum));
+            if (otherWeight > 0) {
+                fillTextBox(getOtherWeightInput(questionNum), getDoubleString(otherWeight));
+            }
+        } else {
+            markOptionAsUnselected(getOtherOptionCheckbox(questionNum));
+        }
+    }
+
+    private WebElement getMaxOptionsCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("max-options-checkbox"));
+    }
+
+    private WebElement getMaxOptionsInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("max-options"));
+    }
+
+    private WebElement getMinOptionsCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("min-options-checkbox"));
+    }
+
+    private WebElement getMinOptionsInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("min-options"));
+    }
+
+    private void verifyMaxOptions(int questionNum, int maxOptions) {
+        if (maxOptions == Integer.MIN_VALUE) {
+            assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
+        } else {
+            assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
+            assertEquals(getMaxOptionsInput(questionNum).getAttribute("value"),
+                    Integer.toString(maxOptions));
+        }
+    }
+
+    private void verifyMinOptions(int questionNum, int minOptions) {
+        if (minOptions == Integer.MIN_VALUE) {
+            assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
+        } else {
+            assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
+            assertEquals(getMinOptionsInput(questionNum).getAttribute("value"),
+                    Integer.toString(minOptions));
+        }
+    }
+
+    private void inputMsqDetails(int questionNum, FeedbackMsqQuestionDetails questionDetails) {
+        if (inputGenerateOptions(questionNum, questionDetails.getGenerateOptionsFor())) {
+            return;
+        }
+
+        inputOptions(questionNum, questionDetails.getMsqChoices());
+        inputOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
+        inputMaxOptions(questionNum, questionDetails.getMaxSelectableChoices());
+        inputMinOptions(questionNum, questionDetails.getMinSelectableChoices());
+    }
+
+    private void inputMaxOptions(int questionNum, int maxOptions) {
+        if (maxOptions == Integer.MIN_VALUE) {
+            markOptionAsUnselected(getMaxOptionsCheckbox(questionNum));
+        } else {
+            markOptionAsSelected(getMaxOptionsCheckbox(questionNum));
+            fillTextBox(getMaxOptionsInput(questionNum), Integer.toString(maxOptions));
+        }
+    }
+
+    private void inputMinOptions(int questionNum, int minOptions) {
+        if (minOptions == Integer.MIN_VALUE) {
+            markOptionAsUnselected(getMinOptionsCheckbox(questionNum));
+        } else {
+            markOptionAsSelected(getMinOptionsCheckbox(questionNum));
+            fillTextBox(getMinOptionsInput(questionNum), Integer.toString(minOptions));
         }
     }
 }

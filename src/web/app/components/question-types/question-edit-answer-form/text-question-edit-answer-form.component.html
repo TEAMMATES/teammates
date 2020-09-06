@@ -1,9 +1,9 @@
 <tm-rich-text-editor [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
 <div class="margin-top-7px text-secondary text-right">
-  <div *ngIf="questionDetails.recommendedLength">
+  <div id="recommended-length" *ngIf="questionDetails.recommendedLength">
     Recommended length for the answer: {{ questionDetails.recommendedLength }} words
   </div>
-  <div *ngIf="questionDetails.recommendedLength" [ngClass]="{'text-success': isWordCountWithinRecommendedBound }">
+  <div id="response-length" *ngIf="questionDetails.recommendedLength" [ngClass]="{'text-success': isWordCountWithinRecommendedBound }">
     Response length: {{ wordCount }} words
   </div>
 </div>

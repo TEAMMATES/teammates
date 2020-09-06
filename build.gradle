@@ -11,7 +11,7 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def appengineVersion = "1.9.+"
+def appengineVersion = "1.9.81"
 def checkstyleVersion = "8.33"
 def pmdVersion = "6.24.0"
 def spotbugsVersion = "4.0.6"
@@ -373,6 +373,9 @@ def checkTestNgFailureClosure = { descriptor, result ->
     }
 }
 
+def isTravis = System.getenv("TRAVIS") != null
+def isAppVeyor = System.getenv("APPVEYOR") != null
+
 // Displays full exception; to be run after the test fails after the last retry
 def afterTestClosure = { descriptor, result ->
     if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
@@ -437,23 +440,6 @@ task lint {
 // TEST TASKS
 
 def numOfTestRetries = 3
-def isTravis = System.getenv("TRAVIS") != null
-def isAppVeyor = System.getenv("APPVEYOR") != null
-
-test {
-    useTestNG()
-    options.useDefaultListeners = true
-    ignoreFailures false
-    maxHeapSize = "1g"
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    afterTest afterTestClosure
-    afterSuite checkTestNgFailureClosure
-    testLogging {
-        events "passed"
-    }
-}
 
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
@@ -485,26 +471,26 @@ task lnpTests(type: Test) {
     }
 }
 
-task failedTests(type: Test) {
+task componentTests(type: Test) {
+    description "Runs the full unit and integration test suite."
+    group "Test"
     useTestNG()
-    options.suites "test-output/testng-failed.xml"
-    options.outputDirectory = file("build/reports/test-failed")
+    options.suites "src/test/resources/testng-component.xml"
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    if (isTravis) {
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
+    } else {
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    }
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
         events "passed"
     }
-}
-
-task componentTests {
-    description "Runs the full unit test suite and retries failed test up to ${numOfTestRetries} times."
-    group "Test"
 }
 
 task e2eTests {
@@ -515,33 +501,6 @@ task e2eTests {
 (1..numOfTestRetries + 1).each { id ->
     def isFirstTry = id == 1
     def isLastRetry = id == numOfTestRetries + 1
-    task "componentTestTry${id}"(type: Test) {
-        useTestNG()
-        options.suites isFirstTry ? "src/test/resources/testng-component.xml" : file("${buildDir}/reports/component-test-try-${id - 1}/testng-failed.xml")
-        options.outputDirectory = file("${buildDir}/reports/component-test-try-${id}")
-        options.useDefaultListeners = true
-        ignoreFailures = !isLastRetry
-        maxHeapSize = "1g"
-        reports.html.enabled = false
-        reports.junitXml.enabled = false
-        if (isTravis) {
-            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        } else {
-            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-        }
-        testLogging {
-            events "passed"
-        }
-        if (isLastRetry) {
-            afterTest afterTestClosure
-        } else if (isFirstTry) {
-            afterSuite checkTestNgFailureClosure
-        }
-        onlyIf {
-            isFirstTry || file("${buildDir}/reports/component-test-try-${id - 1}/testng-failed.xml").exists()
-        }
-    }
-    componentTests.dependsOn "componentTestTry${id}"
 
     task "e2eTestTry${id}"(type: Test) {
         useTestNG()
@@ -576,8 +535,10 @@ task e2eTests {
         doFirst {
             if (isWindows) {
                 commandLine "taskkill", "/f", "/im", "firefox.exe"
+                commandLine "taskkill", "/f", "/im", "geckodriver.exe"
             } else {
                 commandLine "pkill", "firefox"
+                commandLine "pkill", "geckodriver"
             }
             // Silence output for this task
             standardOutput = new ByteArrayOutputStream()
@@ -609,17 +570,12 @@ jacoco {
     toolVersion = jacocoVersion
 }
 
-task jacocoMerge(type: JacocoMerge) {
-    destinationFile = file("${buildDir}/jacocoMerge/jacocoMerge.exec")
-    executionData fileTree("${buildDir}/jacoco").files
-}
-
 task jacocoReport(type: JacocoReport) {
     description "Runs coverage session from available test run data."
     group "Test"
     sourceDirectories.from files(sourceSets.main.java.srcDirs)
     classDirectories.from files(sourceSets.main.output)
-    executionData jacocoMerge.destinationFile
+    executionData fileTree("${buildDir}/jacoco").files
     reports {
         xml.enabled true
         html.enabled true
@@ -629,7 +585,6 @@ task jacocoReport(type: JacocoReport) {
             fileTree(dir: it, exclude: ["**/*.jar"])
         })
     }
-    dependsOn jacocoMerge
 }
 
 // Helper methods

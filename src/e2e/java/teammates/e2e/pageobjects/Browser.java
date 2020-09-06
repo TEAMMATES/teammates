@@ -1,11 +1,16 @@
 package teammates.e2e.pageobjects;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.ScriptTimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -58,6 +63,7 @@ public class Browser {
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
+        this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
         this.isInUse = false;
         this.isAdminLoggedIn = false;
     }
@@ -90,12 +96,16 @@ public class Browser {
      *         as criteria for page load's completion.
      */
     public void waitForPageLoad(boolean excludeToast) {
-        WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
-        wait.until(driver -> {
-            return "complete".equals(
-                    ((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT, excludeToast ? 1 : 0)
-            );
-        });
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, TestProperties.TEST_TIMEOUT);
+            wait.until(driver -> {
+                return "complete".equals(
+                        ((JavascriptExecutor) driver).executeAsyncScript(PAGE_LOAD_SCRIPT, excludeToast ? 1 : 0)
+                );
+            });
+        } catch (ScriptTimeoutException e) {
+            System.out.println("Page could not load completely. Trying to continue test.");
+        }
     }
 
     /**
@@ -118,6 +128,14 @@ public class Browser {
 
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
+
+        String downloadPath;
+        try {
+            downloadPath = new File(TestProperties.TEST_DOWNLOADS_FOLDER).getCanonicalPath();
+            System.out.println("Download path: " + downloadPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         String browser = TestProperties.BROWSER;
         if (TestProperties.BROWSER_FIREFOX.equals(browser)) {
@@ -149,7 +167,7 @@ public class Browser {
             profile.setPreference("browser.helperApps.neverAsk.openFile", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/vnd.ms-excel");
             profile.setPreference("browser.download.folderList", 2);
-            profile.setPreference("browser.download.dir", System.getProperty("java.io.tmpdir"));
+            profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
             return new FirefoxDriver(options);
@@ -159,7 +177,11 @@ public class Browser {
             System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
             System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
 
+            Map<String, Object> chromePrefs = new HashMap<>();
+            chromePrefs.put("download.default_directory", downloadPath);
+            chromePrefs.put("profile.default_content_settings.popups", 0);
             ChromeOptions options = new ChromeOptions();
+            options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
             if (!TestProperties.isDevServer()) {
                 // Get user data from browser to bypass google blocking automated log in.

@@ -154,7 +154,7 @@ public class InstructorCoursesPage extends AppPage {
         click(otherActionButton);
         click(getArchiveButton(courseId));
 
-        waitForElementStaleness(otherActionButton);
+        waitUntilAnimationFinish();
     }
 
     public void moveCourseToRecycleBin(String courseId) {
@@ -162,21 +162,21 @@ public class InstructorCoursesPage extends AppPage {
         click(otherActionButton);
         clickAndConfirm(getMoveToRecycleBinButton(courseId));
 
-        waitForElementStaleness(otherActionButton);
+        waitUntilAnimationFinish();
     }
 
     public void unarchiveCourse(String courseId) {
         WebElement unarchiveButton = getUnarchiveButton(courseId);
         click(unarchiveButton);
 
-        waitForElementStaleness(unarchiveButton);
+        waitUntilAnimationFinish();
     }
 
     public void moveArchivedCourseToRecycleBin(String courseId) {
         WebElement moveArchivedToRecycleBinButton = getMoveArchivedToRecycleBinButton(courseId);
         clickAndConfirm(moveArchivedToRecycleBinButton);
 
-        waitForElementStaleness(moveArchivedToRecycleBinButton);
+        waitUntilAnimationFinish();
     }
 
     public void showDeleteTable() {
@@ -195,28 +195,28 @@ public class InstructorCoursesPage extends AppPage {
         WebElement restoreButton = getRestoreButton(courseId);
         click(restoreButton);
 
-        waitForElementStaleness(restoreButton);
+        waitUntilAnimationFinish();
     }
 
     public void deleteCourse(String courseId) {
         WebElement deleteButton = getDeleteButton(courseId);
         clickAndConfirm(deleteButton);
 
-        waitForElementStaleness(deleteButton);
+        waitUntilAnimationFinish();
     }
 
     public void restoreAllCourses() {
         WebElement restoreAllButton = getRestoreAllButton();
         click(restoreAllButton);
 
-        waitForElementStaleness(restoreAllButton);
+        waitUntilAnimationFinish();
     }
 
     public void deleteAllCourses() {
         WebElement deleteAllButton = getDeleteAllButton();
         clickAndConfirm(deleteAllButton);
 
-        waitForElementStaleness(deleteAllButton);
+        waitUntilAnimationFinish();
     }
 
     public void sortByCourseName() {

@@ -2,11 +2,10 @@ package teammates.test.cases.datatransfer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
@@ -16,14 +15,13 @@ import teammates.test.cases.BaseTestCase;
 /**
  * SUT: {@link FeedbackConstantSumQuestionDetails}.
  */
-public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
+public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateResponseDetails_amongRecipientsValidAnswer_shouldReturnEmptyErrorList() {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(true);
         constantSumQuestionDetails.setConstSumOptions(new ArrayList<>());
-        constantSumQuestionDetails.setNumOfConstSumOptions(0);
         constantSumQuestionDetails.setPoints(100);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -32,12 +30,12 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(Arrays.asList(0));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(100));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertTrue(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
     @Test
@@ -45,7 +43,6 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(true);
         constantSumQuestionDetails.setConstSumOptions(new ArrayList<>());
-        constantSumQuestionDetails.setNumOfConstSumOptions(0);
         constantSumQuestionDetails.setPoints(100);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -54,16 +51,16 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(Arrays.asList());
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(-1));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(100, 101));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
     @Test
@@ -71,7 +68,6 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(false);
         constantSumQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
-        constantSumQuestionDetails.setNumOfConstSumOptions(3);
         constantSumQuestionDetails.setPoints(100);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -80,35 +76,35 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1, 99, 0));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertTrue(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(0, 100, 0));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertTrue(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setPointsPerOption(true);
         constantSumQuestionDetails.setPoints(100);
 
         constantSumResponseDetails.setAnswers(Arrays.asList(100, 100, 100));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertTrue(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
         constantSumQuestionDetails.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(99, 101, 100));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertTrue(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
         constantSumQuestionDetails.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(40, 50, 210));
-        assertTrue(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertTrue(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
     @Test
@@ -116,7 +112,6 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails constantSumQuestionDetails = new FeedbackConstantSumQuestionDetails();
         constantSumQuestionDetails.setDistributeToRecipients(false);
         constantSumQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
-        constantSumQuestionDetails.setNumOfConstSumOptions(3);
         constantSumQuestionDetails.setPointsPerOption(false);
         constantSumQuestionDetails.setPoints(99);
         constantSumQuestionDetails.setForceUnevenDistribution(false);
@@ -126,28 +121,28 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(new ArrayList<>());
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1, -1, 99));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1, 1, 99));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
         constantSumQuestionDetails.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(33, 33, 33));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
         constantSumQuestionDetails.setDistributePointsFor(
@@ -156,24 +151,8 @@ public class FeedbackConstantSumResponseDetailsTest extends BaseTestCase {
         constantSumQuestionDetails.setPoints(100);
 
         constantSumResponseDetails.setAnswers(Arrays.asList(33, 34, 33));
-        assertFalse(constantSumResponseDetails
-                .validateResponseDetails(getConstSumQuestion(constantSumQuestionDetails)).isEmpty());
-    }
-
-    private FeedbackQuestionAttributes getConstSumQuestion(FeedbackConstantSumQuestionDetails constantSumQuestionDetails) {
-        return FeedbackQuestionAttributes.builder()
-                .withCourseId("testCourse")
-                .withFeedbackSessionName("testSession")
-                .withQuestionDescription("testDescription")
-                .withQuestionDetails(constantSumQuestionDetails)
-                .withQuestionNumber(1)
-                .withGiverType(FeedbackParticipantType.STUDENTS)
-                .withRecipientType(FeedbackParticipantType.STUDENTS)
-                .withNumberOfEntitiesToGiveFeedbackTo(5)
-                .withShowGiverNameTo(new ArrayList<>())
-                .withShowResponsesTo(new ArrayList<>())
-                .withShowRecipientNameTo(new ArrayList<>())
-                .build();
+        assertFalse(constantSumQuestionDetails
+                .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
     @Test

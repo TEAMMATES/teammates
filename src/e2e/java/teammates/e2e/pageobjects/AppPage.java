@@ -114,6 +114,7 @@ public abstract class AppPage {
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
         currentBrowser.driver.get(url.toAbsoluteString());
+        currentBrowser.waitForPageLoad();
         return getNewPageInstance(currentBrowser, typeOfPage);
     }
 
@@ -194,6 +195,7 @@ public abstract class AppPage {
     public void waitUntilAnimationFinish() {
         WebDriverWait wait = new WebDriverWait(browser.driver, 2);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
+        ThreadHelper.waitFor(500);
     }
 
     /**
@@ -269,9 +271,7 @@ public abstract class AppPage {
     }
 
     public String getPageTitle() {
-        By headerTag = By.tagName("h1");
-        waitForElementPresence(headerTag);
-        return browser.driver.findElement(headerTag).getText();
+        return waitForElementPresence(By.tagName("h1")).getText();
     }
 
     public void click(By by) {
@@ -396,33 +396,30 @@ public abstract class AppPage {
      */
     protected void writeToRichTextEditor(WebElement editor, String text) {
         waitForElementPresence(By.tagName("iframe"));
-        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
-        click(browser.driver.findElement(By.id("tinymce")));
-        browser.driver.switchTo().defaultContent();
-
-        executeScript(String.format("tinyMCE.activeEditor.setContent('%s');"
-                + " tinyMCE.activeEditor.save()", text));
+        String id = editor.findElement(By.tagName("textarea")).getAttribute("id");
+        executeScript(String.format("tinyMCE.get('%s').setContent('%s');"
+                + " tinyMCE.get('%s').save()", id, text, id));
     }
 
     /**
-     * 'check' the check box, if it is not already 'checked'.
-     * No action taken if it is already 'checked'.
+     * Select the option, if it is not already selected.
+     * No action taken if it is already selected.
      */
-    protected void markCheckBoxAsChecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (!checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsSelected(WebElement option) {
+        waitForElementVisibility(option);
+        if (!option.isSelected()) {
+            click(option);
         }
     }
 
     /**
-     * 'uncheck' the check box, if it is not already 'unchecked'.
-     * No action taken if it is already 'unchecked'.
+     * Unselect the option, if it is not already unselected.
+     * No action taken if it is already unselected'.
      */
-    protected void markCheckBoxAsUnchecked(WebElement checkBox) {
-        waitForElementVisibility(checkBox);
-        if (checkBox.isSelected()) {
-            click(checkBox);
+    protected void markOptionAsUnselected(WebElement option) {
+        waitForElementVisibility(option);
+        if (option.isSelected()) {
+            click(option);
         }
     }
 

@@ -13,6 +13,7 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
@@ -97,6 +98,18 @@ public class FeedbackQuestionData extends ApiOutput {
                 constantSumQuestionDetails.setDistributePointsFor(
                         FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
             }
+        }
+
+        if (this.questionType == FeedbackQuestionType.TEXT) {
+            // TODO: remove after data migration
+            FeedbackTextQuestionDetails feedbackTextQuestionDetails =
+                    (FeedbackTextQuestionDetails) this.questionDetails;
+            if (feedbackTextQuestionDetails.getRecommendedLength() != null
+                    && feedbackTextQuestionDetails.getRecommendedLength() == 0) {
+                // for legacy data, 0 is treated as optional for recommended length
+                feedbackTextQuestionDetails.setRecommendedLength(null);
+            }
+
         }
     }
 

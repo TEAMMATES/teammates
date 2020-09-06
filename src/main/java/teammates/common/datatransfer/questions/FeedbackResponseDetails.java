@@ -1,8 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import java.util.List;
-
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
@@ -22,11 +19,6 @@ public abstract class FeedbackResponseDetails {
     }
 
     public abstract String getAnswerString();
-
-    /**
-     * Validates the response details.
-     */
-    public abstract List<String> validateResponseDetails(FeedbackQuestionAttributes correspondingQuestion);
 
     public String getJsonString() {
         Assumption.assertNotNull(questionType);
