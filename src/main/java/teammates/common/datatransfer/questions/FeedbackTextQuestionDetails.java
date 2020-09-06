@@ -56,7 +56,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         return recommendedLength;
     }
 
-    public void setRecommendedLength(int recommendedLength) {
+    public void setRecommendedLength(Integer recommendedLength) {
         this.recommendedLength = recommendedLength;
     }
 }
