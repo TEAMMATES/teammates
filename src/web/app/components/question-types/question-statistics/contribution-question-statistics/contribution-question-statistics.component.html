@@ -10,10 +10,10 @@
             <strong>My view:</strong>
           </span>
         </div>
-        <div class="col-sm-2">
+        <div id="own-view-me" class="col-sm-2">
           <strong>of me:</strong>&nbsp;<tm-contribution [value]="questionStatisticsForStudent.claimed"></tm-contribution>
         </div>
-        <div class="col-sm-8">
+        <div id="own-view-others" class="col-sm-8">
           <strong>of others:</strong>&nbsp;
           <span *ngFor="let other of questionStatisticsForStudent.claimedOthersValues; let i = index;">
             <span *ngIf="i !== 0">,&nbsp;</span>
@@ -26,13 +26,13 @@
         <div class="col-sm-2">
           <strong>Team view:</strong>
         </div>
-        <div class="col-sm-2">
+        <div id="team-view-me" class="col-sm-2">
           <span class="ngb-tooltip-class" ngbTooltip="The average contribution the other members of your team attributed to you">
             <strong>of me:&nbsp;</strong>
           </span>
           <tm-contribution [value]="questionStatisticsForStudent.perceived"></tm-contribution>
         </div>
-        <div class="col-sm-8">
+        <div id="team-view-others" class="col-sm-8">
           <strong>of others:</strong>&nbsp;
           <span *ngFor="let other of questionStatisticsForStudent.perceivedOthers; let i = index;">
             <span *ngIf="i !== 0">,&nbsp;</span>

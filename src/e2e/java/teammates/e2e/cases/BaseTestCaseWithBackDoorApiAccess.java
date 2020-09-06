@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
@@ -212,6 +213,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
         return BackDoor.getStudent(student.course, student.email);
+    }
+
+    protected String getEncryptedKeyForStudent(StudentAttributes student) {
+        return StringHelper.encrypt(getStudent(student).getKey());
     }
 
     @Override
