@@ -167,7 +167,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               <a
                 href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review"
-                routerlink="/web/instructor/sessions/edit"
+                tmrouterlink="/web/instructor/sessions/edit"
               >
                 
                 <button
@@ -196,7 +196,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
               
               <a
                 href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
-                routerlink="/web/instructor/sessions/submission"
+                tmrouterlink="/web/instructor/sessions/submission"
               >
                 
                 <button
@@ -230,7 +230,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <a
                     class="btn dropdown-item clickable"
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
-                    routerlink="/web/instructor/sessions/result"
+                    tmrouterlink="/web/instructor/sessions/result"
                   >
                     View Results
                   </a>
@@ -379,7 +379,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   <a
                     class="btn dropdown-item clickable disabled"
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
-                    routerlink="/web/instructor/sessions/result"
+                    tmrouterlink="/web/instructor/sessions/result"
                   >
                     View Results
                   </a>
@@ -577,7 +577,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               <a
                 href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review"
-                routerlink="/web/instructor/sessions/edit"
+                tmrouterlink="/web/instructor/sessions/edit"
               >
                 
                 <button
@@ -606,7 +606,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
               
               <a
                 href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
-                routerlink="/web/instructor/sessions/submission"
+                tmrouterlink="/web/instructor/sessions/submission"
               >
                 
                 <button
@@ -640,7 +640,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <a
                     class="btn dropdown-item clickable"
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
-                    routerlink="/web/instructor/sessions/result"
+                    tmrouterlink="/web/instructor/sessions/result"
                   >
                     View Results
                   </a>
@@ -778,7 +778,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                   <a
                     class="btn dropdown-item clickable disabled"
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
-                    routerlink="/web/instructor/sessions/result"
+                    tmrouterlink="/web/instructor/sessions/result"
                   >
                     View Results
                   </a>

@@ -1,8 +1,15 @@
+import { LocationStrategy } from '@angular/common';
+import { inject } from '@angular/core/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TeammatesRouterDirective } from './teammates-router.directive';
 
-describe('RouterLinkPreserveMasqueradeDirective', () => {
+describe('TeammatesRouterDirective', () => {
   it('should create an instance', () => {
-    const directive: TeammatesRouterDirective = new TeammatesRouterDirective();
-    expect(directive).toBeTruthy();
+    inject([Router, ActivatedRoute, LocationStrategy],
+        (router: Router, route: ActivatedRoute, locationStrategy: LocationStrategy) => {
+          const directive: TeammatesRouterDirective = new TeammatesRouterDirective(router, route, locationStrategy);
+          expect(directive).toBeTruthy();
+        });
+
   });
 });

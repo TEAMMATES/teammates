@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
  * Router link that preserves masquerade mode
  */
 @Directive({
-  selector: '[tmRouterLink]',
+  selector: 'a[tmRouterLink]',
 })
 export class TeammatesRouterDirective extends RouterLinkWithHref {
   private _queryParams: { [k: string]: any } = {};
