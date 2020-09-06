@@ -76,6 +76,10 @@ export class RubricQuestionStatisticsCalculation
         if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN) {
           continue;
         }
+        const { recipient }: { recipient: string } = response;
+        if (this.isStudent && recipient !== 'You') {
+          continue;
+        }
         this.answers[i][subAnswer] += 1;
 
         if (response.recipient !== response.giver) {

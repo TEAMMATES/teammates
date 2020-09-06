@@ -48,6 +48,9 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
     this.rowsData = [];
     for (const team of Object.keys(this.teamToRecipientToScores)) {
       for (const recipient of Object.keys(this.teamToRecipientToScores[team])) {
+        if (this.isStudent && recipient !== 'You') {
+          continue;
+        }
         const stats: any = this.teamToRecipientToScores[team][recipient];
         this.rowsData.push([
           { value: team },
