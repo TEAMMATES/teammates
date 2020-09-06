@@ -25,7 +25,7 @@ public class GetSessionResponseStatsAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes fsa = getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructor, fsa);
     }
@@ -35,7 +35,7 @@ public class GetSessionResponseStatsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes fsa = getFeedbackSession(feedbackSessionName, courseId);
         if (fsa == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not found"));
         }

@@ -44,7 +44,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         String courseId = response.courseId;
         String feedbackSessionName = response.feedbackSessionName;
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));

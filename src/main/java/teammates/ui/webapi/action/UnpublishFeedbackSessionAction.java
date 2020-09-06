@@ -24,10 +24,10 @@ public class UnpublishFeedbackSessionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
+        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
 
-        gateKeeper.verifyAccessible(instructor, session,
+        gateKeeper.verifyAccessible(instructor, feedbackSession,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
 

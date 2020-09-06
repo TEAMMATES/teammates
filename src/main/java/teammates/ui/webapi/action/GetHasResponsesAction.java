@@ -34,7 +34,7 @@ public class GetHasResponsesAction extends Action {
             String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
             if (questionId != null) {
                 FeedbackQuestionAttributes feedbackQuestionAttributes = logic.getFeedbackQuestion(questionId);
-                FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(
+                FeedbackSessionAttributes feedbackSession = getFeedbackSession(
                         feedbackQuestionAttributes.getFeedbackSessionName(),
                         feedbackQuestionAttributes.getCourseId());
 
@@ -59,7 +59,7 @@ public class GetHasResponsesAction extends Action {
 
             gateKeeper.verifyAccessible(
                     logic.getStudentForGoogleId(courseId, userInfo.getId()),
-                    logic.getFeedbackSession(feedbackSessionName, courseId));
+                    getFeedbackSession(feedbackSessionName, courseId));
         }
     }
 
@@ -88,7 +88,7 @@ public class GetHasResponsesAction extends Action {
         } else {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-            FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+            FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
             if (feedbackSession == null) {
                 return new JsonResult("No feedback session found with name: " + feedbackSessionName,
                         HttpStatus.SC_NOT_FOUND);

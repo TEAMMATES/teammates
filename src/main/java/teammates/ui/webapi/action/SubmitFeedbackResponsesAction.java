@@ -46,7 +46,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
         }
         FeedbackSessionAttributes feedbackSession =
-                logic.getFeedbackSession(feedbackQuestion.feedbackSessionName, feedbackQuestion.courseId);
+                getFeedbackSession(feedbackQuestion.feedbackSessionName, feedbackQuestion.courseId);
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifySessionOpenExceptForModeration(feedbackSession);

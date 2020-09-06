@@ -6,7 +6,10 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -188,6 +191,14 @@ public abstract class Action {
             requestBody = HttpRequestHelper.getRequestBody(req);
         }
         return requestBody;
+    }
+
+    protected FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session not found"));
+        }
+        return feedbackSession;
     }
 
     /**

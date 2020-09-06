@@ -106,7 +106,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+        verifyEntityNotFound(submissionParams);
 
         ______TS("only instructors of the same course can access full detail");
 

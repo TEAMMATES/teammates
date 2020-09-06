@@ -20,7 +20,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, userInfo.getId()),
@@ -33,7 +33,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         if (!feedbackSession.isPublished()) {
             return new JsonResult("Published email could not be resent "
                     + "as the feedback session is not published.", HttpStatus.SC_BAD_REQUEST);

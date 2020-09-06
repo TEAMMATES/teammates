@@ -22,7 +22,7 @@ public class BinFeedbackSessionAction extends Action {
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, userInfo.getId()),

@@ -28,7 +28,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-            FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+            FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
 
             if (feedbackSession == null) {
                 throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback Session could not be "

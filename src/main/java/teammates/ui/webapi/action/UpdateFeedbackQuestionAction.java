@@ -35,7 +35,7 @@ public class UpdateFeedbackQuestionAction extends Action {
         }
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(questionAttributes.getCourseId(), userInfo.getId()),
-                logic.getFeedbackSession(questionAttributes.getFeedbackSessionName(), questionAttributes.getCourseId()),
+                getFeedbackSession(questionAttributes.getFeedbackSessionName(), questionAttributes.getCourseId()),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
 

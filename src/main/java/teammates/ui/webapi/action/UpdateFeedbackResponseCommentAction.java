@@ -46,7 +46,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         String feedbackResponseId = frc.feedbackResponseId;
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         String feedbackSessionName = frc.feedbackSessionName;
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes session = getFeedbackSession(feedbackSessionName, courseId);
         Assumption.assertNotNull(response);
         String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
