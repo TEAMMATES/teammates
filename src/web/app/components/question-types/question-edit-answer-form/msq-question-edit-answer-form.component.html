@@ -7,7 +7,7 @@
         <strong>{{ questionDetails.msqChoices[i] }}</strong>
       </label>
     </div>
-    <div class="check-box" *ngIf="questionDetails.otherEnabled">
+    <div id="other-option" class="check-box" *ngIf="questionDetails.otherEnabled">
       <label class="margin-right-15px">
         <input type="checkbox" class="margin-right-15px" [checked]="responseDetails.isOther"
                (click)="updateIsOtherOption()" [disabled]="isDisabled">

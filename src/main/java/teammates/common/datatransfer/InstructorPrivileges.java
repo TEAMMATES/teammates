@@ -296,9 +296,8 @@ public final class InstructorPrivileges {
      * Removes special settings for sectionName.
      */
     public void removeSectionLevelPrivileges(String sectionName) {
-        if (this.sectionLevel.containsKey(sectionName)) {
-            this.sectionLevel.remove(sectionName);
-        }
+
+        this.sectionLevel.remove(sectionName);
         this.removeSessionsPrivilegesForSection(sectionName);
     }
 
@@ -306,9 +305,7 @@ public final class InstructorPrivileges {
      * Removes special settings for all sessionNames in sectionName.
      */
     public void removeSessionsPrivilegesForSection(String sectionName) {
-        if (this.sessionLevel.containsKey(sectionName)) {
-            this.sessionLevel.remove(sectionName);
-        }
+        this.sessionLevel.remove(sectionName);
     }
 
     private boolean isAllowedInCourseLevel(String privilegeName) {
