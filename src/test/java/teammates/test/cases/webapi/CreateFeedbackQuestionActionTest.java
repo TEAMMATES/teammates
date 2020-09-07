@@ -257,7 +257,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+        verifyEntityNotFound(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");
 

@@ -48,7 +48,7 @@ public class RestoreFeedbackSessionAction extends Action {
             new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        FeedbackSessionAttributes restoredFs = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes restoredFs = getNonNullFeedbackSession(feedbackSessionName, courseId);
         return new JsonResult(new FeedbackSessionData(restoredFs));
     }
 
