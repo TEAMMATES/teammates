@@ -639,8 +639,6 @@ public final class FeedbackSessionsLogic {
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
 
-        FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-
         // load question(s)
         List<FeedbackQuestionAttributes> allQuestions;
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
@@ -654,11 +652,27 @@ public final class FeedbackSessionsLogic {
         }
 
         // load response(s)
+        StudentAttributes student = getStudent(courseId, userEmail, role);
         List<FeedbackResponseAttributes> allResponses;
-        if (questionId == null) {
-            allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        if (isInstructor(role)) {
+            // load all response for instructors and passively filter them later
+            if (questionId == null) {
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+            } else {
+                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
+            }
         } else {
-            allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
+            if (section != null) {
+                throw new UnsupportedOperationException("Specify section filtering is not supported for student result");
+            }
+            allResponses = new ArrayList<>();
+            // load viewable responses for students proactively
+            // this is cost-effective as in most of time responses for the whole session will not be viewable to students
+            for (FeedbackQuestionAttributes question : allQuestions) {
+                List<FeedbackResponseAttributes> viewableResponses =
+                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
+                allResponses.addAll(viewableResponses);
+            }
         }
 
         // load comment(s)
@@ -682,7 +696,6 @@ public final class FeedbackSessionsLogic {
         }
 
         // consider the current viewing user
-        StudentAttributes student = getStudent(courseId, userEmail, role);
         Set<String> studentsEmailInTeam = getTeammateEmails(student, roster);
         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
 
@@ -734,6 +747,7 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
+        FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         if (role == UserRole.INSTRUCTOR) {
             missingResponses = buildMissingResponses(
                     instructor, responseVisibilityTable, session,
