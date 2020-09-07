@@ -121,12 +121,16 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        if (StringHelper.isEmpty(moderatedPerson) && StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
-        } else {
+        if (!StringHelper.isEmpty(moderatedPerson)) {
+            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        } else {
+            gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }
     }
 
