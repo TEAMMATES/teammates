@@ -209,21 +209,21 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Only instructor with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, params
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, params
         );
 
         ______TS("Instructor moderates instructor submission with correct privilege will pass");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        params = generateParameters(feedbackSession, intent, "", instructor1OfCourse1.email, "");
+        params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.email, "");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
 
         ______TS("Instructor preview instructor result with correct privilege will pass");
 
         String[] previewInstructorSubmissionParams =
-                generateParameters(feedbackSession, intent,
+                generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.email);
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
