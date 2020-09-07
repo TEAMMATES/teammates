@@ -300,8 +300,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.email);
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION,
-                previewInstructorSubmissionParams);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
         loginAsInstructor(instructor1OfCourse1.googleId);
