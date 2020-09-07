@@ -21,7 +21,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, userInfo.getId()),
@@ -34,7 +34,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         if (!feedbackSession.isOpened()) {
             return new JsonResult("Reminder email could not be sent out "
                     + "as the feedback session is not open for submissions.", HttpStatus.SC_BAD_REQUEST);

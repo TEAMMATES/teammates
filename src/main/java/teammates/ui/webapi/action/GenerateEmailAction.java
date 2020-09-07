@@ -49,7 +49,7 @@ public class GenerateEmailAction extends Action {
             if (feedbackSessionName == null) {
                 throw new InvalidHttpParameterException("Feedback session name not specified");
             }
-            FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
+            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
             email = emailGenerator.generateFeedbackSessionStudentReminderEmail(feedbackSession, student);
         } else {
             throw new InvalidHttpParameterException("Email type " + emailType + " not accepted");

@@ -24,7 +24,7 @@ public class UpdateFeedbackSessionAction extends Action {
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, userInfo.getId()),

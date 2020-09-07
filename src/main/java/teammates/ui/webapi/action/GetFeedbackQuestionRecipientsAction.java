@@ -37,7 +37,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackSessionAttributes feedbackSession =
-                getFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
+                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);

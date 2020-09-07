@@ -193,7 +193,7 @@ public abstract class Action {
         return requestBody;
     }
 
-    protected FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
+    protected FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session not found"));

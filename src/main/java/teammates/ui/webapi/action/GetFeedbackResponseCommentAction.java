@@ -43,7 +43,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         }
         String courseId = feedbackResponseAttributes.courseId;
         FeedbackSessionAttributes feedbackSession =
-                getFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
+                getNonNullFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
                         feedbackResponseAttributes.getCourseId());
         FeedbackQuestionAttributes feedbackQuestion =
                 logic.getFeedbackQuestion(feedbackResponseAttributes.getFeedbackQuestionId());

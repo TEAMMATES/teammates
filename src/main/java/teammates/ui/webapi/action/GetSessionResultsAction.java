@@ -28,7 +28,7 @@ public class GetSessionResultsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         if (fs == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not found"));

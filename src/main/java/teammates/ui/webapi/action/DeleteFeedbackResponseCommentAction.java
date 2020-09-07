@@ -28,7 +28,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
         if (frc == null) {
             return;
         }
-        FeedbackSessionAttributes session = getFeedbackSession(frc.getFeedbackSessionName(), frc.getCourseId());
+        FeedbackSessionAttributes session = getNonNullFeedbackSession(frc.getFeedbackSessionName(), frc.getCourseId());
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(frc.getFeedbackQuestionId());
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));

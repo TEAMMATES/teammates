@@ -29,7 +29,7 @@ public class CreateFeedbackQuestionAction extends Action {
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
-                getFeedbackSession(feedbackSessionName, courseId),
+                getNonNullFeedbackSession(feedbackSessionName, courseId),
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
 
