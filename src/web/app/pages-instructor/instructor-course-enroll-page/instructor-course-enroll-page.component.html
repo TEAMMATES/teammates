@@ -1,4 +1,3 @@
-<div >
 <tm-loading-retry *tmIsLoading="isLoading" [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
   <div *ngIf="coursePresent">
     <h1>Enroll Students for {{ courseId }}</h1>
@@ -240,7 +239,6 @@
     </div>
   </div>
 </tm-loading-retry>
-</div>
 <hr>
 <div id="results-panel" *ngIf="coursePresent && showEnrollResults">
   <h1>Enrollment Results for {{ courseId }}</h1>
