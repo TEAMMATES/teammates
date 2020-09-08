@@ -35,7 +35,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     AjaxLoadingModule,
     LoadingRetryModule,
-    LoadingSpinnerModule, 
+    LoadingSpinnerModule,
     PanelChevronModule,
   ],
 })
