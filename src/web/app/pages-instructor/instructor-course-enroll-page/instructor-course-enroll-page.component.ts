@@ -359,7 +359,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.hasLoadingStudentsFailed = false;
     this.isLoading = true;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
-      this.coursePresent = true;
+      this.coursePresent = false;
       this.isLoading = false;
       this.courseId = courseid;
       if (resp.hasResponses) {
