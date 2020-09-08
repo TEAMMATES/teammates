@@ -645,7 +645,12 @@ public final class FeedbackSessionsLogic {
         if (questionId == null) {
             allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } else {
-            allQuestions = Collections.singletonList(fqLogic.getFeedbackQuestion(questionId));
+            FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
+            if (fqa == null) {
+                allQuestions = Collections.emptyList();
+            } else {
+                allQuestions = Collections.singletonList(fqa);
+            }
         }
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);

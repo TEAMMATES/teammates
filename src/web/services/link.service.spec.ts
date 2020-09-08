@@ -37,13 +37,13 @@ describe('Link Service', () => {
 
   it('should generate the course join link of the student', () => {
     expect(service.generateCourseJoinLinkStudent(mockStudent))
-      .toBe('http://localhost:4200/web/join?key=keyheehee&studentemail=alice.b.t'
+      .toBe(`${window.location.origin}/web/join?key=keyheehee&studentemail=alice.b.t`
             + 'mms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student');
   });
 
   it('should generate the course join link for instructors', () => {
     expect(service.generateCourseJoinLinkInstructor(mockInstructor))
-      .toBe('http://localhost:4200/web/join?key=impicklerick&entitytype=instructor');
+      .toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
   });
 
   it('should generate the home page link', () => {
@@ -58,20 +58,20 @@ describe('Link Service', () => {
 
   it('should generate the record page link', () => {
     expect(service.generateRecordsPageLink(mockStudent, 'from my point of view the jedi are evil'))
-      .toBe('http://localhost:4200/web/instructor/students/records?courseid=dog.gma-demo&studentemail=alice.'
+      .toBe(`${window.location.origin}/web/instructor/students/records?courseid=dog.gma-demo&studentemail=alice.`
             + 'b.tmms%40gmail.tmt&user=from%20my%20point%20of%20view%20the%20jedi%20are%20evil');
   });
 
   it('should generate the submit url', () => {
     expect(service.generateSubmitUrl(mockStudent, 'did you ever hear the tragedy of darth plagueis the wise'))
-      .toBe('http://localhost:4200/web/sessions/submission?courseid=dog.gma-demo&key=keyheehe'
+      .toBe(`${window.location.origin}/web/sessions/submission?courseid=dog.gma-demo&key=keyheehe`
             + 'e&studentemail=alice.b.tmms%40gmail.tmt&fsname=did%20you%20'
             + 'ever%20hear%20the%20tragedy%20of%20darth%20plagueis%20the%20wise');
   });
 
   it('should generate the result url', () => {
     expect(service.generateResultUrl(mockStudent, 'another happy landing'))
-      .toBe('http://localhost:4200/web/sessions/result?courseid'
+      .toBe(`${window.location.origin}/web/sessions/result?courseid`
             + '=dog.gma-demo&key=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&fsname=another%20happy%20landing');
   });
 
