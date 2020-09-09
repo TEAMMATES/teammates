@@ -34,6 +34,9 @@ export class RichTextEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
+    if (window.innerWidth < 768) {
+      this.init.toolbar1 = '';
+    }
   }
 
   private getEditorSettings(): any {
