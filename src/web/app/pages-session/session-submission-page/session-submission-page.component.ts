@@ -192,7 +192,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     });
 
     // Display note on submission on mobile device
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 768 && this.feedbackSessionSubmissionStatus == FeedbackSessionSubmissionStatus.OPEN) {
       const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
 answer remaining questions after that. You may also edit your submission any number of times before the closing time of
 this session.`;
