@@ -998,7 +998,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private int getNumRubricRows(int questionNum) {
-        return getQuestionForm(questionNum).findElements(By.cssSelector("tm-rubric-question-edit-details-form tr")).size();
+        return getQuestionForm(questionNum).findElements(By.cssSelector("#rubric-table tr")).size();
     }
 
     private int getNumRubricCols(int questionNum) {
