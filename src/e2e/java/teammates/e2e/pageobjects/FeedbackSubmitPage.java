@@ -20,7 +20,14 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
@@ -158,6 +165,26 @@ public class FeedbackSubmitPage extends AppPage {
                 + " words");
     }
 
+    public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestionDetails questionDetails) {
+        List<String> mcqChoices = questionDetails.getMcqChoices();
+        List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+
+        for (int i = 0; i < mcqChoices.size(); i++) {
+            assertEquals(mcqChoices.get(i), optionTexts.get(i).getText());
+        }
+
+        if (questionDetails.isOtherEnabled()) {
+            assertEquals("Other", getMcqSection(qnNumber, recipient).findElement(By.id("other-option")).getText());
+        }
+    }
+
+    public void verifyGeneratedMcqQuestion(int qnNumber, String recipient, List<String> options) {
+        List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+        for (int i = 0; i < options.size(); i++) {
+            assertEquals(options.get(i), optionTexts.get(i).getText());
+        }
+    }
+
     public void submitMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
         FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetails();
         if (responseDetails.isOther()) {
@@ -173,6 +200,160 @@ public class FeedbackSubmitPage extends AppPage {
             }
         }
         clickSubmitButton();
+    }
+
+    public void verifyMcqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetails();
+        if (responseDetails.isOther()) {
+            assertTrue(getMcqOtherOptionRadioBtn(qnNumber, recipient).isSelected());
+            assertEquals(getMcqOtherOptionTextbox(qnNumber, recipient).getAttribute("value"),
+                    responseDetails.getOtherFieldContent());
+        } else {
+            List<WebElement> optionTexts = getMcqOptions(qnNumber, recipient);
+            List<WebElement> radioBtns = getMcqRadioBtns(qnNumber, recipient);
+            for (int i = 0; i < optionTexts.size(); i++) {
+                if (optionTexts.get(i).getText().equals(responseDetails.getAnswer())) {
+                    assertTrue(radioBtns.get(i).isSelected());
+                    break;
+                }
+                assertFalse(radioBtns.get(i).isSelected());
+            }
+        }
+    }
+
+    public void verifyMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestionDetails questionDetails) {
+        List<String> msqChoices = questionDetails.getMsqChoices();
+        if (questionDetails.isOtherEnabled()) {
+            msqChoices.add("Other");
+        }
+        if (questionDetails.getMinSelectableChoices() == Integer.MIN_VALUE) {
+            msqChoices.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        for (int i = 0; i < msqChoices.size(); i++) {
+            assertEquals(msqChoices.get(i), optionTexts.get(i).getText());
+        }
+        verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
+    }
+
+    private void verifyMsqSelectableOptionsMessage(int qnNumber, FeedbackMsqQuestionDetails questionDetails) {
+        if (questionDetails.getMinSelectableChoices() > Integer.MIN_VALUE) {
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
+                    "Choose at least " + questionDetails.getMinSelectableChoices() + " options.");
+        }
+        if (questionDetails.getMaxSelectableChoices() > Integer.MIN_VALUE) {
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
+                    "Choose no more than " + questionDetails.getMaxSelectableChoices() + " options.");
+        }
+    }
+
+    public void verifyGeneratedMsqQuestion(int qnNumber, String recipient, FeedbackMsqQuestionDetails questionDetails,
+                                           List<String> options) {
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        for (int i = 0; i < options.size(); i++) {
+            assertEquals(options.get(i), optionTexts.get(i).getText());
+        }
+        verifyMsqSelectableOptionsMessage(qnNumber, questionDetails);
+    }
+
+    public void submitMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
+        List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
+        for (int i = 0; i < optionTexts.size(); i++) {
+            if (answers.contains(optionTexts.get(i).getText())) {
+                markOptionAsSelected(checkboxes.get(i));
+            } else {
+                markOptionAsUnselected(checkboxes.get(i));
+            }
+        }
+        if (responseDetails.isOther()) {
+            markOptionAsSelected(getMsqOtherOptionCheckbox(qnNumber, recipient));
+            fillTextBox(getMsqOtherOptionTextbox(qnNumber, recipient), responseDetails.getOtherFieldContent());
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyMsqResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackMsqResponseDetails responseDetails = (FeedbackMsqResponseDetails) response.getResponseDetails();
+        List<String> answers = responseDetails.getAnswers();
+        if (answers.get(0).isEmpty()) {
+            answers.add("None of the above");
+        }
+        List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
+        List<WebElement> checkboxes = getMsqCheckboxes(qnNumber, recipient);
+        for (int i = 0; i < optionTexts.size(); i++) {
+            if (answers.contains(optionTexts.get(i).getText())) {
+                assertTrue(checkboxes.get(i).isSelected());
+            } else if (optionTexts.get(i).getText().equals("Other")) {
+                assertEquals(checkboxes.get(i).isSelected(), responseDetails.isOther());
+            } else {
+                assertFalse(checkboxes.get(i).isSelected());
+            }
+        }
+        if (responseDetails.isOther()) {
+            assertEquals(getMsqOtherOptionTextbox(qnNumber, recipient).getAttribute("value"),
+                    responseDetails.getOtherFieldContent());
+        }
+    }
+
+    public void verifyNumScaleQuestion(int qnNumber, String recipient,
+                                       FeedbackNumericalScaleQuestionDetails questionDetails) {
+        double step = questionDetails.getStep();
+        double twoSteps = 2 * step;
+        double min = questionDetails.getMinScale();
+        double max = questionDetails.getMaxScale();
+        String possibleValues = String.format("Possible values: [%s, %s, %s, ..., %s, %s, %s]",
+                getDoubleString(min), getDoubleString(min + step), getDoubleString(min + twoSteps),
+                getDoubleString(max - twoSteps), getDoubleString(max - step), getDoubleString(max));
+        String actualValues = getNumScaleSection(qnNumber, recipient).findElement(By.id("possible-values")).getText();
+        assertEquals(actualValues, possibleValues);
+    }
+
+    public void submitNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackNumericalScaleResponseDetails responseDetails =
+                (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+        fillTextBox(getNumScaleInput(qnNumber, recipient), Double.toString(responseDetails.getAnswer()));
+        clickSubmitButton();
+    }
+
+    public void verifyNumScaleResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackNumericalScaleResponseDetails responseDetails =
+                (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
+        assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
+                getDoubleString(responseDetails.getAnswer()));
+    }
+
+    public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestionDetails questionDetails) {
+        try {
+            selectDropdownOptionByText(getContributionDropdowns(qnNumber).get(0), "Not Sure");
+            assertTrue(questionDetails.isNotSureAllowed());
+        } catch (NoSuchElementException e) {
+            assertFalse(questionDetails.isNotSureAllowed());
+        }
+    }
+
+    public void submitContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getResponseDetails();
+            selectDropdownOptionByText(dropdowns.get(i), getContributionString(response.getAnswer()));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getResponseDetails();
+            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(response.getAnswer()));
+        }
     }
 
     public void verifyRankQuestion(int qnNumber, String recipient, FeedbackRankQuestionDetails questionDetails) {
@@ -250,7 +431,6 @@ public class FeedbackSubmitPage extends AppPage {
                         Integer.toString(response.getAnswer()));
             }
         }
-        clickSubmitButton();
     }
 
     private String getCourseId() {
@@ -380,12 +560,12 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    private String getQuestionDescription(int qnNumber) {
-        return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
-    }
-
     private void clickSubmitButton() {
         clickAndConfirm(browser.driver.findElement(By.id("btn-submit")));
+    }
+
+    private String getQuestionDescription(int qnNumber) {
+        return getQuestionForm(qnNumber).findElement(By.id("question-description")).getAttribute("innerHTML");
     }
 
     private WebElement getCommentSection(int qnNumber, String recipient) {
@@ -442,6 +622,10 @@ public class FeedbackSubmitPage extends AppPage {
         return getQuestionForm(qnNumber).findElements(By.id("response-length")).get(recipientIndex).getText();
     }
 
+    private String getDoubleString(Double value) {
+        return value % 1 == 0 ? Integer.toString(value.intValue()) : Double.toString(value);
+    }
+
     private WebElement getMcqSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
@@ -466,6 +650,57 @@ public class FeedbackSubmitPage extends AppPage {
     private List<WebElement> getMcqRadioBtns(int qnNumber, String recipient) {
         WebElement mcqSection = getMcqSection(qnNumber, recipient);
         return mcqSection.findElements(By.cssSelector("input[type=radio]"));
+    }
+
+    private WebElement getMsqSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-msq-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private WebElement getMsqOtherOptionCheckbox(int qnNumber, String recipient) {
+        WebElement msqSection = getMsqSection(qnNumber, recipient);
+        return msqSection.findElement(By.cssSelector("#other-option input[type=checkbox]"));
+    }
+
+    private WebElement getMsqOtherOptionTextbox(int qnNumber, String recipient) {
+        WebElement msqSection = getMsqSection(qnNumber, recipient);
+        return msqSection.findElement(By.cssSelector("#other-option input[type=text]"));
+    }
+
+    private List<WebElement> getMsqOptions(int qnNumber, String recipient) {
+        WebElement msqSection = getMsqSection(qnNumber, recipient);
+        return msqSection.findElements(By.tagName("strong"));
+    }
+
+    private List<WebElement> getMsqCheckboxes(int qnNumber, String recipient) {
+        WebElement msqSection = getMsqSection(qnNumber, recipient);
+        return msqSection.findElements(By.cssSelector("input[type=checkbox]"));
+    }
+
+    private WebElement getNumScaleSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-num-scale-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private WebElement getNumScaleInput(int qnNumber, String recipient) {
+        WebElement numScaleSection = getNumScaleSection(qnNumber, recipient);
+        return numScaleSection.findElement(By.tagName("input"));
+    }
+
+    private List<WebElement> getContributionDropdowns(int questionNum) {
+        return getQuestionForm(questionNum).findElements(By.tagName("select"));
+    }
+
+    private String getContributionString(int answer) {
+        if (answer == Const.POINTS_NOT_SURE) {
+            return "Not Sure";
+        } else if (answer == Const.POINTS_EQUAL_SHARE) {
+            return "Equal share";
+        } else {
+            return "Equal share" + (answer > 100 ? " + " : " - ") + Math.abs(answer - 100) + "%";
+        }
     }
 
     private WebElement getRankOptionsSection(int qnNumber, String recipient) {
