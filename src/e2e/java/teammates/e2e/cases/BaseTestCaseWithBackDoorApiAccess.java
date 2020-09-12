@@ -215,6 +215,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.getStudent(student.course, student.email);
     }
 
+    protected String getKeyForStudent(StudentAttributes student) {
+        return StringHelper.encrypt(getStudent(student).getKey());
+    }
+
     @Override
     protected String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException {
         return BackDoor.removeAndRestoreDataBundle(testData);
