@@ -95,7 +95,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
-        verifyCannotAccess(nonExistParams);
+        verifyEntityNotFound(nonExistParams);
 
         ______TS("non-existent feedback session");
 
@@ -104,7 +104,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
 
-        verifyCannotAccess(nonExistParams);
+        verifyEntityNotFound(nonExistParams);
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

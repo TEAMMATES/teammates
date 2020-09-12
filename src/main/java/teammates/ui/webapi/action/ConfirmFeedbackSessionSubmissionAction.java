@@ -28,7 +28,7 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         verifySessionOpenExceptForModeration(feedbackSession);
         verifyNotPreview();
@@ -52,7 +52,7 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         boolean isSubmissionEmailConfirmationEmailRequested =
                 getBooleanRequestParamValue(Const.ParamsNames.SEND_SUBMISSION_EMAIL);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
