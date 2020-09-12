@@ -84,6 +84,9 @@ public class GetInstructorsAction extends Action {
                 for (InstructorAttributes instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
                     instructorData.setGoogleId(instructor.googleId);
+                    if (userInfo.isAdmin) {
+                        instructorData.setKey(instructor.getKey());
+                    }
                     data.getInstructors().add(instructorData);
                 }
             } else {

@@ -406,7 +406,11 @@ public final class BackDoor {
         if (instructorData.getDisplayedToStudentsAs() != null) {
             instructor.withDisplayedName(instructorData.getDisplayedToStudentsAs());
         }
-        return instructor.build();
+        InstructorAttributes instructorAttributes = instructor.build();
+        if (instructorData.getKey() != null) {
+            instructorAttributes.key = instructorData.getKey();
+        }
+        return instructorAttributes;
     }
 
     /**
