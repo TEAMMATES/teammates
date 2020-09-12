@@ -22,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
@@ -618,6 +619,26 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureContributionCheckbox(questionNum).isSelected());
+    }
+
+    public void addContributionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(8);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackContributionQuestionDetails questionDetails =
+                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputContributionDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editContributionQuestion(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputContributionDetails(questionNum, questionDetails);
         clickSaveQuestionButton(questionNum);
     }
 
@@ -1241,5 +1262,17 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void inputNumScaleValue(WebElement input, String value) {
         input.clear();
         input.sendKeys(value);
+    }
+
+    private WebElement getAllowNotSureContributionCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("not-sure-checkbox"));
+    }
+
+    private void inputContributionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
+        if (questionDetails.isNotSureAllowed()) {
+            markOptionAsSelected(getAllowNotSureContributionCheckbox(questionNum));
+        } else {
+            markOptionAsUnselected(getAllowNotSureContributionCheckbox(questionNum));
+        }
     }
 }

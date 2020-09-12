@@ -20,6 +20,8 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
@@ -28,6 +30,7 @@ import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDet
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.util.Const;
 
 /**
  * Represents the feedback submission page of the website.
@@ -321,6 +324,34 @@ public class FeedbackSubmitPage extends AppPage {
                 getDoubleString(responseDetails.getAnswer()));
     }
 
+    public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestionDetails questionDetails) {
+        try {
+            selectDropdownOptionByText(getContributionDropdowns(qnNumber).get(0), "Not Sure");
+            assertTrue(questionDetails.isNotSureAllowed());
+        } catch (NoSuchElementException e) {
+            assertFalse(questionDetails.isNotSureAllowed());
+        }
+    }
+
+    public void submitContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getResponseDetails();
+            selectDropdownOptionByText(dropdowns.get(i), getContributionString(response.getAnswer()));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyContributionResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> dropdowns = getContributionDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackContributionResponseDetails response =
+                    (FeedbackContributionResponseDetails) responses.get(i).getResponseDetails();
+            assertEquals(getSelectedDropdownOptionText(dropdowns.get(i)), getContributionString(response.getAnswer()));
+        }
+    }
+
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
     }
@@ -575,5 +606,19 @@ public class FeedbackSubmitPage extends AppPage {
     private WebElement getNumScaleInput(int qnNumber, String recipient) {
         WebElement numScaleSection = getNumScaleSection(qnNumber, recipient);
         return numScaleSection.findElement(By.tagName("input"));
+    }
+
+    private List<WebElement> getContributionDropdowns(int questionNum) {
+        return getQuestionForm(questionNum).findElements(By.tagName("select"));
+    }
+
+    private String getContributionString(int answer) {
+        if (answer == Const.POINTS_NOT_SURE) {
+            return "Not Sure";
+        } else if (answer == Const.POINTS_EQUAL_SHARE) {
+            return "Equal share";
+        } else {
+            return "Equal share" + (answer > 100 ? " + " : " - ") + Math.abs(answer - 100) + "%";
+        }
     }
 }
