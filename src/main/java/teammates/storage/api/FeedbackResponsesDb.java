@@ -151,6 +151,17 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
+     * Gets all responses received by a user for a question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
+            String feedbackQuestionId, String receiver) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
+
+        return makeAttributes(getFeedbackResponseEntitiesForReceiverForQuestion(feedbackQuestionId, receiver));
+    }
+
+    /**
      * Checks whether a user has responses in a session.
      */
     public boolean hasResponsesFromGiverInSession(
@@ -361,6 +372,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverEmail =", giverEmail)
+                .list();
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(
+            String feedbackQuestionId, String receiver) {
+        return load()
+                .filter("feedbackQuestionId =", feedbackQuestionId)
+                .filter("receiver =", receiver)
                 .list();
     }
 

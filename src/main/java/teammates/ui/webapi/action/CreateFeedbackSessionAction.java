@@ -64,7 +64,7 @@ public class CreateFeedbackSessionAction extends Action {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 
-        fs = logic.getFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
+        fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
         return new JsonResult(new FeedbackSessionData(fs));
     }
 

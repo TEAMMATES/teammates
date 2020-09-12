@@ -24,7 +24,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
     public void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
@@ -35,12 +35,17 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges();
-            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             break;
         case INSTRUCTOR_SUBMISSION:
-        case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+            break;
+        case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -51,7 +56,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
     public ActionResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         if (feedbackSession == null) {
             return new JsonResult("No feedback session with name " + feedbackSessionName
