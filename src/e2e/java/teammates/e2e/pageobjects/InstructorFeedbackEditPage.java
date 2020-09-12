@@ -1,7 +1,6 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
@@ -545,11 +544,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
-        if (questionDetails.isNotSureAllowed()) {
-            assertTrue(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
-        } else {
-            assertFalse(getAllowNotSureConstributionCheckbox(questionNum).isSelected());
-        }
+        assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureConstributionCheckbox(questionNum).isSelected());
     }
 
     public void addContributionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
