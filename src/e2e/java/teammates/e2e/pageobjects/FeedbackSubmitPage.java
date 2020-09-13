@@ -20,6 +20,8 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -326,6 +328,76 @@ public class FeedbackSubmitPage extends AppPage {
                 (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
         assertEquals(getNumScaleInput(qnNumber, recipient).getAttribute("value"),
                 getDoubleString(responseDetails.getAnswer()));
+    }
+
+    public void verifyConstSumQuestion(int qnNumber, String recipient,
+                                       FeedbackConstantSumQuestionDetails questionDetails) {
+        if (!questionDetails.isDistributeToRecipients()) {
+            List<String> constSumOptions = questionDetails.getConstSumOptions();
+            List<WebElement> optionTexts = getConstSumOptions(qnNumber, recipient);
+            for (int i = 0; i < constSumOptions.size(); i++) {
+                assertEquals(constSumOptions.get(i), optionTexts.get(i).getText());
+            }
+        }
+
+        int totalPoints = questionDetails.getPoints();
+        if (questionDetails.isPointsPerOption()) {
+            totalPoints *= questionDetails.getNumOfConstSumOptions();
+        }
+        assertEquals(getQuestionForm(qnNumber).findElement(By.id("total-points-message")).getText(),
+                "Total points distributed should add up to " + totalPoints + ".");
+
+        if (questionDetails.isForceUnevenDistribution()) {
+            String entityType = questionDetails.isDistributeToRecipients() ? "recipient" : "option";
+            if (questionDetails.getDistributePointsFor().equals("All options")) {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("all-uneven-message")).getText(),
+                        "Every " + entityType + " should be allocated different number of points.");
+            } else {
+                assertEquals(getQuestionForm(qnNumber).findElement(By.id("one-uneven-message")).getText(),
+                        "At least one " + entityType + " should be allocated different number of points.");
+            }
+        }
+    }
+
+    public void submitConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackConstantSumResponseDetails responseDetails =
+                (FeedbackConstantSumResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswers();
+        List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
+        for (int i = 0; i < answers.size(); i++) {
+            fillTextBox(constSumInputs.get(i), Integer.toString(answers.get(i)));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyConstSumOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackConstantSumResponseDetails responseDetails =
+                (FeedbackConstantSumResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswers();
+        List<WebElement> constSumInputs = getConstSumInputs(qnNumber, recipient);
+        for (int i = 0; i < answers.size(); i++) {
+            assertEquals(constSumInputs.get(i).getAttribute("value"), Integer.toString(answers.get(i)));
+        }
+    }
+
+    public void submitConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetails();
+            fillTextBox(recipientInputs.get(i), Integer.toString(response.getAnswers().get(0)));
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyConstSumRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientInputs = getConstSumRecipientInputs(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackConstantSumResponseDetails response =
+                    (FeedbackConstantSumResponseDetails) responses.get(i).getResponseDetails();
+            assertEquals(recipientInputs.get(i).getAttribute("value"),
+                    Integer.toString(response.getAnswers().get(0)));
+        }
     }
 
     public void verifyContributionQuestion(int qnNumber, FeedbackContributionQuestionDetails questionDetails) {
@@ -687,6 +759,26 @@ public class FeedbackSubmitPage extends AppPage {
     private WebElement getNumScaleInput(int qnNumber, String recipient) {
         WebElement numScaleSection = getNumScaleSection(qnNumber, recipient);
         return numScaleSection.findElement(By.tagName("input"));
+    }
+
+    private WebElement getConstSumOptionsSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-constsum-options-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private List<WebElement> getConstSumOptions(int qnNumber, String recipient) {
+        WebElement constSumOptionSection = getConstSumOptionsSection(qnNumber, recipient);
+        return constSumOptionSection.findElements(By.tagName("strong"));
+    }
+
+    private List<WebElement> getConstSumInputs(int qnNumber, String recipient) {
+        WebElement constSumOptionSection = getConstSumOptionsSection(qnNumber, recipient);
+        return constSumOptionSection.findElements(By.cssSelector("input[type=number]"));
+    }
+
+    private List<WebElement> getConstSumRecipientInputs(int qnNumber) {
+        return getQuestionForm(qnNumber).findElements(By.cssSelector("input[type=number]"));
     }
 
     private List<WebElement> getContributionDropdowns(int questionNum) {

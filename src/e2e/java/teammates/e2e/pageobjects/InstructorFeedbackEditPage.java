@@ -22,6 +22,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
@@ -621,6 +622,58 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editNumScaleQuestion(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputNumScaleDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void verifyConstSumQuestionDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
+        if (!questionDetails.isDistributeToRecipients()) {
+            verifyOptions(questionNum, questionDetails.getConstSumOptions());
+        }
+
+        if (questionDetails.isPointsPerOption()) {
+            assertTrue(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+            assertEquals(getConstSumPerOptionPointsInput(questionNum).getAttribute("value"),
+                    Integer.toString(questionDetails.getPoints()));
+            assertFalse(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+        } else {
+            assertTrue(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+            assertEquals(getConstSumTotalPointsInput(questionNum).getAttribute("value"),
+                    Integer.toString(questionDetails.getPoints()));
+            assertFalse(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+        }
+
+        if (questionDetails.isForceUnevenDistribution()) {
+            String distributeFor = questionDetails.getDistributePointsFor();
+            assertTrue(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+            assertEquals(getSelectedDropdownOptionText(getConstSumUnevenDistributionDropdown(questionNum)).trim(),
+                    "All options".equals(distributeFor) ? "Every option" : distributeFor);
+        } else {
+            assertFalse(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+        }
+    }
+
+    public void addConstSumOptionQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(6);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumRecipientQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(7);
+        addConstSumQuestion(feedbackQuestion);
+    }
+
+    public void addConstSumQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackConstantSumQuestionDetails questionDetails =
+                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputConstSumDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editConstSumQuestion(int questionNum, FeedbackConstantSumQuestionDetails csQuestionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputConstSumDetails(questionNum, csQuestionDetails);
         clickSaveQuestionButton(questionNum);
     }
 
@@ -1300,6 +1353,51 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void inputNumScaleValue(WebElement input, String value) {
         input.clear();
         input.sendKeys(value);
+    }
+
+    private WebElement getConstSumTotalPointsRadioBtn(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("total-points-radio"));
+    }
+
+    private WebElement getConstSumTotalPointsInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("total-points"));
+    }
+
+    private WebElement getConstSumPerOptionPointsRadioBtn(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("per-option-points-radio"));
+    }
+
+    private WebElement getConstSumPerOptionPointsInput(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("per-option-points"));
+    }
+
+    private WebElement getConstSumUnevenDistributionCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-checkbox"));
+    }
+
+    private WebElement getConstSumUnevenDistributionDropdown(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("uneven-distribution-dropdown"));
+    }
+
+    private void inputConstSumDetails(int questionNum, FeedbackConstantSumQuestionDetails questionDetails) {
+        if (!questionDetails.isDistributeToRecipients()) {
+            inputOptions(questionNum, questionDetails.getConstSumOptions());
+        }
+        if (questionDetails.isPointsPerOption()) {
+            click(getConstSumPerOptionPointsRadioBtn(questionNum));
+            fillTextBox(getConstSumPerOptionPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+        } else {
+            click(getConstSumTotalPointsRadioBtn(questionNum));
+            fillTextBox(getConstSumTotalPointsInput(questionNum), Integer.toString(questionDetails.getPoints()));
+        }
+        String distributeFor = questionDetails.getDistributePointsFor();
+        if (questionDetails.isForceUnevenDistribution()) {
+            markOptionAsSelected(getConstSumUnevenDistributionCheckbox(questionNum));
+            selectDropdownOptionByText(getConstSumUnevenDistributionDropdown(questionNum),
+                    "All options".equals(distributeFor) ? "Every option" : distributeFor);
+        } else {
+            markOptionAsUnselected(getConstSumUnevenDistributionCheckbox(questionNum));
+        }
     }
 
     private WebElement getAllowNotSureContributionCheckbox(int questionNum) {
