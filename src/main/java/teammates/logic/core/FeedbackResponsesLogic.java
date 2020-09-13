@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -149,6 +150,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses received by an user for a question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
+            String feedbackQuestionId, String userEmail) {
+        return frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
+    }
+
+    /**
      * Checks whether a giver has responded a session.
      */
     public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
@@ -180,7 +189,7 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question, StudentAttributes student) {
         if (question.giverType == FeedbackParticipantType.TEAMS) {
             return getFeedbackResponsesFromTeamForQuestion(
-                    question.getId(), question.courseId, student.team);
+                    question.getId(), question.courseId, student.team, null);
         }
         return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
     }
@@ -752,11 +761,11 @@ public final class FeedbackResponsesLogic {
     }
 
     private List<FeedbackResponseAttributes> getFeedbackResponsesFromTeamForQuestion(
-            String feedbackQuestionId, String courseId, String teamName) {
+            String feedbackQuestionId, String courseId, String teamName, @Nullable CourseRoster courseRoster) {
 
         List<FeedbackResponseAttributes> responses = new ArrayList<>();
-        List<StudentAttributes> studentsInTeam =
-                studentsLogic.getStudentsForTeam(teamName, courseId);
+        List<StudentAttributes> studentsInTeam = courseRoster == null
+                ? studentsLogic.getStudentsForTeam(teamName, courseId) : courseRoster.getTeamToMembersTable().get(teamName);
 
         for (StudentAttributes student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
@@ -767,5 +776,90 @@ public final class FeedbackResponsesLogic {
                                         feedbackQuestionId, teamName));
 
         return responses;
+    }
+
+    /**
+     * Returns viewable feedback responses for a student.
+     */
+    public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
+            FeedbackQuestionAttributes question, StudentAttributes student, CourseRoster courseRoster) {
+        UniqueResponsesSet viewableResponses = new UniqueResponsesSet();
+
+        // Add responses that the student submitted himself
+        viewableResponses.addNewResponses(
+                getFeedbackResponsesFromGiverForQuestion(question.getFeedbackQuestionId(), student.getEmail())
+        );
+
+        // Add responses that user is a receiver of when question is visible to
+        // receiver.
+        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            viewableResponses.addNewResponses(
+                    getFeedbackResponsesForReceiverForQuestion(question.getFeedbackQuestionId(), student.getEmail())
+            );
+        }
+
+        if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+            viewableResponses.addNewResponses(getFeedbackResponsesForQuestion(question.getId()));
+
+            // Early return as STUDENTS covers all cases below.
+            return viewableResponses.getResponses();
+        }
+
+        if (question.getRecipientType().isTeam()
+                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            viewableResponses.addNewResponses(
+                    getFeedbackResponsesForReceiverForQuestion(question.getId(), student.getTeam())
+            );
+        }
+
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS
+                || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            viewableResponses.addNewResponses(
+                    getFeedbackResponsesFromTeamForQuestion(
+                            question.getId(), question.getCourseId(), student.getTeam(), courseRoster));
+        }
+
+        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
+            for (StudentAttributes studentInTeam : courseRoster.getTeamToMembersTable().get(student.getTeam())) {
+                if (studentInTeam.getEmail().equals(student.getEmail())) {
+                    continue;
+                }
+                List<FeedbackResponseAttributes> responses =
+                        frDb.getFeedbackResponsesForReceiverForQuestion(question.getId(), studentInTeam.getEmail());
+                viewableResponses.addNewResponses(responses);
+            }
+        }
+
+        return viewableResponses.getResponses();
+    }
+
+    /**
+     * Set contains only unique response.
+     */
+    private static class UniqueResponsesSet {
+
+        private final Set<String> responseIds;
+        private final List<FeedbackResponseAttributes> responses;
+
+        UniqueResponsesSet() {
+            responseIds = new HashSet<>();
+            responses = new ArrayList<>();
+        }
+
+        public void addNewResponses(Collection<FeedbackResponseAttributes> newResponses) {
+            newResponses.forEach(this::addNewResponse);
+        }
+
+        public void addNewResponse(FeedbackResponseAttributes newResponse) {
+            if (responseIds.contains(newResponse.getId())) {
+                return;
+            }
+            responseIds.add(newResponse.getId());
+            responses.add(newResponse);
+        }
+
+        public List<FeedbackResponseAttributes> getResponses() {
+            return responses;
+        }
     }
 }

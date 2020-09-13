@@ -968,6 +968,21 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGetSessionResultsForUser_studentSpecificQuestionAndSection_shouldThrowOperationNotSupported() {
+        // extra test data used on top of typical data bundle
+        removeAndRestoreDataBundle(loadDataBundle("/SpecialCharacterTest.json"));
+
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                "First Session", "FQLogicPCT.CS2104", 1);
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+            fsLogic.getSessionResultsForUser(
+                    "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
+                    UserRole.STUDENT, question.getId(), Const.DEFAULT_SECTION);
+        });
+    }
+
+    @Test
     public void testGetSessionResultsForUser_studentSpecificQuestionNoSection_shouldHaveCorrectResponsesFiltered() {
         // extra test data used on top of typical data bundle
         removeAndRestoreDataBundle(loadDataBundle("/SpecialCharacterTest.json"));

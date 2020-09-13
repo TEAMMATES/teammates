@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { Instructor, Student } from '../types/api-output';
-import { environment } from './../environments/environment';
 import { NavigationService } from './navigation.service';
 
 /**
  * Handles the logic for generating links on the client.
  */
-
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +26,7 @@ export class LinkService {
    * Generates course join link for student.
    */
   generateCourseJoinLinkStudent(student: Student): string {
-    const { frontendUrl }: { frontendUrl: string } = environment;
+    const frontendUrl: string = window.location.origin;
     const { key = '', email: studentemail, courseId: courseid }: Student = student;
     const params: {
       [key: string]: string,
@@ -48,7 +46,7 @@ export class LinkService {
    * Generates course join link for instructor.
    */
   generateCourseJoinLinkInstructor(instructor: Instructor): string {
-    const { frontendUrl }: { frontendUrl: string } = environment;
+    const frontendUrl: string = window.location.origin;
     const { key = '' }: Instructor = instructor;
     const params: {
       [key: string]: string,
@@ -95,7 +93,7 @@ export class LinkService {
    */
   generateRecordsPageLink(student: Student, instructorGoogleId: string): string {
     const { courseId: courseid, email: studentemail }: Student = student;
-    const { frontendUrl }: { frontendUrl: string } = environment;
+    const frontendUrl: string = window.location.origin;
     const params: {
       [key: string]: string,
     } = {
@@ -113,7 +111,7 @@ export class LinkService {
    * Generates submit url for a feedback session.
    */
   generateSubmitUrl(student: Student, fsname: string): string {
-    const { frontendUrl }: { frontendUrl: string } = environment;
+    const frontendUrl: string = window.location.origin;
     const { courseId: courseid, key = '', email: studentemail }: Student = student;
     const params: {
       [key: string]: string,
@@ -133,7 +131,7 @@ export class LinkService {
    * Generates a result url for a feedback session.
    */
   generateResultUrl(student: Student, fsname: string): string {
-    const { frontendUrl }: { frontendUrl: string } = environment;
+    const frontendUrl: string = window.location.origin;
     const { courseId: courseid, key = '', email: studentemail }: Student = student;
     const params: {
       [key: string]: string,
