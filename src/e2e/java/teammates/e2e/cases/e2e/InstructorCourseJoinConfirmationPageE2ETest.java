@@ -13,7 +13,7 @@ import teammates.e2e.pageobjects.ErrorReportingModal;
 import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
- * SUT: {@link Const.LegacyURIs#INSTRUCTOR_COURSE_JOIN}.
+ * SUT: {@link Const.WebPageURIs#JOIN_PAGE}.
  */
 public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     InstructorAttributes newInstructor;
