@@ -3,12 +3,12 @@
     <div class="form-group form-check">
       <label class="form-check-label tool-tip-decorate ngb-tooltip-class"
              ngbTooltip="Assign weights to the columns for calculating statistics.">
-        <input type="checkbox" class="form-check-input" [disabled]="!isEditable"
+        <input id="weights-checkbox" type="checkbox" class="form-check-input" [disabled]="!isEditable"
                [ngModel]="model.hasAssignedWeights" (ngModelChange)="triggerChoicesWeight($event)">Choices are weighted</label>
     </div>
   </div>
 </div>
-<table class="table table-bordered">
+<table id="rubric-table" class="table table-bordered">
   <tbody>
     <tr class="font-weight-bold item-center">
       <td>
@@ -23,7 +23,7 @@
       <td>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text font-weight-bold cursor-pointer"
+            <span id="btn-delete-subquestion" class="input-group-text font-weight-bold cursor-pointer"
                   (mouseover)="rowToHighlight = i" (mouseleave)="rowToHighlight = -1"
                   (click)="deleteSubQuestion(i)"><i class="fas fa-times"></i></span>
           </div>
@@ -45,7 +45,7 @@
         <div class="btn-group">
           <button type="button" class="btn btn-light" [disabled]="j === 0 || !isEditable" ngbTooltip="Move column left"
                   (click)="moveChoice(j, j - 1)"><i class="fas fa-arrow-left"></i></button>
-          <button type="button" class="btn btn-light" (click)="deleteChoice(j)"
+          <button id="btn-delete-choice" type="button" class="btn btn-light" (click)="deleteChoice(j)"
                   (mouseover)="columnToHighlight = j" (mouseleave)="columnToHighlight = -1"
                   [disabled]="model.numOfRubricChoices === 1 || !isEditable"
           ><i class="fas fa-times"></i></button>
@@ -59,9 +59,9 @@
 </table>
 <div class="row">
   <div class="col-6 text-left">
-    <button type="button" class="btn btn-primary btn-sm" (click)="addNewSubQuestion()" [disabled]="!isEditable">Add Row <i class="fas fa-arrow-down"></i></button>
+    <button id="btn-add-row" type="button" class="btn btn-primary btn-sm" (click)="addNewSubQuestion()" [disabled]="!isEditable">Add Row <i class="fas fa-arrow-down"></i></button>
   </div>
   <div class="col-6 text-right">
-    <button type="button" class="btn btn-primary btn-sm" (click)="addNewChoice()" [disabled]="!isEditable">Add Column <i class="fas fa-arrow-right"></i></button>
+    <button id="btn-add-col" type="button" class="btn btn-primary btn-sm" (click)="addNewChoice()" [disabled]="!isEditable">Add Column <i class="fas fa-arrow-right"></i></button>
   </div>
 </div>
