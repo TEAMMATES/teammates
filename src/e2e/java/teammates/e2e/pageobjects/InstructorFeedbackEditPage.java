@@ -27,6 +27,8 @@ import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
+import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -639,6 +641,42 @@ public class InstructorFeedbackEditPage extends AppPage {
     public void editContributionQuestion(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
         clickEditQuestionButton(questionNum);
         inputContributionDetails(questionNum, questionDetails);
+        clickSaveQuestionButton(questionNum);
+    }
+
+    public void verifyRankQuestionDetails(int questionNum, FeedbackRankQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackRankOptionsQuestionDetails) {
+            FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
+            verifyOptions(questionNum, optionDetails.getOptions());
+        }
+        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.areDuplicatesAllowed());
+        verifyMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
+        verifyMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
+    }
+
+    public void addRankOptionsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(10);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRankOptionsQuestionDetails questionDetails =
+                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void addRankRecipientsQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+        addNewQuestion(11);
+        int questionNum = getNumQuestions();
+        inputQuestionDetails(questionNum, feedbackQuestion);
+        FeedbackRankQuestionDetails questionDetails =
+                (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetails();
+        inputRankDetails(questionNum, questionDetails);
+        clickSaveNewQuestionButton();
+    }
+
+    public void editRankQuestion(int questionNum, FeedbackRankQuestionDetails questionDetails) {
+        clickEditQuestionButton(questionNum);
+        inputRankDetails(questionNum, questionDetails);
         clickSaveQuestionButton(questionNum);
     }
 
@@ -1274,5 +1312,23 @@ public class InstructorFeedbackEditPage extends AppPage {
         } else {
             markOptionAsUnselected(getAllowNotSureContributionCheckbox(questionNum));
         }
+    }
+
+    private WebElement getAllowDuplicateRankCheckbox(int questionNum) {
+        return getQuestionForm(questionNum).findElement(By.id("duplicate-rank-checkbox"));
+    }
+
+    private void inputRankDetails(int questionNum, FeedbackRankQuestionDetails questionDetails) {
+        if (questionDetails instanceof FeedbackRankOptionsQuestionDetails) {
+            FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
+            inputOptions(questionNum, optionDetails.getOptions());
+        }
+        if (questionDetails.areDuplicatesAllowed()) {
+            markOptionAsSelected(getAllowDuplicateRankCheckbox(questionNum));
+        } else {
+            markOptionAsUnselected(getAllowDuplicateRankCheckbox(questionNum));
+        }
+        inputMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
+        inputMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
 }

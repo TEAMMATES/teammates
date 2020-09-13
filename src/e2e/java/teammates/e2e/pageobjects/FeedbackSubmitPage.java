@@ -28,6 +28,10 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
+import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
@@ -352,6 +356,83 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
+    public void verifyRankQuestion(int qnNumber, String recipient, FeedbackRankQuestionDetails questionDetails) {
+        if (questionDetails.getMaxOptionsToBeRanked() != Integer.MIN_VALUE) {
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
+                    "Rank no more than " + questionDetails.getMaxOptionsToBeRanked() + " options.");
+        }
+        if (questionDetails.getMinOptionsToBeRanked() != Integer.MIN_VALUE) {
+            assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
+                    "Rank at least " + questionDetails.getMinOptionsToBeRanked() + " options.");
+        }
+        if (questionDetails instanceof FeedbackRankOptionsQuestionDetails) {
+            FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
+            List<String> options = optionDetails.getOptions();
+            List<WebElement> optionTexts = getRankOptions(qnNumber, recipient);
+            for (int i = 0; i < options.size(); i++) {
+                assertEquals(options.get(i), optionTexts.get(i).getText());
+            }
+        }
+    }
+
+    public void submitRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i), "");
+            } else {
+                selectDropdownOptionByText(getRankOptionsDropdowns(qnNumber, recipient).get(i),
+                        Integer.toString(answers.get(i)));
+            }
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyRankOptionResponse(int qnNumber, String recipient, FeedbackResponseAttributes response) {
+        FeedbackRankOptionsResponseDetails responseDetails =
+                (FeedbackRankOptionsResponseDetails) response.getResponseDetails();
+        List<Integer> answers = responseDetails.getAnswers();
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
+                assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
+                        "");
+            } else {
+                assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
+                        Integer.toString(answers.get(i)));
+            }
+        }
+    }
+
+    public void submitRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackRankRecipientsResponseDetails response =
+                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getResponseDetails();
+            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                selectDropdownOptionByText(recipientDropdowns.get(i), "");
+            } else {
+                selectDropdownOptionByText(recipientDropdowns.get(i), Integer.toString(response.getAnswer()));
+            }
+        }
+        clickSubmitButton();
+    }
+
+    public void verifyRankRecipientResponse(int qnNumber, List<FeedbackResponseAttributes> responses) {
+        List<WebElement> recipientDropdowns = getRankRecipientDropdowns(qnNumber);
+        for (int i = 0; i < responses.size(); i++) {
+            FeedbackRankRecipientsResponseDetails response =
+                    (FeedbackRankRecipientsResponseDetails) responses.get(i).getResponseDetails();
+            if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
+                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
+            } else {
+                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)),
+                        Integer.toString(response.getAnswer()));
+            }
+        }
+    }
+
     private String getCourseId() {
         return browser.driver.findElement(By.id("course-id")).getText();
     }
@@ -620,5 +701,25 @@ public class FeedbackSubmitPage extends AppPage {
         } else {
             return "Equal share" + (answer > 100 ? " + " : " - ") + Math.abs(answer - 100) + "%";
         }
+    }
+
+    private WebElement getRankOptionsSection(int qnNumber, String recipient) {
+        int recipientIndex = getRecipientIndex(qnNumber, recipient);
+        WebElement questionForm = getQuestionForm(qnNumber);
+        return questionForm.findElements(By.tagName("tm-rank-options-question-edit-answer-form")).get(recipientIndex);
+    }
+
+    private List<WebElement> getRankOptions(int questionNum, String recipient) {
+        WebElement rankSection = getRankOptionsSection(questionNum, recipient);
+        return rankSection.findElements(By.tagName("strong"));
+    }
+
+    private List<WebElement> getRankOptionsDropdowns(int questionNum, String recipient) {
+        WebElement rankSection = getRankOptionsSection(questionNum, recipient);
+        return rankSection.findElements(By.tagName("select"));
+    }
+
+    private List<WebElement> getRankRecipientDropdowns(int questionNum) {
+        return getQuestionForm(questionNum).findElements(By.tagName("select"));
     }
 }
