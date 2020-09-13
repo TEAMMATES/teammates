@@ -422,6 +422,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       Intent.INSTRUCTOR_RESULT,
       this.indicateMissingResponses,
       this.showStatistics,
+      undefined,
       this.section.length === 0 ? undefined : this.section,
       this.section.length === 0 ? undefined : this.sectionType,
     ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe((resp: string) => {

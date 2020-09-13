@@ -12,7 +12,6 @@
       <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-primary btn-sm"
               [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
               (click)="triggerModelChange('isEditing', true)">
-        <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit"></tm-ajax-loading>
         <i *ngIf="!instructor.isSavingInstructorEdit" class="fa fa-pen" aria-hidden="true"></i>
         Edit
       </button>

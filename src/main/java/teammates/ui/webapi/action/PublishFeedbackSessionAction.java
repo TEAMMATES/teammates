@@ -25,9 +25,9 @@ public class PublishFeedbackSessionAction extends Action {
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
-        gateKeeper.verifyAccessible(instructor, session,
+        gateKeeper.verifyAccessible(instructor, feedbackSession,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
 
