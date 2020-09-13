@@ -354,88 +354,88 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<FeedbackParticipantType> showRecipientNameTo = feedbackQuestion.getShowRecipientNameTo();
 
         switch (visibility) {
-            case "Shown anonymously to recipient and giver's team members, visible to instructors":
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
-                assertEquals(showResponsesTo.size(), 3);
+        case "Shown anonymously to recipient and giver's team members, visible to instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
+            assertEquals(showResponsesTo.size(), 3);
 
-                assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertEquals(showGiverNameTo.size(), 1);
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
 
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showRecipientNameTo.size(), 2);
-                break;
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
 
-            case "Visible to instructors only":
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertEquals(showResponsesTo.size(), 1);
+        case "Visible to instructors only":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showResponsesTo.size(), 1);
 
-                assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertEquals(showGiverNameTo.size(), 1);
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
 
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertEquals(showRecipientNameTo.size(), 1);
-                break;
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showRecipientNameTo.size(), 1);
+            break;
 
-            case "Shown anonymously to recipient and instructors":
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showResponsesTo.size(), 2);
+        case "Shown anonymously to recipient and instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showResponsesTo.size(), 2);
 
-                assertEquals(showGiverNameTo.size(), 0);
+            assertEquals(showGiverNameTo.size(), 0);
 
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showRecipientNameTo.size(), 2);
-                break;
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
 
-            case "Shown anonymously to recipient, visible to instructors":
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showResponsesTo.size(), 2);
+        case "Shown anonymously to recipient, visible to instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showResponsesTo.size(), 2);
 
-                assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertEquals(showGiverNameTo.size(), 1);
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
 
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showRecipientNameTo.size(), 2);
-                break;
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
 
-            case "Shown anonymously to recipient and giver/recipient's team members, visible to instructors":
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-                assertEquals(showResponsesTo.size(), 4);
+        case "Shown anonymously to recipient and giver/recipient's team members, visible to instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+            assertEquals(showResponsesTo.size(), 4);
 
-                assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertEquals(showGiverNameTo.size(), 1);
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertEquals(showGiverNameTo.size(), 1);
 
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showRecipientNameTo.size(), 2);
-                break;
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
 
-            case "Visible to recipient and instructors":
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showResponsesTo.size(), 2);
+        case "Visible to recipient and instructors":
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showResponsesTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showResponsesTo.size(), 2);
 
-                assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showGiverNameTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showGiverNameTo.size(), 2);
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showGiverNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showGiverNameTo.size(), 2);
 
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
-                assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
-                assertEquals(showRecipientNameTo.size(), 2);
-                break;
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS));
+            assertTrue(showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER));
+            assertEquals(showRecipientNameTo.size(), 2);
+            break;
 
-            default:
-                verifyCustomQuestionVisibility(questionNum, feedbackQuestion);
-                break;
+        default:
+            verifyCustomQuestionVisibility(questionNum, feedbackQuestion);
+            break;
         }
     }
 
@@ -961,28 +961,28 @@ public class InstructorFeedbackEditPage extends AppPage {
         String questionType = questionDetails.split(" \\d+ ")[1].trim();
 
         switch (questionType) {
-            case "Essay question":
-                return FeedbackQuestionType.TEXT;
-            case "Multiple-Choice (single answer) question":
-                return FeedbackQuestionType.MCQ;
-            case "Multiple-choice (multiple answers) question":
-                return FeedbackQuestionType.MSQ;
-            case "Numerical Scale Question":
-                return FeedbackQuestionType.NUMSCALE;
-            case "Distribute points (among options) question":
-                return FeedbackQuestionType.CONSTSUM_OPTIONS;
-            case "Distribute points (among recipients) question":
-                return FeedbackQuestionType.CONSTSUM_RECIPIENTS;
-            case "Team contribution question":
-                return FeedbackQuestionType.CONTRIB;
-            case "Rubric question":
-                return FeedbackQuestionType.RUBRIC;
-            case "Rank (options) question":
-                return FeedbackQuestionType.RANK_OPTIONS;
-            case "Rank (recipients) question":
-                return FeedbackQuestionType.RANK_RECIPIENTS;
-            default:
-                throw new IllegalArgumentException("Unknown FeedbackQuestionType");
+        case "Essay question":
+            return FeedbackQuestionType.TEXT;
+        case "Multiple-Choice (single answer) question":
+            return FeedbackQuestionType.MCQ;
+        case "Multiple-choice (multiple answers) question":
+            return FeedbackQuestionType.MSQ;
+        case "Numerical Scale Question":
+            return FeedbackQuestionType.NUMSCALE;
+        case "Distribute points (among options) question":
+            return FeedbackQuestionType.CONSTSUM_OPTIONS;
+        case "Distribute points (among recipients) question":
+            return FeedbackQuestionType.CONSTSUM_RECIPIENTS;
+        case "Team contribution question":
+            return FeedbackQuestionType.CONTRIB;
+        case "Rubric question":
+            return FeedbackQuestionType.RUBRIC;
+        case "Rank (options) question":
+            return FeedbackQuestionType.RANK_OPTIONS;
+        case "Rank (recipients) question":
+            return FeedbackQuestionType.RANK_RECIPIENTS;
+        default:
+            throw new IllegalArgumentException("Unknown FeedbackQuestionType");
         }
     }
 
@@ -1172,18 +1172,18 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private String getGeneratedOptionString(FeedbackParticipantType type) {
         switch (type) {
-            case STUDENTS:
-                return "students";
-            case STUDENTS_EXCLUDING_SELF:
-                return "students (excluding self)";
-            case TEAMS:
-                return "teams";
-            case TEAMS_EXCLUDING_SELF:
-                return "teams (excluding own team)";
-            case INSTRUCTORS:
-                return "instructors";
-            default:
-                return "unknown";
+        case STUDENTS:
+            return "students";
+        case STUDENTS_EXCLUDING_SELF:
+            return "students (excluding self)";
+        case TEAMS:
+            return "teams";
+        case TEAMS_EXCLUDING_SELF:
+            return "teams (excluding own team)";
+        case INSTRUCTORS:
+            return "instructors";
+        default:
+            return "unknown";
         }
     }
 
