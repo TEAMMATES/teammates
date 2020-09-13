@@ -19,9 +19,6 @@ public class CourseJoinConfirmationPage extends AppPage {
 
     @Override
     public boolean containsExpectedPageContents() {
-        if (isElementPresent(By.className("modal-content"))) {
-            return waitForElementPresence(By.tagName("h2")).getText().contains("Uh oh! Something went wrong.");
-        }
         return waitForElementPresence(By.tagName("h3")).getText().contains("Confirm your Google account");
     }
 
