@@ -10,6 +10,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.webapi.output.InstructorData;
 import teammates.ui.webapi.output.InstructorsData;
 import teammates.ui.webapi.request.Intent;
@@ -84,6 +85,9 @@ public class GetInstructorsAction extends Action {
                 for (InstructorAttributes instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
                     instructorData.setGoogleId(instructor.googleId);
+                    if (userInfo.isAdmin) {
+                        instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
+                    }
                     data.getInstructors().add(instructorData);
                 }
             } else {

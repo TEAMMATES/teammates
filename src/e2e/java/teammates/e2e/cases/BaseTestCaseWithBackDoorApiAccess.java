@@ -191,7 +191,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return null; // BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+        return getInstructor(courseId, instructorEmail).getKey();
     }
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail)
@@ -212,6 +212,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
         return BackDoor.getStudent(student.course, student.email);
+    }
+
+    protected String getKeyForStudent(StudentAttributes student) {
+        return getStudent(student).getKey();
     }
 
     @Override

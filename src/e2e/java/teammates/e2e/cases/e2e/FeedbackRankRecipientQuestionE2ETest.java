@@ -16,7 +16,6 @@ import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDet
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
@@ -99,7 +98,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
                 .withSessionName(feedbackSession.getFeedbackSessionName())
-                .withRegistrationKey(StringHelper.encrypt(getStudent(student).key));
+                .withRegistrationKey(getKeyForStudent(student));
         FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
         feedbackSubmitPage.waitForPageToLoad();
 

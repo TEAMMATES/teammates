@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.util.TestProperties;
@@ -190,7 +189,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
                 .withSessionName(session.getFeedbackSessionName())
-                .withRegistrationKey(StringHelper.encrypt(getStudent(student).key));
+                .withRegistrationKey(getKeyForStudent(student));
     }
 
     private List<String> getOtherStudents(StudentAttributes currentStudent) {
