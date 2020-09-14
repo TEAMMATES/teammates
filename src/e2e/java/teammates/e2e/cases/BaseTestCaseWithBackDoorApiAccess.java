@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
@@ -192,7 +191,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return StringHelper.encrypt(getInstructor(courseId, instructorEmail).getKey());
+        return getInstructor(courseId, instructorEmail).getKey();
     }
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail)
@@ -216,7 +215,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForStudent(StudentAttributes student) {
-        return StringHelper.encrypt(getStudent(student).getKey());
+        return getStudent(student).getKey();
     }
 
     @Override

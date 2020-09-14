@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
 import teammates.e2e.pageobjects.ErrorReportingModal;
@@ -36,7 +35,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         ______TS("Click join link: invalid key");
         String courseId = testData.courses.get("SCJConfirmationE2eT.CS2104").getId();
-        String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
+        String invalidEncryptedKey = "invalidKey";
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidEncryptedKey)
                 .withCourseId(courseId)
