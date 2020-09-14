@@ -85,7 +85,7 @@ export class SessionResultPageComponent implements OnInit {
         if (this.regKey) {
           const intent: Intent = Intent.STUDENT_RESULT;
           this.authService.getAuthRegkeyValidity(this.regKey, intent).subscribe((resp: RegkeyValidity) => {
-            if (resp.isValid) {
+            if (resp.isUsable) {
               if (auth.user) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
@@ -96,10 +96,17 @@ export class SessionResultPageComponent implements OnInit {
                 this.loadPersonName();
                 this.loadFeedbackSession();
               }
-            } else if (!auth.user) {
-              // If there is no logged in user for a valid, used registration key, redirect to login page
-              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            } else if (resp.isValid) {
+              if (auth.user) {
+                // Registration key belongs to another user who is not the logged in user
+                this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                    'You are not authorized to view this page.');
+              } else {
+                // There is no logged in user for a valid, used registration key, redirect to login page
+                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+              }
             } else {
+              // The registration key is invalid
               this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                   'You are not authorized to view this page.');
             }
