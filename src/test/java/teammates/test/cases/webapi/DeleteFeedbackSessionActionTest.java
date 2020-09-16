@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.DeleteFeedbackSessionAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.DeleteFeedbackSessionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteFeedbackSessionAction}.

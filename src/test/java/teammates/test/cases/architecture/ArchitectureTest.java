@@ -34,10 +34,9 @@ public class ArchitectureTest {
     private static final String LOGIC_API_PACKAGE = LOGIC_PACKAGE + ".api";
 
     private static final String UI_PACKAGE = "teammates.ui";
-    private static final String UI_AUTOMATED_PACKAGE = UI_PACKAGE + ".automated";
-    private static final String UI_WEBAPI_PACKAGE = UI_PACKAGE + ".webapi.action";
-    private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".webapi.output";
-    private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".webapi.request";
+    private static final String UI_WEBAPI_PACKAGE = UI_PACKAGE + ".webapi";
+    private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".output";
+    private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".request";
 
     private static final String TEST_PACKAGE = "teammates.test";
 
@@ -73,7 +72,14 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_logicShouldNotTouchUi() {
         noClasses().that().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .and().doNotHaveSimpleName("TaskQueuer")
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .check(forClasses(LOGIC_PACKAGE, UI_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .and().haveSimpleName("TaskQueuer")
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_OUTPUT_PACKAGE))
                 .check(forClasses(LOGIC_PACKAGE, UI_PACKAGE));
     }
 
@@ -121,7 +127,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_uiShouldNotTouchLogicExceptForApi() {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_API_PACKAGE))
                 .check(forClasses(UI_PACKAGE, LOGIC_PACKAGE));
@@ -153,16 +158,14 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_ui_apiRequestCanOnlyTouchRequestAndOutput() {
         noClasses().that().resideInAPackage(includeSubpackages(UI_REQUEST_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .check(forClasses(UI_PACKAGE));
     }
 
     @Test
     public void testArchitecture_ui_apiOutputCanOnlyTouchOutput() {
         noClasses().that().resideInAPackage(includeSubpackages(UI_OUTPUT_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_REQUEST_PACKAGE))
                 .check(forClasses(UI_PACKAGE));
     }
@@ -172,23 +175,6 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .check(forClasses(UI_PACKAGE));
-    }
-
-    @Test
-    public void testArchitecture_ui_automatedActionsShouldBeSelfContained() {
-        noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
-                .check(forClasses(UI_PACKAGE));
-    }
-
-    @Test
-    public void testArchitecture_ui_automatedActionsShouldNotTouchOtherUiClasses() {
-        noClasses().that().resideInAPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
-                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_OUTPUT_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_REQUEST_PACKAGE))
                 .check(forClasses(UI_PACKAGE));
     }
 
@@ -296,9 +282,7 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(TEST_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".storage"))
                 .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".logic"))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".action"))
                 .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".webapi"))
-                .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".automated"))
                 .and().resideOutsideOfPackage(includeSubpackages(TEST_CASES_PACKAGE + ".search"))
                 .and().doNotHaveSimpleName("BaseComponentTestCase")
                 .and().doNotHaveSimpleName("BaseTestCaseWithMinimalGaeEnvironment")
@@ -497,7 +481,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("MockHttpServletRequest")
                 .and().doNotHaveSimpleName("MockHttpServletResponse")
                 .and().doNotHaveSimpleName("MockPart")
-                .and().resideOutsideOfPackage(includeSubpackages(UI_AUTOMATED_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
                 .check(ALL_CLASSES);

@@ -7,10 +7,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
-import teammates.ui.webapi.action.ArchiveCourseAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseArchiveData;
-import teammates.ui.webapi.request.CourseArchiveRequest;
+import teammates.ui.output.CourseArchiveData;
+import teammates.ui.request.CourseArchiveRequest;
+import teammates.ui.webapi.ArchiveCourseAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link ArchiveCourseAction}.

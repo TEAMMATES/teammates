@@ -5,12 +5,10 @@
         <packages>
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.search" />
-            <package name="teammates.test.cases.automated" />
             <package name="teammates.test.cases.datatransfer" />
             <package name="teammates.test.cases.testdriver" />
             <package name="teammates.test.cases.util" />
             <package name="teammates.test.cases.logic" />
-            <package name="teammates.test.cases.action" />
             <package name="teammates.test.cases.webapi" />
         </packages>
     </test>

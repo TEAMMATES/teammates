@@ -1,5 +1,10 @@
 package teammates.test.cases.webapi;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -15,7 +20,7 @@ import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCaseWithObjectifyAccess;
 import teammates.test.driver.MockHttpServletRequest;
 import teammates.test.driver.MockHttpServletResponse;
-import teammates.ui.webapi.action.WebApiServlet;
+import teammates.ui.webapi.WebApiServlet;
 
 /**
  * SUT: {@link WebApiServlet}.
@@ -28,12 +33,19 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
     private MockHttpServletResponse mockResponse;
 
     private void setupMocks(String method, String requestUrl) {
-        mockRequest = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + requestUrl);
+        mockRequest = new MockHttpServletRequest(method, requestUrl);
+        mockResponse = new MockHttpServletResponse();
+    }
+
+    private void setupMocksFromGaeQueue(String method, String requestUrl) {
+        Map<String, List<String>> headers = new HashMap<>();
+        headers.put("X-AppEngine-QueueName", Collections.singletonList("queuename"));
+        mockRequest = new MockHttpServletRequest(method, requestUrl, headers);
         mockResponse = new MockHttpServletResponse();
     }
 
     @Test
-    public void allTests() throws Exception {
+    public void testUserInvokedRequests() throws Exception {
 
         ______TS("Typical case: valid action mapping");
 
@@ -113,6 +125,94 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         ______TS("Failure case: AssertionError");
 
         setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
+
+    }
+
+    @Test
+    public void testGaeQueueInvokedRequests() throws Exception {
+
+        ______TS("Typical case: valid action mapping");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, "NoException");
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+
+        ______TS("\"Successful\" case: invalid action mapping");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, "nonexistent");
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+
+        setupMocksFromGaeQueue(HttpPost.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+
+        ______TS("\"Successful\" case: NullHttpParameterException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+
+        ______TS("\"Successful\" case: InvalidHttpParameterException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
+
+        ______TS("Failure case: DeadlineExceededException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+
+        ______TS("Failure case: DatastoreTimeoutException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+
+        ______TS("Failure case: UnauthorizedAccessException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
+
+        ______TS("Failure case: EntityNotFoundException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_NOT_FOUND, mockResponse.getStatus());
+
+        ______TS("Failure case: NullPointerException");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
+        mockRequest.addParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName());
+
+        SERVLET.doGet(mockRequest, mockResponse);
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
+
+        ______TS("Failure case: AssertionError");
+
+        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
         mockRequest.addParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);

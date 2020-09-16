@@ -32,10 +32,10 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.MockPart;
-import teammates.ui.webapi.action.Action;
-import teammates.ui.webapi.action.ImageResult;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.request.BasicRequest;
+import teammates.ui.request.BasicRequest;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ImageResult;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * Base class for all action tests.

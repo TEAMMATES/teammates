@@ -7,9 +7,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UnpublishFeedbackSessionAction;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UnpublishFeedbackSessionAction;
 
 /**
  * SUT: {@link UnpublishFeedbackSessionAction}.

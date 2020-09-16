@@ -9,12 +9,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.test.driver.StringHelperExtension;
-import teammates.ui.webapi.action.CreateFeedbackSessionAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.output.ResponseVisibleSetting;
-import teammates.ui.webapi.output.SessionVisibleSetting;
-import teammates.ui.webapi.request.FeedbackSessionCreateRequest;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.request.FeedbackSessionCreateRequest;
+import teammates.ui.webapi.CreateFeedbackSessionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateFeedbackSessionAction}.

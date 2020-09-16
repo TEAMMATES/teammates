@@ -35,8 +35,8 @@ import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
-import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
-import teammates.ui.webapi.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
 * L&P Test Case for feedback question update cascade API.
@@ -306,7 +306,7 @@ public class FeedbackQuestionUpdateLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.QUESTION
+        return Const.ResourceURIs.QUESTION
             + "?courseid=${courseId}&fsname=${fsname}&questionid=${fqname_1}";
     }
 

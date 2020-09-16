@@ -15,10 +15,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.DeleteFeedbackResponseCommentAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.DeleteFeedbackResponseCommentAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteFeedbackResponseCommentAction}.

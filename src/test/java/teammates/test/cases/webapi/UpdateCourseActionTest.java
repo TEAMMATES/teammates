@@ -10,11 +10,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateCourseAction;
-import teammates.ui.webapi.output.CourseData;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.CourseUpdateRequest;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.CourseUpdateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateCourseAction;
 
 /**
  * SUT: {@link UpdateCourseAction}.

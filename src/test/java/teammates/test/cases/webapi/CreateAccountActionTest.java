@@ -12,10 +12,10 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.driver.StringHelperExtension;
-import teammates.ui.webapi.action.CreateAccountAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.JoinLinkData;
-import teammates.ui.webapi.request.AccountCreateRequest;
+import teammates.ui.output.JoinLinkData;
+import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.webapi.CreateAccountAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateAccountAction}.

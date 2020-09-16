@@ -9,11 +9,11 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.webapi.action.GetStudentAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.JoinState;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.output.StudentData;
+import teammates.ui.output.JoinState;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.output.StudentData;
+import teammates.ui.webapi.GetStudentAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetStudentAction}.

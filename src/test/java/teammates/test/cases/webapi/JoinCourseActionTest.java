@@ -7,8 +7,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.JoinCourseAction;
-import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.JoinCourseAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link JoinCourseAction}.

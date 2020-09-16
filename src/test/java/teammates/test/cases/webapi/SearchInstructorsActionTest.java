@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SearchInstructorsAction;
-import teammates.ui.webapi.output.InstructorsData;
+import teammates.ui.output.InstructorsData;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SearchInstructorsAction;
 
 /**
  * SUT: {@link SearchInstructorsAction}.

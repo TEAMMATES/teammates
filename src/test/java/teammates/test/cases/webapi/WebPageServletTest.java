@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.MockHttpServletRequest;
 import teammates.test.driver.MockHttpServletResponse;
-import teammates.ui.webapi.action.WebPageServlet;
+import teammates.ui.webapi.WebPageServlet;
 
 /**
  * SUT: {@link WebPageServlet}.

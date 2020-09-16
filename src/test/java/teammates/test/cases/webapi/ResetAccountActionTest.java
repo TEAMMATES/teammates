@@ -6,9 +6,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.ResetAccountAction;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.ResetAccountAction;
 
 /**
  * SUT: {@link ResetAccountAction}.

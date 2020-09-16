@@ -15,13 +15,13 @@ import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.Action;
-import teammates.ui.webapi.action.CreateFeedbackQuestionAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackQuestionData;
-import teammates.ui.webapi.output.FeedbackVisibilityType;
-import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
-import teammates.ui.webapi.request.FeedbackQuestionCreateRequest;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackVisibilityType;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.request.FeedbackQuestionCreateRequest;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.CreateFeedbackQuestionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link CreateFeedbackQuestionAction}.

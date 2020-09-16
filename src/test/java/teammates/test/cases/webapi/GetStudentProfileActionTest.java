@@ -10,9 +10,9 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.webapi.action.GetStudentProfileAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.StudentProfileData;
+import teammates.ui.output.StudentProfileData;
+import teammates.ui.webapi.GetStudentProfileAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetStudentProfileAction}.

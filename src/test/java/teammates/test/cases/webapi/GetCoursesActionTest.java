@@ -8,10 +8,10 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetCoursesAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseData;
-import teammates.ui.webapi.output.CoursesData;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.CoursesData;
+import teammates.ui.webapi.GetCoursesAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetCoursesAction}.
