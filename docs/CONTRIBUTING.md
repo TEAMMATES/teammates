@@ -43,7 +43,7 @@ If you are certain that you are reporting a new issue, [open a new issue](https:
 
 We welcome anyone manually testing our product and reporting bugs or suggestions for enhancements in the issue tracker.
 
-If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/request.jsp).
+If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/web/front/request).
 Remember to mention the purpose of your request under "Any other comments/queries". 
 
 ### Submitting a pull request
