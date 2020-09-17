@@ -174,7 +174,7 @@ describe('SearchService', () => {
       entitytype: 'instructor',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      '/search/students',
+      ResourceEndpoints.SEARCH_STUDENTS,
       paramMap,
     );
   });
@@ -302,7 +302,7 @@ describe('SearchService', () => {
       searchkey: 'YoyoImCoronavirus',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      '/search/instructors',
+      ResourceEndpoints.SEARCH_INSTRUCTORS,
       paramMap,
     );
   });

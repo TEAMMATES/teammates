@@ -11,13 +11,13 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetFeedbackSessionsAction;
-import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
-import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
-import teammates.ui.webapi.output.FeedbackSessionsData;
-import teammates.ui.webapi.output.ResponseVisibleSetting;
-import teammates.ui.webapi.output.SessionVisibleSetting;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.FeedbackSessionsData;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.webapi.GetFeedbackSessionsAction;
 
 /**
  * SUT: {@link GetFeedbackSessionsAction}.

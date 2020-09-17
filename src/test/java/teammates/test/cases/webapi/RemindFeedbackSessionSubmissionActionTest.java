@@ -7,10 +7,10 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RemindFeedbackSessionSubmissionAction;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.RemindFeedbackSessionSubmissionAction;
 
 /**
  * SUT: {@link RemindFeedbackSessionSubmissionAction}.
@@ -90,11 +90,9 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
     @Override
     protected void testAccessControl() throws Exception {
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student5InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
-                Const.ParamsNames.SUBMISSION_REMIND_USERLIST, studentNotSubmitFeedback.getEmail(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

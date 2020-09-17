@@ -9,11 +9,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateInstructorPrivilegeAction;
-import teammates.ui.webapi.output.InstructorPrivilegeData;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.InstructorPrivilegeUpdateRequest;
+import teammates.ui.output.InstructorPrivilegeData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.InstructorPrivilegeUpdateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
 
 /**
  * SUT: {@link UpdateInstructorPrivilegeAction}.

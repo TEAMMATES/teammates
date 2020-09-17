@@ -9,9 +9,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetCourseSectionNamesAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseSectionNamesData;
+import teammates.ui.output.CourseSectionNamesData;
+import teammates.ui.webapi.GetCourseSectionNamesAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetCourseSectionNamesAction}.

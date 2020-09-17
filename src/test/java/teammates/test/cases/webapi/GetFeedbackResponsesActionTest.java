@@ -17,11 +17,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.GetFeedbackResponsesAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackResponseData;
-import teammates.ui.webapi.output.FeedbackResponsesData;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackResponseData;
+import teammates.ui.output.FeedbackResponsesData;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackResponsesAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackResponsesAction}.

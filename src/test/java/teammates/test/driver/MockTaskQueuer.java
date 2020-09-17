@@ -19,24 +19,16 @@ public class MockTaskQueuer extends TaskQueuer {
     private List<TaskWrapper> tasksAdded = new ArrayList<>();
 
     @Override
-    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap) {
-        Map<String, String[]> multisetParamMap = new HashMap<>();
-        paramMap.forEach((key, value) -> multisetParamMap.put(key, new String[] { value }));
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, multisetParamMap);
+    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
+        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         tasksAdded.add(task);
     }
 
     @Override
-    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap,
+    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
                                    long countdownTime) {
         // countdown time not tested, thus fallback to another method
-        addTask(queueName, workerUrl, paramMap);
-    }
-
-    @Override
-    protected void addTaskMultisetParam(String queueName, String workerUrl, Map<String, String[]> paramMap) {
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap);
-        tasksAdded.add(task);
+        addTask(queueName, workerUrl, paramMap, requestBody);
     }
 
     @Override

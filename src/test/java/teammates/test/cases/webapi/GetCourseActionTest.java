@@ -10,10 +10,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetCourseAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.CourseData;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.CourseData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.GetCourseAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetCourseAction}.

@@ -14,10 +14,10 @@ import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.test.driver.StringHelperExtension;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateStudentAction;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.StudentUpdateRequest;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.StudentUpdateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateStudentAction;
 
 /**
  * SUT: {@link UpdateStudentAction}.

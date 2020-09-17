@@ -5,9 +5,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.NationalityHelper;
-import teammates.ui.webapi.action.GetNationalitiesAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.NationalitiesData;
+import teammates.ui.output.NationalitiesData;
+import teammates.ui.webapi.GetNationalitiesAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetNationalitiesAction}.

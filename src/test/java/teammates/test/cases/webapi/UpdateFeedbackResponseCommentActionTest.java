@@ -20,12 +20,12 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateFeedbackResponseCommentAction;
-import teammates.ui.webapi.output.CommentVisibilityType;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.FeedbackResponseCommentUpdateRequest;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.CommentVisibilityType;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 
 /**
  * SUT: {@link UpdateFeedbackResponseCommentAction}.

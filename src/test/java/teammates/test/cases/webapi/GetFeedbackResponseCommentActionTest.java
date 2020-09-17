@@ -14,10 +14,10 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.GetFeedbackResponseCommentAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackResponseCommentData;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackResponseCommentData;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackResponseCommentAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackResponseCommentAction}.

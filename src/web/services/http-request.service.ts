@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders, HttpParams, HttpUrlEncodingCodec } from '@angu
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { ResourceEndpoints } from '../types/api-endpoints';
 import { MasqueradeModeService } from './masquerade-mode.service';
 
 /**
@@ -73,7 +72,7 @@ export class HttpRequestService {
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = new HttpHeaders({ 'ngsw-bypass': 'true' });
     return this.httpClient.get(
-        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
+        `${this.backendUrl}${endpoint}`,
         { params, headers, responseType, withCredentials },
     );
   }
@@ -87,7 +86,7 @@ export class HttpRequestService {
     const headers: HttpHeaders = this.getCsrfHeader();
     headers.set('ngsw-bypass', 'true');
     return this.httpClient.post(
-        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`, body,
+        `${this.backendUrl}${endpoint}`, body,
         { params, headers, withCredentials },
     );
   }
@@ -101,7 +100,7 @@ export class HttpRequestService {
     const headers: HttpHeaders = this.getCsrfHeader();
     headers.set('ngsw-bypass', 'true');
     return this.httpClient.put(
-        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
+        `${this.backendUrl}${endpoint}`,
         body,
         { params, headers, withCredentials },
     );
@@ -116,7 +115,7 @@ export class HttpRequestService {
     const headers: HttpHeaders = this.getCsrfHeader();
     headers.set('ngsw-bypass', 'true');
     return this.httpClient.delete(
-        `${this.backendUrl}${ResourceEndpoints.URI_PREFIX}${endpoint}`,
+        `${this.backendUrl}${endpoint}`,
         { params, headers, withCredentials },
     );
   }

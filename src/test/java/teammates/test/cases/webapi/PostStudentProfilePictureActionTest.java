@@ -6,9 +6,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.PostStudentProfilePictureAction;
-import teammates.ui.webapi.output.StudentProfilePictureResults;
+import teammates.ui.output.StudentProfilePictureResults;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.PostStudentProfilePictureAction;
 
 /**
  * SUT: {@link PostStudentProfilePictureAction}.

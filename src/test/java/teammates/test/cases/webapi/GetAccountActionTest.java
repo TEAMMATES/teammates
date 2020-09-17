@@ -5,10 +5,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetAccountAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.AccountData;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.AccountData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.GetAccountAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetAccountAction}.

@@ -151,22 +151,22 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.output.**",
+        "teammates.ui.output.**",
         "teammates.common.datatransfer.questions.**"
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
     excludeClassPatterns = [
-        "teammates.ui.webapi.output.**Builder"
+        "teammates.ui.output.**Builder"
     ]
     excludeClasses = [
-        "teammates.ui.webapi.output.SessionResultsData\$NameInfo"
+        "teammates.ui.output.SessionResultsData\$NameInfo"
     ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.request.**",
+        "teammates.ui.request.**",
         "teammates.common.util.EmailType"
     ]
     outputFile = "src/web/types/api-request.ts"
@@ -174,7 +174,7 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
 
 task generateApiEndpoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.endpoints.**"
+        "teammates.ui.endpoints.**"
     ]
     jsonLibrary = 'jackson2'
     jackson2Configuration = [
