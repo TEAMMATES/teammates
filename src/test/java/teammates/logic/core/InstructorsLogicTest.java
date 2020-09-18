@@ -97,7 +97,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String expectedError =
                 "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
                 + "because it is not in the correct format. An email address contains "
-                + "some text followed by one '@' sign followed by some more text. "
+                + "some text followed by one '@' sign followed by some more text, "
+                + "and should end with a top domain address like .com. "
                 + "It cannot be longer than 254 characters, cannot be empty and "
                 + "cannot contain spaces.";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,

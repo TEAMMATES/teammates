@@ -314,7 +314,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
                 + "cannot contain spaces.";
         String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
-                + "by one '@' sign followed by some more text. It cannot be longer than 254 characters, cannot be empty"
+                + "by one '@' sign followed by some more text, and should end with a top domain address like .com. "
+                + "It cannot be longer than 254 characters, cannot be empty"
                 + " and cannot contain spaces.";
         String gracePeriodError = "Grace period should not be negative." + " "
                 + "The value must be one of the options in the grace period dropdown selector.";
