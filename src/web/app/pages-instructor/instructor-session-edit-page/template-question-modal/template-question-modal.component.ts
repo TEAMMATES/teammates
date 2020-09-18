@@ -57,6 +57,7 @@ export class TemplateQuestionModalComponent implements OnInit {
             isSaving: false,
             isCollapsed: false,
             isChanged: false,
+            isVisibilityChanged: false,
           },
         }));
   }

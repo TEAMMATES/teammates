@@ -15,7 +15,13 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
-const CLEAN_PROPERTIES: Set<string> = new Set<string>(['isEditable', 'isCollapsed', 'isChanged']);
+const FILTER_PROPERTIES: Set<string> = new Set<string>([
+  'isUsingOtherVisibilitySetting',
+  'showResponsesTo',
+  'showGiverNameTo',
+  'showRecipientNameTo',
+  'commonVisibilitySettingName']);
+const CLEAN_PROPERTIES: Set<string> = new Set<string>([...FILTER_PROPERTIES, 'isEditable', 'isCollapsed', 'isChanged']);
 
 /**
  * The question edit form component.
@@ -133,6 +139,7 @@ export class QuestionEditFormComponent implements OnInit {
     isSaving: false,
     isCollapsed: false,
     isChanged: false,
+    isVisibilityChanged: false,
   };
 
   @Output()
@@ -186,6 +193,8 @@ export class QuestionEditFormComponent implements OnInit {
       ...this.model,
       [field]: data,
       ...(!this.model.isChanged && !CLEAN_PROPERTIES.has(field) && { isChanged: true }),
+      ...(!this.model.isVisibilityChanged && FILTER_PROPERTIES.has(field))
+        && { isVisibilityChanged: true },
     });
   }
 
@@ -198,6 +207,8 @@ export class QuestionEditFormComponent implements OnInit {
       ...obj,
       ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
           && { isChanged: true }),
+      ...(!this.model.isVisibilityChanged && Object.keys(obj).some((key: string) => FILTER_PROPERTIES.has(key))
+          && { isVisibilityChanged: true }),
     });
   }
 
@@ -297,10 +308,21 @@ export class QuestionEditFormComponent implements OnInit {
    */
   saveQuestionHandler(): void {
     if (this.formMode === QuestionEditFormMode.EDIT) {
-      // alert user that editing question may result in deletion of responses
-      if (!this.model.isQuestionHasResponses || !this.model.isChanged) {
+      if (!this.model.isQuestionHasResponses || !this.model.isChanged && !this.model.isVisibilityChanged) {
         this.saveExistingQuestionEvent.emit();
+      } else if (this.model.isVisibilityChanged && !this.model.isChanged) {
+        // alert user that editing visibility options will not delete responses
+        const modalContent: string = `
+            <p>Editing visibility options <b>will not delete existing responses for this question.</b></p>
+            <p>Are you sure you want to continue?</p>
+        `;
+        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.WARNING, modalContent);
+        modalRef.result.then(() => {
+          this.saveExistingQuestionEvent.emit();
+        }, () => {});
       } else {
+        // alert user that editing question may result in deletion of responses
         const modalContent: string = `
             <p>Editing fields affecting responders' answers may result in <b>all existing responses for this question to be deleted.</b></p>
             <p>Are you sure you want to continue?</p>
