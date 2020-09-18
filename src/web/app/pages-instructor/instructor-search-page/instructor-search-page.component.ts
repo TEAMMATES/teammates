@@ -114,7 +114,7 @@ export class InstructorSearchPageComponent implements OnInit {
     }));
   }
 
-  private getCoursesWithStudents(students: Student[]): SearchStudentsListRowTable[] {
+  getCoursesWithStudents(students: Student[]): SearchStudentsListRowTable[] {
     const distinctCourses: string[] = Array.from(
         new Set(students.map((s: Student) => s.courseId)),
     );
@@ -137,7 +137,7 @@ export class InstructorSearchPageComponent implements OnInit {
     return coursesWithStudents;
   }
 
-  private getPrivileges(
+  getPrivileges(
       coursesWithStudents: SearchStudentsListRowTable[],
   ): Observable<InstructorPrivilege[]> {
     if (coursesWithStudents.length === 0) {
