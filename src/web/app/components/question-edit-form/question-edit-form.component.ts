@@ -313,8 +313,9 @@ export class QuestionEditFormComponent implements OnInit {
       } else if (this.model.isVisibilityChanged && !this.model.isChanged) {
         // alert user that editing visibility options will not delete responses
         const modalContent: string = `
-            <p>Editing visibility options <b>will not delete existing responses for this question.</b></p>
-            <p>Are you sure you want to continue?</p>
+            <p>You seem to have changed the visibility settings of this question. Please note that <b>the existing 
+            responses will remain but their visibility will be changed as per the new visibility settings.</b> 
+            Proceed?</p>
         `;
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
             'Save the question?', SimpleModalType.WARNING, modalContent);
@@ -324,8 +325,8 @@ export class QuestionEditFormComponent implements OnInit {
       } else {
         // alert user that editing question may result in deletion of responses
         const modalContent: string = `
-            <p>Editing fields affecting responders' answers may result in <b>all existing responses for this question to be deleted.</b></p>
-            <p>Are you sure you want to continue?</p>
+            <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may 
+            cause all the existing responses for this question to be deleted.</b> Proceed?</p>
         `;
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
             'Save the question?', SimpleModalType.DANGER, modalContent);
