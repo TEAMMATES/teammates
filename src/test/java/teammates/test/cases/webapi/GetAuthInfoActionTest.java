@@ -13,9 +13,9 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.ui.webapi.action.GetAuthInfoAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.AuthInfo;
+import teammates.ui.output.AuthInfo;
+import teammates.ui.webapi.GetAuthInfoAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetAuthInfoAction}.

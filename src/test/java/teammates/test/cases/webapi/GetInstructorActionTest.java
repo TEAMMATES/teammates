@@ -8,11 +8,11 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetInstructorAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.InstructorData;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetInstructorAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetInstructorAction}.

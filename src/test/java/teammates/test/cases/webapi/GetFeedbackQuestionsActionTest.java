@@ -15,13 +15,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.ui.webapi.action.GetFeedbackQuestionsAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackQuestionData;
-import teammates.ui.webapi.output.FeedbackQuestionsData;
-import teammates.ui.webapi.output.FeedbackVisibilityType;
-import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackQuestionsData;
+import teammates.ui.output.FeedbackVisibilityType;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackQuestionsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackQuestionsAction}.
@@ -196,7 +196,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(params);
+        verifyEntityNotFound(params);
 
         ______TS("only instructors of the same course can access");
 

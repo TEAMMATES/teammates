@@ -18,7 +18,7 @@ import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
-import teammates.ui.webapi.output.CourseData;
+import teammates.ui.output.CourseData;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -129,14 +129,22 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         });
     }
 
+    protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+        return BackDoor.getFeedbackResponseComment(feedbackResponseId);
+    }
+
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        throw new UnsupportedOperationException("Method not used");
+        return getFeedbackResponseComment(frc.feedbackResponseId);
+    }
+
+    protected FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
+        return BackDoor.getFeedbackResponse(feedbackQuestionId, giver, recipient);
     }
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return null; // BackDoor.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -183,7 +191,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return null; // BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+        return getInstructor(courseId, instructorEmail).getKey();
     }
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail)
@@ -204,6 +212,10 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
         return BackDoor.getStudent(student.course, student.email);
+    }
+
+    protected String getKeyForStudent(StudentAttributes student) {
+        return getStudent(student).getKey();
     }
 
     @Override

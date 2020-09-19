@@ -19,12 +19,12 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateFeedbackQuestionAction;
-import teammates.ui.webapi.output.FeedbackQuestionData;
-import teammates.ui.webapi.output.FeedbackVisibilityType;
-import teammates.ui.webapi.output.NumberOfEntitiesToGiveFeedbackToSetting;
-import teammates.ui.webapi.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackVisibilityType;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 
 /**
  * SUT: {@link UpdateFeedbackQuestionAction}.

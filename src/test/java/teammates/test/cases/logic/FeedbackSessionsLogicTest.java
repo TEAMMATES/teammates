@@ -30,6 +30,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -345,6 +346,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withName("Test Course")
                         .withTimezone(ZoneId.of("UTC"))
                         .build());
+
+        // wait for very briefly so that the above session will be within the time limit
+        ThreadHelper.waitFor(5);
 
         sessionList = fsLogic.getFeedbackSessionsClosingWithinTimeLimit();
 
@@ -961,6 +965,21 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         verifyPresentInDatastore(feedbackSession);
         assertFalse(feedbackSession.isSessionDeleted());
+    }
+
+    @Test
+    public void testGetSessionResultsForUser_studentSpecificQuestionAndSection_shouldThrowOperationNotSupported() {
+        // extra test data used on top of typical data bundle
+        removeAndRestoreDataBundle(loadDataBundle("/SpecialCharacterTest.json"));
+
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                "First Session", "FQLogicPCT.CS2104", 1);
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+            fsLogic.getSessionResultsForUser(
+                    "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
+                    UserRole.STUDENT, question.getId(), Const.DEFAULT_SECTION);
+        });
     }
 
     @Test

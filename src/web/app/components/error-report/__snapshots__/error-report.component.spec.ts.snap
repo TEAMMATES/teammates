@@ -25,7 +25,9 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
       <div
         class="col-md-12"
       >
-        <p>
+        <p
+          id="error-message"
+        >
            The server returns the following error message: "". 
         </p>
         <p>

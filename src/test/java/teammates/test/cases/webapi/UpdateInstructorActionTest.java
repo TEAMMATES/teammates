@@ -10,11 +10,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateInstructorAction;
-import teammates.ui.webapi.output.InstructorData;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.InstructorCreateRequest;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateInstructorAction;
 
 /**
  * SUT: {@link UpdateInstructorAction}.

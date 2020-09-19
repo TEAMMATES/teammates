@@ -21,13 +21,10 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
-import teammates.common.util.Const;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.GateKeeper;
-import teammates.ui.automated.AutomatedAction;
-import teammates.ui.automated.AutomatedActionFactory;
-import teammates.ui.webapi.action.Action;
-import teammates.ui.webapi.action.ActionFactory;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ActionFactory;
 
 /**
  * Provides a Singleton in-memory simulation of the GAE for unit testing.
@@ -126,7 +123,7 @@ public class GaeSimulation {
     public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
                                   List<Cookie> cookies, String... params) {
         try {
-            MockHttpServletRequest req = new MockHttpServletRequest(method, Const.ResourceURIs.URI_PREFIX + uri);
+            MockHttpServletRequest req = new MockHttpServletRequest(method, uri);
             for (int i = 0; i < params.length; i = i + 2) {
                 req.addParam(params[i], params[i + 1]);
             }
@@ -151,28 +148,6 @@ public class GaeSimulation {
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
-            return action;
-        } catch (ActionMappingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Returns an {@link AutomatedAction} object that matches the parameters given.
-     *
-     * @param parameters Parameters that appear in a HttpServletRequest received by the app.
-     */
-    public AutomatedAction getAutomatedActionObject(String uri, String... parameters) {
-        try {
-            // HTTP method is not used here
-            MockHttpServletRequest req = new MockHttpServletRequest(null, uri);
-            for (int i = 0; i < parameters.length; i = i + 2) {
-                req.addParam(parameters[i], parameters[i + 1]);
-            }
-            MockHttpServletResponse resp = new MockHttpServletResponse();
-            AutomatedAction action = new AutomatedActionFactory().getAction(req, resp);
-            action.setTaskQueuer(new MockTaskQueuer());
-            action.setEmailSender(new MockEmailSender());
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);

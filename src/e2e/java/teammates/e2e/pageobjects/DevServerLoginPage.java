@@ -33,7 +33,7 @@ public class DevServerLoginPage extends LoginPage {
         fillTextBox(emailTextBox, adminUsername);
         click(isAdminCheckBox);
         click(loginButton);
-        waitForElementVisibility(By.tagName("h1"));
+        waitForPageToLoad();
         browser.isAdminLoggedIn = true;
     }
 
@@ -46,7 +46,7 @@ public class DevServerLoginPage extends LoginPage {
     public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
         fillTextBox(emailTextBox, username);
         click(loginButton);
-        waitForElementVisibility(By.tagName("h1"));
+        waitForPageToLoad();
         browser.isAdminLoggedIn = false;
         return changePageType(typeOfPage);
     }

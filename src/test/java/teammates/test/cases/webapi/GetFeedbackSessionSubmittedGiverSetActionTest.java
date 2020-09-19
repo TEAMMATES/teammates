@@ -9,9 +9,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetFeedbackSessionSubmittedGiverSetAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackSessionSubmittedGiverSet;
+import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
+import teammates.ui.webapi.GetFeedbackSessionSubmittedGiverSetAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackSessionSubmittedGiverSetAction}.

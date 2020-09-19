@@ -5,10 +5,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.GetRegkeyValidityAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.RegkeyValidityData;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.RegkeyValidityData;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetRegkeyValidityAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetRegkeyValidityAction}.

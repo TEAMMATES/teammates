@@ -121,7 +121,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      npm run lint
      ```
    * **All affected tests are passing** on your dev server.<br>
-     You are more than welcome to also ensure *dev green*, i.e. all tests are passing on your dev server.
+     You are more than welcome to also ensure that all tests are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
      ensure that the affected tests are passing against the updated app running on your own GAE staging server.
    * **No unrelated changes** are introduced in the branch. This includes unnecessary formatting changes.
@@ -216,7 +216,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 
 [GitHub's review feature](https://github.com/blog/2256-a-whole-new-github-universe-announcing-new-tools-forums-and-features#code-better-with-reviews) is to be used in this task.
 
-* Ensure that the Travis CI build is successful and the developer has local dev green.
+* Ensure that the Travis CI build is successful.
 * Ensure the following:
   * Naming conventions for PR and branch are followed, and `Fixes #....` or similar keyword is present in the PR description.
   * The items in [this list](#things-to-check) are all satisfied.

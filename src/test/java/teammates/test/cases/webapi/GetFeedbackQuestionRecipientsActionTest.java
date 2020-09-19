@@ -12,10 +12,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.ui.webapi.action.GetFeedbackQuestionRecipientsAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackQuestionRecipientsData;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackQuestionRecipientsData;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackQuestionRecipientsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackQuestionRecipientsAction}.
@@ -291,7 +291,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
                         "", instructor1OfCourse1.email, "");
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, moderatedInstructorSubmissionParams);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                moderatedInstructorSubmissionParams);
 
         ______TS("Instructor previews another instructor's question,"
                 + " should be accessible if he has privilege");

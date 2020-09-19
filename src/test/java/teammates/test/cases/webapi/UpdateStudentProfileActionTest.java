@@ -10,10 +10,10 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UpdateStudentProfileAction;
-import teammates.ui.webapi.output.MessageOutput;
-import teammates.ui.webapi.request.StudentProfileUpdateRequest;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.request.StudentProfileUpdateRequest;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UpdateStudentProfileAction;
 
 /**
  * SUT: {@link UpdateStudentProfileAction}.

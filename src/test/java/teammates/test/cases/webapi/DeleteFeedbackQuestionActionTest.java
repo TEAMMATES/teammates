@@ -8,8 +8,8 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.DeleteFeedbackQuestionAction;
-import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.DeleteFeedbackQuestionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteFeedbackQuestionAction}.

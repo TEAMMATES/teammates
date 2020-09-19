@@ -1046,6 +1046,7 @@
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
       "questionDetails": {
+        "recommendedLength": 0,
         "questionType": "TEXT",
         "questionText": "Rate 1 other student's product"
       },
@@ -1179,6 +1180,27 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "team.instructor.feedback": {
+      "feedbackSessionName": "Second feedback session",
+      "courseId": "idOfTypicalCourse1",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to student teams."
+      },
+      "questionNumber": 3,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 2,
       "showResponsesTo": [
         "RECEIVER"
       ],

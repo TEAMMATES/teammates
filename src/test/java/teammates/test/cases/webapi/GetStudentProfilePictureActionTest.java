@@ -7,10 +7,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetStudentProfilePictureAction;
-import teammates.ui.webapi.action.ImageResult;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.GetStudentProfilePictureAction;
+import teammates.ui.webapi.ImageResult;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetStudentProfilePictureAction}.

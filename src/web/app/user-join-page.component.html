@@ -23,11 +23,11 @@
       <h3 style="margin-bottom: 0;">Confirm your Google account</h3>
     </div>
     <div class="card-body">
-      You are currently logged in as <strong>{{ userId }}</strong>.
+      You are currently logged in as <strong id="user-id">{{ userId }}</strong>.
       <br>If this is not you, please log out and log in using your own Google account.
       <br>If this is you, please confirm below to complete your registration.<br>
       <div class="text-center" style="margin-top: 20px;">
-        <button class="btn btn-success" (click)="joinCourse()">Register for course</button>
+        <button id="btn-confirm" class="btn btn-success" (click)="joinCourse()">Register for course</button>
       </div>
     </div>
   </div>

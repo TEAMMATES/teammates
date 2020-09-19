@@ -7,9 +7,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.UnpublishFeedbackSessionAction;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UnpublishFeedbackSessionAction;
 
 /**
  * SUT: {@link UnpublishFeedbackSessionAction}.
@@ -95,7 +95,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
-        verifyCannotAccess(nonExistParams);
+        verifyEntityNotFound(nonExistParams);
 
         ______TS("non-existent feedback session");
 
@@ -104,7 +104,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
 
-        verifyCannotAccess(nonExistParams);
+        verifyEntityNotFound(nonExistParams);
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

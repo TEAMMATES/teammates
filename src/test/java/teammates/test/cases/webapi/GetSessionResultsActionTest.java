@@ -13,10 +13,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.ui.webapi.action.GetSessionResultsAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.SessionResultsData;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.SessionResultsData;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetSessionResultsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetSessionResultsAction}.

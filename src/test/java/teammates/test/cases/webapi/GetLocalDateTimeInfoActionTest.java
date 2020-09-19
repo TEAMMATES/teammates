@@ -4,9 +4,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetLocalDateTimeInfoAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.LocalDateTimeInfo;
+import teammates.ui.output.LocalDateTimeInfo;
+import teammates.ui.webapi.GetLocalDateTimeInfoAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetLocalDateTimeInfoAction}.

@@ -12,9 +12,9 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.TaskWrapper;
 import teammates.logic.core.StudentsLogic;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SendJoinReminderEmailAction;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SendJoinReminderEmailAction;
 
 /**
  * SUT: {@link SendJoinReminderEmailActionTest}.
@@ -63,9 +63,9 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         verifySpecifiedTasksAdded(sendJoinReminderEmailAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = sendJoinReminderEmailAction.getTaskQueuer().getTasksAdded().get(0);
-        Map<String, String[]> paramMap = taskAdded.getParamMap();
-        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
-        assertEquals(anotherInstructorOfCourse1.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL)[0]);
+        Map<String, String> paramMap = taskAdded.getParamMap();
+        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
+        assertEquals(anotherInstructorOfCourse1.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
 
         ______TS("Typical case: Send email to remind a student to register for the course");
 
@@ -87,8 +87,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
 
         taskAdded = sendJoinReminderEmailAction.getTaskQueuer().getTasksAdded().get(0);
         paramMap = taskAdded.getParamMap();
-        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
-        assertEquals(student1InCourse1.email, paramMap.get(Const.ParamsNames.STUDENT_EMAIL)[0]);
+        assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
+        assertEquals(student1InCourse1.email, paramMap.get(Const.ParamsNames.STUDENT_EMAIL));
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
 
@@ -131,7 +131,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         List<TaskWrapper> tasksAdded = sendJoinReminderEmailAction.getTaskQueuer().getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             paramMap = task.getParamMap();
-            assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID)[0]);
+            assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
         }
 
         StudentsLogic.inst().deleteStudentCascade(courseId, unregisteredStudent1.email);

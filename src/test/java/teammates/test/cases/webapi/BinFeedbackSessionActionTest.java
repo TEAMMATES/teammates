@@ -6,8 +6,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.BinFeedbackSessionAction;
-import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.BinFeedbackSessionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link BinFeedbackSessionAction}.
@@ -70,7 +70,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+        verifyEntityNotFound(submissionParams);
 
         ______TS("other verifications");
 

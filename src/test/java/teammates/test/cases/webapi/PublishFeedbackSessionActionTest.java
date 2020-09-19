@@ -6,11 +6,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.PublishFeedbackSessionAction;
-import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.PublishFeedbackSessionAction;
 
 /**
  * SUT: {@link PublishFeedbackSessionAction}.

@@ -380,6 +380,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   cancelEditingInstructor(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel = JSON.parse(JSON.stringify(panelDetail.originalPanel));
+    panelDetail.editPanel.isSavingInstructorEdit = false;
+    panelDetail.editPanel.isEditing = false;
   }
 
   /**
@@ -403,6 +405,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       courseId: panelDetail.originalInstructor.courseId,
       requestBody: reqBody,
     }).pipe(finalize(() => panelDetail.editPanel.isSavingInstructorEdit = false)).subscribe((resp: Instructor) => {
+      panelDetail.editPanel.isEditing = false;
       panelDetail.originalInstructor = Object.assign({}, resp);
       const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
@@ -417,7 +420,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
 
-    panelDetail.editPanel.isEditing = false;
     panelDetail.originalPanel = JSON.parse(JSON.stringify(panelDetail.editPanel));
   }
 

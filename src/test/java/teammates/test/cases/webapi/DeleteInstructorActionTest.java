@@ -8,9 +8,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.core.InstructorsLogic;
-import teammates.ui.webapi.action.DeleteInstructorAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.DeleteInstructorAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteInstructorAction}.

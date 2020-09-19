@@ -10,8 +10,8 @@ import org.testng.annotations.Test;
 
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.MockHttpServletResponse;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link JsonResult}.

@@ -4,9 +4,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.SearchCommentsAction;
-import teammates.ui.webapi.output.CommentSearchResultsData;
+import teammates.ui.output.CommentSearchResultsData;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.SearchCommentsAction;
 
 /**
  * SUT:{@link SearchCommentsAction}.

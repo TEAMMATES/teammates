@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.MockHttpServletRequest;
 import teammates.test.driver.MockHttpServletResponse;
-import teammates.ui.webapi.action.LegacyUrlMapper;
+import teammates.ui.webapi.LegacyUrlMapper;
 
 /**
  * SUT: {@link LegacyUrlMapper}.

@@ -8,9 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.action.RestoreCourseAction;
-import teammates.ui.webapi.output.MessageOutput;
+import teammates.ui.output.MessageOutput;
+import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.RestoreCourseAction;
 
 /**
  * SUT: {@link RestoreCourseAction}.

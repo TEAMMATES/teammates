@@ -9,14 +9,14 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.GetFeedbackSessionAction;
-import teammates.ui.webapi.action.JsonResult;
-import teammates.ui.webapi.output.FeedbackSessionData;
-import teammates.ui.webapi.output.FeedbackSessionPublishStatus;
-import teammates.ui.webapi.output.FeedbackSessionSubmissionStatus;
-import teammates.ui.webapi.output.ResponseVisibleSetting;
-import teammates.ui.webapi.output.SessionVisibleSetting;
-import teammates.ui.webapi.request.Intent;
+import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.FeedbackSessionPublishStatus;
+import teammates.ui.output.FeedbackSessionSubmissionStatus;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.request.Intent;
+import teammates.ui.webapi.GetFeedbackSessionAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link GetFeedbackSessionAction}.
@@ -106,7 +106,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         };
 
         loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyCannotAccess(submissionParams);
+        verifyEntityNotFound(submissionParams);
 
         ______TS("only instructors of the same course can access full detail");
 
@@ -209,21 +209,21 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Only instructor with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, params
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, params
         );
 
         ______TS("Instructor moderates instructor submission with correct privilege will pass");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        params = generateParameters(feedbackSession, intent, "", instructor1OfCourse1.email, "");
+        params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.email, "");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
 
         ______TS("Instructor preview instructor result with correct privilege will pass");
 
         String[] previewInstructorSubmissionParams =
-                generateParameters(feedbackSession, intent,
+                generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.email);
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);

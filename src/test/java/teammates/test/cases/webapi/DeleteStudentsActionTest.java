@@ -7,8 +7,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.ui.webapi.action.DeleteStudentsAction;
-import teammates.ui.webapi.action.JsonResult;
+import teammates.ui.webapi.DeleteStudentsAction;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * SUT: {@link DeleteStudentsAction}.

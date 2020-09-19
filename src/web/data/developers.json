@@ -358,6 +358,10 @@
       "name": "Chong Kok Wei"
     },
     {
+      "name": "Christopher Kang",
+      "username": "brandedcow"
+    },
+    {
       "multiple": true,
       "name": "Chua Hong Jing"
     },
@@ -814,6 +818,7 @@
       "username": "ParmaarK"
     },
     {
+      "multiple": true,
       "name": "Konstantinidis Konstantinos",
       "username": "konkos"
     },
@@ -1006,6 +1011,7 @@
       "username": "misaunde"
     },
     {
+      "multiple": true,
       "name": "Mo Zongran",
       "username": "moziliar"
     },

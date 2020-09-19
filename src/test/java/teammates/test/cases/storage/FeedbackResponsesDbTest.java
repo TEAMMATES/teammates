@@ -23,6 +23,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.ThreadHelper;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.cases.BaseComponentTestCase;
@@ -111,6 +112,9 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         AssertHelper.assertInstantIsNow(feedbackResponse.getUpdatedAt());
 
         ______TS("success : update lastUpdated");
+
+        // wait for very briefly so that the update timestamp is guaranteed to change
+        ThreadHelper.waitFor(5);
 
         String newRecipientEmail = "new-email@tmt.com";
         feedbackResponse.recipient = newRecipientEmail;
@@ -509,6 +513,40 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("non-existent receiver");
 
         assertTrue(frDb.getFeedbackResponsesFromGiverForQuestion(
+                questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
+    }
+
+    @Test
+    public void testGetFeedbackResponsesForReceiverForQuestion() {
+
+        ______TS("standard success case");
+
+        String questionId = fras.get("response1ForQ1S1C1").feedbackQuestionId;
+
+        List<FeedbackResponseAttributes> responses =
+                frDb.getFeedbackResponsesForReceiverForQuestion(questionId,
+                        "student1InCourse1@gmail.tmt");
+
+        assertEquals(1, responses.size());
+
+        ______TS("null params");
+
+        AssertionError ae = assertThrows(AssertionError.class,
+                () -> frDb.getFeedbackResponsesForReceiverForQuestion(null, "student1InCourse1@gmail.tmt"));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+
+        ae = assertThrows(AssertionError.class,
+                () -> frDb.getFeedbackResponsesForReceiverForQuestion(questionId, null));
+        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+
+        ______TS("non-existent feedback question");
+
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(
+                "non-existent fq id", "student1InCourse1@gmail.tmt").isEmpty());
+
+        ______TS("non-existent receiver");
+
+        assertTrue(frDb.getFeedbackResponsesForReceiverForQuestion(
                 questionId, "non-existentStudentInCourse1@gmail.tmt").isEmpty());
     }
 
