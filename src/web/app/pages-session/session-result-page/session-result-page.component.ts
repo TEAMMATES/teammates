@@ -55,6 +55,7 @@ export class SessionResultPageComponent implements OnInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
+  loggedInUser: string = '';
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -82,6 +83,9 @@ export class SessionResultPageComponent implements OnInit {
 
       const nextUrl: string = `${window.location.pathname}${window.location.search}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        if (auth.user) {
+          this.loggedInUser = auth.user.id;
+        }
         if (this.regKey) {
           const intent: Intent = Intent.STUDENT_RESULT;
           this.authService.getAuthRegkeyValidity(this.regKey, intent).subscribe((resp: RegkeyValidity) => {
@@ -98,7 +102,7 @@ export class SessionResultPageComponent implements OnInit {
               }
             } else if (resp.isValid) {
               // At this point, registration key must already be used, otherwise access would be granted
-              if (auth.user) {
+              if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                     'You are not authorized to view this page.');
@@ -115,7 +119,7 @@ export class SessionResultPageComponent implements OnInit {
             this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                 'You are not authorized to view this page.');
           });
-        } else if (auth.user) {
+        } else if (this.loggedInUser) {
           // Load information based on logged in user
           this.loadFeedbackSession();
         } else {

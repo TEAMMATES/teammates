@@ -77,6 +77,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
+  loggedInUser: string = '';
 
   moderatedPerson: string = '';
   previewAsPerson: string = '';
@@ -151,6 +152,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       const nextUrl: string = `${window.location.pathname}${window.location.search}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
+        if (auth.user) {
+          this.loggedInUser = auth.user.id;
+        }
         if (this.regKey && !isPreviewOrModeration) {
           this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
             if (resp.isAllowedAccess) {
@@ -166,7 +170,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               }
             } else if (resp.isValid) {
               // At this point, registration key must already be used, otherwise access would be granted
-              if (auth.user) {
+              if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                     'You are not authorized to view this page.');
@@ -183,7 +187,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                 'You are not authorized to view this page.');
           });
-        } else if (auth.user) {
+        } else if (this.loggedInUser) {
           // Load information based on logged in user
           // This will also cover moderation/preview cases
           this.loadPersonName();
