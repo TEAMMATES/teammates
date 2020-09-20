@@ -33,25 +33,36 @@ public final class JsonUtils {
      * This creates a Gson object that can handle the Date format we use in the
      * Json file and also reformat the Json string in pretty-print format.
      */
-    private static Gson getGsonInstance() {
-        return new GsonBuilder()
+    private static Gson getGsonInstance(boolean prettyPrint) {
+        GsonBuilder builder = new GsonBuilder()
                 .registerTypeAdapter(Instant.class, new InstantAdapter())
                 .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
                 .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
                 .registerTypeAdapter(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsAdapter())
                 .registerTypeAdapter(FeedbackResponseDetails.class, new FeedbackResponseDetailsAdapter())
-                .setPrettyPrinting()
-                .disableHtmlEscaping()
-                .create();
+                .disableHtmlEscaping();
+        if (prettyPrint) {
+            builder.setPrettyPrinting();
+        }
+        return builder.create();
     }
 
     /**
-     * Serializes the specified object into its equivalent JSON string.
+     * Serializes and pretty-prints the specified object into its equivalent JSON string.
      *
      * @see Gson#toJson(Object, Type)
      */
     public static String toJson(Object src, Type typeOfSrc) {
-        return getGsonInstance().toJson(src, typeOfSrc);
+        return getGsonInstance(true).toJson(src, typeOfSrc);
+    }
+
+    /**
+     * Serializes and pretty-prints the specified object into its equivalent JSON string.
+     *
+     * @see Gson#toJson(Object)
+     */
+    public static String toJson(Object src) {
+        return getGsonInstance(true).toJson(src);
     }
 
     /**
@@ -59,8 +70,8 @@ public final class JsonUtils {
      *
      * @see Gson#toJson(Object)
      */
-    public static String toJson(Object src) {
-        return getGsonInstance().toJson(src);
+    public static String toCompactJson(Object src) {
+        return getGsonInstance(false).toJson(src);
     }
 
     /**
@@ -69,7 +80,7 @@ public final class JsonUtils {
      * @see Gson#fromJson(String, Type)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
-        return getGsonInstance().fromJson(json, typeOfT);
+        return getGsonInstance(false).fromJson(json, typeOfT);
     }
 
     /**
