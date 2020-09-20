@@ -85,7 +85,7 @@ export class SessionResultPageComponent implements OnInit {
         if (this.regKey) {
           const intent: Intent = Intent.STUDENT_RESULT;
           this.authService.getAuthRegkeyValidity(this.regKey, intent).subscribe((resp: RegkeyValidity) => {
-            if (resp.isUsable) {
+            if (resp.isAllowedAccess) {
               if (auth.user) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 

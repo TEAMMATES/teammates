@@ -153,7 +153,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
         if (this.regKey && !isPreviewOrModeration) {
           this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
-            if (resp.isUsable) {
+            if (resp.isAllowedAccess) {
               if (auth.user) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 

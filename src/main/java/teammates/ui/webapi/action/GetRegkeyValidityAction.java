@@ -29,28 +29,30 @@ public class GetRegkeyValidityAction extends Action {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 
         if (intent == Intent.STUDENT_SUBMISSION || intent == Intent.STUDENT_RESULT) {
-            boolean isUsable = false;
             StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
             boolean isValid = student != null;
+            boolean isUsed = false;
+            boolean isAllowedAccess = false;
 
             if (isValid) {
                 if (StringHelper.isEmpty(student.googleId)) {
                     // If registration key has not been used, always allow access
-                    isUsable = true;
+                    isAllowedAccess = true;
                 } else {
+                    isUsed = true;
                     // If the registration key has been used to register, the logged in user needs to match
                     // Block access to not logged in user and mismatched user
-                    isUsable = userInfo != null && student.googleId.equals(userInfo.id);
+                    isAllowedAccess = userInfo != null && student.googleId.equals(userInfo.id);
                 }
             }
 
-            return new JsonResult(new RegkeyValidityData(isValid, isUsable));
+            return new JsonResult(new RegkeyValidityData(isValid, isUsed, isAllowedAccess));
         }
 
         // Other intents are invalid for this purpose.
         // This includes instructor submission/result intents, because instructors are expected to be registered
         // in order to use the system.
-        return new JsonResult(new RegkeyValidityData(false, false));
+        return new JsonResult(new RegkeyValidityData(false, false, false));
     }
 
 }

@@ -5,11 +5,13 @@ package teammates.ui.webapi.output;
  */
 public class RegkeyValidityData extends ApiOutput {
     private final boolean isValid;
-    private final boolean isUsable;
+    private final boolean isUsed;
+    private final boolean isAllowedAccess;
 
-    public RegkeyValidityData(boolean isValid, boolean isUsable) {
+    public RegkeyValidityData(boolean isValid, boolean isUsed, boolean isAllowedAccess) {
         this.isValid = isValid;
-        this.isUsable = isUsable;
+        this.isUsed = isUsed;
+        this.isAllowedAccess = isAllowedAccess;
     }
 
     /**
@@ -20,10 +22,17 @@ public class RegkeyValidityData extends ApiOutput {
     }
 
     /**
-     * Returns true if the registration key is usable, false otherwise.
+     * Returns true if the registration key has been used, false otherwise.
      */
-    public boolean isUsable() {
-        return isUsable;
+    public boolean isUsed() {
+        return isUsed;
+    }
+
+    /**
+     * Returns true if access is allowed for the requester by using the registration key, false otherwise.
+     */
+    public boolean isAllowedAccess() {
+        return isAllowedAccess;
     }
 
 }
