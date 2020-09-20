@@ -58,6 +58,7 @@ export class TemplateQuestionModalComponent implements OnInit {
             isCollapsed: false,
             isChanged: false,
             isVisibilityChanged: false,
+            isFeedbackPathChanged: false,
           },
         }));
   }

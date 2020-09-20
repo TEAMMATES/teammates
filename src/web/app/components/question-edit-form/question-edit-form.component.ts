@@ -15,13 +15,26 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 
-const FILTER_PROPERTIES: Set<string> = new Set<string>([
+const FEEDBACK_PATH_PROPERTIES: Set<string> = new Set<string>([
+  'giverType',
+  'recipientType',
+  'isUsingOtherFeedbackPath',
+  'numberOfEntitiesToGiveFeedbackToSetting',
+  'customNumberOfEntitiesToGiveFeedbackTo',
+]);
+const VISIBILITY_PROPTERIES: Set<string> = new Set<string>([
   'isUsingOtherVisibilitySetting',
   'showResponsesTo',
   'showGiverNameTo',
   'showRecipientNameTo',
-  'commonVisibilitySettingName']);
-const CLEAN_PROPERTIES: Set<string> = new Set<string>([...FILTER_PROPERTIES, 'isEditable', 'isCollapsed', 'isChanged']);
+  'commonVisibilitySettingName',
+]);
+const CLEAN_PROPERTIES: Set<string> = new Set<string>([
+  ...VISIBILITY_PROPTERIES,
+  'isEditable',
+  'isCollapsed',
+  'isChanged',
+]);
 
 /**
  * The question edit form component.
@@ -140,6 +153,7 @@ export class QuestionEditFormComponent implements OnInit {
     isCollapsed: false,
     isChanged: false,
     isVisibilityChanged: false,
+    isFeedbackPathChanged: false,
   };
 
   @Output()
@@ -193,8 +207,10 @@ export class QuestionEditFormComponent implements OnInit {
       ...this.model,
       [field]: data,
       ...(!this.model.isChanged && !CLEAN_PROPERTIES.has(field) && { isChanged: true }),
-      ...(!this.model.isVisibilityChanged && FILTER_PROPERTIES.has(field))
+      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPTERIES.has(field))
         && { isVisibilityChanged: true },
+      ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field))
+        && { isFeedbackPathChanged: true },
     });
   }
 
@@ -207,8 +223,10 @@ export class QuestionEditFormComponent implements OnInit {
       ...obj,
       ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
           && { isChanged: true }),
-      ...(!this.model.isVisibilityChanged && Object.keys(obj).some((key: string) => FILTER_PROPERTIES.has(key))
+      ...(!this.model.isVisibilityChanged && Object.keys(obj).some((key: string) => VISIBILITY_PROPTERIES.has(key))
           && { isVisibilityChanged: true }),
+      ...(!this.model.isFeedbackPathChanged && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
+          && { isFeedbackPathChanged: true }),
     });
   }
 
@@ -308,9 +326,34 @@ export class QuestionEditFormComponent implements OnInit {
    */
   saveQuestionHandler(): void {
     if (this.formMode === QuestionEditFormMode.EDIT) {
-      if (!this.model.isQuestionHasResponses || !this.model.isChanged && !this.model.isVisibilityChanged) {
+      const isUntouched: boolean = !this.model.isChanged
+        && !this.model.isVisibilityChanged
+        && !this.model.isFeedbackPathChanged;
+      if (!this.model.isQuestionHasResponses || isUntouched) {
         this.saveExistingQuestionEvent.emit();
-      } else if (this.model.isVisibilityChanged && !this.model.isChanged) {
+      } else if (this.model.isFeedbackPathChanged) {
+        // warn user that editing feedback path will delete all messges
+        const modalContent: string = `
+            <p>You seem to have changed the feedback path settings of this question. Please note that changing the
+            feedback path will cause <b>all existing responses to be deleted.</b> Proceed?</p>
+        `;
+        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.DANGER, modalContent);
+        modalRef.result.then(() => {
+          this.saveExistingQuestionEvent.emit();
+        }, () => {});
+      } else if (this.model.isChanged) {
+        // alert user that editing question may result in deletion of responses
+        const modalContent: string = `
+            <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may
+            cause all the existing responses for this question to be deleted.</b> Proceed?</p>
+        `;
+        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.DANGER, modalContent);
+        modalRef.result.then(() => {
+          this.saveExistingQuestionEvent.emit();
+        }, () => {});
+      } else if (this.model.isVisibilityChanged) {
         // alert user that editing visibility options will not delete responses
         const modalContent: string = `
             <p>You seem to have changed the visibility settings of this question. Please note that <b>the existing
@@ -319,17 +362,6 @@ export class QuestionEditFormComponent implements OnInit {
         `;
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
             'Save the question?', SimpleModalType.WARNING, modalContent);
-        modalRef.result.then(() => {
-          this.saveExistingQuestionEvent.emit();
-        }, () => {});
-      } else {
-        // alert user that editing question may result in deletion of responses
-        const modalContent: string = `
-            <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may
-            cause all the existing responses for this question to be deleted.</b> Proceed?</p>
-        `;
-        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-            'Save the question?', SimpleModalType.DANGER, modalContent);
         modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});

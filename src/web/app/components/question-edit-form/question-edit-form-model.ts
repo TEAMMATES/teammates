@@ -55,4 +55,5 @@ export interface QuestionEditFormModel {
   isCollapsed: boolean;
   isChanged: boolean;
   isVisibilityChanged: boolean;
+  isFeedbackPathChanged: boolean;
 }
