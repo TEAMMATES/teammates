@@ -154,17 +154,18 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         if (this.regKey && !isPreviewOrModeration) {
           this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
             if (resp.isAllowedAccess) {
-              if (auth.user) {
+              if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
                 this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/submission',
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
-                // There is no logged in user for valid, unused registration key; load information based on the key
+                // Valid, unused registration key; load information based on the key
                 this.loadPersonName();
                 this.loadFeedbackSession();
               }
             } else if (resp.isValid) {
+              // At this point, registration key must already be used, otherwise access would be granted
               if (auth.user) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
