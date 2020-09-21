@@ -23,7 +23,7 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 Understand what TEAMMATES is about, both as a product (users' point of view) and a project (developers' point of view).
 
 * [Product intro page](https://teammatesv4.appspot.com) shown to potential users
-* [Features overview](https://teammatesv4.appspot.com/features.jsp)
+* [Features overview](https://teammatesv4.appspot.com/web/front/features)
 * [Project vision, challenges, and principles](overview.md)
 
 ### Code of Conduct
