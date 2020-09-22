@@ -147,7 +147,7 @@ public final class FieldValidator {
     // field-specific error messages
     public static final String HINT_FOR_CORRECT_EMAIL =
             "An email address contains some text followed by one '@' sign followed by some more text, and should end "
-                    + "with a top domain address like .com. "
+                    + "with a top level domain address like .com. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
