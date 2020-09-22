@@ -202,11 +202,11 @@ export class QuestionSubmissionFormComponent implements OnInit {
    */
   updateValidity(isValid: boolean): void {
     const isSubmissionFormEmpty: boolean = this.model.recipientSubmissionForms.length === 0;
-    if (!isSubmissionFormEmpty){
-     const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+    if (!isSubmissionFormEmpty) {
+      const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
             this.model.recipientSubmissionForms.slice().map(
                 (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
-        this.formModelChange.emit({
+      this.formModelChange.emit({
           ...this.model,
           recipientSubmissionForms,
         });
