@@ -190,15 +190,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             'You are not authorized to view this page.');
       });
     });
-
-    // Display note on submission on mobile device
-    if (window.innerWidth < 768 && this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
-      const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
-answer remaining questions after that. You may also edit your submission any number of times before the closing time of
-this session.`;
-      this.simpleModalService.openInformationModal(
-          'Note On Submission', SimpleModalType.INFO, modalContent);
-    }
   }
 
   ngAfterViewInit(): void {
@@ -310,6 +301,15 @@ this session.`;
         }
 
         this.loadFeedbackQuestions();
+
+        // Display note on submission on mobile device
+        if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN && window.innerWidth < 768) {
+          const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
+answer remaining questions after that. You may also edit your submission any number of times before the closing time of
+this session.`;
+          this.simpleModalService.openInformationModal(
+              'Note On Submission', SimpleModalType.INFO, modalContent);
+        }
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Deleted!', SimpleModalType.DANGER,
