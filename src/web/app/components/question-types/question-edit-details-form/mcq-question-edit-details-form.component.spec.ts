@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
-import { OptionRichTextEditorModule } from './option-rich-text-editor/option-rich-text-editor.module';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
 
 describe('McqQuestionEditDetailsFormComponent', () => {
@@ -20,7 +19,6 @@ describe('McqQuestionEditDetailsFormComponent', () => {
       ],
       imports: [
         FormsModule,
-        OptionRichTextEditorModule,
         DragDropModule,
         TeammatesCommonModule,
       ],
