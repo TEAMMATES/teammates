@@ -207,9 +207,9 @@ export class QuestionSubmissionFormComponent implements OnInit {
             this.model.recipientSubmissionForms.slice().map(
                 (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
       this.formModelChange.emit({
-          ...this.model,
-          recipientSubmissionForms,
-        });
+        ...this.model,
+        recipientSubmissionForms,
+      });
     }
 
   }
