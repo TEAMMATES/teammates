@@ -51,7 +51,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         verifyHttpParameterFailure(params);
 
-        ______TS("Normal case: No logged in user for a used regkey; should be invalid");
+        ______TS("Normal case: No logged in user for a used regkey; should be valid/used/disallowed");
 
         gaeSimulation.logoutUser();
 
@@ -66,9 +66,11 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         RegkeyValidityData output = (RegkeyValidityData) r.getOutput();
-        assertFalse(output.isValid());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
-        ______TS("Normal case: Wrong logged in user for a used regkey; should be invalid");
+        ______TS("Normal case: Wrong logged in user for a used regkey; should be valid/used/disallowed");
 
         loginAsStudent("student2InCourse1");
 
@@ -83,9 +85,11 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (RegkeyValidityData) r.getOutput();
-        assertFalse(output.isValid());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
-        ______TS("Normal case: Correct logged in user for a used regkey; should be valid");
+        ______TS("Normal case: Correct logged in user for a used regkey; should be valid/used/allowed");
 
         loginAsStudent("student1InCourse1");
 
@@ -96,8 +100,10 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
-        ______TS("Normal case: No logged in user for an unused regkey; should be valid");
+        ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
         logic.resetStudentGoogleId("student1InCourse1@gmail.tmt", "idOfTypicalCourse1");
 
@@ -110,8 +116,10 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
-        ______TS("Normal case: Any logged in user for an unused regkey; should be valid");
+        ______TS("Normal case: Any logged in user for an unused regkey; should be valid/unused/allowed");
 
         loginAsStudent("student2InCourse1");
 
@@ -122,6 +130,8 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
         loginAsStudent("student3InCourse1");
 
@@ -132,8 +142,27 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         output = (RegkeyValidityData) r.getOutput();
         assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
-        ______TS("Normal case: Invalid intent; should be invalid");
+        ______TS("Normal case: Invalid regkey; should be invalid/unused/disallowed");
+
+        params = new String[] {
+                Const.ParamsNames.REGKEY, StringHelper.encrypt("invalid-key"),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
+        };
+
+        a = getAction(params);
+        r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        output = (RegkeyValidityData) r.getOutput();
+        assertFalse(output.isValid());
+        assertFalse(output.isUsed());
+        assertFalse(output.isAllowedAccess());
+
+        ______TS("Normal case: Invalid intent; should be invalid/unused/disallowed");
 
         gaeSimulation.logoutUser();
 
@@ -149,6 +178,8 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         output = (RegkeyValidityData) r.getOutput();
         assertFalse(output.isValid());
+        assertFalse(output.isUsed());
+        assertFalse(output.isAllowedAccess());
     }
 
     @Override
