@@ -30,8 +30,14 @@
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
-      You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to
-      <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+      <div *ngIf="loggedInUser">
+        You are submitting feedback as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+        <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">click here</a>.
+      </div>
+      <div *ngIf="!loggedInUser">
+        You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
+        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+      </div>
     </div>
   </div>
 </div>
