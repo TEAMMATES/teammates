@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { PageNotFoundComponent } from './page-not-found.component';
+import {TeammatesRouterModule} from "../components/teammates-router/teammates-router.module";
 
 /**
  * Module for "page-not-found" page.
@@ -8,6 +9,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
 @NgModule({
   imports: [
     CommonModule,
+    TeammatesRouterModule,
   ],
   declarations: [
     PageNotFoundComponent,

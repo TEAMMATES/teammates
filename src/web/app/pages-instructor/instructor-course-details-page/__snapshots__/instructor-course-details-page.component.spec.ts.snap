@@ -204,7 +204,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
          There are no students in this course. Click 
         <a
           href="/web/instructor/courses/enroll?courseid=CS101"
-          routerlink="/web/instructor/courses/enroll"
+          tmrouterlink="/web/instructor/courses/enroll"
         >
           here
         </a>

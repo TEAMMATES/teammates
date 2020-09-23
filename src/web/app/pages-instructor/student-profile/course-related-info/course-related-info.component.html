@@ -14,7 +14,7 @@
           <a href="javascript:;" *ngIf="isDisplayOnly">
             <span>{{student?.courseId}}</span>
           </a>
-          <a routerLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}" *ngIf="!isDisplayOnly">
+          <a tmRouterLink="/web/instructor/courses/details" [queryParams]="{courseid: student?.courseId}" *ngIf="!isDisplayOnly">
             <span>{{student?.courseId}}</span>
           </a>
         </div>
