@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 
 /**
  * A rich text editor.
@@ -29,6 +29,25 @@ export class RichTextEditorComponent implements OnInit {
   init: any = {};
 
   render: boolean = false;
+
+  defaultToolbar: string = 'styleselect | forecolor backcolor '
+      + '| bold italic underline strikethrough subscript superscript '
+      + '| alignleft aligncenter alignright alignjustify '
+      + '| bullist numlist | link image charmap emoticons';
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: { target: Window; }) {
+    if (event.target.innerWidth < 768) {
+      console.log(event.target.innerWidth);
+      this.render = false;
+      console.log("yes");
+      this.init.toolbar1 = '';
+    } else {
+      console.log(event.target.innerWidth);
+      this.render = false;
+      this.init.toolbar1 = this.defaultToolbar;
+    }
+  }
 
   constructor() { }
 
@@ -61,10 +80,7 @@ export class RichTextEditorComponent implements OnInit {
       menubar: false,
       autoresize_bottom_margin: 50,
 
-      toolbar1: 'styleselect | forecolor backcolor '
-          + '| bold italic underline strikethrough subscript superscript '
-          + '| alignleft aligncenter alignright alignjustify '
-          + '| bullist numlist | link image charmap emoticons',
+      toolbar1: this.defaultToolbar,
     };
   }
 
