@@ -11,12 +11,12 @@ import teammates.common.util.Logger;
 /**
  * Task queue worker action: prepares session unpublished reminder for a particular session to be sent.
  */
-public class FeedbackSessionUnpublishedEmailWorkerAction extends AdminOnlyAction {
+class FeedbackSessionUnpublishedEmailWorkerAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
 

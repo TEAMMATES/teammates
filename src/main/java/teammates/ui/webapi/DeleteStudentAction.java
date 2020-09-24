@@ -10,15 +10,15 @@ import teammates.common.util.Const;
 /**
  * Action: deletes a student from a course.
  */
-public class DeleteStudentAction extends Action {
+class DeleteStudentAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -34,7 +34,7 @@ public class DeleteStudentAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
 

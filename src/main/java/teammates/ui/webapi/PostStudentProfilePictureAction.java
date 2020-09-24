@@ -19,21 +19,21 @@ import teammates.ui.output.StudentProfilePictureResults;
 /**
  * Action: saves the file information of the profile picture that was just uploaded.
  */
-public class PostStudentProfilePictureAction extends Action {
+class PostStudentProfilePictureAction extends Action {
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
         }
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         try {
             Part image = req.getPart("studentprofilephoto");
             if (image == null) {

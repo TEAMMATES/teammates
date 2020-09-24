@@ -7,15 +7,15 @@ import teammates.common.util.Const;
 /**
  * Deletes a feedback question.
  */
-public class DeleteFeedbackQuestionAction extends Action {
+class DeleteFeedbackQuestionAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -30,7 +30,7 @@ public class DeleteFeedbackQuestionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
         logic.deleteFeedbackQuestionCascade(feedbackQuestionId);

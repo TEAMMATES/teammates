@@ -16,7 +16,7 @@ import teammates.ui.output.AuthInfo;
  *
  * <p>This does not log in or log out the user.
  */
-public class GetAuthInfoAction extends Action {
+class GetAuthInfoAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
@@ -24,12 +24,12 @@ public class GetAuthInfoAction extends Action {
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // Login information is available to everyone
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
         String nextUrl = getRequestParamValue("nextUrl");
         if (frontendUrl == null) {

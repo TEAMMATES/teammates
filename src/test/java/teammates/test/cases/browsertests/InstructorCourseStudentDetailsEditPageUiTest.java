@@ -6,8 +6,8 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.StringHelperExtension;
+import teammates.common.util.StringHelperExtension;
+import teammates.test.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 

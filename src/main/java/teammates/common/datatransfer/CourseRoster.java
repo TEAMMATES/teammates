@@ -155,7 +155,7 @@ public class CourseRoster {
         private final String teamName;
         private final String sectionName;
 
-        public ParticipantInfo(String name, String lastName, String teamName, String sectionName) {
+        private ParticipantInfo(String name, String lastName, String teamName, String sectionName) {
             this.name = name;
             this.lastName = lastName;
             this.teamName = teamName;

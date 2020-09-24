@@ -7,15 +7,15 @@ import teammates.ui.output.MessageOutput;
 /**
  * Delete a course.
  */
-public class DeleteCourseAction extends Action {
+class DeleteCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -26,7 +26,7 @@ public class DeleteCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         logic.deleteCourseCascade(idOfCourseToDelete);

@@ -24,7 +24,7 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * Base class for all browser tests.

@@ -11,7 +11,7 @@ import teammates.ui.request.Intent;
  *
  * <p>This does not log in or log out the user.
  */
-public class GetRegkeyValidityAction extends Action {
+class GetRegkeyValidityAction extends Action {
 
     @Override
     public AuthType getMinAuthLevel() {
@@ -19,12 +19,12 @@ public class GetRegkeyValidityAction extends Action {
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // Regkey information is available to everyone
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
 

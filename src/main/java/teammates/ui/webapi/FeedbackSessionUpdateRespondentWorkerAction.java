@@ -9,12 +9,12 @@ import teammates.common.util.Logger;
 /**
  * Task queue worker action: appends to or removes from the respondent list of a feedback session.
  */
-public class FeedbackSessionUpdateRespondentWorkerAction extends AdminOnlyAction {
+class FeedbackSessionUpdateRespondentWorkerAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String email = getNonNullRequestParamValue(ParamsNames.RESPONDENT_EMAIL);

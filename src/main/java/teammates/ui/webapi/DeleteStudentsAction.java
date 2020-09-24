@@ -9,15 +9,15 @@ import teammates.common.util.Const;
 /**
  * Action: deletes all students in a course.
  */
-public class DeleteStudentsAction extends Action {
+class DeleteStudentsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to delete students from course.");
         }
@@ -28,7 +28,7 @@ public class DeleteStudentsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         logic.deleteStudentsInCourseCascade(courseId);

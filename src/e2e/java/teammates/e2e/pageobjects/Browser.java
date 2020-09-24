@@ -21,7 +21,7 @@ import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * A programmatic interface to the Browser used to test the app.

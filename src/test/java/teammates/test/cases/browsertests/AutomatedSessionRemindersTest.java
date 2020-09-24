@@ -7,8 +7,8 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.TimeHelperExtension;
 import teammates.e2e.util.Priority;
-import teammates.test.driver.TimeHelperExtension;
 import teammates.test.pageobjects.GenericAppPage;
 
 /**

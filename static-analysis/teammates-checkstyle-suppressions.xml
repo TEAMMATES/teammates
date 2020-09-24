@@ -22,6 +22,7 @@
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
+    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]LogicExtension\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>
     <suppress checks="MissingJavadocType" files="teammates[/\\]test[/\\]pageobjects[/\\].*\.java"/>

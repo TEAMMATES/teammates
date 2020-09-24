@@ -10,15 +10,15 @@ import teammates.ui.output.FeedbackSessionStatsData;
 /**
  * Action: gets the response stats (submitted / total) of a feedback session.
  */
-public class GetSessionResponseStatsAction extends Action {
+class GetSessionResponseStatsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -31,7 +31,7 @@ public class GetSessionResponseStatsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 

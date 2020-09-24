@@ -23,10 +23,10 @@ import teammates.ui.request.AccountCreateRequest;
 /**
  * Creates a new instructor account with sample courses.
  */
-public class CreateAccountAction extends AdminOnlyAction {
+class CreateAccountAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
@@ -156,7 +156,7 @@ public class CreateAccountAction extends AdminOnlyAction {
      *         <li>012345678901234567890123456789.gma-demo9 -> 01234567890123456789012345678.gma-demo10 (being cut)</li>
      *         </ul>
      */
-    private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
+    String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
         boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
         if (isFirstCourseId) {
             return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId), maximumIdLength);

@@ -18,15 +18,15 @@ import teammates.ui.request.Intent;
  *
  * @see FeedbackQuestionRecipientsData for output format
  */
-public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmissionAction {
+class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
@@ -55,7 +55,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);

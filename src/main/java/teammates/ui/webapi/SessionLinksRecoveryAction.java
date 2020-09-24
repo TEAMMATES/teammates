@@ -13,20 +13,20 @@ import teammates.ui.output.SessionLinksRecoveryResponseData;
 /**
  * Action specifically created for confirming email and sending session recovery links.
  */
-public class SessionLinksRecoveryAction extends Action {
+class SessionLinksRecoveryAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // no specific access control needed.
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL);
 
         if (!StringHelper.isMatching(recoveryEmailAddress, REGEX_EMAIL)) {

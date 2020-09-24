@@ -40,8 +40,8 @@ import teammates.e2e.util.LNPResultsStatistics;
 import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
-import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.FileHelper;
+import teammates.test.BaseTestCase;
+import teammates.test.FileHelper;
 
 /**
  * Base class for all L&P test cases.

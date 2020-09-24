@@ -28,7 +28,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     private String id;
 
-    CourseAttributes(String courseId) {
+    private CourseAttributes(String courseId) {
         this.id = courseId;
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.createdAt = Instant.now();
@@ -251,10 +251,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

@@ -16,15 +16,15 @@ import teammates.ui.output.CoursesData;
  * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
  * Or gets all courses for the student he belongs to.
  */
-public class GetCoursesAction extends Action {
+class GetCoursesAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (!((entityType.equals(Const.EntityType.STUDENT) && userInfo.isStudent)
@@ -34,7 +34,7 @@ public class GetCoursesAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:
