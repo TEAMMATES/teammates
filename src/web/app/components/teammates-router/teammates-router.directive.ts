@@ -1,6 +1,7 @@
 import { LocationStrategy } from '@angular/common';
 import { Directive, Input } from '@angular/core';
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
+import { MasqueradeModeService } from '../../../services/masquerade-mode.service';
 
 /**
  * Router link that preserves masquerade mode
@@ -22,15 +23,15 @@ export class TeammatesRouterDirective extends RouterLinkWithHref {
   }
 
   get queryParams(): { [k: string]: any } {
-    const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
-    const userParam: string | null = urlParams.get('user');
-    if (userParam) {
+    const userParam: string = this.masqueradeModeService.getMasqueradeUser();
+    if (userParam !== '') {
       return { ...this._queryParams, user: userParam };
     }
     return this._queryParams;
   }
 
-  constructor(router: Router, route: ActivatedRoute, locationStrategy: LocationStrategy) {
+  constructor(router: Router, route: ActivatedRoute, locationStrategy: LocationStrategy,
+              private masqueradeModeService: MasqueradeModeService) {
     super(router, route, locationStrategy);
   }
 }
