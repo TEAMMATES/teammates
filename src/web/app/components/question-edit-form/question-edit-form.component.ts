@@ -35,11 +35,6 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   'questionDetails',
   'questionNumber',
 ]);
-const CLEAN_PROPERTIES: Set<string> = new Set<string>([
-  'isEditable',
-  'isCollapsed',
-  'isChanged',
-]);
 
 /**
  * The question edit form component.
@@ -156,7 +151,6 @@ export class QuestionEditFormComponent implements OnInit {
     isEditable: false,
     isSaving: false,
     isCollapsed: false,
-    isChanged: false,
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
@@ -212,7 +206,6 @@ export class QuestionEditFormComponent implements OnInit {
     this.formModelChange.emit({
       ...this.model,
       [field]: data,
-      ...(!this.model.isChanged && !CLEAN_PROPERTIES.has(field) && { isChanged: true }),
       ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
         && { isVisibilityChanged: true }),
       ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
@@ -229,8 +222,6 @@ export class QuestionEditFormComponent implements OnInit {
     this.formModelChange.emit({
       ...this.model,
       ...obj,
-      ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
-          && { isChanged: true }),
       ...(!this.model.isVisibilityChanged
           && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
           && { isVisibilityChanged: true }),
@@ -314,7 +305,9 @@ export class QuestionEditFormComponent implements OnInit {
    * Handle event to discard changes users made.
    */
   discardChangesHandler(isNewQuestion: boolean): void {
-    if (!this.model.isChanged) {
+    if (!this.model.isVisibilityChanged
+      && !this.model.isFeedbackPathChanged
+      && !this.model.isQuestionDetailsChanged) {
       this.discardChanges();
       return;
     }
