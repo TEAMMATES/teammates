@@ -156,7 +156,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     for (const _ of statuses) {
       studentLists.push([]);
     }
-    console.log("hello");
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
@@ -191,7 +190,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       });
       
       if (enrolledStudent === undefined) {
-        console.log("undefined", request);
         studentLists[EnrollStatus.ERROR].push({
           email: request.email,
           courseId: this.courseId,
@@ -202,8 +200,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           joinState: JoinState.NOT_JOINED,
           lastName: '',
         });
-      } else {
-        console.log("okay", request);
       }
     }
 
