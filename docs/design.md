@@ -252,17 +252,13 @@ This component automates the testing of TEAMMATES.
 
 ![Test Driver Component](images/TestDriverComponent.png)
 
-Package overview:
-- **`test.driver`**: Contains infrastructure and helpers needed for running the tests.
-- **`test.cases`**: Contains test cases.
-  Sub-packages:
-  - **`.testdriver`**: Component test cases for testing the test driver infrastructure and helpers.
-  - **`.datatransfer`**: Component test cases for testing the datatransfer objects from the `Common` component.
-  - **`.util`**: Component test cases for testing the utility classes from the `Common` component.
-  - **`.logic`**: Component test cases for testing the `Logic` component.
-  - **`.storage`**: Component test cases for testing the `Storage` component.
-  - **`.search`**: Component test cases for testing the search functions.
-  - **`.webapi`**: System test cases for testing the API actions and servlets.
+The test driver component's package structure follows the corresponding production package structure's exactly,
+e.g. `teammates.logic.core.*` will contain the test cases for the production code inside `teammates.logic.core` package.
+In the same spirit, for the front end, each `*.component.ts` will have the corresponding `*.component.spec.ts` in the same folder (similarly for `*.service.ts`, `*.pipe.ts`, etc.).
+
+The test driver component introduces the following additional packages:
+- **`architecture`**: Contains test cases used by one of the lint tools to check for architectural integrity.
+- **`test`**: Contains infrastructure and helpers needed for running the tests. Also contains the test cases for the said infrastructure/helpers.
 
 Notes:
 - Component tests: Some of these are pure unit tests (i.e. testing one component in isolation) while others are integration tests that test units as well as integration of units with each other.

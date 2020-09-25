@@ -12,8 +12,8 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.BackDoor;
-import teammates.test.driver.FileHelper;
+import teammates.test.BackDoor;
+import teammates.test.FileHelper;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 

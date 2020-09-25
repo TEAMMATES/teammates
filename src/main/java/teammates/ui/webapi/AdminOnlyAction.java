@@ -5,15 +5,15 @@ import teammates.common.exception.UnauthorizedAccessException;
 /**
  * An action that is permitted only for administrators.
  */
-public abstract class AdminOnlyAction extends Action {
+abstract class AdminOnlyAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }

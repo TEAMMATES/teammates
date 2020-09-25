@@ -9,10 +9,10 @@ import teammates.ui.request.SendEmailRequest;
 /**
  * Task queue worker action: sends queued email.
  */
-public class SendEmailWorkerAction extends AdminOnlyAction {
+class SendEmailWorkerAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         SendEmailRequest emailRequest = getAndValidateRequestBody(SendEmailRequest.class);
         EmailWrapper email = emailRequest.getEmail();
         EmailSendingStatus status = emailSender.sendEmail(email);

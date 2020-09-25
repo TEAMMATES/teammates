@@ -55,19 +55,6 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Returns the URL used for the HTTP request but without the domain, e.g. "/page/studentHome?user=james"
-     */
-    public static String getRequestedUrl(HttpServletRequest req) {
-        String link = req.getRequestURI();
-        String query = req.getQueryString();
-
-        if (query != null && !query.trim().isEmpty()) {
-            return link + "?" + query;
-        }
-        return link;
-    }
-
-    /**
      * Returns the cookie value, or null if said cookie does not exist.
      */
     public static String getCookieValueFromRequest(HttpServletRequest req, String cookieName) {

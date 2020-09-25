@@ -14,20 +14,20 @@ import teammates.common.util.EmailWrapper;
 /**
  * Action: joins a course for a student/instructor.
  */
-public class JoinCourseAction extends Action {
+class JoinCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // Any user can use a join link as long as its parameters are valid
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {

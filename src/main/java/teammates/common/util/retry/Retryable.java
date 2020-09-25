@@ -7,8 +7,6 @@ package teammates.common.util.retry;
  */
 public abstract class Retryable<T, E extends Throwable> {
 
-    protected String name;
-
     /**
      * An optional final message to show in the {@link MaximumRetriesExceededException} thrown
      * should the task fail after maximum retries.
@@ -21,7 +19,9 @@ public abstract class Retryable<T, E extends Throwable> {
      */
     protected Object finalData;
 
-    public Retryable(String name) {
+    private String name;
+
+    Retryable(String name) {
         this.name = name;
     }
 

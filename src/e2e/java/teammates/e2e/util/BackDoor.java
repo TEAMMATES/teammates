@@ -66,7 +66,7 @@ import teammates.ui.request.Intent;
 /**
  * Used to create API calls to the back-end without going through the UI.
  *
- * <p>Note that this will replace {@link teammates.test.driver.BackDoor} once the front-end migration is complete.
+ * <p>Note that this will replace {@link teammates.test.BackDoor} once the front-end migration is complete.
  */
 public final class BackDoor {
 

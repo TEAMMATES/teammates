@@ -10,22 +10,22 @@ import teammates.common.util.JsonUtils;
 /**
  * Puts searchable documents from the data bundle into the DB.
  */
-public class PutDataBundleDocumentsAction extends Action {
+class PutDataBundleDocumentsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.ALL_ACCESS;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
         logic.putDocuments(dataBundle);
         return new JsonResult("Data bundle documents successfully added.", HttpStatus.SC_OK);

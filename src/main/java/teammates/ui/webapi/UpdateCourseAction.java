@@ -18,15 +18,15 @@ import teammates.ui.request.CourseUpdateRequest;
 /**
  * Updates a course.
  */
-public class UpdateCourseAction extends Action {
+class UpdateCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -38,7 +38,7 @@ public class UpdateCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         CourseUpdateRequest courseUpdateRequest = getAndValidateRequestBody(CourseUpdateRequest.class);
         String courseTimeZone = courseUpdateRequest.getTimeZone();
 

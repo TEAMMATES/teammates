@@ -9,7 +9,7 @@ import org.testng.IMethodInstance;
 import org.testng.IMethodInterceptor;
 import org.testng.ITestContext;
 
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * Allows TestNG to run tests in a specified order, based on the {@code Priority(n)} annotation.

@@ -20,15 +20,15 @@ import teammates.ui.request.Intent;
 /**
  * Get all the comments given by the user for a response.
  */
-public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
+class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
@@ -69,7 +69,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(

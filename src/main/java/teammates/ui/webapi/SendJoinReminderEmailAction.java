@@ -14,15 +14,15 @@ import teammates.common.util.Const;
 /**
  * Send join reminder emails to register for a course.
  */
-public class SendJoinReminderEmailAction extends Action {
+class SendJoinReminderEmailAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseAttributes course = logic.getCourse(courseId);
@@ -50,7 +50,7 @@ public class SendJoinReminderEmailAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseAttributes course = logic.getCourse(courseId);

@@ -11,22 +11,22 @@ import teammates.common.util.JsonUtils;
 /**
  * Persists a data bundle into the DB.
  */
-public class PutDataBundleAction extends Action {
+class PutDataBundleAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.ALL_ACCESS;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {

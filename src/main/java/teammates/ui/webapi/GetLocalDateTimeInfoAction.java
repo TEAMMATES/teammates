@@ -15,24 +15,24 @@ import teammates.ui.output.LocalDateTimeInfo;
 /**
  * Resolve local date time under certain timezone to an UNIX timestamp.
  */
-public class GetLocalDateTimeInfoAction extends Action {
+class GetLocalDateTimeInfoAction extends Action {
 
     private static final DateTimeFormatter LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Only instructor can get local date time information");
         }
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String localDateTimeStr = getNonNullRequestParamValue(Const.ParamsNames.LOCAL_DATE_TIME);
         String zoneIdStr = getNonNullRequestParamValue(Const.ParamsNames.TIME_ZONE);
 

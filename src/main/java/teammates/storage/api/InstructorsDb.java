@@ -384,12 +384,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     @Override
-    protected LoadType<Instructor> load() {
+    LoadType<Instructor> load() {
         return ofy().load().type(Instructor.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(InstructorAttributes entityToCreate) {
+    boolean hasExistingEntities(InstructorAttributes entityToCreate) {
         // cannot use direct key query as email of an instructor can be changed
         return !load()
                 .filter("courseId =", entityToCreate.getCourseId())
@@ -400,7 +400,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     @Override
-    protected InstructorAttributes makeAttributes(Instructor entity) {
+    InstructorAttributes makeAttributes(Instructor entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return InstructorAttributes.valueOf(entity);

@@ -16,15 +16,15 @@ import teammates.ui.output.FeedbackSessionsData;
 /**
  * Get a list of feedback sessions.
  */
-public class GetFeedbackSessionsAction extends Action {
+class GetFeedbackSessionsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -61,7 +61,7 @@ public class GetFeedbackSessionsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 

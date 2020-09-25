@@ -17,15 +17,15 @@ import teammates.ui.request.InstructorCreateRequest;
 /**
  * Edits an instructor in a course.
  */
-public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
+class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -38,7 +38,7 @@ public class UpdateInstructorAction extends UpdateInstructorPrivilegesAbstractAc
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);

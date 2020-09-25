@@ -10,7 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
  */
 public class FeedbackResponsesData extends ApiOutput {
 
-    List<FeedbackResponseData> responses;
+    private List<FeedbackResponseData> responses;
 
     public FeedbackResponsesData(List<FeedbackResponseAttributes> responses) {
         this.responses = responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList());

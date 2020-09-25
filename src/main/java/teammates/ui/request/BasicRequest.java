@@ -15,7 +15,7 @@ public abstract class BasicRequest {
     /**
      * Asserts a condition or throws {@link InvalidHttpRequestBodyException}.
      */
-    public void assertTrue(boolean condition, String message) {
+    void assertTrue(boolean condition, String message) {
         if (!condition) {
             throw new InvalidHttpRequestBodyException(message);
         }

@@ -14,9 +14,9 @@ import teammates.ui.output.InstructorPrivilegeData;
 /**
  * Get the instructor privilege.
  */
-public class GetInstructorPrivilegeAction extends Action {
+class GetInstructorPrivilegeAction extends Action {
 
-    static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
+    private static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
 
     static {
         InstructorPrivilegeData coOwnerPrivilegeData = new InstructorPrivilegeData();
@@ -83,12 +83,12 @@ public class GetInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -101,7 +101,7 @@ public class GetInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
 
         if (instructorRole != null) {
