@@ -110,15 +110,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
         .forEach((row: string[]) => (studentsEnrollRequest.studentEnrollRequests.push({
           section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
           team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
           name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
           email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
           comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
         })));
 
     this.studentService.enrollStudents(
@@ -156,7 +156,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     for (const _ of statuses) {
       studentLists.push([]);
     }
-
+    console.log("hello");
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
@@ -189,8 +189,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
         return student.email === request.email;
       });
-
+      
       if (enrolledStudent === undefined) {
+        console.log("undefined", request);
         studentLists[EnrollStatus.ERROR].push({
           email: request.email,
           courseId: this.courseId,
@@ -201,6 +202,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           joinState: JoinState.NOT_JOINED,
           lastName: '',
         });
+      } else {
+        console.log("okay", request);
       }
     }
 
