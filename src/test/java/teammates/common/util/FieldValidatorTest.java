@@ -410,8 +410,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String emptyEmail = "";
         assertEquals("Invalid email (empty) should return appropriate error string",
                      "The field 'email' is empty. An email address contains some text followed by one "
-                         + "'@' sign followed by some more text. It cannot be longer than 254 "
-                         + "characters, cannot be empty and cannot contain spaces.",
+                         + "'@' sign followed by some more text, and should end with a top level domain address like "
+                         + ".com. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForEmail(emptyEmail));
 
         String untrimmedEmail = "  untrimmed@email.com  ";
@@ -433,7 +433,8 @@ public class FieldValidatorTest extends BaseTestCase {
                          + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                          + "aaaaaaaa@c.gov\" is not acceptable to TEAMMATES as a/an email because it is too "
                          + "long. An email address contains some text followed by one '@' sign followed by "
-                         + "some more text. It cannot be longer than 254 characters, cannot be empty and "
+                         + "some more text, and should end with a top level domain address like .com. "
+                         + "It cannot be longer than 254 characters, cannot be empty and "
                          + "cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForEmail(tooLongEmail));
 
@@ -441,7 +442,8 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid email (space character after '@') should return appropriate error string",
                      "\"woMAN@com. sg\" is not acceptable to TEAMMATES as a/an email because it is not in "
                          + "the correct format. An email address contains some text followed by one '@' sign "
-                         + "followed by some more text. It cannot be longer than 254 characters, cannot be "
+                         + "followed by some more text, and should end with a top level domain address like .com. "
+                         + "It cannot be longer than 254 characters, cannot be "
                          + "empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol));
 
@@ -449,7 +451,8 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid email (space character before '@') should return appropriate error string",
                      "\"man woman@com.sg\" is not acceptable to TEAMMATES as a/an email because it "
                          + "is not in the correct format. An email address contains some text followed by "
-                         + "one '@' sign followed by some more text. It cannot be longer than 254 "
+                         + "one '@' sign followed by some more text, and should end with a top level domain address "
+                         + "like .com. It cannot be longer than 254 "
                          + "characters, cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol));
 
@@ -457,7 +460,8 @@ public class FieldValidatorTest extends BaseTestCase {
         assertEquals("Invalid email (multiple '@' characters) should return appropriate error string",
                      "\"man@woman@com.lk\" is not acceptable to TEAMMATES as a/an email because it is not "
                          + "in the correct format. An email address contains some text followed by one '@' "
-                         + "sign followed by some more text. It cannot be longer than 254 characters, "
+                         + "sign followed by some more text, and should end with a top level domain address like .com. "
+                         + "It cannot be longer than 254 characters, "
                          + "cannot be empty and cannot contain spaces.",
                      FieldValidator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol));
     }
