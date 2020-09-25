@@ -231,13 +231,15 @@ export class QuestionEditFormComponent implements OnInit {
       ...obj,
       ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
           && { isChanged: true }),
-      ...(!this.model.isVisibilityChanged && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
+      ...(!this.model.isVisibilityChanged
+          && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
           && { isVisibilityChanged: true }),
-      ...(!this.model.isFeedbackPathChanged && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
+      ...(!this.model.isFeedbackPathChanged
+          && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
           && { isFeedbackPathChanged: true }),
-      ...(!this.model.isQuestionDetailsChanged 
+      ...(!this.model.isQuestionDetailsChanged
           && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
-          && { isFeedbackPathChanged: true }),
+          && { isQuestionDetailsChanged: true }),
     });
   }
 
