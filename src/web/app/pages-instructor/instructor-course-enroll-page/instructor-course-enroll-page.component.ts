@@ -156,6 +156,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     for (const _ of statuses) {
       studentLists.push([]);
     }
+
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
@@ -188,7 +189,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       const enrolledStudent: Student | undefined = enrolledStudents.find((student: Student) => {
         return student.email === request.email;
       });
-      
+
       if (enrolledStudent === undefined) {
         studentLists[EnrollStatus.ERROR].push({
           email: request.email,
