@@ -22,15 +22,20 @@ const FEEDBACK_PATH_PROPERTIES: Set<string> = new Set<string>([
   'numberOfEntitiesToGiveFeedbackToSetting',
   'customNumberOfEntitiesToGiveFeedbackTo',
 ]);
-const VISIBILITY_PROPTERIES: Set<string> = new Set<string>([
+const VISIBILITY_PROPERTIES: Set<string> = new Set<string>([
   'isUsingOtherVisibilitySetting',
   'showResponsesTo',
   'showGiverNameTo',
   'showRecipientNameTo',
   'commonVisibilitySettingName',
 ]);
+const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
+  'questionBrief',
+  'questionDescription',
+  'questionDetails',
+  'questionNumber',
+]);
 const CLEAN_PROPERTIES: Set<string> = new Set<string>([
-  ...VISIBILITY_PROPTERIES,
   'isEditable',
   'isCollapsed',
   'isChanged',
@@ -154,6 +159,7 @@ export class QuestionEditFormComponent implements OnInit {
     isChanged: false,
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
+    isQuestionDetailsChanged: false,
   };
 
   @Output()
@@ -207,10 +213,12 @@ export class QuestionEditFormComponent implements OnInit {
       ...this.model,
       [field]: data,
       ...(!this.model.isChanged && !CLEAN_PROPERTIES.has(field) && { isChanged: true }),
-      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPTERIES.has(field))
-        && { isVisibilityChanged: true },
-      ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field))
-        && { isFeedbackPathChanged: true },
+      ...(!this.model.isVisibilityChanged && VISIBILITY_PROPERTIES.has(field)
+        && { isVisibilityChanged: true }),
+      ...(!this.model.isFeedbackPathChanged && FEEDBACK_PATH_PROPERTIES.has(field)
+        && { isFeedbackPathChanged: true }),
+      ...(!this.model.isQuestionDetailsChanged && QUESTION_DETAIL_PROPERTIES.has(field)
+        && { isQuestionDetailsChanged: true }),
     });
   }
 
@@ -223,9 +231,12 @@ export class QuestionEditFormComponent implements OnInit {
       ...obj,
       ...(!this.model.isChanged && Object.keys(obj).some((key: string) => !CLEAN_PROPERTIES.has(key))
           && { isChanged: true }),
-      ...(!this.model.isVisibilityChanged && Object.keys(obj).some((key: string) => VISIBILITY_PROPTERIES.has(key))
+      ...(!this.model.isVisibilityChanged && Object.keys(obj).some((key: string) => VISIBILITY_PROPERTIES.has(key))
           && { isVisibilityChanged: true }),
       ...(!this.model.isFeedbackPathChanged && Object.keys(obj).some((key: string) => FEEDBACK_PATH_PROPERTIES.has(key))
+          && { isFeedbackPathChanged: true }),
+      ...(!this.model.isQuestionDetailsChanged 
+          && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
           && { isFeedbackPathChanged: true }),
     });
   }
@@ -326,10 +337,10 @@ export class QuestionEditFormComponent implements OnInit {
    */
   saveQuestionHandler(): void {
     if (this.formMode === QuestionEditFormMode.EDIT) {
-      const isUntouched: boolean = !this.model.isChanged
-        && !this.model.isVisibilityChanged
-        && !this.model.isFeedbackPathChanged;
-      if (!this.model.isQuestionHasResponses || isUntouched) {
+      const doChangesNeedWarning: boolean = this.model.isQuestionDetailsChanged
+        || this.model.isVisibilityChanged
+        || this.model.isFeedbackPathChanged;
+      if (!this.model.isQuestionHasResponses || !doChangesNeedWarning) {
         this.saveExistingQuestionEvent.emit();
       } else if (this.model.isFeedbackPathChanged) {
         // warn user that editing feedback path will delete all messges
@@ -342,7 +353,7 @@ export class QuestionEditFormComponent implements OnInit {
         modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      } else if (this.model.isChanged) {
+      } else if (this.model.isQuestionDetailsChanged) {
         // alert user that editing question may result in deletion of responses
         const modalContent: string = `
             <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may
