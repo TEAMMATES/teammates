@@ -110,15 +110,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
         .forEach((row: string[]) => (studentsEnrollRequest.studentEnrollRequests.push({
           section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
           team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
           name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
           email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
           comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
         })));
 
     this.studentService.enrollStudents(
