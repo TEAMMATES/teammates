@@ -50,12 +50,6 @@ public class Browser {
     public boolean isAdminLoggedIn;
 
     /**
-     * Indicates to the {@link BrowserPool} that this object is currently being used
-     * and not ready to be reused by another test.
-     */
-    boolean isInUse;
-
-    /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
     private final Stack<String> windowHandles = new Stack<>();
@@ -64,7 +58,7 @@ public class Browser {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
         this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
-        this.isInUse = false;
+        this.driver.manage().timeouts().setScriptTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
         this.isAdminLoggedIn = false;
     }
 
@@ -150,6 +144,7 @@ public class Browser {
             FirefoxProfile profile;
             if (TestProperties.isDevServer()) {
                 profile = new FirefoxProfile();
+                profile.setPreference("browser.private.browsing.autostart", true);
             } else {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
@@ -183,7 +178,9 @@ public class Browser {
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
-            if (!TestProperties.isDevServer()) {
+            if (TestProperties.isDevServer()) {
+                options.addArguments("incognito");
+            } else {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
                 if (TestProperties.CHROME_USER_DATA_PATH.isEmpty()
