@@ -18,7 +18,6 @@ import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
-import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
@@ -44,7 +43,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     protected void prepareBrowser() {
-        browser = BrowserPool.getBrowser();
+        browser = new Browser();
     }
 
     protected abstract void prepareTestData() throws Exception;
@@ -67,7 +66,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         if (browser == null) {
             return;
         }
-        BrowserPool.release(browser);
+        browser.driver.close();
     }
 
     /**

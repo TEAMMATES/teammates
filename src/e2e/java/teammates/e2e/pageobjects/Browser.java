@@ -50,12 +50,6 @@ public class Browser {
     public boolean isAdminLoggedIn;
 
     /**
-     * Indicates to the {@link BrowserPool} that this object is currently being used
-     * and not ready to be reused by another test.
-     */
-    boolean isInUse;
-
-    /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
      */
     private final Stack<String> windowHandles = new Stack<>();
@@ -64,7 +58,6 @@ public class Browser {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
         this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
-        this.isInUse = false;
         this.isAdminLoggedIn = false;
     }
 
