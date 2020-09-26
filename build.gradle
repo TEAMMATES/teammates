@@ -519,9 +519,8 @@ task e2eTests {
         testLogging {
             events "passed"
         }
-        if (isLastRetry) {
-            afterTest afterTestClosure
-        } else if (isFirstTry) {
+        afterTest afterTestClosure
+        if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
         }
         finalizedBy "killFirefox${id}", "killChromedriver${id}"
