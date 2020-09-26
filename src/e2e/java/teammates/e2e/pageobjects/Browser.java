@@ -63,7 +63,7 @@ public class Browser {
     public Browser() {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
-        this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
+        this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
         this.isInUse = false;
         this.isAdminLoggedIn = false;
     }
