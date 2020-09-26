@@ -34,7 +34,7 @@ import teammates.test.FileHelper;
  */
 public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess {
 
-    protected Browser browser;
+	protected Browser browser;
     protected DataBundle testData;
 
     @BeforeClass
@@ -84,10 +84,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
      * inside {@link TestProperties#TEST_PAGES_FOLDER}.
      * {@code testFileName} must start with a "/".
      */
-    protected static Url createLocalUrl(String testFileName) throws IOException {
-        return new Url("file:///" + new File(".").getCanonicalPath() + "/"
-                                  + TestProperties.TEST_PAGES_FOLDER + testFileName);
-    }
+	protected static Url createLocalUrl(String testFileName) throws IOException {
+		return new Url(Const.TestCase.FILE + new File(Const.TestCase.DOT).getCanonicalPath()
+				+ Const.TestCase.FRONT_SLASH + TestProperties.TEST_PAGES_FOLDER + testFileName);
+	}
 
     /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).

@@ -22,145 +22,141 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
 /**
- * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
- *      specifically for MSQ questions.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
+ * {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE} specifically for MSQ
+ * questions.
  */
 public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
-    InstructorAttributes instructor;
-    CourseAttributes course;
-    FeedbackSessionAttributes feedbackSession;
-    StudentAttributes student;
+	InstructorAttributes instructor;
+	CourseAttributes course;
+	FeedbackSessionAttributes feedbackSession;
+	StudentAttributes student;
 
-    @Override
-    protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackMsqQuestionE2ETest.json");
-        removeAndRestoreDataBundle(testData);
+	@Override
+	protected void prepareTestData() {
+		testData = loadDataBundle(Const.TestCase.FEEDBACK_MSQ_QUESTION_E2E_TEST_JSON);
+		removeAndRestoreDataBundle(testData);
 
-        instructor = testData.instructors.get("instructor");
-        course = testData.courses.get("course");
-        feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FMsqQuestionE2eT.CS2104");
-    }
+		instructor = testData.instructors.get(Const.TestCase.INSTRUCTOR_CONTENT);
+		course = testData.courses.get(Const.TestCase.COURSE_CONTENT);
+		feedbackSession = testData.feedbackSessions.get(Const.TestCase.OPEN_SESSION);
+		student = testData.students.get(Const.TestCase.ALICE_TMMS_F_MSQ_QUESTION_E2E_T_CS2104);
+	}
 
-    @Test
-    public void testAll() {
-        testEditPage();
-        testSubmitPage();
-    }
+	@Test
+	public void testAll() {
+		testEditPage();
+		testSubmitPage();
+	}
 
-    private void testEditPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withUserId(instructor.googleId)
-                .withCourseId(course.getId())
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
-        feedbackEditPage.waitForPageToLoad();
+	private void testEditPage() {
+		AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE).withUserId(instructor.googleId)
+				.withCourseId(course.getId()).withSessionName(feedbackSession.getFeedbackSessionName());
+		InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
+		feedbackEditPage.waitForPageToLoad();
 
-        ______TS("verify loaded question");
-        FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
-        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion.getQuestionDetails();
-        feedbackEditPage.verifyMsqQuestionDetails(1, questionDetails);
+		______TS(Const.TestCase.VERIFY_LOADED_QUESTION);
+		FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get(Const.TestCase.QN1_FOR_FIRST_SESSION)
+				.getCopy();
+		FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion.getQuestionDetails();
+		feedbackEditPage.verifyMsqQuestionDetails(1, questionDetails);
 
-        ______TS("add new question");
-        // add new question exactly like loaded question
-        loadedQuestion.setQuestionNumber(2);
-        feedbackEditPage.addMsqQuestion(loadedQuestion);
+		______TS(Const.TestCase.ADD_NEW_QUESTION);
+		// add new question exactly like loaded question
+		loadedQuestion.setQuestionNumber(2);
+		feedbackEditPage.addMsqQuestion(loadedQuestion);
 
-        feedbackEditPage.verifyMsqQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+		feedbackEditPage.verifyMsqQuestionDetails(2, questionDetails);
+		verifyPresentInDatastore(loadedQuestion);
 
-        ______TS("copy question");
-        FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackMsqQuestionDetails) copiedQuestion.getQuestionDetails();
-        feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
-        copiedQuestion.setQuestionNumber(3);
+		______TS(Const.TestCase.COPY_QUESTION);
+		FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions
+				.get(Const.TestCase.QN1_FOR_SECOND_SESSION);
+		questionDetails = (FeedbackMsqQuestionDetails) copiedQuestion.getQuestionDetails();
+		feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
+				copiedQuestion.getQuestionDetails().getQuestionText());
+		copiedQuestion.courseId = course.getId();
+		copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+		copiedQuestion.setQuestionNumber(3);
 
-        feedbackEditPage.verifyMsqQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+		feedbackEditPage.verifyMsqQuestionDetails(3, questionDetails);
+		verifyPresentInDatastore(copiedQuestion);
 
-        ______TS("edit question");
-        questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion.getQuestionDetails();
-        questionDetails.setHasAssignedWeights(false);
-        questionDetails.setMsqWeights(new ArrayList<>());
-        questionDetails.setOtherEnabled(false);
-        questionDetails.setMsqOtherWeight(0);
-        questionDetails.setMaxSelectableChoices(Integer.MIN_VALUE);
-        List<String> choices = questionDetails.getMsqChoices();
-        choices.add("Edited choice");
-        questionDetails.setMsqChoices(choices);
-        loadedQuestion.questionDetails = questionDetails;
-        feedbackEditPage.editMsqQuestion(2, questionDetails);
+		______TS(Const.TestCase.EDIT_QUESTION);
+		questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion.getQuestionDetails();
+		questionDetails.setHasAssignedWeights(false);
+		questionDetails.setMsqWeights(new ArrayList<>());
+		questionDetails.setOtherEnabled(false);
+		questionDetails.setMsqOtherWeight(0);
+		questionDetails.setMaxSelectableChoices(Integer.MIN_VALUE);
+		List<String> choices = questionDetails.getMsqChoices();
+		choices.add(Const.TestCase.EDITED_CHOICE);
+		questionDetails.setMsqChoices(choices);
+		loadedQuestion.questionDetails = questionDetails;
+		feedbackEditPage.editMsqQuestion(2, questionDetails);
 
-        feedbackEditPage.verifyMsqQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
-    }
+		feedbackEditPage.verifyMsqQuestionDetails(2, questionDetails);
+		verifyPresentInDatastore(loadedQuestion);
+	}
 
-    private void testSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withUserId(student.googleId)
-                .withCourseId(student.course)
-                .withSessionName(feedbackSession.getFeedbackSessionName())
-                .withRegistrationKey(getKeyForStudent(student));
-        FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
+	private void testSubmitPage() {
+		AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE).withUserId(student.googleId)
+				.withCourseId(student.course).withSessionName(feedbackSession.getFeedbackSessionName())
+				.withRegistrationKey(getKeyForStudent(student));
+		FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
+		feedbackSubmitPage.waitForPageToLoad();
 
-        ______TS("verify loaded question");
-        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FMsqQuestionE2eT.CS2104");
-        feedbackSubmitPage.verifyMsqQuestion(1, receiver.getName(),
-                (FeedbackMsqQuestionDetails) question.getQuestionDetails());
+		______TS(Const.TestCase.VERIFY_LOADED_QUESTION);
+		FeedbackQuestionAttributes question = testData.feedbackQuestions.get(Const.TestCase.QN1_FOR_FIRST_SESSION);
+		StudentAttributes receiver = testData.students.get(Const.TestCase.BENNY_TMMS_F_MSQ_QUESTION_E2E_T_CS2104);
+		feedbackSubmitPage.verifyMsqQuestion(1, receiver.getName(),
+				(FeedbackMsqQuestionDetails) question.getQuestionDetails());
 
-        ______TS("verify loaded question with generated options");
-        FeedbackQuestionAttributes generatedQn = testData.feedbackQuestions.get("qn1ForSecondSession");
-        feedbackSubmitPage.verifyGeneratedMsqQuestion(3, "",
-                (FeedbackMsqQuestionDetails) generatedQn.getQuestionDetails(), getGeneratedTeams());
+		______TS(Const.TestCase.VERIFY_LOADED_QUESTION_WITH_GENERATED_OPTIONS);
+		FeedbackQuestionAttributes generatedQn = testData.feedbackQuestions.get(Const.TestCase.QN1_FOR_SECOND_SESSION);
+		feedbackSubmitPage.verifyGeneratedMsqQuestion(3, Const.TestCase.EMPTY_STRING,
+				(FeedbackMsqQuestionDetails) generatedQn.getQuestionDetails(), getGeneratedTeams());
 
-        ______TS("submit response");
-        String questionId = getFeedbackQuestion(question).getId();
-        List<String> answers = Arrays.asList("Leadership", "This is the other response.");
-        FeedbackResponseAttributes response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
-        feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
+		______TS(Const.TestCase.SUBMIT_RESPONSE);
+		String questionId = getFeedbackQuestion(question).getId();
+		List<String> answers = Arrays.asList(Const.TestCase.LEADERSHIP, Const.TestCase.THIS_IS_THE_OTHER_RESPONSE);
+		FeedbackResponseAttributes response = getResponse(questionId, receiver, answers.get(answers.size() - 1),
+				answers);
+		feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+		verifyPresentInDatastore(response);
 
-        ______TS("check previous response");
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
-        feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
+		______TS(Const.TestCase.CHECK_PREVIOUS_RESPONSE);
+		feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+		feedbackSubmitPage.waitForPageToLoad();
+		feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
-        ______TS("edit response");
-        answers = Arrays.asList("");
-        response = getResponse(questionId, receiver, "", answers);
-        feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
+		______TS(Const.TestCase.EDIT_RESPONSE);
+		answers = Arrays.asList(Const.TestCase.EMPTY_STRING);
+		response = getResponse(questionId, receiver, Const.TestCase.EMPTY_STRING, answers);
+		feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
-        feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
-    }
+		feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+		feedbackSubmitPage.waitForPageToLoad();
+		feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
+		verifyPresentInDatastore(response);
+	}
 
-    private List<String> getGeneratedTeams() {
-        return testData.students.values().stream()
-                .filter(s -> s.getCourse().equals(student.course))
-                .map(s -> s.getTeam())
-                .distinct()
-                .collect(Collectors.toList());
-    }
+	private List<String> getGeneratedTeams() {
+		return testData.students.values().stream().filter(s -> s.getCourse().equals(student.course))
+				.map(s -> s.getTeam()).distinct().collect(Collectors.toList());
+	}
 
-    private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, String other,
-                                                   List<String> answers) {
-        FeedbackMsqResponseDetails details = new FeedbackMsqResponseDetails();
-        if (!other.isEmpty()) {
-            details.setOther(true);
-            details.setOtherFieldContent(other);
-        }
-        details.setAnswers(answers);
+	private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, String other,
+			List<String> answers) {
+		FeedbackMsqResponseDetails details = new FeedbackMsqResponseDetails();
+		if (!other.isEmpty()) {
+			details.setOther(true);
+			details.setOtherFieldContent(other);
+		}
+		details.setAnswers(answers);
 
-        return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
-                .withResponseDetails(details)
-                .build();
-    }
+		return FeedbackResponseAttributes.builder(questionId, student.getEmail(), receiver.getEmail())
+				.withResponseDetails(details).build();
+	}
 }

@@ -18,11 +18,11 @@ import teammates.e2e.pageobjects.AdminSearchPage;
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
  */
 public class AdminSearchPageE2ETest extends BaseE2ETestCase {
-    private AdminSearchPage searchPage;
+	private AdminSearchPage searchPage;
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AdminSearchPageE2ETest.json");
+        testData = loadDataBundle(Const.TestCase.ADMIN_SEARCH_PAGE_E2E_TEST_JSON);
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
     }
@@ -32,24 +32,24 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
-        StudentAttributes student = testData.students.get("student1InCourse1");
-        AccountAttributes studentAccount = testData.accounts.get("student1InCourse1");
-        InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        AccountAttributes instructorAccount = testData.accounts.get("instructor1OfCourse1");
+        StudentAttributes student = testData.students.get(Const.TestCase.STUDENT1_IN_COURSE_CONTENT_LABLE);
+        AccountAttributes studentAccount = testData.accounts.get(Const.TestCase.STUDENT1_IN_COURSE_CONTENT_LABLE);
+        InstructorAttributes instructor = testData.instructors.get(Const.TestCase.INSTRUCTOR1_OF_COURSE_CONTENT_LABLE);
+        AccountAttributes instructorAccount = testData.accounts.get(Const.TestCase.INSTRUCTOR1_OF_COURSE_CONTENT_LABLE);
 
-        ______TS("Typical case: Search student google id");
+        ______TS(Const.TestCase.TYPICAL_CASE_SEARCH_STUDENT_GOOGLE_ID);
         String searchContent = student.getGoogleId();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         verifyStudentRowContent(student, studentAccount);
         verifyStudentExpandedLinks(student);
 
-        ______TS("Typical case: Reset student google id");
+        ______TS(Const.TestCase.TYPICAL_CASE_RESET_STUDENT_GOOGLE_ID);
         searchPage.resetStudentGoogleId(student);
         student.googleId = null;
         verifyStudentRowContent(student, studentAccount);
 
-        ______TS("Typical case: Regenerate all links for a course student");
+        ______TS(Const.TestCase.TYPICAL_CASE_REGENERATE_ALL_LINKS_FOR_A_COURSE_STUDENT);
         searchPage.clickExpandStudentLinks();
         WebElement studentRow = searchPage.getStudentRow(student);
         String originalJoinLink = searchPage.getStudentJoinLink(studentRow);
@@ -58,7 +58,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         verifyRegenerateStudentCourseLinks(studentRow, originalJoinLink);
         searchPage.waitForPageToLoad();
 
-        ______TS("Typical case: Search for instructor email");
+        ______TS(Const.TestCase.TYPICAL_CASE_SEARCH_FOR_INSTRUCTOR_EMAIL);
         searchPage.clearSearchBox();
         searchContent = instructor.getEmail();
         searchPage.inputSearchContent(searchContent);
@@ -66,13 +66,13 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         verifyInstructorRowContent(instructor, instructorAccount);
         verifyInstructorExpandedLinks(instructor);
 
-        ______TS("Typical case: Reset instructor google id");
+        ______TS(Const.TestCase.TYPICAL_CASE_RESET_INSTRUCTOR_GOOGLE_ID);
         searchPage.resetInstructorGoogleId(instructor);
         instructor.googleId = null;
         instructorAccount.institute = null;
         verifyInstructorRowContent(instructor, instructorAccount);
 
-        ______TS("Typical case: Search common course id");
+        ______TS(Const.TestCase.TYPICAL_CASE_SEARCH_COMMON_COURSE_ID);
         searchPage.clearSearchBox();
         searchContent = student.getCourse();
         searchPage.inputSearchContent(searchContent);
@@ -80,7 +80,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         verifyStudentRowContent(student, studentAccount);
         verifyInstructorRowContent(instructor, instructorAccount);
 
-        ______TS("Typical case: Expand and collapse links");
+        ______TS(Const.TestCase.TYPICAL_CASE_EXPAND_AND_COLLAPSE_LINKS);
         verifyLinkExpansionButtons(student, instructor);
     }
 
@@ -120,14 +120,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         return student.isRegistered() ? createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
                 .withUserId(student.googleId)
                 .toAbsoluteString()
-                : "";
+                : Const.TestCase.EMPTY_STRING;
     }
 
     private String getExpectedStudentManageAccountLink(StudentAttributes student) {
         return student.isRegistered() ? createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, student.googleId)
                 .toAbsoluteString()
-                : "";
+                : Const.TestCase.EMPTY_STRING;
     }
 
     private void verifyStudentExpandedLinks(StudentAttributes student) {
@@ -141,7 +141,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         int expectedNumExpandedRows = getExpectedNumExpandedRows(student);
 
         assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
+        assertNotEquals(Const.TestCase.EMPTY_STRING, actualJoinLink);
         assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
     }
 
@@ -183,14 +183,14 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private String getExpectedInstructorHomePageLink(InstructorAttributes instructor) {
-        String googleId = instructor.isRegistered() ? instructor.googleId : "";
+        String googleId = instructor.isRegistered() ? instructor.googleId : Const.TestCase.EMPTY_STRING;
         return createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
                 .withUserId(googleId)
                 .toAbsoluteString();
     }
 
     private String getExpectedInstructorManageAccountLink(InstructorAttributes instructor) {
-        String googleId = instructor.isRegistered() ? instructor.googleId : "";
+        String googleId = instructor.isRegistered() ? instructor.googleId : Const.TestCase.EMPTY_STRING;
         return createUrl(Const.WebPageURIs.ADMIN_ACCOUNTS_PAGE)
                 .withParam(Const.ParamsNames.INSTRUCTOR_ID, googleId)
                 .toAbsoluteString();
@@ -205,7 +205,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String expectedEmail = instructor.email;
 
         assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
+        assertNotEquals(Const.TestCase.EMPTY_STRING, actualJoinLink);
     }
 
     private void verifyLinkExpansionButtons(StudentAttributes student, InstructorAttributes instructor) {

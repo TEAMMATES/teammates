@@ -947,5 +947,72 @@ public final class Const {
         // body parameter null message
         public static final String NULL_BODY_PARAMETER = "The body parameter is null";
     }
+    
+    public static class TestCase {
+    	public static final String EMPTY_STRING = "";
+    	public static final String TYPICAL_CASE_EXPAND_AND_COLLAPSE_LINKS = "Typical case: Expand and collapse links";
+    	public static final String TYPICAL_CASE_SEARCH_COMMON_COURSE_ID = "Typical case: Search common course id";
+    	public static final String TYPICAL_CASE_RESET_INSTRUCTOR_GOOGLE_ID = "Typical case: Reset instructor google id";
+    	public static final String TYPICAL_CASE_SEARCH_FOR_INSTRUCTOR_EMAIL = "Typical case: Search for instructor email";
+    	public static final String TYPICAL_CASE_REGENERATE_ALL_LINKS_FOR_A_COURSE_STUDENT = "Typical case: Regenerate all links for a course student";
+    	public static final String TYPICAL_CASE_RESET_STUDENT_GOOGLE_ID = "Typical case: Reset student google id";
+    	public static final String TYPICAL_CASE_SEARCH_STUDENT_GOOGLE_ID = "Typical case: Search student google id";
+    	public static final String INSTRUCTOR1_OF_COURSE_CONTENT_LABLE = "instructor1OfCourse1";
+    	public static final String STUDENT1_IN_COURSE_CONTENT_LABLE = "student1InCourse1";
+    	public static final String ADMIN_SEARCH_PAGE_E2E_TEST_JSON = "/AdminSearchPageE2ETest.json";
+    	public static final String GET_KEY_FOR_INSTRUCTOR = "getKeyForInstructor";
+    	public static final String GET_INSTRUCTOR = "getInstructor";
+    	public static final String GET_FEEDBACK_SESSION = "getFeedbackSession";
+    	public static final String GET_FEEDBACK_QUESTION = "getFeedbackQuestion";
+    	public static final String GET_COURSE = "getCourse";
+    	public static final String GET_ACCOUNT = "getAccount";
+    	public static final String FRONT_SLASH = "/";
+    	public static final String DOT = ".";
+    	public static final String FILE = "file:///";
+    	public static final String EDIT_RESPONSE = "edit response";
+    	public static final String CHECK_PREVIOUS_RESPONSE = "check previous response";
+    	public static final String SUBMIT_RESPONSE = "submit response";
+    	public static final String AT_LEAST_SOME_OPTIONS = "At least some options";
+    	public static final String EDITED_OPTION = "Edited option.";
+    	public static final String EDIT_QUESTION = "edit question";
+    	public static final String QN1_FOR_SECOND_SESSION = "qn1ForSecondSession";
+    	public static final String COPY_QUESTION = "copy question";
+    	public static final String ADD_NEW_QUESTION = "add new question";
+    	public static final String QN1_FOR_FIRST_SESSION = "qn1ForFirstSession";
+    	public static final String VERIFY_LOADED_QUESTION = "verify loaded question";
+    	public static final String ALICE_TMMS_F_CONST_SUM_OPTION_QUESTION_E2E_T_CS2104 = "alice.tmms@FConstSumOptionQuestionE2eT.CS2104";
+    	public static final String OPEN_SESSION = "openSession";
+    	public static final String COURSE_CONTENT = "course";
+    	public static final String INSTRUCTOR_CONTENT = "instructor";
+    	public static final String FEEDBACK_CONST_SUM_OPTION_QUESTION_E2E_TEST_JSON = "/FeedbackConstSumOptionQuestionE2ETest.json";
+    	public static final String ALICE_TMMS_F_CONST_SUM_RECIPIENT_QUESTION_E2E_T_CS2104 = "alice.tmms@FConstSumRecipientQuestionE2eT.CS2104";
+    	public static final String FEEDBACK_CONST_SUM_RECIPIENT_QUESTION_E2E_TEST_JSON = "/FeedbackConstSumRecipientQuestionE2ETest.json";
+    	public static final String CHARLIE_TMMS_F_CONST_SUM_RECIPIENT_QUESTION_E2E_T_CS2104 = "charlie.tmms@FConstSumRecipientQuestionE2eT.CS2104";
+    	public static final String BENNY_TMMS_F_CONST_SUM_RECIPIENT_QUESTION_E2E_T_CS2104 = "benny.tmms@FConstSumRecipientQuestionE2eT.CS2104";
+    	public static final String CHARLIE_TMMS_F_CONTRIBUTION_QUESTION_E2E_T_CS2104 = "charlie.tmms@FContributionQuestionE2eT.CS2104";
+    	public static final String BENNY_TMMS_F_CONTRIBUTION_QUESTION_E2E_T_CS2104 = "benny.tmms@FContributionQuestionE2eT.CS2104";
+    	public static final String ALICE_TMMS_F_CONTRIBUTION_QUESTION_E2E_T_CS2104 = "alice.tmms@FContributionQuestionE2eT.CS2104";
+    	public static final String FEEDBACK_CONTRIBUTION_QUESTION_E2E_TEST_JSON = "/FeedbackContributionQuestionE2ETest.json";
+    	public static final String OPEN_BRACE = "(";
+    	public static final String CLOSE_BRACE = ")";
+    	public static final String SPACE = " ";
+    	public static final String SPACE_OPEN_BRACE = " (";
+    	public static final String THIS_IS_THE_EDITED_RESPONSE = "This is the edited response.";
+    	public static final String UI = "UI";
+    	public static final String VERIFY_QUESTION_WITH_GENERATED_OPTIONS = "verify question with generated options";
+    	public static final String EDITED_CHOICE = "Edited choice";
+    	public static final String ALICE_TMMS_F_MCQ_QUESTION_E2E_T_CS2104 = "alice.tmms@FMcqQuestionE2eT.CS2104";
+    	public static final String FEEDBACK_MCQ_QUESTION_E2E_TEST_JSON = "/FeedbackMcqQuestionE2ETest.json";
+    	public static final String LEADERSHIP = "Leadership";
+    	public static final String THIS_IS_THE_OTHER_RESPONSE = "This is the other response.";
+    	public static final String VERIFY_LOADED_QUESTION_WITH_GENERATED_OPTIONS = "verify loaded question with generated options";
+    	public static final String BENNY_TMMS_F_MSQ_QUESTION_E2E_T_CS2104 = "benny.tmms@FMsqQuestionE2eT.CS2104";
+    	public static final String ALICE_TMMS_F_MSQ_QUESTION_E2E_T_CS2104 = "alice.tmms@FMsqQuestionE2eT.CS2104";
+    	public static final String FEEDBACK_MSQ_QUESTION_E2E_TEST_JSON = "/FeedbackMsqQuestionE2ETest.json";
+    	
+    	
+    	
+    	
+    }
 
 }
