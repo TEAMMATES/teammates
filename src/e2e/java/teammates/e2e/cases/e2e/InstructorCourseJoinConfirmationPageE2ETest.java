@@ -1,6 +1,5 @@
 package teammates.e2e.cases.e2e;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -24,11 +23,6 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
 
         newInstructor = testData.instructors.get("ICJConfirmationE2eT.instr.CS1101");
         newInstructor.googleId = "ICJConfirmationE2eT.instr2";
-    }
-
-    @BeforeClass
-    public void classSetup() {
-        browser.driver.manage().deleteAllCookies();
     }
 
     @Test
