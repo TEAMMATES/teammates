@@ -20,206 +20,206 @@ import teammates.e2e.util.BackDoor;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSES_PAGE}.
  */
 public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
-    private CourseAttributes[] courses = new CourseAttributes[3];
-    private CourseAttributes newCourse;
+	private CourseAttributes[] courses = new CourseAttributes[3];
+	private CourseAttributes newCourse;
 
-    @Override
-    protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorCoursesPageE2ETest.json");
-        removeAndRestoreDataBundle(testData);
+	@Override
+	protected void prepareTestData() {
+		testData = loadDataBundle(Const.TestCase.INSTRUCTOR_COURSES_PAGE_E2E_TEST_JSON);
+		removeAndRestoreDataBundle(testData);
 
-        courses[0] = testData.courses.get("CS1101");
-        courses[1] = testData.courses.get("CS2104");
-        courses[2] = testData.courses.get("CS2105");
+		courses[0] = testData.courses.get(Const.TestCase.CS1101);
+		courses[1] = testData.courses.get(Const.TestCase.CS2104);
+		courses[2] = testData.courses.get(Const.TestCase.CS2105);
 
-        newCourse = CourseAttributes.builder("ICAddE2ETest.CS4100")
-                .withName("New Course")
-                .withTimezone(ZoneId.of("Asia/Singapore"))
-                .build();
-    }
+		newCourse = CourseAttributes.builder(Const.TestCase.IC_ADD_E2E_TEST_CS4100).withName(Const.TestCase.NEW_COURSE)
+				.withTimezone(ZoneId.of(Const.TestCase.ASIA_SINGAPORE)).build();
+	}
 
-    @BeforeClass
-    public void classSetup() {
-        BackDoor.deleteCourse(newCourse.getId());
-    }
+	@BeforeClass
+	public void classSetup() {
+		BackDoor.deleteCourse(newCourse.getId());
+	}
 
-    @Test
-    public void testAll() {
-        String instructorId = testData.accounts.get("instructor").getGoogleId();
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
-                .withUserId(instructorId);
-        InstructorCoursesPage coursesPage = loginAdminToPage(url, InstructorCoursesPage.class);
+	@Test
+	public void testAll() {
+		String instructorId = testData.accounts.get(Const.TestCase.INSTRUCTOR_CONTENT).getGoogleId();
+		AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE).withUserId(instructorId);
+		InstructorCoursesPage coursesPage = loginAdminToPage(url, InstructorCoursesPage.class);
 
-        ______TS("verify loaded data");
-        CourseAttributes[] activeCourses = { courses[0] };
-        CourseAttributes[] archivedCourses = { courses[1] };
-        CourseAttributes[] deletedCourses = { courses[2] };
+		______TS(Const.TestCase.VERIFY_LOADED_DATA);
+		CourseAttributes[] activeCourses = { courses[0] };
+		CourseAttributes[] archivedCourses = { courses[1] };
+		CourseAttributes[] deletedCourses = { courses[2] };
 
-        coursesPage.verifyActiveCoursesDetails(activeCourses);
-        coursesPage.verifyArchivedCoursesDetails(archivedCourses);
-        coursesPage.verifyDeletedCoursesDetails(deletedCourses);
+		coursesPage.verifyActiveCoursesDetails(activeCourses);
+		coursesPage.verifyArchivedCoursesDetails(archivedCourses);
+		coursesPage.verifyDeletedCoursesDetails(deletedCourses);
 
-        ______TS("verify statistics");
-        verifyActiveCourseStatistics(coursesPage, courses[0]);
+		______TS(Const.TestCase.VERIFY_STATISTICS);
+		verifyActiveCourseStatistics(coursesPage, courses[0]);
 
-        ______TS("verify cannot modify without permissions");
-        coursesPage.verifyNotModifiable(courses[0].getId());
+		______TS(Const.TestCase.VERIFY_CANNOT_MODIFY_WITHOUT_PERMISSIONS);
+		coursesPage.verifyNotModifiable(courses[0].getId());
 
-        ______TS("add new course");
-        CourseAttributes[] activeCoursesWithNewCourse = { courses[0], newCourse };
-        coursesPage.addCourse(newCourse);
+		______TS(Const.TestCase.ADD_NEW_COURSE);
+		CourseAttributes[] activeCoursesWithNewCourse = { courses[0], newCourse };
+		coursesPage.addCourse(newCourse);
 
-        coursesPage.verifyStatusMessage("The course has been added.");
-        coursesPage.sortByCourseId();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
-        verifyPresentInDatastore(newCourse);
+		coursesPage.verifyStatusMessage(Const.TestCase.THE_COURSE_HAS_BEEN_ADDED);
+		coursesPage.sortByCourseId();
+		coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
+		verifyPresentInDatastore(newCourse);
 
-        ______TS("archive course");
-        CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
-        coursesPage.archiveCourse(newCourse.getId());
+		______TS(Const.TestCase.ARCHIVE_COURSE);
+		CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
+		coursesPage.archiveCourse(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been archived. "
-                + "It will not appear on the home page anymore.");
-        coursesPage.verifyNumActiveCourses(1);
-        coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
-        verifyCourseArchivedInDatastore(instructorId, newCourse);
+		coursesPage.verifyStatusMessage(Const.TestCase.THE_COURSE + newCourse.getId() + Const.TestCase.HAS_BEEN_ARCHIVED
+				+ Const.TestCase.IT_WILL_NOT_APPEAR_ON_THE_HOME_PAGE_ANYMORE);
+		coursesPage.verifyNumActiveCourses(1);
+		coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
+		verifyCourseArchivedInDatastore(instructorId, newCourse);
 
-        ______TS("unarchive course");
-        CourseAttributes[] activeCoursesWithNewCourseSortedByName = { newCourse, courses[0] };
-        coursesPage.unarchiveCourse(newCourse.getId());
+		______TS(Const.TestCase.UNARCHIVE_COURSE);
+		CourseAttributes[] activeCoursesWithNewCourseSortedByName = { newCourse, courses[0] };
+		coursesPage.unarchiveCourse(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course has been unarchived.");
-        coursesPage.verifyNumArchivedCourses(1);
-        coursesPage.sortByCourseName();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByName);
-        verifyCourseNotArchivedInDatastore(instructorId, newCourse);
+		coursesPage.verifyStatusMessage(Const.TestCase.THE_COURSE_HAS_BEEN_UNARCHIVED);
+		coursesPage.verifyNumArchivedCourses(1);
+		coursesPage.sortByCourseName();
+		coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByName);
+		verifyCourseNotArchivedInDatastore(instructorId, newCourse);
 
-        ______TS("move active course to recycle bin");
-        newCourse.deletedAt = Instant.now();
-        CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
-        coursesPage.moveCourseToRecycleBin(newCourse.getId());
+		______TS(Const.TestCase.MOVE_ACTIVE_COURSE_TO_RECYCLE_BIN);
+		newCourse.deletedAt = Instant.now();
+		CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
+		coursesPage.moveCourseToRecycleBin(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
-                + "You can restore it from the Recycle Bin manually.");
-        coursesPage.verifyNumActiveCourses(1);
-        coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
-        assertTrue(isCourseInRecycleBin(newCourse.getId()));
+		coursesPage.verifyStatusMessage(Const.TestCase.THE_COURSE + newCourse.getId() + Const.TestCase.HAS_BEEN_DELETED
+				+ Const.TestCase.YOU_CAN_RESTORE_IT_FROM_THE_RECYCLE_BIN_MANUALLY);
+		coursesPage.verifyNumActiveCourses(1);
+		coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
+		assertTrue(isCourseInRecycleBin(newCourse.getId()));
 
-        ______TS("restore active course");
-        newCourse.deletedAt = null;
-        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { newCourse, courses[0] };
-        coursesPage.restoreCourse(newCourse.getId());
+		______TS(Const.TestCase.RESTORE_ACTIVE_COURSE);
+		newCourse.deletedAt = null;
+		CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { newCourse, courses[0] };
+		coursesPage.restoreCourse(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
-        coursesPage.verifyNumDeletedCourses(1);
-        // No need to call sortByCreationDate() here because it is the default sort in DESC order
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
-        assertFalse(isCourseInRecycleBin(newCourse.getId()));
+		coursesPage
+				.verifyStatusMessage(Const.TestCase.THE_COURSE + newCourse.getId() + Const.TestCase.HAS_BEEN_RESTORED);
+		coursesPage.verifyNumDeletedCourses(1);
+		// No need to call sortByCreationDate() here because it is the default sort in
+		// DESC order
+		coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
+		assertFalse(isCourseInRecycleBin(newCourse.getId()));
 
-        ______TS("move archived course to recycle bin");
-        coursesPage.archiveCourse(newCourse.getId());
-        newCourse.deletedAt = Instant.now();
-        coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
+		______TS(Const.TestCase.MOVE_ARCHIVED_COURSE_TO_RECYCLE_BIN);
+		coursesPage.archiveCourse(newCourse.getId());
+		newCourse.deletedAt = Instant.now();
+		coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
-                + "You can restore it from the Recycle Bin manually.");
-        coursesPage.verifyNumArchivedCourses(1);
-        coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
-        assertTrue(isCourseInRecycleBin(newCourse.getId()));
+		coursesPage.verifyStatusMessage(Const.TestCase.THE_COURSE + newCourse.getId() + Const.TestCase.HAS_BEEN_DELETED
+				+ Const.TestCase.YOU_CAN_RESTORE_IT_FROM_THE_RECYCLE_BIN_MANUALLY);
+		coursesPage.verifyNumArchivedCourses(1);
+		coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
+		assertTrue(isCourseInRecycleBin(newCourse.getId()));
 
-        ______TS("restore archived course");
-        newCourse.deletedAt = null;
-        coursesPage.restoreCourse(newCourse.getId());
+		______TS(Const.TestCase.RESTORE_ARCHIVED_COURSE);
+		newCourse.deletedAt = null;
+		coursesPage.restoreCourse(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
-        coursesPage.verifyNumDeletedCourses(1);
-        coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
-        assertFalse(isCourseInRecycleBin(newCourse.getId()));
-        verifyCourseArchivedInDatastore(instructorId, newCourse);
+		coursesPage
+				.verifyStatusMessage(Const.TestCase.THE_COURSE + newCourse.getId() + Const.TestCase.HAS_BEEN_RESTORED);
+		coursesPage.verifyNumDeletedCourses(1);
+		coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
+		assertFalse(isCourseInRecycleBin(newCourse.getId()));
+		verifyCourseArchivedInDatastore(instructorId, newCourse);
 
-        ______TS("permanently delete course");
-        coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
-        coursesPage.deleteCourse(newCourse.getId());
+		______TS(Const.TestCase.PERMANENTLY_DELETE_COURSE);
+		coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
+		coursesPage.deleteCourse(newCourse.getId());
 
-        coursesPage.verifyStatusMessage("The course " + newCourse.getId()
-                + " has been permanently deleted.");
-        coursesPage.verifyNumDeletedCourses(1);
-        verifyAbsentInDatastore(newCourse);
+		coursesPage.verifyStatusMessage(
+				Const.TestCase.THE_COURSE + newCourse.getId() + Const.TestCase.HAS_BEEN_PERMANENTLY_DELETED);
+		coursesPage.verifyNumDeletedCourses(1);
+		verifyAbsentInDatastore(newCourse);
 
-        ______TS("restore all");
-        coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
-        CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[2] };
-        coursesPage.restoreAllCourses();
+		______TS(Const.TestCase.RESTORE_ALL);
+		coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
+		CourseAttributes[] activeCoursesWithRestored = { courses[0], courses[2] };
+		coursesPage.restoreAllCourses();
 
-        coursesPage.verifyStatusMessage("All courses have been restored.");
-        coursesPage.sortByCourseId();
-        coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
-        coursesPage.verifyArchivedCoursesDetails(archivedCourses);
-        coursesPage.verifyNumDeletedCourses(0);
-        assertFalse(isCourseInRecycleBin(courses[1].getId()));
-        assertFalse(isCourseInRecycleBin(courses[2].getId()));
+		coursesPage.verifyStatusMessage(Const.TestCase.ALL_COURSES_HAVE_BEEN_RESTORED);
+		coursesPage.sortByCourseId();
+		coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
+		coursesPage.verifyArchivedCoursesDetails(archivedCourses);
+		coursesPage.verifyNumDeletedCourses(0);
+		assertFalse(isCourseInRecycleBin(courses[1].getId()));
+		assertFalse(isCourseInRecycleBin(courses[2].getId()));
 
-        ______TS("permanently delete all");
-        coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
-        coursesPage.moveCourseToRecycleBin(courses[2].getId());
-        coursesPage.deleteAllCourses();
+		______TS(Const.TestCase.PERMANENTLY_DELETE_ALL);
+		coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
+		coursesPage.moveCourseToRecycleBin(courses[2].getId());
+		coursesPage.deleteAllCourses();
 
-        coursesPage.verifyStatusMessage("All courses have been permanently deleted.");
-        coursesPage.verifyNumActiveCourses(1);
-        coursesPage.verifyNumArchivedCourses(0);
-        coursesPage.verifyNumDeletedCourses(0);
-        verifyAbsentInDatastore(courses[1]);
-        verifyAbsentInDatastore(courses[2]);
-    }
+		coursesPage.verifyStatusMessage(Const.TestCase.ALL_COURSES_HAVE_BEEN_PERMANENTLY_DELETED);
+		coursesPage.verifyNumActiveCourses(1);
+		coursesPage.verifyNumArchivedCourses(0);
+		coursesPage.verifyNumDeletedCourses(0);
+		verifyAbsentInDatastore(courses[1]);
+		verifyAbsentInDatastore(courses[2]);
+	}
 
-    private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, CourseAttributes course) {
-        int numSections = 0;
-        int numTeams = 0;
-        int numStudents = 0;
-        int numUnregistered = 0;
-        Set<String> sections = new HashSet<>();
-        Set<String> teams = new HashSet<>();
+	private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, CourseAttributes course) {
+		int numSections = 0;
+		int numTeams = 0;
+		int numStudents = 0;
+		int numUnregistered = 0;
+		Set<String> sections = new HashSet<>();
+		Set<String> teams = new HashSet<>();
 
-        for (StudentAttributes student : testData.students.values()) {
-            if (!student.course.equals(course.getId())) {
-                continue;
-            }
-            if (!sections.contains(student.section)) {
-                sections.add(student.section);
-                numSections++;
-            }
-            if (!teams.contains(student.team)) {
-                teams.add(student.team);
-                numTeams++;
-            }
-            if (student.googleId.isEmpty()) {
-                numUnregistered++;
-            }
-            numStudents++;
-        }
-        coursesPage.verifyActiveCourseStatistics(course, Integer.toString(numSections), Integer.toString(numTeams),
-                Integer.toString(numStudents), Integer.toString(numUnregistered));
-    }
+		for (StudentAttributes student : testData.students.values()) {
+			if (!student.course.equals(course.getId())) {
+				continue;
+			}
+			if (!sections.contains(student.section)) {
+				sections.add(student.section);
+				numSections++;
+			}
+			if (!teams.contains(student.team)) {
+				teams.add(student.team);
+				numTeams++;
+			}
+			if (student.googleId.isEmpty()) {
+				numUnregistered++;
+			}
+			numStudents++;
+		}
+		coursesPage.verifyActiveCourseStatistics(course, Integer.toString(numSections), Integer.toString(numTeams),
+				Integer.toString(numStudents), Integer.toString(numUnregistered));
+	}
 
-    private void verifyCourseArchivedInDatastore(String instructorId, CourseAttributes course) {
-        int retryLimit = 5;
-        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
-        while (actual == null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getArchivedCourse(instructorId, course.getId());
-        }
-        assertEquals(actual, course);
-    }
+	private void verifyCourseArchivedInDatastore(String instructorId, CourseAttributes course) {
+		int retryLimit = 5;
+		CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
+		while (actual == null && retryLimit > 0) {
+			retryLimit--;
+			ThreadHelper.waitFor(1000);
+			actual = getArchivedCourse(instructorId, course.getId());
+		}
+		assertEquals(actual, course);
+	}
 
-    private void verifyCourseNotArchivedInDatastore(String instructorId, CourseAttributes course) {
-        int retryLimit = 5;
-        CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
-        while (actual != null && retryLimit > 0) {
-            retryLimit--;
-            ThreadHelper.waitFor(1000);
-            actual = getArchivedCourse(instructorId, course.getId());
-        }
-        assertNull(actual);
-    }
+	private void verifyCourseNotArchivedInDatastore(String instructorId, CourseAttributes course) {
+		int retryLimit = 5;
+		CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
+		while (actual != null && retryLimit > 0) {
+			retryLimit--;
+			ThreadHelper.waitFor(1000);
+			actual = getArchivedCourse(instructorId, course.getId());
+		}
+		assertNull(actual);
+	}
 }

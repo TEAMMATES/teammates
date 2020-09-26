@@ -17,7 +17,8 @@ import teammates.e2e.util.BackDoor;
  */
 public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
-    @Override
+
+	@Override
     protected void prepareTestData() {
         // no test data used in this test
     }
@@ -40,7 +41,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testAssertionError() {
 
-        ______TS("AssertionError testing");
+        ______TS(Const.TestCase.ASSERTION_ERROR_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName())
@@ -54,7 +55,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testNullPointerException() {
 
-        ______TS("NullPointerException testing");
+        ______TS(Const.TestCase.NULL_POINTER_EXCEPTION_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName())
@@ -68,7 +69,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testDeadlineExceededException() {
 
-        ______TS("DeadlineExceededException testing");
+        ______TS(Const.TestCase.DEADLINE_EXCEEDED_EXCEPTION_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName())
@@ -82,7 +83,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testDatastoreTimeoutException() {
 
-        ______TS("DatastoreTimeoutException testing");
+        ______TS(Const.TestCase.DATASTORE_TIMEOUT_EXCEPTION_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName())
@@ -96,7 +97,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testUnauthorizedAccessException() {
 
-        ______TS("UnauthorizedAccessException testing");
+        ______TS(Const.TestCase.UNAUTHORIZED_ACCESS_EXCEPTION_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName())
@@ -110,7 +111,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testInvalidHttpParameterException() {
 
-        ______TS("InvalidHttpParamException testing");
+        ______TS(Const.TestCase.INVALID_HTTP_PARAM_EXCEPTION_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName())
@@ -124,7 +125,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     private void testEntityNotFoundException() {
 
-        ______TS("EntityNotFoundException testing");
+        ______TS(Const.TestCase.ENTITY_NOT_FOUND_EXCEPTION_TESTING);
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
                 .withParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName())

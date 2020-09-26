@@ -24,10 +24,7 @@ import teammates.common.util.Const;
  */
 public class TimezoneSyncerTest extends BaseE2ETestCase {
 
-    private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
-    private static final int DAYS_TO_UPDATE_TZ = 120;
-
-    @Override
+	@Override
     protected void prepareTestData() {
         // no test data used in this test
     }
@@ -47,39 +44,39 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
     public void testFrontendBackendTimezoneDatabasesAreConsistent() {
         // ensure the front-end and the back-end have the same timezone database version
         Document pageSource = Jsoup.parse(browser.driver.getPageSource());
-        String javaOffsets = processOffsets(pageSource.getElementById("tz-java").text());
-        String momentOffsets = processOffsets(pageSource.getElementById("tz-moment").text());
-        assertEquals(pageSource.getElementById("tzversion-java").text(),
-                pageSource.getElementById("tzversion-moment").text());
+        String javaOffsets = processOffsets(pageSource.getElementById(Const.TestCase.TZ_JAVA).text());
+        String momentOffsets = processOffsets(pageSource.getElementById(Const.TestCase.TZ_MOMENT).text());
+        assertEquals(pageSource.getElementById(Const.TestCase.TZVERSION_JAVA).text(),
+                pageSource.getElementById(Const.TestCase.TZVERSION_MOMENT).text());
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
-            assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
-                    "<actual>" + System.lineSeparator() + momentOffsets + "</actual>");
+            assertEquals(Const.TestCase.START_EXPECTED + System.lineSeparator() + javaOffsets + Const.TestCase.END_EXPECTED,
+            		Const.TestCase.START_ACTUAL + System.lineSeparator() + momentOffsets + Const.TestCase.END_ACTUAL);
         }
     }
 
     @Test
     public void testTimezoneDatabasesAreUpToDate() {
         // ensure the timezone databases are up-to-date
-        String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("tzversion-moment").text();
-        browser.driver.get(IANA_TIMEZONE_DATABASE_URL);
+        String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById(Const.TestCase.TZVERSION_MOMENT).text();
+        browser.driver.get(Const.TestCase.IANA_TIMEZONE_DATABASE_URL);
         Document tzReleasePage = Jsoup.parse(browser.driver.getPageSource());
-        String latestTzVersion = tzReleasePage.getElementById("version").text();
+        String latestTzVersion = tzReleasePage.getElementById(Const.TestCase.VERSION).text();
 
         if (!currentTzVersion.equals(latestTzVersion)) {
             // find the release day
-            String releaseDateString = tzReleasePage.getElementById("date").text();
-            Pattern datePattern = Pattern.compile("\\(Released (.+)\\)");
+            String releaseDateString = tzReleasePage.getElementById(Const.TestCase.DATE).text();
+            Pattern datePattern = Pattern.compile(Const.TestCase.RELEASED);
             Matcher matcher = datePattern.matcher(releaseDateString);
             assertTrue(matcher.find());
 
-            LocalDate releaseDate = LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate releaseDate = LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern(Const.TestCase.YYYY_MM_DD));
             LocalDate nowDate = Instant.now().atZone(Const.DEFAULT_TIME_ZONE).toLocalDate();
 
             assertTrue(
-                    "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"
+                    "The timezone database version is not up-to-date for more than " + Const.TestCase.DAYS_TO_UPDATE_TZ + " days,"
                             + " please update them according to the maintenance guide.",
-                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate));
+                    releaseDate.plusDays(Const.TestCase.DAYS_TO_UPDATE_TZ).isAfter(nowDate));
 
         }
 
@@ -93,10 +90,10 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         // Zone3 3
         // ...
         // to facilitate easy diff-ing when the need arises
-        String[] list = offsets.split(" ");
+        String[] list = offsets.split(Const.TestCase.SPACE);
         List<String> merged = new ArrayList<>();
         for (int i = 0; i < list.length; i += 2) {
-            merged.add(list[i] + " " + list[i + 1]);
+            merged.add(list[i] + Const.TestCase.SPACE + list[i + 1]);
         }
         return merged.stream().collect(Collectors.joining(System.lineSeparator()));
     }

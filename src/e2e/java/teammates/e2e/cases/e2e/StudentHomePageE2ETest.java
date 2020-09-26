@@ -18,16 +18,17 @@ import teammates.e2e.pageobjects.StudentHomePage;
  */
 public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
-    @Override
+
+	@Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/StudentHomePageE2ETest.json");
+        testData = loadDataBundle(Const.TestCase.STUDENT_HOME_PAGE_E2E_TEST_JSON);
         removeAndRestoreDataBundle(testData);
     }
 
     @Test
     public void testAll() {
 
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId("SHomeUiT.student");
+        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId(Const.TestCase.S_HOME_UI_T_STUDENT);
         loginAdminToPage(url, StudentHomePage.class);
 
         List<String> courseIds = getAllVisibleCourseIds();
@@ -49,14 +50,14 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     }
 
     private List<WebElement> getStudentHomeCoursePanels() {
-        return browser.driver.findElements(By.cssSelector("div.card.bg-light"));
+        return browser.driver.findElements(By.cssSelector(Const.TestCase.DIV_CARD_BG_LIGHT));
     }
 
     private List<String> getAllVisibleCourseIds() {
         List<String> courseIds = new ArrayList<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if ("SHomeUiT.student".equals(student.googleId)) {
+            if (Const.TestCase.S_HOME_UI_T_STUDENT.equals(student.googleId)) {
                 courseIds.add(student.getCourse());
             }
         }
@@ -69,7 +70,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
     private boolean verifyVisibleFeedbackSessionToStudents(String feedbackSessionName, int index) {
         return getStudentHomeCoursePanels().get(index)
-                .findElement(By.cssSelector("div.table-responsive table.table tbody")).getText()
+                .findElement(By.cssSelector(Const.TestCase.DIV_TABLE_RESPONSIVE_TABLE_TABLE_TBODY)).getText()
                 .contains(feedbackSessionName);
     }
 }
