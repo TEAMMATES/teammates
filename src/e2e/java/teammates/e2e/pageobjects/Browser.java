@@ -143,6 +143,7 @@ public class Browser {
             FirefoxProfile profile;
             if (TestProperties.isDevServer()) {
                 profile = new FirefoxProfile();
+                profile.setPreference("browser.private.browsing.autostart", true);
             } else {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
@@ -176,7 +177,9 @@ public class Browser {
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
-            if (!TestProperties.isDevServer()) {
+            if (TestProperties.isDevServer()) {
+                options.addArguments("incognito");
+            } else {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
                 if (TestProperties.CHROME_USER_DATA_PATH.isEmpty()
