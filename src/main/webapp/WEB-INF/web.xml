@@ -112,7 +112,6 @@
         <web-resource-collection>
             <web-resource-name>AdminResources</web-resource-name>
             <description>For admin use only</description>
-            <url-pattern>/remote_api</url-pattern>
             <url-pattern>/web/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
