@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -57,16 +58,21 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         return TestProperties.TEST_DOWNLOADS_FOLDER;
     }
 
-    @AfterClass(alwaysRun = true)
-    public void baseClassTearDown() {
-        releaseBrowser();
+    @AfterClass
+    public void baseClassTearDown(ITestContext context) {
+        boolean isSuccess = context.getFailedTests().getAllMethods()
+                .stream()
+                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
+        releaseBrowser(isSuccess);
     }
 
-    protected void releaseBrowser() {
+    protected void releaseBrowser(boolean isSuccess) {
         if (browser == null) {
             return;
         }
-        browser.driver.close();
+        if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
+            browser.driver.close();
+        }
     }
 
     /**
