@@ -174,7 +174,7 @@ describe('SearchService', () => {
       entitytype: 'instructor',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      '/search/students',
+      ResourceEndpoints.SEARCH_STUDENTS,
       paramMap,
     );
   });
@@ -302,7 +302,7 @@ describe('SearchService', () => {
       searchkey: 'YoyoImCoronavirus',
     };
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      '/search/instructors',
+      ResourceEndpoints.SEARCH_INSTRUCTORS,
       paramMap,
     );
   });
@@ -315,10 +315,9 @@ describe('SearchService', () => {
       { feedbackSessions: mockSessions },
       mockPrivileges,
     );
-    // Not using snapshots because of issues with time zones
     expect(result.comments).toBe("This student's name is Alice Betsy");
     expect(result.courseId).toBe('dog.gma-demo');
-    expect(result.courseJoinLink).toBe('http://localhost:4200/web/join?key' +
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key` +
       '=keyheehee&studentemail=alice.b.tmms%40gmail.tmt&courseid=dog.gma-demo&entitytype=student');
     expect(result.courseName).toBe('Sample Course 101');
     expect(result.email).toBe('alice.b.tmms@gmail.tmt');
@@ -328,6 +327,11 @@ describe('SearchService', () => {
   it('should join instructors accurately when calling as admin', () => {
     const result: InstructorAccountSearchResult = service
       .joinAdminInstructor(mockInstructor, mockCourse);
-    expect(result).toMatchSnapshot();
+    expect(result.courseId).toBe('dog.gma-demo');
+    expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?entitytype=instructor`);
+    expect(result.courseName).toBe('Sample Course 101');
+    expect(result.email).toBe('dog@gmail.com');
+    expect(result.manageAccountLink).toBe('/web/admin/accounts?instructorid=test%40example.com');
+    expect(result.homePageLink).toBe('/web/instructor/home?user=test%40example.com');
   });
 });

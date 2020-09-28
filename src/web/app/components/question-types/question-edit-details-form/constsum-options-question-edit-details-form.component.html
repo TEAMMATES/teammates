@@ -2,7 +2,7 @@
   <br>
   <div class="col-sm-6">
     <div class="row">
-      <div class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
+      <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div *ngFor="let option of model.constSumOptions; let i = index;
         trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
           <br>
@@ -16,7 +16,7 @@
     </div>
     <div class="row">
       <div class="col-sm-9">
-        <button class="btn btn-primary" name="button" ngDefaultControl
+        <button id="btn-add-option" class="btn btn-primary" name="button" ngDefaultControl
                 [disabled]="!isEditable" (click)="increaseNumberOfConstsumOptions()">
           <i class="fas fa-plus"></i> add more options
         </button>
@@ -31,18 +31,18 @@
       <div class="col-11 offset-1 margin-top-10px">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
+            <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
                    (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
-            <input type="number" class="form-control" min="1" step="1"
+            <input id="total-points" type="number" class="form-control" min="1" step="1"
                    [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption">
             <b class="ngb-tooltip-class" ngbTooltip="Respondents will have to distribute the total points specified here among the options, e.g. if you specify 100 points here and there are 3 options, respondents will have to distribute 100 points among 3 options.">in total</b>
           </label>
         </div>
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
+            <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
                    (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
-            <input type="number" class="form-control" min="1" step="1"
+            <input id="per-option-points" type="number" class="form-control" min="1" step="1"
                    [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption">
             <b class="ngb-tooltip-class" ngbTooltip="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">X (number of options)</b>
           </label>
@@ -50,10 +50,10 @@
       </div>
       <div class="col-12 padding-left-33px margin-top-10px">
         <label class="form-check-label">
-          <input class="form-check-input" type="checkbox"
+          <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
                  [ngModel]="model.forceUnevenDistribution"
                  (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
-          <select class="form-control" [ngModel]="model.distributePointsFor"
+          <select id="uneven-distribution-dropdown" class="form-control" [ngModel]="model.distributePointsFor"
                   [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
                   (ngModelChange)="triggerModelChange('distributePointsFor', $event)">
             <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">

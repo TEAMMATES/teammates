@@ -25,7 +25,7 @@ public class FeedbackResponseCommentSearchQuery extends SearchQuery {
     }
 
     @Override
-    protected String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
+    String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
         for (InstructorAttributes ins : instructors) {

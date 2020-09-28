@@ -19,7 +19,7 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.BaseEntity;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * Base script to be used as a template for all data migration scripts.

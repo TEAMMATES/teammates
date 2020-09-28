@@ -104,7 +104,7 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
     }
 
-    public boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
+    boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
 
         StudentAttributes student = getStudentForEmail(courseId, studentEmail);
         if (student == null) {

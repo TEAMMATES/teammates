@@ -18,7 +18,7 @@ import com.googlecode.objectify.impl.translate.ValueTranslatorFactory;
  */
 public class BaseEntity {
 
-    protected BaseEntity() {
+    BaseEntity() {
         // instantiate as child classes
     }
 

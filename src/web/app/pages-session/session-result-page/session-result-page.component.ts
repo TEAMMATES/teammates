@@ -55,6 +55,7 @@ export class SessionResultPageComponent implements OnInit {
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
+  loggedInUser: string = '';
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
@@ -82,24 +83,35 @@ export class SessionResultPageComponent implements OnInit {
 
       const nextUrl: string = `${window.location.pathname}${window.location.search}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+        if (auth.user) {
+          this.loggedInUser = auth.user.id;
+        }
         if (this.regKey) {
           const intent: Intent = Intent.STUDENT_RESULT;
           this.authService.getAuthRegkeyValidity(this.regKey, intent).subscribe((resp: RegkeyValidity) => {
-            if (resp.isValid) {
-              if (auth.user) {
+            if (resp.isAllowedAccess) {
+              if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
 
                 this.navigationService.navigateByURLWithParamEncoding(this.router, '/web/student/sessions/result',
                     { courseid: this.courseId, fsname: this.feedbackSessionName });
               } else {
-                // There is no logged in user for valid, unused registration key; load information based on the key
+                // Valid, unused registration key; load information based on the key
                 this.loadPersonName();
                 this.loadFeedbackSession();
               }
-            } else if (!auth.user) {
-              // If there is no logged in user for a valid, used registration key, redirect to login page
-              window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+            } else if (resp.isValid) {
+              // At this point, registration key must already be used, otherwise access would be granted
+              if (this.loggedInUser) {
+                // Registration key belongs to another user who is not the logged in user
+                this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
+                    'You are not authorized to view this page.');
+              } else {
+                // There is no logged in user for a valid, used registration key, redirect to login page
+                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+              }
             } else {
+              // The registration key is invalid
               this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                   'You are not authorized to view this page.');
             }
@@ -107,7 +119,7 @@ export class SessionResultPageComponent implements OnInit {
             this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                 'You are not authorized to view this page.');
           });
-        } else if (auth.user) {
+        } else if (this.loggedInUser) {
           // Load information based on logged in user
           this.loadFeedbackSession();
         } else {
