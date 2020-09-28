@@ -3,13 +3,13 @@
     <h5>You are moderating responses for
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
-      {{ personName }} ({{ moderatedPerson }})
+      <span class="bolder"> {{ personName }}</span> ({{ moderatedPerson }})
       <button type="button" class="btn btn-link" *ngIf="!isModerationHintExpanded" (click)="isModerationHintExpanded = true">[More]</button>
       <button type="button" class="btn btn-link" *ngIf="isModerationHintExpanded" (click)="isModerationHintExpanded = false">[Less]</button>
     </h5>
     <div *ngIf="isModerationHintExpanded" class="text-left">
       <p>
-        The page below resembles the submission page as seen by the respondent {{ personName }} ({{ moderatedPerson }}).
+        The page below resembles the submission page as seen by the respondent <span class="bolder"> {{ personName }}</span> ({{ moderatedPerson }}).
         You can use it to moderate responses submitted by the respondent or submit responses on behalf of the respondent.
       </p>
       <p>
@@ -23,7 +23,7 @@
     <h4>Previewing Session as
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
-      {{ personName }} ({{ previewAsPerson }})
+      <span class="bolder"> {{ personName }}</span> ({{ previewAsPerson }})
     </h4>
   </div>
 </div>
@@ -31,11 +31,11 @@
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
       <div *ngIf="loggedInUser">
-        You are submitting feedback as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+        You are submitting feedback as <span class="bolder">{{ personName }}</span>. If you wish to link your Google account ({{ loggedInUser }}) with this user,
         <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">click here</a>.
       </div>
       <div *ngIf="!loggedInUser">
-        You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
+        You are submitting feedback as <span class="bolder"> {{ personName }}</span>. You may submit feedback for sessions that are currently open and view results without logging in.
         To access other features you need to <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
       </div>
     </div>
