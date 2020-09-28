@@ -439,7 +439,7 @@ task lint {
 
 // TEST TASKS
 
-def numOfTestRetries = 3
+def numOfTestRetries = 4
 
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
