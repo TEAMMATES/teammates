@@ -314,10 +314,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.loadFeedbackQuestions();
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
-          this.simpleModalService.openInformationModal('Feedback Session Deleted!', SimpleModalType.DANGER,
-            'The feedback session has been permanently deleted and is no longer accessible.');
+          this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
+            'The session does not exist (most likely deleted by instructor after the submission link was sent).');
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.router.navigateByUrl('web/student/home');
         }
-        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
