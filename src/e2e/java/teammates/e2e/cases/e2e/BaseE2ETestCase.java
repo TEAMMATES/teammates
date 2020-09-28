@@ -107,13 +107,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         }
 
         if (browser.isAdminLoggedIn) {
-            browser.driver.get(url.toAbsoluteString());
-            browser.waitForPageLoad();
             try {
-                return AppPage.getNewPageInstance(browser, typeOfPage);
+                return AppPage.getNewPageInstance(browser, url, typeOfPage);
             } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
-                ignorePossibleException();
             }
         }
 
