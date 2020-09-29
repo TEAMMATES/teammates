@@ -77,7 +77,7 @@ jobs:
         - mv src/e2e/resources/test.travis.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
         - npm ci
-        - npm run build -- --progress=false
+        - npm run build -- --progress=false --serviceWorker=false
         - ./gradlew appengineStart
       script:
         - ./gradlew e2eTests
@@ -95,7 +95,7 @@ jobs:
         - mv src/e2e/resources/test.travis-chrome.properties src/e2e/resources/test.properties
         - ./gradlew createConfigs testClasses generateTypes
         - npm ci
-        - npm run build -- --progress=false
+        - npm run build -- --progress=false --serviceWorker=false
         - ./gradlew appengineStart
       script:
         - ./gradlew e2eTests
