@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -18,7 +19,6 @@ import teammates.e2e.cases.BaseTestCaseWithBackDoorApiAccess;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
-import teammates.e2e.pageobjects.BrowserPool;
 import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.pageobjects.LoginPage;
@@ -44,7 +44,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
     }
 
     protected void prepareBrowser() {
-        browser = BrowserPool.getBrowser();
+        browser = new Browser();
     }
 
     protected abstract void prepareTestData() throws Exception;
@@ -58,16 +58,21 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         return TestProperties.TEST_DOWNLOADS_FOLDER;
     }
 
-    @AfterClass(alwaysRun = true)
-    public void baseClassTearDown() {
-        releaseBrowser();
+    @AfterClass
+    public void baseClassTearDown(ITestContext context) {
+        boolean isSuccess = context.getFailedTests().getAllMethods()
+                .stream()
+                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
+        releaseBrowser(isSuccess);
     }
 
-    protected void releaseBrowser() {
+    protected void releaseBrowser(boolean isSuccess) {
         if (browser == null) {
             return;
         }
-        BrowserPool.release(browser);
+        if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
+            browser.driver.close();
+        }
     }
 
     /**
@@ -102,13 +107,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         }
 
         if (browser.isAdminLoggedIn) {
-            browser.driver.get(url.toAbsoluteString());
-            browser.waitForPageLoad();
             try {
-                return AppPage.getNewPageInstance(browser, typeOfPage);
+                return AppPage.getNewPageInstance(browser, url, typeOfPage);
             } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
-                ignorePossibleException();
             }
         }
 
