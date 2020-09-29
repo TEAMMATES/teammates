@@ -210,7 +210,7 @@ public final class FeedbackSessionsLogic {
         return fs.getCreatorEmail().equals(userEmail);
     }
 
-    public boolean isFeedbackSessionExists(String feedbackSessionName, String courseId) {
+    private boolean isFeedbackSessionExists(String feedbackSessionName, String courseId) {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName) != null;
     }
 

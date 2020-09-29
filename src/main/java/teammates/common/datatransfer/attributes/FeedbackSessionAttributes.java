@@ -40,7 +40,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private transient Set<String> respondingInstructorList;
     private transient Set<String> respondingStudentList;
 
-    FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
+    private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
 
@@ -774,10 +774,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

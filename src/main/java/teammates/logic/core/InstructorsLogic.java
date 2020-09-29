@@ -132,8 +132,8 @@ public final class InstructorsLogic {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
-    public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
-                                                      boolean isEditedInstructorDisplayed)
+    void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
+                                               boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;

@@ -37,6 +37,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
   courseId: string = '';
   coursePresent?: boolean;
+  isLoadingCourseEnrollPage: boolean = false;
   showEnrollResults?: boolean = false;
   enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
@@ -70,7 +71,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   existingStudentsHOT: string = 'existingStudentsHOT';
   isExistingStudentsPresent: boolean = true;
   hasLoadingStudentsFailed: boolean = false;
-  loading: boolean = false;
+  isLoadingExistingStudents: boolean = false;
   isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
 
@@ -109,15 +110,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
         .forEach((row: string[]) => (studentsEnrollRequest.studentEnrollRequests.push({
           section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
           team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
           name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
           email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
           comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])],
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
         })));
 
     this.studentService.enrollStudents(
@@ -303,13 +304,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   toggleExistingStudentsPanel(): void {
     // Has to be done before the API call is made so that HOT is available for data population
     this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed;
-    this.loading = true;
+    this.isLoadingExistingStudents = true;
     const existingStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.existingStudentsHOT);
 
     // Calling REST API only the first time when spreadsheet has no data
     if (this.getSpreadsheetLength(existingStudentsHOTInstance.getData()) !== 0) {
-      this.loading = false;
+      this.isLoadingExistingStudents = false;
       return;
     }
 
@@ -326,8 +327,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+    }, () => {
+      this.isLoadingExistingStudents = false;
     });
-    this.loading = false;
   }
 
   /**
@@ -356,6 +358,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   getCourseEnrollPageData(courseid: string): void {
     this.existingStudents = [];
     this.hasLoadingStudentsFailed = false;
+    this.isLoadingCourseEnrollPage = true;
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseId = courseid;
@@ -370,6 +373,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;
       this.statusMessageService.showErrorToast(resp.error.message);
+    }, () => {
+      this.isLoadingCourseEnrollPage = false;
     });
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((resp: Students) => {
       this.existingStudents = resp.students;

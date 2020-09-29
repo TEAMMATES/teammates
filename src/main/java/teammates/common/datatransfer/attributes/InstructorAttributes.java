@@ -38,7 +38,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
-    InstructorAttributes(String courseId, String email) {
+    private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;
         this.email = email;
 
@@ -465,12 +465,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
      */
     private static class UpdateOptions {
 
-        protected UpdateOption<String> nameOption = UpdateOption.empty();
-        protected UpdateOption<Boolean> isArchivedOption = UpdateOption.empty();
-        protected UpdateOption<String> roleOption = UpdateOption.empty();
-        protected UpdateOption<Boolean> isDisplayedToStudentsOption = UpdateOption.empty();
-        protected UpdateOption<String> displayedNameOption = UpdateOption.empty();
-        protected UpdateOption<InstructorPrivileges> instructorPrivilegesOption = UpdateOption.empty();
+        UpdateOption<String> nameOption = UpdateOption.empty();
+        UpdateOption<Boolean> isArchivedOption = UpdateOption.empty();
+        UpdateOption<String> roleOption = UpdateOption.empty();
+        UpdateOption<Boolean> isDisplayedToStudentsOption = UpdateOption.empty();
+        UpdateOption<String> displayedNameOption = UpdateOption.empty();
+        UpdateOption<InstructorPrivileges> instructorPrivilegesOption = UpdateOption.empty();
 
         @Override
         public String toString() {
@@ -493,10 +493,10 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

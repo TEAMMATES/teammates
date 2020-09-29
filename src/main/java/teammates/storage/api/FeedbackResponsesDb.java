@@ -400,12 +400,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     @Override
-    protected LoadType<FeedbackResponse> load() {
+    LoadType<FeedbackResponse> load() {
         return ofy().load().type(FeedbackResponse.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(FeedbackResponseAttributes entityToCreate) {
+    boolean hasExistingEntities(FeedbackResponseAttributes entityToCreate) {
         return !load()
                 .filterKey(Key.create(FeedbackResponse.class,
                         FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
@@ -415,7 +415,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     @Override
-    protected FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
+    FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackResponseAttributes.valueOf(entity);

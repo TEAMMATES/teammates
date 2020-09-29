@@ -7,7 +7,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.test.driver.BackDoor;
+import teammates.test.BackDoor;
 import teammates.test.pageobjects.InstructorEditStudentFeedbackPage;
 
 /**

@@ -17,7 +17,7 @@ import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.util.Priority;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.BackDoor;
+import teammates.test.BackDoor;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 
 /**

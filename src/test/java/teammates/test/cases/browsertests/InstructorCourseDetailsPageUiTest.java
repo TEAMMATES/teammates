@@ -16,7 +16,7 @@ import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.BackDoor;
+import teammates.test.BackDoor;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.test.pageobjects.InstructorCourseStudentDetailsViewPage;

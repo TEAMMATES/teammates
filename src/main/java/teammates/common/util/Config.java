@@ -166,7 +166,7 @@ public final class Config {
      * The base URL will be the application back-end URL.
      * {@code relativeUrl} must start with a "/".
      */
-    public static AppUrl getBackEndAppUrl(String relativeUrl) {
+    private static AppUrl getBackEndAppUrl(String relativeUrl) {
         return new AppUrl(APP_URL + relativeUrl);
     }
 

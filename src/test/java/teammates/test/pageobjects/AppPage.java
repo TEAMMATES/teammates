@@ -48,7 +48,7 @@ import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.AssertHelper;
+import teammates.test.AssertHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and

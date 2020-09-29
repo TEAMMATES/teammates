@@ -30,7 +30,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
-    StudentAttributes(String courseId, String email) {
+    private StudentAttributes(String courseId, String email) {
         this.course = courseId;
         this.email = email;
 
@@ -215,15 +215,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     @Override
     public String toString() {
-        return toString(0);
-    }
-
-    public String toString(int indent) {
-        String indentString = StringHelper.getIndent(indent);
-        StringBuilder sb = new StringBuilder();
-        sb.append(indentString + "Student:" + name + "[" + email + "]" + System.lineSeparator());
-
-        return sb.toString();
+        return "Student:" + name + "[" + email + "]";
     }
 
     @Override
@@ -374,10 +366,10 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 
