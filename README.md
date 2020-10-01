@@ -1,4 +1,4 @@
-# TEAMMATES Developer Web Site
+# TEAMMATES Developer WebSite
 
 [![Travis Build Status](https://travis-ci.org/TEAMMATES/teammates.svg?branch=master)](https://travis-ci.org/TEAMMATES/teammates)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/dvr6t33lqg6hsmxw/branch/master?svg=true)](https://ci.appveyor.com/project/nus-oss/teammates/branch/master)
@@ -34,7 +34,7 @@ TEAMMATES team wishes to thank the following invaluable contributions:
 * <img src="src/web/assets/images/yklogo.png" width="100"> [**YourKit LLC**](https://www.yourkit.com), for providing us with free licenses for the [YourKit Java Profiler](https://www.yourkit.com/java/profiler) (an industry leading profiler tool for Java applications).
 * <img src="src/web/assets/images/saucelabs.png" width="100"> [**SauceLabs**](https://saucelabs.com), for providing us with a free [Open Sauce account](https://saucelabs.com/open-source) for cross-browser testing.
 
-## Contacting us
+## Contact us
 
 The best way to contact us is to [post a message in our issue tracker](https://github.com/TEAMMATES/teammates/issues/new). Our issue tracker doubles as a discussion forum. You can use it for things like asking questions about the project or requesting technical help.
 
