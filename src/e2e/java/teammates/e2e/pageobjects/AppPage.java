@@ -84,10 +84,16 @@ public abstract class AppPage {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
 
-        boolean isCorrectPageType = containsExpectedPageContents();
+        boolean isCorrectPageType;
 
-        if (isCorrectPageType) {
-            return;
+        try {
+            isCorrectPageType = containsExpectedPageContents();
+
+            if (isCorrectPageType) {
+                return;
+            }
+        } catch (Exception e) {
+            // ignore and try again
         }
 
         // To minimize test failures due to eventual consistency, we try to
