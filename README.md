@@ -5,7 +5,7 @@
 [![Codecov Coverage Status](https://codecov.io/gh/TEAMMATES/teammates/branch/master/graph/badge.svg)](https://codecov.io/gh/TEAMMATES/teammates)
 [![License](https://img.shields.io/badge/license-GPLv2-blue.svg)](LICENSE)
 
-TEAMMATES is a free online tool for managing peer evaluations and other feedback paths of your students.
+TEAMMATES is a free easy on the eye online tool for managing peer evaluations and other feedback paths of your students.
 It is provided as a cloud-based service for educators/students and is currently used by hundreds of universities across the world.
 
 <img src="src/web/assets/images/overview.png" width="600">
