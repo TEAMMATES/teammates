@@ -80,6 +80,9 @@ public final class TestProperties {
     /** One of the allowed values of "test.selenium.browser" in test.properties file. */
     public static final String BROWSER_FIREFOX = "firefox";
 
+    /** The value of "test.browser.closeonfailure" in test.properties file. */
+    public static final boolean CLOSE_BROWSER_ON_FAILURE;
+
     /** The value of "test.firefox.path" in test.properties file. */
     public static final String FIREFOX_PATH;
 
@@ -144,6 +147,7 @@ public final class TestProperties {
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
+            CLOSE_BROWSER_ON_FAILURE = Boolean.parseBoolean(prop.getProperty("test.browser.closeonfailure"));
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
