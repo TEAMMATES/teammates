@@ -16,7 +16,7 @@ This is the developer web site for TEAMMATES. **Click [here](http://teammatesv4.
 [Version History](https://github.com/TEAMMATES/teammates/milestones?direction=desc&sort=due_date&state=closed) |
 [Project Stats](https://www.openhub.net/p/teammatesonline)
 
-## Interested to join TEAMMATES developer team?
+## Interested in joining TEAMMATES developer team?
 
 We welcome contributions from developers, especially students. Here are some resources:
 * [**Contributor Orientation Guide**](docs/CONTRIBUTING.md): This document describes what you need to know/do to become a contributor.
