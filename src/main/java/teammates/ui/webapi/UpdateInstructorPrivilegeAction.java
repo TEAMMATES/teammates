@@ -15,15 +15,15 @@ import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 /**
  * Update instructor privilege by instructors with instructor modify permission.
  */
-public class UpdateInstructorPrivilegeAction extends Action {
+class UpdateInstructorPrivilegeAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
@@ -32,7 +32,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         String emailOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);

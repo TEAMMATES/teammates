@@ -30,10 +30,10 @@ public class SessionResultsData extends ApiOutput {
 
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
-    protected final List<QuestionOutput> questions = new ArrayList<>();
-    protected FeedbackSessionData feedbackSession;
+    final List<QuestionOutput> questions = new ArrayList<>();
+    FeedbackSessionData feedbackSession;
 
-    protected SessionResultsData() {
+    SessionResultsData() {
         // use factory method instead
     }
 
@@ -406,13 +406,13 @@ public class SessionResultsData extends ApiOutput {
         private final List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private final List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
-        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
+        private QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
         }
 
-        protected QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
-                                 List<ResponseOutput> allResponses) {
+        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
+                       List<ResponseOutput> allResponses) {
             this.questionStatistics = null;
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.allResponses.addAll(allResponses);
@@ -487,7 +487,7 @@ public class SessionResultsData extends ApiOutput {
         /**
          * Returns a builder for {@link ResponseOutput}.
          */
-        public static Builder builder() {
+        static Builder builder() {
             return new Builder();
         }
 
@@ -572,87 +572,87 @@ public class SessionResultsData extends ApiOutput {
             }
 
             //CHECKSTYLE.OFF:MissingJavadocMethod
-            public Builder withIsMissingResponse(boolean isMissingResponse) {
+            private Builder withIsMissingResponse(boolean isMissingResponse) {
                 responseOutput.isMissingResponse = isMissingResponse;
                 return this;
             }
 
-            public Builder withResponseId(String responseId) {
+            Builder withResponseId(String responseId) {
                 responseOutput.responseId = StringHelper.encrypt(responseId);
                 return this;
             }
 
-            public Builder withGiver(String giverName) {
+            Builder withGiver(String giverName) {
                 responseOutput.giver = giverName;
                 return this;
             }
 
-            public Builder withGiverLastName(String giverLastName) {
+            private Builder withGiverLastName(String giverLastName) {
                 responseOutput.giverLastName = giverLastName;
                 return this;
             }
 
-            public Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
+            private Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
                 responseOutput.relatedGiverEmail = relatedGiverEmail;
                 return this;
             }
 
-            public Builder withGiverTeam(String giverTeam) {
+            private Builder withGiverTeam(String giverTeam) {
                 responseOutput.giverTeam = giverTeam;
                 return this;
             }
 
-            public Builder withGiverEmail(@Nullable String giverEmail) {
+            Builder withGiverEmail(@Nullable String giverEmail) {
                 responseOutput.giverEmail = giverEmail;
                 return this;
             }
 
-            public Builder withGiverSection(String giverSection) {
+            Builder withGiverSection(String giverSection) {
                 responseOutput.giverSection = giverSection;
                 return this;
             }
 
-            public Builder withRecipient(String recipientName) {
+            Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
                 return this;
             }
 
-            public Builder withRecipientLastName(String recipientLastName) {
+            private Builder withRecipientLastName(String recipientLastName) {
                 responseOutput.recipientLastName = recipientLastName;
                 return this;
             }
 
-            public Builder withRecipientTeam(String recipientTeam) {
+            private Builder withRecipientTeam(String recipientTeam) {
                 responseOutput.recipientTeam = recipientTeam;
                 return this;
             }
 
-            public Builder withRecipientEmail(@Nullable String recipientEmail) {
+            Builder withRecipientEmail(@Nullable String recipientEmail) {
                 responseOutput.recipientEmail = recipientEmail;
                 return this;
             }
 
-            public Builder withRecipientSection(String recipientSection) {
+            Builder withRecipientSection(String recipientSection) {
                 responseOutput.recipientSection = recipientSection;
                 return this;
             }
 
-            public Builder withResponseDetails(FeedbackResponseDetails responseDetails) {
+            Builder withResponseDetails(FeedbackResponseDetails responseDetails) {
                 responseOutput.responseDetails = responseDetails;
                 return this;
             }
 
-            public Builder withParticipantComment(@Nullable CommentOutput participantComment) {
+            Builder withParticipantComment(@Nullable CommentOutput participantComment) {
                 responseOutput.participantComment = participantComment;
                 return this;
             }
 
-            public Builder withInstructorComments(List<CommentOutput> instructorComments) {
+            Builder withInstructorComments(List<CommentOutput> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
                 return this;
             }
 
-            public ResponseOutput build() {
+            ResponseOutput build() {
                 return responseOutput;
             }
             //CHECKSTYLE.ON:MissingJavadocMethod
@@ -677,7 +677,7 @@ public class SessionResultsData extends ApiOutput {
         /**
          * Returns a builder for {@link CommentOutput}.
          */
-        public static Builder builder(FeedbackResponseCommentAttributes frc) {
+        static Builder builder(FeedbackResponseCommentAttributes frc) {
             return new Builder(frc);
         }
 
@@ -702,27 +702,27 @@ public class SessionResultsData extends ApiOutput {
             }
 
             //CHECKSTYLE.OFF:MissingJavadocMethod
-            public Builder withCommentGiver(@Nullable String commentGiver) {
+            Builder withCommentGiver(@Nullable String commentGiver) {
                 commentOutput.commentGiver = commentGiver;
                 return this;
             }
 
-            public Builder withCommentGiverName(@Nullable String commentGiverName) {
+            Builder withCommentGiverName(@Nullable String commentGiverName) {
                 commentOutput.commentGiverName = commentGiverName;
                 return this;
             }
 
-            public Builder withLastEditorEmail(@Nullable String lastEditorEmail) {
+            Builder withLastEditorEmail(@Nullable String lastEditorEmail) {
                 commentOutput.lastEditorEmail = lastEditorEmail;
                 return this;
             }
 
-            public Builder withLastEditorName(@Nullable String lastEditorName) {
+            Builder withLastEditorName(@Nullable String lastEditorName) {
                 commentOutput.lastEditorName = lastEditorName;
                 return this;
             }
 
-            public CommentOutput build() {
+            CommentOutput build() {
                 return commentOutput;
             }
             //CHECKSTYLE.ON:MissingJavadocMethod

@@ -25,15 +25,15 @@ import teammates.ui.request.Intent;
 /**
  * Updates a feedback response comment.
  */
-public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
+class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
@@ -96,7 +96,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);

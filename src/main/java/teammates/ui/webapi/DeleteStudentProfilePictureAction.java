@@ -9,14 +9,14 @@ import teammates.common.util.Const;
 /**
  * Deletes a student's profile picture and its picture key.
  */
-public class DeleteStudentProfilePictureAction extends Action {
+class DeleteStudentProfilePictureAction extends Action {
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to update this resource.");
         }
@@ -27,7 +27,7 @@ public class DeleteStudentProfilePictureAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(googleId);
         if (studentProfileAttributes == null) {

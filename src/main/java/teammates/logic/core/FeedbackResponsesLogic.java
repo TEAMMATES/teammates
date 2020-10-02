@@ -91,7 +91,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Gets all responses for a session.
      */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
+    List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
         return frDb.getFeedbackResponsesForSession(feedbackSessionName, courseId);
     }
@@ -152,7 +152,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Gets all responses received by an user for a question.
      */
-    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
+    private List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
             String feedbackQuestionId, String userEmail) {
         return frDb.getFeedbackResponsesForReceiverForQuestion(feedbackQuestionId, userEmail);
     }
@@ -841,16 +841,16 @@ public final class FeedbackResponsesLogic {
         private final Set<String> responseIds;
         private final List<FeedbackResponseAttributes> responses;
 
-        UniqueResponsesSet() {
+        private UniqueResponsesSet() {
             responseIds = new HashSet<>();
             responses = new ArrayList<>();
         }
 
-        public void addNewResponses(Collection<FeedbackResponseAttributes> newResponses) {
+        private void addNewResponses(Collection<FeedbackResponseAttributes> newResponses) {
             newResponses.forEach(this::addNewResponse);
         }
 
-        public void addNewResponse(FeedbackResponseAttributes newResponse) {
+        private void addNewResponse(FeedbackResponseAttributes newResponse) {
             if (responseIds.contains(newResponse.getId())) {
                 return;
             }
@@ -858,7 +858,7 @@ public final class FeedbackResponsesLogic {
             responses.add(newResponse);
         }
 
-        public List<FeedbackResponseAttributes> getResponses() {
+        private List<FeedbackResponseAttributes> getResponses() {
             return responses;
         }
     }

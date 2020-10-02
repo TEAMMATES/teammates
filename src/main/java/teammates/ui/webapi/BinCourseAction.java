@@ -10,15 +10,15 @@ import teammates.ui.output.CourseData;
 /**
  * Move a course to the recycle bin.
  */
-public class BinCourseAction extends Action {
+class BinCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -29,7 +29,7 @@ public class BinCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);

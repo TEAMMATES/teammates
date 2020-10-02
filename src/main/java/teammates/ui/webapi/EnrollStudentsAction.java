@@ -26,15 +26,15 @@ import teammates.ui.request.StudentsEnrollRequest;
  *
  * <p>Return all students who are successfully enrolled.
  */
-public class EnrollStudentsAction extends Action {
+class EnrollStudentsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return authType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -46,7 +46,7 @@ public class EnrollStudentsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);

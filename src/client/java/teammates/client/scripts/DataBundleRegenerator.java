@@ -10,7 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.JsonUtils;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * Regenerates all JSON data files used for different purposes.

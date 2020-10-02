@@ -59,7 +59,7 @@ public class RecaptchaVerifier {
         }
     }
 
-    protected String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
+    String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
         URIBuilder urlb = new URIBuilder(VERIFY_URL);
         urlb.setParameter("secret", secretKey);
         urlb.setParameter("response", captchaResponse);

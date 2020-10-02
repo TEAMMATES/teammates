@@ -8,15 +8,15 @@ import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 /**
  * Get a set of givers that has given at least one response in the feedback session.
  */
-public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
+class GetFeedbackSessionSubmittedGiverSetAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -27,7 +27,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);

@@ -15,12 +15,12 @@ import teammates.ui.request.FeedbackSessionRemindRequest;
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
  */
-public class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAction {
+class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String courseId = remindRequest.getCourseId();

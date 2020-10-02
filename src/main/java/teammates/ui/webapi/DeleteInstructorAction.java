@@ -12,15 +12,15 @@ import teammates.common.util.Const;
 /**
  * Deletes an instructor from a course, unless it's the last instructor in the course.
  */
-public class DeleteInstructorAction extends Action {
+class DeleteInstructorAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         //allow access to admins or instructor with modify permission
         if (userInfo.isAdmin) {
             return;
@@ -37,7 +37,7 @@ public class DeleteInstructorAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

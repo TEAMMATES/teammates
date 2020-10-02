@@ -12,8 +12,8 @@ import teammates.common.util.Assumption;
  */
 public class FeedbackResponseCommentData extends ApiOutput {
 
-    protected String commentGiver;
-    protected String lastEditorEmail;
+    String commentGiver;
+    String lastEditorEmail;
 
     private long feedbackResponseCommentId;
     private String commentText;

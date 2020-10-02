@@ -12,10 +12,10 @@ import teammates.common.util.Const;
 /**
  * Action: resets an account ID.
  */
-public class ResetAccountAction extends AdminOnlyAction {
+class ResetAccountAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 

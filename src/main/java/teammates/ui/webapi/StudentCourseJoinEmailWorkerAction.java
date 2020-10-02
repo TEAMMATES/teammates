@@ -9,10 +9,10 @@ import teammates.common.util.EmailWrapper;
 /**
  * Task queue worker action: sends registration email for a student of a course.
  */
-public class StudentCourseJoinEmailWorkerAction extends AdminOnlyAction {
+class StudentCourseJoinEmailWorkerAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(ParamsNames.STUDENT_EMAIL);
         boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);

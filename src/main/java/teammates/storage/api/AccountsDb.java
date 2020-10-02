@@ -88,18 +88,18 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
     }
 
     @Override
-    protected LoadType<Account> load() {
+    LoadType<Account> load() {
         return ofy().load().type(Account.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(AccountAttributes entityToCreate) {
+    boolean hasExistingEntities(AccountAttributes entityToCreate) {
         Key<Account> keyToFind = Key.create(Account.class, entityToCreate.getGoogleId());
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
     @Override
-    protected AccountAttributes makeAttributes(Account entity) {
+    AccountAttributes makeAttributes(Account entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return AccountAttributes.valueOf(entity);

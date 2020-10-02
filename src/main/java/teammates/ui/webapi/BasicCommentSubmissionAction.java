@@ -12,11 +12,11 @@ import teammates.common.exception.UnauthorizedAccessException;
 /**
  * Basic action class for feedback response comment related operation.
  */
-public abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionAction {
+abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionAction {
     /**
      * Validates the questionType of the corresponding question.
      */
-    protected void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
+    void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
         if (!feedbackQuestion.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for comment in submission");
         }
@@ -25,7 +25,7 @@ public abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissi
     /**
      * Validates comment doesn't exist of corresponding response.
      */
-    protected void verifyCommentNotExist(String feedbackResponseId) {
+    void verifyCommentNotExist(String feedbackResponseId) {
         FeedbackResponseCommentAttributes comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
@@ -38,8 +38,8 @@ public abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissi
     /**
      * Verify response ownership for student.
      */
-    protected void verifyResponseOwnerShipForStudent(StudentAttributes student, FeedbackResponseAttributes response,
-                                                     FeedbackQuestionAttributes question) {
+    void verifyResponseOwnerShipForStudent(StudentAttributes student, FeedbackResponseAttributes response,
+                                           FeedbackQuestionAttributes question) {
 
         if (question.getGiverType() == FeedbackParticipantType.TEAMS
                 && !response.getGiver().equals(student.getTeam())) {
@@ -55,8 +55,8 @@ public abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissi
     /**
      * Verify response ownership for instructor.
      */
-    protected void verifyResponseOwnerShipForInstructor(InstructorAttributes instructor,
-                                                        FeedbackResponseAttributes response) {
+    void verifyResponseOwnerShipForInstructor(InstructorAttributes instructor,
+                                              FeedbackResponseAttributes response) {
         if (!response.getGiver().equals(instructor.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + instructor.getName());

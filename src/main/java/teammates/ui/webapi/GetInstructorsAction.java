@@ -18,15 +18,15 @@ import teammates.ui.request.Intent;
 /**
  * Get a list of instructors of a course.
  */
-public class GetInstructorsAction extends Action {
+class GetInstructorsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -55,7 +55,7 @@ public class GetInstructorsAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(courseId);
 

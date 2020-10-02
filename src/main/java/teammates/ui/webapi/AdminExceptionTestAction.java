@@ -13,15 +13,15 @@ import teammates.common.util.Const;
 /**
  * Action specifically created for testing exception handling at API servlet.
  */
-public class AdminExceptionTestAction extends Action {
+class AdminExceptionTestAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }
@@ -29,7 +29,7 @@ public class AdminExceptionTestAction extends Action {
 
     @Override
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
-    public JsonResult execute() {
+    JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
             throw new AssertionError("AssertionError testing");

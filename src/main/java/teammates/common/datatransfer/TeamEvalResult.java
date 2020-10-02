@@ -135,7 +135,7 @@ public class TeamEvalResult {
         return output;
     }
 
-    public static int[] calculatePerceivedForStudent(int[] claimedSanitizedRow,
+    static int[] calculatePerceivedForStudent(int[] claimedSanitizedRow,
             double[] normalizedAveragePerceivedAsDouble) {
 
         verify("Unsanitized value received ", isSanitized(claimedSanitizedRow));
@@ -162,7 +162,7 @@ public class TeamEvalResult {
                 normalizedAveragePerceivedAsDouble));
     }
 
-    public static boolean isSanitized(int[] array) {
+    static boolean isSanitized(int[] array) {
         for (int value : array) {
             if (!isSanitized(value)) {
                 return false;
@@ -206,7 +206,7 @@ public class TeamEvalResult {
         return output;
     }
 
-    public static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
+    static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
             double[] filterArray, double[] valueArray) {
         double[] returnValue = new double[filterArray.length];
         for (int i = 0; i < filterArray.length; i++) {
@@ -220,7 +220,7 @@ public class TeamEvalResult {
         return returnValue;
     }
 
-    public static double sum(double[] input) {
+    static double sum(double[] input) {
         if (input.length == 0) {
             return 0;
         }
@@ -238,12 +238,11 @@ public class TeamEvalResult {
         return sum;
     }
 
-    public static int sum(int[] input) {
+    private static int sum(int[] input) {
         return (int) sum(intToDouble(input));
     }
 
-    // TODO: methods like these private and use reflection to test
-    public static double[][] removeSelfRatings(double[][] input) {
+    static double[][] removeSelfRatings(double[][] input) {
         double[][] output = new double[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
@@ -261,13 +260,12 @@ public class TeamEvalResult {
         return output;
     }
 
-    // TODO: make this private and use reflection to test
-    public static double[] normalizeValues(double[] input) {
+    static double[] normalizeValues(double[] input) {
         double factor = calculateFactor(input);
         return multiplyByFactor(factor, input);
     }
 
-    public static int[][] normalizeValues(int[][] input) {
+    private static int[][] normalizeValues(int[][] input) {
         return doubleToInt(normalizeValues(intToDouble(input)));
     }
 
@@ -305,8 +303,7 @@ public class TeamEvalResult {
         return Arrays.stream(input).map(value -> doubleToInt(value)).toArray(int[][]::new);
     }
 
-    // TODO: make this private and use reflection to test
-    public static double[] averageColumns(double[][] input) {
+    static double[] averageColumns(double[][] input) {
         double[] output = new double[input.length];
 
         for (int i = 0; i < input.length; i++) {
@@ -342,7 +339,7 @@ public class TeamEvalResult {
         return average;
     }
 
-    public static String pointsToString(int[][] array) {
+    static String pointsToString(int[][] array) {
         return pointsToString(intToDouble(array)).replace(".0", "");
     }
 
@@ -350,7 +347,7 @@ public class TeamEvalResult {
         return replaceMagicNumbers(Arrays.toString(input)) + System.lineSeparator();
     }
 
-    public static String pointsToString(double[][] array) {
+    static String pointsToString(double[][] array) {
         StringBuilder returnValue = new StringBuilder();
         boolean isSquareArray = array.length == array[0].length;
         int teamSize = (array.length - 1) / 3;
@@ -373,7 +370,7 @@ public class TeamEvalResult {
     /**
      * Replaces 999 etc. with NA, NSB, NSU etc.
      */
-    public static String replaceMagicNumbers(String returnValue) {
+    static String replaceMagicNumbers(String returnValue) {
         return returnValue.replace(NA + ".0", " NA")
                           .replace(Integer.toString(NA), " NA")
                           .replace(NSB + ".0", "NSB")
@@ -385,7 +382,7 @@ public class TeamEvalResult {
         return toString(0);
     }
 
-    public String toString(int indent) {
+    private String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         String divider = "======================" + System.lineSeparator();
         StringBuilder sb = new StringBuilder(200);

@@ -10,12 +10,12 @@ import teammates.common.util.Logger;
 /**
  * Cron job: schedules feedback session closed emails to be sent.
  */
-public class FeedbackSessionClosedRemindersAction extends AdminOnlyAction {
+class FeedbackSessionClosedRemindersAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosedWithinThePastHour();
 
         for (FeedbackSessionAttributes session : sessions) {

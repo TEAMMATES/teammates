@@ -15,28 +15,28 @@ import teammates.ui.output.RegenerateStudentCourseLinksData;
 /**
  * Regenerates the course join and feedback session links for a given student in a course.
  */
-public class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
+class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
 
     /** Message indicating that the email parameter value is not a valid email address. */
-    public static final String STUDENT_NOT_FOUND = "The student with the email %s could not be found for "
-                                                + "the course with ID [%s].";
-
-    private static final String UNSUCCESSFUL_REGENERATION =
-                                                "Regeneration of the student's links for this course was unsuccessful.";
+    static final String STUDENT_NOT_FOUND =
+            "The student with the email %s could not be found for the course with ID [%s].";
 
     private static final String SUCCESSFUL_REGENERATION =
-                                                "Student's links for this course have been successfully regenerated,";
+            "Student's links for this course have been successfully regenerated,";
 
     /** Message indicating that the links regeneration was successful, and corresponding email was sent. */
-    public static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
-                                                        SUCCESSFUL_REGENERATION + " and the email has been sent.";
+    static final String SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT =
+            SUCCESSFUL_REGENERATION + " and the email has been sent.";
+
+    private static final String UNSUCCESSFUL_REGENERATION =
+            "Regeneration of the student's links for this course was unsuccessful.";
 
     /** Message indicating that the links regeneration was successful, but corresponding email could not be sent. */
-    public static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
-                                                        SUCCESSFUL_REGENERATION + " but the email failed to send.";
+    private static final String SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED =
+            SUCCESSFUL_REGENERATION + " but the email failed to send.";
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 

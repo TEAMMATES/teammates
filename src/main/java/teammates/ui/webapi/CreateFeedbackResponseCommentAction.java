@@ -23,15 +23,15 @@ import teammates.ui.request.Intent;
 /**
  * Creates a new feedback response comment.
  */
-public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
+class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
@@ -97,7 +97,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
