@@ -154,7 +154,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isEditable: true,
     isSaving: false,
     isCollapsed: false,
-    isChanged: false,
+    isVisibilityChanged: false,
+    isFeedbackPathChanged: false,
+    isQuestionDetailsChanged: false,
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
@@ -512,7 +514,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: false,
       isSaving: false,
       isCollapsed: false,
-      isChanged: false,
+
+      isVisibilityChanged: false,
+      isFeedbackPathChanged: false,
+      isQuestionDetailsChanged: false,
     };
   }
 
@@ -749,7 +754,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: true,
       isSaving: false,
       isCollapsed: false,
-      isChanged: false,
+
+      isVisibilityChanged: false,
+      isFeedbackPathChanged: false,
+      isQuestionDetailsChanged: false,
     };
 
     // inherit some settings from the last question
