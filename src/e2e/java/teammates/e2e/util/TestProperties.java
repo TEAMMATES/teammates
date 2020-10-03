@@ -13,15 +13,6 @@ import teammates.common.util.UrlExtension;
  */
 public final class TestProperties {
 
-    /** The directory where the L&P test data files are stored. */
-    public static final String LNP_TEST_DATA_FOLDER = "src/e2e/lnp/data";
-
-    /** The directory where the L&P test configuration files are stored. */
-    public static final String LNP_TEST_CONFIG_FOLDER = "src/e2e/lnp/tests";
-
-    /** The directory where the L&P test results are stored. */
-    public static final String LNP_TEST_RESULTS_FOLDER = "src/e2e/lnp/results";
-
     /** The directory where HTML files for testing pages are stored. */
     public static final String TEST_PAGES_FOLDER = "src/e2e/resources/pages";
 
@@ -77,12 +68,6 @@ public final class TestProperties {
     /** The value of "test.persistence.timeout" in test.properties file. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
 
-    /** The value of "test.jmeter.home" in test.properties file. */
-    public static final String JMETER_HOME;
-
-    /** The value of "test.jmeter.properties" in test.properties file. */
-    public static final String JMETER_PROPERTIES_PATH;
-
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
 
@@ -117,10 +102,7 @@ public final class TestProperties {
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 
-            JMETER_HOME = prop.getProperty("test.jmeter.home").toLowerCase();
-            JMETER_PROPERTIES_PATH = prop.getProperty("test.jmeter.properties", "").toLowerCase();
-
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

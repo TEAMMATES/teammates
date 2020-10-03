@@ -206,6 +206,7 @@ task createConfigs {
             "src/main/resources/build.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
+            "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/webapp/WEB-INF/appengine-web.template.xml"
