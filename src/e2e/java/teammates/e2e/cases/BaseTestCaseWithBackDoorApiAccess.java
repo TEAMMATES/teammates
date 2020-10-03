@@ -15,16 +15,17 @@ import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.E2EBackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.BaseTestCaseWithDatastoreAccess;
-import teammates.ui.output.CourseData;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
  */
 @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
 public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWithDatastoreAccess {
+
+    protected static final E2EBackDoor BACKDOOR = E2EBackDoor.getInstance();
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
@@ -56,7 +57,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected AccountAttributes getAccount(String googleId) {
-        return BackDoor.getAccount(googleId);
+        return BACKDOOR.getAccount(googleId);
     }
 
     @Override
@@ -66,7 +67,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return null; // BackDoor.getStudentProfile(studentProfileAttributes.googleId);
+        return null; // BACKDOOR.getStudentProfile(studentProfileAttributes.googleId);
     }
 
     protected AccountAttributes getAccountWithRetry(String googleId) throws MaximumRetriesExceededException {
@@ -79,7 +80,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getCourse(String courseId) {
-        return BackDoor.getCourse(courseId);
+        return BACKDOOR.getCourse(courseId);
     }
 
     @Override
@@ -88,7 +89,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected CourseAttributes getArchivedCourse(String instructorId, String courseId) {
-        return BackDoor.getArchivedCourse(instructorId, courseId);
+        return BACKDOOR.getArchivedCourse(instructorId, courseId);
     }
 
     protected CourseAttributes getCourseWithRetry(String courseId) throws MaximumRetriesExceededException {
@@ -100,16 +101,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         });
     }
 
-    protected boolean isCourseInRecycleBin(String courseId) {
-        CourseData courseData = BackDoor.getCourseData(courseId);
-        if (courseData == null) {
-            return false;
-        }
-        return courseData.getDeletionTimestamp() != 0;
-    }
-
     protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
-        return BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
+        return BACKDOOR.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }
 
     @Override
@@ -130,7 +123,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
-        return BackDoor.getFeedbackResponseComment(feedbackResponseId);
+        return BACKDOOR.getFeedbackResponseComment(feedbackResponseId);
     }
 
     @Override
@@ -139,7 +132,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
-        return BackDoor.getFeedbackResponse(feedbackQuestionId, giver, recipient);
+        return BACKDOOR.getFeedbackResponse(feedbackQuestionId, giver, recipient);
     }
 
     @Override
@@ -148,7 +141,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        return BackDoor.getFeedbackSession(courseId, feedbackSessionName);
+        return BACKDOOR.getFeedbackSession(courseId, feedbackSessionName);
     }
 
     @Override
@@ -168,11 +161,11 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
-        return BackDoor.getSoftDeletedSession(feedbackSessionName, instructorId);
+        return BACKDOOR.getSoftDeletedSession(feedbackSessionName, instructorId);
     }
 
     protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
-        return BackDoor.getInstructor(courseId, instructorEmail);
+        return BACKDOOR.getInstructor(courseId, instructorEmail);
     }
 
     @Override
@@ -211,7 +204,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return BackDoor.getStudent(student.course, student.email);
+        return BACKDOOR.getStudent(student.course, student.email);
     }
 
     protected String getKeyForStudent(StudentAttributes student) {
@@ -220,12 +213,12 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
 
     @Override
     protected String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException {
-        return BackDoor.removeAndRestoreDataBundle(testData);
+        return BACKDOOR.removeAndRestoreDataBundle(testData);
     }
 
     @Override
     protected String doPutDocuments(DataBundle testData) {
-        return BackDoor.putDocuments(testData);
+        return BACKDOOR.putDocuments(testData);
     }
 
 }

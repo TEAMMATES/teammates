@@ -35,7 +35,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.e2e.util.BackDoor;
+import teammates.e2e.util.E2EBackDoor;
 import teammates.lnp.util.LNPResultsStatistics;
 import teammates.lnp.util.LNPSpecification;
 import teammates.lnp.util.LNPTestData;
@@ -53,6 +53,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String PUT = HttpPut.METHOD_NAME;
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
+    private static final E2EBackDoor BACKDOOR = E2EBackDoor.getInstance();
     private static final Logger log = Logger.getLogger();
 
     private static final int RESULT_COUNT = 3;
@@ -235,8 +236,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void persistTestData() throws IOException, HttpRequestFailedException {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        String responseBody = "";
-        responseBody = BackDoor.removeAndRestoreDataBundle(dataBundle);
+        String responseBody = BACKDOOR.removeAndRestoreDataBundle(dataBundle);
 
         String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
         String jsonValue = JsonUtils.parse(responseBody).getAsJsonObject().get("message").getAsString();
@@ -301,7 +301,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void deleteTestData() {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        BackDoor.removeDataBundle(dataBundle);
+        BACKDOOR.removeDataBundle(dataBundle);
     }
 
     /**

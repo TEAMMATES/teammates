@@ -9,7 +9,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.e2e.util.BackDoor;
 
 /**
  * Verifies that various system error report emails should or should not be sent to the admin.
@@ -45,7 +44,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, AssertionError.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("AssertionError triggered, verify that you have received error logs via email");
 
@@ -59,7 +58,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, NullPointerException.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("NullPointerException triggered, verify that you have received error logs via email");
 
@@ -73,7 +72,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("DeadlineExceededException triggered, verify that you have received error logs via email");
 
@@ -87,7 +86,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("DatastoreTimeoutException triggered, verify that you have received error logs via email");
 
@@ -101,7 +100,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, UnauthorizedAccessException.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 
@@ -115,7 +114,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, InvalidHttpParameterException.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 
@@ -129,7 +128,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
                 .withParam(Const.ParamsNames.ERROR, EntityNotFoundException.class.getSimpleName())
                 .toString();
 
-        BackDoor.executeGetRequest(url, null);
+        BACKDOOR.executeGetRequest(url, null);
 
         print("This exception is handled by system, make sure you don't receive any emails");
 

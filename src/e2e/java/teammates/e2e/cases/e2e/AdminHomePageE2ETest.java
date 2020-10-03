@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminHomePage;
-import teammates.e2e.util.BackDoor;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_HOME_PAGE}.
@@ -28,7 +27,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         String institute = "TEAMMATES Test Institute 1";
         String demoCourseId = "AHPUiT____.instr1_.gma-demo";
 
-        BackDoor.deleteCourse(demoCourseId);
+        BACKDOOR.deleteCourse(demoCourseId);
 
         homePage.queueInstructorForAdding(name, email, institute);
 
@@ -49,7 +48,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         assertTrue(failureMessage.contains(
                 "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format."));
 
-        BackDoor.deleteCourse(demoCourseId);
+        BACKDOOR.deleteCourse(demoCourseId);
     }
 
 }

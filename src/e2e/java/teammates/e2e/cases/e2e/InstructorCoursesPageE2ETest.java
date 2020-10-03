@@ -14,7 +14,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.InstructorCoursesPage;
-import teammates.e2e.util.BackDoor;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSES_PAGE}.
@@ -40,7 +39,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
     @BeforeClass
     public void classSetup() {
-        BackDoor.deleteCourse(newCourse.getId());
+        BACKDOOR.deleteCourse(newCourse.getId());
     }
 
     @Test
@@ -103,7 +102,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 + "You can restore it from the Recycle Bin manually.");
         coursesPage.verifyNumActiveCourses(1);
         coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
-        assertTrue(isCourseInRecycleBin(newCourse.getId()));
+        assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore active course");
         newCourse.deletedAt = null;
@@ -114,7 +113,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumDeletedCourses(1);
         // No need to call sortByCreationDate() here because it is the default sort in DESC order
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
-        assertFalse(isCourseInRecycleBin(newCourse.getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("move archived course to recycle bin");
         coursesPage.archiveCourse(newCourse.getId());
@@ -125,7 +124,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 + "You can restore it from the Recycle Bin manually.");
         coursesPage.verifyNumArchivedCourses(1);
         coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
-        assertTrue(isCourseInRecycleBin(newCourse.getId()));
+        assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore archived course");
         newCourse.deletedAt = null;
@@ -134,7 +133,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
         coursesPage.verifyNumDeletedCourses(1);
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
-        assertFalse(isCourseInRecycleBin(newCourse.getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
         verifyCourseArchivedInDatastore(instructorId, newCourse);
 
         ______TS("permanently delete course");
@@ -156,8 +155,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
         coursesPage.verifyArchivedCoursesDetails(archivedCourses);
         coursesPage.verifyNumDeletedCourses(0);
-        assertFalse(isCourseInRecycleBin(courses[1].getId()));
-        assertFalse(isCourseInRecycleBin(courses[2].getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[1].getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[2].getId()));
 
         ______TS("permanently delete all");
         coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
