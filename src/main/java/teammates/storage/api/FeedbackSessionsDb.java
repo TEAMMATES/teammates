@@ -413,12 +413,12 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     @Override
-    protected LoadType<FeedbackSession> load() {
+    LoadType<FeedbackSession> load() {
         return ofy().load().type(FeedbackSession.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
+    boolean hasExistingEntities(FeedbackSessionAttributes entityToCreate) {
         return !load()
                 .filterKey(Key.create(FeedbackSession.class,
                         FeedbackSession.generateId(entityToCreate.getFeedbackSessionName(), entityToCreate.getCourseId())))
@@ -427,7 +427,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     @Override
-    protected FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
+    FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackSessionAttributes.valueOf(entity);

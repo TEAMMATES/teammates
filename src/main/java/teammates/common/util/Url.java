@@ -95,7 +95,7 @@ public class Url {
      * <code>index.html</code></li>
      * </ul>
      */
-    public static String addParamToUrl(String url, String key, String value) {
+    static String addParamToUrl(String url, String key, String value) {
         if (key == null || key.isEmpty() || value == null || value.isEmpty()
                 || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
             // return the url if any of the key or the value is null or empty

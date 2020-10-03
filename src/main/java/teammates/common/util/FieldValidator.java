@@ -146,7 +146,8 @@ public final class FieldValidator {
 
     // field-specific error messages
     public static final String HINT_FOR_CORRECT_EMAIL =
-            "An email address contains some text followed by one '@' sign followed by some more text. "
+            "An email address contains some text followed by one '@' sign followed by some more text, and should end "
+                    + "with a top level domain address like .com. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
@@ -479,7 +480,7 @@ public final class FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
+    static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
@@ -532,7 +533,7 @@ public final class FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
+    static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (isUntrimmed(value)) {
@@ -694,7 +695,7 @@ public final class FieldValidator {
         return errors;
     }
 
-    public static String getValidityInfoForNonHtmlField(String fieldName, String value) {
+    static String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -704,7 +705,7 @@ public final class FieldValidator {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
-    public static boolean isUntrimmed(String value) {
+    private static boolean isUntrimmed(String value) {
         return value.length() != value.trim().length();
     }
 
@@ -713,7 +714,7 @@ public final class FieldValidator {
      * @param email text input which needs the validation
      * @return true if it is a valid email address, else false.
      */
-    public static boolean isValidEmailAddress(String email) {
+    private static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
 
@@ -727,7 +728,7 @@ public final class FieldValidator {
         return uniqueElements.size() == elements.size();
     }
 
-    public static String getPopulatedErrorMessage(
+    private static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
                    .replace("${maxLength}", String.valueOf(maxLength));

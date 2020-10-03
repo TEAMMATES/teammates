@@ -47,17 +47,17 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
+    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    private static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     /**
      * Preconditions: <br>
@@ -905,15 +905,6 @@ public class Logic {
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
     }
 
-    public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName,
-                                                          String courseId,
-                                                          int questionNumber) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackQuestionsLogic.getFeedbackQuestion(feedbackSessionName, courseId, questionNumber);
-    }
-
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
@@ -1243,17 +1234,6 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);
     }
 
-    public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId,
-                                                          String giverEmail,
-                                                          String recipient) {
-
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(recipient);
-
-        return feedbackResponsesLogic.getFeedbackResponse(feedbackQuestionId, giverEmail, recipient);
-    }
-
     /**
      * Creates a feedback response.
      *
@@ -1338,19 +1318,6 @@ public class Logic {
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
         Assumption.assertNotNull(feedbackResponseCommentId);
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String responseId, String giverEmail, Instant creationDate) {
-        Assumption.assertNotNull(responseId);
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(creationDate);
-
-        return feedbackResponseCommentsLogic.getFeedbackResponseComment(responseId, giverEmail, creationDate);
     }
 
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,

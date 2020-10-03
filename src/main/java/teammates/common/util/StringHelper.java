@@ -42,7 +42,7 @@ public final class StringHelper {
     /**
      * Generates a string which consists of {@code length} copies of {@code character} without space.
      */
-    public static String generateStringOfLength(int length, char character) {
+    static String generateStringOfLength(int length, char character) {
         Assumption.assertTrue(length >= 0);
         return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
@@ -280,7 +280,7 @@ public final class StringHelper {
     /**
      * Converts a byte array to hexadecimal string.
      */
-    public static String byteArrayToHexString(byte[] bytes) {
+    static String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte b : bytes) {
             int v = b & 0xff;

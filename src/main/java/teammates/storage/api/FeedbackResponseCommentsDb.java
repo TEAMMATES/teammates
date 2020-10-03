@@ -475,18 +475,18 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     @Override
-    protected LoadType<FeedbackResponseComment> load() {
+    LoadType<FeedbackResponseComment> load() {
         return ofy().load().type(FeedbackResponseComment.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(FeedbackResponseCommentAttributes entityToCreate) {
+    boolean hasExistingEntities(FeedbackResponseCommentAttributes entityToCreate) {
         // comment does not have unique constraint
         return false;
     }
 
     @Override
-    protected FeedbackResponseCommentAttributes makeAttributes(FeedbackResponseComment entity) {
+    FeedbackResponseCommentAttributes makeAttributes(FeedbackResponseComment entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackResponseCommentAttributes.valueOf(entity);

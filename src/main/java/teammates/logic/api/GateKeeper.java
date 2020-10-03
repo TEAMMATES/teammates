@@ -30,7 +30,7 @@ public class GateKeeper {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
-    public boolean isUserLoggedOn() {
+    private boolean isUserLoggedOn() {
         return userService.getCurrentUser() != null;
     }
 

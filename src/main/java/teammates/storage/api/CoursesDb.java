@@ -128,12 +128,12 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     @Override
-    protected LoadType<Course> load() {
+    LoadType<Course> load() {
         return ofy().load().type(Course.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(CourseAttributes entityToCreate) {
+    boolean hasExistingEntities(CourseAttributes entityToCreate) {
         Key<Course> keyToFind = Key.create(Course.class, entityToCreate.getId());
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
@@ -152,7 +152,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     @Override
-    protected CourseAttributes makeAttributes(Course entity) {
+    CourseAttributes makeAttributes(Course entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return CourseAttributes.valueOf(entity);

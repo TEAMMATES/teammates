@@ -162,7 +162,7 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleId}";
+        return Const.ResourceURIs.STUDENT_PROFILE + "?googleid=${googleId}";
     }
 
     @Override

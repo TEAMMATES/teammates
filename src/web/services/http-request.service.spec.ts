@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { ResourceEndpoints } from '../types/api-endpoints';
 import { HttpRequestService } from './http-request.service';
 
 describe('HttpRequestService', () => {
@@ -51,7 +50,7 @@ describe('HttpRequestService', () => {
 
   it('should execute GET', () => {
     service.get('/url');
-    expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, {
+    expect(spyHttpClient.get).toHaveBeenCalledWith(`${backendUrl}/url`, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object), responseType: 'json' as 'text',
@@ -60,7 +59,7 @@ describe('HttpRequestService', () => {
 
   it('should execute POST with null body and empty params by default', () => {
     service.post('/url');
-    expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, null, {
+    expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -69,7 +68,7 @@ describe('HttpRequestService', () => {
 
   it('should execute POST with params if specified', () => {
     service.post('/url', { key: 'value' });
-    expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, null, {
+    expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -78,7 +77,7 @@ describe('HttpRequestService', () => {
 
   it('should execute POST with body if specified', () => {
     service.post('/url', {}, 'body');
-    expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, 'body', {
+    expect(spyHttpClient.post).toHaveBeenCalledWith(`${backendUrl}/url`, 'body', {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -87,7 +86,7 @@ describe('HttpRequestService', () => {
 
   it('should execute PUT with null body and empty params by default', () => {
     service.put('/url');
-    expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, null, {
+    expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -96,7 +95,7 @@ describe('HttpRequestService', () => {
 
   it('should execute PUT with params if specified', () => {
     service.put('/url', { key: 'value' });
-    expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, null, {
+    expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/url`, null, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -105,7 +104,7 @@ describe('HttpRequestService', () => {
 
   it('should execute PUT with body if specified', () => {
     service.put('/url', {}, 'body');
-    expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, 'body', {
+    expect(spyHttpClient.put).toHaveBeenCalledWith(`${backendUrl}/url`, 'body', {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -114,7 +113,7 @@ describe('HttpRequestService', () => {
 
   it('should execute DELETE', () => {
     service.delete('/url');
-    expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, {
+    expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}/url`, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),
@@ -123,7 +122,7 @@ describe('HttpRequestService', () => {
 
   it('should execute DELETE with params', () => {
     service.delete('/url', { key: 'value' });
-    expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}${ResourceEndpoints.URI_PREFIX}/url`, {
+    expect(spyHttpClient.delete).toHaveBeenCalledWith(`${backendUrl}/url`, {
       withCredentials,
       headers: expect.any(Object),
       params: expect.any(Object),

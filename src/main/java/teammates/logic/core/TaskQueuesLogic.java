@@ -1,11 +1,10 @@
 package teammates.logic.core;
 
-import java.util.Map;
-
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 
+import teammates.common.util.JsonUtils;
 import teammates.common.util.TaskWrapper;
 
 /**
@@ -35,13 +34,11 @@ public class TaskQueuesLogic {
             taskToBeAdded.countdownMillis(countdownTime);
         }
 
-        for (Map.Entry<String, String[]> entry : task.getParamMap().entrySet()) {
-            String name = entry.getKey();
-            String[] values = entry.getValue();
-
-            for (String value : values) {
-                taskToBeAdded = taskToBeAdded.param(name, value);
-            }
+        // GAE's Task Queue API only allows either parameter map or body, not both
+        if (task.getRequestBody() == null) {
+            task.getParamMap().forEach((key, value) -> taskToBeAdded.param(key, value));
+        } else {
+            taskToBeAdded.payload(JsonUtils.toJson(task.getRequestBody()));
         }
 
         requiredQueue.add(taskToBeAdded);

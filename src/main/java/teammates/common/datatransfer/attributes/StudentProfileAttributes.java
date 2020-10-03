@@ -29,7 +29,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String pictureKey;
     public Instant modifiedDate;
 
-    StudentProfileAttributes(String googleId) {
+    private StudentProfileAttributes(String googleId) {
         this.googleId = googleId;
         this.shortName = "";
         this.email = "";
@@ -332,10 +332,10 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

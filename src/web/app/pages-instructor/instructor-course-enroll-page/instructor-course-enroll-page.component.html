@@ -1,4 +1,4 @@
-<tm-loading-retry [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
+<tm-loading-retry *tmIsLoading="isLoadingCourseEnrollPage" [shouldShowRetry]="!coursePresent" [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
   <div *ngIf="coursePresent">
     <h1>Enroll Students for {{ courseId }}</h1>
     <tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'" (retryEvent)="getCourseEnrollPageData(courseId)">
@@ -20,10 +20,10 @@
             <tm-status-message [messages]="statusMessage"></tm-status-message>
             <div class="card card-default">
               <div id="toggle-existing-students" class="card-header cursor-pointer"
-                   (click)="toggleExistingStudentsPanel()">
+                  (click)="toggleExistingStudentsPanel()">
                 <b>Existing Students</b>
                 <div class="card-header-btn-toolbar">
-                  <tm-ajax-preload *ngIf="loading"></tm-ajax-preload>
+                  <tm-ajax-preload *ngIf="isLoadingExistingStudents"></tm-ajax-preload>
                   <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students in course.' }}</b>
                   <b class="existing-students-status-message">{{ isAjaxSuccess ? '' : 'Failed to load. Click here to retry.' }}</b>
                   <tm-panel-chevron [isExpanded]="!isExistingStudentsPanelCollapsed"></tm-panel-chevron>
