@@ -13,9 +13,6 @@ import teammates.common.util.UrlExtension;
  */
 public final class TestProperties {
 
-    /** The directory where HTML files for testing pages are stored. */
-    public static final String TEST_PAGES_FOLDER = "src/e2e/resources/pages";
-
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/e2e/resources/data";
 
@@ -24,9 +21,6 @@ public final class TestProperties {
 
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
-
-    /** The version number of the application under test. */
-    public static final String TEAMMATES_VERSION;
 
     /** The email address used for testing that emails are sent by the system. */
     public static final String TEST_EMAIL;
@@ -79,12 +73,6 @@ public final class TestProperties {
             }
 
             TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
-
-            Properties buildProperties = new Properties();
-            try (InputStream buildPropStream = Files.newInputStream(Paths.get("src/main/resources/build.properties"))) {
-                buildProperties.load(buildPropStream);
-            }
-            TEAMMATES_VERSION = buildProperties.getProperty("app.version");
 
             TEST_EMAIL = prop.getProperty("test.email");
 

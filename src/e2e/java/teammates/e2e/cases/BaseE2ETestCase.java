@@ -1,6 +1,5 @@
 package teammates.e2e.cases;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,10 +23,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
-import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -100,16 +96,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     /**
-     * Creates a {@link Url} to navigate to the file named {@code testFileName}
-     * inside {@link TestProperties#TEST_PAGES_FOLDER}.
-     * {@code testFileName} must start with a "/".
-     */
-    protected static Url createLocalUrl(String testFileName) throws IOException {
-        return new Url("file:///" + new File(".").getCanonicalPath() + "/"
-                                  + TestProperties.TEST_PAGES_FOLDER + testFileName);
-    }
-
-    /**
      * Logs in a page using admin credentials (i.e. in masquerade mode).
      */
     protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
@@ -149,16 +135,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         loginPage.loginAsAdmin(adminUsername);
 
         return AppPage.getNewPageInstance(browser, url, typeOfPage);
-    }
-
-    /**
-     * Navigates to the application's home page (as defined in test.properties)
-     * and gives the {@link HomePage} instance based on it.
-     */
-    protected HomePage getHomePage() {
-        HomePage homePage = AppPage.getNewPageInstance(browser, createUrl(""), HomePage.class);
-        homePage.waitForPageToLoad();
-        return homePage;
     }
 
     /**
@@ -275,15 +251,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         return null; // BACKDOOR.getStudentProfile(studentProfileAttributes.googleId);
     }
 
-    protected AccountAttributes getAccountWithRetry(String googleId) throws MaximumRetriesExceededException {
-        return getPersistenceRetryManager().runUntilNotNull(new RetryableTaskReturns<AccountAttributes>("getAccount") {
-            @Override
-            public AccountAttributes run() {
-                return getAccount(googleId);
-            }
-        });
-    }
-
     protected CourseAttributes getCourse(String courseId) {
         return BACKDOOR.getCourse(courseId);
     }
@@ -297,15 +264,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         return BACKDOOR.getArchivedCourse(instructorId, courseId);
     }
 
-    protected CourseAttributes getCourseWithRetry(String courseId) throws MaximumRetriesExceededException {
-        return getPersistenceRetryManager().runUntilNotNull(new RetryableTaskReturns<CourseAttributes>("getCourse") {
-            @Override
-            public CourseAttributes run() {
-                return getCourse(courseId);
-            }
-        });
-    }
-
     protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return BACKDOOR.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }
@@ -313,18 +271,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
         return getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
-    }
-
-    protected FeedbackQuestionAttributes getFeedbackQuestionWithRetry(
-            String courseId, String feedbackSessionName, int qnNumber)
-            throws MaximumRetriesExceededException {
-        return getPersistenceRetryManager().runUntilNotNull(new RetryableTaskReturns<FeedbackQuestionAttributes>(
-                "getFeedbackQuestion") {
-            @Override
-            public FeedbackQuestionAttributes run() {
-                return getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
-            }
-        });
     }
 
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
@@ -354,17 +300,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         return getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
     }
 
-    protected FeedbackSessionAttributes getFeedbackSessionWithRetry(String courseId, String feedbackSessionName)
-            throws MaximumRetriesExceededException {
-        return getPersistenceRetryManager().runUntilNotNull(new RetryableTaskReturns<FeedbackSessionAttributes>(
-                "getFeedbackSession") {
-            @Override
-            public FeedbackSessionAttributes run() {
-                return getFeedbackSession(courseId, feedbackSessionName);
-            }
-        });
-    }
-
     protected FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
         return BACKDOOR.getSoftDeletedSession(feedbackSessionName, instructorId);
     }
@@ -378,33 +313,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         return getInstructor(instructor.courseId, instructor.email);
     }
 
-    protected InstructorAttributes getInstructorWithRetry(String courseId, String instructorEmail)
-            throws MaximumRetriesExceededException {
-        return getPersistenceRetryManager().runUntilNotNull(new RetryableTaskReturns<InstructorAttributes>("getInstructor") {
-            @Override
-            public InstructorAttributes run() {
-                return getInstructor(courseId, instructorEmail);
-            }
-        });
-    }
-
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
         return getInstructor(courseId, instructorEmail).getKey();
-    }
-
-    protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail)
-            throws MaximumRetriesExceededException {
-        return getPersistenceRetryManager().runUntilSuccessful(new RetryableTaskReturns<String>("getKeyForInstructor") {
-            @Override
-            public String run() {
-                return getKeyForInstructor(courseId, instructorEmail);
-            }
-
-            @Override
-            public boolean isSuccessful(String result) {
-                return !result.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE);
-            }
-        });
     }
 
     @Override
