@@ -446,7 +446,7 @@ def numOfTestRetries = 4
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
     useTestNG()
-    options.suites "src/e2e/resources/testng-lnp.xml"
+    options.suites "src/lnp/resources/testng-lnp.xml"
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
