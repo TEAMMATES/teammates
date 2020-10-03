@@ -1,6 +1,7 @@
 package teammates.lnp.cases;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -100,13 +101,14 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                 Map<String, FeedbackSessionAttributes> feedbackSessions = new LinkedHashMap<>();
 
                 for (int i = 1; i <= NUM_FEEDBACK_SESSIONS; i++) {
+                    Instant now = Instant.now();
                     FeedbackSessionAttributes session = FeedbackSessionAttributes
                             .builder(FEEDBACK_SESSION_NAME + " " + i, COURSE_ID)
                             .withCreatorEmail(INSTRUCTOR_EMAIL)
-                            .withStartTime(Instant.now())
-                            .withEndTime(Instant.now().plusSeconds(500))
-                            .withSessionVisibleFromTime(Instant.now())
-                            .withResultsVisibleFromTime(Instant.now())
+                            .withStartTime(now.plus(Duration.ofMinutes(1)))
+                            .withEndTime(now.plus(Duration.ofDays(1)))
+                            .withSessionVisibleFromTime(now)
+                            .withResultsVisibleFromTime(now.plus(Duration.ofDays(2)))
                             .build();
 
                     feedbackSessions.put(FEEDBACK_SESSION_NAME + " " + i, session);
@@ -122,11 +124,6 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                 headers.add("loginId");
                 headers.add("isAdmin");
                 headers.add("courseId");
-
-                for (int i = 1; i <= NUM_FEEDBACK_SESSIONS; i++) {
-                    headers.add("fsname_" + i);
-                }
-
                 headers.add("updateData");
 
                 return headers;
@@ -143,10 +140,6 @@ public class InstructorCourseUpdateLNPTest extends BaseLNPTestCase {
                     csvRow.add(INSTRUCTOR_ID);
                     csvRow.add(HAS_ADMIN_PRIVILEGE);
                     csvRow.add(COURSE_ID);
-
-                    for (int i = 1; i <= NUM_FEEDBACK_SESSIONS; i++) {
-                        csvRow.add(FEEDBACK_SESSION_NAME + " " + i);
-                    }
 
                     CourseUpdateRequest courseUpdateRequest = new CourseUpdateRequest();
                     courseUpdateRequest.setCourseName(UPDATE_COURSE_NAME);

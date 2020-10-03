@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,13 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
 import teammates.lnp.util.LNPSpecification;
 import teammates.lnp.util.LNPTestData;
+import teammates.ui.request.FeedbackResponsesRequest;
 
 /**
  * L&P Test Case for students submitting feedback questions.
@@ -49,7 +53,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     private static final int NUMBER_OF_QUESTIONS = 20;
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 1;
+    private static final double MEAN_RESP_TIME_LIMIT = 2;
 
     @Override
     protected LNPTestData getTestData() {
@@ -182,8 +186,6 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 headers.add("loginId");
                 headers.add("isAdmin");
                 headers.add("googleId");
-                headers.add("courseId");
-                headers.add("fsname");
                 headers.add("studentEmail");
                 for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
                     headers.add("question" + i + "id");
@@ -203,8 +205,6 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                     csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
                     csvRow.add(student.googleId);
-                    csvRow.add(COURSE_ID);
-                    csvRow.add(FEEDBACK_SESSION_NAME);
                     csvRow.add(student.email);
 
                     dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
@@ -245,12 +245,17 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
         threadGroup.add(headerManager);
 
         for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
-            String body = "{\"questionType\": \"TEXT\","
-                    + "\"recipientIdentifier\": \"${studentEmail}\","
-                    + "\"responseDetails\": {\"answer\": \"<p>test</p>\", \"questionType\": \"TEXT\"}}";
-            String path = "webapi/response?questionid=${question" + i + "id}"
+            FeedbackResponsesRequest responsesRequest = new FeedbackResponsesRequest();
+
+            FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails();
+            responseDetails.setAnswer("<p>test</p>");
+            FeedbackResponsesRequest.FeedbackResponseRequest responseRequest =
+                    new FeedbackResponsesRequest.FeedbackResponseRequest("${studentEmail}", responseDetails);
+
+            responsesRequest.setResponses(Collections.singletonList(responseRequest));
+            String path = Const.ResourceURIs.RESPONSES + "?questionid=${question" + i + "id}"
                     + "&intent=STUDENT_SUBMISSION";
-            threadGroup.add(JMeterElements.httpSampler(path, POST, body));
+            threadGroup.add(JMeterElements.httpSampler(path, PUT, JsonUtils.toJson(responsesRequest)));
         }
 
         return testPlan;
@@ -273,13 +278,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
     @Test
     public void runLnpTest() throws IOException {
-        try {
-            Thread.sleep(3000);
-        } catch (Exception e) {
-            System.out.println("Error while executing LnP Test.");
-            System.out.println(e.toString());
-        }
-        runJmeter(true);
+        runJmeter(false);
         displayLnpResults();
     }
 

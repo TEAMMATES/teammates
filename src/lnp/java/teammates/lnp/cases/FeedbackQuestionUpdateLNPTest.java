@@ -220,16 +220,10 @@ public class FeedbackQuestionUpdateLNPTest extends BaseLNPTestCase {
                 headers.add("loginId");
                 headers.add("isAdmin");
                 headers.add("courseId");
-                headers.add("studentId");
-                headers.add("studentEmail");
                 headers.add("fsname");
 
                 for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
                     headers.add("fqname_" + i);
-                }
-
-                for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
-                    headers.add("frname_" + i);
                 }
 
                 headers.add("updateData");
@@ -248,16 +242,10 @@ public class FeedbackQuestionUpdateLNPTest extends BaseLNPTestCase {
                     csvRow.add(INSTRUCTOR_ID);
                     csvRow.add(HAS_ADMIN_PRIVILEGE);
                     csvRow.add(COURSE_ID);
-                    csvRow.add(STUDENT_ID);
-                    csvRow.add(STUDENT_EMAIL);
                     csvRow.add(FEEDBACK_SESSION_NAME);
 
                     for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
                         csvRow.add(FEEDBACK_QUESTION_ID + " " + i);
-                    }
-
-                    for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
-                        csvRow.add(FEEDBACK_RESPONSE_ID + " " + i);
                     }
 
                     FeedbackQuestionUpdateRequest feedbackQuestionUpdateRequest =

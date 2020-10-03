@@ -152,7 +152,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
                 FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
-                for (int i = 0; i < NUMBER_OF_QUESTIONS; i++) {
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
                     feedbackQuestions.put("QuestionTest " + i,
                             FeedbackQuestionAttributes.builder()
                                     .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
@@ -175,7 +175,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
             protected Map<String, FeedbackResponseAttributes> generateFeedbackResponses() {
                 Map<String, FeedbackResponseAttributes> feedbackResponses = new HashMap<>();
 
-                for (int i = 0; i < NUMBER_OF_QUESTIONS; i++) {
+                for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
                     for (int j = 0; j < NUMBER_OF_USER_ACCOUNTS; j += SIZE_OF_TEAM) {
                         for (int k = j; k < j + SIZE_OF_TEAM; k++) {
                             for (int l = j; l < j + SIZE_OF_TEAM; l++) {
@@ -206,7 +206,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
                 headers.add("loginId");
                 headers.add("isAdmin");
-                headers.add("googleId");
                 headers.add("courseId");
                 headers.add("fsname");
 
@@ -232,7 +231,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
                     csvRow.add(instructor.googleId); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
-                    csvRow.add(instructor.googleId);
                     csvRow.add(COURSE_ID);
                     csvRow.add(FEEDBACK_SESSION_NAME);
 
@@ -341,9 +339,11 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
         loadSectionPanelController.add(JMeterElements.defaultSampler(argumentsMap));
 
-        String getSessionResultPath = Const.ResourceURIs.RESULT + "?frgroupbysection=Section ${sectionNumber}";
-
-        loadSectionPanelController.add(JMeterElements.httpGetSampler(getSessionResultPath));
+        for (int i = 1; i <= NUMBER_OF_USER_ACCOUNTS / SIZE_OF_SECTION; i++) {
+            String getSessionResultPath =
+                    String.format(Const.ResourceURIs.RESULT + "?frgroupbysection=Section ${sectionNumber_%d}", i);
+            loadSectionPanelController.add(JMeterElements.httpGetSampler(getSessionResultPath));
+        }
     }
 
     @BeforeClass

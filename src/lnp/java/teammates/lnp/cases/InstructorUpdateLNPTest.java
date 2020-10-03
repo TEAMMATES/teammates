@@ -247,16 +247,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                 headers.add("loginId");
                 headers.add("isAdmin");
                 headers.add("courseId");
-                headers.add("studentId");
-                headers.add("studentEmail");
-                headers.add("fsname");
-                headers.add("fqname");
-                headers.add("frname");
-
-                for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSE_COMMENTS; i++) {
-                    headers.add("frcname_" + i);
-                }
-
                 headers.add("updateData");
 
                 return headers;
@@ -273,15 +263,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                     csvRow.add(INSTRUCTOR_ID);
                     csvRow.add(HAS_ADMIN_PRIVILEGE);
                     csvRow.add(COURSE_ID);
-                    csvRow.add(STUDENT_ID);
-                    csvRow.add(STUDENT_EMAIL);
-                    csvRow.add(FEEDBACK_SESSION_NAME);
-                    csvRow.add(FEEDBACK_QUESTION_ID);
-                    csvRow.add(FEEDBACK_RESPONSE_ID);
-
-                    for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSE_COMMENTS; i++) {
-                        csvRow.add(FEEDBACK_RESPONSE_COMMENT_ID + i);
-                    }
 
                     InstructorCreateRequest instructorCreateRequest =
                             new InstructorCreateRequest(

@@ -216,13 +216,6 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
                 headers.add("courseId");
                 headers.add("studentId");
                 headers.add("studentEmail");
-                headers.add("fsname");
-                headers.add("fqname");
-
-                for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
-                    headers.add("frname_" + i);
-                }
-
                 headers.add("updateData");
 
                 return headers;
@@ -241,12 +234,6 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
                     csvRow.add(COURSE_ID);
                     csvRow.add(STUDENT_ID);
                     csvRow.add(STUDENT_EMAIL);
-                    csvRow.add(FEEDBACK_SESSION_NAME);
-                    csvRow.add(FEEDBACK_QUESTION_ID);
-
-                    for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
-                        csvRow.add(FEEDBACK_RESPONSE_ID + " " + i);
-                    }
 
                     StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(
                             STUDENT_NAME,
