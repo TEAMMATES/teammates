@@ -129,7 +129,6 @@ public class SessionResultsData extends ApiOutput {
         } else {
             // we don't want student to figure out who is who by using the hash
             giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle).getName());
-            giverTeam = bundle.getRoster().getInfoForIdentifier(giverName).getTeamName();
         }
 
         // process recipient
@@ -147,7 +146,9 @@ public class SessionResultsData extends ApiOutput {
         } else {
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle).getName());
-            recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+            if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
+                recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+            }
         }
 
         // process comments
