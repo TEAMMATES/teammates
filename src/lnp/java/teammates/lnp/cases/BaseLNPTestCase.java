@@ -35,7 +35,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.e2e.util.E2EBackDoor;
+import teammates.lnp.util.BackDoor;
 import teammates.lnp.util.LNPResultsStatistics;
 import teammates.lnp.util.LNPSpecification;
 import teammates.lnp.util.LNPTestData;
@@ -53,7 +53,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String PUT = HttpPut.METHOD_NAME;
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
-    private static final E2EBackDoor BACKDOOR = E2EBackDoor.getInstance();
+    private static final BackDoor BACKDOOR = BackDoor.getInstance();
     private static final Logger log = Logger.getLogger();
 
     private static final int RESULT_COUNT = 3;

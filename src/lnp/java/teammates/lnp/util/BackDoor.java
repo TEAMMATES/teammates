@@ -1,19 +1,19 @@
-package teammates.e2e.util;
+package teammates.lnp.util;
 
 import teammates.test.AbstractBackDoor;
 
 /**
  * Used to create API calls to the back-end without going through the UI.
  */
-public final class E2EBackDoor extends AbstractBackDoor {
+public final class BackDoor extends AbstractBackDoor {
 
-    private static E2EBackDoor instance = new E2EBackDoor();
+    private static BackDoor instance = new BackDoor();
 
-    private E2EBackDoor() {
+    private BackDoor() {
         // Utility class
     }
 
-    public static E2EBackDoor getInstance() {
+    public static BackDoor getInstance() {
         return instance;
     }
 

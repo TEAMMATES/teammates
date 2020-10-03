@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
-import teammates.e2e.util.E2EBackDoor;
+import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
 import teammates.test.BaseTestCaseWithDatastoreAccess;
 
@@ -25,7 +25,7 @@ import teammates.test.BaseTestCaseWithDatastoreAccess;
 @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
 public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWithDatastoreAccess {
 
-    protected static final E2EBackDoor BACKDOOR = E2EBackDoor.getInstance();
+    protected static final BackDoor BACKDOOR = BackDoor.getInstance();
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
