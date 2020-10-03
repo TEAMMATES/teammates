@@ -141,12 +141,12 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-                ArrayList<FeedbackParticipantType> showResponses = new ArrayList<>();
+                List<FeedbackParticipantType> showResponses = new ArrayList<>();
                 showResponses.add(FeedbackParticipantType.RECEIVER);
                 showResponses.add(FeedbackParticipantType.INSTRUCTORS);
-                ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
+                List<FeedbackParticipantType> showGiverName = new ArrayList<>();
                 showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
-                ArrayList<FeedbackParticipantType> showRecepientName = new ArrayList<>();
+                List<FeedbackParticipantType> showRecepientName = new ArrayList<>();
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
                 for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
@@ -218,13 +218,15 @@ public class FeedbackSessionViewLNPTest extends BaseLNPTestCase {
                 .add(JMeterElements.loginSampler());
 
         // Add HTTP samplers for test endpoint
-        String getSessionsPath = "webapi/student?courseid=${courseId}";
+        String getSessionsPath = Const.ResourceURIs.STUDENT + "?courseid=${courseId}";
         threadGroup.add(JMeterElements.httpSampler(getSessionsPath, GET, null));
 
-        String getSessionDetailsPath = "webapi/session?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        String getSessionDetailsPath = Const.ResourceURIs.SESSION
+                + "?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
         threadGroup.add(JMeterElements.httpSampler(getSessionDetailsPath, GET, null));
 
-        String getQuestionsPath = "webapi/questions?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
+        String getQuestionsPath = Const.ResourceURIs.QUESTIONS
+                + "?courseid=${courseId}&fsname=${fsname}&intent=STUDENT_SUBMISSION";
         threadGroup.add(JMeterElements.httpSampler(getQuestionsPath, GET, null));
 
         return testPlan;

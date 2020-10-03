@@ -155,14 +155,14 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-                ArrayList<FeedbackParticipantType> showResponses = new ArrayList<>();
+                List<FeedbackParticipantType> showResponses = new ArrayList<>();
                 showResponses.add(FeedbackParticipantType.RECEIVER);
                 showResponses.add(FeedbackParticipantType.INSTRUCTORS);
 
-                ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
+                List<FeedbackParticipantType> showGiverName = new ArrayList<>();
                 showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
 
-                ArrayList<FeedbackParticipantType> showRecepientName = new ArrayList<>();
+                List<FeedbackParticipantType> showRecepientName = new ArrayList<>();
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
 
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
@@ -208,11 +208,11 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, FeedbackResponseCommentAttributes> generateFeedbackResponseComments() {
-                ArrayList<FeedbackParticipantType> showComments = new ArrayList<>();
+                List<FeedbackParticipantType> showComments = new ArrayList<>();
                 showComments.add(FeedbackParticipantType.RECEIVER);
                 showComments.add(FeedbackParticipantType.INSTRUCTORS);
 
-                ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
+                List<FeedbackParticipantType> showGiverName = new ArrayList<>();
                 showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
 
                 Map<String, FeedbackResponseCommentAttributes> feedbackResponseComments = new HashMap<>();

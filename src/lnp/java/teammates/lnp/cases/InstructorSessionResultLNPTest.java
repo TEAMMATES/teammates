@@ -143,12 +143,12 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
             @Override
             protected Map<String, FeedbackQuestionAttributes> generateFeedbackQuestions() {
-                ArrayList<FeedbackParticipantType> showResponses = new ArrayList<>();
+                List<FeedbackParticipantType> showResponses = new ArrayList<>();
                 showResponses.add(FeedbackParticipantType.RECEIVER);
                 showResponses.add(FeedbackParticipantType.INSTRUCTORS);
-                ArrayList<FeedbackParticipantType> showGiverName = new ArrayList<>();
+                List<FeedbackParticipantType> showGiverName = new ArrayList<>();
                 showGiverName.add(FeedbackParticipantType.INSTRUCTORS);
-                ArrayList<FeedbackParticipantType> showRecepientName = new ArrayList<>();
+                List<FeedbackParticipantType> showRecepientName = new ArrayList<>();
                 showRecepientName.add(FeedbackParticipantType.INSTRUCTORS);
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
                 FeedbackQuestionDetails details = new FeedbackTextQuestionDetails("Test Question");
@@ -296,10 +296,10 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
         loadPageController.add(JMeterElements.defaultSampler(argumentsMap));
 
-        String getSessionPath = "webapi/session";
+        String getSessionPath = Const.ResourceURIs.SESSION;
         loadPageController.add(JMeterElements.httpGetSampler(getSessionPath));
 
-        String getQuestionsPath = "webapi/questions";
+        String getQuestionsPath = Const.ResourceURIs.QUESTIONS;
         loadPageController.add(JMeterElements.httpGetSampler(getQuestionsPath));
     }
 
@@ -308,7 +308,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
         loadSectionsController.add(JMeterElements.defaultSampler(sectionsArgumentsMap));
 
-        String getSectionsPath = "webapi/course/sections";
+        String getSectionsPath = Const.ResourceURIs.COURSE_SECTIONS;
         loadSectionsController.add(JMeterElements.httpGetSampler(getSectionsPath));
     }
 
@@ -316,10 +316,10 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         HashTree loadNoResponsePanelController = threadGroup.add(JMeterElements.genericController());
 
         loadNoResponsePanelController.add(JMeterElements.defaultSampler(argumentsMap));
-        String getStudentsPath = "webapi/students";
+        String getStudentsPath = Const.ResourceURIs.STUDENTS;
         loadNoResponsePanelController.add(JMeterElements.httpGetSampler(getStudentsPath));
 
-        String getSubmittedGiverSetPath = "webapi//session/submitted/giverset";
+        String getSubmittedGiverSetPath = Const.ResourceURIs.SESSION_SUBMITTED_GIVER_SET;
         loadNoResponsePanelController.add(JMeterElements.httpGetSampler(getSubmittedGiverSetPath));
     }
 
@@ -329,7 +329,8 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
         loadQuestionPanelController.add(JMeterElements.defaultSampler(argumentsMap));
 
         for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
-            String getSessionResultPath = String.format("webapi/result?questionid=${feedbackQuestion_%d}", i);
+            String getSessionResultPath =
+                    String.format(Const.ResourceURIs.RESULT + "?questionid=${feedbackQuestion_%d}", i);
             loadQuestionPanelController.add(JMeterElements.httpGetSampler(getSessionResultPath));
         }
     }
@@ -340,7 +341,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
 
         loadSectionPanelController.add(JMeterElements.defaultSampler(argumentsMap));
 
-        String getSessionResultPath = "webapi/result?frgroupbysection=Section ${sectionNumber}";
+        String getSessionResultPath = Const.ResourceURIs.RESULT + "?frgroupbysection=Section ${sectionNumber}";
 
         loadSectionPanelController.add(JMeterElements.httpGetSampler(getSessionResultPath));
     }
