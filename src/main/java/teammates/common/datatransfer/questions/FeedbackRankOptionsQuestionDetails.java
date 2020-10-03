@@ -23,6 +23,10 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             + ". Minimum number of options is: ";
     public static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
             "Empty Rank Options are not allowed";
+    public static final transient String ERROR_DUPLICATE_RANK_RESPONSE =
+            "Duplicate Ranks are not allowed.";
+    public static final transient String ERROR_INVALID_RANK_RESPONSE =
+            "Invalid rank assigned.";
 
     private List<String> options;
 
@@ -100,7 +104,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             // if duplicate ranks are not allowed but have been assigned trigger this error
             if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
-                errors.add("Duplicate Ranks are not allowed.");
+                errors.add(ERROR_DUPLICATE_RANK_RESPONSE);
             }
             // if number of options ranked is less than the minimum required trigger this error
             if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
@@ -113,7 +117,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             // if rank assigned is invalid trigger this error
             boolean isRankInvalid = filteredAnswers.stream().anyMatch(answer -> answer < 1 || answer > options.size());
             if (isRankInvalid) {
-                errors.add("Invalid rank assigned.");
+                errors.add(ERROR_INVALID_RANK_RESPONSE);
             }
         }
 
