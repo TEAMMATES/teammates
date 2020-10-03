@@ -119,7 +119,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamGiver = question.giverType == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
-        String giverTeam = null;
+        String giverTeam = "";
         if (isUserTeamGiver) {
             giverName = String.format("Your Team (%s)", response.getGiver());
             giverTeam = response.getGiver();
@@ -136,7 +136,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
-        String recipientTeam = null;
+        String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
             recipientTeam = student.team;
