@@ -1,4 +1,4 @@
-package teammates.e2e.cases.lnp;
+package teammates.lnp.cases;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -36,10 +36,10 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.LNPResultsStatistics;
-import teammates.e2e.util.LNPSpecification;
-import teammates.e2e.util.LNPTestData;
 import teammates.e2e.util.TestProperties;
+import teammates.lnp.util.LNPResultsStatistics;
+import teammates.lnp.util.LNPSpecification;
+import teammates.lnp.util.LNPTestData;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
 

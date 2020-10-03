@@ -1,4 +1,4 @@
-package teammates.e2e.util;
+package teammates.lnp.util;
 
 import java.util.Map;
 

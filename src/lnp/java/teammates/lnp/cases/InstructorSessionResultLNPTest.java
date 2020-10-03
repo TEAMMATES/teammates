@@ -1,4 +1,4 @@
-package teammates.e2e.cases.lnp;
+package teammates.lnp.cases;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -30,9 +30,9 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
-import teammates.e2e.util.JMeterElements;
-import teammates.e2e.util.LNPSpecification;
-import teammates.e2e.util.LNPTestData;
+import teammates.lnp.util.JMeterElements;
+import teammates.lnp.util.LNPSpecification;
+import teammates.lnp.util.LNPTestData;
 
 /**
  * L&P Test Case for instructor viewing feedback sessions results.

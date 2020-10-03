@@ -1,4 +1,4 @@
-package teammates.e2e.cases.lnp;
+package teammates.lnp.cases;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -21,9 +21,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.e2e.util.JMeterElements;
-import teammates.e2e.util.LNPSpecification;
-import teammates.e2e.util.LNPTestData;
+import teammates.lnp.util.JMeterElements;
+import teammates.lnp.util.LNPSpecification;
+import teammates.lnp.util.LNPTestData;
 
 /**
  * L&P Test Case for student profile API endpoint.

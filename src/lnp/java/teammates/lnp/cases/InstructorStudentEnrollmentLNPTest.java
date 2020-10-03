@@ -1,4 +1,4 @@
-package teammates.e2e.cases.lnp;
+package teammates.lnp.cases;
 
 import java.io.IOException;
 import java.time.ZoneId;
@@ -21,9 +21,9 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.e2e.util.JMeterElements;
-import teammates.e2e.util.LNPSpecification;
-import teammates.e2e.util.LNPTestData;
+import teammates.lnp.util.JMeterElements;
+import teammates.lnp.util.LNPSpecification;
+import teammates.lnp.util.LNPTestData;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**

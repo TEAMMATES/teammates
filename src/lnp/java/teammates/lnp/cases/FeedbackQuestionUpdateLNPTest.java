@@ -1,4 +1,4 @@
-package teammates.e2e.cases.lnp;
+package teammates.lnp.cases;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -27,22 +27,25 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.e2e.util.JMeterElements;
-import teammates.e2e.util.LNPSpecification;
-import teammates.e2e.util.LNPTestData;
-import teammates.ui.request.StudentUpdateRequest;
+import teammates.lnp.util.JMeterElements;
+import teammates.lnp.util.LNPSpecification;
+import teammates.lnp.util.LNPTestData;
+import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
+import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**
-* L&P Test Case for student update by team cascade API.
+* L&P Test Case for feedback question update cascade API.
 */
-public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
+public class FeedbackQuestionUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
+    private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 10;
     private static final int NUMBER_OF_FEEDBACK_RESPONSES = 500;
 
     private static final String COURSE_ID = "TestData.CS101";
@@ -58,23 +61,23 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
     private static final String STUDENT_ID = "LnPStudent.tmms";
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "studentEmail@gmail.tmt";
-    private static final String STUDENT_COMMENTS = "This is test student comment";
 
     private static final String TEAM_NAME = "Team 1";
     private static final String GIVER_SECTION_NAME = "Section 1";
     private static final String RECEIVER_SECTION_NAME = "Section 1";
 
-    private static final String UPDATE_TEAM_NAME = "Team 2";
-
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
     private static final String FEEDBACK_QUESTION_ID = "QuestionTest";
-    private static final String FEEDBACK_QUESTION_TEXT = "Test Question description";
+    private static final String FEEDBACK_QUESTION_TEXT = "Test Question";
+
+    private static final String UPDATE_FEEDBACK_QUESTION_BRIEF = "update the new question brief";
+    private static final String UPDATE_FEEDBACK_QUESTION_TEXT = "update the new question text";
 
     private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 10;
+    private static final double MEAN_RESP_TIME_LIMIT = 1;
 
     @Override
     protected LNPTestData getTestData() {
@@ -166,20 +169,23 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
                 Map<String, FeedbackQuestionAttributes> feedbackQuestions = new LinkedHashMap<>();
                 FeedbackQuestionDetails details = new FeedbackTextQuestionDetails(FEEDBACK_QUESTION_TEXT);
 
-                feedbackQuestions.put(FEEDBACK_QUESTION_ID,
-                        FeedbackQuestionAttributes.builder()
-                                .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
-                                .withQuestionDescription(FEEDBACK_QUESTION_TEXT)
-                                .withCourseId(COURSE_ID)
-                                .withQuestionDetails(details)
-                                .withQuestionNumber(1)
-                                .withGiverType(FeedbackParticipantType.STUDENTS)
-                                .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                                .withShowResponsesTo(showResponses)
-                                .withShowGiverNameTo(showGiverName)
-                                .withShowRecipientNameTo(showRecepientName)
-                                .build()
-                );
+                for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
+                    feedbackQuestions.put(FEEDBACK_QUESTION_ID + " " + i,
+                            FeedbackQuestionAttributes.builder()
+                                    .withFeedbackSessionName(FEEDBACK_SESSION_NAME)
+                                    .withQuestionDescription(FEEDBACK_QUESTION_TEXT)
+                                    .withCourseId(COURSE_ID)
+                                    .withQuestionDetails(details)
+                                    .withQuestionNumber(1)
+                                    .withGiverType(FeedbackParticipantType.STUDENTS)
+                                    .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                                    .withShowResponsesTo(showResponses)
+                                    .withShowGiverNameTo(showGiverName)
+                                    .withShowRecipientNameTo(showRecepientName)
+                                    .build()
+                    );
+                }
+
                 return feedbackQuestions;
             }
 
@@ -217,7 +223,10 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
                 headers.add("studentId");
                 headers.add("studentEmail");
                 headers.add("fsname");
-                headers.add("fqname");
+
+                for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
+                    headers.add("fqname_" + i);
+                }
 
                 for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
                     headers.add("frname_" + i);
@@ -242,22 +251,19 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
                     csvRow.add(STUDENT_ID);
                     csvRow.add(STUDENT_EMAIL);
                     csvRow.add(FEEDBACK_SESSION_NAME);
-                    csvRow.add(FEEDBACK_QUESTION_ID);
+
+                    for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
+                        csvRow.add(FEEDBACK_QUESTION_ID + " " + i);
+                    }
 
                     for (int i = 1; i <= NUMBER_OF_FEEDBACK_RESPONSES; i++) {
                         csvRow.add(FEEDBACK_RESPONSE_ID + " " + i);
                     }
 
-                    StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(
-                            STUDENT_NAME,
-                            STUDENT_EMAIL,
-                            UPDATE_TEAM_NAME,
-                            GIVER_SECTION_NAME,
-                            STUDENT_COMMENTS,
-                            false
-                    );
+                    FeedbackQuestionUpdateRequest feedbackQuestionUpdateRequest =
+                            getTypicalTextQuestionUpdateRequest();
 
-                    String updateData = sanitizeForCsv(JsonUtils.toJson(studentUpdateRequest));
+                    String updateData = sanitizeForCsv(JsonUtils.toJson(feedbackQuestionUpdateRequest));
                     csvRow.add(updateData);
 
                     csvData.add(csvRow);
@@ -266,6 +272,28 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
                 return csvData;
             }
         };
+    }
+
+    private FeedbackQuestionUpdateRequest getTypicalTextQuestionUpdateRequest() {
+        FeedbackTextQuestionDetails textQuestionDetails = new FeedbackTextQuestionDetails();
+        textQuestionDetails.setRecommendedLength(800);
+
+        FeedbackQuestionUpdateRequest updateRequest = new FeedbackQuestionUpdateRequest();
+        updateRequest.setQuestionNumber(1);
+        updateRequest.setQuestionBrief(UPDATE_FEEDBACK_QUESTION_BRIEF);
+        updateRequest.setQuestionDescription(UPDATE_FEEDBACK_QUESTION_TEXT);
+
+        updateRequest.setQuestionDetails(textQuestionDetails);
+        updateRequest.setQuestionType(FeedbackQuestionType.TEXT);
+        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        updateRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
+
+        updateRequest.setShowResponsesTo(new ArrayList<>());
+        updateRequest.setShowGiverNameTo(new ArrayList<>());
+        updateRequest.setShowRecipientNameTo(new ArrayList<>());
+
+        return updateRequest;
     }
 
     private Map<String, String> getRequestHeaders() {
@@ -278,8 +306,8 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.STUDENT
-            + "?courseid=${courseId}&studentid=${studentId}&studentemail=${studentEmail}";
+        return Const.ResourceURIs.QUESTION
+            + "?courseid=${courseId}&fsname=${fsname}&questionid=${fqname_1}";
     }
 
     @Override
@@ -298,7 +326,7 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
 
         // Add HTTP sampler for test endpoint
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
-        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${updateData}"))
+        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), POST, "${updateData}"))
                 .add(headerManager);
 
         return testPlan;

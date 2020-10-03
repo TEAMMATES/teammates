@@ -1,4 +1,4 @@
-package teammates.e2e.util;
+package teammates.lnp.util;
 
 /**
  * Stores the specifications for a LNP test, and verifies whether the results meet the criteria.

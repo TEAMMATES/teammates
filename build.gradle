@@ -118,12 +118,14 @@ sourceSets {
         java {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
+            srcDir "src/lnp/java"
             srcDir "src/client/java"
             include "**/*.java"
         }
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
+            srcDir "src/lnp/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
         }
