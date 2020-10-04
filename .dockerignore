@@ -1,0 +1,17 @@
+*
+!src/main
+!src/web
+!package.json
+!package-lock.json
+!angular.json
+!tsconfig.json
+!tsconfig.app.json
+!ngsw-config.json
+!browserslist
+!build.gradle
+!gradlew
+!gradle.docker.properties
+!gradle/wrapper
+
+src/main/webapp
+!src/main/webapp/WEB-INF
