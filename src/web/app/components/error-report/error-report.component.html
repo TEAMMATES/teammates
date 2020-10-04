@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Uh oh! Something went wrong.</h2>
+  <h2 id="error-modal-header">Uh oh! Something went wrong.</h2>
   <hr>
   <div class="row">
     <div class="col-md-12">
@@ -25,7 +25,7 @@
     <label>Content:</label>
     <textarea [(ngModel)]="content" class="form-control" placeholder="Tell us the steps you took that led you to this error page"></textarea>
   </div>
-  <button class="btn btn-success" (click)="sendErrorReport()" [disabled]="!sendButtonEnabled" *ngIf="!errorReportSubmitted">Send Error Report</button>
+  <button class="btn btn-success" (click)="sendErrorReport()" [disabled]="!sendButtonEnabled" *ngIf="!errorReportSubmitted" id="send-error-report-button">Send Error Report</button>
   <div *ngIf="errorReportSubmitted">
     Your error report has been recorded. We will follow up with you in due course, usually, within 24 hours.
   </div>
