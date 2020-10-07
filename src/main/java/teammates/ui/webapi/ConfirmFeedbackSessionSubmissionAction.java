@@ -61,15 +61,6 @@ class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmissionActi
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
-            boolean hasStudentRespondedForSession =
-                    logic.hasGiverRespondedForSession(studentAttributes.getEmail(), feedbackSessionName, courseId);
-            if (hasStudentRespondedForSession) {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, studentAttributes.getEmail(), false, false);
-            } else {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, studentAttributes.getEmail(), false, true);
-            }
             if (isSubmissionEmailConfirmationEmailRequested) {
                 email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
                             feedbackSession, studentAttributes, Instant.now());
@@ -77,15 +68,6 @@ class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmissionActi
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
-            boolean hasInstructorRespondedForSession =
-                    logic.hasGiverRespondedForSession(instructorAttributes.getEmail(), feedbackSessionName, courseId);
-            if (hasInstructorRespondedForSession) {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, instructorAttributes.getEmail(), true, false);
-            } else {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, instructorAttributes.getEmail(), true, true);
-            }
             if (isSubmissionEmailConfirmationEmailRequested) {
                 email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(
                         feedbackSession, instructorAttributes, Instant.now());

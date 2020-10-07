@@ -47,7 +47,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        // re-read from Datastore to update the respondents list
+        // re-read from Datastore to get updated attributes
         session1 = logic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
 
         String[] submissionParams = new String[] {
