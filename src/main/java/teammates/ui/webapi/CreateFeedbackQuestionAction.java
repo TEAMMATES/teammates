@@ -51,6 +51,7 @@ class CreateFeedbackQuestionAction extends Action {
                 .withShowRecipientNameTo(request.getShowRecipientNameTo())
                 .withQuestionDetails(request.getQuestionDetails())
                 .withQuestionDescription(request.getQuestionDescription())
+                .withAllowRichText(request.getAllowRichText())
                 .build();
 
         // validate questions (giver & recipient)

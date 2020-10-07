@@ -229,6 +229,14 @@ public class FeedbackQuestion extends BaseEntity {
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
+    public boolean getAllowRichText() {
+        return allowRichText;
+    }
+
+    public void setAllowRichText(boolean allowRichText) {
+        this.allowRichText = allowRichText;
+    }
+
     /**
      * Updates the updatedAt timestamp when saving.
      */

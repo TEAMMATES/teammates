@@ -70,6 +70,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         if (fq.getShowRecipientNameTo() != null) {
             faq.showRecipientNameTo = new ArrayList<>(fq.getShowRecipientNameTo());
         }
+        faq.allowRichText = fq.getAllowRichText();
         faq.createdAt = fq.getCreatedAt();
         faq.updatedAt = fq.getUpdatedAt();
         faq.feedbackQuestionId = fq.getId();
@@ -118,6 +119,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         faq.showResponsesTo = new ArrayList<>(this.showResponsesTo);
         faq.showGiverNameTo = new ArrayList<>(this.showGiverNameTo);
         faq.showRecipientNameTo = new ArrayList<>(this.showRecipientNameTo);
+        faq.allowRichText = this.allowRichText;
         faq.createdAt = this.createdAt;
         faq.updatedAt = this.updatedAt;
         faq.feedbackQuestionId = this.feedbackQuestionId;
@@ -137,7 +139,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                + ", numberOfEntitiesToGiveFeedbackTo="
                + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
                + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
-               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
+               + ", showRecipientNameTo=" + showRecipientNameTo
+               + ", allowRichText=" + allowRichText + "]";
     }
 
     @Override
@@ -223,6 +226,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         result = prime * result + (showRecipientNameTo == null ? 0 : showRecipientNameTo.hashCode());
 
         result = prime * result + (showResponsesTo == null ? 0 : showResponsesTo.hashCode());
+
+        result = prime * result + (allowRichText ? 0 : 1);
 
         return result;
     }
@@ -315,7 +320,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return false;
         }
 
-        return true;
+        return allowRichText == other.allowRichText;
     }
 
     public void removeIrrelevantVisibilityOptions() {
@@ -463,6 +468,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
+    public boolean getallowRichText() {
+        return allowRichText;
+    }
+
+    public void setAllowRichText(boolean allowRichText) {
+        this.allowRichText = allowRichText;
+    }
+
     private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,
                                                                               FeedbackQuestionType questionType) {
         if (questionType == FeedbackQuestionType.TEXT) {
@@ -494,6 +507,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         updateOptions.showResponsesToOption.ifPresent(s -> showResponsesTo = s);
         updateOptions.showGiverNameToOption.ifPresent(s -> showGiverNameTo = s);
         updateOptions.showRecipientNameToOption.ifPresent(s -> showRecipientNameTo = s);
+        updateOptions.allowRichTextOption.ifPresent(s -> allowRichText = s);
 
         removeIrrelevantVisibilityOptions();
     }
@@ -557,6 +571,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         private UpdateOption<List<FeedbackParticipantType>> showResponsesToOption = UpdateOption.empty();
         private UpdateOption<List<FeedbackParticipantType>> showGiverNameToOption = UpdateOption.empty();
         private UpdateOption<List<FeedbackParticipantType>> showRecipientNameToOption = UpdateOption.empty();
+        private UpdateOption<Boolean> allowRichTextOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackQuestionId) {
             Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
@@ -581,6 +596,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                     + ", showResponsesTo = " + showResponsesToOption
                     + ", showGiverNameTo = " + showGiverNameToOption
                     + ", showRecipientNameTo = " + showRecipientNameToOption
+                    + ", allowRichText = " + allowRichTextOption
                     + "]";
         }
 
@@ -678,6 +694,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                     Const.StatusCodes.NULL_PARAMETER, (Object[]) showRecipientNameTo.toArray());
 
             updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
+            return thisBuilder;
+        }
+
+        public B withAllowRichText(boolean allowRichText) {
+            updateOptions.allowRichTextOption = UpdateOption.of(allowRichText);
             return thisBuilder;
         }
 

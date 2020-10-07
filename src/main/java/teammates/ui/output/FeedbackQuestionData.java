@@ -198,6 +198,10 @@ public class FeedbackQuestionData extends ApiOutput {
         return showRecipientNameTo;
     }
 
+    public boolean getAllowRichText() {
+        return allowRichText;
+    }
+
     /**
      * Hides some attributes to a student.
      */

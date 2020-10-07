@@ -110,6 +110,8 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
                         feedbackQuestion.getShowGiverNameTo(), newAttributes.getShowGiverNameTo())
                 && this.<List<FeedbackParticipantType>>hasSameValue(
                         feedbackQuestion.getShowRecipientNameTo(), newAttributes.getShowRecipientNameTo())
+                && this.<Boolean>hasSameValue(
+                        feedbackQuestion.getAllowRichText(), newAttributes.getallowRichText())
                 && this.<Integer>hasSameValue(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo(),
                         newAttributes.getNumberOfEntitiesToGiveFeedbackTo());
         if (hasSameAttributes) {
@@ -125,6 +127,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
         feedbackQuestion.setShowResponsesTo(newAttributes.showResponsesTo);
         feedbackQuestion.setShowGiverNameTo(newAttributes.showGiverNameTo);
         feedbackQuestion.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
+        feedbackQuestion.setAllowRichText(newAttributes.allowRichText);
         feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
 
         saveEntity(feedbackQuestion);

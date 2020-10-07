@@ -99,6 +99,8 @@ export class QuestionEditFormComponent implements OnInit {
         }
       }
     }
+
+    this.allowRichText = model.allowRichText;
   }
 
   /**
@@ -201,7 +203,9 @@ export class QuestionEditFormComponent implements OnInit {
     return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.allowRichText)
+  }
 
   /**
    * Triggers the change of the model for the form.
