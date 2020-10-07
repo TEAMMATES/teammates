@@ -8,11 +8,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.http.HttpStatus;
+
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.Logger;
+
 /**
  * Servlet that handles the single web page.
  */
 @SuppressWarnings("serial")
 public class WebPageServlet extends HttpServlet {
+
+    private static final Logger log = Logger.getLogger();
 
     private static final String CSP_POLICY = String.join("; ", Arrays.asList(
             "default-src 'none'",
@@ -35,7 +42,16 @@ public class WebPageServlet extends HttpServlet {
         resp.setHeader("X-Frame-Options", "SAMEORIGIN");
         resp.setHeader("X-XSS-Protection", "1; mode=block");
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
-        req.getRequestDispatcher("/index.html").forward(req, resp);
+        try {
+            req.getRequestDispatcher("/index.html").forward(req, resp);
+        } catch (IllegalArgumentException e) {
+            if (e.getClass().getSimpleName().equals("NotUtf8Exception")) {
+                log.warning(TeammatesException.toStringWithStackTrace(e));
+                resp.setStatus(HttpStatus.SC_BAD_REQUEST);
+            } else {
+                throw e;
+            }
+        }
     }
 
 }
