@@ -94,7 +94,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     private String getExpectedInstructorString(InstructorAttributes[] instructors) {
-        StringJoiner expected = new StringJoiner("\n");
+        StringJoiner expected = new StringJoiner(System.lineSeparator());
         for (InstructorAttributes instructor : instructors) {
             expected.add(instructor.getRole() + ": " + instructor.getName() + " (" + instructor.getEmail() + ")");
         }
