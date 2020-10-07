@@ -51,10 +51,12 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         InstructorCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
 
         ______TS("verify loaded details");
-        InstructorAttributes[] instructors = { testData.instructors.get("ICDetailsE2eT.instr"),
+        InstructorAttributes[] instructors = {
+                testData.instructors.get("ICDetailsE2eT.instr"),
                 testData.instructors.get("ICDetailsE2eT.instr2"),
         };
-        StudentAttributes[] students = { testData.students.get("alice.tmms@ICDetailsE2eT.CS2104"),
+        StudentAttributes[] students = {
+                testData.students.get("alice.tmms@ICDetailsE2eT.CS2104"),
                 testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104"),
                 testData.students.get("benny.tmms@ICDetailsE2eT.CS2104"),
                 testData.students.get("danny.tmms@ICDetailsE2eT.CS2104"),
