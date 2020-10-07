@@ -48,7 +48,9 @@
                            [courseId]="session.courseId"
           ></tm-student-name-with-photo>
         </td>
-        <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
+        <td *ngIf="showRecipient">
+          {{ response.recipientTeam === '-' ? 'No Specific Team' : response.recipientTeam}}
+        </td>
         <td *ngIf="showRecipient">
           <tm-student-name-with-photo [name]="response.recipient"
                            [email]="response.recipientEmail"
