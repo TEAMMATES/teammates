@@ -234,6 +234,20 @@
           </ul>
         </div>
       </div>
+      <div class="background-color-light-green margin-top-15px padding-15px">
+        <div>
+          <b class="text-option-title">Text Option</b> (Configure the response input to be rich text or plain text editor.)
+          <div class="background-color-light-blue padding-15px">
+            <label>
+              <a>Allow rich text editor </a>
+              <input type="checkbox"
+                [checked]="model.allowRichText"
+                [disabled]="!model.isEditable"
+                (click)="toggleRichTextOption($event.target.checked)">
+            </label>
+          </div>
+        </div>
+      </div>
       <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
         <div class="col-12 text-right">
           <button type="button" class="btn btn-light btn-margin-right" *ngIf="model.isEditable"

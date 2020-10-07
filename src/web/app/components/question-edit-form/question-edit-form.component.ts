@@ -144,6 +144,8 @@ export class QuestionEditFormComponent implements OnInit {
     showGiverNameTo: [],
     showRecipientNameTo: [],
 
+    allowRichText: true,
+
     commonVisibilitySettingName: '',
 
     isUsingOtherFeedbackPath: false,
@@ -154,6 +156,7 @@ export class QuestionEditFormComponent implements OnInit {
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
+    isRichTextOptionChanged: false,
   };
 
   @Output()
@@ -184,6 +187,8 @@ export class QuestionEditFormComponent implements OnInit {
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];
 
   visibilityStateMachine: VisibilityStateMachine;
+
+  allowRichText: boolean = true;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private simpleModalService: SimpleModalService) {
@@ -231,6 +236,8 @@ export class QuestionEditFormComponent implements OnInit {
       ...(!this.model.isQuestionDetailsChanged
           && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
           && { isQuestionDetailsChanged: true }),
+      ...(!this.model.isRichTextOptionChanged
+          && { isRichTextOptionChanged: true }),
     });
   }
 
@@ -302,6 +309,17 @@ export class QuestionEditFormComponent implements OnInit {
   }
 
   /**
+   *
+   */
+  toggleRichTextOption(
+    richTextAllowed: boolean): void {
+    this.allowRichText = richTextAllowed;
+    this.triggerModelChangeBatch({
+      allowRichText: this.allowRichText,
+    });
+  }
+
+  /**
    * Handle event to discard changes users made.
    */
   discardChangesHandler(isNewQuestion: boolean): void {
@@ -364,6 +382,18 @@ export class QuestionEditFormComponent implements OnInit {
         const modalContent: string = `
             <p>You seem to have changed the visibility settings of this question. Please note that <b>the existing
             responses will remain but their visibility will be changed as per the new visibility settings.</b>
+            Proceed?</p>
+        `;
+        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.WARNING, modalContent);
+        modalRef.result.then(() => {
+          this.saveExistingQuestionEvent.emit();
+        }, () => {});
+      } else if (this.model.isRichTextOptionChanged) {
+        // alert user that editing text editor options will delete responses
+        const modalContent: string = `
+            <p>You seem to have changed the text editor settings of this question. Please note that <b>the existing
+            responses will be deleted as the text format cannot be translated.</b>
             Proceed?</p>
         `;
         const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(

@@ -101,6 +101,8 @@ export abstract class InstructorSessionBasePageComponent {
                       showResponsesTo: feedbackQuestion.showResponsesTo,
                       showGiverNameTo: feedbackQuestion.showGiverNameTo,
                       showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+
+                      allowRichText: feedbackQuestion.allowRichText,
                     });
               }),
               last(),

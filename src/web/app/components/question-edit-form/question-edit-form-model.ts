@@ -50,10 +50,13 @@ export interface QuestionEditFormModel {
   commonVisibilitySettingName?: string;
   isUsingOtherVisibilitySetting?: boolean;
 
+  allowRichText: boolean;
+
   isEditable: boolean;
   isSaving: boolean;
   isCollapsed: boolean;
   isVisibilityChanged: boolean;
   isFeedbackPathChanged: boolean;
   isQuestionDetailsChanged: boolean;
+  isRichTextOptionChanged: boolean;
 }

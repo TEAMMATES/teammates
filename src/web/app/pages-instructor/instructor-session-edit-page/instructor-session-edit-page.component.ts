@@ -151,12 +151,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     showGiverNameTo: [],
     showRecipientNameTo: [],
 
+    allowRichText: true,
+
     isEditable: true,
     isSaving: false,
     isCollapsed: false,
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
+    isRichTextOptionChanged: false,
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
@@ -511,6 +514,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showGiverNameTo: feedbackQuestion.showGiverNameTo,
       showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
 
+      allowRichText: feedbackQuestion.allowRichText,
+
       isEditable: false,
       isSaving: false,
       isCollapsed: false,
@@ -518,6 +523,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isVisibilityChanged: false,
       isFeedbackPathChanged: false,
       isQuestionDetailsChanged: false,
+      isRichTextOptionChanged: false,
     };
   }
 
@@ -558,6 +564,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showResponsesTo: questionEditFormModel.showResponsesTo,
       showGiverNameTo: questionEditFormModel.showGiverNameTo,
       showRecipientNameTo: questionEditFormModel.showRecipientNameTo,
+
+      allowRichText: questionEditFormModel.allowRichText,
     })
         .pipe(
             finalize(() => {
@@ -645,6 +653,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showResponsesTo: questionEditFormModel.showResponsesTo,
       showGiverNameTo: questionEditFormModel.showGiverNameTo,
       showRecipientNameTo: questionEditFormModel.showRecipientNameTo,
+
+      allowRichText: questionEditFormModel.allowRichText,
     })
         .pipe(
             finalize(() => {
@@ -705,6 +715,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               showResponsesTo: question.showResponsesTo,
               showGiverNameTo: question.showGiverNameTo,
               showRecipientNameTo: question.showRecipientNameTo,
+
+              allowRichText: question.allowRichText,
             });
           }),
       ).subscribe((newQuestion: FeedbackQuestion) => {
@@ -751,6 +763,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showGiverNameTo: newQuestionModel.showGiverNameTo,
       showRecipientNameTo: newQuestionModel.showRecipientNameTo,
 
+      allowRichText: newQuestionModel.allowRichText,
+
       isEditable: true,
       isSaving: false,
       isCollapsed: false,
@@ -758,6 +772,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isVisibilityChanged: false,
       isFeedbackPathChanged: false,
       isQuestionDetailsChanged: false,
+      isRichTextOptionChanged: false,
     };
 
     // inherit some settings from the last question
@@ -851,6 +866,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showResponsesTo: this.newQuestionEditFormModel.showResponsesTo,
       showGiverNameTo: this.newQuestionEditFormModel.showGiverNameTo,
       showRecipientNameTo: this.newQuestionEditFormModel.showRecipientNameTo,
+
+      allowRichText: this.newQuestionEditFormModel.allowRichText,
     })
         .pipe(
             finalize(() => {
@@ -926,6 +943,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
                 showResponsesTo: questionToCopy.showResponsesTo,
                 showGiverNameTo: questionToCopy.showGiverNameTo,
                 showRecipientNameTo: questionToCopy.showRecipientNameTo,
+
+                allowRichText: questionToCopy.allowRichText,
               });
             }),
             finalize(() => this.isCopyingQuestion = false),

@@ -36,6 +36,7 @@ export class StudentViewResponsesComponent implements OnInit {
     showResponsesTo: [],
     showGiverNameTo: [],
     showRecipientNameTo: [],
+    allowRichText: true,
   };
   @Input() responses: ResponseOutput[] = [];
   @Input() statistics: string = '';

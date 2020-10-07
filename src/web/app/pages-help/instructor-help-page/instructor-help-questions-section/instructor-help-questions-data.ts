@@ -60,6 +60,7 @@ export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -70,6 +71,8 @@ export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of numerical scale question model
@@ -90,6 +93,7 @@ export const EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -100,6 +104,8 @@ export const EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL: QuestionEditFormModel = {
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of numerical scale responses
@@ -560,6 +566,7 @@ export const EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -570,6 +577,8 @@ export const EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL: QuestionEditFormModel = {
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of distribute point option response output
@@ -747,6 +756,7 @@ export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = 
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -757,6 +767,8 @@ export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = 
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of team contribution question model
@@ -777,6 +789,7 @@ export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
@@ -788,6 +801,8 @@ export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
     FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of team contribution response output
@@ -1024,6 +1039,7 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1034,6 +1050,8 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of rubric question response output
@@ -1211,6 +1229,7 @@ export const EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1221,6 +1240,8 @@ export const EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL: QuestionEditFormModel = {
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of rank recipient response output
@@ -1398,6 +1419,7 @@ export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1409,6 +1431,8 @@ export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
     FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of MCQ question without weights model
@@ -1435,6 +1459,7 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1446,6 +1471,8 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
     FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of MCQ question with weights model
@@ -1472,6 +1499,7 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   isVisibilityChanged: false,
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
+  isRichTextOptionChanged: false,
 
   giverType: FeedbackParticipantType.STUDENTS,
   recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -1483,6 +1511,8 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
     FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+
+  allowRichText: true,
 };
 /**
  * Structure for example of responder rubric submission form model

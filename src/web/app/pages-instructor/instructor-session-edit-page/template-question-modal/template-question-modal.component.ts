@@ -53,12 +53,15 @@ export class TemplateQuestionModalComponent implements OnInit {
             showGiverNameTo: template.question.showGiverNameTo,
             showRecipientNameTo: template.question.showRecipientNameTo,
 
+            allowRichText: template.question.allowRichText,
+
             isEditable: false,
             isSaving: false,
             isCollapsed: false,
             isVisibilityChanged: false,
             isFeedbackPathChanged: false,
             isQuestionDetailsChanged: false,
+            isRichTextOptionChanged: false,
           },
         }));
   }
@@ -95,6 +98,8 @@ export class TemplateQuestionModalComponent implements OnInit {
               showResponsesTo: model.showResponsesTo,
               showGiverNameTo: model.showGiverNameTo,
               showRecipientNameTo: model.showRecipientNameTo,
+
+              allowRichText: model.allowRichText,
             }));
   }
 }
