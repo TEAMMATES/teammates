@@ -34,6 +34,8 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
     private List<FeedbackVisibilityType> showGiverNameTo;
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
+    private Boolean allowRichText;
+
     @Override
     public void validate() {
         assertTrue(questionNumber >= 1, "Invalid question number");
@@ -55,6 +57,8 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         assertTrue(showResponsesTo != null, "showResponsesTo cannot be null");
         assertTrue(showGiverNameTo != null, "showGiverNameTo cannot be null");
         assertTrue(showRecipientNameTo != null, "showRecipientNameTo cannot be null");
+
+        assertTrue(allowRichText != null, "allowRichText cannot be null");
     }
 
     public int getQuestionNumber() {
@@ -159,6 +163,10 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         }).collect(Collectors.toList());
     }
 
+    public boolean getAllowRichText() {
+        return this.allowRichText;
+    }
+
     public void setQuestionNumber(int questionNumber) {
         this.questionNumber = questionNumber;
     }
@@ -206,5 +214,9 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
 
     public void setShowRecipientNameTo(List<FeedbackVisibilityType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
+    }
+
+    public void setAllowRichText(boolean allowRichText) {
+        this.allowRichText = allowRichText;
     }
 }

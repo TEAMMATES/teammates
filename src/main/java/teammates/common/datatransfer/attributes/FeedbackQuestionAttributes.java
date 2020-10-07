@@ -31,6 +31,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    public boolean allowRichText;
     private transient Instant createdAt;
     private transient Instant updatedAt;
 

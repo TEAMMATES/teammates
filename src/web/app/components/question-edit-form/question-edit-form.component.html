@@ -74,6 +74,17 @@
                 ></tm-rich-text-editor>
               </div>
             </div>
+            <div class="row padding-15px text-left">
+              <div class="col-md-10">
+                <label class="padding-left-15px">
+                  <input type="checkbox"
+                         [checked]="model.allowRichText"
+                         [disabled]="!model.isEditable"
+                         (click)="toggleRichTextOption($event.target.checked)">
+                  <a> Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.)</a>
+                </label>
+              </div>
+            </div>
             <div class="padding-15px">
               <tm-text-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.TEXT" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-text-question-edit-details-form>
               <tm-contribution-question-edit-details-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [details]="model.questionDetails" (detailsChange)="triggerModelChange('questionDetails', $event)" [isEditable]="model.isEditable"></tm-contribution-question-edit-details-form>
@@ -232,20 +243,6 @@
             </ng-container>
             <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
           </ul>
-        </div>
-      </div>
-      <div class="background-color-light-green margin-top-15px padding-15px">
-        <div>
-          <b class="text-option-title">Text Option</b> (Configure the response input to be rich text or plain text editor.)
-          <div class="background-color-light-blue padding-15px">
-            <label>
-              <a>Allow rich text editor </a>
-              <input type="checkbox"
-                [checked]="model.allowRichText"
-                [disabled]="!model.isEditable"
-                (click)="toggleRichTextOption($event.target.checked)">
-            </label>
-          </div>
         </div>
       </div>
       <div class="row margin-top-15px" *ngIf="!isDisplayOnly">
