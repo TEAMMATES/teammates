@@ -1,4 +1,13 @@
 <div class="row">
+  <div class="col-md-10">
+    <label class="padding-left-15px">
+      <input type="checkbox"
+             [checked]="model.allowRichText"
+             (click)="toggleRichTextOption($event.target.checked)"
+             [disabled]="!isEditable">
+      <a> Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.)</a>
+    </label>
+  </div>
   <div class="col-12 question-recommended-length">
     [Optional]
     <span class="ngb-tooltip-class" ngbTooltip="The recommended length is shown to the respondent but not enforced">

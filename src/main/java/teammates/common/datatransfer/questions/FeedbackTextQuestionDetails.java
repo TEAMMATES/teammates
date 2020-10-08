@@ -13,14 +13,18 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Nullable
     private Integer recommendedLength;
 
+    private boolean allowRichText;
+
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
         recommendedLength = null;
+        allowRichText = true;
     }
 
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
         recommendedLength = null;
+        allowRichText = true;
     }
 
     @Override
@@ -58,5 +62,13 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     public void setRecommendedLength(Integer recommendedLength) {
         this.recommendedLength = recommendedLength;
+    }
+
+    public boolean getAllowRichText() {
+        return allowRichText;
+    }
+
+    public void setAllowRichText(boolean allowRichText) {
+        this.allowRichText = allowRichText;
     }
 }

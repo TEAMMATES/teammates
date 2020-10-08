@@ -329,8 +329,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   showResponsesTo: question.showResponsesTo,
                   showGiverNameTo: question.showGiverNameTo,
                   showRecipientNameTo: question.showRecipientNameTo,
-
-                  allowRichText: question.allowRichText,
                 });
           }),
       ).subscribe(() => {}, (resp: ErrorMessageOutput) => {

@@ -61,8 +61,6 @@ class UpdateFeedbackQuestionAction extends Action {
         oldQuestion.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
         oldQuestion.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
 
-        oldQuestion.setAllowRichText(updateRequest.getAllowRichText());
-
         // validate questions (giver & recipient)
         String err = oldQuestion.getQuestionDetails().validateGiverRecipientVisibility(oldQuestion);
         if (!err.isEmpty()) {
@@ -95,7 +93,6 @@ class UpdateFeedbackQuestionAction extends Action {
                             .withShowResponsesTo(oldQuestion.getShowResponsesTo())
                             .withShowGiverNameTo(oldQuestion.getShowGiverNameTo())
                             .withShowRecipientNameTo(oldQuestion.getShowRecipientNameTo())
-                            .withAllowRichText(oldQuestion.getallowRichText())
                             .build());
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);

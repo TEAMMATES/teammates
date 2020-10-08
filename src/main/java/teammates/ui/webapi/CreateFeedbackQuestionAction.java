@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -51,7 +52,6 @@ class CreateFeedbackQuestionAction extends Action {
                 .withShowRecipientNameTo(request.getShowRecipientNameTo())
                 .withQuestionDetails(request.getQuestionDetails())
                 .withQuestionDescription(request.getQuestionDescription())
-                .withAllowRichText(request.getAllowRichText())
                 .build();
 
         // validate questions (giver & recipient)

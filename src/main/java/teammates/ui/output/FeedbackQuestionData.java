@@ -39,8 +39,6 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showGiverNameTo;
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
-    private boolean allowRichText;
-
     public FeedbackQuestionData(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetails();
 
@@ -70,8 +68,6 @@ public class FeedbackQuestionData extends ApiOutput {
         this.showGiverNameTo = convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowGiverNameTo());
         this.showRecipientNameTo =
                 convertToFeedbackVisibilityType(feedbackQuestionAttributes.getShowRecipientNameTo());
-
-        this.allowRichText = feedbackQuestionAttributes.allowRichText;
 
         // specially handling for contribution questions
         // TODO: remove the hack
@@ -196,10 +192,6 @@ public class FeedbackQuestionData extends ApiOutput {
 
     public List<FeedbackVisibilityType> getShowRecipientNameTo() {
         return showRecipientNameTo;
-    }
-
-    public boolean getAllowRichText() {
-        return allowRichText;
     }
 
     /**

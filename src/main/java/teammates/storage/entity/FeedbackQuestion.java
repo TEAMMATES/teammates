@@ -62,8 +62,6 @@ public class FeedbackQuestion extends BaseEntity {
 
     private List<FeedbackParticipantType> showRecipientNameTo = new ArrayList<>();
 
-    private boolean allowRichText;
-
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
@@ -99,7 +97,6 @@ public class FeedbackQuestion extends BaseEntity {
         this.showGiverNameTo = showGiverNameTo == null ? new ArrayList<>() : showGiverNameTo;
         this.showRecipientNameTo =
                 showRecipientNameTo == null ? new ArrayList<>() : showRecipientNameTo;
-        this.allowRichText = true;
         this.setCreatedAt(Instant.now());
     }
 
@@ -227,14 +224,6 @@ public class FeedbackQuestion extends BaseEntity {
     public void setShowRecipientNameTo(
             List<FeedbackParticipantType> showRecipientNameTo) {
         this.showRecipientNameTo = showRecipientNameTo;
-    }
-
-    public boolean getAllowRichText() {
-        return allowRichText;
-    }
-
-    public void setAllowRichText(boolean allowRichText) {
-        this.allowRichText = allowRichText;
     }
 
     /**

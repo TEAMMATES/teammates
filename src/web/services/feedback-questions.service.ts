@@ -309,8 +309,6 @@ export class FeedbackQuestionsService {
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
       case FeedbackQuestionType.CONTRIB:
         return {
@@ -329,8 +327,6 @@ export class FeedbackQuestionsService {
             FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.NUMSCALE:
@@ -349,8 +345,6 @@ export class FeedbackQuestionsService {
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.MCQ:
@@ -374,8 +368,6 @@ export class FeedbackQuestionsService {
             FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.MSQ:
@@ -401,8 +393,6 @@ export class FeedbackQuestionsService {
             FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.RANK_OPTIONS:
@@ -427,8 +417,6 @@ export class FeedbackQuestionsService {
             FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.RANK_RECIPIENTS:
@@ -447,8 +435,6 @@ export class FeedbackQuestionsService {
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.RUBRIC:
@@ -480,8 +466,6 @@ export class FeedbackQuestionsService {
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.CONSTSUM_OPTIONS:
@@ -500,8 +484,6 @@ export class FeedbackQuestionsService {
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       case FeedbackQuestionType.CONSTSUM_RECIPIENTS:
@@ -520,8 +502,6 @@ export class FeedbackQuestionsService {
           showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
           showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
           showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
-
-          allowRichText: true,
         };
 
       default:
@@ -596,7 +576,7 @@ export class FeedbackQuestionsService {
       Observable<FeedbackQuestion> {
     const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
-    console.log(request.allowRichText);
+    console.log(request.questionDetails.allowRichText);
     return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
@@ -657,6 +637,4 @@ export interface NewQuestionModel {
   showResponsesTo: FeedbackVisibilityType[];
   showGiverNameTo: FeedbackVisibilityType[];
   showRecipientNameTo: FeedbackVisibilityType[];
-
-  allowRichText: boolean;
 }

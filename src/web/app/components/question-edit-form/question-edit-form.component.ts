@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
+import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { CommonVisibilitySetting, FeedbackQuestionsService} from '../../../services/feedback-questions.service';
+import { SimpleModalService} from '../../../services/simple-modal.service';
+import { VisibilityStateMachine} from '../../../services/visibility-state-machine';
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
@@ -10,10 +10,10 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
-import { VisibilityControl } from '../../../types/visibility-control';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
-import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
+import { VisibilityControl} from '../../../types/visibility-control';
+import { SimpleModalType} from '../simple-modal/simple-modal-type';
+import { collapseAnim} from '../teammates-common/collapse-anim';
+import { QuestionEditFormMode, QuestionEditFormModel} from './question-edit-form-model';
 
 const FEEDBACK_PATH_PROPERTIES: Set<string> = new Set<string>([
   'giverType',
@@ -99,8 +99,6 @@ export class QuestionEditFormComponent implements OnInit {
         }
       }
     }
-
-    this.allowRichText = model.allowRichText;
   }
 
   /**
@@ -146,8 +144,6 @@ export class QuestionEditFormComponent implements OnInit {
     showGiverNameTo: [],
     showRecipientNameTo: [],
 
-    allowRichText: true,
-
     commonVisibilitySettingName: '',
 
     isUsingOtherFeedbackPath: false,
@@ -158,7 +154,6 @@ export class QuestionEditFormComponent implements OnInit {
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
-    isRichTextOptionChanged: false,
   };
 
   @Output()
@@ -190,8 +185,6 @@ export class QuestionEditFormComponent implements OnInit {
 
   visibilityStateMachine: VisibilityStateMachine;
 
-  allowRichText: boolean = true;
-
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
               private simpleModalService: SimpleModalService) {
     this.visibilityStateMachine =
@@ -203,9 +196,7 @@ export class QuestionEditFormComponent implements OnInit {
     return setA.length === setB.length && setA.every((ele: FeedbackVisibilityType) => setB.includes(ele));
   }
 
-  ngOnInit(): void {
-    console.log(this.allowRichText)
-  }
+  ngOnInit(): void {}
 
   /**
    * Triggers the change of the model for the form.
@@ -240,8 +231,6 @@ export class QuestionEditFormComponent implements OnInit {
       ...(!this.model.isQuestionDetailsChanged
           && Object.keys(obj).some((key: string) => QUESTION_DETAIL_PROPERTIES.has(key))
           && { isQuestionDetailsChanged: true }),
-      ...(!this.model.isRichTextOptionChanged
-          && { isRichTextOptionChanged: true }),
     });
   }
 
@@ -310,17 +299,6 @@ export class QuestionEditFormComponent implements OnInit {
       ranges.push(i);
     }
     return ranges;
-  }
-
-  /**
-   *
-   */
-  toggleRichTextOption(
-    richTextAllowed: boolean): void {
-    this.allowRichText = richTextAllowed;
-    this.triggerModelChangeBatch({
-      allowRichText: this.allowRichText,
-    });
   }
 
   /**
@@ -393,18 +371,18 @@ export class QuestionEditFormComponent implements OnInit {
         modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      } else if (this.model.isRichTextOptionChanged) {
-        // alert user that editing text editor options will delete responses
-        const modalContent: string = `
-            <p>You seem to have changed the text editor settings of this question. Please note that <b>the existing
-            responses will be deleted as the text format cannot be translated.</b>
-            Proceed?</p>
-        `;
-        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-            'Save the question?', SimpleModalType.WARNING, modalContent);
-        modalRef.result.then(() => {
-          this.saveExistingQuestionEvent.emit();
-        }, () => {});
+      // } else if (this.model.questionDetails) {
+      //   // alert user that editing text editor options will delete responses
+      //   const modalContent: string = `
+      //       <p>You seem to have changed the text editor settings of this question. Please note that <b>the existing
+      //       responses will be deleted as the text format cannot be translated.</b>
+      //       Proceed?</p>
+      //   `;
+      //   const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+      //       'Save the question?', SimpleModalType.WARNING, modalContent);
+      //   modalRef.result.then(() => {
+      //     this.saveExistingQuestionEvent.emit();
+      //   }, () => {});
       }
     }
     if (this.formMode === QuestionEditFormMode.ADD) {

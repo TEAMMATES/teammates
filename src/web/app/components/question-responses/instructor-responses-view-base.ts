@@ -28,7 +28,6 @@ export abstract class InstructorResponsesViewBase {
     showResponsesTo: [],
     showGiverNameTo: [],
     showRecipientNameTo: [],
-    allowRichText: true,
   };
 
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
