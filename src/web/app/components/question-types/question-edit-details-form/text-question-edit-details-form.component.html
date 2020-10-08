@@ -1,11 +1,11 @@
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-10 allow-rich-text">
     <label class="padding-left-15px">
       <input type="checkbox"
              [checked]="model.allowRichText"
              (click)="toggleRichTextOption($event.target.checked)"
              [disabled]="!isEditable">
-      <a> Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.)</a>
+      <a> Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers</a>
     </label>
   </div>
   <div class="col-12 question-recommended-length">
