@@ -576,7 +576,6 @@ export class FeedbackQuestionsService {
       Observable<FeedbackQuestion> {
     const paramMap: Record<string, string> = { questionid: feedbackQuestionId };
 
-    console.log(request.questionDetails.allowRichText);
     return this.httpRequestService.put(ResourceEndpoints.QUESTION, paramMap, request);
   }
 
