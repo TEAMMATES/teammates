@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -16,6 +19,15 @@ import teammates.ui.request.FeedbackSessionCreateRequest;
  */
 class CreateFeedbackSessionAction extends Action {
 
+    private Map<String, CourseAttributes> courseIdToCourseAttributesMao;
+
+    private Map<String, InstructorAttributes> instructorKeyToInstructorAttributesMap;
+
+    CreateFeedbackSessionAction() {
+        this.courseIdToCourseAttributesMao = new HashMap<>();
+        this.instructorKeyToInstructorAttributesMap = new HashMap<>();
+    }
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -25,8 +37,10 @@ class CreateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        CourseAttributes course = logic.getCourse(courseId);
+        InstructorAttributes instructor =
+                ActionUtils.getInstructorForGoogleId(
+                        instructorKeyToInstructorAttributesMap, courseId, userInfo.getId(), logic);
+        CourseAttributes course = ActionUtils.getCourseAttributes(courseIdToCourseAttributesMao, courseId, logic);
 
         gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
     }
@@ -35,8 +49,10 @@ class CreateFeedbackSessionAction extends Action {
     JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        CourseAttributes course = logic.getCourse(courseId);
+        InstructorAttributes instructor =
+                ActionUtils.getInstructorForGoogleId(
+                        instructorKeyToInstructorAttributesMap, courseId, userInfo.getId(), logic);
+        CourseAttributes course = ActionUtils.getCourseAttributes(courseIdToCourseAttributesMao, courseId, logic);
 
         FeedbackSessionCreateRequest createRequest =
                 getAndValidateRequestBody(FeedbackSessionCreateRequest.class);

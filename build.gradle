@@ -100,7 +100,7 @@ dependencies {
     testImplementation("org.apache.jmeter:ApacheJMeter_http:5.3") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-
+    testCompile "org.mockito:mockito-core:1.+"
 }
 
 sourceSets {

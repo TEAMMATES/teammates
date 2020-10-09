@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -11,6 +14,12 @@ import teammates.ui.output.CourseData;
  * Move a course to the recycle bin.
  */
 class BinCourseAction extends Action {
+
+    private Map<String, CourseAttributes> courseIdToCourseAttributesMap;
+
+    BinCourseAction() {
+        this.courseIdToCourseAttributesMap = new HashMap<>();
+    }
 
     @Override
     AuthType getMinAuthLevel() {
@@ -24,15 +33,18 @@ class BinCourseAction extends Action {
         }
 
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        CourseAttributes courseAttributes =
+                ActionUtils.getCourseAttributes(courseIdToCourseAttributesMap, idOfCourseToBin, logic);
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToBin, userInfo.id),
-                logic.getCourse(idOfCourseToBin), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+                courseAttributes, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
     }
 
     @Override
     JsonResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
+            CourseAttributes courseAttributes =
+                    ActionUtils.getCourseAttributes(courseIdToCourseAttributesMap, idOfCourseToBin, logic);
             courseAttributes.deletedAt = logic.moveCourseToRecycleBin(idOfCourseToBin);
 
             return new JsonResult(new CourseData(courseAttributes));

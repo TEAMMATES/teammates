@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -25,6 +28,18 @@ import teammates.ui.request.Intent;
  */
 class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
+    private Map<String, FeedbackResponseAttributes> feedbackResponseMap;
+
+    private Map<String, FeedbackQuestionAttributes> feedbackQuestionMap;
+
+    private Map<String, InstructorAttributes> instructorKeyToInstructorAttributesMap;
+
+    CreateFeedbackResponseCommentAction() {
+        this.feedbackResponseMap = new HashMap<>();
+        this.feedbackQuestionMap = new HashMap<>();
+        this.instructorKeyToInstructorAttributesMap = new HashMap<>();
+    }
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
@@ -39,14 +54,15 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
         }
-        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+        FeedbackResponseAttributes response =
+                ActionUtils.getFeedbackResponse(feedbackResponseMap, feedbackResponseId, logic);
         Assumption.assertNotNull(response);
 
         String courseId = response.courseId;
         String feedbackSessionName = response.feedbackSessionName;
         FeedbackSessionAttributes session = getNonNullFeedbackSession(feedbackSessionName, courseId);
         String questionId = response.feedbackQuestionId;
-        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
+        FeedbackQuestionAttributes question = ActionUtils.getFeedbackQuestion(feedbackQuestionMap, questionId, logic);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         switch (intent) {
@@ -82,7 +98,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges();
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            InstructorAttributes instructor =
+                    ActionUtils.getInstructorForGoogleId(
+                            instructorKeyToInstructorAttributesMap, courseId, userInfo.getId(), logic);
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
@@ -106,7 +124,8 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
         }
 
-        FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
+        FeedbackResponseAttributes response =
+                ActionUtils.getFeedbackResponse(feedbackResponseMap, feedbackResponseId, logic);
         Assumption.assertNotNull(response);
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 
@@ -115,7 +134,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             return new JsonResult(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
         }
         String questionId = response.getFeedbackQuestionId();
-        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
+        FeedbackQuestionAttributes question = ActionUtils.getFeedbackQuestion(feedbackQuestionMap, questionId, logic);
         String courseId = response.courseId;
         String email;
 
@@ -141,7 +160,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             commentGiverType = FeedbackParticipantType.INSTRUCTORS;
             break;
         case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            InstructorAttributes instructor =
+                    ActionUtils.getInstructorForGoogleId(
+                            instructorKeyToInstructorAttributesMap, courseId, userInfo.getId(), logic);
             email = instructor.getEmail();
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;

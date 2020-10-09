@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -16,6 +19,12 @@ import teammates.ui.request.Intent;
  */
 class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
+    private Map<String, FeedbackQuestionAttributes> feedbackQuestionsMap;
+
+    GetFeedbackResponsesAction() {
+        this.feedbackQuestionsMap = new HashMap<>();
+    }
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
@@ -24,7 +33,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     @Override
     void checkSpecificAccessControl() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
+        FeedbackQuestionAttributes feedbackQuestion =
+                ActionUtils.getFeedbackQuestion(feedbackQuestionsMap, feedbackQuestionId, logic);
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
         }
@@ -55,7 +65,8 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
+        FeedbackQuestionAttributes questionAttributes =
+                ActionUtils.getFeedbackQuestion(feedbackQuestionsMap, feedbackQuestionId, logic);
 
         FeedbackResponsesData result;
         switch (intent) {
