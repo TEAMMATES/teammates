@@ -35,7 +35,7 @@ describe('QuestionTextWithInfoComponent', () => {
   });
 
   const textQuestionDetails: FeedbackTextQuestionDetails = {
-    allowRichText: true,
+    shouldAllowRichText: true,
     questionType: FeedbackQuestionType.TEXT,
     questionText: 'Text question details',
     recommendedLength: 100,

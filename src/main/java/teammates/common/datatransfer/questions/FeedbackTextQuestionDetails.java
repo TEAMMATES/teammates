@@ -13,18 +13,18 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Nullable
     private Integer recommendedLength;
 
-    private boolean allowRichText;
+    private boolean shouldAllowRichText;
 
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
         recommendedLength = null;
-        allowRichText = true;
+        shouldAllowRichText = true;
     }
 
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
         recommendedLength = null;
-        allowRichText = true;
+        shouldAllowRichText = true;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
         // delete the existing response upon change from rich text allowed to disallowed
         // due to the effort to cleanup of HTML tags from the respondents
-        return !((FeedbackTextQuestionDetails) newDetails).allowRichText && allowRichText;
+        return !((FeedbackTextQuestionDetails) newDetails).shouldAllowRichText && shouldAllowRichText;
     }
 
     @Override
@@ -68,11 +68,11 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         this.recommendedLength = recommendedLength;
     }
 
-    public boolean getAllowRichText() {
-        return allowRichText;
+    public boolean getShouldAllowRichText() {
+        return shouldAllowRichText;
     }
 
-    public void setAllowRichText(boolean allowRichText) {
-        this.allowRichText = allowRichText;
+    public void setShouldAllowRichText(boolean shouldAllowRichText) {
+        this.shouldAllowRichText= shouldAllowRichText;
     }
 }

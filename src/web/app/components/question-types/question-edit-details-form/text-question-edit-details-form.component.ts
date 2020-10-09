@@ -14,7 +14,7 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackTextQuestionDetails>
     implements OnInit {
 
-  allowRichText: boolean = true;
+  shouldAllowRichText: boolean = true;
 
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS());
@@ -28,7 +28,7 @@ export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFor
    */
   toggleRichTextOption(
     richTextAllowed: boolean): void {
-    this.allowRichText = richTextAllowed;
-    this.triggerModelChange('allowRichText', this.allowRichText);
+    this.shouldAllowRichText = richTextAllowed;
+    this.triggerModelChange('shouldAllowRichText', this.shouldAllowRichText);
   }
 }

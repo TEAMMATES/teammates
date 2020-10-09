@@ -35,7 +35,7 @@ export const DEFAULT_TEXT_QUESTION_DETAILS: () => FeedbackTextQuestionDetails =
       return {
         questionType: FeedbackQuestionType.TEXT,
         questionText: '',
-        allowRichText: true,
+        shouldAllowRichText: true,
       };
     };
 
