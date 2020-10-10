@@ -1,4 +1,4 @@
-<div id="plain-text-area" *ngIf="!questionDetails.shouldAllowRichText">
+<div class="plain-text-area" *ngIf="!questionDetails.shouldAllowRichText">
   <textarea [ngModel]="responseDetails.answer" (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled"></textarea>
 </div>
 <tm-rich-text-editor *ngIf="questionDetails.shouldAllowRichText" [richText]="responseDetails.answer" (richTextChange)="triggerResponseDetailsChange('answer', $event)" [isDisabled]="isDisabled"></tm-rich-text-editor>
