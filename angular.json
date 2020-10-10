@@ -24,33 +24,10 @@
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/web/assets/",
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/skins",
-                "output": "tinymce/skins"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/themes",
-                "output": "tinymce/themes"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/icons",
-                "output": "tinymce/icons"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/plugins",
-                "output": "tinymce/plugins"
-              }
+              "src/web/assets/"
             ],
             "styles": [
               "src/web/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/tinymce/tinymce.min.js"
             ]
           },
           "configurations": {
@@ -67,26 +44,6 @@
               },
               "assets": [
                 "src/web/assets/",
-                {
-                  "glob": "**/*",
-                  "input": "node_modules/tinymce/skins",
-                  "output": "tinymce/skins"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "node_modules/tinymce/themes",
-                  "output": "tinymce/themes"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "node_modules/tinymce/icons",
-                  "output": "tinymce/icons"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "node_modules/tinymce/plugins",
-                  "output": "tinymce/plugins"
-                },
                 "src/web/BingSiteAuth.xml",
                 "src/web/google8c7ef1e995031e09.html",
                 "src/web/pulse.html",

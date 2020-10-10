@@ -50,8 +50,7 @@ public final class HttpRequestHelper {
                 transformed.put(key, values.length == 1 ? values[0] : values);
             }
         });
-        return JsonUtils.toJson(transformed).replaceAll("([^,])\r?\n *", "$1")
-                .replaceAll(",\r?\n *", ", ");
+        return JsonUtils.toCompactJson(transformed);
     }
 
     /**

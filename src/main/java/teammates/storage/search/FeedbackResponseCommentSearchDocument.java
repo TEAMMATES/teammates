@@ -24,7 +24,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 
 /**
@@ -182,11 +181,11 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
                                             .setText(searchableText))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME)
-                                            .setText(JsonUtils.toJson(responseGiverName)))
+                                            .setText(responseGiverName))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME)
-                                            .setText(JsonUtils.toJson(responseRecipientName)))
+                                            .setText(responseRecipientName))
                 .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME)
-                                            .setText(JsonUtils.toJson(commentGiverDisplayedName)))
+                                            .setText(commentGiverDisplayedName))
                 .setId(comment.getId().toString())
                 .build();
     }
