@@ -13,7 +13,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Nullable
     private Integer recommendedLength;
 
-    private boolean shouldAllowRichText;
+    private Boolean shouldAllowRichText;
 
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
