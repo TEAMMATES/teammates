@@ -2,7 +2,7 @@
   <div *ngFor="let teamInfo of teamsToUsers | keyvalue">
     <div class="card top-padded">
       <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
-        {{ teamInfo.key }}
+        {{ teamInfo.key == '-' ? 'No Specific Team': teamInfo.key }}
         <div class="card-header-btn-toolbar">
           <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
         </div>
@@ -38,7 +38,12 @@
                          [email]="userToEmail[userInfo]"
                          [courseId]="session.courseId"
         ></tm-student-name-with-photo>
-        {{ usersToTeams[userInfo] !== '' ? '(' + usersToTeams[userInfo] + ')' : ''}}
+        {{ usersToTeams[userInfo] !== ''
+          ? '('
+            + (usersToTeams[userInfo] === '-' ? 'No Specific Team' : usersToTeams[userInfo])
+            + ')'
+          : ''
+        }}
         <a *ngIf="userToEmail[userInfo]" [href]="'mailto:' + userToEmail[userInfo]" class="text-white" (click)="$event.stopPropagation()">
           [{{ userToEmail[userInfo] }}]
         </a>
