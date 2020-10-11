@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -356,10 +357,36 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Edits the feedback session.
+   * Copies the feedback session.
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
-    this.copySession(this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    this.failedToCopySessions = {};
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
+        this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    if (requestList.length === 1) {
+      this.copySingleSession(requestList[0]);
+    }
+    if (requestList.length > 1) {
+      forkJoin(requestList).subscribe((newSessions: FeedbackSession[]) => {
+        if (newSessions.length > 0) {
+          newSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
+
+              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            };
+            const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
+                tabModel.course.courseId === session.courseId);
+            if (courseModel) {
+              courseModel.sessionsTableRowModels.push(model);
+            }
+          });
+        }
+        this.showCopyStatusMessage();
+      });
+    }
   }
 
   /**
