@@ -485,7 +485,29 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Edits the feedback session.
    */
   copySessionEventHandler(result: CopySessionResult): void {
-    this.copySession(this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    this.failedToCopySessions = {};
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
+        this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    if (requestList.length === 1) {
+      this.copySingleSession(requestList[0]);
+    }
+    if (requestList.length > 1) {
+      forkJoin(requestList).subscribe((newSessions: FeedbackSession[]) => {
+        if (newSessions.length > 0) {
+          newSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
+
+              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            };
+            this.sessionsTableRowModels.push(model);
+          });
+        }
+        this.showCopyStatusMessage();
+      });
+    }
   }
 
   /**
