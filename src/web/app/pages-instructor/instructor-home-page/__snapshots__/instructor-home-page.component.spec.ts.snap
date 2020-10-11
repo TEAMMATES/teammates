@@ -43,6 +43,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -51,6 +52,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -139,6 +141,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -147,6 +150,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -235,6 +239,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -243,6 +248,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -285,17 +291,20 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -311,11 +320,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -412,6 +424,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -420,6 +433,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -462,17 +476,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -488,11 +505,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -594,6 +614,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -605,6 +626,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -620,6 +642,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -947,6 +970,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -955,6 +979,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -997,17 +1022,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -1023,11 +1051,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -1121,6 +1152,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1132,6 +1164,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1615,6 +1648,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1623,6 +1657,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -1665,17 +1700,20 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -1691,11 +1729,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -1797,6 +1838,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1808,6 +1850,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1823,6 +1866,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -1896,6 +1940,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1904,6 +1949,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -1946,17 +1992,20 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -1972,11 +2021,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -2078,6 +2130,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2089,6 +2142,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2104,6 +2158,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2205,6 +2260,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -2213,6 +2269,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -2255,17 +2312,20 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -2281,11 +2341,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3243]: Introduction to AI
             </b>
             
@@ -2387,6 +2450,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2398,6 +2462,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2413,6 +2478,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 

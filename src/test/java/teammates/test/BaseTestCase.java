@@ -66,10 +66,6 @@ public class BaseTestCase {
         }
     }
 
-    protected static void ignorePossibleException() {
-        assertTrue(true);
-    }
-
     /**
      * Invokes the method named {@code methodName} as defined in the {@code definingClass}.
      * @param definingClass     the class which defines the method
