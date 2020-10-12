@@ -1,0 +1,79 @@
+{
+  "accounts": {
+    "ICSDetailsE2eT.instr": {
+      "googleId": "ICSDetailsE2eT.instr.veryLongGoogleId",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICSDetailsE2eT.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICSDetailsE2eT.CS2104": {
+      "id": "ICSDetailsE2eT.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICSDetailsE2eT.instr": {
+      "googleId": "ICSDetailsE2eT.instr",
+      "courseId": "ICSDetailsE2eT.CS2104",
+      "name": "Teammates Test",
+      "email": "ICSDetailsE2eT.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "ICSDetailsE2eT.jose.tmms": {
+      "googleId": "ICSDetailsE2eT.jose.tmms",
+      "email": "ICSDetailsE2eT.jose.tmms@gmail.tmt",
+      "course": "ICSDetailsE2eT.CS2104",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "ICSDetailsE2eT.benny.c": {
+      "googleId": "ICSDetailsE2eT.benny.c",
+      "email": "ICSDetailsE2eT.benny.c.tmms@gmail.tmt",
+      "course": "ICSDetailsE2eT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "ICSDetailsE2eT.jose.tmms": {
+      "googleId": "ICSDetailsE2eT.jose.tmms",
+      "shortName": "José",
+      "email": "jose@e.tmt",
+      "institute": "TEAMMATES Test Institute 7",
+      "nationality": "Laotian",
+      "gender": "MALE",
+      "moreInfo": "This is a lot of info...",
+      "pictureKey": ""
+    }
+  }
+}

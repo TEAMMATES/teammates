@@ -1,4 +1,4 @@
-<ng-template #notSpecified><i class="text-muted">Not Specified</i></ng-template>
+<ng-template #notSpecified><i id="not-specified" class="text-muted">Not Specified</i></ng-template>
 <ng-container *ngIf="studentProfile">
   <div class="row">
     <div class="col-12">
@@ -16,21 +16,21 @@
             <tbody>
               <tr>
                 <td class="font-weight-bold">Short Name (Gender)</td>
-                <td><span *ngIf="studentProfile?.shortName; else notSpecified">{{studentProfile?.shortName}}</span>
-                  (<i *ngIf="studentProfile?.gender != Gender.OTHER; else notSpecified">{{studentProfile?.gender}}</i>)
+                <td><span id="short-name" *ngIf="studentProfile?.shortName; else notSpecified">{{studentProfile?.shortName}}</span>
+                  (<i id="gender" *ngIf="studentProfile?.gender != Gender.OTHER; else notSpecified">{{studentProfile?.gender}}</i>)
                 </td>
               </tr>
               <tr>
                 <td class="font-weight-bold">Personal Email</td>
-                <td><span *ngIf="studentProfile?.email; else notSpecified">{{studentProfile?.email}}</span>
+                <td><span id="personal-email" *ngIf="studentProfile?.email; else notSpecified">{{studentProfile?.email}}</span>
               </tr>
               <tr>
                 <td class="font-weight-bold">Institution</td>
-                <td><span *ngIf="studentProfile?.institute; else notSpecified">{{studentProfile?.institute}}</span>
+                <td><span id="institution" *ngIf="studentProfile?.institute; else notSpecified">{{studentProfile?.institute}}</span>
               </tr>
               <tr>
                 <td class="font-weight-bold">Nationality</td>
-                <td><span *ngIf="studentProfile?.nationality; else notSpecified">{{studentProfile?.nationality}}</span>
+                <td><span id="nationality" *ngIf="studentProfile?.nationality; else notSpecified">{{studentProfile?.nationality}}</span>
               </tr>
             </tbody>
           </table>
