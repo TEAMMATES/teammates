@@ -23,9 +23,4 @@ export const config: any = {
    * e.g. "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" is a site key for test environments.
    */
   captchaSiteKey: '',
-
-  /**
-   * This URL address that will be used to redirect users to an older version of the application.
-   */
-  redirectUrl: '',
 };
