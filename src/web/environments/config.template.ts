@@ -23,4 +23,10 @@ export const config: any = {
    * e.g. "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" is a site key for test environments.
    */
   captchaSiteKey: '',
+
+  /**
+   * This flag determines if the system is in maintenance mode.
+   * Under maintenance mode, all requests to the front-end will be routed to the "under maintenance" page.
+   */
+  maintenance: false,
 };
