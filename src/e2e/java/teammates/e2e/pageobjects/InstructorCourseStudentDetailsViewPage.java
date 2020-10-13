@@ -1,9 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,14 +12,13 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
  * Represents the instructor course student details view page of the website.
  */
 public class InstructorCourseStudentDetailsViewPage extends AppPage {
+    private static final String NOT_SPECIFIED_LABEL = "Not Specified";
+
     @FindBy (id = "student-name")
     private WebElement studentName;
 
-    @FindBy (id = "short-name")
-    private WebElement studentShortName;
-
-    @FindBy (id = "gender")
-    private WebElement studentGender;
+    @FindBy (id = "name-with-gender")
+    private WebElement studentNameWithGender;
 
     @FindBy (id = "personal-email")
     private WebElement studentPersonalEmail;
@@ -66,8 +63,7 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
         if (studentProfile == null) {
             profileToTest = StudentProfileAttributes.builder(student.getGoogleId()).build();
         }
-        verifyDetail(profileToTest.getShortName(), studentShortName);
-        verifyStudentGender(profileToTest.getGender());
+        verifyDetail(getExpectedNameWithGender(profileToTest), studentNameWithGender);
         verifyDetail(profileToTest.getEmail(), studentPersonalEmail);
         verifyDetail(profileToTest.getInstitute(), studentInstitution);
         verifyDetail(profileToTest.getNationality(), studentNationality);
@@ -83,17 +79,22 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
 
     private void verifyDetail(String expected, WebElement detailField) {
         if (expected.isEmpty()) {
-            assertTrue(isElementPresent(By.id("not-specified")));
+            assertEquals(NOT_SPECIFIED_LABEL, detailField.getText());
         } else {
             assertEquals(expected, detailField.getText());
         }
     }
 
-    private void verifyStudentGender(StudentProfileAttributes.Gender expected) {
-        if (expected.equals(StudentProfileAttributes.Gender.OTHER)) {
-            assertTrue(isElementPresent(By.id("not-specified")));
-        } else {
-            assertEquals(expected.toString(), studentGender.getText());
-        }
+    private String getExpectedNameWithGender(StudentProfileAttributes profile) {
+        String name = profile.getShortName();
+        StudentProfileAttributes.Gender gender = profile.getGender();
+        String expectedName = name.isEmpty()
+                ? NOT_SPECIFIED_LABEL
+                : name;
+        String expectedGender = gender.equals(StudentProfileAttributes.Gender.OTHER)
+                ? NOT_SPECIFIED_LABEL
+                : gender.toString();
+
+        return expectedName + " (" + expectedGender + ")";
     }
 }
