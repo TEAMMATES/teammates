@@ -23,8 +23,10 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
   summaryColumnsData: ColumnData[] = [];
   summaryRowsData: SortableTableCellData[][] = [];
-  perRecipientColumnsData: ColumnData[] = [];
-  perRecipientRowsData: SortableTableCellData[][] = [];
+  perRecipientPerCriterionColumnsData: ColumnData[] = [];
+  perRecipientPerCriterionRowsData: SortableTableCellData[][] = [];
+  perRecipientOverallColumnsData: ColumnData[] = [];
+  perRecipientOverallRowsData: SortableTableCellData[][] = [];
 
   constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
@@ -82,8 +84,8 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       return;
     }
 
-    // generate per recipient table if weight is enabled
-    this.perRecipientColumnsData = [
+    // generate per recipient tables if weight is enabled
+    this.perRecipientPerCriterionColumnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
       { header: 'Sub Question', sortBy: SortBy.QUESTION_TEXT },
@@ -92,10 +94,10 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       { header: 'Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
     ];
 
-    this.perRecipientRowsData = [];
+    this.perRecipientPerCriterionRowsData = [];
     Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
       this.subQuestions.forEach((subQuestion: string, questionIndex: number) => {
-        this.perRecipientRowsData.push([
+        this.perRecipientPerCriterionRowsData.push([
           { value: perRecipientStats.recipientTeam },
           { value: perRecipientStats.recipientName },
           { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
@@ -111,6 +113,23 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         ]);
       });
     });
-  }
 
+    this.perRecipientOverallColumnsData = [
+      { header: 'Team', sortBy: SortBy.TEAM_NAME },
+      { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
+      { header: 'Overall Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
+    ];
+
+    this.perRecipientOverallRowsData = [];
+    Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
+      this.perRecipientOverallRowsData.push([
+        { value: perRecipientStats.recipientTeam },
+        { value: perRecipientStats.recipientName },
+        { value: this.subQuestions.map((_: string, questionIndex: number) => {
+          return perRecipientStats.subQuestionWeightAverage[questionIndex];
+        }).reduce((accValue: number, currValue: number) => accValue + currValue) / this.subQuestions.length,
+        },
+      ]);
+    });
+  }
 }
