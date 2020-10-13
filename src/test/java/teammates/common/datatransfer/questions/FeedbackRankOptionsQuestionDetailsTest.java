@@ -36,11 +36,11 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateQueestionDetails_emptyOption_errorReturned() {
+    public void testValidateQuestionDetails_emptyOption_errorReturned() {
         FeedbackRankOptionsQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
         List<String> errorResponse = new ArrayList<>();
 
-        feedbackQuestionDetails.setOptions(Arrays.asList("", ""));
+        feedbackQuestionDetails.setOptions(Arrays.asList("", "  "));
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_EMPTY_OPTIONS_ENTERED);
         assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
     }
@@ -58,6 +58,13 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         errorResponse.clear();
 
         feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+        feedbackQuestionDetails.setMinOptionsToBeRanked(0);
+        errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_MIN_OPTIONS_ENABLED);
+        errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
+                + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
+        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        errorResponse.clear();
+
         feedbackQuestionDetails.setMinOptionsToBeRanked(1);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
@@ -70,8 +77,6 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES);
         feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3"));
         assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
-        errorResponse.clear();
-
     }
 
     @Test
@@ -134,7 +139,6 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
         feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3"));
         List<String> errorResponse = new ArrayList<>();
-        System.out.println(feedbackQuestionDetails.getOptions().size());
 
         FeedbackRankOptionsResponseDetails feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails.setAnswers(Arrays.asList(0));
@@ -157,9 +161,45 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsResponseDetails feedbackResponseDetails2 = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails2.setAnswers(Arrays.asList(3, 5));
         assertTrue(feedbackQuestionDetails.validateResponsesDetails(
-                        Arrays.asList(
-                                feedbackResponseDetails1,
-                                feedbackResponseDetails2),
-                        1).isEmpty());
+                Arrays.asList(
+                        feedbackResponseDetails1,
+                        feedbackResponseDetails2),
+                1).isEmpty());
+    }
+
+    @Test
+    public void testValidateResponseDetails_duplicateOptionInDefault_errorReturned() {
+        FeedbackRankOptionsQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+        feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3", "4", "5"));
+        List<String> errorResponse = new ArrayList<>();
+
+        FeedbackRankOptionsResponseDetails feedbackResponseDetails1 = new FeedbackRankOptionsResponseDetails();
+        feedbackResponseDetails1.setAnswers(Arrays.asList(2, 2));
+        FeedbackRankOptionsResponseDetails feedbackResponseDetails2 = new FeedbackRankOptionsResponseDetails();
+        feedbackResponseDetails2.setAnswers(Arrays.asList(2, 3));
+        errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_DUPLICATE_RANK_RESPONSE);
+        assertEquals(errorResponse,
+                feedbackQuestionDetails.validateResponsesDetails(
+                Arrays.asList(
+                        feedbackResponseDetails1,
+                        feedbackResponseDetails2),
+                1));
+    }
+
+    @Test
+    public void testValidateResponseDetails_duplicateOption_noError() {
+        FeedbackRankOptionsQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+        feedbackQuestionDetails.setAreDuplicatesAllowed(true);
+        feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3", "4", "5"));
+
+        FeedbackRankOptionsResponseDetails feedbackResponseDetails1 = new FeedbackRankOptionsResponseDetails();
+        feedbackResponseDetails1.setAnswers(Arrays.asList(2, 2));
+        FeedbackRankOptionsResponseDetails feedbackResponseDetails2 = new FeedbackRankOptionsResponseDetails();
+        feedbackResponseDetails2.setAnswers(Arrays.asList(2, 3));
+        assertTrue(feedbackQuestionDetails.validateResponsesDetails(
+                Arrays.asList(
+                        feedbackResponseDetails1,
+                        feedbackResponseDetails2),
+                1).isEmpty());
     }
 }
