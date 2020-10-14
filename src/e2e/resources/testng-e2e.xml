@@ -14,6 +14,7 @@
             <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
             <class name="teammates.e2e.cases.e2e.AdminHomePageE2ETest" />
             <class name="teammates.e2e.cases.e2e.AdminSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.AdminSessionsPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.FeedbackConstSumOptionQuestionE2ETest" />
             <class name="teammates.e2e.cases.e2e.FeedbackConstSumRecipientQuestionE2ETest" />
             <class name="teammates.e2e.cases.e2e.FeedbackContributionQuestionE2ETest" />
