@@ -21,9 +21,14 @@ import teammates.e2e.pageobjects.AdminSessionsPage;
 public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
     private FeedbackSessionAttributes openFeedbackSession;
     private FeedbackSessionAttributes awaitingFeedbackSession;
+    private FeedbackSessionAttributes futureFeedbackSession;
     private Instant instant3DaysAgo = TimeHelper.getInstantDaysOffsetFromNow(-3);
     private Instant instantTomorrow = TimeHelper.getInstantDaysOffsetFromNow(1);
     private Instant instant3DaysLater = TimeHelper.getInstantDaysOffsetFromNow(3);
+    private Instant instantNextWeek = TimeHelper.getInstantDaysOffsetFromNow(7);
+    private Instant instant10DaysLater = TimeHelper.getInstantDaysOffsetFromNow(10);
+    private Instant instant14DaysLater = TimeHelper.getInstantDaysOffsetFromNow(14);
+    private Instant instant24DaysLater = TimeHelper.getInstantDaysOffsetFromNow(24);
 
     private String formatDateTime(Instant instant, ZoneId timeZone) {
         return DateTimeFormatter
@@ -53,6 +58,13 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         awaitingFeedbackSession.setSessionVisibleFromTime(instantTomorrow);
         awaitingFeedbackSession.setEndTime(instant3DaysLater);
         awaitingFeedbackSession.setResultsVisibleFromTime(instant3DaysLater);
+
+        futureFeedbackSession = testData.feedbackSessions.get("session3InCourse1");
+        futureFeedbackSession.setStartTime(instant10DaysLater);
+        futureFeedbackSession.setCreatedTime(instant3DaysAgo);
+        futureFeedbackSession.setSessionVisibleFromTime(instant10DaysLater);
+        futureFeedbackSession.setEndTime(instant24DaysLater);
+        futureFeedbackSession.setResultsVisibleFromTime(instant24DaysLater);
 
         removeAndRestoreDataBundle(testData);
     }
@@ -90,6 +102,17 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         };
         boolean hasAwaitingSession = false;
 
+        String[] futureSessionCells = {
+                "[Waiting To Open]",
+                String.format("[%s] %s", futureFeedbackSession.getCourseId(),
+                        futureFeedbackSession.getFeedbackSessionName()),
+                "Show",
+                formatDateTime(instant10DaysLater, futureFeedbackSession.getTimeZone()),
+                formatDateTime(instant24DaysLater, futureFeedbackSession.getTimeZone()),
+                futureFeedbackSession.getCreatorEmail(),
+        };
+        boolean hasFutureSession = false;
+
         for (WebElement sessionRow : ongoingSessionRows) {
             List<WebElement> cells = sessionRow.findElements(By.tagName("td"));
 
@@ -102,11 +125,54 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
             } else if (awaitingSessionCells[1].equals(cells.get(1).getText())) {
                 sessionsPage.verifySessionRow(sessionRow, awaitingSessionCells);
                 hasAwaitingSession = true;
+            } else if (futureSessionCells[1].equals(cells.get(1).getText())) {
+                sessionsPage.verifySessionRow(sessionRow, futureSessionCells);
+                hasFutureSession = true;
             }
         }
 
+        // Open and awaiting session should be displayed with the appropriate status
+        // Future session should not be displayed yet
+
         assertTrue(hasOpenSession);
         assertTrue(hasAwaitingSession);
+        assertFalse(hasFutureSession);
+
+        ______TS("query future session");
+
+        sessionsPage.toggleSessionFilter();
+        sessionsPage.waitForSessionFilterVisibility();
+
+        sessionsPage.setFilterStartDate(instantNextWeek);
+        sessionsPage.setFilterEndDate(instant14DaysLater);
+        sessionsPage.filterSessions();
+
+        ongoingSessionRows = sessionsPage.getOngoingSessionsRows();
+        hasOpenSession = false;
+        hasAwaitingSession = false;
+        hasFutureSession = false;
+
+        for (WebElement sessionRow : ongoingSessionRows) {
+            List<WebElement> cells = sessionRow.findElements(By.tagName("td"));
+
+            if (openSessionCells[1].equals(cells.get(1).getText())) {
+                sessionsPage.verifySessionRow(sessionRow, openSessionCells);
+                hasOpenSession = true;
+            } else if (awaitingSessionCells[1].equals(cells.get(1).getText())) {
+                sessionsPage.verifySessionRow(sessionRow, awaitingSessionCells);
+                hasAwaitingSession = true;
+            } else if (futureSessionCells[1].equals(cells.get(1).getText())) {
+                sessionsPage.verifySessionRow(sessionRow, futureSessionCells);
+                hasFutureSession = true;
+            }
+        }
+
+        // This time, only future session should be displayed
+        // The previous open and awaiting session would have closed by this date
+
+        assertFalse(hasOpenSession);
+        assertFalse(hasAwaitingSession);
+        assertTrue(hasFutureSession);
 
     }
 

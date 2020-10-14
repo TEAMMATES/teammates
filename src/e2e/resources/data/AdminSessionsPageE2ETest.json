@@ -80,6 +80,26 @@
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
       "isPublishedEmailEnabled": true
+    },
+    "session3InCourse1": {
+      "feedbackSessionName": "Future feedback session",
+      "courseId": "adminSessions.idOfTypicalCourse1",
+      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "instructions": "Please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-03-28T21:59:00Z",
+      "endTime": "2012-05-01T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
     }
   }
 }
