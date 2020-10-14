@@ -25,7 +25,8 @@ export const config: any = {
   captchaSiteKey: '',
 
   /**
-   * This URL address that will be used to redirect users to an older version of the application.
+   * This flag determines if the system is in maintenance mode.
+   * Under maintenance mode, all requests to the front-end will be routed to the "under maintenance" page.
    */
-  redirectUrl: '',
+  maintenance: false,
 };
