@@ -47,7 +47,7 @@ public class AdminSessionsPage extends AppPage {
     }
 
     public void setFilterStartDate(Instant instant) {
-        WebElement timezoneElement = browser.driver.findElement(By.id("timezone"));
+        WebElement timezoneElement = browser.driver.findElement(By.id("filter-timezone"));
         String timezone = getSelectedDropdownOptionText(timezoneElement);
 
         WebElement startDate = browser.driver.findElement(By.id("start-date"));
@@ -55,7 +55,7 @@ public class AdminSessionsPage extends AppPage {
     }
 
     public void setFilterEndDate(Instant instant) {
-        WebElement timezoneElement = browser.driver.findElement(By.id("timezone"));
+        WebElement timezoneElement = browser.driver.findElement(By.id("filter-timezone"));
         String timezone = getSelectedDropdownOptionText(timezoneElement);
 
         WebElement endDate = browser.driver.findElement(By.id("end-date"));
@@ -67,12 +67,18 @@ public class AdminSessionsPage extends AppPage {
         waitForElementPresence(by);
         click(by);
         waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     private String formatDateTimeForFilter(Instant instant, ZoneId timeZone) {
         return DateTimeFormatter
                 .ofPattern("YYYY-MM-dd")
                 .format(instant.atZone(timeZone));
+    }
+
+    public String getSessionsTableTimezone() {
+        WebElement timezoneElement = browser.driver.findElement(By.id("table-timezone"));
+        return getSelectedDropdownOptionText(timezoneElement);
     }
 
 }

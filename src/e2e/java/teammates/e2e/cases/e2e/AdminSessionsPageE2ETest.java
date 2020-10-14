@@ -30,10 +30,10 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
     private Instant instant14DaysLater = TimeHelper.getInstantDaysOffsetFromNow(14);
     private Instant instant24DaysLater = TimeHelper.getInstantDaysOffsetFromNow(24);
 
-    private String formatDateTime(Instant instant, ZoneId timeZone) {
+    private String formatDateTime(Instant instant, String timeZone) {
         return DateTimeFormatter
                 .ofPattern("EEE, dd MMM YYYY, hh:mm a")
-                .format(instant.atZone(timeZone))
+                .format(instant.atZone(ZoneId.of(timeZone)))
                 .replaceFirst(" AM$", " am")
                 .replaceFirst(" PM$", " pm");
     }
@@ -78,6 +78,8 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         AdminSessionsPage sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
         sessionsPage.waitUntilAnimationFinish();
 
+        String tableTimezone = sessionsPage.getSessionsTableTimezone();
+
         List<WebElement> ongoingSessionRows = sessionsPage.getOngoingSessionsRows();
 
         String[] openSessionCells = {
@@ -85,8 +87,8 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
                 String.format("[%s] %s", openFeedbackSession.getCourseId(),
                         openFeedbackSession.getFeedbackSessionName()),
                 "Show",
-                formatDateTime(instant3DaysAgo, openFeedbackSession.getTimeZone()),
-                formatDateTime(instant3DaysLater, openFeedbackSession.getTimeZone()),
+                formatDateTime(instant3DaysAgo, tableTimezone),
+                formatDateTime(instant3DaysLater, tableTimezone),
                 openFeedbackSession.getCreatorEmail(),
         };
         boolean hasOpenSession = false;
@@ -96,8 +98,8 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
                 String.format("[%s] %s", awaitingFeedbackSession.getCourseId(),
                         awaitingFeedbackSession.getFeedbackSessionName()),
                 "Show",
-                formatDateTime(instantTomorrow, awaitingFeedbackSession.getTimeZone()),
-                formatDateTime(instant3DaysLater, awaitingFeedbackSession.getTimeZone()),
+                formatDateTime(instantTomorrow, tableTimezone),
+                formatDateTime(instant3DaysLater, tableTimezone),
                 awaitingFeedbackSession.getCreatorEmail(),
         };
         boolean hasAwaitingSession = false;
@@ -107,8 +109,8 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
                 String.format("[%s] %s", futureFeedbackSession.getCourseId(),
                         futureFeedbackSession.getFeedbackSessionName()),
                 "Show",
-                formatDateTime(instant10DaysLater, futureFeedbackSession.getTimeZone()),
-                formatDateTime(instant24DaysLater, futureFeedbackSession.getTimeZone()),
+                formatDateTime(instant10DaysLater, tableTimezone),
+                formatDateTime(instant24DaysLater, tableTimezone),
                 futureFeedbackSession.getCreatorEmail(),
         };
         boolean hasFutureSession = false;

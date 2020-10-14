@@ -83,7 +83,7 @@
           </div>
           <div class="row">
             <div class="col-6">
-              <select id="timezone" class="form-control" [(ngModel)]="timezone">
+              <select id="filter-timezone" class="form-control" [(ngModel)]="filterTimezone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
@@ -107,6 +107,16 @@
 
 <div *tmIsLoading="isLoadingOngoingSessions">
   <div *ngIf="totalOngoingSessions; else noOngoingSessions">
+    <div class="row margin-top-30px" style="align-items: center;">
+      <div class="col-md-5">
+        Display session start/end time in this time zone:
+      </div>
+      <div class="col-md-7">
+        <select id="table-timezone" class="form-control" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
+          <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+        </select>
+      </div>
+    </div>
     <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
       <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
         <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
@@ -136,8 +146,8 @@
                 <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
                 <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
               </td>
-              <td>{{ showDateFromMillis(session.ongoingSession.startTime) }}</td>
-              <td>{{ showDateFromMillis(session.ongoingSession.endTime) }}</td>
+              <td>{{ session.startTimeString }}</td>
+              <td>{{ session.endTimeString }}</td>
               <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
             </tr>
             </tbody>
