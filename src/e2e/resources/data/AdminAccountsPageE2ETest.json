@@ -36,14 +36,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
           "canmodifycourse": true,
-          "canviewsessioninsection": true,
+          "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -59,14 +59,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
           "canmodifycourse": true,
-          "canviewsessioninsection": true,
+          "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -82,14 +82,14 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
           "canmodifycourse": true,
-          "canviewsessioninsection": true,
+          "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,
-          "canmodifyinstructor": true
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
         },
         "sectionLevel": {},
         "sessionLevel": {}
@@ -97,13 +97,31 @@
     }
   },
   "students": {
-    "AAMgtE2eT.instr2-student": {
+    "AAMgtE2eT.instr2-student-CS2104": {
+      "googleId": "AAMgtE2eT.instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "course": "AAMgtE2eT.CS2104",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "AAMgtE2eT.instr2-student-CS2103": {
+      "googleId": "AAMgtE2eT.instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "course": "AAMgtE2eT.CS2103",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "AAMgtE2eT.instr2-student-CS1101": {
       "googleId": "AAMgtE2eT.instr2",
       "email": "AAMgtE2eT.instr2@gmail.tmt",
       "course": "AAMgtE2eT.CS1101",
-      "name": "Teammates Instr2</option></td></div>'\"",
-      "comments": "This is an instructor</option></td></div>'\"",
-      "team": "Team 1</td></div>'\"",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
       "section": "None"
     }
   },
