@@ -44,6 +44,7 @@
           </button>
           <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
             <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>
+            &nbsp;
             <i class="fas fa-file-download"></i> Download Results
           </button>
           <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
