@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -57,15 +57,22 @@ class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
         List<CourseAttributes> courses;
+        List<InstructorAttributes> instructors;
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
-            courses = getActiveCourse();
+            instructors = logic.getInstructorsForGoogleId(userInfo.id, true);
+            courses = getCourse(instructors);
             break;
         case Const.CourseStatus.ARCHIVED:
-            courses = getArchivedCourse();
+            instructors = logic.getInstructorsForGoogleId(userInfo.id)
+                    .stream()
+                    .filter(InstructorAttributes::isArchived)
+                    .collect(Collectors.toList());
+            courses = getCourse(instructors);
             break;
         case Const.CourseStatus.SOFT_DELETED:
-            courses = getSoftDeletedCourse();
+            instructors = logic.getInstructorsForGoogleId(userInfo.id);
+            courses = getSoftDeletedCourse(instructors);
             break;
         default:
             return new JsonResult("Error: invalid course status", HttpStatus.SC_BAD_REQUEST);
@@ -76,24 +83,11 @@ class GetCoursesAction extends Action {
 
     }
 
-    private List<CourseAttributes> getActiveCourse() {
-        return logic.getCoursesForInstructor(userInfo.id, true);
+    private List<CourseAttributes> getCourse(List<InstructorAttributes> instructors) {
+        return logic.getCoursesForInstructor(instructors);
     }
 
-    private List<CourseAttributes> getArchivedCourse() {
-
-        List<InstructorAttributes> allInstructors = logic.getInstructorsForGoogleId(userInfo.id, false);
-        List<InstructorAttributes> archivedInstructors = new ArrayList<>();
-        for (InstructorAttributes instructor : allInstructors) {
-            if (instructor.isArchived) {
-                archivedInstructors.add(instructor);
-            }
-        }
-
-        return logic.getCoursesForInstructor(archivedInstructors);
-    }
-
-    private List<CourseAttributes> getSoftDeletedCourse() {
-        return logic.getSoftDeletedCoursesForInstructors(logic.getInstructorsForGoogleId(userInfo.id));
+    private List<CourseAttributes> getSoftDeletedCourse(List<InstructorAttributes> instructors) {
+        return logic.getSoftDeletedCoursesForInstructors(instructors);
     }
 }

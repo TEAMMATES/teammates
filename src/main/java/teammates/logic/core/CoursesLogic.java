@@ -195,18 +195,6 @@ public final class CoursesLogic {
     }
 
     /**
-     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to,
-     * except for courses in recycle bin.
-     *
-     * @param googleId The Google ID of the instructor
-     * @param omitArchived if {@code true}, omits all the archived courses from the return
-     */
-    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
-        return getCoursesForInstructor(instructorList);
-    }
-
-    /**
      * Returns a list of {@link CourseAttributes} for all courses for a given list of instructors
      * except for courses in Recycle Bin.
      */
