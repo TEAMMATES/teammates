@@ -85,12 +85,13 @@
   </div>
 </tm-loading-retry>
 
+<div *tmIsLoading="isLoadingTeammates">
 <div class="section">
   <div class="row top-padded">
     <div class="col-md-2" *ngIf="teammateProfiles.length">
       <strong>Your teammates:</strong>
     </div>
-    <div class="col-md-10" *tmIsLoading="isLoadingTeammates">
+    <div class="col-md-10">
       <table>
         <tbody>
         <tr *ngFor="let teammateProfile of teammateProfiles; let i = index">
@@ -119,4 +120,5 @@
       </table>
     </div>
   </div>
+</div>
 </div>

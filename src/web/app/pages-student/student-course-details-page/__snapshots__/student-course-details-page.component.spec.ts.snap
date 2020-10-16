@@ -29,31 +29,21 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
     
     
     
-  </tm-loading-retry><div
-    class="section"
-  >
+  </tm-loading-retry><tm-loading-spinner>
     <div
-      class="row top-padded"
+      class="loading-container"
     >
-      
-      
-      <tm-loading-spinner>
-        <div
-          class="loading-container"
-        >
-          <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
-          >
-            Loading...
-          </div>
-        </div>
-      </tm-loading-spinner>
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
     </div>
-  </div>
+  </tm-loading-spinner>
 </tm-student-course-details-page>
 `;
 
@@ -86,22 +76,23 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
     
     
     
-  </tm-loading-retry><div
-    class="section"
-  >
+  </tm-loading-retry><div>
     <div
-      class="row top-padded"
+      class="section"
     >
-      
-      
       <div
-        class="col-md-10"
+        class="row top-padded"
       >
-        <table>
-          <tbody>
-            
-          </tbody>
-        </table>
+        
+        <div
+          class="col-md-10"
+        >
+          <table>
+            <tbody>
+              
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -352,82 +343,83 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
     </div>
     
     
-  </tm-loading-retry><div
-    class="section"
-  >
+  </tm-loading-retry><div>
     <div
-      class="row top-padded"
+      class="section"
     >
-      
       <div
-        class="col-md-2"
+        class="row top-padded"
       >
-        <strong>
-          Your teammates:
-        </strong>
-      </div>
-      
-      <div
-        class="col-md-10"
-      >
-        <table>
-          <tbody>
-            
-            <tr>
-              <td
-                class="team-member-photo-cell"
-              >
-                <img
-                  class="profile-pic"
-                  src="/assets/images/profile_picture_default.png"
-                />
-              </td>
-              <td
-                class="team-member-profile-cell"
-                id="teammates-details-0"
-              >
-                <div>
-                  <label>
-                    Name:
-                  </label>
-                   2 
-                </div>
-                <div>
-                  <label>
-                    Email:
-                  </label>
-                   
-                  <a
-                    href="mailto:iam2@hello.com"
-                  >
-                    iam2@hello.com
-                  </a>
-                </div>
-                
-                <div>
-                  <label>
-                    Gender:
-                  </label>
-                   Male 
-                </div>
-                
-                <div>
-                  <label>
-                    Nationality:
-                  </label>
-                   Andorran 
-                </div>
-                
-                <div>
-                  <label>
-                    Institute:
-                  </label>
-                   nus 
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        
+        <div
+          class="col-md-2"
+        >
+          <strong>
+            Your teammates:
+          </strong>
+        </div>
+        <div
+          class="col-md-10"
+        >
+          <table>
+            <tbody>
+              
+              <tr>
+                <td
+                  class="team-member-photo-cell"
+                >
+                  <img
+                    class="profile-pic"
+                    src="/assets/images/profile_picture_default.png"
+                  />
+                </td>
+                <td
+                  class="team-member-profile-cell"
+                  id="teammates-details-0"
+                >
+                  <div>
+                    <label>
+                      Name:
+                    </label>
+                     2 
+                  </div>
+                  <div>
+                    <label>
+                      Email:
+                    </label>
+                     
+                    <a
+                      href="mailto:iam2@hello.com"
+                    >
+                      iam2@hello.com
+                    </a>
+                  </div>
+                  
+                  <div>
+                    <label>
+                      Gender:
+                    </label>
+                     Male 
+                  </div>
+                  
+                  <div>
+                    <label>
+                      Nationality:
+                    </label>
+                     Andorran 
+                  </div>
+                  
+                  <div>
+                    <label>
+                      Institute:
+                    </label>
+                     nus 
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
