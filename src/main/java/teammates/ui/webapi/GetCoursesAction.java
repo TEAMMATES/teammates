@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
@@ -11,6 +13,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
+import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
@@ -78,9 +81,21 @@ class GetCoursesAction extends Action {
             return new JsonResult("Error: invalid course status", HttpStatus.SC_BAD_REQUEST);
         }
 
-        CourseAttributes.sortById(courses);
-        return new JsonResult(new CoursesData(courses));
+        Map<String, InstructorAttributes> courseIdToInstructor = new HashMap<>();
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.courseId, instructor));
 
+        CourseAttributes.sortById(courses);
+        CoursesData coursesData = new CoursesData(courses);
+        coursesData.getCourses().forEach(courseData -> {
+            InstructorAttributes instructor = courseIdToInstructor.get(courseData.getCourseId());
+            if (instructor == null) {
+                return;
+            }
+            InstructorPrivilegeData privilege = new InstructorPrivilegeData();
+            privilege.constructCourseLevelPrivilege(instructor.privileges);
+            courseData.setPrivileges(privilege);
+        });
+        return new JsonResult(coursesData);
     }
 
     private List<CourseAttributes> getCourse(List<InstructorAttributes> instructors) {
