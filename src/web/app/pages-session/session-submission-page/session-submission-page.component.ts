@@ -25,7 +25,6 @@ import {
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
-  FeedbackQuestionType,
   FeedbackResponse,
   FeedbackResponseComment,
   FeedbackResponses,
@@ -464,14 +463,18 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             const matchedExistingResponse: FeedbackResponse | undefined =
               existingResponses.responses.find(
                   (response: FeedbackResponse) => response.recipientIdentifier === recipient.recipientIdentifier);
-            model.recipientSubmissionForms.push({
+            const submissionForm: FeedbackResponseRecipientSubmissionFormModel = {
               recipientIdentifier: recipient.recipientIdentifier,
               responseDetails: matchedExistingResponse
                 ? matchedExistingResponse.responseDetails
                 : this.feedbackResponsesService.getDefaultFeedbackResponseDetails(model.questionType),
               responseId: matchedExistingResponse ? matchedExistingResponse.feedbackResponseId : '',
               isValid: true,
-            });
+            };
+            if (matchedExistingResponse && matchedExistingResponse.giverComment) {
+              submissionForm.commentByGiver = this.getCommentModel(matchedExistingResponse.giverComment);
+            }
+            model.recipientSubmissionForms.push(submissionForm);
           });
         }
 
@@ -500,44 +503,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             numberOfRecipientSubmissionFormsNeeded -= 1;
           }
         }
-
-        // load comments
-        this.loadParticipantComment(model);
       }, (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
-  }
-
-  /**
-   * Loads all comments given by feedback participants.
-   */
-  loadParticipantComment(model: QuestionSubmissionFormModel): void {
-    if (model.questionType !== FeedbackQuestionType.MCQ) {
-      // Only MCQ question has participant comment
-      return;
-    }
-    const loadCommentRequests: Observable<any>[] = [];
-    model.recipientSubmissionForms.forEach(
-        (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
-          if (!recipientSubmissionFormModel.responseId) {
-            return;
-          }
-          loadCommentRequests.push(
-          this.commentService
-              .loadParticipantComment(recipientSubmissionFormModel.responseId, this.intent, {
-                key: this.regKey,
-                moderatedperson: this.moderatedPerson,
-              }).pipe(
-                  tap((comment?: FeedbackResponseComment) => {
-                    if (comment) {
-                      recipientSubmissionFormModel.commentByGiver = this.getCommentModel(comment);
-                    }
-                  }),
-              ));
-        });
-    forkJoin(loadCommentRequests).subscribe(() => {
-      // comment loading success
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
   }
 
   /**
