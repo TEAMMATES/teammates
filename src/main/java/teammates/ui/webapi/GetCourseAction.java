@@ -56,8 +56,7 @@ class GetCourseAction extends Action {
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             if (instructor != null) {
-                InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-                privilege.constructCourseLevelPrivilege(instructor.privileges);
+                InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, null);
                 output.setPrivileges(privilege);
             }
         }

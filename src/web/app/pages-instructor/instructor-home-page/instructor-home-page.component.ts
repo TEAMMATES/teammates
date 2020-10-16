@@ -212,10 +212,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 feedbackSession,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
               };
               model.sessionsTableRowModels.push(m);
-              this.updateInstructorPrivilege(m);
             });
             model.hasPopulated = true;
             if (!model.isAjaxSuccess) {
@@ -359,8 +358,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-
-              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             };
             const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
                 tabModel.course.courseId === session.courseId);

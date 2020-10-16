@@ -91,8 +91,7 @@ class GetCoursesAction extends Action {
             if (instructor == null) {
                 return;
             }
-            InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-            privilege.constructCourseLevelPrivilege(instructor.privileges);
+            InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, null);
             courseData.setPrivileges(privilege);
         });
         return new JsonResult(coursesData);
