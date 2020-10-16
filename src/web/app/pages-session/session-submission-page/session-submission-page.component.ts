@@ -25,6 +25,7 @@ import {
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
+  FeedbackQuestionType,
   FeedbackResponse,
   FeedbackResponseComment,
   FeedbackResponses,
@@ -509,6 +510,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Loads all comments given by feedback participants.
    */
   loadParticipantComment(model: QuestionSubmissionFormModel): void {
+    if (model.questionType !== FeedbackQuestionType.MCQ) {
+      // Only MCQ question has participant comment
+      return;
+    }
     const loadCommentRequests: Observable<any>[] = [];
     model.recipientSubmissionForms.forEach(
         (recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
