@@ -85,9 +85,11 @@ class GetStudentAction extends Action {
             studentData.setKey(StringHelper.encrypt(student.getKey()));
         }
 
-        // hide information if not an instructor
         if (studentEmail == null) {
+            // hide information if not an instructor
             studentData.hideInformationForStudent();
+            // add student institute
+            studentData.setInstitute(logic.getCourseInstitute(courseId));
         }
 
         return new JsonResult(studentData);

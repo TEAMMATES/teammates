@@ -69,6 +69,10 @@ public class Logic {
         return accountsLogic.getAccount(googleId);
     }
 
+    public String getCourseInstitute(String courseId) {
+        return accountsLogic.getCourseInstitute(courseId);
+    }
+
     /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
