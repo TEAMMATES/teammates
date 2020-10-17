@@ -57,8 +57,8 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         };
         StudentAttributes[] students = {
                 testData.students.get("alice.tmms@ICDetailsE2eT.CS2104"),
-                testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104"),
                 testData.students.get("benny.tmms@ICDetailsE2eT.CS2104"),
+                testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104"),
                 testData.students.get("danny.tmms@ICDetailsE2eT.CS2104"),
         };
 
@@ -92,7 +92,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         ______TS("delete student");
         detailsPage.sortByName();
         detailsPage.sortByStatus();
-        StudentAttributes[] studentsAfterDelete = { students[3], students[0], students[2] };
+        StudentAttributes[] studentsAfterDelete = { students[3], students[0], students[1] };
         detailsPage.deleteStudent(student);
 
         detailsPage.verifyStatusMessage("Student is successfully deleted from course \""

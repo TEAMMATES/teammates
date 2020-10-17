@@ -110,7 +110,7 @@
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1",
-      "section": "None"
+      "section": "Section 1"
     },
     "danny.tmms@ICDetailsE2eT.CS2104": {
       "googleId": "ICDetailsE2eT.danny.e",
@@ -119,7 +119,7 @@
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
-      "section": "None"
+      "section": "Section 2"
     }
   },
   "feedbackSessions": {},
