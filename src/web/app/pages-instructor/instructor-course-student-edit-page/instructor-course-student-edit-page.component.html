@@ -107,7 +107,7 @@
             <input
                 type="submit"
                 class="btn btn-success"
-                id="button_submit"
+                id="btn-submit"
                 value="Save Changes"
                 [disabled]="!editForm.valid">
           </div>
@@ -128,7 +128,7 @@
               Do you want to resend past session links of this course to the new email {{ editForm.get('newstudentemail')?.value }}?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary"
+              <button id="btn-resend-links" type="button" class="btn btn-primary"
                       (click)="submitEditForm(true); modal.dismiss()">
                 Yes, save changes and resend links
               </button>

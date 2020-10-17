@@ -1,26 +1,26 @@
 {
   "accounts": {
-    "CCSDEditUiT.instr": {
-      "googleId": "CCSDEditUiT.instr",
+    "ICSDEditE2eT.instr": {
+      "googleId": "ICSDEditE2eT.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "CCSDEditUiT.instr@gmail.tmt",
+      "email": "ICSDEditE2eT.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "CCSDEditUiT.CS2104": {
-      "id": "CCSDEditUiT.CS2104",
+    "ICSDEditE2eT.CS2104": {
+      "id": "ICSDEditE2eT.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "CCSDEditUiT.instr": {
-      "googleId": "CCSDEditUiT.instr",
-      "courseId": "CCSDEditUiT.CS2104",
+    "ICSDEditE2eT.instr": {
+      "googleId": "ICSDEditE2eT.instr",
+      "courseId": "ICSDEditE2eT.CS2104",
       "name": "Teammates Test",
-      "email": "CCSDEditUiT.instr@gmail.tmt",
+      "email": "ICSDEditE2eT.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -41,23 +41,21 @@
     }
   },
   "students": {
-    "registeredStudent": {
-      "googleId": "CCSDEditUiT.jose.tmms",
-      "email": "CCSDEditUiT.jose.tmms@gmail.tmt",
-      "course": "CCSDEditUiT.CS2104",
-      "name": "José Gómez</option></td></div>'\"",
-      "comments": "This student's name is José Gómez</option></td></div>'\"",
-      "team": "Team 1</td></div>'\"",
-      "section": "None"
+    "ICSDEditE2eT.jose.tmms": {
+      "googleId": "ICSDEditE2eT.jose.tmms",
+      "email": "ICSDEditE2eT.jose.tmms@gmail.tmt",
+      "course": "ICSDEditE2eT.CS2104",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
+      "team": "Team 1"
     },
-    "unregisteredStudent": {
+    "ICSDEditE2eT.benny.c": {
       "googleId": "",
-      "email": "benny.c.tmms@gmail.tmt",
-      "course": "CCSDEditUiT.CS2104",
+      "email": "ICSDEditE2eT.benny.c.tmms@gmail.tmt",
+      "course": "ICSDEditE2eT.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
-      "team": "Team 1</td></div>'\"",
-      "section": "None"
+      "team": "Team 1"
     }
   },
   "feedbackSessions": {},
