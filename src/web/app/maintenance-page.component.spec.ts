@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RedirectBannerComponent } from './redirect-banner.component';
+import { MaintenancePageComponent } from './maintenance-page.component';
 
-describe('RedirectBannerComponent', () => {
-  let component: RedirectBannerComponent;
-  let fixture: ComponentFixture<RedirectBannerComponent>;
+describe('MaintenancePageComponent', () => {
+  let component: MaintenancePageComponent;
+  let fixture: ComponentFixture<MaintenancePageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RedirectBannerComponent],
+      declarations: [MaintenancePageComponent],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RedirectBannerComponent);
+    fixture = TestBed.createComponent(MaintenancePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

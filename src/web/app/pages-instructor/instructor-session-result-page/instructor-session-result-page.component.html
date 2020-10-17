@@ -77,8 +77,9 @@
             <div>
               <select class="form-control" [(ngModel)]="section">
                 <option value="">All</option>
-                <option *ngFor="let section of sectionsModel | keyvalue" [value]="section.key">{{ section.key }}</option>
-                <option value="None">No specific section</option>
+                <option *ngFor="let section of sectionsModel | keyvalue" [value]="section.key">
+                  {{ section.key === 'None' ? 'No specific section' : section.key }}
+                </option>
               </select>
             </div>
           </div>
