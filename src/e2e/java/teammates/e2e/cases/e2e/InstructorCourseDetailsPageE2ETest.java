@@ -63,7 +63,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         };
 
         verifyCourseDetails(detailsPage, course, instructors, students);
-        detailsPage.verifyNumStudents(4);
+        detailsPage.verifyNumStudents(students.length);
         detailsPage.verifyStudentDetails(students);
 
         ______TS("send invite");
@@ -97,7 +97,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         detailsPage.verifyStatusMessage("Student is successfully deleted from course \""
                 + course.getId() + "\"");
-        detailsPage.verifyNumStudents(3);
+        detailsPage.verifyNumStudents(studentsAfterDelete.length);
         detailsPage.verifyStudentDetails(studentsAfterDelete);
         verifyAbsentInDatastore(student);
 
@@ -106,9 +106,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         detailsPage.verifyStatusMessage("All the students have been removed from the course");
         detailsPage.verifyNumStudents(0);
-        verifyAbsentInDatastore(studentsAfterDelete[0]);
-        verifyAbsentInDatastore(studentsAfterDelete[1]);
-        verifyAbsentInDatastore(studentsAfterDelete[2]);
+        for (StudentAttributes student : studentsAfterDelete) {
+            verifyAbsentInDatastore(student);
+        }
     }
 
     private void verifyCourseDetails(InstructorCourseDetailsPage detailsPage, CourseAttributes course,
