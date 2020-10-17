@@ -294,6 +294,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </th>
                         <th
                           class="sortable-header"
+                          id="sort-by-name"
                         >
                            Student Name 
                           <span
@@ -308,6 +309,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </th>
                         <th
                           class="sortable-header"
+                          id="sort-by-status"
                         >
                            Status 
                           <span
@@ -406,6 +408,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
@@ -484,6 +487,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
@@ -562,6 +566,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
@@ -640,6 +645,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
