@@ -17,6 +17,10 @@
       "username": "DevOpt"
     },
     {
+      "name": "Abhijit Roy",
+      "username": "EmberCS15"
+    },
+    {
       "name": "Abhishek Chaudary",
       "username": "AbhishekChd"
     },
@@ -202,6 +206,10 @@
       "username": "sponde25"
     },
     {
+      "name": "Ankita Nasipuri",
+      "username": "ankita2210"
+    },
+    {
       "multiple": true,
       "name": "Anoop Shukla",
       "username": "weaveranoop"
@@ -294,6 +302,10 @@
     {
       "name": "Billy Zafack",
       "username": "BillyZafack"
+    },
+    {
+      "name": "Bjarke S.",
+      "username": "Wimpzer"
     },
     {
       "multiple": true,
@@ -576,6 +588,11 @@
     {
       "name": "Gustav Krantz",
       "username": "gkrantz"
+    },
+    {
+      "multiple": true,
+      "name": "Hai Nguyen",
+      "username": "helloImHai"
     },
     {
       "multiple": true,
@@ -1322,6 +1339,7 @@
       "username": "saitj99"
     },
     {
+      "multiple": true,
       "name": "Sajna Kadalikat",
       "username": "sjkadali"
     },
@@ -1795,14 +1813,6 @@
     {
       "name": "Zhu Yilun",
       "username": "yilun-zhu"
-    },
-    {
-      "name": "Hai Nguyen",
-      "username": "helloImHai"
-    },
-    {
-      "name": "Bjarke S.",
-      "username": "Wimpzer"
     }
   ],
   "committers": [

@@ -70,7 +70,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
      */
     public FeedbackQuestionDetails getQuestionDetails() {
         FeedbackQuestionDetails details =
-                JsonUtils.fromJson(JsonUtils.toJson(questionDetails), questionType.getQuestionDetailsClass());
+                JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), questionType.getQuestionDetailsClass());
         details.setQuestionText(questionBrief);
         // TODO remove this after migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
         if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
@@ -172,7 +172,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
     }
 
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
-        this.questionDetails = JsonUtils.fromJson(JsonUtils.toJson(questionDetails), Map.class);
+        this.questionDetails = JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), Map.class);
     }
 
     public void setQuestionType(FeedbackQuestionType questionType) {
