@@ -3,10 +3,7 @@ package teammates.e2e.cases.e2e;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -80,8 +77,6 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
 
         String tableTimezone = sessionsPage.getSessionsTableTimezone();
 
-        List<WebElement> ongoingSessionRows = sessionsPage.getOngoingSessionsRows();
-
         String[] openSessionCells = {
                 "[Opened]",
                 String.format("[%s] %s", openFeedbackSession.getCourseId(),
@@ -91,7 +86,6 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
                 formatDateTime(instant3DaysLater, tableTimezone),
                 openFeedbackSession.getCreatorEmail(),
         };
-        boolean hasOpenSession = false;
 
         String[] awaitingSessionCells = {
                 "[Waiting To Open]",
@@ -102,7 +96,6 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
                 formatDateTime(instant3DaysLater, tableTimezone),
                 awaitingFeedbackSession.getCreatorEmail(),
         };
-        boolean hasAwaitingSession = false;
 
         String[] futureSessionCells = {
                 "[Waiting To Open]",
@@ -113,32 +106,17 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
                 formatDateTime(instant24DaysLater, tableTimezone),
                 futureFeedbackSession.getCreatorEmail(),
         };
-        boolean hasFutureSession = false;
 
-        for (WebElement sessionRow : ongoingSessionRows) {
-            List<WebElement> cells = sessionRow.findElements(By.tagName("td"));
-
-            // Only validate for the preset ongoing sessions
-            // This is because the page will display all ongoing sessions in the database, which is not predictable
-
-            if (openSessionCells[1].equals(cells.get(1).getText())) {
-                sessionsPage.verifySessionRow(sessionRow, openSessionCells);
-                hasOpenSession = true;
-            } else if (awaitingSessionCells[1].equals(cells.get(1).getText())) {
-                sessionsPage.verifySessionRow(sessionRow, awaitingSessionCells);
-                hasAwaitingSession = true;
-            } else if (futureSessionCells[1].equals(cells.get(1).getText())) {
-                sessionsPage.verifySessionRow(sessionRow, futureSessionCells);
-                hasFutureSession = true;
-            }
-        }
+        String[][] sessionsCells = {
+                openSessionCells, awaitingSessionCells, futureSessionCells,
+        };
 
         // Open and awaiting session should be displayed with the appropriate status
         // Future session should not be displayed yet
 
-        assertTrue(hasOpenSession);
-        assertTrue(hasAwaitingSession);
-        assertFalse(hasFutureSession);
+        boolean[] expectedSessionShownStatus = { true, true, false };
+
+        sessionsPage.verifySessionRows(sessionsCells, expectedSessionShownStatus);
 
         ______TS("query future session");
 
@@ -149,32 +127,12 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
         sessionsPage.setFilterEndDate(instant14DaysLater);
         sessionsPage.filterSessions();
 
-        ongoingSessionRows = sessionsPage.getOngoingSessionsRows();
-        hasOpenSession = false;
-        hasAwaitingSession = false;
-        hasFutureSession = false;
-
-        for (WebElement sessionRow : ongoingSessionRows) {
-            List<WebElement> cells = sessionRow.findElements(By.tagName("td"));
-
-            if (openSessionCells[1].equals(cells.get(1).getText())) {
-                sessionsPage.verifySessionRow(sessionRow, openSessionCells);
-                hasOpenSession = true;
-            } else if (awaitingSessionCells[1].equals(cells.get(1).getText())) {
-                sessionsPage.verifySessionRow(sessionRow, awaitingSessionCells);
-                hasAwaitingSession = true;
-            } else if (futureSessionCells[1].equals(cells.get(1).getText())) {
-                sessionsPage.verifySessionRow(sessionRow, futureSessionCells);
-                hasFutureSession = true;
-            }
-        }
-
         // This time, only future session should be displayed
         // The previous open and awaiting session would have closed by this date
 
-        assertFalse(hasOpenSession);
-        assertFalse(hasAwaitingSession);
-        assertTrue(hasFutureSession);
+        expectedSessionShownStatus = new boolean[] { false, false, true };
+
+        sessionsPage.verifySessionRows(sessionsCells, expectedSessionShownStatus);
 
     }
 

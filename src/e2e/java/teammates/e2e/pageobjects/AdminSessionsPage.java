@@ -1,5 +1,7 @@
 package teammates.e2e.pageobjects;
 
+import static org.junit.Assert.assertEquals;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -29,12 +31,34 @@ public class AdminSessionsPage extends AppPage {
         return getPageSource().contains("Ongoing Sessions");
     }
 
-    public List<WebElement> getOngoingSessionsRows() {
+    private List<WebElement> getOngoingSessionsRows() {
         return ongoingSessionsTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
     }
 
-    public void verifySessionRow(WebElement sessionRow, String[] expectedRowValues) {
-        verifyTableRowValues(sessionRow, expectedRowValues);
+    public void verifySessionRows(String[][] sessionsCells, boolean[] expectedSessionShownStatus) {
+        assertEquals(sessionsCells.length, expectedSessionShownStatus.length);
+
+        boolean[] actualSessionShownStatus = new boolean[expectedSessionShownStatus.length];
+
+        List<WebElement> ongoingSessionRows = getOngoingSessionsRows();
+        for (WebElement sessionRow : ongoingSessionRows) {
+            List<WebElement> cells = sessionRow.findElements(By.tagName("td"));
+
+            // Only validate for the preset ongoing sessions
+            // This is because the page will display all ongoing sessions in the database, which is not predictable
+
+            for (int i = 0; i < sessionsCells.length; i++) {
+                String[] sessionCells = sessionsCells[i];
+                if (sessionCells[1].equals(cells.get(1).getText())) {
+                    verifyTableRowValues(sessionRow, sessionCells);
+                    actualSessionShownStatus[i] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < expectedSessionShownStatus.length; i++) {
+            assertEquals(expectedSessionShownStatus[i], actualSessionShownStatus[i]);
+        }
     }
 
     public void toggleSessionFilter() {
