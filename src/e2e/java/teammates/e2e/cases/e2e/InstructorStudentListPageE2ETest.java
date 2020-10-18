@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorStudentListPage;
@@ -73,6 +74,14 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         }
 
         listPage.verifyStudentDetails(courseHeaderToStudents);
+
+        ______TS("link: enroll page");
+
+        InstructorCourseEnrollPage enrollPage = listPage.clickEnrollStudents(course3Header);
+        enrollPage.verifyIsCorrectPage(course3.getId());
+
+        listPage = loginAdminToPage(listPageUrl, InstructorStudentListPage.class);
+        listPage.clickCourseTabHeader(course3Header);
 
         ______TS("link: view student details page");
 

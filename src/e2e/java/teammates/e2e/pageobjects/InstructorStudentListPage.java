@@ -139,6 +139,14 @@ public class InstructorStudentListPage extends AppPage {
         return null;
     }
 
+    public InstructorCourseEnrollPage clickEnrollStudents(String courseHeader) {
+        WebElement studentRow = getCourseTabForHeader(courseHeader);
+        WebElement enrollButton = studentRow.findElement(By.id("btn-enroll"));
+        click(enrollButton);
+        waitForPageToLoad();
+        return changePageType(InstructorCourseEnrollPage.class);
+    }
+
     public InstructorCourseStudentDetailsViewPage clickViewStudent(String courseHeader, String studentEmail) {
         WebElement studentRow = getStudentRow(courseHeader, studentEmail);
         WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));

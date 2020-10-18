@@ -46,7 +46,7 @@
 
                   <hr>
 
-                  <button class="btn btn-success"
+                  <button id="btn-enroll" class="btn btn-success"
                       routerLink="/web/instructor/courses/enroll"
                       [queryParams]="{courseid: courseTab.course.courseId}">
                     Enroll Students
@@ -70,7 +70,9 @@
 
         <ng-template #noStudentsTemplate>
           <h5>There are no students in this course.</h5>
-          <button class="btn btn-success" routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
+          <button id="btn-enroll" class="btn btn-success"
+              routerLink="/web/instructor/courses/enroll"
+              [queryParams]="{courseid: courseTab.course.courseId}">
             Enroll Students
           </button>
         </ng-template>
