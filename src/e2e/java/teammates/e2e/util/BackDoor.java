@@ -614,8 +614,7 @@ public final class BackDoor {
                         break;
                     }
                     return null;
-                }).collect(Collectors.toList());
-        Collections.sort(feedbackParticipantTypeList);
+                }).sorted().collect(Collectors.toList());
         return feedbackParticipantTypeList;
     }
 

@@ -213,10 +213,9 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     }
 
     private List<String> getOtherTeams(StudentAttributes currentStudent) {
-        return new ArrayList<>(testData.students.values().stream()
+        return testData.students.values().stream()
                 .filter(s -> !s.getTeam().equals(currentStudent.getTeam()))
-                .map(s -> s.getTeam())
-                .collect(Collectors.toSet()));
+                .map(StudentAttributes::getTeam).distinct().collect(Collectors.toList());
     }
 
     private FeedbackResponseAttributes getMcqResponse(String questionId, String recipient, boolean isOther, String answer) {
