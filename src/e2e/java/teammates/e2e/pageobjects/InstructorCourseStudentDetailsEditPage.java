@@ -13,6 +13,9 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class InstructorCourseStudentDetailsEditPage extends AppPage {
 
+    @FindBy (id = "courseid")
+    private WebElement courseId;
+
     @FindBy (id = "studentname")
     private WebElement studentNameTextbox;
 
@@ -41,6 +44,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     }
 
     public void verifyStudentDetails(StudentAttributes studentDetails) {
+        assertEquals(studentDetails.getCourse(), courseId.getText());
         assertEquals(studentDetails.getName(), studentNameTextbox.getAttribute("value"));
         if (studentDetails.getSection() == null) {
             assertEquals("None", sectionNameTextbox.getAttribute("value"));
