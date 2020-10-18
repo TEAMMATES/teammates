@@ -9,7 +9,10 @@
           [students]="course.students"
           [useGrayHeading]="true"
           [enableRemindButton]="false"
-          [isActionButtonsEnabled]="isActionButtonsEnabled">
+          [isActionButtonsEnabled]="isActionButtonsEnabled"
+          [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
+          (sortStudentListEvent)="sortStudentList(course.students, $event)"
+          (removeStudentFromCourseEvent)="removeStudent(course.students, $event)">
         </tm-student-list>
       </div>
     </div>

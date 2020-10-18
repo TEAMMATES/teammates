@@ -3,6 +3,7 @@
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
+  courseService={[Function CourseService]}
   isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
@@ -117,6 +118,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
+  courseService={[Function CourseService]}
   isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
@@ -678,6 +680,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
   commentTables={[Function Array]}
+  courseService={[Function CourseService]}
   isSearching="false"
   route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
