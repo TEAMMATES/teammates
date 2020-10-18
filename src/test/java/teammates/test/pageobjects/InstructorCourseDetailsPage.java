@@ -84,14 +84,6 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
-    public InstructorStudentRecordsPage clickAllRecordsLink(String studentName) {
-        int rowId = getStudentRowId(studentName);
-        click(getAllRecordsLink(rowId));
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(InstructorStudentRecordsPage.class);
-    }
-
     public InstructorCourseDetailsPage clickRemindStudentAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
         click(getRemindLink(rowId));
@@ -159,16 +151,6 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     private WebElement getDeleteAllLink() {
         return browser.driver.findElement(By.id("button-delete-all"));
-    }
-
-    private WebElement getAllRecordsLink(int studentNum) {
-        WebElement studentRow = browser.driver.findElement(By.id("student-c0." + studentNum));
-        WebElement fourthLink = studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(4)"));
-
-        if ("All Records".equals(fourthLink.getText())) {
-            return fourthLink;
-        }
-        return studentRow.findElement(By.cssSelector("td.no-print.align-center > a:nth-child(5)"));
     }
 
     private int getStudentRowId(String studentName) {
