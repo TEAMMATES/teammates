@@ -87,17 +87,24 @@ export class InstructorSearchPageComponent implements OnInit {
     ]).pipe(
         finalize(() => this.isSearching = false),
     ).subscribe((resp: TransformedInstructorSearchResult[]) => {
-      this.commentTables = resp[0].searchCommentTables;
       const searchStudentsTable: SearchStudentsListRowTable[] = resp[1].searchStudentTables;
       const hasStudents: boolean = !!(
           searchStudentsTable && searchStudentsTable.length
       );
+      const commentsTable: SearchCommentsTable[] = resp[0].searchCommentTables;
       const hasComments: boolean = !!(
-          this.commentTables && this.commentTables.length
+          commentsTable && commentsTable.length
       );
 
       if (hasStudents) {
         this.studentsListRowTables = searchStudentsTable;
+      } else {
+        this.studentsListRowTables = [];
+      }
+      if (hasComments) {
+        this.commentTables = commentsTable;
+      } else {
+        this.commentTables = [];
       }
       if (!hasStudents && !hasComments) {
         this.statusMessageService.showWarningToast('No results found.');
