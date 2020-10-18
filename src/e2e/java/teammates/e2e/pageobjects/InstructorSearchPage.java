@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.ThreadHelper;
 
 /**
  * Represents the instructor search page.
@@ -134,6 +135,33 @@ public class InstructorSearchPage extends AppPage {
             }
         }
         return null;
+    }
+
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(String courseHeader, String studentEmail) {
+        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+        WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));
+        click(viewButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(InstructorCourseStudentDetailsViewPage.class);
+    }
+
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(String courseHeader, String studentEmail) {
+        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+        WebElement viewButton = studentRow.findElement(By.id("btn-edit-details"));
+        click(viewButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(InstructorCourseStudentDetailsEditPage.class);
+    }
+
+    public InstructorStudentRecordsPage clickViewAllRecords(String courseHeader, String studentEmail) {
+        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+        WebElement viewButton = studentRow.findElement(By.id("btn-view-records"));
+        click(viewButton);
+        ThreadHelper.waitFor(2000);
+        switchToNewWindow();
+        return changePageType(InstructorStudentRecordsPage.class);
     }
 
 }

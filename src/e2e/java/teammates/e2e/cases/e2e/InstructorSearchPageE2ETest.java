@@ -9,7 +9,10 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorSearchPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.
@@ -69,6 +72,30 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         courseHeaderToStudents.put(course2Header, studentsInCourse2);
 
         searchPage.verifyStudentDetails(courseHeaderToStudents);
+
+        ______TS("link: view student details page");
+
+        StudentAttributes studentToView = testData.students.get("student2.2InCourse1");
+        String studentEmail = studentToView.getEmail();
+
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
+                searchPage.clickViewStudent(course1Header, studentEmail);
+        studentDetailsViewPage.verifyIsCorrectPage(course1.getId(), studentEmail);
+        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("link: edit student details page");
+
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
+                searchPage.clickEditStudent(course1Header, studentEmail);
+        studentDetailsEditPage.verifyIsCorrectPage(course1.getId(), studentEmail);
+        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("link: view all records page");
+
+        InstructorStudentRecordsPage studentRecordsPage =
+                searchPage.clickViewAllRecords(course1Header, studentEmail);
+        studentRecordsPage.verifyIsCorrectPage(course1.getId(), studentToView.getName());
+        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("action: delete student");
 

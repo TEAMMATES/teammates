@@ -43,6 +43,11 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
         return getPageTitle().contains("Edit Student Details");
     }
 
+    public void verifyIsCorrectPage(String expectedCourseId, String expectedStudentEmail) {
+        assertEquals(expectedCourseId, courseId.getText());
+        assertEquals(expectedStudentEmail, studentEmailTextbox.getAttribute("value"));
+    }
+
     public void verifyStudentDetails(StudentAttributes studentDetails) {
         assertEquals(studentDetails.getCourse(), courseId.getText());
         assertEquals(studentDetails.getName(), studentNameTextbox.getAttribute("value"));

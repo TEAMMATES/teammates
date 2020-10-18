@@ -10,7 +10,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorStudentListPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
@@ -70,6 +73,30 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         }
 
         listPage.verifyStudentDetails(courseHeaderToStudents);
+
+        ______TS("link: view student details page");
+
+        StudentAttributes studentToView = testData.students.get("Student1Course3");
+        String studentEmail = studentToView.getEmail();
+
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
+                listPage.clickViewStudent(course3Header, studentEmail);
+        studentDetailsViewPage.verifyIsCorrectPage(course3.getId(), studentEmail);
+        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("link: edit student details page");
+
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
+                listPage.clickEditStudent(course3Header, studentEmail);
+        studentDetailsEditPage.verifyIsCorrectPage(course3.getId(), studentEmail);
+        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("link: view all records page");
+
+        InstructorStudentRecordsPage studentRecordsPage =
+                listPage.clickViewAllRecords(course3Header, studentEmail);
+        studentRecordsPage.verifyIsCorrectPage(course3.getId(), studentToView.getName());
+        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("action: delete student");
 
