@@ -42,6 +42,8 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
 
         recordsPage.verifyStudentDetails(studentProfile, student);
 
+        // TODO add tests for feedback responses
+
     }
 
 }

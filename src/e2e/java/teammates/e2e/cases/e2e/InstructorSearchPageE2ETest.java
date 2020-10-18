@@ -110,6 +110,8 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.verifyStudentDetails(course1Header, studentsAfterDelete);
         verifyAbsentInDatastore(studentToDelete);
 
+        // TODO add tests for search response comments
+
     }
 
     private String createHeaderText(CourseAttributes course) {
