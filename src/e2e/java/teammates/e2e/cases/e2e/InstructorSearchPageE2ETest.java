@@ -70,6 +70,19 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.verifyStudentDetails(courseHeaderToStudents);
 
+        ______TS("action: delete student");
+
+        StudentAttributes studentToDelete = testData.students.get("student2InCourse1");
+
+        searchPage.deleteStudent(course1Header, studentToDelete.getEmail());
+
+        StudentAttributes[] studentsAfterDelete = {
+                testData.students.get("student2.2InCourse1"),
+        };
+
+        searchPage.verifyStudentDetails(course1Header, studentsAfterDelete);
+        verifyAbsentInDatastore(studentToDelete);
+
     }
 
     private String createHeaderText(CourseAttributes course) {

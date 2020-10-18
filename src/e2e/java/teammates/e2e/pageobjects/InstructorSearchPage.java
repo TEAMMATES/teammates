@@ -1,6 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Map;
@@ -73,13 +74,26 @@ public class InstructorSearchPage extends AppPage {
         List<WebElement> studentCoursesResult = getStudentCoursesResult();
         assertEquals(students.size(), studentCoursesResult.size());
 
-        for (WebElement studentCourse : studentCoursesResult) {
-            String courseId = studentCourse.findElement(By.className("card-header")).getText();
-            WebElement studentList = studentCourse.findElement(By.tagName("table"));
+        students.forEach((courseHeader, studentsForCourse) -> verifyStudentDetails(courseHeader, studentsForCourse));
+    }
 
-            StudentAttributes[] studentsForCourse = students.get(courseId);
-            verifyTableBodyValues(studentList, getExpectedStudentValues(studentsForCourse));
+    public void verifyStudentDetails(String targetCourseHeader, StudentAttributes[] students) {
+        WebElement targetCourse = getStudentTableForHeader(targetCourseHeader);
+        if (targetCourse == null) {
+            fail("Course with header " + targetCourseHeader + " is not found");
         }
+
+        WebElement studentList = targetCourse.findElement(By.tagName("table"));
+        verifyTableBodyValues(studentList, getExpectedStudentValues(students));
+    }
+
+    private WebElement getStudentTableForHeader(String targetHeader) {
+        List<WebElement> studentCoursesResult = getStudentCoursesResult();
+
+        return studentCoursesResult.stream().filter(studentCourse -> {
+            String courseHeader = studentCourse.findElement(By.className("card-header")).getText();
+            return targetHeader.equals(courseHeader);
+        }).findFirst().orElse(null);
     }
 
     private String[][] getExpectedStudentValues(StudentAttributes[] students) {
@@ -94,6 +108,32 @@ public class InstructorSearchPage extends AppPage {
             expected[i][5] = student.getEmail();
         }
         return expected;
+    }
+
+    public void deleteStudent(String courseHeader, String studentEmail) {
+        clickAndConfirm(getDeleteButton(courseHeader, studentEmail));
+        waitUntilAnimationFinish();
+    }
+
+    private WebElement getDeleteButton(String courseHeader, String studentEmail) {
+        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+        return studentRow.findElement(By.id("btn-delete"));
+    }
+
+    private WebElement getStudentRow(String courseHeader, String studentEmail) {
+        WebElement targetCourse = getStudentTableForHeader(courseHeader);
+        if (targetCourse == null) {
+            fail("Course with header " + courseHeader + " is not found");
+        }
+
+        List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
+        for (WebElement studentRow : studentRows) {
+            List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
+            if (studentCells.get(5).getText().equals(studentEmail)) {
+                return studentRow;
+            }
+        }
+        return null;
     }
 
 }
