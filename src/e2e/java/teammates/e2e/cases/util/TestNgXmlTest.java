@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
-import teammates.test.cases.BaseTestCase;
-import teammates.test.driver.FileHelper;
+import teammates.test.BaseTestCase;
+import teammates.test.FileHelper;
 
 /**
  * Verifies that the testng-e2e.xml configuration file contains all the E2E test cases in the project.
@@ -72,7 +72,7 @@ public class TestNgXmlTest extends BaseTestCase {
                 testFiles.put(name.replace(".java", ""), packageName);
 
             } else if (file.isDirectory() && !"lnp".equals(name)) {
-                // If the package name is in TestNG in the form of <package name="teammates.test.cases.package.name" />
+                // If the package name is in TestNG in the form of <package name="teammates.package.name" />
                 // then files in the current directory are excluded because the whole package would be tested by TestNG.
 
                 testFiles.putAll(

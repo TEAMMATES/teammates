@@ -52,6 +52,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -66,6 +67,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -173,6 +175,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -187,6 +190,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -288,6 +292,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-send-invite"
             >
               Send Invite
             </button>
@@ -295,6 +300,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -376,6 +382,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-send-invite"
             >
               Send Invite
             </button>
@@ -383,6 +390,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -464,6 +472,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -545,6 +554,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -632,6 +642,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -646,6 +657,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -747,6 +759,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-send-invite"
             >
               Send Invite
             </button>
@@ -754,6 +767,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -835,6 +849,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -916,6 +931,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -997,6 +1013,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1084,6 +1101,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -1098,6 +1116,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -1196,6 +1215,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1274,6 +1294,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1352,6 +1373,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1430,6 +1452,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1517,6 +1540,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -1531,6 +1555,7 @@ exports[`StudentListComponent should snap with some student list data and some s
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -1630,6 +1655,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1708,6 +1734,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1787,6 +1814,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1865,6 +1893,7 @@ exports[`StudentListComponent should snap with some student list data and some s
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -1952,6 +1981,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -1966,6 +1996,7 @@ exports[`StudentListComponent should snap with some student list data when not a
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -2064,6 +2095,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -2142,6 +2174,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <button
               class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -2220,6 +2253,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -2298,6 +2332,7 @@ exports[`StudentListComponent should snap with some student list data when not a
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -2371,6 +2406,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -2385,6 +2421,7 @@ exports[`StudentListComponent should snap with some student list data with no se
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span
@@ -2480,6 +2517,7 @@ exports[`StudentListComponent should snap with some student list data with no se
             
             <button
               class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
             >
               Delete
             </button>
@@ -2554,6 +2592,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
           </th>
           <th
             class="sortable-header"
+            id="sort-by-name"
           >
              Student Name 
             <span
@@ -2568,6 +2607,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
           </th>
           <th
             class="sortable-header"
+            id="sort-by-status"
           >
              Status 
             <span

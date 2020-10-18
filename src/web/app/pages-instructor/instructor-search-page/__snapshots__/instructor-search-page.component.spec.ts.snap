@@ -239,6 +239,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           
           <div
             class="card border border-light-blue mb-3"
+            id="student-course-table"
           >
             <div
               class="card-header alert-primary font-weight-bold"
@@ -293,6 +294,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </th>
                         <th
                           class="sortable-header"
+                          id="sort-by-name"
                         >
                            Student Name 
                           <span
@@ -307,6 +309,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                         </th>
                         <th
                           class="sortable-header"
+                          id="sort-by-status"
                         >
                            Status 
                           <span
@@ -405,6 +408,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
@@ -483,6 +487,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
@@ -561,6 +566,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>
@@ -639,6 +645,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
                           
                           <button
                             class="btn btn-light btn-sm btn-margin-right"
+                            id="btn-delete"
                           >
                             Delete
                           </button>

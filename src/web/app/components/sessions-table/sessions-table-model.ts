@@ -17,7 +17,7 @@ export interface SessionsTableRowModel {
 export interface CopySessionResult {
   sessionToCopyRowIndex: number;
   newFeedbackSessionName: string;
-  copyToCourseId: string;
+  copyToCourseList: string[];
 }
 
 /**

@@ -1,13 +1,12 @@
-<tm-redirect-banner></tm-redirect-banner>
 <h1>Home</h1>
 <div class="card no-border bg-light mb-4">
   <div class="card-body">
     <div class="form-row">
       <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]="studentSearchkey" (keyup.enter)="search()"
+        <input id="search-input" type="text" class="form-control" [(ngModel)]="studentSearchkey" (keyup.enter)="search()"
                placeholder="e.g. Charles Shultz, charles@gmail.com">
         <div class="input-group-append">
-          <button class="btn btn-primary" (click)="search()">Search</button>
+          <button id="btn-search" class="btn btn-primary" (click)="search()">Search</button>
         </div>
       </div>
     </div>
@@ -31,9 +30,9 @@
     <div class="float-right">
       <strong class="d-inline"> Sort By: </strong>
       <div class="btn-group" data-toggle="buttons">
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
-        <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCoursesBy(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
+        <button id="sort-course-id" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_ID)" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
+        <button id="sort-course-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_NAME)" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
+        <button id="sort-course-date" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.COURSE_CREATION_DATE)" (click)="sortCoursesBy(SortBy.COURSE_CREATION_DATE)">Creation Date</button>
       </div>
     </div>
   </div>
@@ -42,9 +41,9 @@
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="!hasCoursesLoaded">
     <div *ngIf="courseTabModels.length > 0">
-      <div class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
+      <div id="course-tab" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
         <div class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
-          <b>[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
+          <b id="course-details">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
           <div class="card-header-btn-toolbar" *ngIf="courseTabModel.isAjaxSuccess">
             <span ngbDropdown>
               <button class="btn btn-primary btn-sm" ngbDropdownToggle> Students </button>
@@ -76,9 +75,9 @@
               </div>
             </span>
             <span ngbDropdown>
-              <button class="btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
+              <button id="btn-course" class="btn btn-primary btn-sm" ngbDropdownToggle> Course </button>
               <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                <a class="btn btn-light btn-sm dropdown-item"
+                <a id="btn-archive-course" class="btn btn-light btn-sm dropdown-item"
                    ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                    (click)="archiveCourse(courseTabModel.course.courseId)"> Archive
                 </a>
@@ -86,7 +85,7 @@
                    routerLink='/web/instructor/courses/edit' [queryParams]="{courseid: courseTabModel.course.courseId}"> View / Edit
                 </a>
                 <ng-container *ngIf="courseTabModel.instructorPrivilege.canModifyCourse">
-                  <a class="btn btn-light btn-sm dropdown-item"
+                  <a id="btn-delete-course" class="btn btn-light btn-sm dropdown-item"
                      ngbTooltip="Delete the course and its corresponding students and sessions"
                      (click)="deleteCourse(courseTabModel.course.courseId)"> Delete
                   </a>

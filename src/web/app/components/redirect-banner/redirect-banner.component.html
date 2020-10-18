@@ -1,8 +1,0 @@
-<div *ngIf="redirectUrl && supportEmail && !isDismissed" class="alert alert-primary alert-dismissible fade show" role="alert">
-  This is the revamped user interface (beta) of TEAMMATES (released mid-2020) -- faster and more mobile-friendly than the previous version.
-  We welcome <a [href]="'mailto:' + supportEmail" class="alert-link">your feedback</a> on the new interface.
-  You can keep using the previous user interface (to be phased out by Oct 2020) by going <a [href]="redirectUrl" class="alert-link">here</a>.
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="isDismissed=true">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>

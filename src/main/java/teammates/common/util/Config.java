@@ -78,6 +78,9 @@ public final class Config {
     /** The value of the "app.enable.datastore.backup" in build.properties file. */
     public static final boolean ENABLE_DATASTORE_BACKUP;
 
+    /** The value of the "app.maintenance" in build.properties file. */
+    public static final boolean MAINTENANCE;
+
     static {
         APP_URL = readAppUrl();
         Properties properties = new Properties();
@@ -106,6 +109,7 @@ public final class Config {
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
+        MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
     }
 
     private Config() {
@@ -166,7 +170,7 @@ public final class Config {
      * The base URL will be the application back-end URL.
      * {@code relativeUrl} must start with a "/".
      */
-    public static AppUrl getBackEndAppUrl(String relativeUrl) {
+    private static AppUrl getBackEndAppUrl(String relativeUrl) {
         return new AppUrl(APP_URL + relativeUrl);
     }
 

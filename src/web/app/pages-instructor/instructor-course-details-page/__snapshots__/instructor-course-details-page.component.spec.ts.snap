@@ -92,6 +92,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="course-id"
               >
                 <p
                   class="form-control-static"
@@ -110,7 +111,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
-                id="coursename"
+                id="course-name"
               >
                 <p
                   class="form-control-static"
@@ -129,6 +130,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-sections"
               >
                 <p
                   class="form-control-static"
@@ -147,6 +149,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-teams"
               >
                 <p
                   class="form-control-static"
@@ -165,6 +168,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-students"
               >
                 <p
                   class="form-control-static"
@@ -184,6 +188,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             </label>
             <div
               class="col-sm-6 text-sm-left"
+              id="instructors"
             >
               
               <div>
@@ -265,6 +270,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="course-id"
               >
                 <p
                   class="form-control-static"
@@ -283,7 +289,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
-                id="coursename"
+                id="course-name"
               >
                 <p
                   class="form-control-static"
@@ -302,6 +308,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-sections"
               >
                 <p
                   class="form-control-static"
@@ -320,6 +327,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-teams"
               >
                 <p
                   class="form-control-static"
@@ -338,6 +346,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-students"
               >
                 <p
                   class="form-control-static"
@@ -357,6 +366,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             </label>
             <div
               class="col-sm-6 text-sm-left"
+              id="instructors"
             >
               
               <div>
@@ -374,6 +384,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               >
                 <button
                   class="btn btn-primary"
+                  id="btn-remind-all"
                   type="button"
                   value="Remind Students to Join"
                 >
@@ -384,6 +395,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 </button>
                 <button
                   class="btn btn-primary btn-margin-left"
+                  id="btn-download"
                   type="button"
                 >
                   
@@ -395,6 +407,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 </button>
                 <button
                   class="btn btn-danger btn-margin-left"
+                  id="btn-delete-all"
                   type="button"
                   value="Delete All Students"
                 >
@@ -411,6 +424,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       
       <div
         class="card-body p-0 student-table-margin card border"
+        id="student-list"
       >
         <tm-student-list>
           <div
@@ -457,6 +471,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </th>
                   <th
                     class="sortable-header"
+                    id="sort-by-name"
                   >
                      Student Name 
                     <span
@@ -471,6 +486,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </th>
                   <th
                     class="sortable-header"
+                    id="sort-by-status"
                   >
                      Status 
                     <span
@@ -572,6 +588,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
+                      id="btn-send-invite"
                     >
                       Send Invite
                     </button>
@@ -579,6 +596,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
+                      id="btn-delete"
                     >
                       Delete
                     </button>

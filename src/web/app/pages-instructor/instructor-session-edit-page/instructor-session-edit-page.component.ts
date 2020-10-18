@@ -154,7 +154,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isEditable: true,
     isSaving: false,
     isCollapsed: false,
-    isChanged: false,
+    isVisibilityChanged: false,
+    isFeedbackPathChanged: false,
+    isQuestionDetailsChanged: false,
   };
 
   isAddingQuestionPanelExpanded: boolean = false;
@@ -250,21 +252,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
       modalRef.result.then((result: CopySessionModalResult) => {
-        this.feedbackSessionsService.getFeedbackSession({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
-          intent: Intent.FULL_DETAIL,
-        }).pipe(
-            switchMap((feedbackSession: FeedbackSession) =>
-                this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)),
-        ).subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessage(this.router,
-              '/web/instructor/sessions/edit',
-              'The feedback session has been copied. Please modify settings/questions as necessary.',
-              { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-      }, () => {});
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        this.failedToCopySessions = {};
+        const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
+            result, this.courseId, this.feedbackSessionName);
+        if (requestList.length === 1) {
+          this.copySingleSession(requestList[0]);
+        }
+        if (requestList.length > 1) {
+          forkJoin(requestList).subscribe(() => {
+            this.showCopyStatusMessage();
+          });
+        }
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+    });
   }
 
   /**
@@ -512,7 +512,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: false,
       isSaving: false,
       isCollapsed: false,
-      isChanged: false,
+
+      isVisibilityChanged: false,
+      isFeedbackPathChanged: false,
+      isQuestionDetailsChanged: false,
     };
   }
 
@@ -749,7 +752,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isEditable: true,
       isSaving: false,
       isCollapsed: false,
-      isChanged: false,
+
+      isVisibilityChanged: false,
+      isFeedbackPathChanged: false,
+      isQuestionDetailsChanged: false,
     };
 
     // inherit some settings from the last question

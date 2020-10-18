@@ -32,7 +32,7 @@ import com.google.gson.stream.JsonWriter;
 
 import teammates.common.util.Config;
 import teammates.common.util.StringHelper;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * File storage service that saves stats/cache to encrypted/unencrypted files.

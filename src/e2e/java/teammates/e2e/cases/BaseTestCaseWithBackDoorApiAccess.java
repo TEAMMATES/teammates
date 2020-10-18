@@ -18,8 +18,8 @@ import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskReturns;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.TestProperties;
-import teammates.test.cases.BaseTestCaseWithDatastoreAccess;
-import teammates.ui.webapi.output.CourseData;
+import teammates.test.BaseTestCaseWithDatastoreAccess;
+import teammates.ui.output.CourseData;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore via {@link BackDoor}.
@@ -192,7 +192,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
-        return null; // BackDoor.getEncryptedKeyForInstructor(courseId, instructorEmail);
+        return getInstructor(courseId, instructorEmail).getKey();
     }
 
     protected String getKeyForInstructorWithRetry(String courseId, String instructorEmail)
@@ -215,8 +215,8 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
         return BackDoor.getStudent(student.course, student.email);
     }
 
-    protected String getEncryptedKeyForStudent(StudentAttributes student) {
-        return StringHelper.encrypt(getStudent(student).getKey());
+    protected String getKeyForStudent(StudentAttributes student) {
+        return getStudent(student).getKey();
     }
 
     @Override

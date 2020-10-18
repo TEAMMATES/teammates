@@ -36,7 +36,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void testAll() throws Exception {
+    public void testAll() {
 
         ______TS("unregistered student can access results");
         StudentAttributes unregistered = testData.students.get("Unregistered");
@@ -44,7 +44,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(unregistered.course)
                 .withStudentEmail(unregistered.email)
                 .withSessionName(openSession.getFeedbackSessionName())
-                .withRegistrationKey(getEncryptedKeyForStudent(unregistered));
+                .withRegistrationKey(getKeyForStudent(unregistered));
         logout();
         resultsPage = AppPage.getNewPageInstance(browser, url, StudentFeedbackResultsPage.class);
 

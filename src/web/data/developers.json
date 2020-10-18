@@ -17,6 +17,10 @@
       "username": "DevOpt"
     },
     {
+      "name": "Abhijit Roy",
+      "username": "EmberCS15"
+    },
+    {
       "name": "Abhishek Chaudary",
       "username": "AbhishekChd"
     },
@@ -202,6 +206,10 @@
       "username": "sponde25"
     },
     {
+      "name": "Ankita Nasipuri",
+      "username": "ankita2210"
+    },
+    {
       "multiple": true,
       "name": "Anoop Shukla",
       "username": "weaveranoop"
@@ -296,6 +304,10 @@
       "username": "BillyZafack"
     },
     {
+      "name": "Bjarke S.",
+      "username": "Wimpzer"
+    },
+    {
       "multiple": true,
       "name": "Brian Coveney",
       "username": "BrianCoveney"
@@ -356,6 +368,10 @@
     {
       "multiple": true,
       "name": "Chong Kok Wei"
+    },
+    {
+      "name": "Christopher Kang",
+      "username": "brandedcow"
     },
     {
       "multiple": true,
@@ -572,6 +588,11 @@
     {
       "name": "Gustav Krantz",
       "username": "gkrantz"
+    },
+    {
+      "multiple": true,
+      "name": "Hai Nguyen",
+      "username": "helloImHai"
     },
     {
       "multiple": true,
@@ -814,6 +835,7 @@
       "username": "ParmaarK"
     },
     {
+      "multiple": true,
       "name": "Konstantinidis Konstantinos",
       "username": "konkos"
     },
@@ -1006,6 +1028,7 @@
       "username": "misaunde"
     },
     {
+      "multiple": true,
       "name": "Mo Zongran",
       "username": "moziliar"
     },
@@ -1316,6 +1339,7 @@
       "username": "saitj99"
     },
     {
+      "multiple": true,
       "name": "Sajna Kadalikat",
       "username": "sjkadali"
     },

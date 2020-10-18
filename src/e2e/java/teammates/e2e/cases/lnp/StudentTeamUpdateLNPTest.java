@@ -34,7 +34,7 @@ import teammates.common.util.JsonUtils;
 import teammates.e2e.util.JMeterElements;
 import teammates.e2e.util.LNPSpecification;
 import teammates.e2e.util.LNPTestData;
-import teammates.ui.webapi.request.StudentUpdateRequest;
+import teammates.ui.request.StudentUpdateRequest;
 
 /**
 * L&P Test Case for student update by team cascade API.
@@ -278,7 +278,7 @@ public class StudentTeamUpdateLNPTest extends BaseLNPTestCase {
     }
 
     private String getTestEndpoint() {
-        return Const.ResourceURIs.URI_PREFIX + Const.ResourceURIs.STUDENT
+        return Const.ResourceURIs.STUDENT
             + "?courseid=${courseId}&studentid=${studentId}&studentemail=${studentEmail}";
     }
 
