@@ -44,6 +44,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
+              id="search-keyword"
               placeholder="Your search keyword"
               type="text"
             />
@@ -52,6 +53,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
             >
               <button
                 class="btn btn-primary"
+                id="btn-search"
               >
                 Search
               </button>
@@ -65,12 +67,12 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
             >
               <input
                 class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="studentsCheckbox"
+                id="students-checkbox"
                 type="checkbox"
               />
               <label
                 class="form-check-label"
-                for="studentsCheckbox"
+                for="students-checkbox"
               >
                 <b>
                   Students
@@ -82,12 +84,12 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
             >
               <input
                 class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="commentCheckbox"
+                id="comment-checkbox"
                 type="checkbox"
               />
               <label
                 class="form-check-label"
-                for="commentCheckbox"
+                for="comment-checkbox"
               >
                 <b>
                   Questions, responses, comments on responses
@@ -159,6 +161,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
+              id="search-keyword"
               placeholder="Your search keyword"
               type="text"
             />
@@ -168,6 +171,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
               <button
                 class="btn btn-primary"
                 disabled=""
+                id="btn-search"
               >
                 Search
               </button>
@@ -181,12 +185,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
             >
               <input
                 class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="studentsCheckbox"
+                id="students-checkbox"
                 type="checkbox"
               />
               <label
                 class="form-check-label"
-                for="studentsCheckbox"
+                for="students-checkbox"
               >
                 <b>
                   Students
@@ -198,12 +202,12 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
             >
               <input
                 class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="commentCheckbox"
+                id="comment-checkbox"
                 type="checkbox"
               />
               <label
                 class="form-check-label"
-                for="commentCheckbox"
+                for="comment-checkbox"
               >
                 <b>
                   Questions, responses, comments on responses
@@ -240,8 +244,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         >
           
           <div
-            class="card border border-light-blue mb-3"
-            id="student-course-table"
+            class="card border border-light-blue mb-3 student-course-table"
           >
             <div
               class="card-header alert-primary font-weight-bold"
@@ -721,6 +724,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
+              id="search-keyword"
               placeholder="Your search keyword"
               type="text"
             />
@@ -730,6 +734,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
               <button
                 class="btn btn-primary"
                 disabled=""
+                id="btn-search"
               >
                 Search
               </button>
@@ -743,12 +748,12 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
             >
               <input
                 class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="studentsCheckbox"
+                id="students-checkbox"
                 type="checkbox"
               />
               <label
                 class="form-check-label"
-                for="studentsCheckbox"
+                for="students-checkbox"
               >
                 <b>
                   Students
@@ -760,12 +765,12 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
             >
               <input
                 class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="commentCheckbox"
+                id="comment-checkbox"
                 type="checkbox"
               />
               <label
                 class="form-check-label"
-                for="commentCheckbox"
+                for="comment-checkbox"
               >
                 <b>
                   Questions, responses, comments on responses

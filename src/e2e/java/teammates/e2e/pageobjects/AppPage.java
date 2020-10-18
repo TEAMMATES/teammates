@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -213,6 +214,14 @@ public abstract class AppPage {
      */
     public void waitForElementStaleness(WebElement element) {
         waitFor(ExpectedConditions.stalenessOf(element));
+    }
+
+    public void verifyUnclickable(WebElement element) {
+        if (element.getTagName().equals("a")) {
+            assertTrue(element.getAttribute("class").contains("disabled"));
+        } else {
+            assertNotNull(element.getAttribute("disabled"));
+        }
     }
 
     /**

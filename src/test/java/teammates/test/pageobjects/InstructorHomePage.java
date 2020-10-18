@@ -10,12 +10,6 @@ import teammates.e2e.pageobjects.Browser;
 
 public class InstructorHomePage extends AppPage {
 
-    @FindBy(id = "searchBox")
-    private WebElement searchBox;
-
-    @FindBy(id = "buttonSearch")
-    private WebElement searchButton;
-
     @FindBy(id = "sortById")
     private WebElement sortByIdButton;
 

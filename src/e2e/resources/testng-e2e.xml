@@ -34,6 +34,7 @@
             <class name="teammates.e2e.cases.e2e.InstructorFeedbackEditPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorFeedbackSessionsPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.InstructorHomePageE2ETest" />
+            <class name="teammates.e2e.cases.e2e.InstructorSearchPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentCourseDetailsPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentCourseJoinConfirmationPageE2ETest" />
             <class name="teammates.e2e.cases.e2e.StudentHomePageE2ETest" />
