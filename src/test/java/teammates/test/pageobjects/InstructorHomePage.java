@@ -180,14 +180,6 @@ public class InstructorHomePage extends AppPage {
         resendPublishedEmailModal.findElement(By.name("form_email_list")).submit();
     }
 
-    public InstructorStudentListPage searchForStudent(String studentName) {
-        searchBox.clear();
-        searchBox.sendKeys(studentName);
-        click(searchButton);
-        waitForPageToLoad();
-        return changePageType(InstructorStudentListPage.class);
-    }
-
     public WebElement getViewResponseLink(String courseId, String evalName) {
         int evaluationRowId = getEvaluationRowId(courseId, evalName);
         String xpathExp = "//tr[@id='session" + evaluationRowId + "']/td[contains(@class,'session-response-for-test')]/a";
