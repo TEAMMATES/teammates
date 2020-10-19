@@ -45,27 +45,26 @@ public class InstructorSearchPage extends AppPage {
         assertEquals(expectedNum, studentCoursesResult.size());
     }
 
-    public void inputSearchContent(String content) {
-        searchKeyword.clear();
-        searchKeyword.sendKeys(content);
-    }
+    public void search(boolean searchForStudents, boolean searchForComments, String searchTerm) {
+        if (searchForStudents && !studentsCheckbox.isSelected()
+                || !searchForStudents && studentsCheckbox.isSelected()) {
+            click(studentsCheckbox);
+        }
 
-    public void verifyCannotClickSearchButton() {
-        verifyUnclickable(searchButton);
-    }
+        if (searchForComments && !commentCheckbox.isSelected()
+                || !searchForComments && commentCheckbox.isSelected()) {
+            click(commentCheckbox);
+        }
 
-    public void clickSearchButton() {
-        click(searchButton);
-        waitForPageToLoad(true);
-        waitUntilAnimationFinish();
-    }
-
-    public void clickStudentsCheckbox() {
-        click(studentsCheckbox);
-    }
-
-    public void clickCommentsCheckbox() {
-        click(commentCheckbox);
+        if (searchForStudents || searchForComments) {
+            searchKeyword.clear();
+            searchKeyword.sendKeys(searchTerm);
+            click(searchButton);
+            waitForPageToLoad(true);
+            waitUntilAnimationFinish();
+        } else {
+            verifyUnclickable(searchButton);
+        }
     }
 
     private List<WebElement> getStudentCoursesResult() {

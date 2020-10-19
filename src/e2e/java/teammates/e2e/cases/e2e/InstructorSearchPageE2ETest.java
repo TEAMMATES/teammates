@@ -36,22 +36,16 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         ______TS("cannot click search button if no checkbox is selected");
 
-        searchPage.clickStudentsCheckbox();
-        searchPage.verifyCannotClickSearchButton();
+        searchPage.search(false, false, "anykeyword");
 
         ______TS("search with no result");
 
-        searchPage.inputSearchContent("thiswillnothitanything");
-        searchPage.clickStudentsCheckbox();
-        searchPage.clickCommentsCheckbox();
-        searchPage.clickSearchButton();
+        searchPage.search(true, true, "thiswillnothitanything");
         searchPage.verifyStatusMessage("No results found.");
 
         ______TS("search for students");
 
-        searchPage.clickCommentsCheckbox();
-        searchPage.inputSearchContent("student2");
-        searchPage.clickSearchButton();
+        searchPage.search(true, false, "student2");
 
         CourseAttributes course1 = testData.courses.get("typicalCourse1");
         CourseAttributes course2 = testData.courses.get("typicalCourse2");
