@@ -41,9 +41,12 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         CourseAttributes course1 = testData.courses.get("course1");
         CourseAttributes course2 = testData.courses.get("course2");
         CourseAttributes course3 = testData.courses.get("course3");
-        String course1Header = createHeaderText(course1);
-        String course2Header = createHeaderText(course2);
-        String course3Header = createHeaderText(course3);
+
+        // Expand all headers first
+
+        listPage.clickCourseTabHeader(course1);
+        listPage.clickCourseTabHeader(course2);
+        listPage.clickCourseTabHeader(course3);
 
         StudentAttributes[] studentsInCourse1 = {};
 
@@ -62,26 +65,25 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("Student4Course3"),
         };
 
-        Map<String, StudentAttributes[]> courseHeaderToStudents = new HashMap<>();
-        courseHeaderToStudents.put(course1Header, studentsInCourse1);
-        courseHeaderToStudents.put(course2Header, studentsInCourse2);
-        courseHeaderToStudents.put(course3Header, studentsInCourse3);
+        Map<String, StudentAttributes[]> courseIdToStudents = new HashMap<>();
+        courseIdToStudents.put(course1.getId(), studentsInCourse1);
+        courseIdToStudents.put(course2.getId(), studentsInCourse2);
+        courseIdToStudents.put(course3.getId(), studentsInCourse3);
 
-        // Expand all headers first
+        Map<String, CourseAttributes> courseIdToCourse = new HashMap<>();
+        courseIdToCourse.put(course1.getId(), course1);
+        courseIdToCourse.put(course2.getId(), course2);
+        courseIdToCourse.put(course3.getId(), course3);
 
-        for (String header : courseHeaderToStudents.keySet()) {
-            listPage.clickCourseTabHeader(header);
-        }
-
-        listPage.verifyStudentDetails(courseHeaderToStudents);
+        listPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
 
         ______TS("link: enroll page");
 
-        InstructorCourseEnrollPage enrollPage = listPage.clickEnrollStudents(course3Header);
+        InstructorCourseEnrollPage enrollPage = listPage.clickEnrollStudents(course3);
         enrollPage.verifyIsCorrectPage(course3.getId());
 
         listPage = loginAdminToPage(listPageUrl, InstructorStudentListPage.class);
-        listPage.clickCourseTabHeader(course3Header);
+        listPage.clickCourseTabHeader(course3);
 
         ______TS("link: view student details page");
 
@@ -89,21 +91,21 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         String studentEmail = studentToView.getEmail();
 
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
-                listPage.clickViewStudent(course3Header, studentEmail);
+                listPage.clickViewStudent(course3, studentEmail);
         studentDetailsViewPage.verifyIsCorrectPage(course3.getId(), studentEmail);
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: edit student details page");
 
         InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
-                listPage.clickEditStudent(course3Header, studentEmail);
+                listPage.clickEditStudent(course3, studentEmail);
         studentDetailsEditPage.verifyIsCorrectPage(course3.getId(), studentEmail);
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view all records page");
 
         InstructorStudentRecordsPage studentRecordsPage =
-                listPage.clickViewAllRecords(course3Header, studentEmail);
+                listPage.clickViewAllRecords(course3, studentEmail);
         studentRecordsPage.verifyIsCorrectPage(course3.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
@@ -111,7 +113,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         StudentAttributes studentToDelete = testData.students.get("Student3Course3");
 
-        listPage.deleteStudent(course3Header, studentToDelete.getEmail());
+        listPage.deleteStudent(course3, studentToDelete.getEmail());
 
         StudentAttributes[] studentsAfterDelete = {
                 testData.students.get("Student1Course3"),
@@ -119,13 +121,9 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("Student4Course3"),
         };
 
-        listPage.verifyStudentDetails(course3Header, studentsAfterDelete);
+        listPage.verifyStudentDetails(course3, studentsAfterDelete);
         verifyAbsentInDatastore(studentToDelete);
 
-    }
-
-    private String createHeaderText(CourseAttributes course) {
-        return String.format("[%s]: %s", course.getId(), course.getName());
     }
 
 }

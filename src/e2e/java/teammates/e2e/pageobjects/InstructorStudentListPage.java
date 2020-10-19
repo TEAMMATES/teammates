@@ -10,6 +10,7 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.ThreadHelper;
 
@@ -31,7 +32,12 @@ public class InstructorStudentListPage extends AppPage {
         return browser.driver.findElements(By.className("course-table"));
     }
 
-    public void clickCourseTabHeader(String targetHeader) {
+    private String createHeaderText(CourseAttributes course) {
+        return String.format("[%s]: %s", course.getId(), course.getName());
+    }
+
+    public void clickCourseTabHeader(CourseAttributes course) {
+        String targetHeader = createHeaderText(course);
         List<WebElement> courseTabs = getCoursesTabs();
         for (WebElement courseTab : courseTabs) {
             WebElement headerElement = courseTab.findElement(By.className("card-header"));
@@ -44,17 +50,18 @@ public class InstructorStudentListPage extends AppPage {
         }
     }
 
-    public void verifyStudentDetails(Map<String, StudentAttributes[]> students) {
+    public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {
         List<WebElement> coursesTabs = getCoursesTabs();
+        assertEquals(students.size(), courses.size());
         assertEquals(students.size(), coursesTabs.size());
 
-        students.forEach((courseHeader, studentsForCourse) -> verifyStudentDetails(courseHeader, studentsForCourse));
+        students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
     }
 
-    public void verifyStudentDetails(String targetCourseHeader, StudentAttributes[] students) {
-        WebElement targetCourse = getCourseTabForHeader(targetCourseHeader);
+    public void verifyStudentDetails(CourseAttributes course, StudentAttributes[] students) {
+        WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
-            fail("Course with header " + targetCourseHeader + " is not found");
+            fail("Course with ID " + course.getId() + " is not found");
         }
 
         if (students.length == 0) {
@@ -70,7 +77,8 @@ public class InstructorStudentListPage extends AppPage {
         }
     }
 
-    private WebElement getCourseTabForHeader(String targetHeader) {
+    private WebElement getCourseTab(CourseAttributes course) {
+        String targetHeader = createHeaderText(course);
         List<WebElement> courseTabs = getCoursesTabs();
 
         return courseTabs.stream().filter(courseTab -> {
@@ -113,20 +121,20 @@ public class InstructorStudentListPage extends AppPage {
         return expected;
     }
 
-    public void deleteStudent(String courseHeader, String studentEmail) {
-        clickAndConfirm(getDeleteButton(courseHeader, studentEmail));
+    public void deleteStudent(CourseAttributes course, String studentEmail) {
+        clickAndConfirm(getDeleteButton(course, studentEmail));
         waitUntilAnimationFinish();
     }
 
-    private WebElement getDeleteButton(String courseHeader, String studentEmail) {
-        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+    private WebElement getDeleteButton(CourseAttributes course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
         return studentRow.findElement(By.id("btn-delete"));
     }
 
-    private WebElement getStudentRow(String courseHeader, String studentEmail) {
-        WebElement targetCourse = getCourseTabForHeader(courseHeader);
+    private WebElement getStudentRow(CourseAttributes course, String studentEmail) {
+        WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
-            fail("Course with header " + courseHeader + " is not found");
+            fail("Course with ID " + course.getId() + " is not found");
         }
 
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
@@ -139,16 +147,16 @@ public class InstructorStudentListPage extends AppPage {
         return null;
     }
 
-    public InstructorCourseEnrollPage clickEnrollStudents(String courseHeader) {
-        WebElement studentRow = getCourseTabForHeader(courseHeader);
+    public InstructorCourseEnrollPage clickEnrollStudents(CourseAttributes course) {
+        WebElement studentRow = getCourseTab(course);
         WebElement enrollButton = studentRow.findElement(By.id("btn-enroll"));
         click(enrollButton);
         waitForPageToLoad();
         return changePageType(InstructorCourseEnrollPage.class);
     }
 
-    public InstructorCourseStudentDetailsViewPage clickViewStudent(String courseHeader, String studentEmail) {
-        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(CourseAttributes course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.id("btn-view-details"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
@@ -156,8 +164,8 @@ public class InstructorStudentListPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
-    public InstructorCourseStudentDetailsEditPage clickEditStudent(String courseHeader, String studentEmail) {
-        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(CourseAttributes course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.id("btn-edit-details"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
@@ -165,8 +173,8 @@ public class InstructorStudentListPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
-    public InstructorStudentRecordsPage clickViewAllRecords(String courseHeader, String studentEmail) {
-        WebElement studentRow = getStudentRow(courseHeader, studentEmail);
+    public InstructorStudentRecordsPage clickViewAllRecords(CourseAttributes course, String studentEmail) {
+        WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.id("btn-view-records"));
         click(viewButton);
         ThreadHelper.waitFor(2000);

@@ -55,8 +55,6 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         CourseAttributes course1 = testData.courses.get("typicalCourse1");
         CourseAttributes course2 = testData.courses.get("typicalCourse2");
-        String course1Header = createHeaderText(course1);
-        String course2Header = createHeaderText(course2);
 
         StudentAttributes[] studentsInCourse1 = {
                 testData.students.get("student2.2InCourse1"),
@@ -67,11 +65,15 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
                 testData.students.get("student2InCourse2"),
         };
 
-        Map<String, StudentAttributes[]> courseHeaderToStudents = new HashMap<>();
-        courseHeaderToStudents.put(course1Header, studentsInCourse1);
-        courseHeaderToStudents.put(course2Header, studentsInCourse2);
+        Map<String, StudentAttributes[]> courseIdToStudents = new HashMap<>();
+        courseIdToStudents.put(course1.getId(), studentsInCourse1);
+        courseIdToStudents.put(course2.getId(), studentsInCourse2);
 
-        searchPage.verifyStudentDetails(courseHeaderToStudents);
+        Map<String, CourseAttributes> courseIdToCourse = new HashMap<>();
+        courseIdToCourse.put(course1.getId(), course1);
+        courseIdToCourse.put(course2.getId(), course2);
+
+        searchPage.verifyStudentDetails(courseIdToCourse, courseIdToStudents);
 
         ______TS("link: view student details page");
 
@@ -79,21 +81,21 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         String studentEmail = studentToView.getEmail();
 
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
-                searchPage.clickViewStudent(course1Header, studentEmail);
+                searchPage.clickViewStudent(course1, studentEmail);
         studentDetailsViewPage.verifyIsCorrectPage(course1.getId(), studentEmail);
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: edit student details page");
 
         InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
-                searchPage.clickEditStudent(course1Header, studentEmail);
+                searchPage.clickEditStudent(course1, studentEmail);
         studentDetailsEditPage.verifyIsCorrectPage(course1.getId(), studentEmail);
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view all records page");
 
         InstructorStudentRecordsPage studentRecordsPage =
-                searchPage.clickViewAllRecords(course1Header, studentEmail);
+                searchPage.clickViewAllRecords(course1, studentEmail);
         studentRecordsPage.verifyIsCorrectPage(course1.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
@@ -101,21 +103,17 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         StudentAttributes studentToDelete = testData.students.get("student2InCourse1");
 
-        searchPage.deleteStudent(course1Header, studentToDelete.getEmail());
+        searchPage.deleteStudent(course1, studentToDelete.getEmail());
 
         StudentAttributes[] studentsAfterDelete = {
                 testData.students.get("student2.2InCourse1"),
         };
 
-        searchPage.verifyStudentDetails(course1Header, studentsAfterDelete);
+        searchPage.verifyStudentDetails(course1, studentsAfterDelete);
         verifyAbsentInDatastore(studentToDelete);
 
         // TODO add tests for search response comments
 
-    }
-
-    private String createHeaderText(CourseAttributes course) {
-        return "[" + course.getId() + "]";
     }
 
 }
