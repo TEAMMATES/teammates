@@ -57,11 +57,10 @@ class GetSessionResultsAction extends Action {
     }
 
     private StudentAttributes getStudent(String courseId) {
-        if (userInfo == null) {
-            String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-            return logic.getStudentForRegistrationKey(regkey);
-        }
-        return logic.getStudentForGoogleId(courseId, userInfo.id);
+        return getUnregisteredStudent().orElseGet(() -> {
+            gateKeeper.verifyLoggedInUserPrivileges();
+            return logic.getStudentForGoogleId(courseId, userInfo.getId());
+        });
     }
 
     @Override
