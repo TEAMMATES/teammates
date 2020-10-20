@@ -141,13 +141,6 @@ public abstract class AppPage {
     }
 
     /**
-     * Gives an AppPage instance based on the given Browser.
-     */
-    public static AppPage getNewPageInstance(Browser currentBrowser) {
-        return getNewPageInstance(currentBrowser, GenericAppPage.class);
-    }
-
-    /**
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code newPageType}.
      */
