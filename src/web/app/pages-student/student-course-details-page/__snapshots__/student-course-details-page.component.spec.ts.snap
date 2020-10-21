@@ -76,23 +76,21 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
     
     
     
-  </tm-loading-retry><div>
+  </tm-loading-retry><div
+    class="section"
+  >
     <div
-      class="section"
+      class="row top-padded"
     >
+      
       <div
-        class="row top-padded"
+        class="col-md-10"
       >
-        
-        <div
-          class="col-md-10"
-        >
-          <table>
-            <tbody>
-              
-            </tbody>
-          </table>
-        </div>
+        <table>
+          <tbody>
+            
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -343,83 +341,81 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
     </div>
     
     
-  </tm-loading-retry><div>
+  </tm-loading-retry><div
+    class="section"
+  >
     <div
-      class="section"
+      class="row top-padded"
     >
+      
       <div
-        class="row top-padded"
+        class="col-md-2"
       >
-        
-        <div
-          class="col-md-2"
-        >
-          <strong>
-            Your teammates:
-          </strong>
-        </div>
-        <div
-          class="col-md-10"
-        >
-          <table>
-            <tbody>
-              
-              <tr>
-                <td
-                  class="team-member-photo-cell"
-                >
-                  <img
-                    class="profile-pic"
-                    src="/assets/images/profile_picture_default.png"
-                  />
-                </td>
-                <td
-                  class="team-member-profile-cell"
-                  id="teammates-details-0"
-                >
-                  <div>
-                    <label>
-                      Name:
-                    </label>
-                     2 
-                  </div>
-                  <div>
-                    <label>
-                      Email:
-                    </label>
-                     
-                    <a
-                      href="mailto:iam2@hello.com"
-                    >
-                      iam2@hello.com
-                    </a>
-                  </div>
-                  
-                  <div>
-                    <label>
-                      Gender:
-                    </label>
-                     Male 
-                  </div>
-                  
-                  <div>
-                    <label>
-                      Nationality:
-                    </label>
-                     Andorran 
-                  </div>
-                  
-                  <div>
-                    <label>
-                      Institute:
-                    </label>
-                     nus 
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <strong>
+          Your teammates:
+        </strong>
+      </div>
+      <div
+        class="col-md-10"
+      >
+        <table>
+          <tbody>
+            
+            <tr>
+              <td
+                class="team-member-photo-cell"
+              >
+                <img
+                  class="profile-pic"
+                  src="/assets/images/profile_picture_default.png"
+                />
+              </td>
+              <td
+                class="team-member-profile-cell"
+                id="teammates-details-0"
+              >
+                <div>
+                  <label>
+                    Name:
+                  </label>
+                   2 
+                </div>
+                <div>
+                  <label>
+                    Email:
+                  </label>
+                   
+                  <a
+                    href="mailto:iam2@hello.com"
+                  >
+                    iam2@hello.com
+                  </a>
+                </div>
+                
+                <div>
+                  <label>
+                    Gender:
+                  </label>
+                   Male 
+                </div>
+                
+                <div>
+                  <label>
+                    Nationality:
+                  </label>
+                   Andorran 
+                </div>
+                
+                <div>
+                  <label>
+                    Institute:
+                  </label>
+                   nus 
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
