@@ -566,6 +566,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-view-details"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -576,6 +577,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-edit-details"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -604,6 +606,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-view-records"
                       rel="noopener noreferrer"
                       target="_blank"
                     >

@@ -86,9 +86,6 @@ public abstract class AppPage {
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[2]/a")
     private WebElement instructorCoursesTab;
 
-    @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[4]/a")
-    private WebElement instructorStudentsTab;
-
     @FindBy(xpath = "//*[@id=\"contentLinks\"]/ul[1]/li[6]/a")
     private WebElement instructorHelpTab;
 
@@ -493,16 +490,6 @@ public abstract class AppPage {
         click(instructorCoursesTab);
         waitForPageToLoad();
         return changePageType(InstructorCoursesPage.class);
-    }
-
-    /**
-     * Equivalent to clicking the 'Students' tab on the top menu of the page.
-     * @return the loaded page.
-     */
-    public InstructorStudentListPage loadStudentsTab() {
-        click(instructorStudentsTab);
-        waitForPageToLoad();
-        return changePageType(InstructorStudentListPage.class);
     }
 
     /**

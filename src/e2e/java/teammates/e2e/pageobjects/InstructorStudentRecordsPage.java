@@ -9,13 +9,13 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 
 /**
- * Represents the instructor course student details view page of the website.
+ * Page Object Model for instructor student records page.
  */
-public class InstructorCourseStudentDetailsViewPage extends AppPage {
+public class InstructorStudentRecordsPage extends AppPage {
     private static final String NOT_SPECIFIED_LABEL = "Not Specified";
 
-    @FindBy (id = "student-name")
-    private WebElement studentName;
+    @FindBy(id = "records-header")
+    private WebElement headerText;
 
     @FindBy (id = "name-with-gender")
     private WebElement studentNameWithGender;
@@ -29,40 +29,25 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
     @FindBy (id = "nationality")
     private WebElement studentNationality;
 
-    @FindBy (id = "course-id")
-    private WebElement courseId;
-
-    @FindBy (id = "section-name")
-    private WebElement studentSectionName;
-
-    @FindBy (id = "team-name")
-    private WebElement studentTeamName;
-
-    @FindBy (id = "email")
-    private WebElement studentOfficialEmail;
-
-    @FindBy (id = "comments")
-    private WebElement studentComments;
-
     @FindBy (id = "more-info")
     private WebElement moreInformation;
 
-    public InstructorCourseStudentDetailsViewPage(Browser browser) {
+    public InstructorStudentRecordsPage(Browser browser) {
         super(browser);
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Enrollment Details");
+        return getPageSource().contains("'s Records");
     }
 
-    public void verifyIsCorrectPage(String expectedCourseId, String expectedStudentEmail) {
-        verifyDetail(expectedCourseId, courseId);
-        verifyDetail(expectedStudentEmail, studentOfficialEmail);
+    public void verifyIsCorrectPage(String courseId, String studentName) {
+        String expected = String.format("%s's Records - %s", studentName, courseId);
+        assertEquals(expected, headerText.getText());
     }
 
     public void verifyStudentDetails(StudentProfileAttributes studentProfile, StudentAttributes student) {
-        verifyDetail(student.getName(), studentName);
+        verifyIsCorrectPage(student.getCourse(), student.getName());
 
         StudentProfileAttributes profileToTest = studentProfile;
         if (studentProfile == null) {
@@ -72,13 +57,6 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
         verifyDetail(profileToTest.getEmail(), studentPersonalEmail);
         verifyDetail(profileToTest.getInstitute(), studentInstitution);
         verifyDetail(profileToTest.getNationality(), studentNationality);
-
-        verifyDetail(student.getCourse(), courseId);
-        verifyDetail(student.getSection(), studentSectionName);
-        verifyDetail(student.getTeam(), studentTeamName);
-        verifyDetail(student.getEmail(), studentOfficialEmail);
-        verifyDetail(student.getComments(), studentComments);
-
         verifyDetail(profileToTest.getMoreInfo(), moreInformation);
     }
 
@@ -102,4 +80,5 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
 
         return expectedName + " (" + expectedGender + ")";
     }
+
 }

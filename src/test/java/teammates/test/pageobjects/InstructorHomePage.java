@@ -10,12 +10,6 @@ import teammates.e2e.pageobjects.Browser;
 
 public class InstructorHomePage extends AppPage {
 
-    @FindBy(id = "searchBox")
-    private WebElement searchBox;
-
-    @FindBy(id = "buttonSearch")
-    private WebElement searchButton;
-
     @FindBy(id = "sortById")
     private WebElement sortByIdButton;
 
@@ -184,14 +178,6 @@ public class InstructorHomePage extends AppPage {
 
     public void submitResendPublishedEmailForm() {
         resendPublishedEmailModal.findElement(By.name("form_email_list")).submit();
-    }
-
-    public InstructorStudentListPage searchForStudent(String studentName) {
-        searchBox.clear();
-        searchBox.sendKeys(studentName);
-        click(searchButton);
-        waitForPageToLoad();
-        return changePageType(InstructorStudentListPage.class);
     }
 
     public WebElement getViewResponseLink(String courseId, String evalName) {
