@@ -16,8 +16,6 @@ public class ArchitectureTest {
 
     @Deprecated
     private static final String LEGACY_PAGEOBJECT_PACKAGE = "teammates.test.pageobjects";
-    @Deprecated
-    private static final String LEGACY_BROWSERTESTS_PACKAGE = "teammates.test.cases.browsertests";
 
     private static final JavaClasses ALL_CLASSES = forClasses("teammates");
 
@@ -273,7 +271,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_testClasses_driverShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
                 .should().accessClassesThat().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
                 .check(forClasses(TEST_DRIVER_PACKAGE));
 
@@ -301,7 +298,6 @@ public class ArchitectureTest {
     public void testArchitecture_e2e_e2eShouldBeSelfContained() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(E2E_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .check(ALL_CLASSES);
     }
