@@ -79,7 +79,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   // url param
   courseId: string = '';
   feedbackSessionName: string = '';
-  isEditingMode: boolean = false;
+  isEditingMode: boolean = true;
 
   courseName: string = '';
 
