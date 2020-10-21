@@ -9,7 +9,7 @@
       </div>
       <div *ngIf="teamExpanded[teamInfo.key]" @collapseAnim>
         <div class="card-body background-color-warning">
-          <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length">
+          <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length && showStatistics">
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
             <div class="card top-padded alert-primary-border" *ngFor="let question of teamsToQuestions[teamInfo.key]">
               <div class="card-header alert-primary">
@@ -81,7 +81,8 @@
           </div>
           <div *ngIf="question.isTabExpanded" @collapseAnim>
             <div class="card-body top-padded-small table-responsive">
-              <tm-single-statistics [responses]="question.questionOutput.allResponses"
+              <tm-single-statistics *ngIf="showStatistics"
+                                    [responses]="question.questionOutput.allResponses"
                                     [question]="question.questionOutput.feedbackQuestion.questionDetails"
                                     [statistics]="question.questionOutput.questionStatistics"
                                     [recipientType]="question.questionOutput.feedbackQuestion.recipientType"
