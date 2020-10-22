@@ -20,12 +20,12 @@
           Comment by response giver.
         </span>
         <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
-          <span>{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
+          <span id="comment-giver-name">{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
           <span class="ngb-tooltip-class" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
             {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span>
           <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
             <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
-            <span style="margin-right: .25rem;" class="ngb-tooltip-class"
+            <span id="last-editor-name" style="margin-right: .25rem;" class="ngb-tooltip-class"
                   [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
           </ng-container>
         </span>

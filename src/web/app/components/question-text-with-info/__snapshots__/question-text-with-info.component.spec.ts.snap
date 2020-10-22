@@ -23,6 +23,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
     </span>
     <span
       class="col-auto"
+      id="question-text"
     >
        Text question details
     </span>
@@ -54,6 +55,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
     </span>
     <span
       class="col-auto"
+      id="question-text"
     >
        MCQ question details
     </span>
@@ -92,6 +94,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     </span>
     <span
       class="col-auto"
+      id="question-text"
     >
        MCQ question details
     </span>

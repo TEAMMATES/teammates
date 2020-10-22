@@ -7,7 +7,7 @@
   <span *ngIf="!shouldShowDownloadQuestionResult" class="col-auto">
     <b>Question {{ questionNumber }}:&nbsp;</b>
   </span>
-  <span class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
+  <span id="question-text" class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
   <a class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
   </a>
