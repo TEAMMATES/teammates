@@ -799,7 +799,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                           >
                             
                             <a
-                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback"
+                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback&editingMode=true"
                               routerlink="/web/instructor/sessions/edit"
                             >
                               
