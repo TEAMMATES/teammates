@@ -26,8 +26,7 @@ export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFor
   /**
    * Toggles between plain text editor and rich text editor for the response.
    */
-  toggleRichTextOption(
-    richTextAllowed: boolean): void {
+  toggleRichTextOption(richTextAllowed: boolean): void {
     this.shouldAllowRichText = richTextAllowed;
     this.triggerModelChange('shouldAllowRichText', this.shouldAllowRichText);
   }
