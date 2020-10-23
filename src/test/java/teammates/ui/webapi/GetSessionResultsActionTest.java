@@ -13,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
@@ -183,6 +184,24 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 && self.getRecipientTeam().equals(other.getRecipientTeam())
                 && self.getRecipientSection().equals(other.getRecipientSection())
                 && self.getResponseDetails().getJsonString().equals(other.getResponseDetails().getJsonString());
+    }
+
+    @Test
+    public void testAccessControl_withRegistrationKey_shouldPass() {
+        CourseAttributes typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
+        FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
+        StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
+        student1 = logic.getStudentForEmail(student1.course, student1.email);
+
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(student1.key),
+        };
+
+        publishSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
+        verifyAccessibleForUnregisteredUsers(submissionParams);
     }
 
     @Test
