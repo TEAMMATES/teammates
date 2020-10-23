@@ -14,20 +14,16 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackTextQuestionDetails>
     implements OnInit {
 
-  shouldAllowRichText: boolean = true;
-
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS());
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Toggles between plain text editor and rich text editor for the response.
    */
   toggleRichTextOption(richTextAllowed: boolean): void {
-    this.shouldAllowRichText = richTextAllowed;
-    this.triggerModelChange('shouldAllowRichText', this.shouldAllowRichText);
+    this.triggerModelChange('shouldAllowRichText', richTextAllowed);
   }
 }
