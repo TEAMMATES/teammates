@@ -371,18 +371,6 @@ export class QuestionEditFormComponent implements OnInit {
         modalRef.result.then(() => {
           this.saveExistingQuestionEvent.emit();
         }, () => {});
-      // } else if (this.model.questionDetails) {
-      //   // alert user that editing text editor options will delete responses
-      //   const modalContent: string = `
-      //       <p>You seem to have changed the text editor settings of this question. Please note that <b>the existing
-      //       responses will be deleted as the text format cannot be translated.</b>
-      //       Proceed?</p>
-      //   `;
-      //   const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      //       'Save the question?', SimpleModalType.WARNING, modalContent);
-      //   modalRef.result.then(() => {
-      //     this.saveExistingQuestionEvent.emit();
-      //   }, () => {});
       }
     }
     if (this.formMode === QuestionEditFormMode.ADD) {
