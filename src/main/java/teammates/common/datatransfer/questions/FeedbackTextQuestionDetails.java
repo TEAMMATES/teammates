@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -29,7 +30,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
-        assert newDetails instanceof FeedbackTextQuestionDetails;
+        Assumption.assertTrue(newDetails instanceof FeedbackTextQuestionDetails);
 
         // delete the existing response upon change from rich text allowed to disallowed
         // due to the effort to cleanup of HTML tags from the respondents
