@@ -133,6 +133,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   isCoursesLoading: boolean = true;
   isFeedbackSessionsLoading: boolean = true;
   isRecycleBinLoading: boolean = true;
+  isRestoreFeedbackSessionLoading: boolean = false;
+  isPermanentDeleteLoading: boolean = false;
   hasCourseLoadingFailed: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
@@ -442,10 +444,12 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Restores a recycle bin feedback session.
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
+    this.isRestoreFeedbackSessionLoading = true;
     this.feedbackSessionsService.deleteSessionFromRecycleBin(
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
+        .pipe(finalize(() => this.isRestoreFeedbackSessionLoading = false))
         .subscribe((feedbackSession: FeedbackSession) => {
           this.recycleBinFeedbackSessionRowModels.splice(
               this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
@@ -458,6 +462,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           this.sessionsTableRowModels.push(m);
           this.updateInstructorPrivilege(m);
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
+
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
@@ -569,6 +574,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Restores all feedback sessions in recycle bin.
    */
   restoreAllRecycleBinFeedbackSession(): void {
+    this.isRestoreFeedbackSessionLoading = true;
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
       restoreRequests.push(
@@ -577,29 +583,30 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               model.feedbackSession.feedbackSessionName,
           ));
     });
-
-    forkJoin(restoreRequests).subscribe((restoredSessions: FeedbackSession[]) => {
-      restoredSessions.forEach((session: FeedbackSession) => {
-        this.recycleBinFeedbackSessionRowModels = [];
-        const m: SessionsTableRowModel = {
-          feedbackSession: session,
-          responseRate: '',
-          isLoadingResponseRate: false,
-          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-        };
-        this.sessionsTableRowModels.push(m);
-        this.updateInstructorPrivilege(m);
+    forkJoin(restoreRequests).pipe(finalize(() => this.isRestoreFeedbackSessionLoading = false))
+      .subscribe((restoredSessions: FeedbackSession[]) => {
+        restoredSessions.forEach((session: FeedbackSession) => {
+          this.recycleBinFeedbackSessionRowModels = [];
+          const m: SessionsTableRowModel = {
+            feedbackSession: session,
+            responseRate: '',
+            isLoadingResponseRate: false,
+            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+          };
+          this.sessionsTableRowModels.push(m);
+          this.updateInstructorPrivilege(m);
+        });
+        this.statusMessageService.showSuccessToast('All sessions have been restored.');
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
-      this.statusMessageService.showSuccessToast('All sessions have been restored.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
   }
 
   /**
    * Deletes the feedback session permanently.
    */
   permanentDeleteSession(model: RecycleBinFeedbackSessionRowModel): void {
+    this.isPermanentDeleteLoading = true;
     const modalRef: NgbModalRef = this.ngbModal.open(SessionPermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.courseId = model.feedbackSession.courseId;
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
@@ -608,13 +615,15 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       this.feedbackSessionsService.deleteFeedbackSession(
           model.feedbackSession.courseId,
           model.feedbackSession.feedbackSessionName,
-      ).subscribe(() => {
-        this.recycleBinFeedbackSessionRowModels.splice(
-            this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
-        this.statusMessageService.showSuccessToast('The feedback session has been permanently deleted.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      )
+        .pipe(finalize(() => this.isPermanentDeleteLoading = false))
+        .subscribe(() => {
+          this.recycleBinFeedbackSessionRowModels.splice(
+              this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+          this.statusMessageService.showSuccessToast('The feedback session has been permanently deleted.');
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
     });
   }
 
@@ -622,6 +631,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Deletes all feedback sessions in the recycle bin permanently.
    */
   permanentDeleteAllSessions(): void {
+    this.isPermanentDeleteLoading = true;
     const modalRef: NgbModalRef = this.ngbModal.open(SessionsPermanentDeletionConfirmModalComponent);
     modalRef.componentInstance.sessionsToDelete =
         this.recycleBinFeedbackSessionRowModels.map(
@@ -637,12 +647,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         ));
       });
 
-      forkJoin(deleteRequests).subscribe(() => {
-        this.recycleBinFeedbackSessionRowModels = [];
-        this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      forkJoin(deleteRequests).pipe(finalize(() => this.isPermanentDeleteLoading = false))
+        .subscribe(() => {
+          this.recycleBinFeedbackSessionRowModels = [];
+          this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
     });
   }
 
