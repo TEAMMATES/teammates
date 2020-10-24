@@ -371,19 +371,6 @@ public class Logic {
     }
 
     /**
-     * Omits archived courses if omitArchived == true<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Courses the instructor is in.
-     */
-    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
-
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.getCoursesForInstructor(googleId, omitArchived);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      *
