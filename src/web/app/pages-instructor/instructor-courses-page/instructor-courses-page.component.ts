@@ -4,7 +4,6 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -13,7 +12,6 @@ import {
   Course,
   CourseArchive,
   Courses,
-  InstructorPrivilege,
   JoinState,
   MessageOutput,
   Student,
@@ -70,7 +68,6 @@ export class InstructorCoursesPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private instructorService: InstructorService,
               private simpleModalService: SimpleModalService,
               private tableComparatorService: TableComparatorService) { }
 
@@ -93,23 +90,20 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = [];
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-      forkJoin(
-          resp.courses.map((course: Course) =>
-              this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })),
-      ).pipe(finalize(() => this.isLoading = false)).subscribe((privileges: InstructorPrivilege[]) => {
-        resp.courses.forEach((course: Course, index: number) => {
-          const canModifyCourse: boolean = privileges[index].canModifyCourse;
-          const canModifyStudent: boolean = privileges[index].canModifyStudent;
-          const isLoadingCourseStats: boolean = false;
-          const activeCourse: CourseModel = Object.assign({},
-              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
-          this.activeCourses.push(activeCourse);
-        });
-        this.activeCoursesDefaultSort();
-      }, (error: ErrorMessageOutput) => {
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(error.error.message);
+      resp.courses.forEach((course: Course) => {
+        let canModifyCourse: boolean = false;
+        let canModifyStudent: boolean = false;
+        if (course.privileges) {
+          canModifyCourse = course.privileges.canModifyCourse;
+          canModifyStudent = course.privileges.canModifyStudent;
+        }
+        const isLoadingCourseStats: boolean = false;
+        const activeCourse: CourseModel = Object.assign({},
+            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+        this.activeCourses.push(activeCourse);
       });
+      this.activeCoursesDefaultSort();
+      this.isLoading = false;
     }, (resp: ErrorMessageOutput) => {
       this.isLoading = false;
       this.hasLoadingFailed = true;
@@ -118,20 +112,17 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.instructorService.loadInstructorPrivilege({
-          courseId: course.courseId,
-        }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-          const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-          const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-          const isLoadingCourseStats: boolean = false;
-          const archivedCourse: CourseModel = Object.assign({},
-              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
-          this.archivedCourses.push(archivedCourse);
-          this.archivedCoursesDefaultSort();
-        }, (error: ErrorMessageOutput) => {
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(error.error.message);
-        });
+        let canModifyCourse: boolean = false;
+        let canModifyStudent: boolean = false;
+        if (course.privileges) {
+          canModifyCourse = course.privileges.canModifyCourse;
+          canModifyStudent = course.privileges.canModifyStudent;
+        }
+        const isLoadingCourseStats: boolean = false;
+        const archivedCourse: CourseModel = Object.assign({},
+            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+        this.archivedCourses.push(archivedCourse);
+        this.archivedCoursesDefaultSort();
       }
     }, (resp: ErrorMessageOutput) => {
       this.hasLoadingFailed = true;
@@ -140,23 +131,21 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        this.instructorService.loadInstructorPrivilege({ courseId: course.courseId })
-            .subscribe((instructorPrivilege: InstructorPrivilege) => {
-              const canModifyCourse: boolean = instructorPrivilege.canModifyCourse;
-              const canModifyStudent: boolean = instructorPrivilege.canModifyStudent;
-              const isLoadingCourseStats: boolean = false;
-              const softDeletedCourse: CourseModel = Object.assign({},
-                  { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
-              this.softDeletedCourses.push(softDeletedCourse);
-              this.deletedCoursesDefaultSort();
-              if (!softDeletedCourse.canModifyCourse) {
-                this.canDeleteAll = false;
-                this.canRestoreAll = false;
-              }
-            }, (error: ErrorMessageOutput) => {
-              this.hasLoadingFailed = true;
-              this.statusMessageService.showErrorToast(error.error.message);
-            });
+        let canModifyCourse: boolean = false;
+        let canModifyStudent: boolean = false;
+        if (course.privileges) {
+          canModifyCourse = course.privileges.canModifyCourse;
+          canModifyStudent = course.privileges.canModifyStudent;
+        }
+        const isLoadingCourseStats: boolean = false;
+        const softDeletedCourse: CourseModel = Object.assign({},
+            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+        this.softDeletedCourses.push(softDeletedCourse);
+        this.deletedCoursesDefaultSort();
+        if (!softDeletedCourse.canModifyCourse) {
+          this.canDeleteAll = false;
+          this.canRestoreAll = false;
+        }
       }
     }, (resp: ErrorMessageOutput) => {
       this.hasLoadingFailed = true;
