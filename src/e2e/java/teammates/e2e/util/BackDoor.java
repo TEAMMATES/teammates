@@ -33,6 +33,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -45,6 +46,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.ui.output.AccountData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.output.FeedbackQuestionData;
@@ -264,6 +266,26 @@ public final class BackDoor {
                 executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
         return putRequestOutput.responseCode == HttpStatus.SC_OK
                 ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+    }
+
+    /**
+     * Gets an account from the datastore.
+     */
+    public static AccountAttributes getAccount(String googleId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.INSTRUCTOR_ID, googleId);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        AccountData accountData = JsonUtils.fromJson(response.responseBody, AccountData.class);
+        return AccountAttributes.builder(accountData.getGoogleId())
+                .withName(accountData.getName())
+                .withEmail(accountData.getEmail())
+                .withInstitute(accountData.getInstitute())
+                .withIsInstructor(accountData.isInstructor())
+                .build();
     }
 
     /**

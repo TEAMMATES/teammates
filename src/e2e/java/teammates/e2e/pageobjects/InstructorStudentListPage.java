@@ -3,104 +3,108 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.ThreadHelper;
 
 /**
- * Represents the instructor search page.
+ * Page Object Model for instructor student list page.
  */
-public class InstructorSearchPage extends AppPage {
+public class InstructorStudentListPage extends AppPage {
 
-    @FindBy(id = "search-keyword")
-    private WebElement searchKeyword;
-
-    @FindBy(id = "btn-search")
-    private WebElement searchButton;
-
-    @FindBy(id = "students-checkbox")
-    private WebElement studentsCheckbox;
-
-    @FindBy(id = "comment-checkbox")
-    private WebElement commentCheckbox;
-
-    public InstructorSearchPage(Browser browser) {
+    public InstructorStudentListPage(Browser browser) {
         super(browser);
     }
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageTitle().contains("Search");
+        return getPageSource().contains("Student List");
     }
 
-    public void verifyNumCoursesInStudentResults(int expectedNum) {
-        List<WebElement> studentCoursesResult = getStudentCoursesResult();
-        assertEquals(expectedNum, studentCoursesResult.size());
-    }
-
-    public void search(boolean searchForStudents, boolean searchForComments, String searchTerm) {
-        if (searchForStudents && !studentsCheckbox.isSelected()
-                || !searchForStudents && studentsCheckbox.isSelected()) {
-            click(studentsCheckbox);
-        }
-
-        if (searchForComments && !commentCheckbox.isSelected()
-                || !searchForComments && commentCheckbox.isSelected()) {
-            click(commentCheckbox);
-        }
-
-        if (searchForStudents || searchForComments) {
-            searchKeyword.clear();
-            searchKeyword.sendKeys(searchTerm);
-            click(searchButton);
-            waitForPageToLoad(true);
-            waitUntilAnimationFinish();
-        } else {
-            verifyUnclickable(searchButton);
-        }
-    }
-
-    private List<WebElement> getStudentCoursesResult() {
-        return browser.driver.findElements(By.className("student-course-table"));
+    private List<WebElement> getCoursesTabs() {
+        return browser.driver.findElements(By.className("course-table"));
     }
 
     private String createHeaderText(CourseAttributes course) {
-        return "[" + course.getId() + "]";
+        return String.format("[%s]: %s", course.getId(), course.getName());
+    }
+
+    public void clickCourseTabHeader(CourseAttributes course) {
+        String targetHeader = createHeaderText(course);
+        List<WebElement> courseTabs = getCoursesTabs();
+        for (WebElement courseTab : courseTabs) {
+            WebElement headerElement = courseTab.findElement(By.className("card-header"));
+            String header = headerElement.getText();
+            if (header.equals(targetHeader)) {
+                click(headerElement);
+                waitForPageToLoad();
+                waitUntilAnimationFinish();
+            }
+        }
     }
 
     public void verifyStudentDetails(Map<String, CourseAttributes> courses, Map<String, StudentAttributes[]> students) {
-        List<WebElement> studentCoursesResult = getStudentCoursesResult();
+        List<WebElement> coursesTabs = getCoursesTabs();
         assertEquals(students.size(), courses.size());
-        assertEquals(students.size(), studentCoursesResult.size());
+        assertEquals(students.size(), coursesTabs.size());
 
         students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
     }
 
     public void verifyStudentDetails(CourseAttributes course, StudentAttributes[] students) {
-        WebElement targetCourse = getStudentTableForHeader(course);
+        WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
         }
 
-        WebElement studentList = targetCourse.findElement(By.tagName("table"));
-        verifyTableBodyValues(studentList, getExpectedStudentValues(students));
+        if (students.length == 0) {
+            String noStudentText = targetCourse.findElement(By.className("card-body")).getText();
+            // Need to account for the text from the enroll students button as well
+            String expectedText = "There are no students in this course."
+                    + System.lineSeparator() + "Enroll Students";
+            assertEquals(expectedText, noStudentText);
+        } else {
+            WebElement studentList = targetCourse.findElement(By.tagName("table"));
+            verifyTableBodyValues(studentList, getExpectedStudentValues(students));
+            verifyDisplayedNumbers(targetCourse, students);
+        }
     }
 
-    private WebElement getStudentTableForHeader(CourseAttributes course) {
+    private WebElement getCourseTab(CourseAttributes course) {
         String targetHeader = createHeaderText(course);
-        List<WebElement> studentCoursesResult = getStudentCoursesResult();
+        List<WebElement> courseTabs = getCoursesTabs();
 
-        return studentCoursesResult.stream().filter(studentCourse -> {
-            String courseHeader = studentCourse.findElement(By.className("card-header")).getText();
+        return courseTabs.stream().filter(courseTab -> {
+            String courseHeader = courseTab.findElement(By.className("card-header")).getText();
             return targetHeader.equals(courseHeader);
         }).findFirst().orElse(null);
+    }
+
+    private void verifyDisplayedNumbers(WebElement courseTab, StudentAttributes[] students) {
+        String nStudents = courseTab.findElement(By.id("num-students")).getText();
+        String nSections = courseTab.findElement(By.id("num-sections")).getText();
+        String nTeams = courseTab.findElement(By.id("num-teams")).getText();
+
+        String expectedNStudents = students.length + " students";
+        String expectedNSections = Arrays.stream(students)
+                .map(StudentAttributes::getSection)
+                .distinct()
+                .count() + " sections";
+        String expectedNTeams = Arrays.stream(students)
+                .map(StudentAttributes::getTeam)
+                .distinct()
+                .count() + " teams";
+
+        assertEquals(expectedNStudents, nStudents);
+        assertEquals(expectedNSections, nSections);
+        assertEquals(expectedNTeams, nTeams);
     }
 
     private String[][] getExpectedStudentValues(StudentAttributes[] students) {
@@ -128,7 +132,7 @@ public class InstructorSearchPage extends AppPage {
     }
 
     private WebElement getStudentRow(CourseAttributes course, String studentEmail) {
-        WebElement targetCourse = getStudentTableForHeader(course);
+        WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
         }
@@ -141,6 +145,14 @@ public class InstructorSearchPage extends AppPage {
             }
         }
         return null;
+    }
+
+    public InstructorCourseEnrollPage clickEnrollStudents(CourseAttributes course) {
+        WebElement studentRow = getCourseTab(course);
+        WebElement enrollButton = studentRow.findElement(By.id("btn-enroll"));
+        click(enrollButton);
+        waitForPageToLoad();
+        return changePageType(InstructorCourseEnrollPage.class);
     }
 
     public InstructorCourseStudentDetailsViewPage clickViewStudent(CourseAttributes course, String studentEmail) {
