@@ -176,6 +176,10 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
+* If you are planning to test against a production server, specify the Firefox profile to be used in `test.firefox.profile.name` value in `test.properties`.
+    *  This is used to bypass login by using previous login data.
+    *  You can enter `about:profiles` into Firefox address bar to identify the profile being used.
+
 * If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
   * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
 
@@ -190,6 +194,9 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * Press Ctrl+Shift+J to bring up the Web Console.
   * Click on the settings button at the bottom right corner.
   * Under the General tab, check "Disable Cache".
+  
+* If you are planning to test against a production server, specify the path to Chrome's user data directory in `test.chrome.userdata.path` value in `test.properties`.
+    *  This is used to bypass login by using previous login data.
 
 * The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
   You will need to manually kill these processes after the tests are done.
@@ -246,7 +253,7 @@ If you are testing against a production server (staging server or live server), 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
    * In particular, you will need legitimate Google accounts to be used for testing.
 
-1. Run the full test suite or any subset of it as how you would have done it in dev server.
+1. Login manually to TEAMMATES on the browser used for testing before running any E2E test one at a time. This is required as Google does not allow login by automated software.
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
 
 <sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
