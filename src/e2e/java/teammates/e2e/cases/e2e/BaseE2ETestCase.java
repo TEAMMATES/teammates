@@ -119,8 +119,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
         logout();
         browser.driver.get(url.toAbsoluteString());
 
-        String adminUsername = TestProperties.TEST_ADMIN_ACCOUNT;
-        String adminPassword = TestProperties.TEST_ADMIN_PASSWORD;
+        // In dev server, any username is acceptable as admin
+        String adminUsername = "devserver.admin.account";
+        String adminPassword = "anypassword";
 
         String userId = url.get(Const.ParamsNames.USER_ID);
 

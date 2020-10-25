@@ -55,12 +55,6 @@ public final class TestProperties {
     /** The password of the second test student account. */
     public static final String TEST_STUDENT2_PASSWORD;
 
-    /** The Google ID of the test admin account. */
-    public static final String TEST_ADMIN_ACCOUNT;
-
-    /** The password of the test admin account. */
-    public static final String TEST_ADMIN_PASSWORD;
-
     /** The Google ID of the test unregistered account. */
     public static final String TEST_UNREG_ACCOUNT;
 
@@ -127,9 +121,6 @@ public final class TestProperties {
                 buildProperties.load(buildPropStream);
             }
             TEAMMATES_VERSION = buildProperties.getProperty("app.version");
-
-            TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
-            TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
 
             TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
             TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
