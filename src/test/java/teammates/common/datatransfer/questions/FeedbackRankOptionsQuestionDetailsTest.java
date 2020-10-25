@@ -18,8 +18,8 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsQuestionDetails rankDetails = new FeedbackRankOptionsQuestionDetails();
 
         assertEquals(FeedbackQuestionType.RANK_OPTIONS, rankDetails.getQuestionType());
-        assertTrue(rankDetails.getMinOptionsToBeRanked() == FeedbackRankQuestionDetails.NO_VALUE);
-        assertTrue(rankDetails.getMaxOptionsToBeRanked() == FeedbackRankQuestionDetails.NO_VALUE);
+        assertEquals(rankDetails.getMinOptionsToBeRanked(), FeedbackRankQuestionDetails.NO_VALUE);
+        assertEquals(rankDetails.getMaxOptionsToBeRanked(), FeedbackRankQuestionDetails.NO_VALUE);
         assertFalse(rankDetails.areDuplicatesAllowed());
     }
 
