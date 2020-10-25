@@ -64,27 +64,27 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     public boolean isInstructor() {
-        return isInstructor;
+        return this.isInstructor;
     }
 
     public String getGoogleId() {
-        return googleId;
+        return this.googleId;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getInstitute() {
-        return institute;
+        return this.institute;
     }
 
     public Instant getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     @Override
