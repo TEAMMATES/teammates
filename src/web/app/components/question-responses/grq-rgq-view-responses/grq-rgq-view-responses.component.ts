@@ -27,6 +27,7 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
+  @Input() sectionOfView: string = '';
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
@@ -95,9 +96,9 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
           continue;
         }
 
-        if (this.section) {
-          if (this.isGrq && response.giverSection !== this.section
-              || !this.isGrq && response.recipientSection !== this.section) {
+        if (this.sectionOfView) {
+          if (this.isGrq && response.giverSection !== this.sectionOfView
+              || !this.isGrq && response.recipientSection !== this.sectionOfView) {
             continue;
           }
         }
