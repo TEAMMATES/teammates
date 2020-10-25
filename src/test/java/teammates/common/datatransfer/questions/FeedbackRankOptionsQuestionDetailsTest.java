@@ -164,7 +164,8 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
                 Arrays.asList(
                         feedbackResponseDetails1,
                         feedbackResponseDetails2),
-                1).isEmpty());
+                1
+                ).isEmpty());
     }
 
     @Test
@@ -183,7 +184,8 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
                 Arrays.asList(
                         feedbackResponseDetails1,
                         feedbackResponseDetails2),
-                1));
+                        1
+                ));
     }
 
     @Test
@@ -200,6 +202,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
                 Arrays.asList(
                         feedbackResponseDetails1,
                         feedbackResponseDetails2),
-                1).isEmpty());
+                1
+                ).isEmpty());
     }
 }
