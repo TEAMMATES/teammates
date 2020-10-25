@@ -27,7 +27,7 @@ public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
         // The tester should manually check the email box after running the test suite
         // TODO check if we can automate this checking process
 
-        String student1Email = TestProperties.TEST_STUDENT1_ACCOUNT + "@gmail.com";
+        String student1Email = TestProperties.TEST_STUDENT_EMAIL;
         testData.accounts.get("instructorWithEvals").email = student1Email;
         testData.instructors.get("AutSessRem.instructor").email = student1Email;
         testData.students.get("alice.tmms@AutSessRem.course").email = student1Email;
