@@ -937,7 +937,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Handles 'Done Editing' click event.
+   * Handles 'Discard Unsaved edits' click event.
    */
   doneEditingHandler(): void {
     if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
