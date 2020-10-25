@@ -28,6 +28,9 @@
     </ng-container>
   </div>
 </div>
+<div *ngIf="(groupByTeam && !(teamsToUsers | keyvalue)?.length) || (!groupByTeam && !(userExpanded | keyvalue)?.length)">
+  <i>There are no responses for this section or you may not have the permission to see the response.</i>
+</div>
 
 <ng-template #userTab let-userInfo='userInfo'>
   <div id="user-panel" class="card top-padded border-primary">

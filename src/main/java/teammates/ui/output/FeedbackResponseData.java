@@ -1,5 +1,7 @@
 package teammates.ui.output;
 
+import javax.annotation.Nullable;
+
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.util.StringHelper;
@@ -16,6 +18,9 @@ public class FeedbackResponseData extends ApiOutput {
     private final String recipientIdentifier;
 
     private final FeedbackResponseDetails responseDetails;
+
+    @Nullable
+    private FeedbackResponseCommentData giverComment;
 
     public FeedbackResponseData(FeedbackResponseAttributes feedbackResponseAttributes) {
         this.feedbackResponseId = StringHelper.encrypt(feedbackResponseAttributes.getId());
@@ -39,4 +44,13 @@ public class FeedbackResponseData extends ApiOutput {
     public FeedbackResponseDetails getResponseDetails() {
         return responseDetails;
     }
+
+    public FeedbackResponseCommentData getGiverComment() {
+        return giverComment;
+    }
+
+    public void setGiverComment(FeedbackResponseCommentData giverComment) {
+        this.giverComment = giverComment;
+    }
+
 }

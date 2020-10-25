@@ -31,6 +31,7 @@ interface QuestionTab {
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
+  @Input() sectionOfView: string = '';
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam: boolean = true;
@@ -94,9 +95,9 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           continue;
         }
 
-        if (this.section) {
-          if (this.isGqr && response.giverSection !== this.section
-              || !this.isGqr && response.recipientSection !== this.section) {
+        if (this.sectionOfView) {
+          if (this.isGqr && response.giverSection !== this.sectionOfView
+              || !this.isGqr && response.recipientSection !== this.sectionOfView) {
             continue;
           }
         }

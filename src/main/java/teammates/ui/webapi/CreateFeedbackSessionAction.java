@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 
 /**
@@ -65,7 +66,11 @@ class CreateFeedbackSessionAction extends Action {
         }
 
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
-        return new JsonResult(new FeedbackSessionData(fs));
+        FeedbackSessionData output = new FeedbackSessionData(fs);
+        InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
+        output.setPrivileges(privilege);
+
+        return new JsonResult(output);
     }
 
 }

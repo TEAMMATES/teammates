@@ -60,7 +60,8 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
                 courseToBeDeleted.getTimeZone().getId());
 
-        List<CourseAttributes> courseList = logic.getCoursesForInstructor(instructorId, false);
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorId, false);
+        List<CourseAttributes> courseList = logic.getCoursesForInstructor(instructors);
         assertEquals(1, courseList.size());
         assertEquals("icdct.tpa.id1", courseList.get(0).getId());
 
