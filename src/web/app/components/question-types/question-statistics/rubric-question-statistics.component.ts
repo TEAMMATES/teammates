@@ -118,6 +118,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient Name', sortBy: SortBy.RECIPIENT_NAME },
       { header: 'Overall Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
+      { header: 'Breakdown Average', sortBy: SortBy.RUBRIC_WEIGHT_AVERAGE },
     ];
 
     this.perRecipientOverallRowsData = [];
@@ -128,6 +129,11 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         { value: this.subQuestions.map((_: string, questionIndex: number) => {
           return perRecipientStats.subQuestionWeightAverage[questionIndex];
         }).reduce((accValue: number, currValue: number) => accValue + currValue) / this.subQuestions.length,
+        },
+        { value: this.subQuestions.map((_: string, questionIndex: number) => {
+            const currValue = perRecipientStats.subQuestionWeightAverage[questionIndex];
+            return currValue ? currValue.toString() : "N/A";
+          }).reduce((accValue: string, currValue: string) => accValue + ', ' + currValue),
         },
       ]);
     });
