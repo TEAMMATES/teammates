@@ -21,7 +21,6 @@ import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.DevServerLoginPage;
 import teammates.e2e.pageobjects.HomePage;
-import teammates.e2e.pageobjects.LoginPage;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
@@ -121,7 +120,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
 
         // In dev server, any username is acceptable as admin
         String adminUsername = "devserver.admin.account";
-        String adminPassword = "anypassword";
 
         String userId = url.get(Const.ParamsNames.USER_ID);
 
@@ -131,8 +129,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithBackDoorApiAccess 
             adminUsername = userId;
         }
 
-        LoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-        loginPage.loginAsAdmin(adminUsername, adminPassword);
+        DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
+        loginPage.loginAsAdmin(adminUsername);
 
         return AppPage.getNewPageInstance(browser, url, typeOfPage);
     }
