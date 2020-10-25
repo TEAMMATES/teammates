@@ -42,6 +42,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();

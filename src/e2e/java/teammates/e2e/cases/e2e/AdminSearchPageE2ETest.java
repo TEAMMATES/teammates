@@ -28,7 +28,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         searchPage = loginAdminToPage(url, AdminSearchPage.class);
 

@@ -48,6 +48,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withUserId(instructor.getGoogleId())

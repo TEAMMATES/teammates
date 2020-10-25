@@ -21,6 +21,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         ______TS("verify loaded details - student with profile");
         StudentAttributes student = testData.students.get("ICSDetailsE2eT.jose.tmms");

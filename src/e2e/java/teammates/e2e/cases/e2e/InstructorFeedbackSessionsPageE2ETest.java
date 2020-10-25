@@ -76,7 +76,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE).withUserId(instructor.googleId);
         InstructorFeedbackSessionsPage feedbackSessionsPage = loginAdminToPage(url, InstructorFeedbackSessionsPage.class);
 

@@ -28,6 +28,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         testAssertionError();
         testNullPointerException();
