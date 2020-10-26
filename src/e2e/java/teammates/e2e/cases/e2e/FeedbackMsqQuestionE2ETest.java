@@ -54,7 +54,6 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
-        feedbackEditPage.waitForPageToLoad();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
@@ -102,10 +101,8 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
-                .withSessionName(feedbackSession.getFeedbackSessionName())
-                .withRegistrationKey(getKeyForStudent(student));
+                .withSessionName(feedbackSession.getFeedbackSessionName());
         FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -128,7 +125,6 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
@@ -137,7 +133,6 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
         verifyPresentInDatastore(response);
     }

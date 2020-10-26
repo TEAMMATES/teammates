@@ -53,7 +53,6 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
-        feedbackEditPage.waitForPageToLoad();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
@@ -97,10 +96,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
-                .withSessionName(feedbackSession.getFeedbackSessionName())
-                .withRegistrationKey(getKeyForStudent(student));
+                .withSessionName(feedbackSession.getFeedbackSessionName());
         FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -121,7 +118,6 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
 
         ______TS("check previous response");
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyRankRecipientResponse(1, responses);
 
         ______TS("edit response");
@@ -131,7 +127,6 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseE2ETestCase {
         feedbackSubmitPage.submitRankRecipientResponse(1, responses);
 
         feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
         feedbackSubmitPage.verifyRankRecipientResponse(1, responses);
         verifyAbsentInDatastore(response);
         verifyPresentInDatastore(response2);

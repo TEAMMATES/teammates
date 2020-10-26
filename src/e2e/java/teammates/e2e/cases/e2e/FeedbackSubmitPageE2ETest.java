@@ -188,8 +188,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         return createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
-                .withSessionName(session.getFeedbackSessionName())
-                .withRegistrationKey(getKeyForStudent(student));
+                .withSessionName(session.getFeedbackSessionName());
     }
 
     private List<String> getOtherStudents(StudentAttributes currentStudent) {
