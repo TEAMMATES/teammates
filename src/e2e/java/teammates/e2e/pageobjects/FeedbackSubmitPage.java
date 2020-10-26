@@ -57,6 +57,7 @@ public class FeedbackSubmitPage extends AppPage {
         if (isElementPresent(By.className("modal-content"))) {
             waitForConfirmationModalAndClickOk();
         }
+        reloadPageIfStuckLoading();
         return getPageTitle().contains("Submit Feedback");
     }
 
