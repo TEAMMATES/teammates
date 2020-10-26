@@ -462,7 +462,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           this.sessionsTableRowModels.push(m);
           this.updateInstructorPrivilege(m);
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
-
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
