@@ -70,7 +70,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(browser.driver.findElements(By.tagName("tm-question-submission-form")).size(), expected);
+        assertEquals(browser.driver.findElements(By.id("question-submission-form")).size(), expected);
     }
 
     public void verifyQuestionDetails(int qnNumber, FeedbackQuestionAttributes questionAttributes) {
@@ -102,7 +102,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
-        click(waitForElementPresence(By.id("btn-submit")));
+        click(getSubmitButton());
         StringBuilder expectedSb = new StringBuilder();
         for (int unansweredQuestion : unansweredQuestions) {
             expectedSb.append(unansweredQuestion).append(", ");
@@ -114,7 +114,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyCannotSubmit() {
-        assertFalse(waitForElementPresence(By.id("btn-submit")).isEnabled());
+        assertFalse(getSubmitButton().isEnabled());
     }
 
     public void markWithConfirmationEmail() {
@@ -590,7 +590,9 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private WebElement getQuestionForm(int qnNumber) {
-        return browser.driver.findElements(By.tagName("tm-question-submission-form")).get(qnNumber - 1);
+        By questionFormId = By.id("question-submission-form");
+        waitForElementPresence(questionFormId);
+        return browser.driver.findElements(questionFormId).get(qnNumber - 1);
     }
 
     private String getQuestionBrief(int qnNumber) {
@@ -677,7 +679,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void clickSubmitButton() {
-        clickAndConfirm(browser.driver.findElement(By.id("btn-submit")));
+        clickAndConfirm(getSubmitButton());
+    }
+
+    private WebElement getSubmitButton() {
+        return waitForElementPresence(By.id("btn-submit"));
     }
 
     private String getQuestionDescription(int qnNumber) {
