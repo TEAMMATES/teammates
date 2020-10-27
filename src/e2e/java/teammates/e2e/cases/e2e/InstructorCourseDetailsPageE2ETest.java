@@ -33,7 +33,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         student = testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104");
         if (!TestProperties.isDevServer()) {
-            student.email = TestProperties.TEST_STUDENT_EMAIL;
+            student.email = TestProperties.TEST_EMAIL;
         }
 
         removeAndRestoreDataBundle(testData);

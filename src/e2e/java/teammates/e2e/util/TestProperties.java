@@ -37,8 +37,8 @@ public final class TestProperties {
     /** The version number of the application under test. */
     public static final String TEAMMATES_VERSION;
 
-    /** The email of the test student. */
-    public static final String TEST_STUDENT_EMAIL;
+    /** The email address used for testing that emails are sent by the system. */
+    public static final String TEST_EMAIL;
 
     /** The value of "test.csrf.key" in test.properties file. */
     public static final String CSRF_KEY;
@@ -101,7 +101,7 @@ public final class TestProperties {
             }
             TEAMMATES_VERSION = buildProperties.getProperty("app.version");
 
-            TEST_STUDENT_EMAIL = prop.getProperty("test.student.email");
+            TEST_EMAIL = prop.getProperty("test.email");
 
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
