@@ -39,16 +39,10 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        testFrontendBackendTimezoneDatabasesAreConsistent();
-        testTimezoneDatabasesAreUpToDate();
-
-    }
-
-    private void testFrontendBackendTimezoneDatabasesAreConsistent() {
         browser.driver.get(createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE).toAbsoluteString());
         browser.waitForPageLoad();
 
-        // ensure the front-end and the back-end have the same timezone database version
+        ______TS("ensure the front-end and the back-end have the same timezone database version");
         Document pageSource = Jsoup.parse(browser.driver.getPageSource());
         String javaOffsets = processOffsets(pageSource.getElementById("tz-java").text());
         String momentOffsets = processOffsets(pageSource.getElementById("tz-moment").text());
@@ -59,10 +53,8 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
                     "<actual>" + System.lineSeparator() + momentOffsets + "</actual>");
         }
-    }
 
-    private void testTimezoneDatabasesAreUpToDate() {
-        // ensure the timezone databases are up-to-date
+        ______TS("ensure the timezone databases are up-to-date");
         String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("tzversion-moment").text();
         browser.driver.get(IANA_TIMEZONE_DATABASE_URL);
         Document tzReleasePage = Jsoup.parse(browser.driver.getPageSource());
