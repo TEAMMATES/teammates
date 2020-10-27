@@ -23,14 +23,11 @@ In TEAMMATES, E2E test cases are organized by page. For each page, we:
   
 All E2E test classes inherit from `BaseE2ETestCase` which contains methods that are common to most test cases, such as preparing the `Browser` object used for testing.   
   
-To help verify the state of the datastore, 
-- `BaseTestCaseWithDatastoreAccess` contains methods to compare datastore entities like `verifyPresentInDatastore`
-- `BaseTestCaseWithBackDoorApiAccess` contains methods that make use of `Backdoor` to access the datastore  
-- `Backdoor` contains methods to create API calls to the back-end without going through the UI. 
+To help verify the state of the datastore, `BackDoor` contains methods to create API calls to the back-end without going through the UI. 
   
 ## Page Object Pattern
   
-In order to make E2E testing more robust to UI changes, the Page Object Pattern is adopted.  
+In order to make E2E testing more robust to UI changes, the [Page Object Pattern](https://martinfowler.com/bliki/PageObject.html) is adopted.  
   
 Each page in TEAMMATES is represented by a page object class. The page object class abstracts interactions with UI elements and only exposes the functionality of each page as methods.   
 - This way only the page object classes require updating when there are UI changes  

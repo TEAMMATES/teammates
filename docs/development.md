@@ -180,9 +180,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
     *  This is used to bypass login by using previous login data.
     *  You can enter `about:profiles` into Firefox address bar to identify the profile being used.
 
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
-  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
-
 #### Using Chrome
 
 * You need to use chromedriver for testing with Chrome.
@@ -190,11 +187,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
     The site will also inform the versions of Chrome that can be used with the driver.
   * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
 
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Chrome:
-  * Press Ctrl+Shift+J to bring up the Web Console.
-  * Click on the settings button at the bottom right corner.
-  * Under the General tab, check "Disable Cache".
-  
 * If you are planning to test against a production server, specify the path to Chrome's user data directory in `test.chrome.userdata.path` value in `test.properties`.
     *  This is used to bypass login by using previous login data.
 
@@ -253,8 +245,12 @@ If you are testing against a production server (staging server or live server), 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
    * In particular, you will need legitimate Google accounts to be used for testing.
 
-1. Login manually to TEAMMATES on the browser used for testing before running any E2E test one at a time. This is required as Google does not allow login by automated software.
+1. Login manually to TEAMMATES on the browser used for testing. This is required as Google does not allow login by automated software.
+
+1. For Firefox, run the full test suite or any subset of it as how you would have done it in dev server. 
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
+   
+1. For Chrome, you may have to run tests one at a time as multiple ChromeDriver instances cannot be opened with the same user data.
 
 <sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
 This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
