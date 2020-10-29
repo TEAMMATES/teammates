@@ -8,7 +8,6 @@ import com.google.apphosting.api.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.e2e.util.BackDoor;
 
@@ -48,7 +47,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BackDoor.executeGetRequest(url, null);
 
-        print("AssertionError triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
+        print("AssertionError triggered, verify that you have received error logs via email");
 
     }
 
@@ -62,7 +61,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BackDoor.executeGetRequest(url, null);
 
-        print("NullPointerException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
+        print("NullPointerException triggered, verify that you have received error logs via email");
 
     }
 
@@ -76,7 +75,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BackDoor.executeGetRequest(url, null);
 
-        print("DeadlineExceededException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
+        print("DeadlineExceededException triggered, verify that you have received error logs via email");
 
     }
 
@@ -90,7 +89,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
         BackDoor.executeGetRequest(url, null);
 
-        print("DatastoreTimeoutException triggered, please check your crash report at " + Config.SUPPORT_EMAIL);
+        print("DatastoreTimeoutException triggered, verify that you have received error logs via email");
 
     }
 

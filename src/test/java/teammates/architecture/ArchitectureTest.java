@@ -310,7 +310,11 @@ public class ArchitectureTest {
                                 && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
                                 && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
                     }
-                }).check(ALL_CLASSES);
+                }).check(forClasses(E2E_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
+                .should().accessClassesThat().haveSimpleName("Config")
+                .check(forClasses(E2E_PACKAGE));
     }
 
     @Test
