@@ -1,7 +1,9 @@
 package teammates.ui.webapi;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -11,6 +13,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
+import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Gets all courses for the instructor, and filtered by active, archived and soft-deleted.
@@ -57,43 +60,48 @@ class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
         List<CourseAttributes> courses;
+        List<InstructorAttributes> instructors;
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
-            courses = getActiveCourse();
+            instructors = logic.getInstructorsForGoogleId(userInfo.id, true);
+            courses = getCourse(instructors);
             break;
         case Const.CourseStatus.ARCHIVED:
-            courses = getArchivedCourse();
+            instructors = logic.getInstructorsForGoogleId(userInfo.id)
+                    .stream()
+                    .filter(InstructorAttributes::isArchived)
+                    .collect(Collectors.toList());
+            courses = getCourse(instructors);
             break;
         case Const.CourseStatus.SOFT_DELETED:
-            courses = getSoftDeletedCourse();
+            instructors = logic.getInstructorsForGoogleId(userInfo.id);
+            courses = getSoftDeletedCourse(instructors);
             break;
         default:
             return new JsonResult("Error: invalid course status", HttpStatus.SC_BAD_REQUEST);
         }
 
+        Map<String, InstructorAttributes> courseIdToInstructor = new HashMap<>();
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.courseId, instructor));
+
         CourseAttributes.sortById(courses);
-        return new JsonResult(new CoursesData(courses));
-
-    }
-
-    private List<CourseAttributes> getActiveCourse() {
-        return logic.getCoursesForInstructor(userInfo.id, true);
-    }
-
-    private List<CourseAttributes> getArchivedCourse() {
-
-        List<InstructorAttributes> allInstructors = logic.getInstructorsForGoogleId(userInfo.id, false);
-        List<InstructorAttributes> archivedInstructors = new ArrayList<>();
-        for (InstructorAttributes instructor : allInstructors) {
-            if (instructor.isArchived) {
-                archivedInstructors.add(instructor);
+        CoursesData coursesData = new CoursesData(courses);
+        coursesData.getCourses().forEach(courseData -> {
+            InstructorAttributes instructor = courseIdToInstructor.get(courseData.getCourseId());
+            if (instructor == null) {
+                return;
             }
-        }
-
-        return logic.getCoursesForInstructor(archivedInstructors);
+            InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, null);
+            courseData.setPrivileges(privilege);
+        });
+        return new JsonResult(coursesData);
     }
 
-    private List<CourseAttributes> getSoftDeletedCourse() {
-        return logic.getSoftDeletedCoursesForInstructors(logic.getInstructorsForGoogleId(userInfo.id));
+    private List<CourseAttributes> getCourse(List<InstructorAttributes> instructors) {
+        return logic.getCoursesForInstructor(instructors);
+    }
+
+    private List<CourseAttributes> getSoftDeletedCourse(List<InstructorAttributes> instructors) {
+        return logic.getSoftDeletedCoursesForInstructors(instructors);
     }
 }

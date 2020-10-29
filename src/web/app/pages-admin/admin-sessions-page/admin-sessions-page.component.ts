@@ -10,6 +10,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 
 interface OngoingSessionModel {
   ongoingSession: OngoingSession;
+  startTimeString: string;
+  endTimeString: string;
   responseRate?: string;
 }
 
@@ -36,7 +38,8 @@ export class AdminSessionsPageComponent implements OnInit {
 
   showFilter: boolean = false;
   timezones: string[] = [];
-  timezone: string = '';
+  filterTimezone: string = '';
+  tableTimezone: string = '';
   startDate: any = {};
   startTime: any = {};
   endDate: any = {};
@@ -54,7 +57,8 @@ export class AdminSessionsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
-    this.timezone = this.timezoneService.guessTimezone();
+    this.filterTimezone = this.timezoneService.guessTimezone();
+    this.tableTimezone = this.timezoneService.guessTimezone();
 
     const now: any = moment();
     this.startDate = {
@@ -103,11 +107,11 @@ export class AdminSessionsPageComponent implements OnInit {
    * Converts milliseconds to readable date format.
    */
   showDateFromMillis(millis: number): string {
-    return moment(millis).format('ddd, DD MMM YYYY, hh:mm a');
+    return this.timezoneService.formatToString(millis, this.tableTimezone, 'ddd, DD MMM YYYY, hh:mm a');
   }
 
   private getMomentInstant(year: number, month: number, day: number, hour: number, minute: number): any {
-    const inst: any = this.timezoneService.getMomentInstance(null, this.timezone);
+    const inst: any = this.timezoneService.getMomentInstance(null, this.filterTimezone);
     inst.set('year', year);
     inst.set('month', month);
     inst.set('date', day);
@@ -127,7 +131,7 @@ export class AdminSessionsPageComponent implements OnInit {
     const displayFormat: string = 'ddd, DD MMM YYYY, hh:mm a';
     this.startTimeString = startTime.format(displayFormat);
     this.endTimeString = endTime.format(displayFormat);
-    this.timezoneString = this.timezone;
+    this.timezoneString = this.filterTimezone;
     this.isLoadingOngoingSessions = true;
 
     this.feedbackSessionsService.getOngoingSessions(startTime.toDate().getTime(), endTime.toDate().getTime())
@@ -142,6 +146,8 @@ export class AdminSessionsPageComponent implements OnInit {
             this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
               return {
                 ongoingSession,
+                startTimeString: this.showDateFromMillis(ongoingSession.startTime),
+                endTimeString: this.showDateFromMillis(ongoingSession.endTime),
               };
             });
           });
@@ -175,6 +181,15 @@ export class AdminSessionsPageComponent implements OnInit {
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
+  }
+
+  updateDisplayedTimes(): void {
+    for (const sessions of Object.values(this.sessions)) {
+      for (const session of sessions) {
+        session.startTimeString = this.showDateFromMillis(session.ongoingSession.startTime);
+        session.endTimeString = this.showDateFromMillis(session.ongoingSession.endTime);
+      }
+    }
   }
 
 }

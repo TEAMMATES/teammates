@@ -1,0 +1,189 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "googleId": "searchE2E.idOfInstructor1OfCourse1",
+      "name": "Instructor 1 of Course 1",
+      "isInstructor": true,
+      "email": "searchE2E.instr1@course1.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student1InCourse1": {
+      "googleId": "searchE2E.student1InCourse1",
+      "name": "Student 1 in course 1",
+      "isInstructor": false,
+      "email": "searchE2E.student1InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student2InCourse1": {
+      "googleId": "searchE2E.student2InCourse1",
+      "name": "Student in two courses",
+      "isInstructor": false,
+      "email": "searchE2E.student2InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student2.2InCourse1": {
+      "googleId": "searchE2E.student2.2InCourse1",
+      "name": "Student in two courses",
+      "isInstructor": false,
+      "email": "searchE2E.student2InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "student3InCourse1": {
+      "googleId": "searchE2E.student3InCourse1",
+      "name": "Student 3 in course 1",
+      "isInstructor": false,
+      "email": "searchE2E.student3InCourse1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "id": "searchE2E.idOfTypicalCourse1",
+      "name": "Typical Course 1 with 2 Evals",
+      "timeZone": "UTC"
+    },
+    "typicalCourse2": {
+      "id": "searchE2E.idOfTypicalCourse2",
+      "name": "Typical Course 2 with 2 Evals",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "googleId": "searchE2E.idOfInstructor1OfCourse1",
+      "courseId": "searchE2E.idOfTypicalCourse1",
+      "name": "Instructor1 Course1",
+      "email": "searchE2E.instructor1@course1.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourse2": {
+      "googleId": "searchE2E.idOfInstructor1OfCourse1",
+      "courseId": "searchE2E.idOfTypicalCourse2",
+      "name": "Instructor1 Course2",
+      "email": "searchE2E.instructor1@course1.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCourse1": {
+      "googleId": "searchE2E.student1InCourse1",
+      "email": "searchE2E.student1InCourse1@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse1",
+      "name": "student1 In Course1",
+      "comments": "comment for student1InCourse1",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student2InCourse1": {
+      "googleId": "searchE2E.student2InCourse1",
+      "email": "searchE2E.student2InCourse1@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse1",
+      "name": "student2 In Course1",
+      "comments": "",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student2.2InCourse1": {
+      "googleId": "searchE2E.student2.2InCourse1",
+      "email": "searchE2E.student2.2InCourse1@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse1",
+      "name": "student2 2 In Course1",
+      "comments": "",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student3InCourse1": {
+      "googleId": "searchE2E.student3InCourse1",
+      "email": "searchE2E.student3InCourse1@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse1",
+      "name": "student3 In Course1",
+      "comments": "",
+      "team": "Team 1.2",
+      "section": "Section 1"
+    },
+    "student1InCourse2": {
+      "googleId": "",
+      "email": "searchE2E.student1InCourse2@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse2",
+      "name": "student1 In Course2",
+      "comments": "comment for student1InCourse2",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student2InCourse2": {
+      "googleId": "",
+      "email": "searchE2E.student2InCourse2@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse2",
+      "name": "student2 In Course2",
+      "comments": "",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student2.2InCourse2": {
+      "googleId": "",
+      "email": "searchE2E.student2.2InCourse2@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse2",
+      "name": "student2 2 In Course2",
+      "comments": "",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    },
+    "student3InCourse2": {
+      "googleId": "",
+      "email": "searchE2E.student3InCourse2@gmail.tmt",
+      "course": "searchE2E.idOfTypicalCourse2",
+      "name": "student3 In Course2",
+      "comments": "",
+      "team": "Team 1.2",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "student1InCourse1": {
+      "googleId": "student1InCourse1",
+      "shortName": "Stud1",
+      "email": "i.m.stud1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 3",
+      "nationality": "",
+      "gender": "MALE",
+      "moreInfo": "I am just a student :P",
+      "pictureKey": ""
+    }
+  }
+}

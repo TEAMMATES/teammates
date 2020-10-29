@@ -19,6 +19,9 @@ public class InstructorCourseEnrollPage extends AppPage {
     private static final int SPREADSHEET_NUM_STARTING_ROWS = 20;
     private static final int NUM_ENROLLMENT_ATTRIBUTES = 5;
 
+    @FindBy(id = "enroll-header")
+    private WebElement enrollHeader;
+
     @FindBy(id = "toggle-existing-students")
     private WebElement toggleExistingStudentsHeader;
 
@@ -47,6 +50,10 @@ public class InstructorCourseEnrollPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageTitle().contains("Enroll Students for");
+    }
+
+    public void verifyIsCorrectPage(String courseId) {
+        assertEquals("Enroll Students for " + courseId, enrollHeader.getText());
     }
 
     public void clickToggleExistingStudentsHeader() {

@@ -14,11 +14,6 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
  */
 public class ArchitectureTest {
 
-    @Deprecated
-    private static final String LEGACY_PAGEOBJECT_PACKAGE = "teammates.test.pageobjects";
-    @Deprecated
-    private static final String LEGACY_BROWSERTESTS_PACKAGE = "teammates.test.cases.browsertests";
-
     private static final JavaClasses ALL_CLASSES = forClasses("teammates");
 
     private static final String COMMON_PACKAGE = "teammates.common";
@@ -273,7 +268,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_testClasses_driverShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
                 .should().accessClassesThat().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
                 .check(forClasses(TEST_DRIVER_PACKAGE));
 
@@ -300,8 +294,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_e2e_e2eShouldBeSelfContained() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(E2E_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .check(ALL_CLASSES);
     }
@@ -318,7 +310,11 @@ public class ArchitectureTest {
                                 && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
                                 && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
                     }
-                }).check(ALL_CLASSES);
+                }).check(forClasses(E2E_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
+                .should().accessClassesThat().haveSimpleName("Config")
+                .check(forClasses(E2E_PACKAGE));
     }
 
     @Test
@@ -486,7 +482,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("BaseTestCase")
                 .and().doNotHaveSimpleName("AssertHelper")
                 .and().doNotHaveSimpleName("EmailChecker")
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
                 .check(ALL_CLASSES);
     }
