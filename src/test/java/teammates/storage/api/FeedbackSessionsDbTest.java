@@ -14,8 +14,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.google.common.collect.Sets;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -414,8 +412,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     @Test
     public void testUpdateFeedbackSession_noChangeToSession_shouldNotIssueSaveRequest() throws Exception {
         FeedbackSessionAttributes fs = getNewFeedbackSession();
-        fs.setRespondingStudentList(Sets.newHashSet("student@email.com"));
-        fs.setRespondingInstructorList(Sets.newHashSet("instructor@email.com"));
         fs = fsDb.putEntity(fs);
 
         FeedbackSessionAttributes updatedFs = fsDb.updateFeedbackSession(
@@ -441,8 +437,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                         .withSentPublishedEmail(fs.isSentPublishedEmail())
                         .withIsClosingEmailEnabled(fs.isClosingEmailEnabled())
                         .withIsPublishedEmailEnabled(fs.isPublishedEmailEnabled())
-                        .withAddingInstructorRespondent("instructor@email.com")
-                        .withAddingStudentRespondent("student@email.com")
                         .build());
 
         assertEquals(JsonUtils.toJson(fs), JsonUtils.toJson(updatedFs));
@@ -644,62 +638,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
         assertFalse(updatedFs.isPublishedEmailEnabled());
         assertFalse(actualFs.isPublishedEmailEnabled());
-
-        assertTrue(actualFs.getRespondingInstructorList().isEmpty());
-        updatedFs = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withAddingInstructorRespondent("test@email.com")
-                        .build());
-        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertEquals(Sets.newHashSet("test@email.com"), updatedFs.getRespondingInstructorList());
-        assertEquals(Sets.newHashSet("test@email.com"), actualFs.getRespondingInstructorList());
-
-        assertTrue(actualFs.getRespondingStudentList().isEmpty());
-        updatedFs = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withAddingStudentRespondent("test@email.com")
-                        .build());
-        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertEquals(Sets.newHashSet("test@email.com"), updatedFs.getRespondingStudentList());
-        assertEquals(Sets.newHashSet("test@email.com"), actualFs.getRespondingStudentList());
-
-        updatedFs = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withUpdatingInstructorRespondent("test@email.com", "test1@email.com")
-                        .build());
-        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertEquals(Sets.newHashSet("test1@email.com"), updatedFs.getRespondingInstructorList());
-        assertEquals(Sets.newHashSet("test1@email.com"), actualFs.getRespondingInstructorList());
-
-        updatedFs = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withUpdatingStudentRespondent("test@email.com", "test1@email.com")
-                        .build());
-        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertEquals(Sets.newHashSet("test1@email.com"), updatedFs.getRespondingStudentList());
-        assertEquals(Sets.newHashSet("test1@email.com"), actualFs.getRespondingStudentList());
-
-        updatedFs = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withRemovingStudentRespondent("test1@email.com")
-                        .build());
-        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertTrue(updatedFs.getRespondingStudentList().isEmpty());
-        assertTrue(actualFs.getRespondingStudentList().isEmpty());
-
-        updatedFs = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
-                        .withRemovingInstructorRespondent("test1@email.com")
-                        .build());
-        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
-        assertTrue(updatedFs.getRespondingInstructorList().isEmpty());
-        assertTrue(actualFs.getRespondingInstructorList().isEmpty());
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {

@@ -4,11 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import org.testng.annotations.Test;
-
-import com.google.common.collect.Sets;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -50,9 +47,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
-
-        assertTrue(fsa.getRespondingInstructorList().isEmpty());
-        assertTrue(fsa.getRespondingStudentList().isEmpty());
     }
 
     @Test
@@ -125,8 +119,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
                 false, false, false, false,
-                true, true, true,
-                new HashSet<>(), new HashSet<>());
+                true, true, true);
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
 
@@ -147,8 +140,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(feedbackSession.getRespondingStudentList(), feedbackSessionAttributes.getRespondingStudentList());
-        assertEquals(feedbackSession.getRespondingInstructorList(), feedbackSessionAttributes.getRespondingInstructorList());
     }
 
     @Test
@@ -160,12 +151,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
                 false, false, false, false,
-                true, true, true,
-                null, null);
-        feedbackSession.setRespondingInstructorList(null);
-        feedbackSession.setRespondingStudentList(null);
-        assertNull(feedbackSession.getRespondingStudentList());
-        assertNull(feedbackSession.getRespondingInstructorList());
+                true, true, true);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
@@ -187,29 +173,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(new HashSet<>(), feedbackSessionAttributes.getRespondingStudentList());
-        assertEquals(new HashSet<>(), feedbackSessionAttributes.getRespondingInstructorList());
-    }
-
-    @Test
-    public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
-        FeedbackSession feedbackSession = new FeedbackSession(
-                "testName", "testCourse", "email@email.com", "text",
-                Instant.now(), null,
-                Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
-                Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
-                "UTC", 10,
-                false, false, false, false,
-                true, true, true,
-                new HashSet<>(), new HashSet<>());
-
-        FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
-
-        feedbackSessionAttributes.getRespondingStudentList().add("test@email.com");
-        feedbackSessionAttributes.getRespondingInstructorList().add("test@email.com");
-
-        assertTrue(feedbackSession.getRespondingStudentList().isEmpty());
-        assertTrue(feedbackSession.getRespondingInstructorList().isEmpty());
     }
 
     @Test
@@ -290,8 +253,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(original.isSentClosingEmail(), copy.isSentClosingEmail());
         assertEquals(original.isSentOpenEmail(), copy.isSentOpenEmail());
         assertEquals(original.isSentPublishedEmail(), copy.isSentPublishedEmail());
-        assertEquals(original.getRespondingInstructorList(), copy.getRespondingInstructorList());
-        assertEquals(original.getRespondingStudentList(), copy.getRespondingStudentList());
     }
 
     @Test
@@ -345,12 +306,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withSentPublishedEmail(true)
                         .withIsClosingEmailEnabled(true)
                         .withIsPublishedEmailEnabled(true)
-                        .withAddingInstructorRespondent("instructor@email.com")
-                        .withAddingStudentRespondent("student@email.com")
-                        .withUpdatingStudentRespondent("studentA@email.com", "studentB@email.com")
-                        .withUpdatingInstructorRespondent("insturctorA@email.com", "insturctorB@email.com")
-                        .withRemovingStudentRespondent("studentF@email.com")
-                        .withRemovingInstructorRespondent("instructorF@email.com")
                         .build();
 
         assertEquals("sessionName", updateOptions.getFeedbackSessionName());
@@ -369,9 +324,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                         .withIsClosingEmailEnabled(false)
                         .withIsPublishedEmailEnabled(false)
                         .build();
-        feedbackSessionAttributes.getRespondingInstructorList().add("insturctorA@email.com");
-        feedbackSessionAttributes
-                .getRespondingStudentList().addAll(Arrays.asList("studentA@email.com", "studentF@email.com"));
 
         feedbackSessionAttributes.update(updateOptions);
 
@@ -389,12 +341,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(feedbackSessionAttributes.isOpeningEmailEnabled());
         assertTrue(feedbackSessionAttributes.isClosingEmailEnabled());
         assertTrue(feedbackSessionAttributes.isPublishedEmailEnabled());
-        assertEquals(Sets.newHashSet("student@email.com", "studentB@email.com"),
-                feedbackSessionAttributes.getRespondingStudentList());
-        assertEquals(Sets.newHashSet("instructor@email.com", "insturctorB@email.com"),
-                feedbackSessionAttributes.getRespondingInstructorList());
 
-        // constructor update option based on existing update option
+        // build update option based on existing update option
         FeedbackSessionAttributes.UpdateOptions newUpdateOptions =
                 FeedbackSessionAttributes.updateOptionsBuilder(updateOptions)
                         .withInstructions("instruction")
@@ -432,30 +380,6 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertThrows(AssertionError.class, () ->
                 FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
                         .withGracePeriod(null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withAddingInstructorRespondent(null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withAddingStudentRespondent(null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withUpdatingStudentRespondent(null, "email@email.com"));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withUpdatingStudentRespondent("email@email.com", null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withUpdatingInstructorRespondent(null, "email@email.com"));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withUpdatingInstructorRespondent("email@email.com", null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withRemovingStudentRespondent(null));
-        assertThrows(AssertionError.class, () ->
-                FeedbackSessionAttributes.updateOptionsBuilder("session", "courseId")
-                        .withRemovingInstructorRespondent(null));
     }
 
     @Test
