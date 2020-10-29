@@ -22,7 +22,7 @@
           <i *ngIf="tableSortBy === SortBy.TEAM_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
         </span>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
+      <th id="sort-by-name" class="sortable-header" (click)="sortStudentList(SortBy.RESPONDENT_NAME)">
         Student Name
         <span class="fa-stack">
           <i class="fas fa-sort"></i>
@@ -30,7 +30,7 @@
           <i *ngIf="tableSortBy === SortBy.RESPONDENT_NAME && tableSortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
         </span>
       </th>
-      <th class="sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
+      <th id="sort-by-status" class="sortable-header" (click)="sortStudentList(SortBy.JOIN_STATUS)">
         Status
         <span class="fa-stack">
           <i class="fas fa-sort"></i>
@@ -61,9 +61,10 @@
       <td>{{studentModel.student.joinState | joinState}}</td>
       <td>{{studentModel.student.email}}</td>
       <td class="no-print align-center">
-        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
+        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
                      let-routerLink="routerLink" let-queryParams="queryParams">
           <a class="btn btn-light btn-sm btn-margin-right" target="_blank" rel="noopener noreferrer"
+             [id]="id"
              [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
              [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
              [routerLink]="routerLink"
@@ -71,6 +72,7 @@
             {{name}}</a>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-view-details',
         isEnabled: studentModel.isAllowedToViewStudentInSection && isActionButtonsEnabled,
         tooltip: 'View the details of the student',
         name: 'View',
@@ -78,6 +80,7 @@
         queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
         <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-edit-details',
         isEnabled: studentModel.isAllowedToModifyStudent && isActionButtonsEnabled,
         tooltip: 'Use this to edit the details of this student. To edit multiple students'
           + ' in one go, you can use the enroll page: '
@@ -88,7 +91,7 @@
       }"></ng-container>
       <ng-container *ngIf="enableRemindButton">
         <ng-container *ngIf="studentModel.student.joinState === JoinState.NOT_JOINED">
-          <button class="btn btn-light btn-sm btn-margin-right"
+          <button id="btn-send-invite" class="btn btn-light btn-sm btn-margin-right"
             [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
             [disabled]=!isActionButtonsEnabled
             [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
@@ -99,7 +102,7 @@
             (click)="openRemindModal(studentModel)">Send Invite</button>
         </ng-container>
       </ng-container>
-      <button class="btn btn-light btn-sm btn-margin-right"
+      <button id="btn-delete" class="btn btn-light btn-sm btn-margin-right"
         [ngClass]="{'disabled mouse-hover-only': !studentModel.isAllowedToModifyStudent || !isActionButtonsEnabled}"
         [ngbTooltip]="studentModel.isAllowedToModifyStudent && isActionButtonsEnabled
           ? 'Delete the student and the corresponding submissions from the course'
@@ -107,6 +110,7 @@
         [disabled]="!isActionButtonsEnabled"
         (click)="openDeleteModal(studentModel)">Delete</button>
       <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-view-records',
         isEnabled: isActionButtonsEnabled,
         tooltip: 'View all data about this student',
         name: 'All Records',

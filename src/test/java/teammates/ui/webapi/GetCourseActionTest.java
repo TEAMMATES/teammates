@@ -45,6 +45,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         GetCourseAction getCourseAction = getAction(params);
         JsonResult response = getJsonResult(getCourseAction);
@@ -64,6 +65,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, student1OfCourse1.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         getCourseAction = getAction(params);
         response = getJsonResult(getCourseAction);

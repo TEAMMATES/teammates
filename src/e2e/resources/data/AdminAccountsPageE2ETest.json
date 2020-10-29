@@ -1,0 +1,133 @@
+{
+  "accounts": {
+    "AAMgtE2eT.instr2": {
+      "googleId": "AAMgtE2eT.instr2",
+      "name": "Teammates Instr2",
+      "isInstructor": true,
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "AAMgtE2eT.CS2104": {
+      "id": "AAMgtE2eT.CS2104",
+      "name": "Programming Languages",
+      "timeZone": "UTC"
+    },
+    "AAMgtE2eT.CS2103": {
+      "id": "AAMgtE2eT.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "UTC"
+    },
+    "AAMgtE2eT.CS1101": {
+      "id": "AAMgtE2eT.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "AAMgtE2eT.instr2-AAMgtE2eT.CS2104": {
+      "googleId": "AAMgtE2eT.instr2",
+      "courseId": "AAMgtE2eT.CS2104",
+      "name": "Teammates Instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canmodifycourse": true,
+          "canmodifyinstructor": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAMgtE2eT.instr2-AAMgtE2eT.CS2103": {
+      "googleId": "AAMgtE2eT.instr2",
+      "courseId": "AAMgtE2eT.CS2103",
+      "name": "Teammates Instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canmodifycourse": true,
+          "canmodifyinstructor": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAMgtE2eT.instr2-AAMgtE2eT.CS1101": {
+      "googleId": "AAMgtE2eT.instr2",
+      "courseId": "AAMgtE2eT.CS1101",
+      "name": "Teammates Instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canmodifycourse": true,
+          "canmodifyinstructor": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "AAMgtE2eT.instr2-student-CS2104": {
+      "googleId": "AAMgtE2eT.instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "course": "AAMgtE2eT.CS2104",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "AAMgtE2eT.instr2-student-CS2103": {
+      "googleId": "AAMgtE2eT.instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "course": "AAMgtE2eT.CS2103",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "AAMgtE2eT.instr2-student-CS1101": {
+      "googleId": "AAMgtE2eT.instr2",
+      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "course": "AAMgtE2eT.CS1101",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}
