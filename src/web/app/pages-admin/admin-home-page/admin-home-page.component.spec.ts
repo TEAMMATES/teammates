@@ -295,4 +295,60 @@ describe('AdminHomePageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should add multiple instructors split by tabs', () => {
+    component.instructorDetails = `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
+     Instructor B \t instructorb@example.com \t Sample Institution B`;
+
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    button.click();
+
+    expect(component.instructorsConsolidated.length).toEqual(2);
+    expect(component.instructorsConsolidated[0]).toEqual(
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+      },
+    );
+    expect(component.instructorsConsolidated[1]).toEqual(
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+      },
+    );
+  });
+
+  it('should add multiple instructors split by vertical bars', () => {
+    component.instructorDetails = `Instructor A | instructora@example.com | Sample Institution A\n
+        Instructor B | instructorb@example.com | Sample Institution B`;
+
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    button.click();
+
+    expect(component.instructorsConsolidated.length).toEqual(2);
+    expect(component.instructorsConsolidated[0]).toEqual(
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+      },
+    );
+    expect(component.instructorsConsolidated[1]).toEqual(
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+      },
+    );
+  });
 });

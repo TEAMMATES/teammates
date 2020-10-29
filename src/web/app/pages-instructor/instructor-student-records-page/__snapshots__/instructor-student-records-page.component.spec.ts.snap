@@ -28,7 +28,9 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   studentTeam=""
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <h1
+    id="records-header"
+  >
     John Doe's Records
     <small
       class="text-muted"
@@ -97,7 +99,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   studentTeam=""
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <h1
+    id="records-header"
+  >
     's Records
     <small
       class="text-muted"
@@ -194,7 +198,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   studentTeam=""
   tableComparatorService={[Function TableComparatorService]}
 >
-  <h1>
+  <h1
+    id="records-header"
+  >
     Not John Doe's Records
     <small
       class="text-muted"

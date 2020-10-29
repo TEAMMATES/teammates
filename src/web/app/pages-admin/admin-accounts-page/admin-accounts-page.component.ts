@@ -92,6 +92,7 @@ export class AdminAccountsPageComponent implements OnInit {
   downgradeAccountToStudent(): void {
     const id: string = this.accountInfo.googleId;
     this.accountService.downgradeAccount(id).subscribe(() => {
+      this.instructorCourses = [];
       this.loadAccountInfo(id);
       this.statusMessageService.showSuccessToast('Instructor account is successfully downgraded to student.');
     }, (resp: ErrorMessageOutput) => {
@@ -106,7 +107,7 @@ export class AdminAccountsPageComponent implements OnInit {
     const id: string = this.accountInfo.googleId;
     this.accountService.deleteAccount(id).subscribe(() => {
       this.navigationService.navigateWithSuccessMessage(this.router, '/web/admin/search',
-          `Instructor account "${id}" is successfully deleted.`);
+          `Account "${id}" is successfully deleted.`);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });

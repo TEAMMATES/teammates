@@ -3,5 +3,5 @@
  */
 export interface CopySessionModalResult {
   newFeedbackSessionName: string;
-  copyToCourseId: string;
+  copyToCourseList: string[];
 }

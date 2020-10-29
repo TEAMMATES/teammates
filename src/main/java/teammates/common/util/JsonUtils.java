@@ -33,25 +33,36 @@ public final class JsonUtils {
      * This creates a Gson object that can handle the Date format we use in the
      * Json file and also reformat the Json string in pretty-print format.
      */
-    private static Gson getTeammatesGson() {
-        return new GsonBuilder()
-                .registerTypeAdapter(Instant.class, new TeammatesInstantAdapter())
-                .registerTypeAdapter(ZoneId.class, new TeammatesZoneIdAdapter())
-                .registerTypeAdapter(Duration.class, new TeammatesDurationMinutesAdapter())
-                .registerTypeAdapter(FeedbackQuestionDetails.class, new TeammatesFeedbackQuestionDetailsAdapter())
-                .registerTypeAdapter(FeedbackResponseDetails.class, new TeammatesFeedbackResponseDetailsAdapter())
-                .setPrettyPrinting()
-                .disableHtmlEscaping()
-                .create();
+    private static Gson getGsonInstance(boolean prettyPrint) {
+        GsonBuilder builder = new GsonBuilder()
+                .registerTypeAdapter(Instant.class, new InstantAdapter())
+                .registerTypeAdapter(ZoneId.class, new ZoneIdAdapter())
+                .registerTypeAdapter(Duration.class, new DurationMinutesAdapter())
+                .registerTypeAdapter(FeedbackQuestionDetails.class, new FeedbackQuestionDetailsAdapter())
+                .registerTypeAdapter(FeedbackResponseDetails.class, new FeedbackResponseDetailsAdapter())
+                .disableHtmlEscaping();
+        if (prettyPrint) {
+            builder.setPrettyPrinting();
+        }
+        return builder.create();
     }
 
     /**
-     * Serializes the specified object into its equivalent JSON string.
+     * Serializes and pretty-prints the specified object into its equivalent JSON string.
      *
      * @see Gson#toJson(Object, Type)
      */
     public static String toJson(Object src, Type typeOfSrc) {
-        return getTeammatesGson().toJson(src, typeOfSrc);
+        return getGsonInstance(true).toJson(src, typeOfSrc);
+    }
+
+    /**
+     * Serializes and pretty-prints the specified object into its equivalent JSON string.
+     *
+     * @see Gson#toJson(Object)
+     */
+    public static String toJson(Object src) {
+        return getGsonInstance(true).toJson(src);
     }
 
     /**
@@ -59,8 +70,8 @@ public final class JsonUtils {
      *
      * @see Gson#toJson(Object)
      */
-    public static String toJson(Object src) {
-        return getTeammatesGson().toJson(src);
+    public static String toCompactJson(Object src) {
+        return getGsonInstance(false).toJson(src);
     }
 
     /**
@@ -69,7 +80,7 @@ public final class JsonUtils {
      * @see Gson#fromJson(String, Type)
      */
     public static <T> T fromJson(String json, Type typeOfT) {
-        return getTeammatesGson().fromJson(json, typeOfT);
+        return getGsonInstance(false).fromJson(json, typeOfT);
     }
 
     /**
@@ -81,7 +92,7 @@ public final class JsonUtils {
         return JsonParser.parseString(json);
     }
 
-    private static class TeammatesInstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
+    private static class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant> {
 
         @Override
         public JsonElement serialize(Instant instant, Type type, JsonSerializationContext context) {
@@ -98,7 +109,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class TeammatesZoneIdAdapter implements JsonSerializer<ZoneId>, JsonDeserializer<ZoneId> {
+    private static class ZoneIdAdapter implements JsonSerializer<ZoneId>, JsonDeserializer<ZoneId> {
 
         @Override
         public JsonElement serialize(ZoneId zoneId, Type type, JsonSerializationContext context) {
@@ -115,7 +126,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class TeammatesDurationMinutesAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
+    private static class DurationMinutesAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
 
         @Override
         public JsonElement serialize(Duration duration, Type type, JsonSerializationContext context) {
@@ -132,7 +143,7 @@ public final class JsonUtils {
         }
     }
 
-    private static class TeammatesFeedbackResponseDetailsAdapter implements JsonSerializer<FeedbackResponseDetails>,
+    private static class FeedbackResponseDetailsAdapter implements JsonSerializer<FeedbackResponseDetails>,
             JsonDeserializer<FeedbackResponseDetails> {
 
         @Override
@@ -149,7 +160,7 @@ public final class JsonUtils {
 
     }
 
-    private static class TeammatesFeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,
+    private static class FeedbackQuestionDetailsAdapter implements JsonSerializer<FeedbackQuestionDetails>,
             JsonDeserializer<FeedbackQuestionDetails> {
 
         @Override
