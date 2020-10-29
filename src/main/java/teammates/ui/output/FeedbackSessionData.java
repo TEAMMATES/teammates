@@ -39,6 +39,8 @@ public class FeedbackSessionData extends ApiOutput {
     private long createdAtTimestamp;
     @Nullable
     private final Long deletedAtTimestamp;
+    @Nullable
+    private InstructorPrivilegeData privileges;
 
     public FeedbackSessionData(FeedbackSessionAttributes feedbackSessionAttributes) {
         this.courseId = feedbackSessionAttributes.getCourseId();
@@ -211,6 +213,14 @@ public class FeedbackSessionData extends ApiOutput {
 
     public Long getDeletedAtTimestamp() {
         return deletedAtTimestamp;
+    }
+
+    public InstructorPrivilegeData getPrivileges() {
+        return privileges;
+    }
+
+    public void setPrivileges(InstructorPrivilegeData privileges) {
+        this.privileges = privileges;
     }
 
     /**

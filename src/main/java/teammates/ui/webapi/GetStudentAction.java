@@ -83,6 +83,7 @@ class GetStudentAction extends Action {
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
             studentData.setKey(StringHelper.encrypt(student.getKey()));
+            studentData.setGoogleId(student.googleId);
         }
 
         // hide information if not an instructor

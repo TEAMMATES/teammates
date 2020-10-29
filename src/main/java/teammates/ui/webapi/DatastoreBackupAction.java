@@ -58,7 +58,7 @@ class DatastoreBackupAction extends AdminOnlyAction {
         // Documentation is wrong; the param name is output_url_prefix instead of outputUrlPrefix
         body.put("output_url_prefix", "gs://" + Config.BACKUP_GCS_BUCKETNAME + "/datastore-backups/" + timestamp);
 
-        StringEntity entity = new StringEntity(JsonUtils.toJson(body), Charset.forName("UTF-8"));
+        StringEntity entity = new StringEntity(JsonUtils.toCompactJson(body), Charset.forName("UTF-8"));
         post.setEntity(entity);
 
         try (CloseableHttpClient client = HttpClients.createDefault();
