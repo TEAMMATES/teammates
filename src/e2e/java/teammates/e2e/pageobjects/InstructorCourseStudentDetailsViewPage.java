@@ -56,6 +56,11 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
         return getPageSource().contains("Enrollment Details");
     }
 
+    public void verifyIsCorrectPage(String expectedCourseId, String expectedStudentEmail) {
+        verifyDetail(expectedCourseId, courseId);
+        verifyDetail(expectedStudentEmail, studentOfficialEmail);
+    }
+
     public void verifyStudentDetails(StudentProfileAttributes studentProfile, StudentAttributes student) {
         verifyDetail(student.getName(), studentName);
 

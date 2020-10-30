@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import com.google.common.base.Joiner;
 
@@ -57,58 +56,6 @@ public final class AssertHelper {
         if (!superstringActual.contains(substringExpected)) {
             assertEquals(substringExpected, superstringActual);
         }
-    }
-
-    /**
-     * Asserts that the superstringActual contains the exact occurence of
-     * substringExpected. Display the difference between the two on failure
-     * with the specified message.
-     */
-    public static void assertContains(String message, String substringExpected,
-            String superstringActual) {
-        if (!superstringActual.contains(substringExpected)) {
-            assertEquals(message, substringExpected, superstringActual);
-        }
-    }
-
-    /**
-     * Asserts that the stringActual contains the occurence regexExpected.
-     * Replaces occurences of {*} at regexExpected to match anything in
-     * stringActual. Tries to display the difference between the two on failure.
-     * Ignores the tab character (i.e., ignore indentation using
-     * tabs) and ignores the newline when comparing.
-     */
-    public static void assertContainsRegex(String regexExpected,
-            String stringActual) {
-        if (!isContainsRegex(regexExpected, stringActual)) {
-            assertEquals(regexExpected, stringActual);
-        }
-    }
-
-    /**
-     * Asserts that the stringActual contains the occurence regexExpected.
-     * Replaces occurences of {*} at regexExpected to match anything in
-     * stringActual. Tries to display the difference between the two on failure
-     * with the specified message.
-     */
-    public static void assertContainsRegex(String message,
-            String regexExpected, String stringActual) {
-        if (!isContainsRegex(regexExpected, stringActual)) {
-            assertEquals(message, regexExpected, stringActual);
-        }
-    }
-
-    /**
-     * Checks that the stringActual contains the occurrence regexExpected.<br>
-     * Occurrences of {*} at regexExpected can match anything (as defined by the regex .*)
-     * in stringActual.
-     */
-    public static boolean isContainsRegex(String regexExpected, String stringActual) {
-        String processedActual = stringActual.replaceAll("[\t\r\n]", "");
-        String processedRegex = Pattern.quote(regexExpected)
-                .replaceAll(Pattern.quote("{*}"), "\\\\E.*?\\\\Q")
-                .replaceAll("[\t\r\n]", "");
-        return processedActual.matches("(?s)(?m).*?" + processedRegex + ".*?");
     }
 
     /**

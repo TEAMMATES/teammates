@@ -121,6 +121,21 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
               class="form-row"
             >
               <label
+                class="col-sm-2"
+              >
+                Course ID:
+              </label>
+              <div
+                class="col-sm-10"
+                id="courseid"
+              >
+                
+              </div>
+            </div>
+            <div
+              class="form-row"
+            >
+              <label
                 class="col-sm-2 col-form-label"
               >
                 Student Name:
@@ -221,7 +236,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             >
               <input
                 class="btn btn-success"
-                id="button_submit"
+                id="btn-submit"
                 type="submit"
                 value="Save Changes"
               />

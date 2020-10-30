@@ -389,11 +389,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-
-              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             };
             this.sessionsTableRowModels.push(model);
-            this.updateInstructorPrivilege(model);
           });
         }, (resp: ErrorMessageOutput) => {
           this.resetAllModels();
@@ -453,10 +451,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
           };
           this.sessionsTableRowModels.push(m);
-          this.updateInstructorPrivilege(m);
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
@@ -499,8 +496,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-
-              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             };
             this.sessionsTableRowModels.push(model);
           });
@@ -585,10 +581,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           feedbackSession: session,
           responseRate: '',
           isLoadingResponseRate: false,
-          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+          instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
         };
         this.sessionsTableRowModels.push(m);
-        this.updateInstructorPrivilege(m);
       });
       this.statusMessageService.showSuccessToast('All sessions have been restored.');
     }, (resp: ErrorMessageOutput) => {
