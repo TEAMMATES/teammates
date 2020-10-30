@@ -19,11 +19,4 @@ export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFor
   }
 
   ngOnInit(): void {}
-
-  /**
-   * Toggles between plain text editor and rich text editor for the response.
-   */
-  toggleRichTextOption(richTextAllowed: boolean): void {
-    this.triggerModelChange('shouldAllowRichText', richTextAllowed);
-  }
 }

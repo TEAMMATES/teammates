@@ -3,7 +3,7 @@
     <label>
       <input type="checkbox"
              [checked]="model.shouldAllowRichText"
-             (click)="toggleRichTextOption($event.target.checked)"
+             (click)="triggerModelChange('shouldAllowRichText', $event.target.checked)"
              [disabled]="!isEditable">
       <a> Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers</a>
     </label>
