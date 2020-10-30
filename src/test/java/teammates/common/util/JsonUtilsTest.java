@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.testng.annotations.Test;
 
-import com.google.gson.JsonParseException;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -39,33 +37,35 @@ public class JsonUtilsTest extends BaseTestCase {
                 .withShowResponsesTo(participants)
                 .build();
 
-        try {
-            String serializeString = JsonUtils.toJson(fqa);
-            assertEquals("{\n"
-                    + "  \"feedbackSessionName\": \"testFeedbackSession\",\n"
-                    + "  \"courseId\": \"testingCourse\",\n"
-                    + "  \"questionDetails\": {\n"
-                    + "    \"shouldAllowRichText\": true,\n"
-                    + "    \"questionType\": \"TEXT\",\n"
-                    + "    \"questionText\": \"Question text.\"\n"
-                    + "  },\n"
-                    + "  \"questionNumber\": 1,\n"
-                    + "  \"giverType\": \"INSTRUCTORS\",\n"
-                    + "  \"recipientType\": \"SELF\",\n"
-                    + "  \"numberOfEntitiesToGiveFeedbackTo\": -100,\n"
-                    + "  \"showResponsesTo\": [\n"
-                    + "    \"RECEIVER\"\n"
-                    + "  ],\n"
-                    + "  \"showGiverNameTo\": [\n"
-                    + "    \"RECEIVER\"\n"
-                    + "  ],\n"
-                    + "  \"showRecipientNameTo\": [\n"
-                    + "    \"RECEIVER\"\n"
-                    + "  ]\n"
-                    + "}", serializeString);
-        } catch (JsonParseException e) {
-            fail("error detected during serializing");
-        }
+        assertEquals("{\n"
+                + "  \"feedbackSessionName\": \"testFeedbackSession\",\n"
+                + "  \"courseId\": \"testingCourse\",\n"
+                + "  \"questionDetails\": {\n"
+                + "    \"questionType\": \"TEXT\",\n"
+                + "    \"questionText\": \"Question text.\"\n"
+                + "  },\n"
+                + "  \"questionNumber\": 1,\n"
+                + "  \"giverType\": \"INSTRUCTORS\",\n"
+                + "  \"recipientType\": \"SELF\",\n"
+                + "  \"numberOfEntitiesToGiveFeedbackTo\": -100,\n"
+                + "  \"showResponsesTo\": [\n"
+                + "    \"RECEIVER\"\n"
+                + "  ],\n"
+                + "  \"showGiverNameTo\": [\n"
+                + "    \"RECEIVER\"\n"
+                + "  ],\n"
+                + "  \"showRecipientNameTo\": [\n"
+                + "    \"RECEIVER\"\n"
+                + "  ]\n"
+                + "}", JsonUtils.toJson(fqa));
+
+        assertEquals("{\"feedbackSessionName\":\"testFeedbackSession\","
+                + "\"courseId\":\"testingCourse\",\"questionDetails\":{\"questionType\":\"TEXT\","
+                + "\"questionText\":\"Question text.\"},\"questionNumber\":1,"
+                + "\"giverType\":\"INSTRUCTORS\",\"recipientType\":\"SELF\",\"numberOfEntitiesToGiveFeedbackTo\":-100,"
+                + "\"showResponsesTo\":[\"RECEIVER\"],\"showGiverNameTo\":[\"RECEIVER\"],"
+                + "\"showRecipientNameTo\":[\"RECEIVER\"]}",
+                JsonUtils.toCompactJson(fqa));
     }
 
     @Test
@@ -80,24 +80,27 @@ public class JsonUtilsTest extends BaseTestCase {
                 .withResponseDetails(new FeedbackTextResponseDetails("My answer"))
                 .build();
 
-        try {
-            String serializeString = JsonUtils.toJson(fra);
-            assertEquals("{\n"
-                    + "  \"feedbackQuestionId\": \"questionId\",\n"
-                    + "  \"giver\": \"giver@email.com\",\n"
-                    + "  \"recipient\": \"recipient@email.com\",\n"
-                    + "  \"feedbackSessionName\": \"Session1\",\n"
-                    + "  \"courseId\": \"CS3281\",\n"
-                    + "  \"responseDetails\": {\n"
-                    + "    \"answer\": \"My answer\",\n"
-                    + "    \"questionType\": \"TEXT\"\n"
-                    + "  },\n"
-                    + "  \"giverSection\": \"giverSection\",\n"
-                    + "  \"recipientSection\": \"recipientSection\",\n"
-                    + "  \"feedbackResponseId\": \"questionId%giver@email.com%recipient@email.com\"\n"
-                    + "}", serializeString);
-        } catch (JsonParseException e) {
-            fail("error detected during serializing");
-        }
+        assertEquals("{\n"
+                + "  \"feedbackQuestionId\": \"questionId\",\n"
+                + "  \"giver\": \"giver@email.com\",\n"
+                + "  \"recipient\": \"recipient@email.com\",\n"
+                + "  \"feedbackSessionName\": \"Session1\",\n"
+                + "  \"courseId\": \"CS3281\",\n"
+                + "  \"responseDetails\": {\n"
+                + "    \"answer\": \"My answer\",\n"
+                + "    \"questionType\": \"TEXT\"\n"
+                + "  },\n"
+                + "  \"giverSection\": \"giverSection\",\n"
+                + "  \"recipientSection\": \"recipientSection\",\n"
+                + "  \"feedbackResponseId\": \"questionId%giver@email.com%recipient@email.com\"\n"
+                + "}", JsonUtils.toJson(fra));
+
+        assertEquals("{\"feedbackQuestionId\":\"questionId\",\"giver\":\"giver@email.com\","
+                + "\"recipient\":\"recipient@email.com\",\"feedbackSessionName\":\"Session1\","
+                + "\"courseId\":\"CS3281\",\"responseDetails\":{\"answer\":\"My answer\","
+                + "\"questionType\":\"TEXT\"},\"giverSection\":\"giverSection\","
+                + "\"recipientSection\":\"recipientSection\","
+                + "\"feedbackResponseId\":\"questionId%giver@email.com%recipient@email.com\"}",
+                JsonUtils.toCompactJson(fra));
     }
 }

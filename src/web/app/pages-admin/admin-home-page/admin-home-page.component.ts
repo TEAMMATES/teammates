@@ -41,7 +41,7 @@ export class AdminHomePageComponent {
   validateAndAddInstructorDetails(): void {
     const invalidLines: string[] = [];
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
-      const instructorDetailSplit: string[] = instructorDetail.split(/ ?\| ?/);
+      const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
         // TODO handle error
         invalidLines.push(instructorDetail);

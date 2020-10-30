@@ -37,35 +37,8 @@ public final class TestProperties {
     /** The version number of the application under test. */
     public static final String TEAMMATES_VERSION;
 
-    /** The Google ID of the test instructor account. */
-    public static final String TEST_INSTRUCTOR_ACCOUNT;
-
-    /** The password of the test instructor account. */
-    public static final String TEST_INSTRUCTOR_PASSWORD;
-
-    /** The Google ID of the first test student account. */
-    public static final String TEST_STUDENT1_ACCOUNT;
-
-    /** The password of the first test student account. */
-    public static final String TEST_STUDENT1_PASSWORD;
-
-    /** The Google ID of the second test student account. */
-    public static final String TEST_STUDENT2_ACCOUNT;
-
-    /** The password of the second test student account. */
-    public static final String TEST_STUDENT2_PASSWORD;
-
-    /** The Google ID of the test admin account. */
-    public static final String TEST_ADMIN_ACCOUNT;
-
-    /** The password of the test admin account. */
-    public static final String TEST_ADMIN_PASSWORD;
-
-    /** The Google ID of the test unregistered account. */
-    public static final String TEST_UNREG_ACCOUNT;
-
-    /** The password of the test unregistered account. */
-    public static final String TEST_UNREG_PASSWORD;
+    /** The email address used for testing that emails are sent by the system. */
+    public static final String TEST_EMAIL;
 
     /** The value of "test.csrf.key" in test.properties file. */
     public static final String CSRF_KEY;
@@ -128,20 +101,7 @@ public final class TestProperties {
             }
             TEAMMATES_VERSION = buildProperties.getProperty("app.version");
 
-            TEST_ADMIN_ACCOUNT = prop.getProperty("test.admin.account");
-            TEST_ADMIN_PASSWORD = prop.getProperty("test.admin.password");
-
-            TEST_INSTRUCTOR_ACCOUNT = prop.getProperty("test.instructor.account");
-            TEST_INSTRUCTOR_PASSWORD = prop.getProperty("test.instructor.password");
-
-            TEST_STUDENT1_ACCOUNT = prop.getProperty("test.student1.account");
-            TEST_STUDENT1_PASSWORD = prop.getProperty("test.student1.password");
-
-            TEST_STUDENT2_ACCOUNT = prop.getProperty("test.student2.account");
-            TEST_STUDENT2_PASSWORD = prop.getProperty("test.student2.password");
-
-            TEST_UNREG_ACCOUNT = prop.getProperty("test.unreg.account");
-            TEST_UNREG_PASSWORD = prop.getProperty("test.unreg.password");
+            TEST_EMAIL = prop.getProperty("test.email");
 
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");

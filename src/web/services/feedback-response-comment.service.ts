@@ -57,20 +57,6 @@ export class FeedbackResponseCommentService {
   }
 
   /**
-   * Loads comment given by feedback participant by calling API.
-   *
-   * <p> The comment is given by feedback participant to explain the response.
-   */
-  loadParticipantComment(responseId: string, intent: Intent,
-                         additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
-    return this.httpRequestService.get(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
-      responseid: responseId,
-      ...additionalParams,
-    });
-  }
-
-  /**
    * Gets a state machine of comment visibility settings for a certain question.
    */
   getNewVisibilityStateMachine(questionShowResponsesTo: FeedbackVisibilityType[]): CommentVisibilityStateMachine {

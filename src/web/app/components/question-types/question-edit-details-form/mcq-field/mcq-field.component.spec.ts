@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormsModule } from '@angular/forms';
-import { OptionRichTextEditorModule } from '../option-rich-text-editor/option-rich-text-editor.module';
 import { McqFieldComponent } from './mcq-field.component';
 
 describe('McqFieldComponent', () => {
@@ -13,7 +12,6 @@ describe('McqFieldComponent', () => {
       declarations: [McqFieldComponent],
       imports: [
         FormsModule,
-        OptionRichTextEditorModule,
       ],
     })
     .compileComponents();

@@ -66,15 +66,5 @@
       <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
     </image:image>
   </url>
-  <url>
-    <loc>http://teammatesv4.appspot.com/web/front/usermap</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-    <image:image>
-      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
-      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
-      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
-    </image:image>
-  </url>
 </urlset>
 <!-- Sitemap protocol: http://www.sitemaps.org/protocol.html -->

@@ -15,6 +15,7 @@ import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinn
 import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
 import { ToastModule } from './components/toast/toast.module';
 import { CustomUrlSerializer } from './custom-url-serializer';
+import { MaintenancePageComponent } from './maintenance-page.component';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
@@ -27,7 +28,7 @@ const customUrlSerializerProvider: Provider = {
   provide: UrlSerializer,
   useValue: customUrlSerializer,
 };
-const routes: Routes = [
+let routes: Routes = [
   {
     path: 'web',
     children: [
@@ -91,6 +92,31 @@ const routes: Routes = [
   },
 ];
 
+if (environment.maintenance) {
+  routes = [
+    {
+      path: 'web',
+      component: PublicPageComponent,
+      children: [
+        {
+          path: '',
+          component: MaintenancePageComponent,
+        },
+        {
+          path: '**',
+          pathMatch: 'full',
+          redirectTo: '',
+        },
+      ],
+    },
+    {
+      path: '**',
+      pathMatch: 'full',
+      redirectTo: 'web',
+    },
+  ];
+}
+
 /**
  * Root module.
  */
@@ -104,6 +130,7 @@ const routes: Routes = [
     StudentPageComponent,
     InstructorPageComponent,
     AdminPageComponent,
+    MaintenancePageComponent,
   ],
   imports: [
     SimpleModalModule,

@@ -139,26 +139,8 @@ class GetInstructorPrivilegeAction extends Action {
 
         String sectionName = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        InstructorPrivilegeData response = new InstructorPrivilegeData();
-
-        // course level privileges.
-        response.constructCourseLevelPrivilege(instructor.privileges);
-
-        if (sectionName == null && feedbackSessionName != null) {
-            response.setCanSubmitSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-            response.setCanViewSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-            response.setCanModifySessionCommentsInSections(
-                    instructor.isAllowedForPrivilege(
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        } else if (sectionName != null) {
+        InstructorPrivilegeData response = constructInstructorPrivileges(instructor, feedbackSessionName);
+        if (sectionName != null) {
             response.constructSectionLevelPrivilege(instructor.privileges, sectionName);
             if (feedbackSessionName != null) {
                 response.constructSessionLevelPrivilege(instructor.privileges, sectionName, feedbackSessionName);

@@ -43,7 +43,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorHomePageE2ETest.json");
         studentToEmail = testData.students.get("IHomeE2eT.charlie.d.tmms@IHomeE2eT.CS2104");
         if (!TestProperties.isDevServer()) {
-            studentToEmail.email = TestProperties.TEST_STUDENT1_ACCOUNT;
+            studentToEmail.email = TestProperties.TEST_EMAIL;
         }
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
@@ -75,7 +75,9 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         ______TS("search for valid student");
         InstructorSearchPage searchPage = homePage.searchKeyword(studentToEmail.getName());
 
-        // TODO: implement more thorough tests for search results in InstructorSearchPageE2ETest
+        // Here, it is sufficient to ensure that the number of search results matches
+        // A more thorough testing of this page will be done in its own E2E test
+
         searchPage.verifyNumCoursesInStudentResults(2);
         homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
 

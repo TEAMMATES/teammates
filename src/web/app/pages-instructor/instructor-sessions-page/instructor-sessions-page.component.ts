@@ -389,11 +389,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-
-              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             };
             this.sessionsTableRowModels.push(model);
-            this.updateInstructorPrivilege(model);
           });
         }, (resp: ErrorMessageOutput) => {
           this.resetAllModels();
@@ -453,10 +451,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             feedbackSession,
             responseRate: '',
             isLoadingResponseRate: false,
-            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
           };
           this.sessionsTableRowModels.push(m);
-          this.updateInstructorPrivilege(m);
           this.statusMessageService.showSuccessToast('The feedback session has been restored.');
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
@@ -485,7 +482,28 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    * Edits the feedback session.
    */
   copySessionEventHandler(result: CopySessionResult): void {
-    this.copySession(this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    this.failedToCopySessions = {};
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
+        this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    if (requestList.length === 1) {
+      this.copySingleSession(requestList[0]);
+    }
+    if (requestList.length > 1) {
+      forkJoin(requestList).subscribe((newSessions: FeedbackSession[]) => {
+        if (newSessions.length > 0) {
+          newSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            };
+            this.sessionsTableRowModels.push(model);
+          });
+        }
+        this.showCopyStatusMessage();
+      });
+    }
   }
 
   /**
@@ -563,10 +581,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
           feedbackSession: session,
           responseRate: '',
           isLoadingResponseRate: false,
-          instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+          instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
         };
         this.sessionsTableRowModels.push(m);
-        this.updateInstructorPrivilege(m);
       });
       this.statusMessageService.showSuccessToast('All sessions have been restored.');
     }, (resp: ErrorMessageOutput) => {
