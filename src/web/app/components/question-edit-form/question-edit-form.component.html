@@ -23,7 +23,7 @@
         </button>
         <button id="btn-save-question" type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
                 (click)="saveQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving">
-          <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i>Save
+          <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading><i class="fas fa-check"></i> Save
         </button>
         <button type="button" class="btn btn-primary btn-sm" *ngIf="model.isEditable"
                 (click)="discardChangesHandler(false); $event.stopPropagation();" [disabled]="model.isSaving">
@@ -242,8 +242,8 @@
           </button>
           <button class="btn btn-success" [disabled]="!model.isEditable || model.isSaving" (click)="saveQuestionHandler()">
             <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>
-            <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i>Save Changes</span>
-            <span id="btn-save-new" *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i>Save Questions</span>
+            <span *ngIf="formMode === QuestionEditFormMode.EDIT" ><i class="fas fa-check"></i> Save Changes</span>
+            <span id="btn-save-new" *ngIf="formMode === QuestionEditFormMode.ADD"><i class="fas fa-check"></i> Save Questions</span>
           </button>
         </div>
       </div>
