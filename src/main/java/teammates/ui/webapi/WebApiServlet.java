@@ -80,6 +80,12 @@ public class WebApiServlet extends HttpServlet {
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
                 + ", Request ID: " + Config.getRequestId());
 
+        if (Config.MAINTENANCE) {
+            throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,
+                    "The server is currently undergoing some maintenance.");
+            return;
+        }
+
         try {
             Action action = new ActionFactory().getAction(req, req.getMethod());
             action.checkAccessControl();

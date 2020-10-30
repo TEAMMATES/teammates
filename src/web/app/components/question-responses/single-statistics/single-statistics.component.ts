@@ -55,9 +55,16 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
         return false;
       }
 
+      if (this.isUsingResponsesToSelf() && response.recipient !== 'You') {
+        return false;
+      }
+
       return this.feedbackResponsesService
           .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
     });
   }
 
+  private isUsingResponsesToSelf(): boolean {
+    return this.isStudent && this.question.questionType === FeedbackQuestionType.NUMSCALE;
+  }
 }

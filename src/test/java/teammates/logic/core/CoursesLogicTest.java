@@ -67,7 +67,6 @@ public class CoursesLogicTest extends BaseLogicTest {
     @Test
     public void testAll() throws Exception {
         testGetCourse();
-        testGetCoursesForInstructor();
         testGetSoftDeletedCoursesForInstructors();
         testIsCoursePresent();
         testVerifyCourseIsPresent();
@@ -104,42 +103,6 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));
         assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-    }
-
-    private void testGetCoursesForInstructor() throws Exception {
-
-        ______TS("success: instructor with present courses");
-
-        String instructorId = dataBundle.accounts.get("instructor3").googleId;
-
-        List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(instructorId, false);
-
-        assertEquals(2, courses.size());
-
-        ______TS("omit archived courses");
-
-        instructorsLogic.setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), true);
-        courses = coursesLogic.getCoursesForInstructor(instructorId, true);
-        assertEquals(1, courses.size());
-        instructorsLogic.setArchiveStatusOfInstructor(instructorId, courses.get(0).getId(), false);
-
-        ______TS("boundary: instructor without any courses");
-
-        instructorId = dataBundle.accounts.get("instructorWithoutCourses").googleId;
-
-        courses = coursesLogic.getCoursesForInstructor(instructorId, false);
-
-        assertEquals(0, courses.size());
-
-        ______TS("Null parameter");
-
-        AssertionError ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.getCoursesForInstructor((String) null, false));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
-
-        ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.getCoursesForInstructor((List<InstructorAttributes>) null));
-        assertEquals("Supplied parameter was null", ae.getMessage());
     }
 
     private void testGetSoftDeletedCoursesForInstructors() {
