@@ -131,9 +131,9 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         }).reduce((accValue: number, currValue: number) => accValue + currValue) / this.subQuestions.length,
         },
         { value: this.subQuestions.map((_: string, questionIndex: number) => {
-            const currValue = perRecipientStats.subQuestionWeightAverage[questionIndex];
-            return currValue ? currValue.toString() : "N/A";
-          }).reduce((accValue: string, currValue: string) => accValue + ', ' + currValue),
+          const currValue: number = perRecipientStats.subQuestionWeightAverage[questionIndex];
+          return currValue ? currValue.toString() : 'N/A';
+        }).reduce((accValue: string, currValue: string) => `${accValue}, ${currValue}`),
         },
       ]);
     });
