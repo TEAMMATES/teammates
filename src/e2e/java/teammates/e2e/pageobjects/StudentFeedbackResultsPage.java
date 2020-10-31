@@ -2,6 +2,7 @@ package teammates.e2e.pageobjects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.time.ZoneId;
@@ -91,7 +92,7 @@ public class StudentFeedbackResultsPage extends AppPage {
     public void verifyQuestionNotPresent(int questionNum) {
         try {
             getQuestionResponsesSection(questionNum);
-            throw new RuntimeException("Question " + questionNum + " should not be present.");
+            fail("Question " + questionNum + " should not be present.");
         } catch (NoSuchElementException e) {
             // success
         }
@@ -295,8 +296,7 @@ public class StudentFeedbackResultsPage extends AppPage {
         String dateStrWithAbbr = getDateStringWithAbbr(instant, timeZone);
         String dateStrWithOffset = getDateStringWithOffset(instant, timeZone);
 
-        boolean isExpected = actual.equals(dateStrWithAbbr) || actual.equals(dateStrWithOffset);
-        assertTrue(isExpected);
+        assertTrue(actual.equals(dateStrWithAbbr) || actual.equals(dateStrWithOffset));
     }
 
     private String getDateStringWithAbbr(Instant instant, ZoneId timeZone) {

@@ -268,18 +268,18 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return identifier;
     }
 
-    private String getStudentName(String student) {
+    private String getStudentName(String studentEmail) {
         return testData.students.values().stream()
-               .filter(s -> s.getEmail().equals(student))
+               .filter(s -> s.getEmail().equals(studentEmail))
                .map(StudentAttributes::getName)
                .findFirst()
                .orElse(null);
     }
 
-    private String getInstructorName(String instructor) {
+    private String getInstructorName(String instructorEmail) {
         return testData.instructors.values().stream()
                 .filter(s -> s.getEmail()
-                        .equals(instructor))
+                        .equals(instructorEmail))
                 .map(InstructorAttributes::getName)
                 .findFirst()
                 .orElse(null);
