@@ -11,6 +11,8 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
 /**
+ * Base class for all feedback question related browser tests.
+ *
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
  */
 public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
