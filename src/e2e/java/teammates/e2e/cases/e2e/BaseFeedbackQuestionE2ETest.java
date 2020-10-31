@@ -13,7 +13,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 /**
  * Base class for all feedback question related browser tests.
  *
- * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
+ * <p>SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
  */
 public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     protected InstructorAttributes instructor;
@@ -52,7 +52,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(student.course)
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        FeedbackSubmitPage submitPage =  AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        FeedbackSubmitPage submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
         submitPage.reloadPageIfStuckLoading();
 
         return submitPage;
