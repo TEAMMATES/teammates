@@ -5,17 +5,12 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
-import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
@@ -23,11 +18,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
  *      specifically for Contribution questions.
  */
-public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
-    InstructorAttributes instructor;
-    CourseAttributes course;
-    FeedbackSessionAttributes feedbackSession;
-    StudentAttributes student;
+public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void prepareTestData() {
@@ -46,12 +37,9 @@ public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
         testSubmitPage();
     }
 
-    private void testEditPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withUserId(instructor.googleId)
-                .withCourseId(course.getId())
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
+    @Override
+    protected void testEditPage() {
+        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
@@ -89,12 +77,9 @@ public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(loadedQuestion);
     }
 
-    private void testSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withUserId(student.googleId)
-                .withCourseId(student.course)
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
+    @Override
+    protected void testSubmitPage() {
+        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -116,7 +101,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(response3);
 
         ______TS("check previous response");
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyContributionResponse(1, responses);
 
         ______TS("edit response");
@@ -126,7 +111,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseE2ETestCase {
         responses = Arrays.asList(response, response2, response3);
         feedbackSubmitPage.submitContributionResponse(1, responses);
 
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyContributionResponse(1, responses);
         verifyPresentInDatastore(response);
         verifyPresentInDatastore(response2);

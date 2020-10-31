@@ -7,17 +7,11 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
-import teammates.common.util.AppUrl;
-import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
@@ -25,11 +19,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
  *      specifically for MSQ questions.
  */
-public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
-    InstructorAttributes instructor;
-    CourseAttributes course;
-    FeedbackSessionAttributes feedbackSession;
-    StudentAttributes student;
+public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void prepareTestData() {
@@ -48,12 +38,9 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         testSubmitPage();
     }
 
-    private void testEditPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withUserId(instructor.googleId)
-                .withCourseId(course.getId())
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
+    @Override
+    protected void testEditPage() {
+        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
@@ -97,12 +84,9 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(loadedQuestion);
     }
 
-    private void testSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withUserId(student.googleId)
-                .withCourseId(student.course)
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
+    @Override
+    protected void testSubmitPage() {
+        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -124,7 +108,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(response);
 
         ______TS("check previous response");
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
         ______TS("edit response");
@@ -132,7 +116,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseE2ETestCase {
         response = getResponse(questionId, receiver, "", answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
         verifyPresentInDatastore(response);
     }
