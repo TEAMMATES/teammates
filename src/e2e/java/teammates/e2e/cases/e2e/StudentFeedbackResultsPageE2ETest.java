@@ -26,6 +26,7 @@ import teammates.e2e.pageobjects.StudentFeedbackResultsPage;
 public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     private StudentFeedbackResultsPage resultsPage;
     private FeedbackSessionAttributes openSession;
+    private List<FeedbackQuestionAttributes> questions = new ArrayList<>();
 
     @Override
     protected void prepareTestData() {
@@ -33,12 +34,15 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         openSession = testData.feedbackSessions.get("Open Session");
+        for (int i = 1; i <= testData.feedbackQuestions.size(); i++) {
+            questions.add(testData.feedbackQuestions.get("qn" + i));
+        }
     }
 
     @Test
     public void testAll() {
 
-        ______TS("unregistered student can access results");
+        ______TS("unregistered student: can access results");
         StudentAttributes unregistered = testData.students.get("Unregistered");
         AppUrl url = createUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(unregistered.course)
@@ -48,9 +52,12 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         logout();
         resultsPage = AppPage.getNewPageInstance(browser, url, StudentFeedbackResultsPage.class);
 
-        resultsPage.verifyFeedbackSessionDetails(testData.feedbackSessions.get("Open Session"));
+        resultsPage.verifyFeedbackSessionDetails(openSession);
 
-        ______TS("registered student can access results");
+        ______TS("unregistered student: questions with responses loaded");
+        verifyLoadedQuestions(unregistered);
+
+        ______TS("registered student: can access results");
         StudentAttributes student = testData.students.get("Alice");
         url = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withUserId(student.googleId)
@@ -58,15 +65,10 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withSessionName(openSession.getFeedbackSessionName());
         resultsPage = loginAdminToPage(url, StudentFeedbackResultsPage.class);
 
-        resultsPage.verifyFeedbackSessionDetails(testData.feedbackSessions.get("Open Session"));
+        resultsPage.verifyFeedbackSessionDetails(openSession);
 
-        ______TS("questions loaded");
-        for (int i = 1; i <= 11; i++) {
-            resultsPage.verifyQuestionDetails(i, testData.feedbackQuestions.get("qn" + i));
-        }
-
-        ______TS("questions with no responses not shown");
-        resultsPage.verifyQuestionNotPresent(12);
+        ______TS("registered student: questions with responses loaded");
+        verifyLoadedQuestions(student);
 
         ______TS("verify responses");
         // qn11 is a contribution question so we only need to check the statistics for that question
@@ -96,6 +98,17 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         verifyCommentDetails(3, testData.feedbackResponseComments.get("qn3Comment2"), student);
     }
 
+    private void verifyLoadedQuestions(StudentAttributes currentStudent) {
+        Set<FeedbackQuestionAttributes> qnsWithResponse = getQnsWithResponses(currentStudent);
+        questions.forEach(qn -> {
+            if (qnsWithResponse.contains(qn)) {
+                resultsPage.verifyQuestionDetails(qn.questionNumber, qn);
+            } else {
+                resultsPage.verifyQuestionNotPresent(qn.questionNumber);
+            }
+        });
+    }
+
     private void verifyResponseDetails(StudentAttributes currentStudent, FeedbackQuestionAttributes question) {
         List<FeedbackResponseAttributes> givenResponses = getGivenResponses(currentStudent, question);
         List<FeedbackResponseAttributes> otherResponses = getOtherResponses(currentStudent, question);
@@ -115,6 +128,13 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
             giver = getIdentifier(currentStudent, comment.getCommentGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
+    }
+
+    private Set<FeedbackQuestionAttributes> getQnsWithResponses(StudentAttributes currentStudent) {
+        return questions.stream()
+                .filter(qn -> getGivenResponses(currentStudent, qn).size() > 0
+                        || getOtherResponses(currentStudent, qn).size() > 0)
+                .collect(Collectors.toSet());
     }
 
     private List<FeedbackResponseAttributes> getGivenResponses(StudentAttributes currentStudent,
