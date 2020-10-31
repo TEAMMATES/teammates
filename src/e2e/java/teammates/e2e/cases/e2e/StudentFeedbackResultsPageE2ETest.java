@@ -71,10 +71,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         verifyLoadedQuestions(student);
 
         ______TS("verify responses");
-        // qn11 is a contribution question so we only need to check the statistics for that question
-        for (int i = 1; i <= 10; i++) {
-            verifyResponseDetails(student, testData.feedbackQuestions.get("qn" + i));
-        }
+        questions.forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("verify statistics - numscale");
         resultsPage.verifyNumScaleStatistics(5, student, getReceivedResponses(student,

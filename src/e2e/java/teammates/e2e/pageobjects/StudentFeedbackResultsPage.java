@@ -81,6 +81,9 @@ public class StudentFeedbackResultsPage extends AppPage {
     public void verifyResponseDetails(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses,
                                       List<FeedbackResponseAttributes> otherResponses,
                                       Set<String> visibleGivers, Set<String> visibleRecipients) {
+        if (!hasDisplayedResponses(question)) {
+            return;
+        }
         verifyGivenResponses(question, givenResponses);
         verifyOtherResponses(question, otherResponses, visibleGivers, visibleRecipients);
     }
@@ -146,6 +149,10 @@ public class StudentFeedbackResultsPage extends AppPage {
         if (!commentEditor.isEmpty()) {
             assertEquals(commentEditor, getCommentEditor(commentField));
         }
+    }
+
+    private boolean hasDisplayedResponses(FeedbackQuestionAttributes question) {
+        return !question.getQuestionDetails().getQuestionType().equals(FeedbackQuestionType.CONTRIB);
     }
 
     private void verifyGivenResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses) {
