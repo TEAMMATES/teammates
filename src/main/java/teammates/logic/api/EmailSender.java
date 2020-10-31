@@ -45,6 +45,10 @@ public class EmailSender {
      * @return The HTTP status of the email request.
      */
     public EmailSendingStatus sendEmail(EmailWrapper message) {
+        if (isTestingAccount(message.getRecipient())) {
+            return new EmailSendingStatus(HttpStatus.SC_OK, "Not sending email to test account");
+        }
+
         EmailSendingStatus status;
         try {
             status = service.sendEmail(message);
@@ -60,6 +64,12 @@ public class EmailSender {
                 status.getMessage() == null ? "" : status.getMessage());
         log.info(emailLogInfo);
         return status;
+    }
+
+    @SuppressWarnings("PMD.UnusedFormalParameter")
+    private boolean isTestingAccount(String email) {
+        // TODO
+        return false;
     }
 
     /**

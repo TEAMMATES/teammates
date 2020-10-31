@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
-
+import { CourseService } from '../../../services/course.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
@@ -39,6 +39,7 @@ export class InstructorSearchPageComponent implements OnInit {
     private route: ActivatedRoute,
     private statusMessageService: StatusMessageService,
     private searchService: SearchService,
+    private courseService: CourseService,
   ) {}
 
   ngOnInit(): void {
@@ -87,17 +88,24 @@ export class InstructorSearchPageComponent implements OnInit {
     ]).pipe(
         finalize(() => this.isSearching = false),
     ).subscribe((resp: TransformedInstructorSearchResult[]) => {
-      this.commentTables = resp[0].searchCommentTables;
       const searchStudentsTable: SearchStudentsListRowTable[] = resp[1].searchStudentTables;
       const hasStudents: boolean = !!(
           searchStudentsTable && searchStudentsTable.length
       );
+      const commentsTable: SearchCommentsTable[] = resp[0].searchCommentTables;
       const hasComments: boolean = !!(
-          this.commentTables && this.commentTables.length
+          commentsTable && commentsTable.length
       );
 
       if (hasStudents) {
         this.studentsListRowTables = searchStudentsTable;
+      } else {
+        this.studentsListRowTables = [];
+      }
+      if (hasComments) {
+        this.commentTables = commentsTable;
+      } else {
+        this.commentTables = [];
       }
       if (!hasStudents && !hasComments) {
         this.statusMessageService.showWarningToast('No results found.');
@@ -180,6 +188,28 @@ export class InstructorSearchPageComponent implements OnInit {
       searchStudentTables: coursesWithStudents,
       searchCommentTables: [],
     };
+  }
+
+  /**
+   * Removes the student from course and updates the search table
+   */
+  removeStudentFromCourse(studentRow: StudentListRowModel): void {
+    const courseId: string = studentRow.student.courseId;
+    const studentEmail: string = studentRow.student.email;
+
+    this.courseService.removeStudentFromCourse(courseId, studentEmail).subscribe(() => {
+      const affectedTable: SearchStudentsListRowTable | undefined =
+          this.studentsListRowTables.find((table: SearchStudentsListRowTable) => table.courseId === courseId);
+      if (affectedTable) {
+        affectedTable.students = affectedTable.students
+            .filter((student: StudentListRowModel) => student.student.email !== studentEmail);
+      }
+
+      this.statusMessageService
+          .showSuccessToast(`Student "${studentRow.student.name}" is successfully deleted from course "${courseId}"`);
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
 }

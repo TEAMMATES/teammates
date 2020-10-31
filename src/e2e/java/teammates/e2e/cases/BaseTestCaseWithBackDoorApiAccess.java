@@ -57,7 +57,7 @@ public abstract class BaseTestCaseWithBackDoorApiAccess extends BaseTestCaseWith
     }
 
     protected AccountAttributes getAccount(String googleId) {
-        return null; // BackDoor.getAccount(googleId);
+        return BackDoor.getAccount(googleId);
     }
 
     @Override

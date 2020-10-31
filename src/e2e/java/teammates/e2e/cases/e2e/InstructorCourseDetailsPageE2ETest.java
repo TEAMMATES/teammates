@@ -14,6 +14,9 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseDetailsPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -30,7 +33,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         student = testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104");
         if (!TestProperties.isDevServer()) {
-            student.email = TestProperties.TEST_STUDENT1_ACCOUNT;
+            student.email = TestProperties.TEST_EMAIL;
         }
 
         removeAndRestoreDataBundle(testData);
@@ -65,6 +68,29 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         verifyCourseDetails(detailsPage, course, instructors, students);
         detailsPage.verifyNumStudents(students.length);
         detailsPage.verifyStudentDetails(students);
+
+        ______TS("link: view student details page");
+
+        StudentAttributes studentToView = testData.students.get("benny.tmms@ICDetailsE2eT.CS2104");
+
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
+                detailsPage.clickViewStudent(studentToView);
+        studentDetailsViewPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
+        studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("link: edit student details page");
+
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
+                detailsPage.clickEditStudent(studentToView);
+        studentDetailsEditPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
+        studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
+
+        ______TS("link: view all records page");
+
+        InstructorStudentRecordsPage studentRecordsPage =
+                detailsPage.clickViewAllRecords(studentToView);
+        studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
+        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("send invite");
         detailsPage.sendInvite(student);

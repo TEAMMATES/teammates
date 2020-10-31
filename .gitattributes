@@ -31,4 +31,3 @@
 src/e2e/resources/data/*            linguist-vendored
 src/test/resources/data/*           linguist-vendored
 src/test/resources/emails/*         linguist-vendored
-src/test/resources/pages/*          linguist-vendored

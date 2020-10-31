@@ -61,9 +61,10 @@
       <td>{{studentModel.student.joinState | joinState}}</td>
       <td>{{studentModel.student.email}}</td>
       <td class="no-print align-center">
-        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name"
+        <ng-template #actionButton let-isEnabled="isEnabled" let-tooltip="tooltip" let-name="name" let-id="id"
                      let-routerLink="routerLink" let-queryParams="queryParams">
           <a class="btn btn-light btn-sm btn-margin-right" target="_blank" rel="noopener noreferrer"
+             [id]="id"
              [ngClass]="{'disabled mouse-hover-only': !isEnabled}"
              [ngbTooltip]="isEnabled ? tooltip : 'You do not have the permissions to access this feature'"
              [routerLink]="routerLink"
@@ -71,6 +72,7 @@
             {{name}}</a>
         </ng-template>
         <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-view-details',
         isEnabled: studentModel.isAllowedToViewStudentInSection && isActionButtonsEnabled,
         tooltip: 'View the details of the student',
         name: 'View',
@@ -78,6 +80,7 @@
         queryParams: {courseid: courseId, studentemail: studentModel.student.email}
       }"></ng-container>
         <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-edit-details',
         isEnabled: studentModel.isAllowedToModifyStudent && isActionButtonsEnabled,
         tooltip: 'Use this to edit the details of this student. To edit multiple students'
           + ' in one go, you can use the enroll page: '
@@ -107,6 +110,7 @@
         [disabled]="!isActionButtonsEnabled"
         (click)="openDeleteModal(studentModel)">Delete</button>
       <ng-container *ngTemplateOutlet="actionButton; context: {
+        id: 'btn-view-records',
         isEnabled: isActionButtonsEnabled,
         tooltip: 'View all data about this student',
         name: 'All Records',

@@ -47,7 +47,7 @@
       <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
         <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
-                              [responses]="question.responsesToSelf"
+                              [responses]="question.allResponses"
                               [statistics]="question.questionStatistics"
                               [isStudent]="true"></tm-single-statistics>
         <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
