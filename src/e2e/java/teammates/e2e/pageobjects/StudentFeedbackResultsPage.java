@@ -8,7 +8,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -23,13 +22,11 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
@@ -98,46 +95,29 @@ public class StudentFeedbackResultsPage extends AppPage {
         }
     }
 
-    public void verifyNumScaleStatistics(int questionNum, StudentAttributes student,
-                                         List<FeedbackResponseAttributes> receivedResponses) {
-        verifyTableRowValues(getNumScaleStatistics(questionNum), getExpectedNumScaleStatistics(student, receivedResponses));
+    public void verifyNumScaleStatistics(int questionNum, String[] expectedStats) {
+        verifyTableRowValues(getNumScaleStatistics(questionNum), expectedStats);
     }
 
-    public void verifyRubricStatistics(int questionNum, FeedbackQuestionAttributes question,
-                                       List<FeedbackResponseAttributes> receivedResponses,
-                                       List<FeedbackResponseAttributes> otherResponses, Set<String> visibleRecipients,
-                                       StudentAttributes currentStudent, Collection<StudentAttributes> students) {
-        FeedbackRubricQuestionDetails questionDetails = (FeedbackRubricQuestionDetails) question.getQuestionDetails();
-        String[][] expectedStatistics = getExpectedRubricStatistics(questionDetails, receivedResponses, false);
-        markOptionAsUnselected(getRubricExcludeSelfCheckbox(questionNum));
-        verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatistics);
+    public void verifyRubricStatistics(int questionNum, String[][] expectedStats, String[][] expectedStatsExcludingSelf,
+                                       String[][] expectedStatsPerRecipient) {
+        WebElement excludeSelfCheckbox = getRubricExcludeSelfCheckbox(questionNum);
+        markOptionAsUnselected(excludeSelfCheckbox);
+        verifyTableBodyValues(getRubricStatistics(questionNum), expectedStats);
 
-        boolean hasSelfEvaluation = receivedResponses.stream()
-                .anyMatch(response -> response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER));
-        if (hasSelfEvaluation) {
-            expectedStatistics = getExpectedRubricStatistics(questionDetails, receivedResponses, true);
-        }
-        markOptionAsSelected(getRubricExcludeSelfCheckbox(questionNum));
-        verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatistics);
+        markOptionAsSelected(excludeSelfCheckbox);
+        verifyTableBodyValues(getRubricStatistics(questionNum), expectedStatsExcludingSelf);
 
-        if (questionDetails.hasAssignedWeights()) {
-            // sort by recipient name
-            sortRubricPerRecipientStats(questionNum, 1);
-            replaceRecipientWithAnonymous(otherResponses, visibleRecipients);
-            String[][] expectedStatsPerRecipient = getExpectedRubricStatsPerRecipient(questionDetails, otherResponses,
-                    currentStudent, students);
-            verifyTableBodyValues(getRubricPerRecipientStats(questionNum), expectedStatsPerRecipient);
-        }
+        sortRubricPerRecipientStats(questionNum, 2);
+        verifyTableBodyValues(getRubricPerRecipientStats(questionNum), expectedStatsPerRecipient);
     }
 
-    public void verifyContributionStatistics(int questionNum, int[] expectedOwnStats, int[] expectedTeamStats) {
+    public void verifyContributionStatistics(int questionNum, String[] expectedStats) {
         WebElement questionSection = getQuestionResponsesSection(questionNum);
-        String[] ownStatsStrings = getExpectedContribStatistics(expectedOwnStats);
-        String[] teamStatsStrings = getExpectedContribStatistics(expectedTeamStats);
-        assertEquals(questionSection.findElement(By.id("own-view-me")).getText(), ownStatsStrings[0]);
-        assertEquals(questionSection.findElement(By.id("own-view-others")).getText().trim(), ownStatsStrings[1]);
-        assertEquals(questionSection.findElement(By.id("team-view-me")).getText(), teamStatsStrings[0]);
-        assertEquals(questionSection.findElement(By.id("team-view-others")).getText().trim(), teamStatsStrings[1]);
+        assertEquals(questionSection.findElement(By.id("own-view-me")).getText(), expectedStats[0]);
+        assertEquals(questionSection.findElement(By.id("own-view-others")).getText().trim(), expectedStats[1]);
+        assertEquals(questionSection.findElement(By.id("team-view-me")).getText(), expectedStats[2]);
+        assertEquals(questionSection.findElement(By.id("team-view-others")).getText().trim(), expectedStats[3]);
     }
 
     public void verifyCommentDetails(int questionNum, String commentGiver, String commentEditor, String commentString) {
@@ -514,160 +494,8 @@ public class StudentFeedbackResultsPage extends AppPage {
         return responseView.findElements(By.tagName("tm-single-response"));
     }
 
-    private String getDoubleString(double value) {
-        int numDecimalPlaces = 0;
-        if (value % 1 != 0) {
-            numDecimalPlaces = Double.toString(value).split("\\.")[1].length();
-        }
-        if (numDecimalPlaces > 2) {
-            numDecimalPlaces = 2;
-        }
-        return String.format("%." + numDecimalPlaces + "f", value);
-    }
-
-    private String[] getExpectedNumScaleStatistics(StudentAttributes student,
-                                                   List<FeedbackResponseAttributes> receivedResponses) {
-        double min = Double.MAX_VALUE;
-        double max = Double.MIN_VALUE;
-        double average = 0.0;
-        double averageExcludingSelf = 0.0;
-        int numSelfResponses = 0;
-        for (FeedbackResponseAttributes response : receivedResponses) {
-            FeedbackNumericalScaleResponseDetails responseDetails =
-                    (FeedbackNumericalScaleResponseDetails) response.getResponseDetails();
-            double points = responseDetails.getAnswer();
-            if (points > max) {
-                max = points;
-            }
-            if (points < min) {
-                min = points;
-            }
-            if (response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER)) {
-                numSelfResponses += 1;
-            } else {
-                averageExcludingSelf += points;
-            }
-            average += points;
-        }
-        average /= receivedResponses.size();
-        averageExcludingSelf /= receivedResponses.size() - numSelfResponses;
-
-        return new String[] { student.getTeam(), CURRENT_STUDENT_IDENTIFIER, getDoubleString(average),
-                getDoubleString(max), getDoubleString(min), getDoubleString(averageExcludingSelf) };
-    }
-
     private WebElement getNumScaleStatistics(int questionNum) {
         return getQuestionResponsesSection(questionNum).findElement(By.cssSelector("#numscale-statistics tbody tr"));
-    }
-
-    private int[][] getRubricResponseScores(FeedbackRubricQuestionDetails questionDetails,
-                                            List<FeedbackResponseAttributes> receivedResponses,
-                                            boolean isExcludingSelf) {
-        int numRows = questionDetails.getNumOfRubricSubQuestions();
-        int numCols = questionDetails.getNumOfRubricChoices();
-        int[][] rubricResponseScores = new int[numRows][numCols];
-        for (FeedbackResponseAttributes response : receivedResponses) {
-            FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetails();
-            List<Integer> answers = responseDetails.getAnswer();
-            for (int i = 0; i < answers.size(); i++) {
-                if (!isExcludingSelf || !response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER)) {
-                    rubricResponseScores[i][answers.get(i)] += 1;
-                }
-            }
-        }
-        return rubricResponseScores;
-    }
-
-    private String[][] getExpectedRubricStatistics(FeedbackRubricQuestionDetails questionDetails,
-                                                   List<FeedbackResponseAttributes> responses,
-                                                   boolean isExcludingSelf) {
-        int numCols = questionDetails.getNumOfRubricChoices() + 1;
-        if (questionDetails.hasAssignedWeights()) {
-            numCols++;
-        }
-        String[][] expectedStatistics = new String[questionDetails.getNumOfRubricSubQuestions()][numCols];
-
-        int[][] rubricResponses = getRubricResponseScores(questionDetails, responses, isExcludingSelf);
-        int divisor = responses.size();
-        if (isExcludingSelf) {
-            divisor -= 1;
-        }
-
-        for (int i = 0; i < questionDetails.getNumOfRubricSubQuestions(); i++) {
-            expectedStatistics[i][0] = getExpectedRubricSubQuestion(i, questionDetails.getRubricSubQuestions());
-            double averageWeight = 0;
-            for (int j = 0; j < questionDetails.getNumOfRubricChoices(); j++) {
-                expectedStatistics[i][j + 1] = getExpectedRubricValue(rubricResponses[i][j], divisor);
-                if (questionDetails.hasAssignedWeights()) {
-                    double weight = questionDetails.getRubricWeights().get(i).get(j);
-                    expectedStatistics[i][j + 1] += " [" + getDoubleString(weight) + "]";
-                    averageWeight += questionDetails.getRubricWeights().get(i).get(j) * rubricResponses[i][j];
-                }
-            }
-            if (questionDetails.hasAssignedWeights()) {
-                averageWeight /= divisor;
-                expectedStatistics[i][numCols - 1] = getDoubleString(averageWeight);
-            }
-        }
-        return expectedStatistics;
-    }
-
-    private String[][] getExpectedRubricStatsPerRecipient(FeedbackRubricQuestionDetails questionDetails,
-                                                          List<FeedbackResponseAttributes> otherResponses,
-                                                          StudentAttributes currentStudent,
-                                                          Collection<StudentAttributes> students) {
-        List<String> recipients = new ArrayList<>(getRecipients(otherResponses));
-        recipients.sort(Comparator.naturalOrder());
-        int numCols = questionDetails.getNumOfRubricChoices() + 5;
-        int numRows = questionDetails.getNumOfRubricSubQuestions() * recipients.size();
-        String[][] expectedStatsPerRecipient = new String[numRows][numCols];
-
-        for (int n = 0; n < recipients.size(); n++) {
-            String recipient = recipients.get(n);
-            List<FeedbackResponseAttributes> expectedResponses = otherResponses.stream()
-                    .filter(r -> r.getRecipient().equals(recipient))
-                    .collect(Collectors.toList());
-
-            int[][] rubricResponses = getRubricResponseScores(questionDetails, expectedResponses, false);
-            int startingIndex = n * questionDetails.getNumOfRubricSubQuestions();
-            for (int i = startingIndex; i < startingIndex + questionDetails.getNumOfRubricSubQuestions(); i++) {
-                if (isAnonymous(recipient)) {
-                    expectedStatsPerRecipient[i][0] = "";
-                } else if (recipient.equals(CURRENT_STUDENT_IDENTIFIER)) {
-                    expectedStatsPerRecipient[i][0] = currentStudent.getTeam();
-                } else {
-                    expectedStatsPerRecipient[i][0] = students.stream().filter(s -> s.getName().equals(recipient))
-                            .findFirst().get().getTeam();
-                }
-                expectedStatsPerRecipient[i][1] = recipient;
-                int index = i % questionDetails.getNumOfRubricSubQuestions();
-                expectedStatsPerRecipient[i][2] = getExpectedRubricSubQuestion(index,
-                        questionDetails.getRubricSubQuestions());
-                double total = 0;
-                int divisor = expectedResponses.size();
-                for (int j = 0; j < questionDetails.getNumOfRubricChoices(); j++) {
-                    double weight = questionDetails.getRubricWeights().get(index).get(j);
-                    expectedStatsPerRecipient[i][j + 3] = getExpectedRubricValue(rubricResponses[index][j], divisor)
-                            + " [" + getDoubleString(weight) + "]";
-                    total += weight * rubricResponses[index][j];
-                }
-                double averageWeight = total / divisor;
-                expectedStatsPerRecipient[i][expectedStatsPerRecipient[i].length - 2] = getDoubleString(total);
-                expectedStatsPerRecipient[i][expectedStatsPerRecipient[i].length - 1] = getDoubleString(averageWeight);
-            }
-        }
-        return expectedStatsPerRecipient;
-    }
-
-    private String getExpectedRubricSubQuestion(int index, List<String> subQuestions) {
-        char alphaIndex = (char) ('a' + index);
-        return alphaIndex + ") " + subQuestions.get(index);
-    }
-
-    private String getExpectedRubricValue(int rubricResponse, int divisor) {
-        double percentage = (double) rubricResponse / divisor * 100;
-        return getDoubleString(percentage) + "% (" + rubricResponse + ")";
-
     }
 
     private WebElement getRubricExcludeSelfCheckbox(int questionNum) {
@@ -683,40 +511,7 @@ public class StudentFeedbackResultsPage extends AppPage {
     }
 
     private void sortRubricPerRecipientStats(int questionNum, int colNum) {
-        click(getRubricPerRecipientStats(questionNum).findElements(By.tagName("th")).get(colNum));
-    }
-
-    private void replaceRecipientWithAnonymous(List<FeedbackResponseAttributes> responses,
-                                               Set<String> visibleRecipients) {
-        for (FeedbackResponseAttributes response : responses) {
-            boolean isRecipientVisible = visibleRecipients.contains(response.giver)
-                    || response.getRecipient().equals(CURRENT_STUDENT_IDENTIFIER)
-                    || response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER);
-            if (!isRecipientVisible) {
-                response.recipient = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " student";
-            }
-        }
-    }
-
-    private String[] getExpectedContribStatistics(int[] expectedStats) {
-        String[] statsStrings = new String[2];
-        statsStrings[0] = "of me: " + getContributionString(expectedStats[0]);
-        statsStrings[1] = "of others:  ";
-        for (int i = 1; i < expectedStats.length; i++) {
-            statsStrings[1] += getContributionString(expectedStats[i]);
-            if (i != expectedStats.length - 1) {
-                statsStrings[1] += ", ";
-            }
-        }
-        return statsStrings;
-    }
-
-    private String getContributionString(int value) {
-        StringBuilder contributionString = new StringBuilder("E ");
-        if (value > 0) {
-            contributionString.append('+');
-        }
-        return contributionString.append(value).append('%').toString();
+        click(getRubricPerRecipientStats(questionNum).findElements(By.tagName("th")).get(colNum - 1));
     }
 
     private boolean isCommentByResponseGiver(WebElement commentField) {

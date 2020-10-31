@@ -15,6 +15,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AppPage;
@@ -74,19 +75,22 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("verify statistics - numscale");
-        resultsPage.verifyNumScaleStatistics(5, student, getReceivedResponses(student,
-                testData.feedbackQuestions.get("qn5")));
+        String[] expectedNumScaleStats = { student.getTeam(), "You", "3.83", "4.5", "3", "3.5" };
+
+        resultsPage.verifyNumScaleStatistics(5, expectedNumScaleStats);
 
         ______TS("verify statistics - rubric");
-        FeedbackQuestionAttributes rubricsQn = testData.feedbackQuestions.get("qn10");
-        resultsPage.verifyRubricStatistics(10, rubricsQn, getReceivedResponses(student, rubricsQn),
-                getAllResponses(student, rubricsQn), getVisibleRecipients(student, rubricsQn), student,
-                testData.students.values());
+        verifyExpectedRubricStats();
 
         ______TS("verify statistics - contribution");
-        int[] expectedOwnStatistics = { 20, 50, -50 };
-        int[] expectedTeamStatistics = { 71, -20, -31 };
-        resultsPage.verifyContributionStatistics(11, expectedOwnStatistics, expectedTeamStatistics);
+        String[] expectedContribStats = {
+                "of me: E +20%",
+                "of others:  E +50%, E -50%",
+                "of me: E +71%",
+                "of others:  E -20%, E -31%",
+        };
+
+        resultsPage.verifyContributionStatistics(11, expectedContribStats);
 
         ______TS("verify comments");
         verifyCommentDetails(2, testData.feedbackResponseComments.get("qn2Comment1"), student);
@@ -175,23 +179,6 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         otherResponses.addAll(responsesToSelf);
 
         return editIdentifiers(currentStudent, otherResponses);
-    }
-
-    private List<FeedbackResponseAttributes> getReceivedResponses(StudentAttributes currentStudent,
-                                                                  FeedbackQuestionAttributes question) {
-        List<FeedbackResponseAttributes> receivedResponses = testData.feedbackResponses.values().stream()
-                .filter(f -> f.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber()))
-                        && f.getRecipient().equals(currentStudent.getEmail()))
-                .collect(Collectors.toList());
-        return editIdentifiers(currentStudent, receivedResponses);
-    }
-
-    private List<FeedbackResponseAttributes> getAllResponses(StudentAttributes currentStudent,
-                                                             FeedbackQuestionAttributes question) {
-        List<FeedbackResponseAttributes> allResponses = testData.feedbackResponses.values().stream()
-                .filter(f -> f.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber())))
-                .collect(Collectors.toList());
-        return editIdentifiers(currentStudent, allResponses);
     }
 
     private Set<String> getVisibleGivers(StudentAttributes currentStudent, FeedbackQuestionAttributes question) {
@@ -291,5 +278,90 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
             copiedResponses.add(new FeedbackResponseAttributes(response));
         }
         return copiedResponses;
+    }
+
+    private void verifyExpectedRubricStats() {
+        FeedbackRubricQuestionDetails rubricsQnDetails =
+                (FeedbackRubricQuestionDetails) testData.feedbackQuestions.get("qn10").getQuestionDetails();
+        List<String> subQns = rubricsQnDetails.getRubricSubQuestions();
+        String[] formattedSubQns = { "a) " + subQns.get(0), "b) " + subQns.get(1), "c) " + subQns.get(2) };
+
+        String[][] expectedRubricStats = {
+                {
+                        formattedSubQns[0],
+                        "33.33% (1) [1]",
+                        "33.33% (1) [2]",
+                        "0% (0) [3]",
+                        "0% (0) [4]",
+                        "33.33% (1) [5]",
+                        "2.67",
+                },
+                {
+                        formattedSubQns[1],
+                        "0% (0) [0.01]",
+                        "0% (0) [0.02]",
+                        "33.33% (1) [0.03]",
+                        "0% (0) [0.04]",
+                        "66.67% (2) [0.05]",
+                        "0.04",
+                },
+                {
+                        formattedSubQns[2],
+                        "0% (0) [2]",
+                        "0% (0) [1]",
+                        "0% (0) [0]",
+                        "66.67% (2) [-1]",
+                        "33.33% (1) [-2]",
+                        "-1.33",
+                },
+        };
+
+        String[][] expectedRubricStatsExcludingSelf = {
+                {
+                        formattedSubQns[0],
+                        "50% (1) [1]",
+                        "0% (0) [2]",
+                        "0% (0) [3]",
+                        "0% (0) [4]",
+                        "50% (1) [5]",
+                        "3",
+                },
+                {
+                        formattedSubQns[1],
+                        "0% (0) [0.01]",
+                        "0% (0) [0.02]",
+                        "0% (0) [0.03]",
+                        "0% (0) [0.04]",
+                        "100% (2) [0.05]",
+                        "0.05",
+                },
+                {
+                        formattedSubQns[2],
+                        "0% (0) [2]",
+                        "0% (0) [1]",
+                        "0% (0) [0]",
+                        "50% (1) [-1]",
+                        "50% (1) [-2]",
+                        "-1.5",
+                },
+        };
+
+        String[] studentNames = { "Anonymous student", "Benny Charles", "Charlie Davis", "You" };
+        String[] studentTeams = { "", "Team 1", "Team 1", "Team 1" };
+
+        String[][] expectedRubricStatsPerRecipient = new String[studentNames.length * formattedSubQns.length][3];
+        // The actual calculated stats are not verified for this table
+        // Checking the recipient presence in the table is sufficient for E2E purposes
+        for (int i = 0; i < studentNames.length; i++) {
+            for (int j = 0; j < formattedSubQns.length; j++) {
+                int index = i * formattedSubQns.length + j;
+                expectedRubricStatsPerRecipient[index][0] = studentTeams[i];
+                expectedRubricStatsPerRecipient[index][1] = studentNames[i];
+                expectedRubricStatsPerRecipient[index][2] = formattedSubQns[j];
+            }
+        }
+
+        resultsPage.verifyRubricStatistics(10, expectedRubricStats, expectedRubricStatsExcludingSelf,
+                expectedRubricStatsPerRecipient);
     }
 }
