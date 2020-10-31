@@ -8,9 +8,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
@@ -29,7 +27,6 @@ import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetail
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -389,7 +386,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                      Collection<StudentAttributes> students) {
         List<FeedbackResponseAttributes> responsesToUse = filterMissingResponses(responses);
         List<WebElement> statisticsTables = questionPanel.findElements(By.cssSelector("#mcq-statistics table"));
-        verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question, responsesToUse));
+        verifyTableBodyValues(statisticsTables.get(0), getMcqResponseSummary(question));
         // sort per recipient statistics
         click(statisticsTables.get(1).findElements(By.tagName("th")).get(1));
         verifyTableBodyValues(statisticsTables.get(1), getMcqPerRecipientStatistics(question, responsesToUse, students,
@@ -666,66 +663,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return expected;
     }
 
-    private double countMcqResponses(List<FeedbackResponseAttributes> responses, List<String> choices,
-                                     boolean isOtherEnabled, List<Double> weights, Double otherWeight,
-                                     Map<String, Integer> choiceCount) {
-        for (String choice : choices) {
-            choiceCount.put(choice, 0);
-        }
-        if (isOtherEnabled) {
-            choiceCount.put(MCQ_OTHER, 0);
-        }
-
-        double total = 0;
-        for (FeedbackResponseAttributes response : responses) {
-            FeedbackMcqResponseDetails responseDetails = (FeedbackMcqResponseDetails) response.getResponseDetails();
-            if (responseDetails.isOther()) {
-                choiceCount.put(MCQ_OTHER, choiceCount.get(MCQ_OTHER) + 1);
-                total += otherWeight;
-            } else {
-                String answer = responseDetails.getAnswer();
-                choiceCount.put(answer, choiceCount.get(answer) + 1);
-                total += weights.get(choices.indexOf(answer));
-            }
-        }
-
-        return total == 0 ? responses.size() : total;
-
-    }
-
-    private String[][] getMcqResponseSummary(FeedbackQuestionAttributes question,
-                                            List<FeedbackResponseAttributes> responses) {
+    private String[][] getMcqResponseSummary(FeedbackQuestionAttributes question) {
         FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetails();
         List<String> choices = questionDetails.getMcqChoices();
-        boolean isOtherEnabled = questionDetails.isOtherEnabled();
-
-        boolean hasAssignedWeights = questionDetails.hasAssignedWeights();
         List<Double> weights = questionDetails.getMcqWeights();
         Double otherWeight = questionDetails.getMcqOtherWeight();
-
-        Map<String, Integer> choiceCount = new HashMap<>();
-        double total = countMcqResponses(responses, choices, isOtherEnabled, weights, otherWeight, choiceCount);
+        boolean isOtherEnabled = questionDetails.isOtherEnabled();
+        boolean hasAssignedWeights = questionDetails.hasAssignedWeights();
 
         int numRows = isOtherEnabled ? choices.size() + 1 : choices.size();
-        String[][] expectedStatistics = new String[numRows][5];
+        String[][] expectedStatistics = new String[numRows][2];
         for (int i = 0; i < choices.size(); i++) {
-            double percentage = (double) choiceCount.get(choices.get(i)) / responses.size() * 100;
-            double weightPerc = weights.get(i) * choiceCount.get(choices.get(i)) / total * 100;
             expectedStatistics[i][0] = choices.get(i);
             expectedStatistics[i][1] = hasAssignedWeights ? getDoubleString(weights.get(i)) : "-";
-            expectedStatistics[i][2] = Integer.toString(choiceCount.get(choices.get(i)));
-            expectedStatistics[i][3] = getDoubleString(percentage);
-            expectedStatistics[i][4] = hasAssignedWeights ? getDoubleString(weightPerc) : "-";
         }
         if (isOtherEnabled) {
             int index = choices.size();
-            double percentage = (double) choiceCount.get(MCQ_OTHER) / responses.size() * 100;
-            double weightPerc = otherWeight * choiceCount.get(MCQ_OTHER) / total * 100;
             expectedStatistics[index][0] = MCQ_OTHER;
             expectedStatistics[index][1] = hasAssignedWeights ? getDoubleString(otherWeight) : "-";
-            expectedStatistics[index][2] = Integer.toString(choiceCount.get(MCQ_OTHER));
-            expectedStatistics[index][3] = getDoubleString(percentage);
-            expectedStatistics[index][4] = hasAssignedWeights ? getDoubleString(weightPerc) : "-";
         }
         return expectedStatistics;
     }
@@ -734,38 +689,15 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                     List<FeedbackResponseAttributes> responses,
                                                     Collection<StudentAttributes> students,
                                                     Collection<InstructorAttributes> instructors) {
-        Map<String, List<FeedbackResponseAttributes>> recipientToResponse = mapResponsesToRecipient(responses);
-        List<String> recipients = new ArrayList<>(recipientToResponse.keySet());
+        List<String> recipients = getRecipients(responses);
         recipients.sort(Comparator.naturalOrder());
 
-        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetails();
-        List<String> choices = questionDetails.getMcqChoices();
-        boolean isOtherEnabled = questionDetails.isOtherEnabled();
-
-        List<Double> weights = questionDetails.getMcqWeights();
-        Double otherWeight = questionDetails.getMcqOtherWeight();
-
-        int numCols = 4 + (isOtherEnabled ? choices.size() + 1 : choices.size());
-        String[][] expectedStatistics = new String[recipients.size()][numCols];
+        String[][] expectedStatistics = new String[recipients.size()][2];
 
         for (int i = 0; i < recipients.size(); i++) {
             String recipient = recipients.get(i);
-            String recipientName = getName(question.recipientType, recipient, instructors, students);
-            String recipientTeam = getTeam(question.recipientType, recipient, students);
-            Map<String, Integer> choiceCount = new HashMap<>();
-            double total = countMcqResponses(recipientToResponse.get(recipient), choices,
-                    isOtherEnabled, weights, otherWeight, choiceCount);
-
-            expectedStatistics[i][0] = recipientTeam;
-            expectedStatistics[i][1] = recipientName;
-            for (int j = 0; j < choices.size(); j++) {
-                expectedStatistics[i][2 + j] = Integer.toString(choiceCount.get(choices.get(j)));
-            }
-            if (isOtherEnabled) {
-                expectedStatistics[i][numCols - 3] = Integer.toString(choiceCount.get(MCQ_OTHER));
-            }
-            expectedStatistics[i][numCols - 2] = getDoubleString(total);
-            expectedStatistics[i][numCols - 1] = getDoubleString(total / recipientToResponse.get(recipient).size());
+            expectedStatistics[i][0] = getTeam(question.recipientType, recipient, students);
+            expectedStatistics[i][1] = getName(question.recipientType, recipient, instructors, students);
         }
 
         return expectedStatistics;
@@ -779,7 +711,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return response.getAnswerString();
         case MCQ:
         case MSQ:
-            return response.getAnswerString().replace(", ", System.lineSeparator());
+            return response.getAnswerString().replace(", ", "\n");
         case RUBRIC:
             return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetails(),
                     (FeedbackRubricResponseDetails) response);
@@ -804,7 +736,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int answer : answers) {
             answerStrings.add(choices.get(answer) + " (Choice " + (answer + 1) + ")");
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join("\n", answerStrings);
     }
 
     private String getRankOptionsAnsString(FeedbackRankOptionsQuestionDetails question,
@@ -815,7 +747,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int i = 1; i <= options.size(); i++) {
             answerStrings.add(i + ": " + options.get(answers.indexOf(i)));
         }
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join("\n", answerStrings);
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
@@ -830,7 +762,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             answerStrings.add(options.get(i) + ": " + answers.get(i));
         }
         answerStrings.sort(Comparator.naturalOrder());
-        return String.join(System.lineSeparator(), answerStrings);
+        return String.join("\n", answerStrings);
     }
 
     private String getContribAnsString(FeedbackContributionResponseDetails responseDetails) {
@@ -1133,19 +1065,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 .filter(response -> response.getRecipient().equals(recipient))
                 .findFirst()
                 .orElse(null);
-    }
-
-    private Map<String, List<FeedbackResponseAttributes>> mapResponsesToRecipient(
-            List<FeedbackResponseAttributes> responses) {
-        Map<String, List<FeedbackResponseAttributes>> recipientToResponse = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses) {
-            String recipient = response.getRecipient();
-            if (!recipientToResponse.containsKey(recipient)) {
-                recipientToResponse.put(recipient, new ArrayList<>());
-            }
-            recipientToResponse.get(recipient).add(response);
-        }
-        return recipientToResponse;
     }
 
     private String getSection(FeedbackParticipantType type, String participant, Collection<StudentAttributes> students) {
