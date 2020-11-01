@@ -2,17 +2,11 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleResponseDetails;
-import teammates.common.util.AppUrl;
-import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
@@ -20,11 +14,7 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
  *      specifically for NumScale questions.
  */
-public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
-    InstructorAttributes instructor;
-    CourseAttributes course;
-    FeedbackSessionAttributes feedbackSession;
-    StudentAttributes student;
+public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void prepareTestData() {
@@ -43,13 +33,9 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
         testSubmitPage();
     }
 
-    private void testEditPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withUserId(instructor.googleId)
-                .withCourseId(course.getId())
-                .withSessionName(feedbackSession.getFeedbackSessionName());
-        InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
-        feedbackEditPage.waitForPageToLoad();
+    @Override
+    protected void testEditPage() {
+        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
@@ -89,14 +75,9 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(loadedQuestion);
     }
 
-    private void testSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withUserId(student.googleId)
-                .withCourseId(student.course)
-                .withSessionName(feedbackSession.getFeedbackSessionName())
-                .withRegistrationKey(getKeyForStudent(student));
-        FeedbackSubmitPage feedbackSubmitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
+    @Override
+    protected void testSubmitPage() {
+        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -112,16 +93,14 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseE2ETestCase {
         verifyPresentInDatastore(response);
 
         ______TS("check previous response");
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
+        feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
 
         ______TS("edit response");
         response = getResponse(questionId, receiver, 10.0);
         feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
 
-        feedbackSubmitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        feedbackSubmitPage.waitForPageToLoad();
+        feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
         verifyPresentInDatastore(response);
     }
