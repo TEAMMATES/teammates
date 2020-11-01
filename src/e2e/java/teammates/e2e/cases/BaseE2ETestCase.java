@@ -47,8 +47,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     static final BackDoor BACKDOOR = BackDoor.getInstance();
     private static Browser sharedBrowser;
 
-    protected Browser browser;
     protected DataBundle testData;
+    private Browser browser;
 
     @BeforeSuite
     protected void determineEnvironment(ITestContext context) {
@@ -128,12 +128,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // Refer to teammates.e2e.pageobjects.Browser for more information.
         if (!TestProperties.isDevServer()) {
             // skip login and navigate to the desired page.
-            return AppPage.getNewPageInstance(browser, url, typeOfPage);
+            return getNewPageInstance(url, typeOfPage);
         }
 
         if (browser.isAdminLoggedIn) {
             try {
-                return AppPage.getNewPageInstance(browser, url, typeOfPage);
+                return getNewPageInstance(url, typeOfPage);
             } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
             }
@@ -150,7 +150,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
         loginPage.loginAsAdmin(adminUsername);
 
-        return AppPage.getNewPageInstance(browser, url, typeOfPage);
+        return getNewPageInstance(url, typeOfPage);
     }
 
     /**
@@ -196,6 +196,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
+        return AppPage.getNewPageInstance(browser, url, typeOfPage);
     }
 
     /**

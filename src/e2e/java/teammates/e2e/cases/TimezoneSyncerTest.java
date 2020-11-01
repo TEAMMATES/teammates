@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminTimezonePage;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.IanaTimezonePage;
 
 /**
@@ -37,8 +36,8 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AdminTimezonePage timezonePage = AppPage.getNewPageInstance(
-                browser, createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
+        AdminTimezonePage timezonePage = getNewPageInstance(
+                createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
 
         ______TS("ensure the front-end and the back-end have the same timezone database version");
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
@@ -52,8 +51,8 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
 
         ______TS("ensure the timezone databases are up-to-date");
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
-        IanaTimezonePage ianaPage = AppPage.getNewPageInstance(
-                browser, new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
+        IanaTimezonePage ianaPage = getNewPageInstance(
+                new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
         String latestTzVersion = ianaPage.getVersion();
 
         if (!currentTzVersion.equals(latestTzVersion)) {

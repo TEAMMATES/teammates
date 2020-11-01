@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
@@ -49,6 +48,6 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(student.course)
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        return AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
+        return getNewPageInstance(url, FeedbackSubmitPage.class);
     }
 }
