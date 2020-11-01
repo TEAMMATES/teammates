@@ -106,7 +106,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
             return;
         }
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
-            browser.driver.close();
+            browser.close();
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // logout and attempt to load the requested URL. This will be
         // redirected to a dev-server login page
         logout();
-        browser.driver.get(url.toAbsoluteString());
+        browser.goToUrl(url.toAbsoluteString());
 
         // In dev server, any username is acceptable as admin
         String adminUsername = "devserver.admin.account";
@@ -157,7 +157,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.driver.get(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
+        browser.goToUrl(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
