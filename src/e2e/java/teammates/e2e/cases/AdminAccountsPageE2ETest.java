@@ -23,7 +23,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
     @Test
     public void testAll() {
 
-        String googleId = "AAMgtE2eT.instr2";
+        String googleId = "tm.e2e.AAccounts.instr2";
 
         ______TS("verify loaded data");
 
@@ -36,7 +36,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("action: remove instructor from course");
 
-        InstructorAttributes instructor = testData.instructors.get("AAMgtE2eT.instr2-AAMgtE2eT.CS2103");
+        InstructorAttributes instructor = testData.instructors.get("AAccounts.instr2-AAccounts.CS2103");
         String courseId = instructor.courseId;
 
         verifyPresentInDatastore(instructor);
@@ -46,7 +46,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("action: remove student from course");
 
-        StudentAttributes student = testData.students.get("AAMgtE2eT.instr2-student-CS2103");
+        StudentAttributes student = testData.students.get("AAccounts.instr2-student-CS2103");
         courseId = student.course;
 
         verifyPresentInDatastore(student);
@@ -56,8 +56,8 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("action: downgrade instructor account");
 
-        InstructorAttributes instructor2 = testData.instructors.get("AAMgtE2eT.instr2-AAMgtE2eT.CS2104");
-        InstructorAttributes instructor3 = testData.instructors.get("AAMgtE2eT.instr2-AAMgtE2eT.CS1101");
+        InstructorAttributes instructor2 = testData.instructors.get("AAccounts.instr2-AAccounts.CS2104");
+        InstructorAttributes instructor3 = testData.instructors.get("AAccounts.instr2-AAccounts.CS1101");
         verifyPresentInDatastore(instructor2);
         verifyPresentInDatastore(instructor3);
 
@@ -74,8 +74,8 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("action: delete account entirely");
 
-        StudentAttributes student2 = testData.students.get("AAMgtE2eT.instr2-student-CS2104");
-        StudentAttributes student3 = testData.students.get("AAMgtE2eT.instr2-student-CS1101");
+        StudentAttributes student2 = testData.students.get("AAccounts.instr2-student-CS2104");
+        StudentAttributes student3 = testData.students.get("AAccounts.instr2-student-CS1101");
         verifyPresentInDatastore(student2);
         verifyPresentInDatastore(student3);
 

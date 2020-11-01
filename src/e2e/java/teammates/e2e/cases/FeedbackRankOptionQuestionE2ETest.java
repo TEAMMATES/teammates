@@ -29,7 +29,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FRankOptionQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FRankOptQn.CS2104");
     }
 
     @Test
@@ -90,7 +90,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FRankOptionQuestionE2eT.CS2104");
+        StudentAttributes receiver = testData.students.get("benny.tmms@FRankOptQn.CS2104");
         feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
                 (FeedbackRankQuestionDetails) question.getQuestionDetails());
 

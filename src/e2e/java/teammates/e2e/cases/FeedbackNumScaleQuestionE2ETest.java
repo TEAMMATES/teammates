@@ -24,7 +24,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FNumScaleQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FNumScaleQn.CS2104");
     }
 
     @Test
@@ -81,7 +81,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FNumScaleQuestionE2eT.CS2104");
+        StudentAttributes receiver = testData.students.get("benny.tmms@FNumScaleQn.CS2104");
         feedbackSubmitPage.verifyNumScaleQuestion(1, receiver.getTeam(),
                 (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetails());
 

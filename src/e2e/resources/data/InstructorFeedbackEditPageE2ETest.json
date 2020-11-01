@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "CFeedbackEditE2eT.instructor",
+      "googleId": "tm.e2e.IFEdit.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "CFeedbackEditE2eT.CS2104",
+      "id": "tm.e2e.IFEdit.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "CFeedbackEditE2eT.CS1101",
+      "id": "tm.e2e.IFEdit.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "CFeedbackEditE2eT.instructor",
-      "courseId": "CFeedbackEditE2eT.CS2104",
+      "googleId": "tm.e2e.IFEdit.instructor",
+      "courseId": "tm.e2e.IFEdit.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "CFeedbackEditE2eT.instructor",
-      "courseId": "CFeedbackEditE2eT.CS1101",
+      "googleId": "tm.e2e.IFEdit.instructor",
+      "courseId": "tm.e2e.IFEdit.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,37 +69,37 @@
     }
   },
   "students": {
-    "alice.tmms@CFeedbackEditE2eT.CS2104": {
-      "googleId": "CFeedbackEditE2eT.alice.tmms",
+    "alice.tmms@IFEdit.CS2104": {
+      "googleId": "tm.e2e.IFEdit.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "CFeedbackEditE2eT.CS2104",
+      "course": "tm.e2e.IFEdit.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@CFeedbackEditE2eT.CS2104": {
-      "googleId": "CFeedbackEditE2eT.benny.tmms",
+    "benny.tmms@IFEdit.CS2104": {
+      "googleId": "tm.e2e.IFEdit.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "CFeedbackEditE2eT.CS2104",
+      "course": "tm.e2e.IFEdit.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "charlie.tmms@CFeedbackEditE2eT.CS1101": {
-      "googleId": "charlie.tmms",
-      "email": "CFeedbackEditE2eT.charlie.tmms@gmail.tmt",
-      "course": "CFeedbackEditE2eT.CS1101",
+    "charlie.tmms@IFEdit.CS1101": {
+      "googleId": "tm.e2e.IFEdit.charlie.tmms",
+      "email": "IFEdit.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.IFEdit.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2",
       "section": "None"
     },
-    "danny.tmms@CFeedbackEditE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "CFeedbackEditE2eT.danny.tmms@gmail.tmt",
-      "course": "CFeedbackEditE2eT.CS1101",
+    "danny.tmms@IFEdit.CS1101": {
+      "googleId": "tm.e2e.IFEdit.danny.tmms",
+      "email": "IFEdit.danny.tmms@gmail.tmt",
+      "course": "tm.e2e.IFEdit.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -109,7 +109,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "CFeedbackEditE2eT.CS2104",
+      "courseId": "tm.e2e.IFEdit.CS2104",
       "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -129,7 +129,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "CFeedbackEditE2eT.CS1101",
+      "courseId": "tm.e2e.IFEdit.CS1101",
       "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -151,7 +151,7 @@
   "feedbackQuestions": {
     "qn1": {
       "feedbackSessionName": "Second Session",
-      "courseId": "CFeedbackEditE2eT.CS1101",
+      "courseId": "tm.e2e.IFEdit.CS1101",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Testing question text"
