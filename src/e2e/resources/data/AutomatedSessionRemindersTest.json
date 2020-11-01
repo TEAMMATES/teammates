@@ -4,7 +4,7 @@
       "googleId": "AutSessRem.instructor",
       "name": "Test Ins for Aut Sessions Reminder",
       "isInstructor": true,
-      "email": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
@@ -20,7 +20,7 @@
       "googleId": "AutSessRem.instructor",
       "courseId": "AutSessRem.course",
       "name": "Test Ins for Aut Sessions Reminder",
-      "email": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -43,7 +43,7 @@
   "students": {
     "alice.tmms@AutSessRem.course": {
       "googleId": "alice.b.tmms",
-      "email": "${value.injected.in.testfile}",
+      "email": "${value.injected.in.testfile}@gmail.tmt",
       "course": "AutSessRem.course",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "dummy comment</option></td></div>'\"",
@@ -55,7 +55,7 @@
     "openingSession": {
       "feedbackSessionName": "AutSessRem Opening Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "creatorEmail": "${value.injected.in.testfile}@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
@@ -75,7 +75,7 @@
     "closingSession": {
       "feedbackSessionName": "AutSessRem Closing Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "creatorEmail": "${value.injected.in.testfile}@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T23:59:00Z",
@@ -95,7 +95,7 @@
     "closedSession": {
       "feedbackSessionName": "AutSessRem Closed Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "creatorEmail": "${value.injected.in.testfile}@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T23:59:00Z",
@@ -115,7 +115,7 @@
     "publishedSession": {
       "feedbackSessionName": "AutSessRem Published Session",
       "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "creatorEmail": "${value.injected.in.testfile}@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",

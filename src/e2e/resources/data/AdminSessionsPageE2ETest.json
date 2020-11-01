@@ -4,7 +4,7 @@
       "googleId": "adminSessions.idOfInstructor1OfCourse1",
       "name": "Instructor1 of Course1",
       "isInstructor": true,
-      "email": "adminSessions.instructor1@course1.tmt",
+      "email": "adminSessions.instructor1@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     }
   },
@@ -20,7 +20,7 @@
       "googleId": "adminSessions.idOfInstructor1OfCourse1",
       "courseId": "adminSessions.idOfTypicalCourse1",
       "name": "Instructor1 of Course1",
-      "email": "adminSessions.instructor1@course1.tmt",
+      "email": "adminSessions.instructor1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -44,7 +44,7 @@
     "session1InCourse1": {
       "feedbackSessionName": "Open feedback session",
       "courseId": "adminSessions.idOfTypicalCourse1",
-      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "creatorEmail": "adminSessions.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T21:59:00Z",
@@ -64,7 +64,7 @@
     "session2InCourse1": {
       "feedbackSessionName": "Awaiting feedback session",
       "courseId": "adminSessions.idOfTypicalCourse1",
-      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "creatorEmail": "adminSessions.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T21:59:00Z",
@@ -84,7 +84,7 @@
     "session3InCourse1": {
       "feedbackSessionName": "Future feedback session",
       "courseId": "adminSessions.idOfTypicalCourse1",
-      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "creatorEmail": "adminSessions.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T21:59:00Z",

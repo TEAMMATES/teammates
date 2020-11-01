@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseTestCase;
 import teammates.test.FileHelper;
@@ -96,6 +97,25 @@ public class TestDataValidityTest extends BaseTestCase {
                                 .add("Invalid instructor email: " + instructor.email);
                     }
                 });
+
+                dataBundle.feedbackSessions.forEach((id, session) -> {
+                    if (!isValidTestEmail(session.getCreatorEmail())) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid session creator email: " + session.getCreatorEmail());
+                    }
+                });
+
+                dataBundle.feedbackResponses.forEach((id, response) -> {
+                    if (response.giver.contains("@") && !isValidTestEmail(response.giver)) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid response giver email: " + response.giver);
+                    }
+
+                    if (response.recipient.contains("@") && !isValidTestEmail(response.recipient)) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid response recipient email: " + response.recipient);
+                    }
+                });
             });
         }
 
@@ -110,10 +130,8 @@ public class TestDataValidityTest extends BaseTestCase {
         }
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
     private boolean isValidTestEmail(String email) {
-        // TODO
-        return true;
+        return email.endsWith(Const.TEST_EMAIL_DOMAIN);
     }
 
     @SuppressWarnings("PMD.UnusedFormalParameter")

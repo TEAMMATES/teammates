@@ -4,14 +4,14 @@
       "googleId": "adminSearch.idOfInstructor1OfCourse1",
       "name": "Instructor1 of Course1",
       "isInstructor": true,
-      "email": "adminSearch.instructor1@course1.tmt",
+      "email": "adminSearch.instructor1@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     },
     "instructor2OfCourse1": {
       "googleId": "adminSearch.idOfInstructor2OfCourse1",
       "name": "Instructor2 of Course1",
       "isInstructor": true,
-      "email": "adminSearch.instructor2@course1.tmt",
+      "email": "adminSearch.instructor2@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     },
     "student1InCourse1": {
@@ -34,7 +34,7 @@
       "googleId": "adminSearch.idOfInstructor1OfCourse1",
       "courseId": "adminSearch.idOfTypicalCourse1",
       "name": "Instructor1 of Course1",
-      "email": "adminSearch.instructor1@course1.tmt",
+      "email": "adminSearch.instructor1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -57,7 +57,7 @@
       "googleId": "adminSearch.idOfInstructor2OfCourse1",
       "courseId": "adminSearch.idOfTypicalCourse1",
       "name": "Instructor2 of Course1",
-      "email": "adminSearch.instructor2@course1.tmt",
+      "email": "adminSearch.instructor2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -92,7 +92,7 @@
     "session1InCourse1": {
       "feedbackSessionName": "adminSearch.First feedback session",
       "courseId": "adminSearch.idOfTypicalCourse1",
-      "creatorEmail": "adminSearch.instructor1@course1.tmt",
+      "creatorEmail": "adminSearch.instructor1@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -112,7 +112,7 @@
   "session2InCourse1": {
     "feedbackSessionName": "adminSearch.Second feedback session",
     "courseId": "adminSearch.idOfTypicalCourse1",
-    "creatorEmail": "adminSearch.instructor1@course1.tmt",
+    "creatorEmail": "adminSearch.instructor1@gmail.tmt",
     "instructions": "Please please fill in the following questions.",
     "createdTime": "2012-03-20T23:59:00Z",
     "startTime": "2012-04-01T21:59:00Z",

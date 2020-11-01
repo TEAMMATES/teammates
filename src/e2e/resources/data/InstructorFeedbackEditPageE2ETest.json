@@ -110,7 +110,7 @@
     "openSession": {
       "feedbackSessionName": "First Session",
       "courseId": "CFeedbackEditE2eT.CS2104",
-      "creatorEmail": "backdoor@teammates.com",
+      "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -130,7 +130,7 @@
     "openSession2": {
       "feedbackSessionName": "Second Session",
       "courseId": "CFeedbackEditE2eT.CS1101",
-      "creatorEmail": "backdoor@teammates.com",
+      "creatorEmail": "backdoor@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",

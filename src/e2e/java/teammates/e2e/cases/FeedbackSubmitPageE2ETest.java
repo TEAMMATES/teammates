@@ -36,9 +36,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/FeedbackSubmitPageE2ETest.json");
         testData.feedbackSessions.get("Grace Period Session").setEndTime(Instant.now());
         student = testData.students.get("Alice");
-        if (!TestProperties.isDevServer()) {
-            student.email = TestProperties.TEST_EMAIL;
-        }
+        student.email = TestProperties.TEST_EMAIL;
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("SFSubmitE2eT.instr");

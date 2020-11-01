@@ -41,9 +41,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackSessionsPageE2ETest.json");
         studentToEmail = testData.students.get("charlie.tmms@CFeedbackSessionsE2eT.CS1101");
-        if (!TestProperties.isDevServer()) {
-            studentToEmail.email = TestProperties.TEST_EMAIL;
-        }
+        studentToEmail.email = TestProperties.TEST_EMAIL;
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("instructor");

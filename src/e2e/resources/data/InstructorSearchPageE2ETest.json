@@ -4,7 +4,7 @@
       "googleId": "searchE2E.idOfInstructor1OfCourse1",
       "name": "Instructor 1 of Course 1",
       "isInstructor": true,
-      "email": "searchE2E.instr1@course1.tmt",
+      "email": "searchE2E.instr1@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
     "student1InCourse1": {
@@ -53,7 +53,7 @@
       "googleId": "searchE2E.idOfInstructor1OfCourse1",
       "courseId": "searchE2E.idOfTypicalCourse1",
       "name": "Instructor1 Course1",
-      "email": "searchE2E.instructor1@course1.tmt",
+      "email": "searchE2E.instructor1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -76,7 +76,7 @@
       "googleId": "searchE2E.idOfInstructor1OfCourse1",
       "courseId": "searchE2E.idOfTypicalCourse2",
       "name": "Instructor1 Course2",
-      "email": "searchE2E.instructor1@course1.tmt",
+      "email": "searchE2E.instructor1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
