@@ -159,45 +159,7 @@ POST http://localhost:8080/_ah/login?action=Log+Out
 
 There are two big categories of testing in TEAMMATES:
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
-- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`.
-
-### Configuring browsers for E2E Testing
-
-TEAMMATES E2E testing requires Firefox or Chrome.
-
-Before running tests, modify `src/e2e/resources/test.properties` if necessary, e.g. to configure which browser and test accounts to use.
-
-#### Using Firefox
-
-* You need to use geckodriver for testing with Firefox.
-  * Download the latest stable geckodriver from [here](https://github.com/mozilla/geckodriver/releases).
-    The site will also inform the versions of Firefox that can be used with the driver.
-  * Specify the path to the geckodriver executable in `test.geckodriver.path` value in `test.properties`.
-
-* If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
-
-* If you are planning to test against a production server, specify the Firefox profile to be used in `test.firefox.profile.name` value in `test.properties`.
-    *  This is used to bypass login by using previous login data.
-    *  You can enter `about:profiles` into Firefox address bar to identify the profile being used.
-
-#### Using Chrome
-
-* You need to use chromedriver for testing with Chrome.
-  * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
-    The site will also inform the versions of Chrome that can be used with the driver.
-  * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
-
-* If you are planning to test against a production server, specify the path to Chrome's user data directory in `test.chrome.userdata.path` value in `test.properties`.
-    *  This is used to bypass login by using previous login data.
-
-* The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
-  You will need to manually kill these processes after the tests are done.
-  * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
-  * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
-
-### Running the tests
-
-- When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
+- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](https://github.com/TEAMMATES/teammates/blob/master/docs/e2e-testing.md).  
 
 #### Running the tests with command line
 
@@ -215,45 +177,18 @@ To run an individual test in a test file, change `it` in the `*.spec.ts` file to
 
 To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
 
-Back-end component tests and E2E tests follow this configuration:
+Back-end component tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
 `Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
-`E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
 Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
-Any individual E2E test | `./gradlew e2eTestTry1 --tests TestClassName` | `{project folder}/build/reports/e2e-test-try-1/index.html`
-
-- `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
-- Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
 ```sh
 ./gradlew componentTests jacocoReport
 ```
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
-
-### Testing against production server
-
-If you are testing against a production server (staging server or live server), some additional tasks need to be done.
-
-1. You need to setup a `Gmail API`<sup>1</sup> as follows:
-   * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md) and download it.
-   * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
-   * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
-
-1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
-   * In particular, you will need legitimate Google accounts to be used for testing.
-
-1. Login manually to TEAMMATES on the browser used for testing. This is required as Google does not allow login by automated software.
-
-1. For Firefox, run the full test suite or any subset of it as how you would have done it in dev server. 
-   * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
-   
-1. For Chrome, you may have to run tests one at a time as multiple ChromeDriver instances cannot be opened with the same user data.
-
-<sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
-This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
 
 ## Deploying to a staging server
 
