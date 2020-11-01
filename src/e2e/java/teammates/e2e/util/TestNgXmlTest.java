@@ -68,7 +68,7 @@ public class TestNgXmlTest extends BaseTestCase {
             String name = file.getName();
 
             if (file.isFile() && name.endsWith(".java") && !name.startsWith("package-info")
-                    && !name.startsWith("BaseE2ETestCase") && !areFilesInCurrentDirExcluded) {
+                    && !name.startsWith("Base") && !areFilesInCurrentDirExcluded) {
                 testFiles.put(name.replace(".java", ""), packageName);
 
             } else if (file.isDirectory() && !name.endsWith("pageobjects")) {
