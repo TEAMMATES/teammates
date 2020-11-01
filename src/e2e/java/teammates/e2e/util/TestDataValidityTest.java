@@ -53,10 +53,11 @@ public class TestDataValidityTest extends BaseTestCase {
                     return;
                 }
 
+                String testPage = path.getFileName().toString().replace("E2ETest.json", "");
                 DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
-                    if (!isValidTestGoogleId(account.googleId)) {
+                    if (!isValidTestGoogleId(account.googleId, testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid account google ID: " + account.googleId);
                     }
@@ -68,14 +69,14 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.courses.forEach((id, course) -> {
-                    if (!isValidTestCourseId(course.getId())) {
+                    if (!isValidTestCourseId(course.getId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid course ID: " + course.getId());
                     }
                 });
 
                 dataBundle.students.forEach((id, student) -> {
-                    if (!isValidTestGoogleId(student.googleId)) {
+                    if (!isValidTestGoogleId(student.googleId, testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid student google ID: " + student.googleId);
                     }
@@ -87,7 +88,7 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.instructors.forEach((id, instructor) -> {
-                    if (!isValidTestGoogleId(instructor.googleId)) {
+                    if (!isValidTestGoogleId(instructor.googleId, testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid instructor google ID: " + instructor.googleId);
                     }
@@ -99,6 +100,11 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.feedbackSessions.forEach((id, session) -> {
+                    if (!isValidTestCourseId(session.getCourseId(), testPage)) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid session course ID: " + session.getCourseId());
+                    }
+
                     if (!isValidTestEmail(session.getCreatorEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid session creator email: " + session.getCreatorEmail());
@@ -106,6 +112,11 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.feedbackResponses.forEach((id, response) -> {
+                    if (!isValidTestCourseId(response.getCourseId(), testPage)) {
+                        errors.computeIfAbsent(pathString, k -> new ArrayList<>())
+                                .add("Invalid response course ID: " + response.getCourseId());
+                    }
+
                     if (response.giver.contains("@") && !isValidTestEmail(response.giver)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
                                 .add("Invalid response giver email: " + response.giver);
@@ -134,16 +145,55 @@ public class TestDataValidityTest extends BaseTestCase {
         return email.endsWith(Const.TEST_EMAIL_DOMAIN);
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    private boolean isValidTestCourseId(String courseId) {
-        // TODO
-        return true;
+    private boolean isValidTestCourseId(String courseId, String testPage) {
+        return courseId.matches(constructIdRegex(testPage)) && courseId.length() < 32;
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
-    private boolean isValidTestGoogleId(String googleId) {
-        // TODO
-        return true;
+    private boolean isValidTestGoogleId(String googleId, String testPage) {
+        if (googleId == null || googleId.equals("")) {
+            // Empty google ID is always acceptable
+            return true;
+        }
+        return googleId.matches(constructIdRegex(testPage)) && googleId.length() < 32;
+    }
+
+    private String constructIdRegex(String testPage) {
+        // We set these rules for setting the prefix for IDs:
+        // Rule 1: must start with predefined phrase
+        // Rule 2: must be representative of the test but yet not too long
+
+        String shortenedTestPage = testPage;
+
+        // Trim the Page word at the end if any
+        shortenedTestPage = shortenedTestPage
+                .replaceFirst("Page$", "");
+
+        // Shorten common words
+        shortenedTestPage = shortenedTestPage
+                .replaceFirst("^Admin", "A")
+                .replaceFirst("^Instructor", "I")
+                .replaceFirst("^Automated", "Aut")
+                .replace("Feedback", "F")
+                .replace("Student", "S")
+                .replace("Course", "C")
+                .replace("Question", "Qn")
+                .replaceFirst("Session(s?)", "Ses$1")
+                .replaceFirst("Results?", "Res")
+                .replace("Details", "Det")
+                .replace("Confirmation", "Conf")
+                .replace("Profile", "Prof")
+                .replace("Reminders", "Rem");
+
+        // Shorten question types
+        shortenedTestPage = shortenedTestPage
+                .replace("Recipient", "Rcpt")
+                .replace("Option", "Opt")
+                .replace("Contribution", "Contr")
+                .replace("ConstSum", "CSum");
+
+        // Prefix with tm.e2e.
+        // Add validation at the end to ensure that the ID is not equal to the prefix only
+        return "tm\\.e2e\\." + shortenedTestPage + "\\.(?:[A-Za-z0-9]+.)*[A-Za-z0-9]+";
     }
 
 }
