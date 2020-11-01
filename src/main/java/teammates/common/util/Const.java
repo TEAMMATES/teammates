@@ -727,11 +727,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 URI_PREFIX + "/feedbackSessionUnpublishedEmail";
 
-        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
-                "feedback-session-update-respondent-queue";
-        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionUpdateRespondent";
-
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/instructorCourseJoinEmail";
 

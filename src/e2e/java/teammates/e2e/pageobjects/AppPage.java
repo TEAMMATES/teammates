@@ -148,16 +148,6 @@ public abstract class AppPage {
         return getNewPageInstance(browser, newPageType);
     }
 
-    /**
-     * Gives a {@link LoginPage} instance based on the given {@link Browser} and test configuration.
-     * Fails if the page content does not match the content of the expected login page.
-     */
-    public static LoginPage createCorrectLoginPageType(Browser browser) {
-        Class<? extends LoginPage> cls =
-                TestProperties.isDevServer() ? DevServerLoginPage.class : GoogleLoginPage.class;
-        return getNewPageInstance(browser, cls);
-    }
-
     public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         return wait.until(expectedCondition);
@@ -259,6 +249,17 @@ public abstract class AppPage {
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
+    }
+
+    public void reloadPageIfStuckLoading() {
+        By loadingContainer = By.className("loading-container");
+        try {
+            if (isElementPresent(loadingContainer)) {
+                waitForElementStaleness(browser.driver.findElement(loadingContainer));
+            }
+        } catch (TimeoutException e) {
+            reloadPage();
+        }
     }
 
     protected Object executeScript(String script, Object... args) {
