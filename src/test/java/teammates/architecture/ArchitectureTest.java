@@ -536,4 +536,11 @@ public class ArchitectureTest {
                 .check(ALL_CLASSES);
     }
 
+    @Test
+    public void testArchitecture_externalApi_seleniumApiCanOnlyBeAccessedByPageObjects() {
+        noClasses().that().resideOutsideOfPackage(E2E_PAGEOBJECTS_PACKAGE)
+                .should().accessClassesThat().resideInAPackage("org.openqa.selenium..")
+                .check(ALL_CLASSES);
+    }
+
 }
