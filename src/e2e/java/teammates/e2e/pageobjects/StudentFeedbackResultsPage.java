@@ -192,7 +192,7 @@ public class StudentFeedbackResultsPage extends AppPage {
                 .filter(v -> isAnonymous(v.findElement(By.id("response-recipient")).getText()))
                 .collect(Collectors.toList());
         if (anonymousViews.isEmpty()) {
-            throw new RuntimeException("No anonymous views found");
+            fail("No anonymous views found");
         }
 
         boolean hasCorrectResponses = true;
@@ -407,7 +407,7 @@ public class StudentFeedbackResultsPage extends AppPage {
                 return i;
             }
         }
-        throw new RuntimeException("Recipient not found: " + recipient);
+        throw new AssertionError("Recipient not found: " + recipient);
     }
 
     private String getAdditionalInfoString(FeedbackQuestionAttributes question) {
@@ -433,7 +433,7 @@ public class StudentFeedbackResultsPage extends AppPage {
         case CONSTSUM_RECIPIENTS:
             return getConstSumRecipientsAddInfo((FeedbackConstantSumQuestionDetails) question.getQuestionDetails());
         default:
-            throw new RuntimeException("Unknown question type: " + question.getQuestionType());
+            throw new AssertionError("Unknown question type: " + question.getQuestionType());
         }
     }
 
@@ -456,7 +456,7 @@ public class StudentFeedbackResultsPage extends AppPage {
         case CONTRIB:
             return "";
         default:
-            throw new RuntimeException("Unknown question type: " + response.getQuestionType());
+            throw new AssertionError("Unknown question type: " + response.getQuestionType());
         }
     }
 
@@ -539,7 +539,7 @@ public class StudentFeedbackResultsPage extends AppPage {
                 return comment;
             }
         }
-        throw new RuntimeException("Comment field not found");
+        throw new AssertionError("Comment field not found");
     }
 
     private int getGiverIndex(WebElement response, String giver) {
@@ -549,7 +549,7 @@ public class StudentFeedbackResultsPage extends AppPage {
                 return i;
             }
         }
-        throw new RuntimeException("Giver not found: " + giver);
+        throw new AssertionError("Giver not found: " + giver);
     }
 
     private int getRecipientIndex(int questionNum, String recipient) {
@@ -559,6 +559,6 @@ public class StudentFeedbackResultsPage extends AppPage {
                 return i;
             }
         }
-        throw new RuntimeException("Recipient not found: " + recipient);
+        throw new AssertionError("Recipient not found: " + recipient);
     }
 }
