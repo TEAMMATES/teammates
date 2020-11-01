@@ -9,20 +9,24 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
-    public static final transient int MIN_NUM_OF_OPTIONS = 2;
-    public static final transient String ERROR_INVALID_MAX_OPTIONS_ENABLED =
+    static final transient int MIN_NUM_OF_OPTIONS = 2;
+    static final transient String ERROR_INVALID_MAX_OPTIONS_ENABLED =
             "Max options enabled is invalid";
-    public static final transient String ERROR_INVALID_MIN_OPTIONS_ENABLED =
+    static final transient String ERROR_INVALID_MIN_OPTIONS_ENABLED =
             "Min options enabled is invalid";
-    public static final transient String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES =
+    static final transient String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES =
             "Min options enabled is more than the total choices";
-    public static final transient String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES =
+    static final transient String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES =
             "Max options enabled is more than the total choices";
-    public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
+    static final transient String ERROR_NOT_ENOUGH_OPTIONS =
             "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION
             + ". Minimum number of options is: ";
-    public static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
+    static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
             "Empty Rank Options are not allowed";
+    static final transient String ERROR_DUPLICATE_RANK_RESPONSE =
+            "Duplicate Ranks are not allowed.";
+    static final transient String ERROR_INVALID_RANK_RESPONSE =
+            "Invalid rank assigned.";
 
     private List<String> options;
 
@@ -100,7 +104,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             // if duplicate ranks are not allowed but have been assigned trigger this error
             if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
-                errors.add("Duplicate Ranks are not allowed.");
+                errors.add(ERROR_DUPLICATE_RANK_RESPONSE);
             }
             // if number of options ranked is less than the minimum required trigger this error
             if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
@@ -113,7 +117,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             // if rank assigned is invalid trigger this error
             boolean isRankInvalid = filteredAnswers.stream().anyMatch(answer -> answer < 1 || answer > options.size());
             if (isRankInvalid) {
-                errors.add("Invalid rank assigned.");
+                errors.add(ERROR_INVALID_RANK_RESPONSE);
             }
         }
 
