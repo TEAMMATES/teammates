@@ -1,4 +1,15 @@
 # E2E Testing  
+
+* [What is E2E Testing](#what-is-e2e-testing)
+* [Running E2E Tests](#running-e2e-tests)
+    * [Configuring browsers for E2E Testing](#configuring-browsers-for-e2e-testing)
+    * [Running the tests](#running-the-tests)
+    * [Testing against production server](#testing-against-production-server)
+* [Creating E2E Tests](#creating-e2e-tests)
+    * [Page Object Pattern](#page-object-pattern)
+    * [Creating Page Objects](#creating-page-objects)
+    * [Things to avoid when writing E2E tests](#things-to-avoid-when-writing-e2e-tests)
+    * [FAQ](#faq)
   
 ## What is E2E Testing?
   
@@ -26,8 +37,8 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
 * If you are planning to test against a production server, specify the Firefox profile to be used in `test.firefox.profile.name` value in `test.properties`.
-    *  This is used to bypass login by using previous login data.
-    *  You can enter `about:profiles` into Firefox address bar to identify the profile being used.
+  * This is used to bypass login by using previous login data.
+  * You can enter `about:profiles` into Firefox address bar to identify the profile being used.
 
 #### Using Chrome
 
@@ -37,7 +48,7 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
 
 * If you are planning to test against a production server, specify the path to Chrome's user data directory in `test.chrome.userdata.path` value in `test.properties`.
-    *  This is used to bypass login by using previous login data.
+  * This is used to bypass login by using previous login data.
 
 * The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
   You will need to manually kill these processes after the tests are done.
@@ -45,9 +56,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
 
 ### Running the tests
-- When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
-
-#### Running the tests with command line
 E2E tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
@@ -55,15 +63,9 @@ Test suite | Command | Results can be viewed in
 `E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
 Any individual E2E test | `./gradlew e2eTestTry1 --tests TestClassName` | `{project folder}/build/reports/e2e-test-try-1/index.html`
 
-
 - `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. 
-- Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
-
-You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
-```sh
-./gradlew e2eTests jacocoReport
-```
-The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
+- Before running `E2E tests`, it is important to have the dev server running locally first if you are testing against it.
+- When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
 
 ### Testing against production server
 
@@ -75,10 +77,10 @@ If you are testing against a production server (staging server or live server), 
    * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
-   * In particular, you will need legitimate Google accounts to be used for testing.
+   * In particular, you will need a legitimate Gmail account to be used for testing.
 
 1. Login manually to TEAMMATES on the browser used for testing to add cookie with login details to the browser profile.
-   * This profile is added to the web driver so that E2E tests will start with user already logged in. 
+   * This profile will be added to the web driver so that E2E tests will start with user already logged in. 
    * This is required as Google does not allow login by automated software.
 
 1. For Firefox, run the full test suite or any subset of it as how you would have done it in dev server. 
@@ -86,7 +88,7 @@ If you are testing against a production server (staging server or live server), 
    
 1. For Chrome, you may have to run tests one at a time as multiple ChromeDriver instances cannot be opened with the same user data.
 
-<sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
+<sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access the Gmail account used for testing (the account is specified in `test.properties`) to confirm that the account receives the expected emails from TEAMMATES.
 This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
 
 ## Creating E2E tests
@@ -127,7 +129,7 @@ All Page Object classes inherit from `AppPage` which contains methods that are c
 ### Things to avoid when writing E2E tests
   
 1. **Testing based on implementation** - The focus should be on user actions instead of implementation details. Therefore, black box testing should be adopted and test cases should be designed around use cases.   
-1. **Excessive exception testing** - Testing edge cases with E2E tests should be avoided. This is because E2E tests are expensive to run and not that effective for isolating bugs. Hence we should focus on the happy path and exception paths that are more common. We can test more exhaustively with lower-level unit or integration tests.   
+1. **Excessive exception testing** - Testing edge cases with E2E tests should be avoided. This is because E2E tests are expensive to run and not that effective for isolating bugs. Hence we should focus on the happy path and exception paths that are more common. We should leave more exhaustive testing to lower-level unit or integration tests.   
 1. **Not following “Tell Don’t Ask" Principle** - Instead of “asking” for data from the page objects and performing operations on them, “tell” the page object to do the operations. This is mostly seen in the verification methods where assertions are done in the page object instead of in the test case. This improves readability and maintainability as data and behavior are placed together.  
   
 ### FAQ  
