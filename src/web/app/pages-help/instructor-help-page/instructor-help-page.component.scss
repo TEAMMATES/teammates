@@ -18,3 +18,9 @@
 .section-body {
   padding-bottom: 5px;
 }
+
+@media only screen and (max-width: 500px) {
+  #browse-by-topic {
+    display: none;
+  }
+}
