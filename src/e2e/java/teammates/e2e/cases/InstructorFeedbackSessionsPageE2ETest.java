@@ -40,10 +40,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackSessionsPageE2ETest.json");
-        studentToEmail = testData.students.get("charlie.tmms@CFeedbackSessionsE2eT.CS1101");
-        if (!TestProperties.isDevServer()) {
-            studentToEmail.email = TestProperties.TEST_EMAIL;
-        }
+        studentToEmail = testData.students.get("charlie.tmms@IFSess.CS1101");
+        studentToEmail.email = TestProperties.TEST_EMAIL;
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("instructor");
@@ -175,7 +173,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("download results");
         feedbackSessionsPage.downloadResults(openSession);
-        List<String> expectedContent = Arrays.asList("Course,CFeedbackSessionsE2eT.CS1101",
+        List<String> expectedContent = Arrays.asList("Course,tm.e2e.IFSess.CS1101",
                 "Session Name,Second Session", "Question 1,Testing question text");
         verifyDownloadedFile(fileName, expectedContent);
 

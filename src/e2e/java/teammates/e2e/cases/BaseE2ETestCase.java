@@ -190,6 +190,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         if (TestProperties.isDevServer()) {
             return;
         }
+        if (!TestProperties.TEST_EMAIL.equals(email)) {
+            fail("Email verification is allowed only on preset test email.");
+        }
         EmailAccount emailAccount = new EmailAccount(email);
         try {
             emailAccount.getUserAuthenticated();

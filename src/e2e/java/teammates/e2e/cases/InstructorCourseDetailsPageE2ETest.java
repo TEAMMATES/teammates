@@ -31,13 +31,11 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
-        student = testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104");
-        if (!TestProperties.isDevServer()) {
-            student.email = TestProperties.TEST_EMAIL;
-        }
+        student = testData.students.get("charlie.tmms@ICDet.CS2104");
+        student.email = TestProperties.TEST_EMAIL;
 
         removeAndRestoreDataBundle(testData);
-        course = testData.courses.get("ICDetailsE2eT.CS2104");
+        course = testData.courses.get("ICDet.CS2104");
         fileName = "/" + course.getId() + "_studentList.csv";
     }
 
@@ -49,20 +47,20 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Test
     public void allTests() {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-                .withUserId(testData.instructors.get("ICDetailsE2eT.instr").googleId)
+                .withUserId(testData.instructors.get("ICDet.instr").googleId)
                 .withCourseId(course.getId());
         InstructorCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
 
         ______TS("verify loaded details");
         InstructorAttributes[] instructors = {
-                testData.instructors.get("ICDetailsE2eT.instr"),
-                testData.instructors.get("ICDetailsE2eT.instr2"),
+                testData.instructors.get("ICDet.instr"),
+                testData.instructors.get("ICDet.instr2"),
         };
         StudentAttributes[] students = {
-                testData.students.get("alice.tmms@ICDetailsE2eT.CS2104"),
-                testData.students.get("benny.tmms@ICDetailsE2eT.CS2104"),
-                testData.students.get("charlie.tmms@ICDetailsE2eT.CS2104"),
-                testData.students.get("danny.tmms@ICDetailsE2eT.CS2104"),
+                testData.students.get("alice.tmms@ICDet.CS2104"),
+                testData.students.get("benny.tmms@ICDet.CS2104"),
+                testData.students.get("charlie.tmms@ICDet.CS2104"),
+                testData.students.get("danny.tmms@ICDet.CS2104"),
         };
 
         verifyCourseDetails(detailsPage, course, instructors, students);
@@ -71,7 +69,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("link: view student details page");
 
-        StudentAttributes studentToView = testData.students.get("benny.tmms@ICDetailsE2eT.CS2104");
+        StudentAttributes studentToView = testData.students.get("benny.tmms@ICDet.CS2104");
 
         InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
                 detailsPage.clickViewStudent(studentToView);

@@ -9,6 +9,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -66,10 +67,8 @@ public class EmailSender {
         return status;
     }
 
-    @SuppressWarnings("PMD.UnusedFormalParameter")
     private boolean isTestingAccount(String email) {
-        // TODO
-        return false;
+        return email.endsWith(Const.TEST_EMAIL_DOMAIN);
     }
 
     /**

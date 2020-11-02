@@ -1,26 +1,26 @@
 {
   "accounts": {
     "instructorWithEvals": {
-      "googleId": "AutSessRem.instructor",
+      "googleId": "tm.e2e.AutSesRem.instructor",
       "name": "Test Ins for Aut Sessions Reminder",
       "isInstructor": true,
-      "email": "${value.injected.in.testfile}",
+      "email": "AutSesRem.instructor@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
     "course": {
-      "id": "AutSessRem.course",
+      "id": "tm.e2e.AutSesRem.course",
       "name": "Test Course for Aut Sessions Reminder",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "AutSessRem.instructor": {
-      "googleId": "AutSessRem.instructor",
-      "courseId": "AutSessRem.course",
+    "AutSesRem.instructor": {
+      "googleId": "tm.e2e.AutSesRem.instructor",
+      "courseId": "tm.e2e.AutSesRem.course",
       "name": "Test Ins for Aut Sessions Reminder",
-      "email": "${value.injected.in.testfile}",
+      "email": "AutSesRem.instructor@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -41,10 +41,10 @@
     }
   },
   "students": {
-    "alice.tmms@AutSessRem.course": {
-      "googleId": "alice.b.tmms",
-      "email": "${value.injected.in.testfile}",
-      "course": "AutSessRem.course",
+    "alice.tmms@AutSesRem.course": {
+      "googleId": "tm.e2e.AutSesRem.alice.b.tmms",
+      "email": "AutSesRem.instructor@gmail.tmt",
+      "course": "tm.e2e.AutSesRem.course",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "dummy comment</option></td></div>'\"",
       "team": "Team 1</td></div>'\"",
@@ -53,9 +53,9 @@
   },
   "feedbackSessions": {
     "openingSession": {
-      "feedbackSessionName": "AutSessRem Opening Session",
-      "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "feedbackSessionName": "AutSesRem Opening Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
@@ -73,9 +73,9 @@
       "isPublishedEmailEnabled": true
     },
     "closingSession": {
-      "feedbackSessionName": "AutSessRem Closing Session",
-      "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "feedbackSessionName": "AutSesRem Closing Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T23:59:00Z",
@@ -93,9 +93,9 @@
       "isPublishedEmailEnabled": true
     },
     "closedSession": {
-      "feedbackSessionName": "AutSessRem Closed Session",
-      "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "feedbackSessionName": "AutSesRem Closed Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T23:59:00Z",
@@ -113,9 +113,9 @@
       "isPublishedEmailEnabled": true
     },
     "publishedSession": {
-      "feedbackSessionName": "AutSessRem Published Session",
-      "courseId": "AutSessRem.course",
-      "creatorEmail": "${value.injected.in.testfile}",
+      "feedbackSessionName": "AutSesRem Published Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -135,8 +135,8 @@
   },
   "feedbackQuestions": {
     "questionForOpeningSession": {
-      "feedbackSessionName": "AutSessRem Opening Session",
-      "courseId": "AutSessRem.course",
+      "feedbackSessionName": "AutSesRem Opening Session",
+      "courseId": "tm.e2e.AutSesRem.course",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
@@ -156,8 +156,8 @@
       ]
     },
     "questionForClosingSession": {
-      "feedbackSessionName": "AutSessRem Closing Session",
-      "courseId": "AutSessRem.course",
+      "feedbackSessionName": "AutSesRem Closing Session",
+      "courseId": "tm.e2e.AutSesRem.course",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question is so that closing reminders will be sent to students as it is unanswered."
@@ -177,8 +177,8 @@
       ]
     },
     "questionForPublishedSession": {
-      "feedbackSessionName": "AutSessRem Published Session",
-      "courseId": "AutSessRem.course",
+      "feedbackSessionName": "AutSesRem Published Session",
+      "courseId": "tm.e2e.AutSesRem.course",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."

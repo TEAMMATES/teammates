@@ -16,11 +16,11 @@ import teammates.e2e.util.TestProperties;
  *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
  *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
  */
-public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
+public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
+        testData = loadDataBundle("/AutomatedSessionRemindersE2ETest.json");
 
         // When running the test against a production server, email alerts will be sent
         // to the specified email address
@@ -29,8 +29,8 @@ public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
 
         String student1Email = TestProperties.TEST_EMAIL;
         testData.accounts.get("instructorWithEvals").email = student1Email;
-        testData.instructors.get("AutSessRem.instructor").email = student1Email;
-        testData.students.get("alice.tmms@AutSessRem.course").email = student1Email;
+        testData.instructors.get("AutSesRem.instructor").email = student1Email;
+        testData.students.get("alice.tmms@AutSesRem.course").email = student1Email;
         testData.feedbackSessions.get("closedSession").setCreatorEmail(student1Email);
         testData.feedbackSessions.get("closingSession").setCreatorEmail(student1Email);
         testData.feedbackSessions.get("openingSession").setCreatorEmail(student1Email);

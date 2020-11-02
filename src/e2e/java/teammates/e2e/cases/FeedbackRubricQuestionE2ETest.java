@@ -28,7 +28,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FRubricQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FRubricQn.CS2104");
     }
 
     @Test
@@ -102,7 +102,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FRubricQuestionE2eT.CS2104");
+        StudentAttributes receiver = testData.students.get("benny.tmms@FRubricQn.CS2104");
         feedbackSubmitPage.verifyRubricQuestion(1, receiver.getName(),
                 (FeedbackRubricQuestionDetails) question.getQuestionDetails());
 

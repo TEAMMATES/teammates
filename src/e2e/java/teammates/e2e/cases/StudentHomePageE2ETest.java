@@ -27,7 +27,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     @Test
     public void testAll() {
 
-        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId("SHomeUiT.student");
+        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId("tm.e2e.SHome.student");
         loginAdminToPage(url, StudentHomePage.class);
 
         List<String> courseIds = getAllVisibleCourseIds();
@@ -56,7 +56,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         List<String> courseIds = new ArrayList<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if ("SHomeUiT.student".equals(student.googleId)) {
+            if ("tm.e2e.SHome.student".equals(student.googleId)) {
                 courseIds.add(student.getCourse());
             }
         }

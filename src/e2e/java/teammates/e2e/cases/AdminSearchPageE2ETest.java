@@ -37,8 +37,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         AccountAttributes instructorAccount = testData.accounts.get("instructor1OfCourse1");
 
-        ______TS("Typical case: Search student google id");
-        String searchContent = student.getGoogleId();
+        ______TS("Typical case: Search student email");
+        String searchContent = student.getEmail();
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         verifyStudentRowContent(student, studentAccount);

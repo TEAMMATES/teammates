@@ -128,7 +128,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview session as student");
         FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(
-                testData.students.get("benny.tmms@CFeedbackEditE2eT.CS2104"));
+                testData.students.get("benny.tmms@IFEdit.CS2104"));
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview session as instructor");
