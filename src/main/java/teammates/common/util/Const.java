@@ -93,6 +93,8 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
     }
 
+    public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
+
     /*
      * Other Constants
      */

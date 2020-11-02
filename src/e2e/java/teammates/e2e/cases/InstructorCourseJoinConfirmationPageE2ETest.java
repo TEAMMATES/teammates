@@ -21,8 +21,8 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         testData = loadDataBundle("/InstructorCourseJoinConfirmationPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        newInstructor = testData.instructors.get("ICJConfirmationE2eT.instr.CS1101");
-        newInstructor.googleId = "ICJConfirmationE2eT.instr2";
+        newInstructor = testData.instructors.get("ICJoinConf.instr.CS1101");
+        newInstructor.googleId = "tm.e2e.ICJoinConf.instr2";
     }
 
     @Test
@@ -39,7 +39,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         errorPage.verifyErrorMessage("No instructor with given registration key: " + invalidEncryptedKey);
 
         ______TS("Click join link: valid key");
-        String courseId = testData.courses.get("ICJConfirmationE2eT.CS1101").getId();
+        String courseId = testData.courses.get("ICJoinConf.CS1101").getId();
         String instructorEmail = newInstructor.email;
         joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForInstructor(courseId, instructorEmail))

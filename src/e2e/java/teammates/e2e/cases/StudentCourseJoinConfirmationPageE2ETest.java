@@ -21,7 +21,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        newStudent = testData.students.get("alice.tmms@SCJConfirmationE2eT.CS2104");
+        newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
         newStudent.googleId = testData.accounts.get("alice.tmms").googleId;
     }
 
@@ -29,7 +29,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         ______TS("Click join link: invalid key");
-        String courseId = testData.courses.get("SCJConfirmationE2eT.CS2104").getId();
+        String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
         String invalidEncryptedKey = "invalidKey";
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidEncryptedKey)

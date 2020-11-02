@@ -1,7 +1,7 @@
 {
   "accounts": {
-    "ICEnrollE2eT.teammates.test": {
-      "googleId": "ICEnrollE2eT.teammates.test",
+    "ICEnroll.teammates.test": {
+      "googleId": "tm.e2e.ICEnroll.teammates.test",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "teammates.test@gmail.tmt",
@@ -9,16 +9,16 @@
     }
   },
   "courses": {
-    "ICEnrollE2eT.CS2104": {
-      "id": "ICEnrollE2eT.CS2104",
+    "ICEnroll.CS2104": {
+      "id": "tm.e2e.ICEnroll.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "ICEnrollE2eT.teammates.test": {
-      "googleId": "ICEnrollE2eT.teammates.test",
-      "courseId": "ICEnrollE2eT.CS2104",
+    "ICEnroll.teammates.test": {
+      "googleId": "tm.e2e.ICEnroll.teammates.test",
+      "courseId": "tm.e2e.ICEnroll.CS2104",
       "name": "Teammates Test",
       "email": "teammates.test@gmail.tmt",
       "role": "Co-owner",

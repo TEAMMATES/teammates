@@ -23,16 +23,16 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         testData = loadDataBundle("/InstructorCourseStudentDetailsEditPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        student = testData.students.get("ICSDEditE2eT.jose.tmms");
-        otherStudent = testData.students.get("ICSDEditE2eT.benny.c");
-        course = testData.courses.get("ICSDEditE2eT.CS2104");
+        student = testData.students.get("ICSDetEdit.jose.tmms");
+        otherStudent = testData.students.get("ICSDetEdit.benny.c");
+        course = testData.courses.get("ICSDetEdit.CS2104");
     }
 
     @Test
     @Override
     public void testAll() {
         AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
-                .withUserId(testData.instructors.get("ICSDEditE2eT.instr").googleId)
+                .withUserId(testData.instructors.get("ICSDetEdit.instr").googleId)
                 .withCourseId(course.getId())
                 .withStudentEmail(student.email);
         InstructorCourseStudentDetailsEditPage editPage =
@@ -58,10 +58,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         editPage.verifyStatusMessage("Trying to update to an email that is already in use");
 
         ______TS("edit email and resend links");
-        String newEmail = "editedEmail@gmail.tmt";
-        if (!TestProperties.isDevServer()) {
-            newEmail = TestProperties.TEST_EMAIL;
-        }
+        String newEmail = TestProperties.TEST_EMAIL;
         student.email = newEmail;
         student.googleId = null;
         editPage.editStudentEmailAndResendLinks(newEmail);

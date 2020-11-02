@@ -31,7 +31,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         courses[1] = testData.courses.get("CS2104");
         courses[2] = testData.courses.get("CS2105");
 
-        newCourse = CourseAttributes.builder("ICAddE2ETest.CS4100")
+        newCourse = CourseAttributes.builder("tm.e2e.ICs.CS4100")
                 .withName("New Course")
                 .withTimezone(ZoneId.of("Asia/Singapore"))
                 .build();

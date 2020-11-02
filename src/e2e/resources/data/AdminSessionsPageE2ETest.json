@@ -1,26 +1,26 @@
 {
   "accounts": {
     "instructor1OfCourse1": {
-      "googleId": "adminSessions.idOfInstructor1OfCourse1",
+      "googleId": "tm.e2e.ASess.instr1",
       "name": "Instructor1 of Course1",
       "isInstructor": true,
-      "email": "adminSessions.instructor1@course1.tmt",
+      "email": "ASess.instructor1@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     }
   },
   "courses": {
     "typicalCourse1": {
-      "id": "adminSessions.idOfTypicalCourse1",
+      "id": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Typical Course 1",
       "timeZone": "UTC"
     }
   },
   "instructors": {
     "instructor1OfCourse1": {
-      "googleId": "adminSessions.idOfInstructor1OfCourse1",
-      "courseId": "adminSessions.idOfTypicalCourse1",
+      "googleId": "tm.e2e.ASess.instr1",
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Instructor1 of Course1",
-      "email": "adminSessions.instructor1@course1.tmt",
+      "email": "ASess.instructor1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -43,8 +43,8 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "feedbackSessionName": "Open feedback session",
-      "courseId": "adminSessions.idOfTypicalCourse1",
-      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
+      "creatorEmail": "ASess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T21:59:00Z",
@@ -63,8 +63,8 @@
     },
     "session2InCourse1": {
       "feedbackSessionName": "Awaiting feedback session",
-      "courseId": "adminSessions.idOfTypicalCourse1",
-      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
+      "creatorEmail": "ASess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T21:59:00Z",
@@ -83,8 +83,8 @@
     },
     "session3InCourse1": {
       "feedbackSessionName": "Future feedback session",
-      "courseId": "adminSessions.idOfTypicalCourse1",
-      "creatorEmail": "adminSessions.instructor1@course1.tmt",
+      "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
+      "creatorEmail": "ASess.instructor1@gmail.tmt",
       "instructions": "Please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-03-28T21:59:00Z",

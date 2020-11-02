@@ -23,12 +23,12 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/InstructorCourseEditPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
-        course = testData.courses.get("InsCrsEdit.CS2104");
-        instructors[0] = testData.instructors.get("InsCrsEdit.helper");
-        instructors[1] = testData.instructors.get("InsCrsEdit.manager");
-        instructors[2] = testData.instructors.get("InsCrsEdit.observer");
-        instructors[3] = testData.instructors.get("InsCrsEdit.coowner");
-        instructors[4] = testData.instructors.get("InsCrsEdit.tutor");
+        course = testData.courses.get("ICEdit.CS2104");
+        instructors[0] = testData.instructors.get("ICEdit.helper");
+        instructors[1] = testData.instructors.get("ICEdit.manager");
+        instructors[2] = testData.instructors.get("ICEdit.observer");
+        instructors[3] = testData.instructors.get("ICEdit.coowner");
+        instructors[4] = testData.instructors.get("ICEdit.tutor");
     }
 
     @Test
@@ -61,7 +61,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("add instructor");
         InstructorAttributes newInstructor = InstructorAttributes
-                .builder(course.getId(), "InsCrsEdit.test@gmail.tmt")
+                .builder(course.getId(), "ICEdit.test@gmail.tmt")
                 .withName("Teammates Test")
                 .withIsDisplayedToStudents(true)
                 .withDisplayedName("Instructor")
@@ -81,7 +81,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("edit instructor");
         instructors[0].name = "Edited Name";
-        instructors[0].email = "InsCrsEdit.edited@gmail.tmt";
+        instructors[0].email = "ICEdit.edited@gmail.tmt";
         instructors[0].privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, true);
         instructors[0].privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, false);
         instructors[0].privileges.updatePrivilege("Section 2",
