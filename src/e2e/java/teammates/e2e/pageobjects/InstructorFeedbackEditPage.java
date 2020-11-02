@@ -548,7 +548,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
         clickEditQuestionButton(questionNum);
-        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        WebElement recommendedTextLengthField = getRecommendedTextLengthField(questionNum);
+        waitForElementToBeClickable(recommendedTextLengthField);
+        fillTextBox(recommendedTextLengthField, textQuestionDetails.getRecommendedLength().toString());
         clickSaveQuestionButton(questionNum);
     }
 

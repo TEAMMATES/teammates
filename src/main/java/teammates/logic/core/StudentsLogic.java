@@ -29,7 +29,6 @@ public final class StudentsLogic {
     private static final StudentsDb studentsDb = new StudentsDb();
 
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private StudentsLogic() {
         // prevent initialization
@@ -152,7 +151,6 @@ public final class StudentsLogic {
         if (!originalStudent.email.equals(updatedStudent.email)) {
             frLogic.updateFeedbackResponsesForChangingEmail(
                     updatedStudent.course, originalStudent.email, updatedStudent.email);
-            fsLogic.updateRespondentsForStudent(originalStudent.email, updatedStudent.email, updatedStudent.course);
         }
 
         // adjust submissions if moving to a different team
@@ -339,10 +337,10 @@ public final class StudentsLogic {
             return;
         }
 
-        frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(courseId, studentEmail);
+        frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
         if (studentsDb.getStudentsForTeam(student.getTeam(), student.getCourse()).size() == 1) {
-            // the student is the only student in the team
-            frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(student.getCourse(), student.getTeam());
+            // the student is the only student in the team, delete responses related to the team
+            frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
         studentsDb.deleteStudent(courseId, studentEmail);
     }

@@ -181,22 +181,6 @@ public class TaskQueuer {
     }
 
     /**
-     * Schedules adjustments to be done for the respondents of a feedback session.
-     */
-    public void scheduleUpdateRespondentForSession(
-            String courseId, String feedbackSessionName, String email, boolean isInstructor, boolean isToBeRemoved) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        paramMap.put(ParamsNames.RESPONDENT_EMAIL, email);
-        paramMap.put(ParamsNames.RESPONDENT_IS_INSTRUCTOR, String.valueOf(isInstructor));
-        paramMap.put(ParamsNames.RESPONDENT_IS_TO_BE_REMOVED, String.valueOf(isToBeRemoved));
-
-        addTask(TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME,
-                TaskQueue.FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL, paramMap, null);
-    }
-
-    /**
      * Schedules for the given list of emails to be sent.
      *
      * @param emails the list of emails to be sent
