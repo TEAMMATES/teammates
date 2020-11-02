@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FRankRecipientQuestionE2eT.instructor",
+      "googleId": "tm.e2e.FRankRcptQn.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FRankRecipientQuestionE2eT.CS2104",
+      "id": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FRankRecipientQuestionE2eT.CS1101",
+      "id": "tm.e2e.FRankRcptQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FRankRecipientQuestionE2eT.instructor",
-      "courseId": "FRankRecipientQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FRankRcptQn.instructor",
+      "courseId": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FRankRecipientQuestionE2eT.instructor2",
-      "courseId": "FRankRecipientQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FRankRcptQn.instructor2",
+      "courseId": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Teammates Test 2",
       "email": "tmms.tes2t@gmail.tmt",
       "role": "Co-owner",
@@ -68,8 +68,8 @@
       }
     },
     "instructor3": {
-      "googleId": "FRankRecipientQuestionE2eT.instructor",
-      "courseId": "FRankRecipientQuestionE2eT.CS1101",
+      "googleId": "tm.e2e.FRankRcptQn.instructor",
+      "courseId": "tm.e2e.FRankRcptQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -92,37 +92,37 @@
     }
   },
   "students": {
-    "alice.tmms@FRankRecipientQuestionE2eT.CS2104": {
-      "googleId": "FRankRecipientQuestionE2eT.alice.tmms",
+    "alice.tmms@FRankRcptQn.CS2104": {
+      "googleId": "tm.e2e.FRankRcptQn.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FRankRecipientQuestionE2eT.CS2104",
+      "course": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@FRankRecipientQuestionE2eT.CS2104": {
-      "googleId": "FRankRecipientQuestionE2eT.benny.tmms",
+    "benny.tmms@FRankRcptQn.CS2104": {
+      "googleId": "tm.e2e.FRankRcptQn.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "FRankRecipientQuestionE2eT.CS2104",
+      "course": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "charlie.tmms@FRankRecipientQuestionE2eT.CS2104": {
-      "googleId": "charlie.tmms",
-      "email": "FRankRecipientQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FRankRecipientQuestionE2eT.CS2104",
+    "charlie.tmms@FRankRcptQn.CS2104": {
+      "googleId": "tm.e2e.FRankRcptQn.charlie.tmms",
+      "email": "FRankRcptQn.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1",
       "section": "None"
     },
-    "danny.tmms@FRankRecipientQuestionE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "FRankRecipientQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FRankRecipientQuestionE2eT.CS1101",
+    "danny.tmms@FRankRcptQn.CS1101": {
+      "googleId": "tm.e2e.FRankRcptQn.danny.tmms",
+      "email": "FRankRcptQn.danny.tmms@gmail.tmt",
+      "course": "tm.e2e.FRankRcptQn.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -132,7 +132,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FRankRecipientQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FRankRcptQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -152,7 +152,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FRankRecipientQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FRankRcptQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -174,7 +174,7 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FRankRecipientQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FRankRcptQn.CS2104",
       "questionDetails": {
         "areDuplicatesAllowed": true,
         "questionType": "RANK_RECIPIENTS",
@@ -200,7 +200,7 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FRankRecipientQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FRankRcptQn.CS1101",
       "questionDetails": {
         "areDuplicatesAllowed": false,
         "questionType": "RANK_RECIPIENTS",

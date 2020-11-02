@@ -24,7 +24,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FTextQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FTextQn.CS2104");
     }
 
     @Test
