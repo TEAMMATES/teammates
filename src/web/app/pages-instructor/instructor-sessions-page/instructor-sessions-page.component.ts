@@ -590,7 +590,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
           };
           this.sessionsTableRowModels.push(m);
-          //this.updateInstructorPrivilege(m);
         });
         this.statusMessageService.showSuccessToast('All sessions have been restored.');
       }, (resp: ErrorMessageOutput) => {
