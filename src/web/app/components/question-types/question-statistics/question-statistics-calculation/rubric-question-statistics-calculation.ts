@@ -73,7 +73,7 @@ export class RubricQuestionStatisticsCalculation
     for (const response of this.responses) {
       for (let i: number = 0; i < response.responseDetails.answer.length; i += 1) {
         const subAnswer: number = response.responseDetails.answer[i];
-        if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN) {
+        if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN || (this.isStudent && response.recipient !== 'You')) {
           continue;
         }
         this.answers[i][subAnswer] += 1;

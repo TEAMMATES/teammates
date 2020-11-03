@@ -88,16 +88,18 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponseAttributes response : responses) {
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
+                    ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
                     if (isUserRecipient) {
-                        qnOutput.responsesToSelf.add(buildSingleResponseForStudent(response, bundle, student));
+                        qnOutput.responsesToSelf.add(responseOutput);
                     } else if (isUserGiver) {
-                        qnOutput.responsesFromSelf.add(buildSingleResponseForStudent(response, bundle, student));
+                        qnOutput.responsesFromSelf.add(responseOutput);
                     } else {
                         // we don't need care about the keys of the map here
                         // as only the values of the map will be used
                         otherResponsesMap.computeIfAbsent(response.getRecipient(), k -> new ArrayList<>())
-                                .add(buildSingleResponseForStudent(response, bundle, student));
+                                .add(responseOutput);
                     }
+                    qnOutput.allResponses.add(responseOutput);
                 }
             }
             qnOutput.otherResponses.addAll(otherResponsesMap.values());
@@ -117,7 +119,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamGiver = question.giverType == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
-        String giverTeam = null;
+        String giverTeam = "";
         if (isUserTeamGiver) {
             giverName = String.format("Your Team (%s)", response.getGiver());
             giverTeam = response.getGiver();
@@ -134,7 +136,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
-        String recipientTeam = null;
+        String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
             recipientTeam = student.team;
@@ -144,6 +146,9 @@ public class SessionResultsData extends ApiOutput {
         } else {
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle).getName());
+            if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
+                recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+            }
         }
 
         // process comments
@@ -151,8 +156,6 @@ public class SessionResultsData extends ApiOutput {
                 bundle.getResponseCommentsMap().getOrDefault(response.getId(), Collections.emptyList());
         Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
-        // Student does not need to know the teams for giver and/or recipient
-        // unless the student him/herself is the giver and/or recipient
         return ResponseOutput.builder()
                 .withResponseId(response.getId())
                 .withGiver(giverName)
@@ -398,10 +401,9 @@ public class SessionResultsData extends ApiOutput {
         private final FeedbackQuestionData feedbackQuestion;
         private final String questionStatistics;
 
-        // For instructor view
         private final List<ResponseOutput> allResponses = new ArrayList<>();
 
-        // For student view
+        // For student view only
         private final List<ResponseOutput> responsesToSelf = new ArrayList<>();
         private final List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private final List<List<ResponseOutput>> otherResponses = new ArrayList<>();

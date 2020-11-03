@@ -1,8 +1,6 @@
 package teammates.storage.entity;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
@@ -34,12 +32,6 @@ public class FeedbackSession extends BaseEntity {
     private String courseId;
 
     private String creatorEmail;
-
-    @Unindex
-    private Set<String> respondingInstructorList = new HashSet<>();
-
-    @Unindex
-    private Set<String> respondingStudentList = new HashSet<>();
 
     @Unindex
     private Text instructions;
@@ -94,8 +86,7 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled,
-            Set<String> instructorList, Set<String> studentList) {
+            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -116,8 +107,6 @@ public class FeedbackSession extends BaseEntity {
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
-        this.respondingInstructorList = instructorList == null ? new HashSet<>() : instructorList;
-        this.respondingStudentList = studentList == null ? new HashSet<>() : studentList;
     }
 
     /**
@@ -278,22 +267,6 @@ public class FeedbackSession extends BaseEntity {
 
     public void setSendPublishedEmail(boolean isPublishedEmailEnabled) {
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-    }
-
-    public Set<String> getRespondingInstructorList() {
-        return this.respondingInstructorList;
-    }
-
-    public void setRespondingInstructorList(Set<String> instructorList) {
-        this.respondingInstructorList = instructorList;
-    }
-
-    public Set<String> getRespondingStudentList() {
-        return this.respondingStudentList;
-    }
-
-    public void setRespondingStudentList(Set<String> studentList) {
-        this.respondingStudentList = studentList;
     }
 
     @Override
