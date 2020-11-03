@@ -29,31 +29,21 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
     
     
     
-  </tm-loading-retry><div
-    class="section"
-  >
+  </tm-loading-retry><tm-loading-spinner>
     <div
-      class="row top-padded"
+      class="loading-container"
     >
-      
-      
-      <tm-loading-spinner>
-        <div
-          class="loading-container"
-        >
-          <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
-          >
-            Loading...
-          </div>
-        </div>
-      </tm-loading-spinner>
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
     </div>
-  </div>
+  </tm-loading-spinner>
 </tm-student-course-details-page>
 `;
 
@@ -92,7 +82,6 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
     <div
       class="row top-padded"
     >
-      
       
       <div
         class="col-md-10"
@@ -366,7 +355,6 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
           Your teammates:
         </strong>
       </div>
-      
       <div
         class="col-md-10"
       >
