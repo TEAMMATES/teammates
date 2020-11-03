@@ -67,6 +67,7 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
 
         ______TS("verify loaded data");

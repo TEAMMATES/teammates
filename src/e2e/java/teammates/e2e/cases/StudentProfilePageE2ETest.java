@@ -19,6 +19,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
 
         ______TS("Typical case: Log in with filled profile values");

@@ -28,6 +28,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();
