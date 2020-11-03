@@ -66,7 +66,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(instructor.googleId);
         InstructorHomePage homePage = loginAdminToPage(url, InstructorHomePage.class);
 

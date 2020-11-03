@@ -21,6 +21,7 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
 
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)

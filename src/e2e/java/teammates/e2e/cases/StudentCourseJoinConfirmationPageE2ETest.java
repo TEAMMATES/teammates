@@ -26,6 +26,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         ______TS("Click join link: invalid key");
         String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
