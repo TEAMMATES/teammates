@@ -60,6 +60,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected abstract void prepareTestData() throws Exception;
 
+    protected abstract void testAll();
+
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;

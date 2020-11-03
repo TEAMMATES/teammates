@@ -32,6 +32,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         ______TS("verify cannot edit without privilege");
         // log in as instructor with no edit privilege

@@ -33,6 +33,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();
