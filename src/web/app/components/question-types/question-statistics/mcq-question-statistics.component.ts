@@ -5,6 +5,7 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
 import {
   McqQuestionStatisticsCalculation,
 } from './question-statistics-calculation/mcq-question-statistics-calculation';
+import { DecimalPipe } from '@angular/common'; // for aesthetic purposes for the significant digits -swood
 
 /**
  * Statistics for MCQ questions.
@@ -23,6 +24,9 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
   summaryRowsData: SortableTableCellData[][] = [];
   perRecipientColumnsData: ColumnData[] = [];
   perRecipientRowsData: SortableTableCellData[][] = [];
+
+  // to change the significant digits, I add a DecimalPipe to the component -swood
+  changeSignificantDigits: DecimalPipe = new DecimalPipe('en-US');
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS());
@@ -62,7 +66,7 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
       { header: 'Recipient Name', sortBy: SortBy.MCQ_RECIPIENT_NAME },
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${this.weightPerOption[key]}]`,
+          header: `${key} [${this.changeSignificantDigits.transform(this.weightPerOption[key], '1.2-3')}]`,
           sortBy: SortBy.MCQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -79,8 +83,8 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
             value: this.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: this.perRecipientResponses[key].total },
-        { value: this.perRecipientResponses[key].average },
+        { value: this.changeSignificantDigits.transform(this.perRecipientResponses[key].total, '1.2-3') },
+        { value: this.changeSignificantDigits.transform(this.perRecipientResponses[key].average, '1.2-3') },
       ];
     });
   }

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -53,6 +53,10 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     SortableTableModule,
     RouterModule,
     ContributionQuestionStatisticsModule,
+  ],
+  // for the significant digits
+  providers: [
+    DecimalPipe,
   ],
 })
 export class QuestionStatisticsModule { }
