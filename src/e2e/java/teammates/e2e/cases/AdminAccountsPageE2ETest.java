@@ -21,6 +21,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
 
         String googleId = "tm.e2e.AAccounts.instr2";

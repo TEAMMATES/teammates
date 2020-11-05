@@ -29,6 +29,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
     }
 
     @Test
+    @Override
     public void testAll() {
         AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                 .withUserId(testData.instructors.get("ICSDetEdit.instr").googleId)

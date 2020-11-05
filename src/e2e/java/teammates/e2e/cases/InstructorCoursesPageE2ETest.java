@@ -43,6 +43,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         String instructorId = testData.accounts.get("instructor").getGoogleId();
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
