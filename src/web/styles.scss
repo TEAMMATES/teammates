@@ -198,6 +198,8 @@ h6,
   &:hover {
     text-decoration: underline dotted #000;
   }
+  position: relative;
+  top: 25px;
 }
 
 @media print {
