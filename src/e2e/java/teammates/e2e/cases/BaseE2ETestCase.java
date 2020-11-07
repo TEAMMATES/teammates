@@ -125,14 +125,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // In dev server, any username is acceptable as admin
         String adminUsername = "devserver.admin.account";
 
-        String userId = url.get(Const.ParamsNames.USER_ID);
-
-        if (userId != null) {
-            // This workaround is necessary because the front-end has not been optimized
-            // to enable masquerade mode yet
-            adminUsername = userId;
-        }
-
         DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
         loginPage.loginAsAdmin(adminUsername);
 
