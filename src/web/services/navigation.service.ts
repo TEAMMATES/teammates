@@ -59,12 +59,4 @@ export class NavigationService {
     });
   }
 
-  /**
-   * Navigates to the selected URL preserving the previous params and shows a success message afterwards.
-   */
-  navigateWithSuccessMessagePreservingParams(router: Router, url: string, message: string): void {
-    this.navigateByURL(router, url, {}, { queryParamsHandling: 'preserve' }).then(() => {
-      this.statusMessageService.showSuccessToast(message);
-    });
-  }
 }
