@@ -1,0 +1,314 @@
+{
+  "accounts": {
+    "IHome.instr": {
+      "googleId": "tm.e2e.IHome.instructor.tmms",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "IHome.instructor.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "IHome.CS2104": {
+      "createdAt": "2012-04-01T23:58:00Z",
+      "id": "tm.e2e.IHome.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "IHome.CS1101": {
+      "createdAt": "2013-04-01T23:59:00Z",
+      "id": "tm.e2e.IHome.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "IHome.instr.CS2104": {
+      "googleId": "tm.e2e.IHome.instructor.tmms",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "name": "Teammates Test",
+      "email": "IHome.instructor.tmms@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "IHome.instr.CS1101": {
+      "googleId": "tm.e2e.IHome.instructor.tmms",
+      "courseId": "tm.e2e.IHome.CS1101",
+      "name": "Teammates Test",
+      "email": "IHome.instructor.tmms@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "IHome.alice.b.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.alice.b.tmms",
+      "email": "IHome.alice.b.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "IHome.benny.c.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.benny.c.tmms",
+      "email": "IHome.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "IHome.charlie.d.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.charlie.d.tmms",
+      "email": "IHome.charlie.d.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "IHome.danny.e.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.danny.e.tmms",
+      "email": "IHome.danny.e.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "IHome.alice.b.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.alice.b.tmms",
+      "email": "IHome.alice.b.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "IHome.benny.c.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.benny.c.tmms",
+      "email": "IHome.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "IHome.charlie.d.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.charlie.d.tmms",
+      "email": "IHome.charlie.d.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "IHome.danny.e.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.danny.e.tmms",
+      "email": "IHome.danny.e.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {
+    "First Feedback Session": {
+      "feedbackSessionName": "First Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T04:00:00Z",
+      "endTime": "2027-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Second Feedback Session": {
+      "feedbackSessionName": "Second Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2027-03-29T14:59:00Z",
+      "endTime": "2027-04-30T04:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Third Feedback Session": {
+      "feedbackSessionName": "Third Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-10T15:59:00Z",
+      "endTime": "2012-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
+      "resultsVisibleFromTime": "2027-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Fourth Feedback Session": {
+      "feedbackSessionName": "Fourth Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-05T03:59:00Z",
+      "endTime": "2012-04-20T04:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "CS1101 Session": {
+      "feedbackSessionName": "CS1101 Session",
+      "courseId": "tm.e2e.IHome.CS1101",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-05T03:59:00Z",
+      "endTime": "2012-04-20T04:00:00Z",
+      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "IHome.CS2104:First Feedback Session:Q1": {
+      "feedbackSessionName": "First Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "IHome.CS2104:Third Feedback Session:Q1": {
+      "feedbackSessionName": "Third Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 5 other students' products"
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 5,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "response1": {
+      "feedbackSessionName": "First Feedback Session",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "feedbackQuestionId": "1",
+      "giver": "IHome.alice.b.tmms@gmail.tmt",
+      "recipient": "IHome.danny.e.tmms@gmail.tmt",
+      "giverSection": "None",
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Alice response to Danny."
+      }
+    }
+  },
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

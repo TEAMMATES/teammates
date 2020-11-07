@@ -6,22 +6,22 @@ import teammates.ui.request.ErrorReportRequest;
 /**
  * Actions: sends an error report to the system admin.
  */
-public class SendErrorReportAction extends Action {
+class SendErrorReportAction extends Action {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         // Anyone can submit an error report
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // Anyone can submit an error report
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         ErrorReportRequest report = getAndValidateRequestBody(ErrorReportRequest.class);
 
         // Severe logs will trigger email to the system admin
@@ -33,7 +33,7 @@ public class SendErrorReportAction extends Action {
     /**
      * Gets the user error report that will be sent to the system admin.
      */
-    public String getUserErrorReportLogMessage(ErrorReportRequest report) {
+    String getUserErrorReportLogMessage(ErrorReportRequest report) {
         String user = userInfo == null ? "Non-logged in user" : userInfo.id;
         return "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: " + user + System.lineSeparator()

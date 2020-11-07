@@ -1,25 +1,25 @@
 {
   "accounts": {
-    "ICJConfirmationE2eT.instr": {
-      "googleId": "ICJConfirmationE2eT.instr",
+    "ICJoinConf.instr": {
+      "googleId": "tm.e2e.ICJoinConf.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "ICJConfirmationE2eT.instr@gmail.tmt",
+      "email": "ICJoinConf.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "ICJConfirmationE2eT.CS1101": {
-      "id": "ICJConfirmationE2eT.CS1101",
+    "ICJoinConf.CS1101": {
+      "id": "tm.e2e.ICJoinConf.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "ICJConfirmationE2eT.instr.CS1101": {
-      "courseId": "ICJConfirmationE2eT.CS1101",
+    "ICJoinConf.instr.CS1101": {
+      "courseId": "tm.e2e.ICJoinConf.CS1101",
       "name": "Teammates Test 2",
-      "email": "ICJConfirmationE2eT.instr2@gmail.tmt",
+      "email": "ICJoinConf.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -38,11 +38,11 @@
         "sessionLevel": {}
       }
     },
-    "ICJConfirmationE2eT.instr2.CS1101": {
-      "googleId": "ICJConfirmationE2eT.instr",
-      "courseId": "ICJConfirmationE2eT.CS1101",
+    "ICJoinConf.instr2.CS1101": {
+      "googleId": "tm.e2e.ICJoinConf.instr",
+      "courseId": "tm.e2e.ICJoinConf.CS1101",
       "name": "Teammates Test",
-      "email": "ICJConfirmationE2eT.instr@gmail.tmt",
+      "email": "ICJoinConf.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Co-owner",

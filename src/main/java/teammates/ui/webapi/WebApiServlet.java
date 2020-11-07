@@ -63,10 +63,28 @@ public class WebApiServlet extends HttpServlet {
         resp.setHeader("Cache-Control", "no-store");
         resp.setHeader("Pragma", "no-cache");
 
+        String requestParametersAsString;
+        try {
+            // Make sure that all parameters are valid UTF-8
+            requestParametersAsString = HttpRequestHelper.getRequestParametersAsString(req);
+        } catch (RuntimeException e) {
+            if (e.getClass().getSimpleName().equals("BadMessageException")) {
+                throwErrorBasedOnRequester(req, resp, e, HttpStatus.SC_BAD_REQUEST);
+                return;
+            }
+            throw e;
+        }
+
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
-                + ", Params: " + HttpRequestHelper.getRequestParametersAsString(req)
+                + ", Params: " + requestParametersAsString
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
                 + ", Request ID: " + Config.getRequestId());
+
+        if (Config.MAINTENANCE) {
+            throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,
+                    "The server is currently undergoing some maintenance.");
+            return;
+        }
 
         try {
             Action action = new ActionFactory().getAction(req, req.getMethod());

@@ -10,16 +10,16 @@ import teammates.ui.output.CommentVisibilityType;
 /**
  * The basic request of modifying a feedback response comment.
  */
-public class FeedbackResponseCommentBasicRequest extends BasicRequest {
+class FeedbackResponseCommentBasicRequest extends BasicRequest {
 
     private String commentText;
 
     private List<CommentVisibilityType> showCommentTo;
     private List<CommentVisibilityType> showGiverNameTo;
 
-    public FeedbackResponseCommentBasicRequest(String commentText,
-                                               List<CommentVisibilityType> showCommentTo,
-                                               List<CommentVisibilityType> showGiverNameTo) {
+    FeedbackResponseCommentBasicRequest(String commentText,
+                                        List<CommentVisibilityType> showCommentTo,
+                                        List<CommentVisibilityType> showGiverNameTo) {
         this.commentText = commentText;
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;

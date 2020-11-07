@@ -13,12 +13,12 @@ import teammates.common.util.StringHelper;
 /**
  * The basic action for feedback submission.
  */
-public abstract class BasicFeedbackSubmissionAction extends Action {
+abstract class BasicFeedbackSubmissionAction extends Action {
 
     /**
      * Checks whether instructors can see the question.
      */
-    protected boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
+    boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         boolean isGiverVisibleToInstructor =
                 feedbackQuestion.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
@@ -31,7 +31,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Verifies that instructor can see the moderated question in moderation request.
      */
-    protected void verifyInstructorCanSeeQuestionIfInModeration(FeedbackQuestionAttributes feedbackQuestion) {
+    void verifyInstructorCanSeeQuestionIfInModeration(FeedbackQuestionAttributes feedbackQuestion) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
 
         if (!StringHelper.isEmpty(moderatedPerson) && !canInstructorSeeQuestion(feedbackQuestion)) {
@@ -43,7 +43,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the student involved in the submission process.
      */
-    protected StudentAttributes getStudentOfCourseFromRequest(String courseId) {
+    StudentAttributes getStudentOfCourseFromRequest(String courseId) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
@@ -62,7 +62,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Checks the access control for student feedback submission.
      */
-    protected void checkAccessControlForStudentFeedbackSubmission(
+    void checkAccessControlForStudentFeedbackSubmission(
             StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
         if (student == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
@@ -99,7 +99,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the instructor involved in the submission process.
      */
-    protected InstructorAttributes getInstructorOfCourseFromRequest(String courseId) {
+    InstructorAttributes getInstructorOfCourseFromRequest(String courseId) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
@@ -116,7 +116,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Checks the access control for instructor feedback submission.
      */
-    protected void checkAccessControlForInstructorFeedbackSubmission(
+    void checkAccessControlForInstructorFeedbackSubmission(
             InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
@@ -137,7 +137,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Verifies that it is not a preview request.
      */
-    protected void verifyNotPreview() {
+    void verifyNotPreview() {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         if (!StringHelper.isEmpty(previewAsPerson)) {
             // should not view response under preview mode
@@ -150,7 +150,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
      *
      * <p>If it is moderation request, omit the check.
      */
-    protected void verifySessionOpenExceptForModeration(FeedbackSessionAttributes feedbackSession) {
+    void verifySessionOpenExceptForModeration(FeedbackSessionAttributes feedbackSession) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
 
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
@@ -161,7 +161,7 @@ public abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the section of a recipient.
      */
-    protected String getRecipientSection(
+    String getRecipientSection(
             String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             String recipientIdentifier) {
         switch (recipientType) {

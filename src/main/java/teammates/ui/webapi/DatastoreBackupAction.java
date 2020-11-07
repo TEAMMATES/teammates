@@ -30,12 +30,12 @@ import teammates.common.util.Logger;
  * @see <a href="https://cloud.google.com/datastore/docs/export-import-entities">https://cloud.google.com/datastore/docs/export-import-entities</a>
  * @see <a href="https://cloud.google.com/datastore/docs/reference/admin/rest/v1/projects/export">https://cloud.google.com/datastore/docs/reference/admin/rest/v1/projects/export</a>
  */
-public class DatastoreBackupAction extends AdminOnlyAction {
+class DatastoreBackupAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         if (Config.isDevServer()) {
             log.info("Skipping backup in dev server.");
             return new JsonResult("Successful");
@@ -58,7 +58,7 @@ public class DatastoreBackupAction extends AdminOnlyAction {
         // Documentation is wrong; the param name is output_url_prefix instead of outputUrlPrefix
         body.put("output_url_prefix", "gs://" + Config.BACKUP_GCS_BUCKETNAME + "/datastore-backups/" + timestamp);
 
-        StringEntity entity = new StringEntity(JsonUtils.toJson(body), Charset.forName("UTF-8"));
+        StringEntity entity = new StringEntity(JsonUtils.toCompactJson(body), Charset.forName("UTF-8"));
         post.setEntity(entity);
 
         try (CloseableHttpClient client = HttpClients.createDefault();

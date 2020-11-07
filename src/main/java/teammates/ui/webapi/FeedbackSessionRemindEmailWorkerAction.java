@@ -14,12 +14,12 @@ import teammates.common.util.Logger;
 /**
  * Task queue worker action: sends feedback session reminder email to a course.
  */
-public class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
+class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
 
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String instructorId = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_ID);

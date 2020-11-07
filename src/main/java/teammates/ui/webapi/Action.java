@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -24,6 +25,7 @@ import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
+import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
 
 /**
@@ -33,16 +35,16 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class Action {
 
-    protected Logic logic = new Logic();
-    protected GateKeeper gateKeeper = new GateKeeper();
-    protected EmailGenerator emailGenerator = new EmailGenerator();
-    protected TaskQueuer taskQueuer = new TaskQueuer();
-    protected EmailSender emailSender = new EmailSender();
-    protected RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
+    Logic logic = new Logic();
+    GateKeeper gateKeeper = new GateKeeper();
+    EmailGenerator emailGenerator = new EmailGenerator();
+    TaskQueuer taskQueuer = new TaskQueuer();
+    EmailSender emailSender = new EmailSender();
+    RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
 
-    protected HttpServletRequest req;
-    protected UserInfo userInfo;
-    protected AuthType authType;
+    HttpServletRequest req;
+    UserInfo userInfo;
+    AuthType authType;
 
     // buffer to store the request body
     private String requestBody;
@@ -50,7 +52,7 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    protected void init(HttpServletRequest req) {
+    void init(HttpServletRequest req) {
         this.req = req;
         initAuthInfo();
     }
@@ -75,14 +77,14 @@ public abstract class Action {
         this.recaptchaVerifier = recaptchaVerifier;
     }
 
-    public boolean isMasqueradeMode() {
+    boolean isMasqueradeMode() {
         return userInfo.isAdmin && authType == AuthType.MASQUERADE;
     }
 
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    public void checkAccessControl() {
+    void checkAccessControl() {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
@@ -136,14 +138,14 @@ public abstract class Action {
     /**
      * Returns the first value for the specified parameter in the HTTP request, or null if such parameter is not found.
      */
-    protected String getRequestParamValue(String paramName) {
+    String getRequestParamValue(String paramName) {
         return req.getParameter(paramName);
     }
 
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request.
      */
-    protected String getNonNullRequestParamValue(String paramName) {
+    String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
             throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
@@ -155,7 +157,7 @@ public abstract class Action {
      * Returns the first value for the specified parameter expected to be present in the HTTP request as boolean.
      */
     @SuppressWarnings("PMD.PreserveStackTrace")
-    protected boolean getBooleanRequestParamValue(String paramName) {
+    boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return Boolean.parseBoolean(value);
@@ -169,7 +171,7 @@ public abstract class Action {
      * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
      */
     @SuppressWarnings("PMD.PreserveStackTrace")
-    protected long getLongRequestParamValue(String paramName) {
+    long getLongRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return Long.parseLong(value);
@@ -182,14 +184,14 @@ public abstract class Action {
     /**
      * Returns the request body payload.
      */
-    protected String getRequestBody() {
+    String getRequestBody() {
         if (requestBody == null) {
             requestBody = HttpRequestHelper.getRequestBody(req);
         }
         return requestBody;
     }
 
-    protected FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
+    FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session not found"));
@@ -200,7 +202,7 @@ public abstract class Action {
     /**
      * Deserializes and validates the request body payload.
      */
-    protected <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
+    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
             throw new NullHttpParameterException(Const.StatusCodes.NULL_BODY_PARAMETER);
@@ -214,7 +216,7 @@ public abstract class Action {
      *
      * @throws UnauthorizedAccessException if HTTP param is provided but student cannot be found
      */
-    protected Optional<StudentAttributes> getUnregisteredStudent() {
+    Optional<StudentAttributes> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
@@ -227,19 +229,40 @@ public abstract class Action {
         return Optional.empty();
     }
 
+    InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
+        InstructorPrivilegeData privilege = new InstructorPrivilegeData();
+        privilege.constructCourseLevelPrivilege(instructor.privileges);
+        if (feedbackSessionName != null) {
+            privilege.setCanSubmitSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+            privilege.setCanViewSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            privilege.setCanModifySessionCommentsInSections(
+                    instructor.isAllowedForPrivilege(
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        }
+        return privilege;
+    }
+
     /**
      * Gets the minimum access control level required to access the resource.
      */
-    protected abstract AuthType getMinAuthLevel();
+    abstract AuthType getMinAuthLevel();
 
     /**
      * Checks the specific access control needs for the resource.
      */
-    public abstract void checkSpecificAccessControl();
+    abstract void checkSpecificAccessControl();
 
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute();
+    abstract ActionResult execute();
 
 }

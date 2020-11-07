@@ -1,0 +1,179 @@
+{
+  "accounts": {
+    "instructorOfCourse1": {
+      "googleId": "tm.e2e.ISList.instr1",
+      "name": "Instructor of Course 1",
+      "isInstructor": true,
+      "email": "ISList.instr1@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "Student3Course3": {
+      "googleId": "tm.e2e.ISList.charlie.tmms",
+      "name": "Charlie D",
+      "isInstructor": false,
+      "email": "ISList.charlie.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 5"
+    }
+  },
+  "courses": {
+    "course1": {
+      "id": "tm.e2e.ISList.course1",
+      "name": "Name of Course 1",
+      "timeZone": "UTC"
+    },
+    "course2": {
+      "id": "tm.e2e.ISList.course2",
+      "name": "Name of Course 2",
+      "timeZone": "UTC"
+    },
+    "course3": {
+      "id": "tm.e2e.ISList.course3",
+      "name": "Name of Course 3",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructorOfCourse1": {
+      "googleId": "tm.e2e.ISList.instr1",
+      "courseId": "tm.e2e.ISList.course1",
+      "name": "Instructor1 Course1",
+      "email": "ISList.instr1@gmail.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfCourse2": {
+      "googleId": "tm.e2e.ISList.instr1",
+      "courseId": "tm.e2e.ISList.course2",
+      "name": "Instructor1 Course2",
+      "email": "ISList.instr1@gmail.tmt",
+      "isArchived": false,
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorOfCourse3": {
+      "googleId": "tm.e2e.ISList.instr1",
+      "courseId": "tm.e2e.ISList.course3",
+      "name": "Instructor1 Course3",
+      "email": "ISList.instr1@gmail.tmt",
+      "isArchived": false,
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "Student1Course2": {
+      "googleId": "tm.e2e.ISList.alice.tmms",
+      "email": "ISList.alice.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course2",
+      "name": "Alice",
+      "comments": "This student's name is Alice",
+      "team": "Team 1",
+      "section": "Section A"
+    },
+    "Student2Course2": {
+      "googleId": "tm.e2e.ISList.benny.tmms",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course2",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2",
+      "section": "Section B"
+    },
+    "Student3Course2": {
+      "googleId": "",
+      "email": "hugh.i.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course2",
+      "name": "Hugh Ivanov",
+      "comments": "This student's name is Hugh Ivanov",
+      "team": "Team 2",
+      "section": "Section B"
+    },
+    "Student1Course3": {
+      "googleId": "tm.e2e.ISList.alice.tmms",
+      "email": "ISList.alice.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course3",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice",
+      "team": "Team 1",
+      "section": "Section 1"
+    },
+    "Student2Course3": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course3",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "Section 1"
+    },
+    "Student3Course3": {
+      "googleId": "tm.e2e.ISList.charlie.tmms",
+      "email": "ISList.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course3",
+      "name": "Charlie D",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2",
+      "section": "Section 1"
+    },
+    "Student4Course3": {
+      "googleId": "",
+      "email": "denny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ISList.course3",
+      "name": "Denny Charlés",
+      "comments": "This student's name is Denny Charlés",
+      "team": "Team 2",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

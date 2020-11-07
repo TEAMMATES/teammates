@@ -14,15 +14,15 @@ import teammates.ui.request.Intent;
 /**
  * Get the information of an instructor inside a course.
  */
-public class GetInstructorAction extends BasicFeedbackSubmissionAction {
+class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
@@ -47,7 +47,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         InstructorAttributes instructorAttributes;

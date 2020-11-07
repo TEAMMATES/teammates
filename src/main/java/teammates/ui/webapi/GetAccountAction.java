@@ -9,10 +9,10 @@ import teammates.ui.output.AccountData;
 /**
  * Gets account's information.
  */
-public class GetAccountAction extends AdminOnlyAction {
+class GetAccountAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         AccountAttributes accountInfo = logic.getAccount(googleId);

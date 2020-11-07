@@ -30,10 +30,10 @@ public class SessionResultsData extends ApiOutput {
 
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
-    protected final List<QuestionOutput> questions = new ArrayList<>();
-    protected FeedbackSessionData feedbackSession;
+    final List<QuestionOutput> questions = new ArrayList<>();
+    FeedbackSessionData feedbackSession;
 
-    protected SessionResultsData() {
+    SessionResultsData() {
         // use factory method instead
     }
 
@@ -88,16 +88,18 @@ public class SessionResultsData extends ApiOutput {
                 for (FeedbackResponseAttributes response : responses) {
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
+                    ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
                     if (isUserRecipient) {
-                        qnOutput.responsesToSelf.add(buildSingleResponseForStudent(response, bundle, student));
+                        qnOutput.responsesToSelf.add(responseOutput);
                     } else if (isUserGiver) {
-                        qnOutput.responsesFromSelf.add(buildSingleResponseForStudent(response, bundle, student));
+                        qnOutput.responsesFromSelf.add(responseOutput);
                     } else {
                         // we don't need care about the keys of the map here
                         // as only the values of the map will be used
                         otherResponsesMap.computeIfAbsent(response.getRecipient(), k -> new ArrayList<>())
-                                .add(buildSingleResponseForStudent(response, bundle, student));
+                                .add(responseOutput);
                     }
+                    qnOutput.allResponses.add(responseOutput);
                 }
             }
             qnOutput.otherResponses.addAll(otherResponsesMap.values());
@@ -117,7 +119,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamGiver = question.giverType == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
-        String giverTeam = null;
+        String giverTeam = "";
         if (isUserTeamGiver) {
             giverName = String.format("Your Team (%s)", response.getGiver());
             giverTeam = response.getGiver();
@@ -134,7 +136,7 @@ public class SessionResultsData extends ApiOutput {
         boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
-        String recipientTeam = null;
+        String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
             recipientTeam = student.team;
@@ -144,6 +146,9 @@ public class SessionResultsData extends ApiOutput {
         } else {
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(getRecipientNameOfResponse(response, bundle).getName());
+            if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
+                recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+            }
         }
 
         // process comments
@@ -151,8 +156,6 @@ public class SessionResultsData extends ApiOutput {
                 bundle.getResponseCommentsMap().getOrDefault(response.getId(), Collections.emptyList());
         Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
 
-        // Student does not need to know the teams for giver and/or recipient
-        // unless the student him/herself is the giver and/or recipient
         return ResponseOutput.builder()
                 .withResponseId(response.getId())
                 .withGiver(giverName)
@@ -398,21 +401,20 @@ public class SessionResultsData extends ApiOutput {
         private final FeedbackQuestionData feedbackQuestion;
         private final String questionStatistics;
 
-        // For instructor view
         private final List<ResponseOutput> allResponses = new ArrayList<>();
 
-        // For student view
+        // For student view only
         private final List<ResponseOutput> responsesToSelf = new ArrayList<>();
         private final List<ResponseOutput> responsesFromSelf = new ArrayList<>();
         private final List<List<ResponseOutput>> otherResponses = new ArrayList<>();
 
-        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
+        private QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
         }
 
-        protected QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
-                                 List<ResponseOutput> allResponses) {
+        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
+                       List<ResponseOutput> allResponses) {
             this.questionStatistics = null;
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.allResponses.addAll(allResponses);
@@ -487,7 +489,7 @@ public class SessionResultsData extends ApiOutput {
         /**
          * Returns a builder for {@link ResponseOutput}.
          */
-        public static Builder builder() {
+        static Builder builder() {
             return new Builder();
         }
 
@@ -572,87 +574,87 @@ public class SessionResultsData extends ApiOutput {
             }
 
             //CHECKSTYLE.OFF:MissingJavadocMethod
-            public Builder withIsMissingResponse(boolean isMissingResponse) {
+            private Builder withIsMissingResponse(boolean isMissingResponse) {
                 responseOutput.isMissingResponse = isMissingResponse;
                 return this;
             }
 
-            public Builder withResponseId(String responseId) {
+            Builder withResponseId(String responseId) {
                 responseOutput.responseId = StringHelper.encrypt(responseId);
                 return this;
             }
 
-            public Builder withGiver(String giverName) {
+            Builder withGiver(String giverName) {
                 responseOutput.giver = giverName;
                 return this;
             }
 
-            public Builder withGiverLastName(String giverLastName) {
+            private Builder withGiverLastName(String giverLastName) {
                 responseOutput.giverLastName = giverLastName;
                 return this;
             }
 
-            public Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
+            private Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
                 responseOutput.relatedGiverEmail = relatedGiverEmail;
                 return this;
             }
 
-            public Builder withGiverTeam(String giverTeam) {
+            private Builder withGiverTeam(String giverTeam) {
                 responseOutput.giverTeam = giverTeam;
                 return this;
             }
 
-            public Builder withGiverEmail(@Nullable String giverEmail) {
+            Builder withGiverEmail(@Nullable String giverEmail) {
                 responseOutput.giverEmail = giverEmail;
                 return this;
             }
 
-            public Builder withGiverSection(String giverSection) {
+            Builder withGiverSection(String giverSection) {
                 responseOutput.giverSection = giverSection;
                 return this;
             }
 
-            public Builder withRecipient(String recipientName) {
+            Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
                 return this;
             }
 
-            public Builder withRecipientLastName(String recipientLastName) {
+            private Builder withRecipientLastName(String recipientLastName) {
                 responseOutput.recipientLastName = recipientLastName;
                 return this;
             }
 
-            public Builder withRecipientTeam(String recipientTeam) {
+            private Builder withRecipientTeam(String recipientTeam) {
                 responseOutput.recipientTeam = recipientTeam;
                 return this;
             }
 
-            public Builder withRecipientEmail(@Nullable String recipientEmail) {
+            Builder withRecipientEmail(@Nullable String recipientEmail) {
                 responseOutput.recipientEmail = recipientEmail;
                 return this;
             }
 
-            public Builder withRecipientSection(String recipientSection) {
+            Builder withRecipientSection(String recipientSection) {
                 responseOutput.recipientSection = recipientSection;
                 return this;
             }
 
-            public Builder withResponseDetails(FeedbackResponseDetails responseDetails) {
+            Builder withResponseDetails(FeedbackResponseDetails responseDetails) {
                 responseOutput.responseDetails = responseDetails;
                 return this;
             }
 
-            public Builder withParticipantComment(@Nullable CommentOutput participantComment) {
+            Builder withParticipantComment(@Nullable CommentOutput participantComment) {
                 responseOutput.participantComment = participantComment;
                 return this;
             }
 
-            public Builder withInstructorComments(List<CommentOutput> instructorComments) {
+            Builder withInstructorComments(List<CommentOutput> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
                 return this;
             }
 
-            public ResponseOutput build() {
+            ResponseOutput build() {
                 return responseOutput;
             }
             //CHECKSTYLE.ON:MissingJavadocMethod
@@ -677,7 +679,7 @@ public class SessionResultsData extends ApiOutput {
         /**
          * Returns a builder for {@link CommentOutput}.
          */
-        public static Builder builder(FeedbackResponseCommentAttributes frc) {
+        static Builder builder(FeedbackResponseCommentAttributes frc) {
             return new Builder(frc);
         }
 
@@ -702,27 +704,27 @@ public class SessionResultsData extends ApiOutput {
             }
 
             //CHECKSTYLE.OFF:MissingJavadocMethod
-            public Builder withCommentGiver(@Nullable String commentGiver) {
+            Builder withCommentGiver(@Nullable String commentGiver) {
                 commentOutput.commentGiver = commentGiver;
                 return this;
             }
 
-            public Builder withCommentGiverName(@Nullable String commentGiverName) {
+            Builder withCommentGiverName(@Nullable String commentGiverName) {
                 commentOutput.commentGiverName = commentGiverName;
                 return this;
             }
 
-            public Builder withLastEditorEmail(@Nullable String lastEditorEmail) {
+            Builder withLastEditorEmail(@Nullable String lastEditorEmail) {
                 commentOutput.lastEditorEmail = lastEditorEmail;
                 return this;
             }
 
-            public Builder withLastEditorName(@Nullable String lastEditorName) {
+            Builder withLastEditorName(@Nullable String lastEditorName) {
                 commentOutput.lastEditorName = lastEditorName;
                 return this;
             }
 
-            public CommentOutput build() {
+            CommentOutput build() {
                 return commentOutput;
             }
             //CHECKSTYLE.ON:MissingJavadocMethod

@@ -10,20 +10,20 @@ import teammates.ui.output.JoinStatus;
 /**
  * Get the join status of a course.
  */
-public class GetCourseJoinStatusAction extends Action {
+class GetCourseJoinStatusAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         // Any user can use a join link as long as its parameters are valid
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {

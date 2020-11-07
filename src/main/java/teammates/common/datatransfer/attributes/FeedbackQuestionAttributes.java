@@ -31,12 +31,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
-    protected transient Instant createdAt;
-    protected transient Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private String feedbackQuestionId;
 
-    FeedbackQuestionAttributes() {
+    private FeedbackQuestionAttributes() {
         this.showResponsesTo = new ArrayList<>();
         this.showGiverNameTo = new ArrayList<>();
         this.showRecipientNameTo = new ArrayList<>();
@@ -610,10 +610,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected FeedbackQuestionAttributes.UpdateOptions updateOptions;
-        protected B thisBuilder;
+        FeedbackQuestionAttributes.UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

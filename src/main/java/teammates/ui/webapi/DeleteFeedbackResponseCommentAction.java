@@ -14,15 +14,15 @@ import teammates.ui.request.Intent;
 /**
  * Deletes a feedback response comment.
  */
-public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
+class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
         if (frc == null) {
@@ -79,7 +79,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         logic.deleteFeedbackResponseComment(feedbackResponseCommentId);

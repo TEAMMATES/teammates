@@ -14,9 +14,9 @@ import teammates.ui.output.InstructorPrivilegeData;
 /**
  * Get the instructor privilege.
  */
-public class GetInstructorPrivilegeAction extends Action {
+class GetInstructorPrivilegeAction extends Action {
 
-    static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
+    private static final Map<String, InstructorPrivilegeData> INSTRUCTOR_PRIVILEGES = new HashMap<>();
 
     static {
         InstructorPrivilegeData coOwnerPrivilegeData = new InstructorPrivilegeData();
@@ -83,12 +83,12 @@ public class GetInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -101,7 +101,7 @@ public class GetInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
 
         if (instructorRole != null) {
@@ -139,26 +139,8 @@ public class GetInstructorPrivilegeAction extends Action {
 
         String sectionName = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        InstructorPrivilegeData response = new InstructorPrivilegeData();
-
-        // course level privileges.
-        response.constructCourseLevelPrivilege(instructor.privileges);
-
-        if (sectionName == null && feedbackSessionName != null) {
-            response.setCanSubmitSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
-            response.setCanViewSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-            response.setCanModifySessionCommentsInSections(
-                    instructor.isAllowedForPrivilege(
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
-                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        } else if (sectionName != null) {
+        InstructorPrivilegeData response = constructInstructorPrivileges(instructor, feedbackSessionName);
+        if (sectionName != null) {
             response.constructSectionLevelPrivilege(instructor.privileges, sectionName);
             if (feedbackSessionName != null) {
                 response.constructSessionLevelPrivilege(instructor.privileges, sectionName, feedbackSessionName);

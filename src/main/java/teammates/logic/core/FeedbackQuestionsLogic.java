@@ -184,8 +184,8 @@ public final class FeedbackQuestionsLogic {
      * Gets a {@code List} of all questions for the list of questions that an
      * instructor who is the creator of the course can view/submit.
      */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
-                                    String feedbackSessionName, String courseId)
+    List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
+            String feedbackSessionName, String courseId)
                     throws EntityDoesNotExistException {
 
         FeedbackSessionAttributes fsa = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
@@ -255,7 +255,7 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
-    public Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
+    Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
         InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(question.courseId, giver);
@@ -762,8 +762,6 @@ public final class FeedbackQuestionsLogic {
      * Deletes a feedback question cascade its responses and comments.
      *
      * <p>Silently fail if question does not exist.
-     *
-     * <p>The respondent lists will also be updated due the deletion of question.
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDelete =

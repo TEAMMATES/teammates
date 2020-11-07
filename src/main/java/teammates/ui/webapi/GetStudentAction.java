@@ -13,21 +13,21 @@ import teammates.ui.output.StudentData;
 /**
  * Get the information of a student inside a course.
  */
-public class GetStudentAction extends Action {
-
-    /** String indicating ACCESS is not given. */
-    public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
+class GetStudentAction extends Action {
 
     /** Message indicating that a student not found. */
-    public static final String STUDENT_NOT_FOUND = "No student found";
+    static final String STUDENT_NOT_FOUND = "No student found";
+
+    /** String indicating ACCESS is not given. */
+    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
 
@@ -58,7 +58,7 @@ public class GetStudentAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentAttributes student;
 
@@ -83,6 +83,7 @@ public class GetStudentAction extends Action {
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
             studentData.setKey(StringHelper.encrypt(student.getKey()));
+            studentData.setGoogleId(student.googleId);
         }
 
         // hide information if not an instructor

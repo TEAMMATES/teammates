@@ -9,15 +9,15 @@ import teammates.common.util.Const;
 /**
  * Action: Restores a course from Recycle Bin.
  */
-public class RestoreCourseAction extends Action {
+class RestoreCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -28,7 +28,7 @@ public class RestoreCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
 
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String statusMessage;

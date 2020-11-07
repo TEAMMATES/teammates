@@ -50,21 +50,7 @@ public final class HttpRequestHelper {
                 transformed.put(key, values.length == 1 ? values[0] : values);
             }
         });
-        return JsonUtils.toJson(transformed).replaceAll("([^,])\r?\n *", "$1")
-                .replaceAll(",\r?\n *", ", ");
-    }
-
-    /**
-     * Returns the URL used for the HTTP request but without the domain, e.g. "/page/studentHome?user=james"
-     */
-    public static String getRequestedUrl(HttpServletRequest req) {
-        String link = req.getRequestURI();
-        String query = req.getQueryString();
-
-        if (query != null && !query.trim().isEmpty()) {
-            return link + "?" + query;
-        }
-        return link;
+        return JsonUtils.toCompactJson(transformed);
     }
 
     /**

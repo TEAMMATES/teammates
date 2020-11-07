@@ -166,7 +166,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
             >
               
               <a
-                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review"
+                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
                 tmrouterlink="/web/instructor/sessions/edit"
               >
                 
@@ -576,7 +576,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
             >
               
               <a
-                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review"
+                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
                 tmrouterlink="/web/instructor/sessions/edit"
               >
                 

@@ -16,15 +16,15 @@ import teammates.ui.request.Intent;
 /**
  * Gets feedback session results including statistics where necessary.
  */
-public class GetSessionResultsAction extends Action {
+class GetSessionResultsAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -57,15 +57,14 @@ public class GetSessionResultsAction extends Action {
     }
 
     private StudentAttributes getStudent(String courseId) {
-        if (userInfo == null) {
-            String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-            return logic.getStudentForRegistrationKey(regkey);
-        }
-        return logic.getStudentForGoogleId(courseId, userInfo.id);
+        return getUnregisteredStudent().orElseGet(() -> {
+            gateKeeper.verifyLoggedInUserPrivileges();
+            return logic.getStudentForGoogleId(courseId, userInfo.getId());
+        });
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 

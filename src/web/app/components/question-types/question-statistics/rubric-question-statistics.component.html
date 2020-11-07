@@ -8,12 +8,12 @@
     </div>
     <div class="col-sm-8" style="text-align: right;">
       <label class="form-check-label">
-        <input type="checkbox" [(ngModel)]="excludeSelf" (ngModelChange)="getTableData()" class="form-check-input"> <span container="body" class="ngb-tooltip-class" ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
+        <input id="exclude-self-checkbox" type="checkbox" [(ngModel)]="excludeSelf" (ngModelChange)="getTableData()" class="form-check-input"> <span container="body" class="ngb-tooltip-class" ngbTooltip="Excludes giver's responses to himself/herself from statistics">Exclude self evaluation</span>
       </label>
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 table-responsive">
+    <div id="rubric-statistics" class="col-sm-12 table-responsive">
       <tm-sortable-table [rows]="summaryRowsData"
                          [columns]="summaryColumnsData"
       ></tm-sortable-table>
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-12 table-responsive">
+      <div id="rubric-recipient-statistics" class="col-sm-12 table-responsive">
         <tm-sortable-table [rows]="perRecipientRowsData"
                            [columns]="perRecipientColumnsData"
         ></tm-sortable-table>

@@ -57,7 +57,7 @@ public final class RetryManager {
         /**
          * Checks whether the {@code task} ran successfully based based on the {@code SuccessCondition}.
          */
-        public abstract <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task) throws E;
+        protected abstract <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task) throws E;
     }
 
     /**

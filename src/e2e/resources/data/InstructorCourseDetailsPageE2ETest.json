@@ -1,0 +1,130 @@
+{
+  "accounts": {
+    "ICDet.instr": {
+      "googleId": "tm.e2e.ICDet.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICDet.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "ICDet.instr2": {
+      "googleId": "tm.e2e.ICDet.instr2",
+      "name": "Teammates Test 2",
+      "isInstructor": true,
+      "email": "ICDet.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "Alice": {
+      "googleId": "tm.e2e.ICDet.alice.b",
+      "name": "Alice Betsy",
+      "isInstructor": false,
+      "email": "alice.b.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "Danny": {
+      "googleId": "tm.e2e.ICDet.danny.e",
+      "name": "Charlie Davis",
+      "isInstructor": false,
+      "email": "danny.e.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICDet.CS2104": {
+      "id": "tm.e2e.ICDet.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICDet.instr": {
+      "googleId": "tm.e2e.ICDet.instr",
+      "courseId": "tm.e2e.ICDet.CS2104",
+      "name": "Teammates Test",
+      "email": "ICDet.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICDet.instr2": {
+      "googleId": "tm.e2e.ICDet.instr2",
+      "courseId": "tm.e2e.ICDet.CS2104",
+      "name": "Teammates Test 2",
+      "email": "ICDet.instr2@gmail.tmt",
+      "role": "Tutor",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@ICDet.CS2104": {
+      "googleId": "tm.e2e.ICDet.alice.b",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "tm.e2e.ICDet.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "benny.tmms@ICDet.CS2104": {
+      "googleId": "",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ICDet.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "charlie.tmms@ICDet.CS2104": {
+      "googleId": "",
+      "email": "charlie.d.tmms@gmail.tmt",
+      "course": "tm.e2e.ICDet.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 1",
+      "section": "Section 1"
+    },
+    "danny.tmms@ICDet.CS2104": {
+      "googleId": "tm.e2e.ICDet.danny.e",
+      "email": "danny.e.tmms@gmail.tmt",
+      "course": "tm.e2e.ICDet.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "Section 2"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

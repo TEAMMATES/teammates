@@ -1,0 +1,133 @@
+{
+  "accounts": {
+    "AAccounts.instr2": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "name": "Teammates Instr2",
+      "isInstructor": true,
+      "email": "AAccounts.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "AAccounts.CS2104": {
+      "id": "tm.e2e.AAccounts.CS2104",
+      "name": "Programming Languages",
+      "timeZone": "UTC"
+    },
+    "AAccounts.CS2103": {
+      "id": "tm.e2e.AAccounts.CS2103",
+      "name": "Software Engineering",
+      "timeZone": "UTC"
+    },
+    "AAccounts.CS1101": {
+      "id": "tm.e2e.AAccounts.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "AAccounts.instr2-AAccounts.CS2104": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "courseId": "tm.e2e.AAccounts.CS2104",
+      "name": "Teammates Instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canmodifycourse": true,
+          "canmodifyinstructor": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAccounts.instr2-AAccounts.CS2103": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "courseId": "tm.e2e.AAccounts.CS2103",
+      "name": "Teammates Instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canmodifycourse": true,
+          "canmodifyinstructor": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "AAccounts.instr2-AAccounts.CS1101": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "courseId": "tm.e2e.AAccounts.CS1101",
+      "name": "Teammates Instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canmodifycourse": true,
+          "canmodifyinstructor": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canviewstudentinsection": true,
+          "canviewsessioninsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "AAccounts.instr2-student-CS2104": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "course": "tm.e2e.AAccounts.CS2104",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "AAccounts.instr2-student-CS2103": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "course": "tm.e2e.AAccounts.CS2103",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "AAccounts.instr2-student-CS1101": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "course": "tm.e2e.AAccounts.CS1101",
+      "name": "Teammates Instr2",
+      "comments": "This is an instructor",
+      "team": "Team 1",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

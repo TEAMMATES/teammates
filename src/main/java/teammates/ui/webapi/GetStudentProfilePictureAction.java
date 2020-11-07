@@ -11,18 +11,18 @@ import teammates.common.util.StringHelper;
 /**
  * Action: serves a profile picture that is stored in Google Cloud Storage.
  */
-public class GetStudentProfilePictureAction extends Action {
+class GetStudentProfilePictureAction extends Action {
 
     /** Indicates ACCESS is not given. */
-    public static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
+    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -44,7 +44,7 @@ public class GetStudentProfilePictureAction extends Action {
     }
 
     @Override
-    public ActionResult execute() {
+    ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 

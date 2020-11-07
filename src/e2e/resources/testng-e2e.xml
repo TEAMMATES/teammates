@@ -6,34 +6,45 @@
     </listeners>
     <test name="e2e-tests" parallel="classes">
         <packages>
-            <package name="teammates.e2e.cases.util" />
+            <package name="teammates.e2e.util" />
         </packages>
         <classes>
-            <class name="teammates.e2e.cases.e2e.SystemErrorEmailReportE2ETest" />
-            <class name="teammates.e2e.cases.e2e.TimezoneSyncerTest" />
-            <class name="teammates.e2e.cases.e2e.AdminHomePageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.AdminSearchPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackConstSumOptionQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackConstSumRecipientQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackContributionQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackMcqQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackMsqQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackNumScaleQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackRankRecipientQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackRankOptionQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackRubricQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackSubmitPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.FeedbackTextQuestionE2ETest" />
-            <class name="teammates.e2e.cases.e2e.InstructorCourseEditPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.InstructorCourseEnrollPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.InstructorCourseJoinConfirmationPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.InstructorCoursesPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.InstructorFeedbackEditPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.InstructorFeedbackSessionsPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.StudentCourseDetailsPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.StudentCourseJoinConfirmationPageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.StudentHomePageE2ETest" />
-            <class name="teammates.e2e.cases.e2e.StudentProfilePageE2ETest" />
+            <class name="teammates.e2e.cases.AutomatedSessionRemindersE2ETest" />
+            <class name="teammates.e2e.cases.SystemErrorEmailReportE2ETest" />
+            <class name="teammates.e2e.cases.TimezoneSyncerTest" />
+            <class name="teammates.e2e.cases.AdminHomePageE2ETest" />
+            <class name="teammates.e2e.cases.AdminAccountsPageE2ETest" />
+            <class name="teammates.e2e.cases.AdminSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.AdminSessionsPageE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackConstSumOptionQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackConstSumRecipientQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackContributionQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackMcqQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackMsqQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackNumScaleQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackRankRecipientQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackRankOptionQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackRubricQuestionE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackSubmitPageE2ETest" />
+            <class name="teammates.e2e.cases.FeedbackTextQuestionE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCourseDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCourseEditPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCourseEnrollPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCourseJoinConfirmationPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCourseStudentDetailsEditPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCourseStudentDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorCoursesPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorFeedbackEditPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorFeedbackSessionsPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorHomePageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorSearchPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorStudentListPageE2ETest" />
+            <class name="teammates.e2e.cases.InstructorStudentRecordsPageE2ETest" />
+            <class name="teammates.e2e.cases.StudentCourseDetailsPageE2ETest" />
+            <class name="teammates.e2e.cases.StudentCourseJoinConfirmationPageE2ETest" />
+            <class name="teammates.e2e.cases.StudentFeedbackResultsPageE2ETest" />
+            <class name="teammates.e2e.cases.StudentHomePageE2ETest" />
+            <class name="teammates.e2e.cases.StudentProfilePageE2ETest" />
         </classes>
     </test>
 </suite>

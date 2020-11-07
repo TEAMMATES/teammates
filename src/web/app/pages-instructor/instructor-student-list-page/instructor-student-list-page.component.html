@@ -4,12 +4,12 @@
   Use the <a tmRouterLink="/web/instructor/search">search function</a> if you need to filter for a specific
   student.
 </p>
-<hr/>
+<hr>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'" (retryEvent)="loadCourses()">
   <div *tmIsLoading="isLoadingCourses"></div>
   <ng-container>
-    <div *ngFor="let courseTab of courseTabList">
+    <div class="course-table" *ngFor="let courseTab of courseTabList">
       <div class="card">
         <div class="card-header cursor-pointer bg-primary text-white" (click)="toggleCard(courseTab)">
           <strong>[{{courseTab.course.courseId}}]: {{courseTab.course.courseName}}</strong>
@@ -25,33 +25,33 @@
                 <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
                   <div class="card-deck text-center text-sm-left" *ngIf="courseTab.stats">
                     <div class="card">
-                      <div class="card-body">
+                      <div class="card-body" id="num-students">
                         <h3 class="card-title inline">{{courseTab.stats.numOfStudents}}</h3>
                         <h4 class="card-text inline"> students</h4>
                       </div>
                     </div>
                     <div class="card">
-                      <div class="card-body">
+                      <div class="card-body" id="num-sections">
                         <h3 class="card-title inline">{{courseTab.stats.numOfSections}}</h3>
                         <h4 class="card-text inline"> sections</h4>
                       </div>
                     </div>
                     <div class="card">
-                      <div class="card-body">
+                      <div class="card-body" id="num-teams">
                         <h3 class="card-title inline">{{courseTab.stats.numOfTeams}}</h3>
                         <h4 class="card-text inline"> teams</h4>
                       </div>
                     </div>
                   </div>
 
-                  <hr/>
+                  <hr>
 
-                  <a class="btn btn-success"
-                    tmRouterLink="/web/instructor/courses/enroll"
-                    [queryParams]="{courseid: courseTab.course.courseId}">
-                  Enroll Students
+                  <a id="btn-enroll" class="btn btn-success"
+                      tmRouterLink="/web/instructor/courses/enroll"
+                      [queryParams]="{courseid: courseTab.course.courseId}">
+                    Enroll Students
                   </a>
-                  <br/><br/>
+                  <br><br>
                   <tm-student-list
                       [courseId]="courseTab.course.courseId"
                       [students]="courseTab.studentList"
@@ -70,7 +70,9 @@
 
         <ng-template #noStudentsTemplate>
           <h5>There are no students in this course.</h5>
-          <a class="btn btn-success" tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseTab.course.courseId}">
+          <a id="btn-enroll" class="btn btn-success"
+              tmRouterLink="/web/instructor/courses/enroll"
+              [queryParams]="{courseid: courseTab.course.courseId}">
             Enroll Students
           </a>
         </ng-template>

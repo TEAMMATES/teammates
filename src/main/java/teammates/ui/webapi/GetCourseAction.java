@@ -3,22 +3,24 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
+import teammates.ui.output.InstructorPrivilegeData;
 
 /**
  * Get a course for an instructor or student.
  */
-public class GetCourseAction extends Action {
+class GetCourseAction extends Action {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         if (userInfo.isAdmin) {
             return;
         }
@@ -43,12 +45,21 @@ public class GetCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
         if (courseAttributes == null) {
             return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
         }
-        return new JsonResult(new CourseData(courseAttributes));
+        CourseData output = new CourseData(courseAttributes);
+        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+        if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
+            if (instructor != null) {
+                InstructorPrivilegeData privilege = constructInstructorPrivileges(instructor, null);
+                output.setPrivileges(privilege);
+            }
+        }
+        return new JsonResult(output);
     }
 }

@@ -20,38 +20,38 @@ import teammates.ui.output.MessageOutput;
  *
  * <p>This is the most common format for REST-ful back-end API response.
  */
-public class JsonResult extends ActionResult {
+class JsonResult extends ActionResult {
 
     private final ApiOutput output;
     private List<Cookie> cookies;
 
-    public JsonResult(ApiOutput output) {
+    JsonResult(ApiOutput output) {
         super(HttpStatus.SC_OK);
         this.output = output;
         this.cookies = new ArrayList<>();
     }
 
-    public JsonResult(ApiOutput output, List<Cookie> cookies) {
+    JsonResult(ApiOutput output, List<Cookie> cookies) {
         this(output);
         this.cookies = cookies;
     }
 
-    public JsonResult(String message) {
+    JsonResult(String message) {
         this(message, HttpStatus.SC_OK);
     }
 
-    public JsonResult(String message, int statusCode) {
+    JsonResult(String message, int statusCode) {
         super(statusCode);
         this.output = new MessageOutput(message);
         this.cookies = new ArrayList<>();
     }
 
-    public ApiOutput getOutput() {
+    ApiOutput getOutput() {
         return output;
     }
 
     @Override
-    public void send(HttpServletResponse resp) throws IOException {
+    void send(HttpServletResponse resp) throws IOException {
         output.setRequestId(Config.getRequestId());
         for (Cookie cookie : cookies) {
             cookie.setSecure(!Config.isDevServer());
@@ -60,10 +60,10 @@ public class JsonResult extends ActionResult {
         resp.setStatus(getStatusCode());
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
-        pw.print(JsonUtils.toJson(output));
+        pw.print(JsonUtils.toCompactJson(output));
     }
 
-    public List<Cookie> getCookies() {
+    List<Cookie> getCookies() {
         return cookies;
     }
 

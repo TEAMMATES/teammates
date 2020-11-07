@@ -17,7 +17,6 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
   hasLoadingFailed="false"
-  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isLoading={[Function Boolean]}
@@ -81,7 +80,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
   hasLoadingFailed="false"
-  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isLoading="false"
@@ -554,7 +552,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
   hasLoadingFailed="false"
-  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isLoading="false"
@@ -1033,7 +1030,6 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
   hasLoadingFailed="false"
-  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isLoading={[Function Boolean]}
@@ -1097,7 +1093,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
   hasLoadingFailed="false"
-  instructorService={[Function InstructorService]}
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
   isLoading="false"

@@ -13,7 +13,7 @@ import teammates.ui.output.InstructorsData;
 /**
  * Searches for instructors.
  */
-public class SearchInstructorsAction extends AdminOnlyAction {
+class SearchInstructorsAction extends AdminOnlyAction {
 
     private String getInstituteFromGoogleId(String googleId) {
         if (googleId != null) {
@@ -26,7 +26,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.ADMIN_SEARCH_KEY);
         List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
 

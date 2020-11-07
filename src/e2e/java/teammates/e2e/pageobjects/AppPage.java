@@ -3,6 +3,7 @@ package teammates.e2e.pageobjects;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -35,7 +36,7 @@ import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -84,10 +85,16 @@ public abstract class AppPage {
         this.browser = browser;
         this.firefoxChangeHandler = new FirefoxChangeHandler(); //legit firefox
 
-        boolean isCorrectPageType = containsExpectedPageContents();
+        boolean isCorrectPageType;
 
-        if (isCorrectPageType) {
-            return;
+        try {
+            isCorrectPageType = containsExpectedPageContents();
+
+            if (isCorrectPageType) {
+                return;
+            }
+        } catch (Exception e) {
+            // ignore and try again
         }
 
         // To minimize test failures due to eventual consistency, we try to
@@ -134,28 +141,11 @@ public abstract class AppPage {
     }
 
     /**
-     * Gives an AppPage instance based on the given Browser.
-     */
-    public static AppPage getNewPageInstance(Browser currentBrowser) {
-        return getNewPageInstance(currentBrowser, GenericAppPage.class);
-    }
-
-    /**
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code newPageType}.
      */
     public <T extends AppPage> T changePageType(Class<T> newPageType) {
         return getNewPageInstance(browser, newPageType);
-    }
-
-    /**
-     * Gives a {@link LoginPage} instance based on the given {@link Browser} and test configuration.
-     * Fails if the page content does not match the content of the expected login page.
-     */
-    public static LoginPage createCorrectLoginPageType(Browser browser) {
-        Class<? extends LoginPage> cls =
-                TestProperties.isDevServer() ? DevServerLoginPage.class : GoogleLoginPage.class;
-        return getNewPageInstance(browser, cls);
     }
 
     public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
@@ -209,6 +199,14 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.stalenessOf(element));
     }
 
+    public void verifyUnclickable(WebElement element) {
+        if (element.getTagName().equals("a")) {
+            assertTrue(element.getAttribute("class").contains("disabled"));
+        } else {
+            assertNotNull(element.getAttribute("disabled"));
+        }
+    }
+
     /**
      * Waits for a confirmation modal to appear and click the confirm button.
      */
@@ -251,6 +249,17 @@ public abstract class AppPage {
     public void reloadPage() {
         browser.driver.get(browser.driver.getCurrentUrl());
         waitForPageToLoad();
+    }
+
+    public void reloadPageIfStuckLoading() {
+        By loadingContainer = By.className("loading-container");
+        try {
+            if (isElementPresent(loadingContainer)) {
+                waitForElementStaleness(browser.driver.findElement(loadingContainer));
+            }
+        } catch (TimeoutException e) {
+            reloadPage();
+        }
     }
 
     protected Object executeScript(String script, Object... args) {

@@ -17,15 +17,15 @@ import teammates.ui.request.Intent;
 /**
  * Confirm the submission of a feedback session.
  */
-public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmissionAction {
+class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmissionAction {
 
     @Override
-    protected AuthType getMinAuthLevel() {
+    AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    public void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
@@ -49,7 +49,7 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
     }
 
     @Override
-    public JsonResult execute() {
+    JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
@@ -61,15 +61,6 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
-            boolean hasStudentRespondedForSession =
-                    logic.hasGiverRespondedForSession(studentAttributes.getEmail(), feedbackSessionName, courseId);
-            if (hasStudentRespondedForSession) {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, studentAttributes.getEmail(), false, false);
-            } else {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, studentAttributes.getEmail(), false, true);
-            }
             if (isSubmissionEmailConfirmationEmailRequested) {
                 email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(
                             feedbackSession, studentAttributes, Instant.now());
@@ -77,15 +68,6 @@ public class ConfirmFeedbackSessionSubmissionAction extends BasicFeedbackSubmiss
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
-            boolean hasInstructorRespondedForSession =
-                    logic.hasGiverRespondedForSession(instructorAttributes.getEmail(), feedbackSessionName, courseId);
-            if (hasInstructorRespondedForSession) {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, instructorAttributes.getEmail(), true, false);
-            } else {
-                taskQueuer.scheduleUpdateRespondentForSession(
-                        courseId, feedbackSessionName, instructorAttributes.getEmail(), true, true);
-            }
             if (isSubmissionEmailConfirmationEmailRequested) {
                 email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(
                         feedbackSession, instructorAttributes, Instant.now());

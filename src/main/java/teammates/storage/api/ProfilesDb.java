@@ -139,19 +139,19 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
     }
 
     @Override
-    protected LoadType<StudentProfile> load() {
+    LoadType<StudentProfile> load() {
         return ofy().load().type(StudentProfile.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(StudentProfileAttributes entityToCreate) {
+    boolean hasExistingEntities(StudentProfileAttributes entityToCreate) {
         Key<Account> parentKey = Key.create(Account.class, entityToCreate.getGoogleId());
         Key<StudentProfile> childKey = Key.create(parentKey, StudentProfile.class, entityToCreate.getGoogleId());
         return !load().filterKey(childKey).keys().list().isEmpty();
     }
 
     @Override
-    protected StudentProfileAttributes makeAttributes(StudentProfile entity) {
+    StudentProfileAttributes makeAttributes(StudentProfile entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return StudentProfileAttributes.valueOf(entity);
