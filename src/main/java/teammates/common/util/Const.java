@@ -618,6 +618,7 @@ public final class Const {
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
         public static final String STUDENT_PROFILE_PAGE = STUDENT_PAGE + "/profile";
+        public static final String STUDENT_SESSION_SUBMISSION_PAGE = STUDENT_PAGE + "/sessions/submission";
         public static final String STUDENT_SESSION_RESULTS_PAGE = STUDENT_PAGE + "/sessions/result";
 
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";

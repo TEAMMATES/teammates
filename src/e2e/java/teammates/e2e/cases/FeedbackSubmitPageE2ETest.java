@@ -36,9 +36,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/FeedbackSubmitPageE2ETest.json");
         testData.feedbackSessions.get("Grace Period Session").setEndTime(Instant.now());
         student = testData.students.get("Alice");
-        if (!TestProperties.isDevServer()) {
-            student.email = TestProperties.TEST_EMAIL;
-        }
+        student.email = TestProperties.TEST_EMAIL;
+        
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("SFSubmitE2eT.instr");
@@ -185,7 +184,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     }
 
     private AppUrl getStudentSubmitPageUrl(StudentAttributes student, FeedbackSessionAttributes session) {
-        return createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+        return createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
                 .withSessionName(session.getFeedbackSessionName());

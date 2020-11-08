@@ -251,17 +251,6 @@ public abstract class AppPage {
         waitForPageToLoad();
     }
 
-    public void reloadPageIfStuckLoading() {
-        By loadingContainer = By.className("loading-container");
-        try {
-            if (isElementPresent(loadingContainer)) {
-                waitForElementStaleness(browser.driver.findElement(loadingContainer));
-            }
-        } catch (TimeoutException e) {
-            reloadPage();
-        }
-    }
-
     protected Object executeScript(String script, Object... args) {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) browser.driver;
         return javascriptExecutor.executeScript(script, args);
