@@ -50,9 +50,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "btn-fs-save")
     private WebElement fsSaveButton;
 
-    @FindBy(id = "btn-fs-delete")
-    private WebElement fsDeleteButton;
-
     @FindBy(id = "btn-fs-copy")
     private WebElement fsCopyButton;
 
@@ -290,7 +287,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void deleteSession() {
-        clickAndConfirm(fsDeleteButton);
+        clickAndConfirm(waitForElementPresence(By.id("btn-fs-delete")));
     }
 
     public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
@@ -1143,7 +1140,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void addNewQuestion(int optionNumber) {
         click(addNewQuestionButton);
         WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
-        click(newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1));
+        WebElement optionButton = newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1);
+        if (optionNumber == 1) {
+            click(optionButton);
+        } else {
+            clickAndWaitForNewQuestion(optionButton);
+        }
     }
 
     private void clickSaveNewQuestionButton() {

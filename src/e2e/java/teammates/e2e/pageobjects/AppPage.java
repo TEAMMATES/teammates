@@ -182,9 +182,13 @@ public abstract class AppPage {
     }
 
     public void waitUntilAnimationFinish() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 2);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 3);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
-        ThreadHelper.waitFor(500);
+        ThreadHelper.waitFor(1000);
+    }
+
+    public void waitForLoadingElement() {
+        waitForElementStaleness(waitForElementPresence(By.className("loading-container")));
     }
 
     /**

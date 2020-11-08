@@ -60,8 +60,7 @@ public class InstructorSearchPage extends AppPage {
             searchKeyword.clear();
             searchKeyword.sendKeys(searchTerm);
             click(searchButton);
-            waitForPageToLoad(true);
-            waitUntilAnimationFinish();
+            waitForLoadingElement();
         } else {
             verifyUnclickable(searchButton);
         }
