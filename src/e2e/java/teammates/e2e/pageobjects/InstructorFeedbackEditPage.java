@@ -1514,12 +1514,12 @@ public class InstructorFeedbackEditPage extends AppPage {
             List<WebElement> textAreas = getRubricTextareas(questionNum, i + 2);
             fillTextBox(textAreas.get(0), subQuestions.get(i));
             for (int j = 0; j < numChoices; j++) {
+                fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
                 if (descriptions.get(i).get(j).isEmpty()) {
-                    // using clear does not work here
-                    textAreas.get(j + 1).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                    textAreas.get(j + 1).sendKeys(Keys.DELETE);
-                } else {
-                    fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
+                    // using clear does not send the required event
+                    // as a workaround, after clearing without event, enter a random character and delete it
+                    textAreas.get(j + 1).sendKeys("a");
+                    textAreas.get(j + 1).sendKeys(Keys.BACK_SPACE);
                 }
             }
         }

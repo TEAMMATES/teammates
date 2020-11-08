@@ -132,8 +132,8 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     private void fillEnrollSpreadsheet(String[][] expectedStudentData) {
         WebElement firstCell = getEnrollSpreadsheetFirstCell();
+        scrollElementToCenterAndClick(firstCell);
         Actions actions = new Actions(browser.driver);
-        actions.click(firstCell).perform();
         for (String[] expectedRowData : expectedStudentData) {
             for (String expectedCellData : expectedRowData) {
                 actions.sendKeys(expectedCellData + Keys.TAB).perform();
@@ -141,9 +141,7 @@ public class InstructorCourseEnrollPage extends AppPage {
         }
     }
 
-    // Does not work if first cell is not visible
     private WebElement getEnrollSpreadsheetFirstCell() {
-        setWindowSize(1000, 1000);
         return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
     }
 

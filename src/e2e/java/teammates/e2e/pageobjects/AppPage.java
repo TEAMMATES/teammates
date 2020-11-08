@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -640,14 +639,6 @@ public abstract class AppPage {
                 }
             }
         }
-    }
-
-    /**
-     * Set browser window to x width and y height.
-     */
-    protected void setWindowSize(int x, int y) {
-        Dimension d = new Dimension(x, y);
-        browser.driver.manage().window().setSize(d);
     }
 
     /**
