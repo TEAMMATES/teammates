@@ -177,7 +177,7 @@ public class Browser {
 
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("download.default_directory", downloadPath);
-            chromePrefs.put("profile.default_content_settings.popups", 0);
+            chromePrefs.put("download.prompt_for_download", false);
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
