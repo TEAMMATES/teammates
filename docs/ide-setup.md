@@ -1,6 +1,7 @@
 # Set up an IDE
 
 - [IntelliJ IDEA](#intellij-idea)
+- [Eclipse](#eclipse)
 
 ## IntelliJ IDEA
 
@@ -62,5 +63,56 @@ You can sign up for the free [JetBrains student license](https://www.jetbrains.c
      Go to `Editor → File Encodings` and ensure that `Project Encoding` and `Default Encoding for properties files` is set to `UTF-8`.
 
 1. Click `OK`.
+
+1. To move on to the development phase, refer to [this document](development.md).
+
+---
+
+## Eclipse
+
+### Prerequisites
+
+1. You need a Java 8 SDK defined in Eclipse as follows:
+
+   * Click `Window → Preferences → Java → Installed JREs → Add`.
+   * Select `Standard VM` under `Add JRE → Next`.
+   * Select JDK 1.8 Directory and hit `Finish`
+
+### Project Setup
+
+1. Import the project as a Gradle project as follows:
+   1. Project Explorer  → `Right-Click` → `Import` → `Existing Gradle Project`.
+   1. Select the local repository folder and click `Finish`  
+  *(It may take few minutes to finish importing and building the project)*
+
+1. Solve known issues: 
+   
+   * `The type package-info.java is already defined:`
+     1. Select Project in Project Explorer
+     1. `Right-Click → Properties → Java Build Path`
+     1. Select `Source` Tab
+     1. Search for `{projectName}/src/test/java`
+     1. `Double-Click` on `Excluded`
+     1. In Exclusion patters click `Add`
+     1. Add `**/package-info.java` and click `Ok` then `Finish`
+     *You may need to rebuild the project*
+     
+   * `Referenced file contains errros (http://pmd.sourceforge.net/ruleset_2_0_0.xsd):`
+     1. Issue resolved [HERE](https://github.com/TEAMMATES/teammates/pull/10839)
+
+
+1. Configure the following project-specific settings:
+
+   * Indentation: 2 spaces are used in place of tabs for indentations. For Java and XML, 4 spaces are used instead.
+     Configure for all the languages used in TEAMMATES:
+     1. Go to `Window → Preferencee → Java → Code Style → Formatter`.
+     1. For `TypeScript`, `JSON`, `CSS`, and `HTML`:
+        * Ensure that `Use tab character` is unchecked, and `Tab size:`, `Indent:`, and `Continuation indent:` are `2`, `2`, and `4` respectively.
+     1. Repeat the previous step for `Java` and `XML` using the numbers `4`, `4`, and `8` respectively.
+
+   * Text encoding: `UTF-8` is used for text encoding.
+     Go to `Window → Preferencee General → Workspace` and ensure that `Text file encoding` is set to `Other → UTF-8`.
+
+1. Click `Apply and Close`.
 
 1. To move on to the development phase, refer to [this document](development.md).
