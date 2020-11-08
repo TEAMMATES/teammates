@@ -1,61 +1,61 @@
 {
   "accounts": {
-    "SFResultsE2e.instr": {
-      "googleId": "SFResultsE2e.instr",
+    "SFRes.instr": {
+      "googleId": "tm.e2e.SFRes.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "SFResultsE2e.instr@gmail.tmt",
+      "email": "SFRes.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFResultsE2e.alice.b": {
-      "googleId": "SFResultsE2e.alice.b",
+    "SFRes.alice.b": {
+      "googleId": "tm.e2e.SFRes.alice.b",
       "name": "Alice B.",
       "isInstructor": false,
-      "email": "SFResultsE2e.alice.b@gmail.tmt",
+      "email": "SFRes.alice.b@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFResultsE2e.benny.c": {
-      "googleId": "SFResultsE2e.benny.c",
+    "SFRes.benny.c": {
+      "googleId": "tm.e2e.SFRes.benny.c",
       "name": "Benny C.",
       "isInstructor": false,
-      "email": "SFResultsE2e.benny.c@gmail.tmt",
+      "email": "SFRes.benny.c@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFResultsE2e.charlie.d": {
-      "googleId": "SFResultsE2e.charlie.d",
+    "SFRes.charlie.d": {
+      "googleId": "tm.e2e.SFRes.charlie.d",
       "name": "Charlie D.",
       "isInstructor": false,
-      "email": "SFResultsE2e.charlie.d@gmail.tmt",
+      "email": "SFRes.charlie.d@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFResultsE2e.danny.e": {
-      "googleId": "SFResultsE2e.danny.e",
+    "SFRes.danny.e": {
+      "googleId": "tm.e2e.SFRes.danny.e",
       "name": "Danny E.",
       "isInstructor": false,
-      "email": "SFResultsE2e.danny.e@gmail.tmt",
+      "email": "SFRes.danny.e@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFResultsE2e.emily.f": {
-      "googleId": "SFResultsE2e.emily.f",
+    "SFRes.emily.f": {
+      "googleId": "tm.e2e.SFRes.emily.f",
       "name": "Emily F.",
       "isInstructor": false,
-      "email": "SFResultsE2e.emily.f@gmail.tmt",
+      "email": "SFRes.emily.f@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "SFResultsE2e.CS2104": {
-      "id": "SFResultsE2e.CS2104",
+    "SFRes.CS2104": {
+      "id": "tm.e2e.SFRes.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "SFResultsE2e.instr": {
-      "googleId": "SFResultsE2e.instr",
-      "courseId": "SFResultsE2e.CS2104",
+    "SFRes.instr": {
+      "googleId": "tm.e2e.SFRes.instr",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "name": "Teammates Test",
-      "email": "SFResultsE2e.instr@gmail.tmt",
+      "email": "SFRes.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Co-owner",
@@ -74,11 +74,11 @@
         "sessionLevel": {}
       }
     },
-    "SFResultsE2e.instr2": {
-      "googleId": "SFResultsE2e.instr2",
-      "courseId": "SFResultsE2e.CS2104",
+    "SFRes.instr2": {
+      "googleId": "tm.e2e.SFRes.instr2",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "name": "Teammates Test 2",
-      "email": "SFResultsE2e.instr2@gmail.tmt",
+      "email": "SFRes.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Co-owner",
@@ -100,27 +100,27 @@
   },
   "students": {
     "Alice": {
-      "googleId": "SFResultsE2e.alice.b",
-      "email": "SFResultsE2e.alice.b@gmail.tmt",
-      "course": "SFResultsE2e.CS2104",
+      "googleId": "tm.e2e.SFRes.alice.b",
+      "email": "SFRes.alice.b@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
     "Benny": {
-      "googleId": "SFResultsE2e.benny.c",
-      "email": "SFResultsE2e.benny.c@gmail.tmt",
-      "course": "SFResultsE2e.CS2104",
+      "googleId": "tm.e2e.SFRes.benny.c",
+      "email": "SFRes.benny.c@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
     "Charlie": {
-      "googleId": "SFResultsE2e.charlie.d",
-      "email": "SFResultsE2e.charlie.d@gmail.tmt",
-      "course": "SFResultsE2e.CS2104",
+      "googleId": "tm.e2e.SFRes.charlie.d",
+      "email": "SFRes.charlie.d@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1",
@@ -129,25 +129,25 @@
     "Unregistered": {
       "googleId": "",
       "email": "Unregistered@gmail.tmt",
-      "course": "SFResultsE2e.CS2104",
+      "course": "tm.e2e.SFRes.CS2104",
       "name": "Unregistered",
       "comments": "This student has not registered",
       "team": "Team 2",
       "section": "None"
     },
     "Danny": {
-      "googleId": "SFResultsE2e.danny.e",
-      "email": "SFResultsE2e.danny.e@gmail.tmt",
-      "course": "SFResultsE2e.CS2104",
+      "googleId": "tm.e2e.SFRes.danny.e",
+      "email": "SFRes.danny.e@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
       "section": "None"
     },
     "Emily": {
-      "googleId": "SFResultsE2e.emily.f",
-      "email": "SFResultsE2e.emily.f@gmail.tmt",
-      "course": "SFResultsE2e.CS2104",
+      "googleId": "tm.e2e.SFRes.emily.f",
+      "email": "SFRes.emily.f@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
       "name": "Emily",
       "comments": "This student's name is Emily",
       "team": "Team 3",
@@ -157,8 +157,8 @@
   "feedbackSessions": {
     "Open Session": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
-      "creatorEmail": "SFResultsE2e.instr@gmail.tmt",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "creatorEmail": "SFRes.instr@gmail.tmt",
       "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
@@ -179,7 +179,7 @@
   "feedbackQuestions": {
     "qn1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "How can this student improve?"
@@ -203,7 +203,7 @@
     },
     "qn2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Rate 3 other students' products"
@@ -228,7 +228,7 @@
     },
     "qn3": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "numOfMcqChoices": 2,
         "mcqChoices": [
@@ -257,7 +257,7 @@
     },
     "qn4": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "msqChoices": [],
         "questionText": "Which students would you recommend to be a tutor?",
@@ -290,7 +290,7 @@
     },
     "qn5": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "minScale": 1,
         "questionText": "Rate your teammates contributions?",
@@ -317,7 +317,7 @@
     },
     "qn6": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "distributeToRecipients": false,
         "pointsPerOption": false,
@@ -355,7 +355,7 @@
     },
     "qn7": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "distributeToRecipients": true,
         "pointsPerOption": true,
@@ -382,7 +382,7 @@
     },
     "qn8": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionNumber": 8,
       "questionDetails": {
         "areDuplicatesAllowed": true,
@@ -414,7 +414,7 @@
     },
     "qn9": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "areDuplicatesAllowed": true,
         "questionType": "RANK_RECIPIENTS",
@@ -440,7 +440,7 @@
     },
     "qn10": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "rubricSubQuestions": [
           "This teammate is hardworking.",
@@ -524,7 +524,7 @@
     },
     "qn11": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "questionText": "Rate the contribution by yourself and your team members.",
         "questionType": "CONTRIB"
@@ -546,7 +546,7 @@
     },
     "qn12": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "questionDetails": {
         "questionText": "Say something nice to your teammates.",
         "questionType": "TEXT"
@@ -570,10 +570,10 @@
   "feedbackResponses": {
     "qn1response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "SFResultsE2e.instr@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.instr@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Instructor response to Alice."
@@ -581,10 +581,10 @@
     },
     "qn1response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "SFResultsE2e.instr@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.instr@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Instructor response to Benny."
@@ -592,10 +592,10 @@
     },
     "qn2response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "2",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response to Benny."
@@ -603,9 +603,9 @@
     },
     "qn2response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "2",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
       "recipient": "Unregistered@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
@@ -614,10 +614,10 @@
     },
     "qn2responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "2",
       "giver": "Unregistered@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from Unregistered to Alice."
@@ -625,10 +625,10 @@
     },
     "qn2responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "2",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from Benny to Alice."
@@ -636,10 +636,10 @@
     },
     "qn2responseC": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "2",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.danny.e@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.danny.e@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from Benny to Danny."
@@ -647,10 +647,10 @@
     },
     "qn2responseD": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "2",
-      "giver": "SFResultsE2e.danny.e@gmail.tmt",
-      "recipient": "SFResultsE2e.emily.f@gmail.tmt",
+      "giver": "SFRes.danny.e@gmail.tmt",
+      "recipient": "SFRes.emily.f@gmail.tmt",
       "responseDetails": {
         "questionType": "TEXT",
         "answer": "Response from Danny to Emily."
@@ -658,10 +658,10 @@
     },
     "qn3response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "3",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "MCQ",
         "answer": "",
@@ -671,10 +671,10 @@
     },
     "qn3response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "3",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "MCQ",
         "answer": "Algo"
@@ -682,10 +682,10 @@
     },
     "qn3responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "3",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "MCQ",
         "answer": "UI"
@@ -693,10 +693,10 @@
     },
     "qn3responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "3",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "MCQ",
         "answer": "",
@@ -706,9 +706,9 @@
     },
     "qn4response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "4",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {
         "questionType": "MSQ",
@@ -720,9 +720,9 @@
     },
     "qn4responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "4",
-      "giver": "SFResultsE2e.danny.e@gmail.tmt",
+      "giver": "SFRes.danny.e@gmail.tmt",
       "recipient": "%GENERAL%",
       "responseDetails": {
         "questionType": "MSQ",
@@ -733,10 +733,10 @@
     },
     "qn5response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
         "answer": 3
@@ -744,10 +744,10 @@
     },
     "qn5response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
         "answer": 4.5
@@ -755,10 +755,10 @@
     },
     "qn5response3": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
         "answer": 4.5
@@ -766,10 +766,10 @@
     },
     "qn5responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
         "answer": 4
@@ -777,10 +777,10 @@
     },
     "qn5responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
         "answer": 3
@@ -788,10 +788,10 @@
     },
     "qn5responseC": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.benny.e@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.benny.e@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
         "answers": 1
@@ -799,9 +799,9 @@
     },
     "qn5responseD": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "5",
-      "giver": "SFResultsE2e.danny.e@gmail.tmt",
+      "giver": "SFRes.danny.e@gmail.tmt",
       "recipient": "Unregistered@gmail.tmt",
       "responseDetails": {
         "questionType": "NUMSCALE",
@@ -810,10 +810,10 @@
     },
     "qn6response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "6",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -824,10 +824,10 @@
     },
     "qn6responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "6",
-      "giver": "SFResultsE2e.emily.f@gmail.tmt",
-      "recipient": "SFResultsE2e.emily.f@gmail.tmt",
+      "giver": "SFRes.emily.f@gmail.tmt",
+      "recipient": "SFRes.emily.f@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -838,10 +838,10 @@
     },
     "qn7response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "7",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -851,10 +851,10 @@
     },
     "qn7response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "7",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -864,10 +864,10 @@
     },
     "qn7response3": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "7",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -877,10 +877,10 @@
     },
     "qn7responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "7",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -890,10 +890,10 @@
     },
     "qn7responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "7",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "CONSTSUM",
         "answers": [
@@ -903,7 +903,7 @@
     },
     "qn8response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "8",
       "giver": "Team 1",
       "recipient": "Team 2",
@@ -914,7 +914,7 @@
     },
     "qn8responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "8",
       "giver": "Team 2",
       "recipient": "Team 1",
@@ -925,7 +925,7 @@
     },
     "qn8responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "8",
       "giver": "Team 2",
       "recipient": "Team 3",
@@ -936,10 +936,10 @@
     },
     "qn9response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "9",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.instr2@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.instr2@gmail.tmt",
       "responseDetails": {
         "questionType": "RANK_RECIPIENTS",
         "answer": 1
@@ -947,10 +947,10 @@
     },
     "qn9response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "9",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.instr@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.instr@gmail.tmt",
       "responseDetails": {
         "questionType": "RANK_RECIPIENTS",
         "answer": 2
@@ -958,10 +958,10 @@
     },
     "qn9responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "9",
-      "giver": "SFResultsE2e.emily.f@gmail.tmt",
-      "recipient": "SFResultsE2e.instr2@gmail.tmt",
+      "giver": "SFRes.emily.f@gmail.tmt",
+      "recipient": "SFRes.instr2@gmail.tmt",
       "responseDetails": {
         "questionType": "RANK_RECIPIENTS",
         "answer": 2
@@ -969,10 +969,10 @@
     },
     "qn9responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "9",
-      "giver": "SFResultsE2e.emily.f@gmail.tmt",
-      "recipient": "SFResultsE2e.instr@gmail.tmt",
+      "giver": "SFRes.emily.f@gmail.tmt",
+      "recipient": "SFRes.instr@gmail.tmt",
       "responseDetails": {
         "questionType": "RANK_RECIPIENTS",
         "answer": 1
@@ -980,10 +980,10 @@
     },
     "qn10response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [1,2,3]
@@ -991,10 +991,10 @@
     },
     "qn10response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [1,2,3]
@@ -1002,10 +1002,10 @@
     },
     "qn10response3": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [1,2,3]
@@ -1013,10 +1013,10 @@
     },
     "qn10responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [4,4,4]
@@ -1024,10 +1024,10 @@
     },
     "qn10responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [0,4,3]
@@ -1035,10 +1035,10 @@
     },
     "qn10responseC": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [0,0,0]
@@ -1046,10 +1046,10 @@
     },
     "qn10responseD": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "10",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "RUBRIC",
         "answer": [3,2,2]
@@ -1057,10 +1057,10 @@
     },
     "qn11response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 120
@@ -1068,10 +1068,10 @@
     },
     "qn11response2": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 150
@@ -1079,10 +1079,10 @@
     },
     "qn11response3": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.alice.b@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 50
@@ -1090,10 +1090,10 @@
     },
     "qn11responseA": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 150
@@ -1101,10 +1101,10 @@
     },
     "qn11responseB": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 180
@@ -1112,10 +1112,10 @@
     },
     "qn11responseC": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.benny.c@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 100
@@ -1123,10 +1123,10 @@
     },
     "qn11responseD": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.alice.b@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 150
@@ -1134,10 +1134,10 @@
     },
     "qn11responseE": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.benny.c@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 0
@@ -1145,10 +1145,10 @@
     },
     "qn11responseF": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackQuestionId": "11",
-      "giver": "SFResultsE2e.charlie.d@gmail.tmt",
-      "recipient": "SFResultsE2e.charlie.d@gmail.tmt",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
       "responseDetails": {
         "questionType": "CONTRIB",
         "answer": 200
@@ -1157,13 +1157,13 @@
   },
   "feedbackResponseComments": {
     "qn2Comment1": {
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "2",
-      "commentGiver": "SFResultsE2e.instr@gmail.tmt",
+      "commentGiver": "SFRes.instr@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "2%Unregistered@gmail.tmt%SFResultsE2e.alice.b@gmail.tmt",
+      "feedbackResponseId": "2%Unregistered@gmail.tmt%SFRes.alice.b@gmail.tmt",
       "showCommentTo": [
         "STUDENTS"
       ],
@@ -1177,13 +1177,13 @@
       "commentText": "Instructor first comment to Alice"
     },
     "qn2Comment2": {
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "2",
-      "commentGiver": "SFResultsE2e.instr@gmail.tmt",
+      "commentGiver": "SFRes.instr@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "2%Unregistered@gmail.tmt%SFResultsE2e.alice.b@gmail.tmt",
+      "feedbackResponseId": "2%Unregistered@gmail.tmt%SFRes.alice.b@gmail.tmt",
       "showCommentTo": [
         "STUDENTS"
       ],
@@ -1194,18 +1194,18 @@
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "createdAt": "2026-03-01T23:59:00Z",
-      "lastEditorEmail": "SFResultsE2e.instr@gmail.tmt",
+      "lastEditorEmail": "SFRes.instr@gmail.tmt",
       "lastEditedAt": "2026-03-02T23:59:00Z",
       "commentText": "Instructor second comment to Alice"
     },
     "qn3Comment1": {
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "3",
-      "commentGiver": "SFResultsE2e.benny.c@gmail.tmt",
+      "commentGiver": "SFRes.benny.c@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "3%SFResultsE2e.benny.c@gmail.tmt%SFResultsE2e.alice.b@gmail.tmt",
+      "feedbackResponseId": "3%SFRes.benny.c@gmail.tmt%SFRes.alice.b@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "STUDENTS",
@@ -1215,13 +1215,13 @@
       "commentText": "Benny comment to Alice"
     },
     "qn3Comment2": {
-      "courseId": "SFResultsE2e.CS2104",
+      "courseId": "tm.e2e.SFRes.CS2104",
       "feedbackSessionName": "First Session",
       "feedbackQuestionId": "3",
-      "commentGiver": "SFResultsE2e.alice.b@gmail.tmt",
+      "commentGiver": "SFRes.alice.b@gmail.tmt",
       "giverSection": "None",
       "receiverSection": "None",
-      "feedbackResponseId": "3%SFResultsE2e.alice.b@gmail.tmt%SFResultsE2e.benny.c@gmail.tmt",
+      "feedbackResponseId": "3%SFRes.alice.b@gmail.tmt%SFRes.benny.c@gmail.tmt",
       "showCommentTo": [],
       "showGiverNameTo": [],
       "commentGiverType": "STUDENTS",

@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FContributionQuestionE2eT.instructor",
+      "googleId": "tm.e2e.FContrQn.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FContributionQuestionE2eT.CS2104",
+      "id": "tm.e2e.FContrQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FContributionQuestionE2eT.CS1101",
+      "id": "tm.e2e.FContrQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FContributionQuestionE2eT.instructor",
-      "courseId": "FContributionQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FContrQn.instructor",
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FContributionQuestionE2eT.instructor",
-      "courseId": "FContributionQuestionE2eT.CS1101",
+      "googleId": "tm.e2e.FContrQn.instructor",
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,37 +69,37 @@
     }
   },
   "students": {
-    "alice.tmms@FContributionQuestionE2eT.CS2104": {
-      "googleId": "FContributionQuestionE2eT.alice.tmms",
+    "alice.tmms@FContrQn.CS2104": {
+      "googleId": "tm.e2e.FContrQn.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FContributionQuestionE2eT.CS2104",
+      "course": "tm.e2e.FContrQn.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@FContributionQuestionE2eT.CS2104": {
-      "googleId": "FContributionQuestionE2eT.benny.tmms",
+    "benny.tmms@FContrQn.CS2104": {
+      "googleId": "tm.e2e.FContrQn.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "FContributionQuestionE2eT.CS2104",
+      "course": "tm.e2e.FContrQn.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "charlie.tmms@FContributionQuestionE2eT.CS2104": {
-      "googleId": "charlie.tmms",
-      "email": "FContributionQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FContributionQuestionE2eT.CS2104",
+    "charlie.tmms@FContrQn.CS2104": {
+      "googleId": "tm.e2e.FContrQn.charlie.tmms",
+      "email": "FContrQn.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.FContrQn.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1",
       "section": "None"
     },
-    "danny.tmms@FContributionQuestionE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "FContributionQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FContributionQuestionE2eT.CS1101",
+    "danny.tmms@FContrQn.CS1101": {
+      "googleId": "tm.e2e.FContrQn.danny.tmms",
+      "email": "FContrQn.danny.tmms@gmail.tmt",
+      "course": "tm.e2e.FContrQn.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -109,7 +109,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FContributionQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -129,7 +129,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FContributionQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -151,7 +151,7 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FContributionQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "questionDetails": {
         "isNotSureAllowed": true,
         "questionType": "CONTRIB",
@@ -177,7 +177,7 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FContributionQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "questionDetails": {
         "isNotSureAllowed": false,
         "questionType": "CONTRIB",

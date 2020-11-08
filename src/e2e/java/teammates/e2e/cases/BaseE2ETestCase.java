@@ -79,6 +79,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected abstract void prepareTestData() throws Exception;
 
+    protected abstract void testAll();
+
     @Override
     protected String getTestDataFolder() {
         return TestProperties.TEST_DATA_FOLDER;
@@ -211,6 +213,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     protected void verifyEmailSent(String email, String subject) {
         if (TestProperties.isDevServer() || !TestProperties.INCLUDE_EMAIL_VERIFICATION) {
             return;
+        }
+        if (!TestProperties.TEST_EMAIL.equals(email)) {
+            fail("Email verification is allowed only on preset test email.");
         }
         EmailAccount emailAccount = new EmailAccount(email);
         try {

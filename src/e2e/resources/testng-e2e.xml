@@ -9,7 +9,7 @@
             <package name="teammates.e2e.util" />
         </packages>
         <classes>
-            <class name="teammates.e2e.cases.AutomatedSessionRemindersTest" />
+            <class name="teammates.e2e.cases.AutomatedSessionRemindersE2ETest" />
             <class name="teammates.e2e.cases.SystemErrorEmailReportE2ETest" />
             <class name="teammates.e2e.cases.TimezoneSyncerTest" />
             <class name="teammates.e2e.cases.AdminHomePageE2ETest" />

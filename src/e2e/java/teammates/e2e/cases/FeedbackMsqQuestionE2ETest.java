@@ -29,10 +29,11 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FMsqQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FMsqQn.CS2104");
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();
@@ -90,7 +91,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
-        StudentAttributes receiver = testData.students.get("benny.tmms@FMsqQuestionE2eT.CS2104");
+        StudentAttributes receiver = testData.students.get("benny.tmms@FMsqQn.CS2104");
         feedbackSubmitPage.verifyMsqQuestion(1, receiver.getName(),
                 (FeedbackMsqQuestionDetails) question.getQuestionDetails());
 

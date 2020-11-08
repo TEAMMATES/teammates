@@ -16,11 +16,11 @@ import teammates.e2e.util.TestProperties;
  *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_CLOSED_REMINDERS},
  *      {@link Const.CronJobURIs#AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS}.
  */
-public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
+public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
+        testData = loadDataBundle("/AutomatedSessionRemindersE2ETest.json");
 
         // When running the test against a production server, email alerts will be sent
         // to the specified email address
@@ -29,8 +29,8 @@ public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
 
         String student1Email = TestProperties.TEST_EMAIL;
         testData.accounts.get("instructorWithEvals").email = student1Email;
-        testData.instructors.get("AutSessRem.instructor").email = student1Email;
-        testData.students.get("alice.tmms@AutSessRem.course").email = student1Email;
+        testData.instructors.get("AutSesRem.instructor").email = student1Email;
+        testData.students.get("alice.tmms@AutSesRem.course").email = student1Email;
         testData.feedbackSessions.get("closedSession").setCreatorEmail(student1Email);
         testData.feedbackSessions.get("closingSession").setCreatorEmail(student1Email);
         testData.feedbackSessions.get("openingSession").setCreatorEmail(student1Email);
@@ -56,27 +56,31 @@ public class AutomatedSessionRemindersTest extends BaseE2ETestCase {
     // In all the tests, we need to explicitly log in as admin
     // because the cron job URLs are additionally protected by admin constraint in web.xml
     // and adding backdoor key is not sufficient to bypass it
-
     @Test
-    public void testFeedbackSessionOpeningReminders() {
+    @Override
+    public void testAll() {
+        testFeedbackSessionOpeningReminders();
+        testFeedbackSessionClosingReminders();
+        testFeedbackSessionClosedReminders();
+        testFeedbackSessionPublishedReminders();
+    }
+
+    private void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
     }
 
-    @Test
-    public void testFeedbackSessionClosingReminders() {
+    private void testFeedbackSessionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
     }
 
-    @Test
-    public void testFeedbackSessionClosedReminders() {
+    private void testFeedbackSessionClosedReminders() {
         AppUrl closedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
         loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
     }
 
-    @Test
-    public void testFeedbackSessionPublishedReminders() {
+    private void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
     }

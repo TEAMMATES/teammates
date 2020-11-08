@@ -39,7 +39,8 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() throws Exception {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withUserId(instructor.googleId)
                 .withCourseId(course.getId())
@@ -128,7 +129,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview session as student");
         FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(
-                testData.students.get("benny.tmms@CFeedbackEditE2eT.CS2104"));
+                testData.students.get("benny.tmms@IFEdit.CS2104"));
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview session as instructor");

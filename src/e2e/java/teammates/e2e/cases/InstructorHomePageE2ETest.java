@@ -41,15 +41,15 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorHomePageE2ETest.json");
-        studentToEmail = testData.students.get("IHomeE2eT.charlie.d.tmms@IHomeE2eT.CS2104");
+        studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
         studentToEmail.email = TestProperties.TEST_EMAIL;
 
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
 
-        instructor = testData.instructors.get("IHomeE2eT.instr.CS2104");
-        course = testData.courses.get("IHomeE2eT.CS2104");
-        otherCourse = testData.courses.get("IHomeE2eT.CS1101");
+        instructor = testData.instructors.get("IHome.instr.CS2104");
+        course = testData.courses.get("IHome.CS2104");
+        otherCourse = testData.courses.get("IHome.CS1101");
 
         feedbackSessionAwaiting = testData.feedbackSessions.get("Second Feedback Session");
         feedbackSessionOpen = testData.feedbackSessions.get("First Feedback Session");
@@ -67,7 +67,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(instructor.googleId);
         InstructorHomePage homePage = loginAdminToPage(url, InstructorHomePage.class);
 
@@ -172,7 +173,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         ______TS("download results");
         homePage.downloadResults(courseIndex, sessionIndex);
-        List<String> expectedContent = Arrays.asList("Course,IHomeE2eT.CS2104",
+        List<String> expectedContent = Arrays.asList("Course,tm.e2e.IHome.CS2104",
                 "Session Name,First Feedback Session", "Question 1,Rate 5 other students' products");
         verifyDownloadedFile(fileName, expectedContent);
 

@@ -40,13 +40,14 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         removeAndRestoreDataBundle(testData);
 
-        instructor = testData.instructors.get("SFSubmitE2eT.instr");
+        instructor = testData.instructors.get("FSubmit.instr");
         openSession = testData.feedbackSessions.get("Open Session");
         closedSession = testData.feedbackSessions.get("Closed Session");
         gracePeriodSession = testData.feedbackSessions.get("Grace Period Session");
     }
 
     @Test
+    @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withUserId(instructor.getGoogleId())
@@ -107,7 +108,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.submitMcqResponse(1, recipient, response);
 
         verifyEmailSent(student.getEmail(), "TEAMMATES: Feedback responses successfully recorded"
-                + " [Course: " + testData.courses.get("SFSubmitE2eT.CS2104").getName() + "][Feedback Session: "
+                + " [Course: " + testData.courses.get("FSubmit.CS2104").getName() + "][Feedback Session: "
                 + gracePeriodSession.getFeedbackSessionName() + "]");
 
         ______TS("add comment");

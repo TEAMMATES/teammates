@@ -41,6 +41,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
 
         ______TS("unregistered student: can access results");

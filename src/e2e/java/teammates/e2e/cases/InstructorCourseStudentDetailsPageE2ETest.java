@@ -21,10 +21,11 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         ______TS("verify loaded details - student with profile");
-        StudentAttributes student = testData.students.get("ICSDetailsE2eT.jose.tmms");
-        StudentProfileAttributes studentProfile = testData.profiles.get("ICSDetailsE2eT.jose.tmms");
+        StudentAttributes student = testData.students.get("ICSDet.jose.tmms");
+        StudentProfileAttributes studentProfile = testData.profiles.get("ICSDet.jose.tmms");
         AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
         InstructorCourseStudentDetailsViewPage viewPage =
                 loginAdminToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
@@ -32,7 +33,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
         viewPage.verifyStudentDetails(studentProfile, student);
 
         ______TS("verify loaded details - student without profile");
-        student = testData.students.get("ICSDetailsE2eT.benny.c");
+        student = testData.students.get("ICSDet.benny.c");
         viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
         viewPage = AppPage.getNewPageInstance(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
 
@@ -41,8 +42,8 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
 
     private AppUrl getStudentDetailsViewPageUrl(String studentEmail) {
         return createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
-                .withUserId(testData.instructors.get("ICSDetailsE2eT.instr").getGoogleId())
-                .withCourseId(testData.courses.get("ICSDetailsE2eT.CS2104").getId())
+                .withUserId(testData.instructors.get("ICSDet.instr").getGoogleId())
+                .withCourseId(testData.courses.get("ICSDet.CS2104").getId())
                 .withStudentEmail(studentEmail);
     }
 }

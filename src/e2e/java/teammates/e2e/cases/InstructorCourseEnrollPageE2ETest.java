@@ -19,10 +19,11 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                .withUserId(testData.instructors.get("ICEnrollE2eT.teammates.test").googleId)
-                .withCourseId(testData.courses.get("ICEnrollE2eT.CS2104").getId());
+                .withUserId(testData.instructors.get("ICEnroll.teammates.test").googleId)
+                .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
         InstructorCourseEnrollPage enrollPage = loginAdminToPage(url, InstructorCourseEnrollPage.class);
 
         ______TS("Add rows to enroll spreadsheet");
@@ -92,7 +93,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
 
     private StudentAttributes createCourseStudent(String section, String team, String name,
                                                   String email, String comments) {
-        return StudentAttributes.builder("ICEnrollE2eT.CS2104", email)
+        return StudentAttributes.builder("tm.e2e.ICEnroll.CS2104", email)
                 .withName(name)
                 .withComment(comments)
                 .withTeamName(team)

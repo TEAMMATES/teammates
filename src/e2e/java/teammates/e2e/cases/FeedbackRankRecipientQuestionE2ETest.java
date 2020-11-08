@@ -29,10 +29,11 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FRankRecipientQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FRankRcptQn.CS2104");
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();

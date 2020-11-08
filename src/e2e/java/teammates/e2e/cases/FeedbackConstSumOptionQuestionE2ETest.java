@@ -26,10 +26,11 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("openSession");
-        student = testData.students.get("alice.tmms@FConstSumOptionQuestionE2eT.CS2104");
+        student = testData.students.get("alice.tmms@FCSumOptQn.CS2104");
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();
