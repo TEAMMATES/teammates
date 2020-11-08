@@ -8,6 +8,7 @@ import java.util.List;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -44,9 +45,18 @@ import teammates.test.FileHelper;
 public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     static final BackDoor BACKDOOR = BackDoor.getInstance();
+    private static Browser sharedBrowser;
 
     protected Browser browser;
     protected DataBundle testData;
+
+    @BeforeSuite
+    protected void determineEnvironment(ITestContext context) {
+        if (!TestProperties.isDevServer()) {
+            // If testing against production server, run in single thread only
+            context.getSuite().getXmlSuite().setThreadCount(1);
+        }
+    }
 
     @BeforeClass
     public void baseClassSetup() throws Exception {
@@ -55,7 +65,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     protected void prepareBrowser() {
-        browser = new Browser();
+        if (TestProperties.isDevServer()) {
+            browser = new Browser();
+        } else {
+            // As the tests are run in single thread, in order to reduce the time wasted on browser setup/teardown,
+            // use a single browser instance for all tests in the suite
+            if (sharedBrowser == null) {
+                sharedBrowser = new Browser();
+            }
+            browser = sharedBrowser;
+        }
     }
 
     protected abstract void prepareTestData() throws Exception;
@@ -79,6 +98,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected void releaseBrowser(boolean isSuccess) {
         if (browser == null) {
+            return;
+        }
+        if (!TestProperties.isDevServer()) {
             return;
         }
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
