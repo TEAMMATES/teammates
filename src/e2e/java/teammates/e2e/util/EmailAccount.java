@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.BodyPart;
 import javax.mail.MessagingException;
@@ -100,20 +101,23 @@ public final class EmailAccount {
     }
 
     /**
-     * Returns true if unread mail contains mail with the specified subject.
+     * Returns true if unread mail that arrived in the past minute contains mail with the specified subject.
      */
-    public boolean isEmailWithSubjectPresent(String subject)
+    public boolean isRecentEmailWithSubjectPresent(String subject, String senderName)
             throws IOException, MessagingException {
 
-        List<Message> messageStubs = getListOfUnreadEmailOfUser();
+        List<Message> messageStubs = getListOfUnreadEmailFromSender(10L, senderName);
 
         for (Message messageStub : messageStubs) {
             Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
                     .execute();
 
             MimeMessage email = convertFromMessageToMimeMessage(message);
+            boolean isSentWithinLastMin =
+                    message.getInternalDate() > System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(1);
 
-            if (email.getSubject().equals(subject)) {
+            if (email.getSubject().equals(subject) && isSentWithinLastMin) {
+                markMessageAsRead(messageStub);
                 return true;
             }
         }
@@ -136,6 +140,18 @@ public final class EmailAccount {
      */
     private List<Message> getListOfUnreadEmailOfUser() throws IOException {
         List<Message> messageStubs = service.users().messages().list(username).setQ("is:UNREAD").execute().getMessages();
+
+        return messageStubs == null ? new ArrayList<>() : messageStubs;
+    }
+
+    /**
+     * Returns a list of up to maxResults number of unread emails from the sender.
+     * Returns an empty list if there is no unread email from sender.
+     */
+    private List<Message> getListOfUnreadEmailFromSender(Long maxResults, String senderName) throws IOException {
+        List<Message> messageStubs = service.users().messages().list(username)
+                .setQ("is:UNREAD from:" + senderName).setMaxResults(maxResults).execute()
+                .getMessages();
 
         return messageStubs == null ? new ArrayList<>() : messageStubs;
     }

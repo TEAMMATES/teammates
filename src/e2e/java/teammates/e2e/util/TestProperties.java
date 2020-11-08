@@ -62,6 +62,9 @@ public final class TestProperties {
     /** The value of "test.persistence.timeout" in test.properties file. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
 
+    /** The flag to indicate whether emails sent should be verified. */
+    public static final boolean INCLUDE_EMAIL_VERIFICATION;
+
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
 
@@ -89,6 +92,8 @@ public final class TestProperties {
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
+
+            INCLUDE_EMAIL_VERIFICATION = Boolean.parseBoolean(prop.getProperty("test.verify.emails"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -187,20 +187,19 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      * Email used must be an authentic gmail account.
      */
     protected void verifyEmailSent(String email, String subject) {
-        if (TestProperties.isDevServer()) {
+        if (TestProperties.isDevServer() || !TestProperties.INCLUDE_EMAIL_VERIFICATION) {
             return;
         }
         EmailAccount emailAccount = new EmailAccount(email);
         try {
             emailAccount.getUserAuthenticated();
             int retryLimit = 5;
-            boolean actual = emailAccount.isEmailWithSubjectPresent(subject);
+            boolean actual = emailAccount.isRecentEmailWithSubjectPresent(subject, "TEAMMATES Admin");
             while (!actual && retryLimit > 0) {
                 retryLimit--;
                 ThreadHelper.waitFor(1000);
-                actual = emailAccount.isEmailWithSubjectPresent(subject);
+                actual = emailAccount.isRecentEmailWithSubjectPresent(subject, "TEAMMATES Admin");
             }
-            emailAccount.markAllUnreadEmailAsRead();
             assertTrue(actual);
         } catch (Exception e) {
             fail("Failed to verify email sent:" + e);
