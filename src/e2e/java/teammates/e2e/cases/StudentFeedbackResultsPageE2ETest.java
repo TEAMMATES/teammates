@@ -50,7 +50,6 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withStudentEmail(unregistered.email)
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withRegistrationKey(getKeyForStudent(unregistered));
-        logout();
         resultsPage = AppPage.getNewPageInstance(browser, url, StudentFeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession);

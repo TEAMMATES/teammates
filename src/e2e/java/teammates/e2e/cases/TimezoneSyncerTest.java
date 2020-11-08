@@ -82,8 +82,6 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
                     releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate));
 
         }
-
-        logout();
     }
 
     private String processOffsets(String offsets) {
