@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import javax.mail.BodyPart;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 
@@ -21,8 +18,6 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 import com.google.api.services.gmail.model.ModifyMessageRequest;
 import com.google.common.io.BaseEncoding;
-
-import teammates.common.util.EmailType;
 
 /**
  * Provides an access to real Gmail inbox used for testing.
@@ -48,10 +43,12 @@ public final class EmailAccount {
         // assume user is authenticated before
         service = new GmailServiceMaker(username).makeGmailService();
 
-        while (true) {
+        int retryLimit = 5;
+        while (retryLimit > 0) {
             try {
+                retryLimit--;
                 // touch one API endpoint to check authentication
-                getListOfUnreadEmailOfUser();
+                service.users().messages().list(username).setMaxResults(1L).execute();
                 break;
             } catch (HttpResponseException e) {
                 if (e.getStatusCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN
@@ -68,55 +65,23 @@ public final class EmailAccount {
     }
 
     /**
-     * Retrieves the registration key among the unread emails
-     * with {@code courseId} and {@code courseName} sent to the Gmail inbox.
-     *
-     * <p>After retrieving, marks the email as read.
-     *
-     * <p>If multiple emails of the same course are in the inbox, return the registration key presented in one of them.
-     *
-     * @return registration key (null if cannot be found).
-     */
-    public String getRegistrationKeyFromUnreadEmails(String courseName, String courseId)
-            throws IOException, MessagingException {
-
-        List<Message> messageStubs = getListOfUnreadEmailOfUser();
-
-        for (Message messageStub : messageStubs) {
-            Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
-                    .execute();
-
-            MimeMessage email = convertFromMessageToMimeMessage(message);
-
-            if (isStudentCourseJoinRegistrationEmail(email, courseName, courseId)) {
-                String body = getTextFromEmail(email);
-
-                markMessageAsRead(messageStub);
-
-                return getKey(body);
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Returns true if unread mail that arrived in the past minute contains mail with the specified subject.
      */
-    public boolean isRecentEmailWithSubjectPresent(String subject, String senderName)
+    public boolean isRecentEmailWithSubjectPresent(String subject, String senderEmail)
             throws IOException, MessagingException {
 
-        List<Message> messageStubs = getListOfUnreadEmailFromSender(10L, senderName);
+        List<Message> messageStubs = getListOfUnreadEmailFromSender(10L, senderEmail);
 
         for (Message messageStub : messageStubs) {
             Message message = service.users().messages().get(username, messageStub.getId()).setFormat("raw")
                     .execute();
 
             MimeMessage email = convertFromMessageToMimeMessage(message);
+            boolean isSubjectEqual = email.getSubject().equals(subject);
             boolean isSentWithinLastMin =
                     message.getInternalDate() > System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(1);
 
-            if (email.getSubject().equals(subject) && isSentWithinLastMin) {
+            if (isSubjectEqual && isSentWithinLastMin) {
                 markMessageAsRead(messageStub);
                 return true;
             }
@@ -125,32 +90,12 @@ public final class EmailAccount {
     }
 
     /**
-     * Marks all unread emails in the user's inbox as read.
-     */
-    public void markAllUnreadEmailAsRead() throws IOException {
-        List<Message> messageStubs = getListOfUnreadEmailOfUser();
-
-        for (Message messageStub : messageStubs) {
-            markMessageAsRead(messageStub);
-        }
-    }
-
-    /**
-     * Returns an empty list if there is no unread email of the user.
-     */
-    private List<Message> getListOfUnreadEmailOfUser() throws IOException {
-        List<Message> messageStubs = service.users().messages().list(username).setQ("is:UNREAD").execute().getMessages();
-
-        return messageStubs == null ? new ArrayList<>() : messageStubs;
-    }
-
-    /**
      * Returns a list of up to maxResults number of unread emails from the sender.
      * Returns an empty list if there is no unread email from sender.
      */
-    private List<Message> getListOfUnreadEmailFromSender(Long maxResults, String senderName) throws IOException {
+    private List<Message> getListOfUnreadEmailFromSender(long maxResults, String senderEmail) throws IOException {
         List<Message> messageStubs = service.users().messages().list(username)
-                .setQ("is:UNREAD from:" + senderName).setMaxResults(maxResults).execute()
+                .setQ("is:UNREAD from:" + senderEmail).setMaxResults(maxResults).execute()
                 .getMessages();
 
         return messageStubs == null ? new ArrayList<>() : messageStubs;
@@ -171,126 +116,6 @@ public final class EmailAccount {
         Session session = Session.getInstance(new Properties());
 
         return new MimeMessage(session, new ByteArrayInputStream(emailBytes));
-    }
-
-    private boolean isStudentCourseJoinRegistrationEmail(MimeMessage message, String courseName, String courseId)
-            throws MessagingException {
-        String subject = message.getSubject();
-        return subject != null && subject.equals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(),
-                courseName, courseId));
-    }
-
-    /**
-     * Gets the email message body as text.
-     */
-    private String getTextFromEmail(MimeMessage email) throws MessagingException, IOException {
-        if (email.isMimeType("text/*")) {
-            return (String) email.getContent();
-        } else {
-            return getTextFromPart(email);
-        }
-    }
-
-    private String getTextFromPart(Part part) throws MessagingException, IOException {
-        if (part.isMimeType("multipart/alternative")) {
-            return getTextFromMultiPartAlternative((Multipart) part.getContent());
-        } else if (part.isMimeType("multipart/digest")) {
-            return getTextFromMultiPartDigest((Multipart) part.getContent());
-        } else if (mimeTypeCanBeHandledAsMultiPartMixed(part)) {
-            return getTextHandledAsMultiPartMixed(part);
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns if the part can be handled as multipart/mixed.
-     */
-    private boolean mimeTypeCanBeHandledAsMultiPartMixed(Part part) throws MessagingException {
-        return part.isMimeType("multipart/mixed") || part.isMimeType("multipart/parallel")
-                || part.isMimeType("message/rfc822")
-                // as per the RFC2046 specification, other multipart subtypes are recognized as multipart/mixed
-                || part.isMimeType("multipart/*");
-    }
-
-    private String getTextFromMultiPartDigest(Multipart multipart) throws IOException, MessagingException {
-        StringBuilder textBuilder = new StringBuilder();
-        for (int i = 0; i < multipart.getCount(); i++) {
-            BodyPart bodyPart = multipart.getBodyPart(i);
-            if (bodyPart.isMimeType("message/rfc822")) {
-                String text = getTextFromPart(bodyPart);
-                if (text != null) {
-                    textBuilder.append(text);
-                }
-            }
-        }
-        String text = textBuilder.toString();
-
-        if (text.isEmpty()) {
-            return null;
-        }
-
-        return text;
-    }
-
-    /**
-     * Returns the text from multipart/alternative, the type of text returned follows the preference of the sending agent.
-     */
-    private String getTextFromMultiPartAlternative(Multipart multipart) throws IOException, MessagingException {
-        // search in reverse order as a multipart/alternative should have their most preferred format last
-        for (int i = multipart.getCount() - 1; i >= 0; i--) {
-            BodyPart bodyPart = multipart.getBodyPart(i);
-
-            if (bodyPart.isMimeType("text/html")) {
-                return (String) bodyPart.getContent();
-            } else if (bodyPart.isMimeType("text/plain")) {
-                // Since we are looking in reverse order, if we did not encounter a text/html first we can return the plain
-                // text because that is the best preferred format that we understand. If a text/html comes along later it
-                // means the agent sending the email did not set the html text as preferable or did not set their preferred
-                // order correctly, and in that case we do not handle that.
-                return (String) bodyPart.getContent();
-            } else if (bodyPart.isMimeType("multipart/*") || bodyPart.isMimeType("message/rfc822")) {
-                String text = getTextFromPart(bodyPart);
-                if (text != null) {
-                    return text;
-                }
-            }
-        }
-        // we do not know how to handle the text in the multipart or there is no text
-        return null;
-    }
-
-    private String getTextHandledAsMultiPartMixed(Part part) throws IOException, MessagingException {
-        return getTextFromMultiPartMixed((Multipart) part.getContent());
-    }
-
-    private String getTextFromMultiPartMixed(Multipart multipart) throws IOException, MessagingException {
-        StringBuilder textBuilder = new StringBuilder();
-        for (int i = 0; i < multipart.getCount(); i++) {
-            BodyPart bodyPart = multipart.getBodyPart(i);
-            if (bodyPart.isMimeType("text/*")) {
-                textBuilder.append((String) bodyPart.getContent());
-            } else if (bodyPart.isMimeType("multipart/*")) {
-                String text = getTextFromPart(bodyPart);
-                if (text != null) {
-                    textBuilder.append(text);
-                }
-            }
-        }
-        String text = textBuilder.toString();
-
-        if (text.isEmpty()) {
-            return null;
-        }
-
-        return text;
-    }
-
-    private String getKey(String body) {
-        String key = body.substring(
-                body.indexOf("key=") + "key=".length(),
-                body.indexOf("studentemail=") - 1); //*If prompted to log in
-        return key.trim();
     }
 
     public String getUsername() {

@@ -221,11 +221,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         try {
             emailAccount.getUserAuthenticated();
             int retryLimit = 5;
-            boolean actual = emailAccount.isRecentEmailWithSubjectPresent(subject, "TEAMMATES Admin");
+            boolean actual = emailAccount.isRecentEmailWithSubjectPresent(subject, TestProperties.TEST_SENDER_EMAIL);
             while (!actual && retryLimit > 0) {
                 retryLimit--;
                 ThreadHelper.waitFor(1000);
-                actual = emailAccount.isRecentEmailWithSubjectPresent(subject, "TEAMMATES Admin");
+                actual = emailAccount.isRecentEmailWithSubjectPresent(subject, TestProperties.TEST_SENDER_EMAIL);
             }
             assertTrue(actual);
         } catch (Exception e) {

@@ -25,6 +25,9 @@ public final class TestProperties {
     /** The email address used for testing that emails are sent by the system. */
     public static final String TEST_EMAIL;
 
+    /** The email address used by the system the send emails. */
+    public static final String TEST_SENDER_EMAIL;
+
     /** The value of "test.csrf.key" in test.properties file. */
     public static final String CSRF_KEY;
 
@@ -78,6 +81,7 @@ public final class TestProperties {
             TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
 
             TEST_EMAIL = prop.getProperty("test.email");
+            TEST_SENDER_EMAIL = prop.getProperty("test.senderemail");
 
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
