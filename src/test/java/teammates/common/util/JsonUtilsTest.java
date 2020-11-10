@@ -61,7 +61,8 @@ public class JsonUtilsTest extends BaseTestCase {
                 + "}", JsonUtils.toJson(fqa));
 
         assertEquals("{\"feedbackSessionName\":\"testFeedbackSession\","
-                + "\"courseId\":\"testingCourse\",\"questionDetails\":{\"shouldAllowRichText\":true,\"questionType\":\"TEXT\","
+                + "\"courseId\":\"testingCourse\",\"questionDetails\":{\"shouldAllowRichText\":true,\"questionType\":"
+                + "\"TEXT\","
                 + "\"questionText\":\"Question text.\"},\"questionNumber\":1,"
                 + "\"giverType\":\"INSTRUCTORS\",\"recipientType\":\"SELF\",\"numberOfEntitiesToGiveFeedbackTo\":-100,"
                 + "\"showResponsesTo\":[\"RECEIVER\"],\"showGiverNameTo\":[\"RECEIVER\"],"
