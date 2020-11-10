@@ -295,7 +295,7 @@ export abstract class InstructorSessionBasePageComponent {
         saveAs(blob, filename);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
-    });
+      });
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -30,7 +31,6 @@ import { ErrorMessageOutput } from '../error-message-output';
 import {
   InstructorSessionBasePageComponent,
 } from './instructor-session-base-page.component';
-import{ finalize } from 'rxjs/operators';
 
 /**
  * The base page for session related page.
