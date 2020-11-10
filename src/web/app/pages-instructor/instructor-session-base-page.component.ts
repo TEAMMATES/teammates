@@ -28,6 +28,8 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
+  isResultActionLoading: boolean = false;
+
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
@@ -276,6 +278,7 @@ export abstract class InstructorSessionBasePageComponent {
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
+    this.isResultActionLoading = true;
     const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
@@ -286,11 +289,12 @@ export abstract class InstructorSessionBasePageComponent {
       Intent.INSTRUCTOR_RESULT,
       true,
       true,
-    ).subscribe((resp: string) => {
-      blob = new Blob([resp], { type: 'text/csv' });
-      saveAs(blob, filename);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    ) .pipe(finalize(() => this.isResultActionLoading = false))
+      .subscribe((resp: string) => {
+        blob = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
@@ -298,11 +302,12 @@ export abstract class InstructorSessionBasePageComponent {
    * Publishes a feedback session.
    */
   publishSession(model: SessionsTableRowModel): void {
-
+    this.isResultActionLoading = true;
     this.feedbackSessionsService.publishFeedbackSession(
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
+        .pipe(finalize(() => this.isResultActionLoading = false))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
@@ -323,10 +328,12 @@ export abstract class InstructorSessionBasePageComponent {
    * Unpublishes a feedback session.
    */
   unpublishSession(model: SessionsTableRowModel): void {
+    this.isResultActionLoading = true;
     this.feedbackSessionsService.unpublishFeedbackSession(
         model.feedbackSession.courseId,
         model.feedbackSession.feedbackSessionName,
     )
+        .pipe(finalize(() => this.isResultActionLoading = false))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
