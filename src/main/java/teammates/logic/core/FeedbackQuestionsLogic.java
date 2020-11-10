@@ -762,8 +762,6 @@ public final class FeedbackQuestionsLogic {
      * Deletes a feedback question cascade its responses and comments.
      *
      * <p>Silently fail if question does not exist.
-     *
-     * <p>The respondent lists will also be updated due the deletion of question.
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDelete =

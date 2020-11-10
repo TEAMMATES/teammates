@@ -1,26 +1,26 @@
 {
   "accounts": {
-    "ICSDEditE2eT.instr": {
-      "googleId": "ICSDEditE2eT.instr",
+    "ICSDetEdit.instr": {
+      "googleId": "tm.e2e.ICSDetEdit.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "ICSDEditE2eT.instr@gmail.tmt",
+      "email": "ICSDetEdit.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "ICSDEditE2eT.CS2104": {
-      "id": "ICSDEditE2eT.CS2104",
+    "ICSDetEdit.CS2104": {
+      "id": "tm.e2e.ICSDetEdit.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "ICSDEditE2eT.instr": {
-      "googleId": "ICSDEditE2eT.instr",
-      "courseId": "ICSDEditE2eT.CS2104",
+    "ICSDetEdit.instr": {
+      "googleId": "tm.e2e.ICSDetEdit.instr",
+      "courseId": "tm.e2e.ICSDetEdit.CS2104",
       "name": "Teammates Test",
-      "email": "ICSDEditE2eT.instr@gmail.tmt",
+      "email": "ICSDetEdit.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -41,18 +41,18 @@
     }
   },
   "students": {
-    "ICSDEditE2eT.jose.tmms": {
-      "googleId": "ICSDEditE2eT.jose.tmms",
-      "email": "ICSDEditE2eT.jose.tmms@gmail.tmt",
-      "course": "ICSDEditE2eT.CS2104",
+    "ICSDetEdit.jose.tmms": {
+      "googleId": "tm.e2e.ICSDetEdit.jose.tmms",
+      "email": "ICSDetEdit.jose.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDetEdit.CS2104",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez",
       "team": "Team 1"
     },
-    "ICSDEditE2eT.benny.c": {
+    "ICSDetEdit.benny.c": {
       "googleId": "",
-      "email": "ICSDEditE2eT.benny.c.tmms@gmail.tmt",
-      "course": "ICSDEditE2eT.CS2104",
+      "email": "ICSDetEdit.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDetEdit.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1"

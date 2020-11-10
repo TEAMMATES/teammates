@@ -93,6 +93,8 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
     }
 
+    public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
+
     /*
      * Other Constants
      */
@@ -726,11 +728,6 @@ public final class Const {
                 "feedback-session-unpublished-email-queue";
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 URI_PREFIX + "/feedbackSessionUnpublishedEmail";
-
-        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
-                "feedback-session-update-respondent-queue";
-        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionUpdateRespondent";
 
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/instructorCourseJoinEmail";
