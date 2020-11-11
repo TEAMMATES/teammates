@@ -721,13 +721,13 @@ public class FeedbackSubmitPage extends AppPage {
         } catch (NoSuchElementException e) {
             // continue
         }
-        int i = 0;
-        while (true) {
+        int limit = 20; // we are not likely to set test data exceeding this number
+        for (int i = 0; i < limit; i++) {
             if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
                 return i;
             }
-            i++;
         }
+        return -1;
     }
 
     private WebElement getTextResponseEditor(int qnNumber, String recipient) {
