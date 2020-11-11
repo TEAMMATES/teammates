@@ -48,7 +48,7 @@ public final class EmailAccount {
             try {
                 retryLimit--;
                 // touch one API endpoint to check authentication
-                service.users().messages().list(username).setMaxResults(1L).execute();
+                getListOfUnreadEmailFromSender(1L, "");
                 break;
             } catch (HttpResponseException e) {
                 if (e.getStatusCode() == HttpStatusCodes.STATUS_CODE_FORBIDDEN
