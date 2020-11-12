@@ -1,4 +1,4 @@
-package teammates.e2e.cases.e2e;
+package teammates.e2e.cases;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,6 +72,12 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
+    public void testAll() {
+        testViews();
+        testActions();
+    }
+    
     public void testViews() {
         AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId(instructor.getGoogleId())
@@ -287,7 +293,6 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyRqgViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    @Test
     public void testActions() {
         AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId(instructor.getGoogleId())
