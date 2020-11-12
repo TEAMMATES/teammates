@@ -96,7 +96,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         detailsPage.verifyStatusMessage("An email has been sent to " + student.getEmail());
         String expectedEmailSubject = "TEAMMATES: Invitation to join course ["
-                + course.getName() + "][" + course.getId() + "]";
+                + course.getName() + "][Course ID: " + course.getId() + "]";
         verifyEmailSent(student.getEmail(), expectedEmailSubject);
 
         ______TS("remind all students to join");

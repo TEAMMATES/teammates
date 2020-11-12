@@ -35,26 +35,20 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
     }
 
     protected FeedbackSubmitPage loginToFeedbackSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        FeedbackSubmitPage submitPage = loginAdminToPage(url, FeedbackSubmitPage.class);
-        submitPage.reloadPageIfStuckLoading();
-
-        return submitPage;
+        return loginAdminToPage(url, FeedbackSubmitPage.class);
     }
 
     protected FeedbackSubmitPage getFeedbackSubmitPage() {
-        AppUrl url = createUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+        AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withUserId(student.googleId)
                 .withCourseId(student.course)
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        FeedbackSubmitPage submitPage = AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
-        submitPage.reloadPageIfStuckLoading();
-
-        return submitPage;
+        return AppPage.getNewPageInstance(browser, url, FeedbackSubmitPage.class);
     }
 }
