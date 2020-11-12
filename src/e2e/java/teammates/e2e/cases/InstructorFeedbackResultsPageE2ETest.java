@@ -56,8 +56,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         }
         removeAndRestoreDataBundle(testData);
 
-        instructor = testData.instructors.get("IFResultsE2e.instr");
-        course = testData.courses.get("IFResultsE2e.CS2104");
+        instructor = testData.instructors.get("tm.e2e.IFRes.instr");
+        course = testData.courses.get("tm.e2e.IFRes.CS2104");
         feedbackSession = testData.feedbackSessions.get("Open Session");
         fileName = "/" + feedbackSession.getCourseId() + "_" + feedbackSession.getFeedbackSessionName()
                 + "_result.csv";
