@@ -1,40 +1,40 @@
 {
   "accounts": {
     "instructor1OfCourse1": {
-      "googleId": "adminSearch.idOfInstructor1OfCourse1",
+      "googleId": "tm.e2e.ASearch.instr1",
       "name": "Instructor1 of Course1",
       "isInstructor": true,
-      "email": "adminSearch.instructor1@course1.tmt",
+      "email": "ASearch.instructor1@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     },
     "instructor2OfCourse1": {
-      "googleId": "adminSearch.idOfInstructor2OfCourse1",
+      "googleId": "tm.e2e.ASearch.instr2",
       "name": "Instructor2 of Course1",
       "isInstructor": true,
-      "email": "adminSearch.instructor2@course1.tmt",
+      "email": "ASearch.instructor2@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     },
     "student1InCourse1": {
-      "googleId": "adminSearch.student1InCourse1",
+      "googleId": "tm.e2e.ASearch.student1",
       "name": "Student1 in course1",
       "isInstructor": false,
-      "email": "adminSearch.student1InCourse1@gmail.tmt",
+      "email": "ASearch.student1@gmail.tmt",
       "institute": "TEAMMATES Institute 1"
     }
   },
   "courses": {
     "typicalCourse1": {
-      "id": "adminSearch.idOfTypicalCourse1",
+      "id": "tm.e2e.ASearch.course1",
       "name": "Typical Course 1",
       "timeZone": "UTC"
     }
   },
   "instructors": {
     "instructor1OfCourse1": {
-      "googleId": "adminSearch.idOfInstructor1OfCourse1",
-      "courseId": "adminSearch.idOfTypicalCourse1",
+      "googleId": "tm.e2e.ASearch.instr1",
+      "courseId": "tm.e2e.ASearch.course1",
       "name": "Instructor1 of Course1",
-      "email": "adminSearch.instructor1@course1.tmt",
+      "email": "ASearch.instructor1@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -54,10 +54,10 @@
       }
     },
     "instructor2OfCourse1": {
-      "googleId": "adminSearch.idOfInstructor2OfCourse1",
-      "courseId": "adminSearch.idOfTypicalCourse1",
+      "googleId": "tm.e2e.ASearch.instr2",
+      "courseId": "tm.e2e.ASearch.course1",
       "name": "Instructor2 of Course1",
-      "email": "adminSearch.instructor2@course1.tmt",
+      "email": "ASearch.instructor2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -79,9 +79,9 @@
   },
   "students": {
     "student1InCourse1": {
-      "googleId": "adminSearch.student1InCourse1",
-      "email": "adminSearch.student1InCourse1@gmail.tmt",
-      "course": "adminSearch.idOfTypicalCourse1",
+      "googleId": "tm.e2e.ASearch.student1",
+      "email": "ASearch.student1@gmail.tmt",
+      "course": "tm.e2e.ASearch.course1",
       "name": "Student1 in course1",
       "comments": "comment for student1InCourse1",
       "team": "Team 1.1",
@@ -90,9 +90,9 @@
   },
   "feedbackSessions": {
     "session1InCourse1": {
-      "feedbackSessionName": "adminSearch.First feedback session",
-      "courseId": "adminSearch.idOfTypicalCourse1",
-      "creatorEmail": "adminSearch.instructor1@course1.tmt",
+      "feedbackSessionName": "ASearch.First feedback session",
+      "courseId": "tm.e2e.ASearch.course1",
+      "creatorEmail": "ASearch.instructor1@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",
@@ -110,9 +110,9 @@
       "isPublishedEmailEnabled": true
     },
   "session2InCourse1": {
-    "feedbackSessionName": "adminSearch.Second feedback session",
-    "courseId": "adminSearch.idOfTypicalCourse1",
-    "creatorEmail": "adminSearch.instructor1@course1.tmt",
+    "feedbackSessionName": "ASearch.Second feedback session",
+    "courseId": "tm.e2e.ASearch.course1",
+    "creatorEmail": "ASearch.instructor1@gmail.tmt",
     "instructions": "Please please fill in the following questions.",
     "createdTime": "2012-03-20T23:59:00Z",
     "startTime": "2012-04-01T21:59:00Z",

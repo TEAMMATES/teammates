@@ -50,9 +50,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "btn-fs-save")
     private WebElement fsSaveButton;
 
-    @FindBy(id = "btn-fs-delete")
-    private WebElement fsDeleteButton;
-
     @FindBy(id = "btn-fs-copy")
     private WebElement fsCopyButton;
 
@@ -290,7 +287,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void deleteSession() {
-        clickAndConfirm(fsDeleteButton);
+        clickAndConfirm(waitForElementPresence(By.id("btn-fs-delete")));
     }
 
     public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
@@ -548,7 +545,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
         clickEditQuestionButton(questionNum);
-        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        WebElement recommendedTextLengthField = getRecommendedTextLengthField(questionNum);
+        waitForElementToBeClickable(recommendedTextLengthField);
+        fillTextBox(recommendedTextLengthField, textQuestionDetails.getRecommendedLength().toString());
         clickSaveQuestionButton(questionNum);
     }
 
@@ -1141,7 +1140,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void addNewQuestion(int optionNumber) {
         click(addNewQuestionButton);
         WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
-        click(newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1));
+        WebElement optionButton = newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1);
+        if (optionNumber == 1) {
+            click(optionButton);
+        } else {
+            clickAndWaitForNewQuestion(optionButton);
+        }
     }
 
     private void clickSaveNewQuestionButton() {
@@ -1512,12 +1516,12 @@ public class InstructorFeedbackEditPage extends AppPage {
             List<WebElement> textAreas = getRubricTextareas(questionNum, i + 2);
             fillTextBox(textAreas.get(0), subQuestions.get(i));
             for (int j = 0; j < numChoices; j++) {
+                fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
                 if (descriptions.get(i).get(j).isEmpty()) {
-                    // using clear does not work here
-                    textAreas.get(j + 1).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                    textAreas.get(j + 1).sendKeys(Keys.DELETE);
-                } else {
-                    fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
+                    // using clear does not send the required event
+                    // as a workaround, after clearing without event, enter a random character and delete it
+                    textAreas.get(j + 1).sendKeys("a");
+                    textAreas.get(j + 1).sendKeys(Keys.BACK_SPACE);
                 }
             }
         }

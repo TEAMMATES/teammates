@@ -63,6 +63,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
     <a
       class="info-font-size ml-1"
       href="/"
+      id="additional-info-link"
       queryparamshandling="merge"
     >
        [more] 
@@ -102,12 +103,14 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     <a
       class="info-font-size ml-1"
       href="/"
+      id="additional-info-link"
       queryparamshandling="merge"
     >
        [less] 
     </a>
   </span><div
     class="info-font-size"
+    id="additional-info"
   >
     
     

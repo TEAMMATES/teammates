@@ -8,12 +8,12 @@
     <b>Question {{ questionNumber }}:&nbsp;</b>
   </span>
   <span id="question-text" class="col-auto">&nbsp;{{ questionDetails.questionText }}</span>
-  <a class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
+  <a id="additional-info-link" class="info-font-size ml-1" (click)="additionalInfoIsExpanded = !additionalInfoIsExpanded;$event.stopPropagation()" *ngIf="hasAdditionalInfo(questionDetails)" [routerLink]="" queryParamsHandling="merge">
     [{{ additionalInfoIsExpanded ? 'less' : 'more' }}]
   </a>
 </span>
 
-<div class="info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
+<div id="additional-info" class="info-font-size" *ngIf="hasAdditionalInfo(questionDetails) && additionalInfoIsExpanded">
   <tm-contribution-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="questionDetails"></tm-contribution-question-additional-info>
   <tm-text-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.TEXT" [questionDetails]="questionDetails"></tm-text-question-additional-info>
   <tm-mcq-question-additional-info *ngIf="questionDetails.questionType === FeedbackQuestionType.MCQ" [questionDetails]="questionDetails"></tm-mcq-question-additional-info>

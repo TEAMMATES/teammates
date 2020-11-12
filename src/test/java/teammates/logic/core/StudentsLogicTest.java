@@ -30,7 +30,6 @@ public class StudentsLogicTest extends BaseLogicTest {
     private static StudentsLogic studentsLogic = StudentsLogic.inst();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     @Override
@@ -522,11 +521,10 @@ public class StudentsLogicTest extends BaseLogicTest {
         assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
                 .filter(response -> response.feedbackSessionName.equals(feedbackSessionName))
                 .count());
-        // suppose the instructor is in the respondent list
-        fsLogic.addInstructorRespondent(fra.giver, fra.feedbackSessionName, fra.courseId);
+        // suppose the instructor has responses for the session
         assertTrue(
-                fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId)
-                        .getRespondingInstructorList().contains(fra.giver));
+                frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
+                        fra.getFeedbackSessionName()).contains(fra.giver));
 
         // after the student is moved from the course
         // team response will also be removed
@@ -534,10 +532,10 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // this will delete the response to the team
         assertNull(frLogic.getFeedbackResponse(fra.getId()));
-        // the instructor will be removed from the respondents list
+        // the instructor no longer has responses for the session
         assertFalse(
-                fsLogic.getFeedbackSession(fra.feedbackSessionName, fra.courseId)
-                        .getRespondingInstructorList().contains(fra.giver));
+                frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
+                        fra.getFeedbackSessionName()).contains(fra.giver));
     }
 
     @Test

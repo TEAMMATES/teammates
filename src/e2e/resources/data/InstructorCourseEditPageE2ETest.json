@@ -1,33 +1,33 @@
 {
   "accounts": {
-    "InsCrsEdit.coowner": {
-      "googleId": "InsCrsEdit.coowner",
+    "ICEdit.coowner": {
+      "googleId": "tm.e2e.ICEdit.coowner",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "InsCrsEdit.coowner@gmail.tmt",
+      "email": "ICEdit.coowner@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-     "InsCrsEdit.observer": {
-      "googleId": "InsCrsEdit.observer",
+     "ICEdit.observer": {
+      "googleId": "tm.e2e.ICEdit.observer",
       "name": "Teammates Instructor",
       "isInstructor": true,
-      "email": "InsCrsEdit.observer@gmail.tmt",
+      "email": "ICEdit.observer@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "InsCrsEdit.CS2104": {
-      "id": "InsCrsEdit.CS2104",
+    "ICEdit.CS2104": {
+      "id": "tm.e2e.ICEdit.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "InsCrsEdit.coowner": {
-      "googleId": "InsCrsEdit.coowner",
-      "courseId": "InsCrsEdit.CS2104",
+    "ICEdit.coowner": {
+      "googleId": "tm.e2e.ICEdit.coowner",
+      "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Test",
-      "email": "InsCrsEdit.coowner@gmail.tmt",
+      "email": "ICEdit.coowner@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -46,11 +46,11 @@
         "sessionLevel": {}
       }
     },
-    "InsCrsEdit.manager": {
-      "googleId": "InsCrsEdit.manager",
-      "courseId": "InsCrsEdit.CS2104",
+    "ICEdit.manager": {
+      "googleId": "tm.e2e.ICEdit.manager",
+      "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Manager",
-      "email": "InsCrsEdit.manager@gmail.tmt",
+      "email": "ICEdit.manager@gmail.tmt",
       "role": "Manager",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -69,11 +69,11 @@
         "sessionLevel": {}
       }
     },
-    "InsCrsEdit.observer": {
-      "googleId": "InsCrsEdit.observer",
-      "courseId": "InsCrsEdit.CS2104",
+    "ICEdit.observer": {
+      "googleId": "tm.e2e.ICEdit.observer",
+      "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Observer",
-      "email": "InsCrsEdit.observer@gmail.tmt",
+      "email": "ICEdit.observer@gmail.tmt",
       "role": "Observer",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -92,11 +92,11 @@
         "sessionLevel": {}
       }
     },
-    "InsCrsEdit.tutor": {
-      "googleId": "InsCrsEdit.tutor",
-      "courseId": "InsCrsEdit.CS2104",
+    "ICEdit.tutor": {
+      "googleId": "tm.e2e.ICEdit.tutor",
+      "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Tutor",
-      "email": "InsCrsEdit.tutor@gmail.tmt",
+      "email": "ICEdit.tutor@gmail.tmt",
       "role": "Tutor",
       "isDisplayedToStudents": false,
       "displayedName": "Instructor",
@@ -115,12 +115,11 @@
         "sessionLevel": {}
       }
     },
-    "InsCrsEdit.helper": {
-      "googleId": "InsCrsEdit.helper",
-      "courseId": "InsCrsEdit.CS2104",
+    "ICEdit.helper": {
+      "googleId": "tm.e2e.ICEdit.helper",
+      "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "Teammates Helper",
-      "email": "InsCrsEdit.helper@gmail.tmt",
-      "key": "InsCrsEdit.helper@gmail.tmt%InsCrsEdit.CS2104",
+      "email": "ICEdit.helper@gmail.tmt",
       "role": "Custom",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -141,28 +140,28 @@
     }
   },
   "students": {
-    "alice.tmms@InsCrsEdit.CS2104": {
-      "googleId": "InsCrsEdit.alice.tmms",
+    "alice.tmms@ICEdit.CS2104": {
+      "googleId": "tm.e2e.ICEdit.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "InsCrsEdit.CS2104",
+      "course": "tm.e2e.ICEdit.CS2104",
       "name": "Alice Betsy</option></td></div>'\"",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Section 1"
     },
-    "charlie.tmms@InsCrsEdit.CS2104": {
+    "charlie.tmms@ICEdit.CS2104": {
       "googleId": "",
       "email": "charlie.d.tmms@gmail.tmt",
-      "course": "InsCrsEdit.CS2104",
+      "course": "tm.e2e.ICEdit.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1</option><option value=\"dump\"></td><td>'\"",
       "section": "Section 2"
     },
-    "danny.tmms@InsCrsEdit.CS2104": {
-      "googleId": "InsCrsEdit.danny.tmms",
+    "danny.tmms@ICEdit.CS2104": {
+      "googleId": "tm.e2e.ICEdit.danny.tmms",
       "email": "danny.e.tmms@gmail.tmt",
-      "course": "InsCrsEdit.CS2104",
+      "course": "tm.e2e.ICEdit.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -172,8 +171,8 @@
   "feedbackSessions": {
     "session1InCourse1": {
       "feedbackSessionName": "First feedback session",
-      "courseId": "InsCrsEdit.CS2104",
-      "creatorEmail": "InsCrsEdit.coowner@gmail.tmt",
+      "courseId": "tm.e2e.ICEdit.CS2104",
+      "creatorEmail": "ICEdit.coowner@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T21:59:00Z",

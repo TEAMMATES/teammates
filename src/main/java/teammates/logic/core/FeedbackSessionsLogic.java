@@ -45,7 +45,6 @@ public final class FeedbackSessionsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String ASSUMPTION_FAIL_DELETE_INSTRUCTOR = "Fail to delete instructor respondent for ";
     private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
     private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
     private static final String ERROR_NON_EXISTENT_FS_CHECK = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "check");
@@ -228,8 +227,13 @@ public final class FeedbackSessionsLogic {
         return !allQuestions.isEmpty();
     }
 
+    /**
+     * Checks whether a student has completed a feedback session.
+     *
+     * <p> If there is no question for students, the feedback session is completed</p>
+     */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
-        if (fsa.getRespondingStudentList().contains(userEmail)) {
+        if (frLogic.hasGiverRespondedForSession(userEmail, fsa.getFeedbackSessionName(), fsa.getCourseId())) {
             return true;
         }
 
@@ -241,9 +245,14 @@ public final class FeedbackSessionsLogic {
         return allQuestions.isEmpty();
     }
 
+    /**
+     * Checks whether an instructor has completed a feedback session.
+     *
+     * <p> If there is no question for instructors, the feedback session is completed</p>
+     */
     public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
-        if (fsa.getRespondingInstructorList().contains(userEmail)) {
+        if (frLogic.hasGiverRespondedForSession(userEmail, fsa.getFeedbackSessionName(), fsa.getCourseId())) {
             return true;
         }
 
@@ -325,136 +334,6 @@ public final class FeedbackSessionsLogic {
                 log.severe("Cannot adjust timezone of courses: " + e.getMessage());
             }
         });
-    }
-
-    /**
-     * Updates the instructor with {@code oldEmail} to {@code newEmail} in the instructor respondent list
-     * in all feedback session of course {@code courseId}.
-     */
-    public void updateRespondentsForInstructor(String oldEmail, String newEmail, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        List<FeedbackSessionAttributes> feedbackSessions = getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes session : feedbackSessions) {
-            fsDb.updateFeedbackSession(
-                    FeedbackSessionAttributes.updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                            .withUpdatingInstructorRespondent(oldEmail, newEmail)
-                            .build());
-        }
-    }
-
-    /**
-     * Updates the student with {@code oldEmail} to {@code newEmail} in the student respondent list
-     * in all feedback session of course {@code courseId}.
-     */
-    public void updateRespondentsForStudent(String oldEmail, String newEmail, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        List<FeedbackSessionAttributes> feedbackSessions = getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes session : feedbackSessions) {
-            fsDb.updateFeedbackSession(
-                    FeedbackSessionAttributes.updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                            .withUpdatingStudentRespondent(oldEmail, newEmail)
-                            .build());
-        }
-    }
-
-    /**
-     * Deletes the instructor's email from the instructor respondents set of all feedback sessions
-     * in the corresponding course.
-     */
-    public void deleteInstructorFromRespondentsList(String courseId, String email) {
-        List<FeedbackSessionAttributes> sessionsToUpdate =
-                fsDb.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes session : sessionsToUpdate) {
-            try {
-                deleteInstructorRespondent(email, session.getFeedbackSessionName(), session.getCourseId());
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.getFeedbackSessionName());
-            }
-        }
-    }
-
-    /**
-     * Deletes the student's email from the student respondents set of all feedback sessions
-     * in the corresponding course.
-     */
-    public void deleteStudentFromRespondentsList(String courseId, String email) {
-        List<FeedbackSessionAttributes> sessionsToUpdate =
-                fsDb.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes session : sessionsToUpdate) {
-            try {
-                deleteStudentFromRespondentList(email, session.getFeedbackSessionName(), session.getCourseId());
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                Assumption.fail(ASSUMPTION_FAIL_DELETE_INSTRUCTOR + session.getFeedbackSessionName());
-            }
-        }
-    }
-
-    /**
-     * Adds an instructor in the instructor respondent set of a feedback session.
-     */
-    public void addInstructorRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-        fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                        .withAddingInstructorRespondent(email)
-                        .build());
-    }
-
-    /**
-     * Adds a student in the instructor respondent set of a feedback session.
-     */
-    public void addStudentRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-        fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                        .withAddingStudentRespondent(email)
-                        .build());
-    }
-
-    /**
-     * Deletes an instructor in the instructor respondent set of a feedback session.
-     */
-    public void deleteInstructorRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-        fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                        .withRemovingInstructorRespondent(email)
-                        .build());
-    }
-
-    /**
-     * Deletes a student in the instructor respondent set of a feedback session.
-     */
-    public void deleteStudentFromRespondentList(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-        fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes.updateOptionsBuilder(feedbackSessionName, courseId)
-                        .withRemovingStudentRespondent(email)
-                        .build());
     }
 
     /**
@@ -618,7 +497,7 @@ public final class FeedbackSessionsLogic {
      * Gets the actual number of submissions for a feedback session.
      */
     public int getActualTotalSubmission(FeedbackSessionAttributes fsa) {
-        return fsa.getRespondingStudentList().size() + fsa.getRespondingInstructorList().size();
+        return frLogic.getGiverSetThatAnswerFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).size();
     }
 
     /**

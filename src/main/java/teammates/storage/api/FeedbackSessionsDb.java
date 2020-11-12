@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
@@ -263,12 +262,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                             && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
                             && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled())
-                            && thisDb.<Set<String>>hasSameValue(
-                                    feedbackSession.getRespondingStudentList(), newAttributes.getRespondingStudentList())
-                            && thisDb.<Set<String>>hasSameValue(
-                                    feedbackSession.getRespondingInstructorList(),
-                                    newAttributes.getRespondingInstructorList());
+                                    feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
                     if (hasSameAttributes) {
                         log.info(String.format(
                                 OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
@@ -289,9 +283,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
                     feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
                     feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
-
-                    feedbackSession.setRespondingStudentList(newAttributes.getRespondingStudentList());
-                    feedbackSession.setRespondingInstructorList(newAttributes.getRespondingInstructorList());
 
                     saveEntity(feedbackSession);
 

@@ -1,61 +1,61 @@
 {
   "accounts": {
-    "SFSubmitE2eT.instr": {
-      "googleId": "SFSubmitE2eT.instr",
+    "FSubmit.instr": {
+      "googleId": "tm.e2e.FSubmit.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "SFSubmitE2eT.instr@gmail.tmt",
+      "email": "FSubmit.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFSubmitE2eT.instr2": {
-      "googleId": "SFSubmitE2eT.instr2",
+    "FSubmit.instr2": {
+      "googleId": "tm.e2e.FSubmit.instr2",
       "name": "Teammates Test2",
       "isInstructor": true,
-      "email": "SFSubmitE2eT.instr2@gmail.tmt",
+      "email": "FSubmit.instr2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFResultsUiT.alice.b": {
-      "googleId": "SFSubmitE2eT.alice.b",
+    "FSubmit.alice.b": {
+      "googleId": "tm.e2e.FSubmit.alice.b",
       "name": "Alice B.",
       "isInstructor": false,
-      "email": "SFSubmitE2eT.alice.b@gmail.tmt",
+      "email": "FSubmit.alice.b@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFSubmitE2eT.charlie.d": {
-      "googleId": "SFSubmitE2eT.charlie.d",
+    "FSubmit.charlie.d": {
+      "googleId": "tm.e2e.FSubmit.charlie.d",
       "name": "Charlie D.",
       "isInstructor": false,
-      "email": "SFSubmitE2eT.charlie.d@gmail.tmt",
+      "email": "FSubmit.charlie.d@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFSubmitE2eT.danny.e": {
-      "googleId": "SFSubmitE2eT.danny.e",
+    "FSubmit.danny.e": {
+      "googleId": "tm.e2e.FSubmit.danny.e",
       "name": "Danny E.",
       "isInstructor": false,
-      "email": "SFSubmitE2eT.danny.e@gmail.tmt",
+      "email": "FSubmit.danny.e@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-    "SFSubmitE2eT.emily.f": {
-      "googleId": "SFSubmitE2eT.emily.f",
+    "FSubmit.emily.f": {
+      "googleId": "tm.e2e.FSubmit.emily.f",
       "name": "Emily F.",
       "isInstructor": false,
-      "email": "SFSubmitE2eT.emily.f@gmail.tmt",
+      "email": "FSubmit.emily.f@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "SFSubmitE2eT.CS2104": {
-      "id": "SFSubmitE2eT.CS2104",
+    "FSubmit.CS2104": {
+      "id": "tm.e2e.FSubmit.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "SFSubmitE2eT.instr": {
-      "googleId": "SFSubmitE2eT.instr",
-      "courseId": "SFSubmitE2eT.CS2104",
+    "FSubmit.instr": {
+      "googleId": "tm.e2e.FSubmit.instr",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "Teammates Test",
-      "email": "SFSubmitE2eT.instr@gmail.tmt",
+      "email": "FSubmit.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -74,11 +74,11 @@
         "sessionLevel": {}
       }
     },
-    "SFSubmitE2eT.instr2": {
-      "googleId": "SFSubmitE2eT.instr2",
-      "courseId": "SFSubmitE2eT.CS2104",
+    "FSubmit.instr2": {
+      "googleId": "tm.e2e.FSubmit.instr2",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "Teammates Test2",
-      "email": "SFSubmitE2eT.instr2@gmail.tmt",
+      "email": "FSubmit.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -100,45 +100,45 @@
   },
   "students": {
     "Alice": {
-      "googleId": "SFSubmitE2eT.alice.b",
-      "email": "SFSubmitE2eT.alice.b@gmail.tmt",
-      "course": "SFSubmitE2eT.CS2104",
+      "googleId": "tm.e2e.FSubmit.alice.b",
+      "email": "FSubmit.alice.b@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
     "Benny": {
-      "googleId": "SFSubmitE2eT.benny.c",
-      "email": "SFSubmitE2eT.benny.c@gmail.tmt",
-      "course": "SFSubmitE2eT.CS2104",
+      "googleId": "tm.e2e.FSubmit.benny.c",
+      "email": "FSubmit.benny.c@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
     "Charlie": {
-      "googleId": "SFSubmitE2eT.charlie.d",
-      "email": "SFSubmitE2eT.charlie.d@gmail.tmt",
-      "course": "SFSubmitE2eT.CS2104",
+      "googleId": "tm.e2e.FSubmit.charlie.d",
+      "email": "FSubmit.charlie.d@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2",
       "section": "None"
     },
     "Danny": {
-      "googleId": "SFSubmitE2eT.danny.e",
-      "email": "SFSubmitE2eT.danny.e@gmail.tmt",
-      "course": "SFSubmitE2eT.CS2104",
+      "googleId": "tm.e2e.FSubmit.danny.e",
+      "email": "FSubmit.danny.e@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
       "section": "None"
     },
     "Emily": {
-      "googleId": "SFSubmitE2eT.emily.f",
-      "email": "SFSubmitE2eT.emily.f@gmail.tmt",
-      "course": "SFSubmitE2eT.CS2104",
+      "googleId": "tm.e2e.FSubmit.emily.f",
+      "email": "FSubmit.emily.f@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
       "name": "Emily",
       "comments": "This student's name is Emily",
       "team": "Team 3",
@@ -148,8 +148,8 @@
   "feedbackSessions": {
     "Open Session": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
-      "creatorEmail": "SFSubmitE2eT.instr@gmail.tmt",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "creatorEmail": "FSubmit.instr@gmail.tmt",
       "instructions": "Instructions for first session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
@@ -168,8 +168,8 @@
     },
     "Grace Period Session": {
       "feedbackSessionName": "Grace Period Session",
-      "courseId": "SFSubmitE2eT.CS2104",
-      "creatorEmail": "SFSubmitE2eT.instr@gmail.tmt",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "creatorEmail": "FSubmit.instr@gmail.tmt",
       "instructions": "This going to be a grace period session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T15:59:00Z",
@@ -188,8 +188,8 @@
     },
     "Closed Session": {
       "feedbackSessionName": "Closed Session",
-      "courseId": "SFSubmitE2eT.CS2104",
-      "creatorEmail": "SFSubmitE2eT.instr@gmail.tmt",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "creatorEmail": "FSubmit.instr@gmail.tmt",
       "instructions": "This going to be a closed session",
       "createdTime": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-02T15:59:00Z",
@@ -210,7 +210,7 @@
   "feedbackQuestions": {
     "qn1InSession1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Rate 3 other students' products"
@@ -236,7 +236,7 @@
     },
     "qn2InSession1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Provide feedback on each instructor"
@@ -262,7 +262,7 @@
     },
     "qn3InSession1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Give feedback to your team mates"
@@ -283,7 +283,7 @@
     },
     "qn4InSession1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "numOfMcqChoices": 2,
         "mcqChoices": [
@@ -310,7 +310,7 @@
     },
     "qn5InSession1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question should be hidden."
@@ -331,7 +331,7 @@
     },
     "qn1InGracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "numOfMcqChoices": 2,
         "mcqChoices": [
@@ -361,7 +361,7 @@
     },
     "qn2InGracePeriodSession": {
       "feedbackSessionName": "Grace Period Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "numOfMcqChoices": 0,
         "questionText": "Which instructor do you think is the most engaging",
@@ -385,7 +385,7 @@
     },
     "qn1InClosedSession": {
       "feedbackSessionName": "Closed Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What is the best selling point of your product?"
@@ -412,10 +412,10 @@
   "feedbackResponses": {
     "response1": {
       "feedbackSessionName": "First Session",
-      "courseId": "SFSubmitE2eT.CS2104",
+      "courseId": "tm.e2e.FSubmit.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "SFSubmitE2eT.benny.c@gmail.tmt",
-      "recipient": "SFSubmitE2eT.alice.b@gmail.tmt",
+      "giver": "FSubmit.benny.c@gmail.tmt",
+      "recipient": "FSubmit.alice.b@gmail.tmt",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {
