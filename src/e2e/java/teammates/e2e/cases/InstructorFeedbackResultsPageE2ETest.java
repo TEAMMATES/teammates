@@ -32,8 +32,6 @@ import teammates.e2e.util.TestProperties;
  */
 public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     private InstructorAttributes instructor;
-    private CourseAttributes course;
-    private FeedbackSessionAttributes feedbackSession;
     private String fileName;
     private StudentAttributes studentToEmail;
 
@@ -50,17 +48,13 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageE2ETest.json");
-        studentToEmail = testData.students.get("Benny");
-        if (!TestProperties.isDevServer()) {
-            studentToEmail.email = TestProperties.TEST_EMAIL;
-        }
+        studentToEmail = testData.students.get("Emily");
+        studentToEmail.email = TestProperties.TEST_EMAIL;
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("tm.e2e.IFRes.instr");
-        course = testData.courses.get("tm.e2e.IFRes.CS2104");
-        feedbackSession = testData.feedbackSessions.get("Open Session");
-        fileName = "/" + feedbackSession.getCourseId() + "_" + feedbackSession.getFeedbackSessionName()
-                + "_result.csv";
+        FeedbackSessionAttributes fileSession = testData.feedbackSessions.get("Open Session 2");
+        fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getFeedbackSessionName() + "_result.csv";
 
         instructors = testData.instructors.values();
         students = testData.students.values();
@@ -77,8 +71,11 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         testViews();
         testActions();
     }
-    
-    public void testViews() {
+
+    private void testViews() {
+        CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2104");
+        FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session");
+
         AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId(instructor.getGoogleId())
                 .withCourseId(course.getId())
@@ -86,7 +83,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         // -------------------------------------- Prepare responses -------------------------------------- //
-        organiseResponses();
+        organiseResponses(course.getId());
         // we either test all questions or just use qn2
         FeedbackQuestionAttributes qn2 = testData.feedbackQuestions.get("qn2");
         List<FeedbackResponseAttributes> qn2Responses = questionToResponses.get(qn2);
@@ -94,7 +91,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Map<String, List<FeedbackResponseAttributes>> qn2RecipientResponses = questionToRecipientToResponses.get(qn2);
 
         // For testing section filtering
-        String section = studentToEmail.getSection();
+        String section = testData.students.get("Alice").getSection();
         List<FeedbackResponseAttributes> filteredQn2Responses = filterResponsesBySection(qn2Responses, section);
         Map<String, List<FeedbackResponseAttributes>> filteredQn2GiverResponses =
                 filterMapBySection(qn2GiverResponses, section);
@@ -293,7 +290,10 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyRqgViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    public void testActions() {
+    private void testActions() {
+        CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2103");
+        FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session 2");
+
         AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId(instructor.getGoogleId())
                 .withCourseId(course.getId())
@@ -326,11 +326,12 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.downloadResults();
 
         List<String> expectedContent = Arrays.asList("Course," + course.getId(),
-                "Session Name," + feedbackSession.getFeedbackSessionName(), "Question 1,How can this student improve?");
+                "Session Name," + feedbackSession.getFeedbackSessionName(),
+                "Question 1,What part of the product did this teammate contribute most to?");
         verifyDownloadedFile(fileName, expectedContent);
 
         ______TS("verify no response panel details");
-        List<StudentAttributes> studentAttributes = getNotRespondedStudents();
+        List<StudentAttributes> studentAttributes = getNotRespondedStudents(course.getId());
         studentAttributes.sort(Comparator.comparing(StudentAttributes::getName).reversed());
         resultsPage.sortNoResponseByName();
         resultsPage.verifyNoResponsePanelDetails(studentAttributes);
@@ -358,19 +359,21 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         assertEquals(actual.isPublished(), state);
     }
 
-    private List<StudentAttributes> getNotRespondedStudents() {
+    private List<StudentAttributes> getNotRespondedStudents(String courseId) {
         Set<String> responders = testData.feedbackResponses.values().stream()
+                .filter(response -> response.getCourseId().equals(courseId))
                 .map(FeedbackResponseAttributes::getGiver)
                 .collect(Collectors.toSet());
 
         return testData.students.values().stream()
-                .filter(student -> !responders.contains(student.getEmail()))
+                .filter(student -> !responders.contains(student.getEmail()) && student.getCourse().equals(courseId))
                 .collect(Collectors.toList());
     }
 
-    private List<FeedbackResponseAttributes> getResponsesByQuestion(int qnNum) {
+    private List<FeedbackResponseAttributes> getResponsesByQuestion(String courseId, int qnNum) {
         List<FeedbackResponseAttributes> responses = testData.feedbackResponses.values().stream()
-                .filter(response -> response.getFeedbackQuestionId().equals(Integer.toString(qnNum)))
+                .filter(response -> response.getCourseId().equals(courseId)
+                        && response.getFeedbackQuestionId().equals(Integer.toString(qnNum)))
                 .collect(Collectors.toList());
         sortResponses(responses);
         return responses;
@@ -516,11 +519,11 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         }
     }
 
-    private void organiseResponses() {
+    private void organiseResponses(String courseId) {
         questionToResponses = new HashMap<>();
         for (int i = 1; i <= 3; i++) {
             FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn" + i);
-            List<FeedbackResponseAttributes> responses = getResponsesByQuestion(i);
+            List<FeedbackResponseAttributes> responses = getResponsesByQuestion(courseId, i);
             questionToResponses.put(question, responses);
         }
 
