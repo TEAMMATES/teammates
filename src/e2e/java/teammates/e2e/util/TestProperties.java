@@ -25,6 +25,9 @@ public final class TestProperties {
     /** The email address used for testing that emails are sent by the system. */
     public static final String TEST_EMAIL;
 
+    /** The email address used by the system the send emails. */
+    public static final String TEST_SENDER_EMAIL;
+
     /** The value of "test.csrf.key" in test.properties file. */
     public static final String CSRF_KEY;
 
@@ -62,6 +65,9 @@ public final class TestProperties {
     /** The value of "test.persistence.timeout" in test.properties file. */
     public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
 
+    /** The flag to indicate whether emails sent should be verified. */
+    public static final boolean INCLUDE_EMAIL_VERIFICATION;
+
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
 
@@ -75,6 +81,7 @@ public final class TestProperties {
             TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
 
             TEST_EMAIL = prop.getProperty("test.email");
+            TEST_SENDER_EMAIL = prop.getProperty("test.senderemail");
 
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
@@ -89,6 +96,8 @@ public final class TestProperties {
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
+
+            INCLUDE_EMAIL_VERIFICATION = Boolean.parseBoolean(prop.getProperty("test.verify.emails"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
