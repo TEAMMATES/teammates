@@ -63,7 +63,9 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         student.googleId = null;
         editPage.editStudentEmailAndResendLinks(newEmail);
 
-        editPage.verifyStatusMessage("Student has been updated and email sent");
+        if (TestProperties.isDevServer() || TestProperties.INCLUDE_EMAIL_VERIFICATION) {
+            editPage.verifyStatusMessage("Student has been updated and email sent");
+        }
         verifyPresentInDatastore(student);
         verifyEmailSent(newEmail, "TEAMMATES: Summary of course ["
                 + course.getName() + "][Course ID: " + course.getId() + "]");
