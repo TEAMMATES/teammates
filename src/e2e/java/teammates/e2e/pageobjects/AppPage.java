@@ -37,11 +37,11 @@ import teammates.test.FileHelper;
 /**
  * An abstract class that represents a browser-loaded page of the app and
  * provides ways to interact with it. Also contains methods to validate some
- * aspects of the page. .e.g, html page source. <br>
+ * aspects of the page, e.g. HTML page source.
  *
- * <p>Note: We are using the PageObjects pattern here.
+ * <p>Note: We are using the Page Object pattern here.
  *
- * @see <a href="https://code.google.com/p/selenium/wiki/PageObjects">https://code.google.com/p/selenium/wiki/PageObjects</a>
+ * @see <a href="https://martinfowler.com/bliki/PageObject.html">https://martinfowler.com/bliki/PageObject.html</a>
  */
 public abstract class AppPage {
 
