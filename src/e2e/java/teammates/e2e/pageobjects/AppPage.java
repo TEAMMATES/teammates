@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -148,16 +147,6 @@ public abstract class AppPage {
         return getNewPageInstance(browser, newPageType);
     }
 
-    /**
-     * Gives a {@link LoginPage} instance based on the given {@link Browser} and test configuration.
-     * Fails if the page content does not match the content of the expected login page.
-     */
-    public static LoginPage createCorrectLoginPageType(Browser browser) {
-        Class<? extends LoginPage> cls =
-                TestProperties.isDevServer() ? DevServerLoginPage.class : GoogleLoginPage.class;
-        return getNewPageInstance(browser, cls);
-    }
-
     public <E> E waitFor(ExpectedCondition<E> expectedCondition) {
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.TEST_TIMEOUT);
         return wait.until(expectedCondition);
@@ -193,9 +182,13 @@ public abstract class AppPage {
     }
 
     public void waitUntilAnimationFinish() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 2);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 3);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
-        ThreadHelper.waitFor(500);
+        ThreadHelper.waitFor(1000);
+    }
+
+    public void waitForLoadingElement() {
+        waitForElementStaleness(waitForElementPresence(By.className("loading-container")));
     }
 
     /**
@@ -650,14 +643,6 @@ public abstract class AppPage {
                 }
             }
         }
-    }
-
-    /**
-     * Set browser window to x width and y height.
-     */
-    protected void setWindowSize(int x, int y) {
-        Dimension d = new Dimension(x, y);
-        browser.driver.manage().window().setSize(d);
     }
 
     /**

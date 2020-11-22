@@ -1,0 +1,1235 @@
+{
+  "accounts": {
+    "SFRes.instr": {
+      "googleId": "tm.e2e.SFRes.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SFRes.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SFRes.alice.b": {
+      "googleId": "tm.e2e.SFRes.alice.b",
+      "name": "Alice B.",
+      "isInstructor": false,
+      "email": "SFRes.alice.b@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SFRes.benny.c": {
+      "googleId": "tm.e2e.SFRes.benny.c",
+      "name": "Benny C.",
+      "isInstructor": false,
+      "email": "SFRes.benny.c@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SFRes.charlie.d": {
+      "googleId": "tm.e2e.SFRes.charlie.d",
+      "name": "Charlie D.",
+      "isInstructor": false,
+      "email": "SFRes.charlie.d@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SFRes.danny.e": {
+      "googleId": "tm.e2e.SFRes.danny.e",
+      "name": "Danny E.",
+      "isInstructor": false,
+      "email": "SFRes.danny.e@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "SFRes.emily.f": {
+      "googleId": "tm.e2e.SFRes.emily.f",
+      "name": "Emily F.",
+      "isInstructor": false,
+      "email": "SFRes.emily.f@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "SFRes.CS2104": {
+      "id": "tm.e2e.SFRes.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SFRes.instr": {
+      "googleId": "tm.e2e.SFRes.instr",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "name": "Teammates Test",
+      "email": "SFRes.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SFRes.instr2": {
+      "googleId": "tm.e2e.SFRes.instr2",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "name": "Teammates Test 2",
+      "email": "SFRes.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "Alice": {
+      "googleId": "tm.e2e.SFRes.alice.b",
+      "email": "SFRes.alice.b@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "Benny": {
+      "googleId": "tm.e2e.SFRes.benny.c",
+      "email": "SFRes.benny.c@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "Charlie": {
+      "googleId": "tm.e2e.SFRes.charlie.d",
+      "email": "SFRes.charlie.d@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "Unregistered": {
+      "googleId": "",
+      "email": "Unregistered@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
+      "name": "Unregistered",
+      "comments": "This student has not registered",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "Danny": {
+      "googleId": "tm.e2e.SFRes.danny.e",
+      "email": "SFRes.danny.e@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "Emily": {
+      "googleId": "tm.e2e.SFRes.emily.f",
+      "email": "SFRes.emily.f@gmail.tmt",
+      "course": "tm.e2e.SFRes.CS2104",
+      "name": "Emily",
+      "comments": "This student's name is Emily",
+      "team": "Team 3",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {
+    "Open Session": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "creatorEmail": "SFRes.instr@gmail.tmt",
+      "instructions": "Instructions for first session",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": true,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "How can this student improve?"
+      },
+      "questionNumber": 1,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 other students' products"
+      },
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ]
+    },
+    "qn3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "questionText": "What part of the product did this teammate contribute most to?",
+        "questionType": "MCQ",
+        "otherEnabled": true
+      },
+      "questionNumber": 3,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn4": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "msqChoices": [],
+        "questionText": "Which students would you recommend to be a tutor?",
+        "questionType": "MSQ",
+        "otherEnabled": false,
+        "generateOptionsFor": "STUDENTS"
+      },
+      "questionNumber": 4,
+      "giverType": "STUDENTS",
+      "recipientType": "NONE",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn5": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "minScale": 1,
+        "questionText": "Rate your teammates contributions?",
+        "questionType": "NUMSCALE",
+        "maxScale": 5,
+        "step": 0.5
+      },
+      "questionNumber": 5,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn6": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "distributeToRecipients": false,
+        "pointsPerOption": false,
+        "questionText": "How important are the following factors to you? Give points accordingly.",
+        "numOfConstSumOptions": 2,
+        "questionType": "CONSTSUM_OPTIONS",
+        "points": 100,
+        "constSumOptions": [
+          "Grades",
+          "Fun"
+        ]
+      },
+      "questionNumber": 6,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ]
+    },
+    "qn7": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "distributeToRecipients": true,
+        "pointsPerOption": true,
+        "questionText": "Split points among your team members by how much they contributed.",
+        "numOfConstSumOptions": 0,
+        "questionType": "CONSTSUM_RECIPIENTS",
+        "points": 100,
+        "constSumOptions": []
+      },
+      "questionNumber": 7,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn8": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionNumber": 8,
+      "questionDetails": {
+        "areDuplicatesAllowed": true,
+        "questionText": "As an student, rank for every team, the areas of improvement that they should work on",
+        "questionType": "RANK_OPTIONS",
+        "minOptionsToBeRanked": 1,
+        "options": [
+          "Teamwork",
+          "Time management",
+          "Quality Control",
+          "Quality Assurance"
+        ]
+      },
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
+    },
+    "qn9": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "areDuplicatesAllowed": true,
+        "questionType": "RANK_RECIPIENTS",
+        "questionText": "Rank your instructors by approachability.",
+        "minOptionsToBeRanked": 1
+      },
+      "questionNumber": 9,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ]
+    },
+    "qn10": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "rubricSubQuestions": [
+          "This teammate is hardworking.",
+          "This teammate is on time for meetings.",
+          "This teammate displayed teamwork."
+        ],
+        "questionText": "Please choose the best choice for the following sub-questions.",
+        "numOfRubricChoices": 5,
+        "numOfRubricSubQuestions": 3,
+        "questionType": "RUBRIC",
+        "hasAssignedWeights": true,
+        "rubricWeightsForEachCell": [
+          [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          [
+            0.01,
+            0.02,
+            0.03,
+            0.04,
+            0.05
+          ],
+          [
+            2,
+            1,
+            0,
+            -1,
+            -2
+          ]
+        ],
+        "rubricChoices": [
+          "Strongly Agree",
+          "Agree",
+          "Neutral",
+          "Disagree",
+          "Strongly Disagree"
+        ],
+        "rubricDescriptions": [
+          [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Most of the time",
+            "",
+            "",
+            "",
+            "Less than half the time"
+          ],
+          [
+            "Strongly Agree",
+            "Agree",
+            "Neutral",
+            "Disagree",
+            "Strongly Disagree"
+          ]
+        ]
+      },
+      "questionDescription": "<p>Testing description for second session</p>",
+      "questionNumber": 10,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn11": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "questionText": "Rate the contribution by yourself and your team members.",
+        "questionType": "CONTRIB"
+      },
+      "questionNumber": 11,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "qn12": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "questionDetails": {
+        "questionText": "Say something nice to your teammates.",
+        "questionType": "TEXT"
+      },
+      "questionNumber": 12,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "qn1response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "1",
+      "giver": "SFRes.instr@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Instructor response to Alice."
+      }
+    },
+    "qn1response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "1",
+      "giver": "SFRes.instr@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Instructor response to Benny."
+      }
+    },
+    "qn2response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "2",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response to Benny."
+      }
+    },
+    "qn2response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "2",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "Unregistered@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response to Unregistered."
+      }
+    },
+    "qn2responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "2",
+      "giver": "Unregistered@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from Unregistered to Alice."
+      }
+    },
+    "qn2responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "2",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from Benny to Alice."
+      }
+    },
+    "qn2responseC": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "2",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.danny.e@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from Benny to Danny."
+      }
+    },
+    "qn2responseD": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "2",
+      "giver": "SFRes.danny.e@gmail.tmt",
+      "recipient": "SFRes.emily.f@gmail.tmt",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Response from Danny to Emily."
+      }
+    },
+    "qn3response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "3",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "MCQ",
+        "answer": "",
+        "isOther": true,
+        "otherFieldContent": "Answer from Alice."
+      }
+    },
+    "qn3response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "3",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "MCQ",
+        "answer": "Algo"
+      }
+    },
+    "qn3responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "3",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "MCQ",
+        "answer": "UI"
+      }
+    },
+    "qn3responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "3",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "MCQ",
+        "answer": "",
+        "isOther": true,
+        "otherFieldContent": "Answer from Charlie."
+      }
+    },
+    "qn4response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "4",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseDetails": {
+        "questionType": "MSQ",
+        "answers": [
+          "Benny Charles (Team 1)",
+          "Danny Engrid (Team 2)"
+        ]
+      }
+    },
+    "qn4responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "4",
+      "giver": "SFRes.danny.e@gmail.tmt",
+      "recipient": "%GENERAL%",
+      "responseDetails": {
+        "questionType": "MSQ",
+        "answers": [
+          "Alice Betsy (Team 1)"
+        ]
+      }
+    },
+    "qn5response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answer": 3
+      }
+    },
+    "qn5response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answer": 4.5
+      }
+    },
+    "qn5response3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answer": 4.5
+      }
+    },
+    "qn5responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answer": 4
+      }
+    },
+    "qn5responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answer": 3
+      }
+    },
+    "qn5responseC": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.benny.e@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answers": 1
+      }
+    },
+    "qn5responseD": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "5",
+      "giver": "SFRes.danny.e@gmail.tmt",
+      "recipient": "Unregistered@gmail.tmt",
+      "responseDetails": {
+        "questionType": "NUMSCALE",
+        "answers": 1
+      }
+    },
+    "qn6response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "6",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          71,
+          29
+        ]
+      }
+    },
+    "qn6responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "6",
+      "giver": "SFRes.emily.f@gmail.tmt",
+      "recipient": "SFRes.emily.f@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          100,
+          0
+        ]
+      }
+    },
+    "qn7response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "7",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          49
+        ]
+      }
+    },
+    "qn7response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "7",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          151
+        ]
+      }
+    },
+    "qn7response3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "7",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          100
+        ]
+      }
+    },
+    "qn7responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "7",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          100
+        ]
+      }
+    },
+    "qn7responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "7",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONSTSUM",
+        "answers": [
+          100
+        ]
+      }
+    },
+    "qn8response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "8",
+      "giver": "Team 1",
+      "recipient": "Team 2",
+      "responseDetails": {
+        "questionType": "RANK_OPTIONS",
+        "answers": [1,2,3,4]
+      }
+    },
+    "qn8responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "8",
+      "giver": "Team 2",
+      "recipient": "Team 1",
+      "responseDetails": {
+        "questionType": "RANK_OPTIONS",
+        "answers": [4,2,3,1]
+      }
+    },
+    "qn8responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "8",
+      "giver": "Team 2",
+      "recipient": "Team 3",
+      "responseDetails": {
+        "questionType": "RANK_OPTIONS",
+        "answers": [2,3,1,4]
+      }
+    },
+    "qn9response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "9",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.instr2@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RANK_RECIPIENTS",
+        "answer": 1
+      }
+    },
+    "qn9response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "9",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.instr@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RANK_RECIPIENTS",
+        "answer": 2
+      }
+    },
+    "qn9responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "9",
+      "giver": "SFRes.emily.f@gmail.tmt",
+      "recipient": "SFRes.instr2@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RANK_RECIPIENTS",
+        "answer": 2
+      }
+    },
+    "qn9responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "9",
+      "giver": "SFRes.emily.f@gmail.tmt",
+      "recipient": "SFRes.instr@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RANK_RECIPIENTS",
+        "answer": 1
+      }
+    },
+    "qn10response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [1,2,3]
+      }
+    },
+    "qn10response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [1,2,3]
+      }
+    },
+    "qn10response3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [1,2,3]
+      }
+    },
+    "qn10responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [4,4,4]
+      }
+    },
+    "qn10responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [0,4,3]
+      }
+    },
+    "qn10responseC": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [0,0,0]
+      }
+    },
+    "qn10responseD": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "10",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "RUBRIC",
+        "answer": [3,2,2]
+      }
+    },
+    "qn11response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 120
+      }
+    },
+    "qn11response2": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 150
+      }
+    },
+    "qn11response3": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.alice.b@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 50
+      }
+    },
+    "qn11responseA": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 150
+      }
+    },
+    "qn11responseB": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 180
+      }
+    },
+    "qn11responseC": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.benny.c@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 100
+      }
+    },
+    "qn11responseD": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.alice.b@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 150
+      }
+    },
+    "qn11responseE": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.benny.c@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 0
+      }
+    },
+    "qn11responseF": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackQuestionId": "11",
+      "giver": "SFRes.charlie.d@gmail.tmt",
+      "recipient": "SFRes.charlie.d@gmail.tmt",
+      "responseDetails": {
+        "questionType": "CONTRIB",
+        "answer": 200
+      }
+    }
+  },
+  "feedbackResponseComments": {
+    "qn2Comment1": {
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "2",
+      "commentGiver": "SFRes.instr@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "2%Unregistered@gmail.tmt%SFRes.alice.b@gmail.tmt",
+      "showCommentTo": [
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS"
+      ],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2026-02-02T23:59:00Z",
+      "commentText": "Instructor first comment to Alice"
+    },
+    "qn2Comment2": {
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "2",
+      "commentGiver": "SFRes.instr@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "2%Unregistered@gmail.tmt%SFRes.alice.b@gmail.tmt",
+      "showCommentTo": [
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS"
+      ],
+      "commentGiverType": "INSTRUCTORS",
+      "isVisibilityFollowingFeedbackQuestion": false,
+      "isCommentFromFeedbackParticipant": false,
+      "createdAt": "2026-03-01T23:59:00Z",
+      "lastEditorEmail": "SFRes.instr@gmail.tmt",
+      "lastEditedAt": "2026-03-02T23:59:00Z",
+      "commentText": "Instructor second comment to Alice"
+    },
+    "qn3Comment1": {
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "3",
+      "commentGiver": "SFRes.benny.c@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "3%SFRes.benny.c@gmail.tmt%SFRes.alice.b@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-02T23:59:00Z",
+      "commentText": "Benny comment to Alice"
+    },
+    "qn3Comment2": {
+      "courseId": "tm.e2e.SFRes.CS2104",
+      "feedbackSessionName": "First Session",
+      "feedbackQuestionId": "3",
+      "commentGiver": "SFRes.alice.b@gmail.tmt",
+      "giverSection": "None",
+      "receiverSection": "None",
+      "feedbackResponseId": "3%SFRes.alice.b@gmail.tmt%SFRes.benny.c@gmail.tmt",
+      "showCommentTo": [],
+      "showGiverNameTo": [],
+      "commentGiverType": "STUDENTS",
+      "isVisibilityFollowingFeedbackQuestion": true,
+      "isCommentFromFeedbackParticipant": true,
+      "createdAt": "2026-03-02T23:59:00Z",
+      "commentText": "Alice comment to Benny"
+    }
+  },
+  "profiles": {}
+}

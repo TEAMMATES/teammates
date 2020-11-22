@@ -1,13 +1,13 @@
 <div class="card border-{{ isSelfResponses ? 'info' : 'primary' }} mt-4">
   <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }} text-white">
-    <span><b>To:</b> {{ recipient }}</span>
+    <span id="response-recipient"><b>To:</b> {{ recipient }}</span>
   </div>
   <div class="card-body" style="padding: 0;">
     <table class="table">
       <tbody>
         <ng-container *ngFor="let response of responses">
           <tr>
-            <td>
+            <td id="response-giver">
               <strong>From:</strong> {{ response.giver }}
             </td>
           </tr>

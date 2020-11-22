@@ -371,19 +371,6 @@ public class Logic {
     }
 
     /**
-     * Omits archived courses if omitArchived == true<br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @return Courses the instructor is in.
-     */
-    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
-
-        Assumption.assertNotNull(googleId);
-        return coursesLogic.getCoursesForInstructor(googleId, omitArchived);
-    }
-
-    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      *
@@ -719,6 +706,11 @@ public class Logic {
         return studentsLogic.getUnregisteredStudentsForCourse(courseId);
     }
 
+    /**
+     * Checks whether an instructor has completed a feedback session.
+     *
+     * <p> If there is no question for instructors, the feedback session is completed</p>
+     */
     public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(fsa);
@@ -726,6 +718,11 @@ public class Logic {
         return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
     }
 
+    /**
+     * Checks whether a student has completed a feedback session.
+     *
+     * <p> If there is no question for students, the feedback session is completed</p>
+     */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
         Assumption.assertNotNull(fsa);
         Assumption.assertNotNull(userEmail);
@@ -971,62 +968,6 @@ public class Logic {
     }
 
     /**
-     * Adds an instructor with {@code email} in the instructor respondent set
-     * in feedback session {@code feedbackSessionName} in {@code courseId}.
-     */
-    public void addInstructorRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.addInstructorRespondent(email, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Adds a student with {@code email} in the student respondent set
-     * in feedback session {@code feedbackSessionName} in {@code courseId}.
-     */
-    public void addStudentRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.addStudentRespondent(email, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Deletes an instructor with {@code email} in the instructor respondent set
-     * in session {@code feedbackSessionName} of course {@code courseId}.
-     */
-    public void deleteInstructorRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.deleteInstructorRespondent(email, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Deletes a student with {@code email} in the student respondent set
-     * in session {@code feedbackSessionName} of course {@code courseId}.
-     */
-    public void deleteStudentRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.deleteStudentFromRespondentList(email, feedbackSessionName, courseId);
-    }
-
-    /**
      * Publishes a feedback session.
      *
      * <br/>Preconditions: <br/>
@@ -1145,8 +1086,6 @@ public class Logic {
      *
      * <p>Silently fail if question does not exist.
      *
-     * <p>The respondent lists will also be updated due the deletion of question.
-     *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
@@ -1251,14 +1190,6 @@ public class Logic {
         return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
 
-    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(userEmail);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
-    }
-
     public boolean hasResponsesForCourse(String courseId) {
         return feedbackResponsesLogic.hasResponsesForCourse(courseId);
     }
@@ -1290,8 +1221,6 @@ public class Logic {
 
     /**
      * Deletes a feedback response cascade its associated comments.
-     *
-     * <p>The respondent lists will NOT be updated.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.

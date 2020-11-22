@@ -14,11 +14,6 @@ import com.tngtech.archunit.core.importer.ClassFileImporter;
  */
 public class ArchitectureTest {
 
-    @Deprecated
-    private static final String LEGACY_PAGEOBJECT_PACKAGE = "teammates.test.pageobjects";
-    @Deprecated
-    private static final String LEGACY_BROWSERTESTS_PACKAGE = "teammates.test.cases.browsertests";
-
     private static final JavaClasses ALL_CLASSES = forClasses("teammates");
 
     private static final String COMMON_PACKAGE = "teammates.common";
@@ -45,6 +40,11 @@ public class ArchitectureTest {
     private static final String E2E_CASES_PACKAGE = E2E_PACKAGE + ".cases";
     private static final String E2E_PAGEOBJECTS_PACKAGE = E2E_PACKAGE + ".pageobjects";
     private static final String E2E_UTIL_PACKAGE = E2E_PACKAGE + ".util";
+
+    private static final String LNP_PACKAGE = "teammates.lnp";
+
+    private static final String LNP_CASES_PACKAGE = LNP_PACKAGE + ".cases";
+    private static final String LNP_UTIL_PACKAGE = LNP_PACKAGE + ".util";
 
     private static final String CLIENT_PACKAGE = "teammates.client";
     private static final String CLIENT_REMOTEAPI_PACKAGE = CLIENT_PACKAGE + ".remoteapi";
@@ -273,7 +273,6 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_testClasses_driverShouldNotHaveAnyDependency() {
         noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
                 .should().accessClassesThat().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
                 .check(forClasses(TEST_DRIVER_PACKAGE));
 
@@ -289,7 +288,7 @@ public class ArchitectureTest {
                 .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
                     @Override
                     public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(UI_PACKAGE)
+                        return input.getPackageName().startsWith(UI_WEBAPI_PACKAGE)
                                 && !"Action".equals(input.getSimpleName())
                                 && !"ActionFactory".equals(input.getSimpleName());
                     }
@@ -300,25 +299,21 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_e2e_e2eShouldBeSelfContained() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(E2E_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_BROWSERTESTS_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .check(ALL_CLASSES);
     }
 
     @Test
-    public void testArchitecture_e2e_e2eShouldNotTouchProductionCodeExceptCommonAndRequests() {
+    public void testArchitecture_e2e_e2eShouldNotTouchProductionCodeExceptCommon() {
         noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(UI_PACKAGE)
-                                && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
-                                && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
-                    }
-                }).check(ALL_CLASSES);
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .check(forClasses(E2E_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
+                .should().accessClassesThat().haveSimpleName("Config")
+                .check(forClasses(E2E_PACKAGE));
     }
 
     @Test
@@ -357,6 +352,57 @@ public class ArchitectureTest {
                                 && !input.getPackageName().equals(E2E_UTIL_PACKAGE);
                     }
                 }).check(forClasses(E2E_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpShouldBeSelfContained() {
+        noClasses().that().resideOutsideOfPackage(includeSubpackages(LNP_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(LNP_PACKAGE))
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpShouldNotTouchProductionCodeExceptCommonAndRequests() {
+        noClasses().that().resideInAPackage(includeSubpackages(LNP_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
+                                && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
+                    }
+                }).check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpTestCasesShouldBeIndependentOfEachOther() {
+        noClasses().that(new DescribedPredicate<JavaClass>("") {
+            @Override
+            public boolean apply(JavaClass input) {
+                return input.getPackageName().startsWith(LNP_CASES_PACKAGE) && !input.isInnerClass();
+            }
+        }).should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+            @Override
+            public boolean apply(JavaClass input) {
+                return input.getPackageName().startsWith(LNP_CASES_PACKAGE)
+                        && !input.getSimpleName().startsWith("Base")
+                        && !input.isInnerClass();
+            }
+        }).check(forClasses(LNP_CASES_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpShouldNotHaveAnyDependency() {
+        noClasses().that().resideInAPackage(includeSubpackages(LNP_UTIL_PACKAGE))
+                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(LNP_PACKAGE)
+                                && !input.getPackageName().equals(LNP_UTIL_PACKAGE);
+                    }
+                }).check(forClasses(LNP_PACKAGE));
     }
 
     @Test
@@ -486,7 +532,6 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("BaseTestCase")
                 .and().doNotHaveSimpleName("AssertHelper")
                 .and().doNotHaveSimpleName("EmailChecker")
-                .and().resideOutsideOfPackage(includeSubpackages(LEGACY_PAGEOBJECT_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
                 .check(ALL_CLASSES);
     }

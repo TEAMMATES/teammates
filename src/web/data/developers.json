@@ -706,6 +706,11 @@
     },
     {
       "multiple": true,
+      "name": "Jessica Rairigh",
+      "username": "jfrairigh"
+    },
+    {
+      "multiple": true,
       "name": "Jiang Sheng",
       "username": "Gisonrg"
     },
@@ -1205,6 +1210,10 @@
       "username": "quynhtrang"
     },
     {
+      "name": "Phong Bach",
+      "username": "jasonbch"
+    },
+    {
       "username": "plucht"
     },
     {
@@ -1460,6 +1469,10 @@
     {
       "name": "Shyam Gaurav Venkatesh",
       "username": "SamVenkatesh"
+    },
+    {
+      "name": "Si Tang",
+      "username": "IndeedSi"
     },
     {
       "multiple": true,

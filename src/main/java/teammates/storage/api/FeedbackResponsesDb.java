@@ -175,6 +175,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .limit(1)
+                .keys() // key query is free query
                 .list()
                 .isEmpty();
     }

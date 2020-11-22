@@ -13,7 +13,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -31,7 +30,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
     private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static InstructorsDb instructorsDb = new InstructorsDb();
     private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
@@ -325,14 +323,6 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertTrue(commentsGivenByTheInstructor.stream().anyMatch(c -> "new@email.tmt".equals(c.lastEditorEmail)));
         assertFalse(commentsGivenByTheInstructor.stream()
                 .anyMatch(c -> instructorToBeUpdated.getEmail().equals(c.lastEditorEmail)));
-
-        // respondents in session is updated
-        List<FeedbackSessionAttributes> sessionsInCourse =
-                fsLogic.getFeedbackSessionsForCourse(instructorToBeUpdated.getCourseId());
-        assertTrue(sessionsInCourse.stream()
-                .anyMatch(s -> s.getRespondingInstructorList().contains("new@email.tmt")));
-        assertFalse(sessionsInCourse.stream()
-                .anyMatch(s -> s.getRespondingInstructorList().contains(instructorToBeUpdated.getEmail())));
     }
 
     private void testUpdateInstructorByGoogleIdCascade() throws Exception {

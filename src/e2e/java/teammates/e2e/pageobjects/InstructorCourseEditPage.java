@@ -300,6 +300,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickEditInstructorButton(int instrNum) {
         click(getEditInstructorButton(instrNum));
+        waitUntilAnimationFinish();
     }
 
     private void clickCancelInstructorButton(int instrNum) {
