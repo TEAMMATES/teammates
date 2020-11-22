@@ -207,6 +207,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       this.loadFeedbackQuestions();
       this.getAllStudentsOfCourse();
       this.getAllInstructorsCanBePreviewedAs();
+
+      window.addEventListener('scroll', this.scroll);
     });
   }
 
@@ -1029,4 +1031,20 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       window.scrollTo({ top: y, behavior: 'smooth' });
     }, 0);
   }
+
+  topFunction() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } 
+
+  scroll(): void {
+    const scrollToTopButton = document.getElementById('btn-to-the-top');
+    if (scrollToTopButton != null) {
+      if (window.scrollY > 20) {
+        scrollToTopButton.className = 'btn btn-primary to-the-top show';
+      } else {
+        scrollToTopButton.className = 'btn btn-primary to-the-top hide';
+      }
+    }
+  }
+
 }

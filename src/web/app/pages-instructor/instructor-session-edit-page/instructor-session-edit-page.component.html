@@ -3,6 +3,10 @@
                       (deleteExistingSessionEvent)="deleteExistingSessionHandler()" (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
 </tm-loading-retry>
 
+<div *ngIf="!isLoadingFeedbackQuestions">
+  <button id="btn-to-the-top" class="btn btn-primary to-the-top hide" (click)="topFunction()" title="Go to top">Top</button> 
+</div>
+
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'" (retryEvent)="loadFeedbackQuestions()">
   <div *ngIf="!isLoadingFeedbackQuestions" class="offset-md-10 margin-vertical-20px">
     <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
