@@ -28,7 +28,7 @@
     visibility: visible;
     opacity: 1;
   }
-  
+
   &.hide {
     visibility: hidden;
     opacity: 0;
@@ -37,8 +37,4 @@
   &:hover {
     background-color: rgb(101, 118, 133);
   }
-}
-
-btn-to-the-top:hover {
-  background-color: rgb(235, 0, 0); /* Add a dark-grey background on hover */
 }

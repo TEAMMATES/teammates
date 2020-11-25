@@ -1032,12 +1032,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     }, 0);
   }
 
-  topFunction() {
+  topFunction(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  } 
+  }
 
   scroll(): void {
-    const scrollToTopButton = document.getElementById('btn-to-the-top');
+    const scrollToTopButton: HTMLElement | null = document.getElementById('btn-to-the-top');
     if (scrollToTopButton != null) {
       if (window.scrollY > 20) {
         scrollToTopButton.className = 'btn btn-primary to-the-top show';

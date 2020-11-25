@@ -4,7 +4,7 @@
 </tm-loading-retry>
 
 <div *ngIf="!isLoadingFeedbackQuestions">
-  <button id="btn-to-the-top" class="btn btn-primary to-the-top hide" (click)="topFunction()" title="Go to top">Top</button> 
+  <button id="btn-to-the-top" class="btn btn-primary to-the-top hide" (click)="topFunction()" title="Go to top">To the top</button>
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'" (retryEvent)="loadFeedbackQuestions()">
