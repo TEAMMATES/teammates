@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -37,15 +36,13 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         loginAdmin();
     }
 
-    @BeforeMethod
-    public void navigateToTimezonePage() {
+    @Test
+    @Override
+    public void testAll() {
         browser.driver.get(createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE).toAbsoluteString());
         browser.waitForPageLoad();
-    }
 
-    @Test
-    public void testFrontendBackendTimezoneDatabasesAreConsistent() {
-        // ensure the front-end and the back-end have the same timezone database version
+        ______TS("ensure the front-end and the back-end have the same timezone database version");
         Document pageSource = Jsoup.parse(browser.driver.getPageSource());
         String javaOffsets = processOffsets(pageSource.getElementById("tz-java").text());
         String momentOffsets = processOffsets(pageSource.getElementById("tz-moment").text());
@@ -56,11 +53,8 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
                     "<actual>" + System.lineSeparator() + momentOffsets + "</actual>");
         }
-    }
 
-    @Test
-    public void testTimezoneDatabasesAreUpToDate() {
-        // ensure the timezone databases are up-to-date
+        ______TS("ensure the timezone databases are up-to-date");
         String currentTzVersion = Jsoup.parse(browser.driver.getPageSource()).getElementById("tzversion-moment").text();
         browser.driver.get(IANA_TIMEZONE_DATABASE_URL);
         Document tzReleasePage = Jsoup.parse(browser.driver.getPageSource());
@@ -82,8 +76,6 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
                     releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate));
 
         }
-
-        logout();
     }
 
     private String processOffsets(String offsets) {

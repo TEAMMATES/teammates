@@ -13,6 +13,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.e2e.pageobjects.AdminSearchPage;
+import teammates.e2e.util.TestProperties;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -28,7 +29,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
@@ -236,8 +238,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     }
 
     private void verifyRegenerateStudentCourseLinks(WebElement studentRow, String originalJoinLink) {
-        searchPage.verifyStatusMessage("Student's links for this course have been successfully regenerated,"
-                + " and the email has been sent.");
+        if (TestProperties.isDevServer() || TestProperties.INCLUDE_EMAIL_VERIFICATION) {
+            searchPage.verifyStatusMessage("Student's links for this course have been successfully "
+                    + "regenerated, and the email has been sent.");
+        }
 
         String regeneratedJoinLink = searchPage.getStudentJoinLink(studentRow);
         assertNotEquals(regeneratedJoinLink, originalJoinLink);

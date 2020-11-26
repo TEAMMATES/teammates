@@ -39,7 +39,8 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() throws Exception {
+    @Override
+    public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withUserId(instructor.googleId)
                 .withCourseId(course.getId())

@@ -30,6 +30,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
     }
 
     @Test
+    @Override
     public void testAll() {
         testEditPage();
         testSubmitPage();

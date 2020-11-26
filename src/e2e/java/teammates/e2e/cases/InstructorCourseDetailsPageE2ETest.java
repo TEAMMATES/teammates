@@ -45,7 +45,8 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
-    public void allTests() {
+    @Override
+    public void testAll() {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withUserId(testData.instructors.get("ICDet.instr").googleId)
                 .withCourseId(course.getId());
@@ -95,7 +96,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         detailsPage.verifyStatusMessage("An email has been sent to " + student.getEmail());
         String expectedEmailSubject = "TEAMMATES: Invitation to join course ["
-                + course.getName() + "][" + course.getId() + "]";
+                + course.getName() + "][Course ID: " + course.getId() + "]";
         verifyEmailSent(student.getEmail(), expectedEmailSubject);
 
         ______TS("remind all students to join");

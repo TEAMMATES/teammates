@@ -56,27 +56,31 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
     // In all the tests, we need to explicitly log in as admin
     // because the cron job URLs are additionally protected by admin constraint in web.xml
     // and adding backdoor key is not sufficient to bypass it
-
     @Test
-    public void testFeedbackSessionOpeningReminders() {
+    @Override
+    public void testAll() {
+        testFeedbackSessionOpeningReminders();
+        testFeedbackSessionClosingReminders();
+        testFeedbackSessionClosedReminders();
+        testFeedbackSessionPublishedReminders();
+    }
+
+    private void testFeedbackSessionOpeningReminders() {
         AppUrl openingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS);
         loginAdminToPage(openingRemindersUrl, GenericAppPage.class);
     }
 
-    @Test
-    public void testFeedbackSessionClosingReminders() {
+    private void testFeedbackSessionClosingReminders() {
         AppUrl closingRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS);
         loginAdminToPage(closingRemindersUrl, GenericAppPage.class);
     }
 
-    @Test
-    public void testFeedbackSessionClosedReminders() {
+    private void testFeedbackSessionClosedReminders() {
         AppUrl closedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS);
         loginAdminToPage(closedRemindersUrl, GenericAppPage.class);
     }
 
-    @Test
-    public void testFeedbackSessionPublishedReminders() {
+    private void testFeedbackSessionPublishedReminders() {
         AppUrl publishedRemindersUrl = createUrl(Const.CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS);
         loginAdminToPage(publishedRemindersUrl, GenericAppPage.class);
     }

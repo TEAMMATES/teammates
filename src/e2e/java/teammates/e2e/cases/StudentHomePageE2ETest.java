@@ -25,6 +25,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
     }
 
     @Test
+    @Override
     public void testAll() {
 
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).withUserId("tm.e2e.SHome.student");
@@ -44,8 +45,6 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             assertTrue(verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i));
         }
-
-        logout();
     }
 
     private List<WebElement> getStudentHomeCoursePanels() {

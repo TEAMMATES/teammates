@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -14,6 +15,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackResponseCommentData;
+import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.Intent;
 
@@ -77,18 +79,23 @@ class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponsesData result = new FeedbackResponsesData(responses);
-        result.getResponses().forEach(response -> {
-            if (questionAttributes.getQuestionType() != FeedbackQuestionType.MCQ) {
+        List<FeedbackResponseData> responsesData = new LinkedList<>();
+        responses.forEach(response -> {
+            FeedbackResponseData data = new FeedbackResponseData(response);
+            if (questionAttributes.getQuestionType() == FeedbackQuestionType.MCQ) {
                 // Only MCQ questions can have participant comment
-                return;
+                FeedbackResponseCommentAttributes comment =
+                        logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
+                if (comment != null) {
+                    data.setGiverComment(new FeedbackResponseCommentData(comment));
+                }
             }
-            FeedbackResponseCommentAttributes comment =
-                    logic.getFeedbackResponseCommentForResponseFromParticipant(response.getFeedbackResponseId());
-            if (comment != null) {
-                response.setGiverComment(new FeedbackResponseCommentData(comment));
-            }
+            responsesData.add(data);
         });
+        FeedbackResponsesData result = new FeedbackResponsesData();
+        if (!responsesData.isEmpty()) {
+            result.setResponses(responsesData);
+        }
 
         return new JsonResult(result);
     }
