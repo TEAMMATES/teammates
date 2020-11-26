@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common'; // for aesthetic purposes for the significant digits -swood
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
@@ -5,7 +6,6 @@ import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable
 import {
   McqQuestionStatisticsCalculation,
 } from './question-statistics-calculation/mcq-question-statistics-calculation';
-import { DecimalPipe } from '@angular/common'; // for aesthetic purposes for the significant digits -swood
 
 /**
  * Statistics for MCQ questions.
