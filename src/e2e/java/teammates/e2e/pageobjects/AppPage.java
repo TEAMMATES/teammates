@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -183,9 +182,13 @@ public abstract class AppPage {
     }
 
     public void waitUntilAnimationFinish() {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 2);
+        WebDriverWait wait = new WebDriverWait(browser.driver, 3);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
-        ThreadHelper.waitFor(500);
+        ThreadHelper.waitFor(1000);
+    }
+
+    public void waitForLoadingElement() {
+        waitForElementStaleness(waitForElementPresence(By.className("loading-container")));
     }
 
     /**
@@ -640,14 +643,6 @@ public abstract class AppPage {
                 }
             }
         }
-    }
-
-    /**
-     * Set browser window to x width and y height.
-     */
-    protected void setWindowSize(int x, int y) {
-        Dimension d = new Dimension(x, y);
-        browser.driver.manage().window().setSize(d);
     }
 
     /**

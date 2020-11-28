@@ -613,21 +613,16 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.courseId, responseInDb.giver).stream()
                 .filter(response -> response.feedbackSessionName.equals(responseInDb.feedbackSessionName))
                 .count());
-        // suppose he is in the respondents list
-        fsLogic.addStudentRespondent(responseInDb.giver, responseInDb.feedbackSessionName, responseInDb.courseId);
-        FeedbackSessionAttributes correspondingSession =
-                fsLogic.getFeedbackSession(responseInDb.feedbackSessionName, responseInDb.courseId);
-        assertTrue(correspondingSession.getRespondingStudentList().contains(responseInDb.giver));
+        // he is in the giver set
+        assertTrue(frLogic.getGiverSetThatAnswerFeedbackSession(fqa.getCourseId(), fqa.getFeedbackSessionName())
+                .contains(responseInDb.giver));
 
         // after deletion the question
         fqLogic.deleteFeedbackQuestionCascade(responseInDb.feedbackQuestionId);
 
-        FeedbackSessionAttributes sessionAfter =
-                fsLogic.getFeedbackSession(responseInDb.feedbackSessionName, responseInDb.courseId);
-        // instructor respondents will not change
-        assertEquals(correspondingSession.getRespondingInstructorList(), sessionAfter.getRespondingInstructorList());
-        // the student should not in the respondents
-        assertFalse(sessionAfter.getRespondingStudentList().contains(responseInDb.giver));
+        // the student should not in the giver set
+        assertFalse(frLogic.getGiverSetThatAnswerFeedbackSession(fqa.getCourseId(), fqa.getFeedbackSessionName())
+                .contains(responseInDb.giver));
     }
 
     @Test

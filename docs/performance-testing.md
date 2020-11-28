@@ -2,7 +2,7 @@
 
 TEAMMATES makes use of [JMeter](https://jmeter.apache.org/) for load and performance (L&P) testing, and uses the [JMeter Java API](https://jmeter.apache.org/api/index.html) and TestNG to automate the process of running performance tests.
 
-The performance test cases are located in the [`teammates.e2e.cases.lnp`](https://github.com/TEAMMATES/teammates/tree/master/src/e2e/java/teammates/e2e/cases/lnp) package.
+The performance test cases are located in the [`teammates.lnp.cases`](https://github.com/TEAMMATES/teammates/tree/master/src/lnp/java/teammates/lnp/cases) package.
 
 ## Creating Performance Tests
 
@@ -17,7 +17,7 @@ To see a sample implementation of a test case, you can refer to `StudentProfileL
 
 ## Running Performance Tests
 
-If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/e2e/resources/test.properties` accordingly.  
+If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/lnp/resources/test.properties` accordingly.  
 
 First, open the terminal and navigate to the root of project folder. Start the backend server, i.e. `./gradlew appengineRun`, before running the performance tests.
 
@@ -30,7 +30,7 @@ In a new terminal, navigate to the root of project folder and run the following 
 ./gradlew lnpTests
 ```
 
-- The JMeter test results are stored as JTL files with the same name as the test file in `src/e2e/lnp/results/<TEST_NAME>_<DATE>.jtl`. 
+- The JMeter test results are stored as JTL files with the same name as the test file in `src/lnp/resources/results/<TEST_NAME>_<DATE>.jtl`. 
 - A test statistics JSON file is generate alongside as `<TEST_NAME>Statistics_<DATE>.json`.
 
 If the build fails:

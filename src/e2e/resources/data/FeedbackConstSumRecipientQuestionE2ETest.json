@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FConstSumRecipientQuestionE2eT.instructor",
+      "googleId": "tm.e2e.FCSumRcptQn.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FConstSumRecipientQuestionE2eT.CS2104",
+      "id": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FConstSumRecipientQuestionE2eT.CS1101",
+      "id": "tm.e2e.FCSumRcptQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FConstSumRecipientQuestionE2eT.instructor",
-      "courseId": "FConstSumRecipientQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FCSumRcptQn.instructor",
+      "courseId": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FConstSumRecipientQuestionE2eT.instructor",
-      "courseId": "FConstSumRecipientQuestionE2eT.CS1101",
+      "googleId": "tm.e2e.FCSumRcptQn.instructor",
+      "courseId": "tm.e2e.FCSumRcptQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,37 +69,37 @@
     }
   },
   "students": {
-    "alice.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
-      "googleId": "FConstSumRecipientQuestionE2eT.alice.tmms",
+    "alice.tmms@FCSumRcptQn.CS2104": {
+      "googleId": "tm.e2e.FCSumRcptQn.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FConstSumRecipientQuestionE2eT.CS2104",
+      "course": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
-      "googleId": "FConstSumRecipientQuestionE2eT.benny.tmms",
+    "benny.tmms@FCSumRcptQn.CS2104": {
+      "googleId": "tm.e2e.FCSumRcptQn.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "FConstSumRecipientQuestionE2eT.CS2104",
+      "course": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 2",
       "section": "None"
     },
-    "charlie.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
-      "googleId": "charlie.tmms",
-      "email": "FConstSumRecipientQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FConstSumRecipientQuestionE2eT.CS2104",
+    "charlie.tmms@FCSumRcptQn.CS2104": {
+      "googleId": "tm.e2e.FCSumRcptQn.charlie.tmms",
+      "email": "FCSumRcptQn.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 3",
       "section": "None"
     },
-    "danny.tmms@FConstSumRecipientQuestionE2eT.CS2104": {
-      "googleId": "danny.tmms",
-      "email": "FConstSumRecipientQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FConstSumRecipientQuestionE2eT.CS2104",
+    "danny.tmms@FCSumRcptQn.CS2104": {
+      "googleId": "tm.e2e.FCSumRcptQn.danny.tmms",
+      "email": "FCSumRcptQn.danny.tmms@gmail.tmt",
+      "course": "tm.e2e.FCSumRcptQn.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 3",
@@ -109,7 +109,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FConstSumRecipientQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FCSumRcptQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -129,7 +129,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FConstSumRecipientQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FCSumRcptQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -151,7 +151,7 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FConstSumRecipientQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FCSumRcptQn.CS2104",
       "questionDetails": {
         "distributeToRecipients": true,
         "pointsPerOption": false,
@@ -182,7 +182,7 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FConstSumRecipientQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FCSumRcptQn.CS1101",
       "questionDetails": {
         "numOfConstSumOptions": 0,
         "constSumOptions": [],
