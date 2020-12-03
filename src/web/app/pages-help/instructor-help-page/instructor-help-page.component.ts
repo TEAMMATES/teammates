@@ -79,6 +79,9 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
    */
   search(): void {
     if (this.searchTerm !== '') {
+      if (this.searchTerm.toLowerCase() !== this.key) {
+        this.matchFound = 0;
+      }
       this.key = this.searchTerm.toLowerCase();
     } else {
       this.clear();
