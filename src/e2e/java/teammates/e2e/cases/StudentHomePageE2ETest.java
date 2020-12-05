@@ -45,8 +45,6 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
             assertTrue(verifyVisibleFeedbackSessionToStudents(feedbackSessionName, i));
         }
-
-        logout();
     }
 
     private List<WebElement> getStudentHomeCoursePanels() {
