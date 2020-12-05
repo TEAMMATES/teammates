@@ -73,7 +73,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         return shouldAllowRichText;
     }
 
-    public void setShouldAllowRichText(boolean shouldAllowRichText) {
+    public void setShouldAllowRichText(Boolean shouldAllowRichText) {
         this.shouldAllowRichText = shouldAllowRichText;
     }
 }
