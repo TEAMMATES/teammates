@@ -42,10 +42,12 @@
             <i *ngIf="session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED" class="fas fa-eye-slash"></i>
             {{session.publishStatus == FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
           </button>
-          <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
-            <tm-ajax-loading *ngIf="isDownloadingResults"></tm-ajax-loading>
+          
+          <button class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()">
+            <tm-ajax-loading class="report-config-spinner" *ngIf="isDownloadingResults"></tm-ajax-loading>
             <i class="fas fa-file-download"></i> Download Results
           </button>
+          
           <button class="btn btn-primary action-btn no-print" (click)="printViewHandler()">
             <i class="fas fa-print"></i> Print View
           </button>

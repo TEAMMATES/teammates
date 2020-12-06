@@ -9,7 +9,7 @@
 .action-btn {
   margin-bottom: var(--btn-margin);
   width: 100%;
-  white-space: nowrap;
+  white-space: pre;
 }
 
 .action-btn-group {
@@ -33,4 +33,8 @@
 
 .report-config-label {
   margin-bottom: 2px;
+}
+
+.report-config-spinner {
+  margin-right: 10px;
 }
