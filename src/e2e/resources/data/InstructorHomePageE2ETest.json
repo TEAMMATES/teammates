@@ -1,33 +1,33 @@
 {
   "accounts": {
-    "IHomeE2eT.instr": {
-      "googleId": "IHomeE2eT.instructor.tmms",
+    "IHome.instr": {
+      "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "email": "IHome.instructor.tmms@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "IHomeE2eT.CS2104": {
+    "IHome.CS2104": {
       "createdAt": "2012-04-01T23:58:00Z",
-      "id": "IHomeE2eT.CS2104",
+      "id": "tm.e2e.IHome.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     },
-    "IHomeE2eT.CS1101": {
+    "IHome.CS1101": {
       "createdAt": "2013-04-01T23:59:00Z",
-      "id": "IHomeE2eT.CS1101",
+      "id": "tm.e2e.IHome.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "IHomeE2eT.instr.CS2104": {
-      "googleId": "IHomeE2eT.instructor.tmms",
-      "courseId": "IHomeE2eT.CS2104",
+    "IHome.instr.CS2104": {
+      "googleId": "tm.e2e.IHome.instructor.tmms",
+      "courseId": "tm.e2e.IHome.CS2104",
       "name": "Teammates Test",
-      "email": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "email": "IHome.instructor.tmms@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -46,11 +46,11 @@
         "sessionLevel": {}
       }
     },
-    "IHomeE2eT.instr.CS1101": {
-      "googleId": "IHomeE2eT.instructor.tmms",
-      "courseId": "IHomeE2eT.CS1101",
+    "IHome.instr.CS1101": {
+      "googleId": "tm.e2e.IHome.instructor.tmms",
+      "courseId": "tm.e2e.IHome.CS1101",
       "name": "Teammates Test",
-      "email": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "email": "IHome.instructor.tmms@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -71,73 +71,73 @@
     }
   },
   "students": {
-    "IHomeE2eT.alice.b.tmms@IHomeE2eT.CS2104": {
-      "googleId": "IHomeE2eT.alice.b.tmms",
-      "email": "IHomeE2eT.alice.b.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS2104",
+    "IHome.alice.b.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.alice.b.tmms",
+      "email": "IHome.alice.b.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "IHomeE2eT.benny.c.tmms@IHomeE2eT.CS2104": {
-      "googleId": "IHomeE2eT.benny.c.tmms",
-      "email": "IHomeE2eT.benny.c.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS2104",
+    "IHome.benny.c.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.benny.c.tmms",
+      "email": "IHome.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "IHomeE2eT.charlie.d.tmms@IHomeE2eT.CS2104": {
-      "googleId": "IHomeE2eT.charlie.d.tmms",
-      "email": "IHomeE2eT.charlie.d.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS2104",
+    "IHome.charlie.d.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.charlie.d.tmms",
+      "email": "IHome.charlie.d.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2",
       "section": "None"
     },
-    "IHomeE2eT.danny.e.tmms@IHomeE2eT.CS2104": {
-      "googleId": "IHomeE2eT.danny.e.tmms",
-      "email": "IHomeE2eT.danny.e.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS2104",
+    "IHome.danny.e.tmms@IHome.CS2104": {
+      "googleId": "tm.e2e.IHome.danny.e.tmms",
+      "email": "IHome.danny.e.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS2104",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
       "section": "None"
     },
-    "IHomeE2eT.alice.b.tmms@IHomeE2eT.CS1101": {
-      "googleId": "IHomeE2eT.alice.b.tmms",
-      "email": "IHomeE2eT.alice.b.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS1101",
+    "IHome.alice.b.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.alice.b.tmms",
+      "email": "IHome.alice.b.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "IHomeE2eT.benny.c.tmms@IHomeE2eT.CS1101": {
-      "googleId": "IHomeE2eT.benny.c.tmms",
-      "email": "IHomeE2eT.benny.c.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS1101",
+    "IHome.benny.c.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.benny.c.tmms",
+      "email": "IHome.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "IHomeE2eT.charlie.d.tmms@IHomeE2eT.CS1101": {
-      "googleId": "IHomeE2eT.charlie.d.tmms",
-      "email": "IHomeE2eT.charlie.d.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS1101",
+    "IHome.charlie.d.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.charlie.d.tmms",
+      "email": "IHome.charlie.d.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2",
       "section": "None"
     },
-    "IHomeE2eT.danny.e.tmms@IHomeE2eT.CS1101": {
-      "googleId": "IHomeE2eT.danny.e.tmms",
-      "email": "IHomeE2eT.danny.e.tmms@gmail.tmt",
-      "course": "IHomeE2eT.CS1101",
+    "IHome.danny.e.tmms@IHome.CS1101": {
+      "googleId": "tm.e2e.IHome.danny.e.tmms",
+      "email": "IHome.danny.e.tmms@gmail.tmt",
+      "course": "tm.e2e.IHome.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -147,8 +147,8 @@
   "feedbackSessions": {
     "First Feedback Session": {
       "feedbackSessionName": "First Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
-      "creatorEmail": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-01T04:00:00Z",
@@ -167,8 +167,8 @@
     },
     "Second Feedback Session": {
       "feedbackSessionName": "Second Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
-      "creatorEmail": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2027-03-29T14:59:00Z",
@@ -187,8 +187,8 @@
     },
     "Third Feedback Session": {
       "feedbackSessionName": "Third Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
-      "creatorEmail": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-10T15:59:00Z",
@@ -207,8 +207,8 @@
     },
     "Fourth Feedback Session": {
       "feedbackSessionName": "Fourth Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
-      "creatorEmail": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "courseId": "tm.e2e.IHome.CS2104",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-05T03:59:00Z",
@@ -227,8 +227,8 @@
     },
     "CS1101 Session": {
       "feedbackSessionName": "CS1101 Session",
-      "courseId": "IHomeE2eT.CS1101",
-      "creatorEmail": "IHomeE2eT.instructor.tmms@gmail.tmt",
+      "courseId": "tm.e2e.IHome.CS1101",
+      "creatorEmail": "IHome.instructor.tmms@gmail.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2012-03-20T23:59:00Z",
       "startTime": "2012-04-05T03:59:00Z",
@@ -247,9 +247,9 @@
     }
   },
   "feedbackQuestions": {
-    "IHomeE2eT.CS2104:First Feedback Session:Q1": {
+    "IHome.CS2104:First Feedback Session:Q1": {
       "feedbackSessionName": "First Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
+      "courseId": "tm.e2e.IHome.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Rate 5 other students' products"
@@ -270,9 +270,9 @@
         "RECEIVER"
       ]
     },
-    "IHomeE2eT.CS2104:Third Feedback Session:Q1": {
+    "IHome.CS2104:Third Feedback Session:Q1": {
       "feedbackSessionName": "Third Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
+      "courseId": "tm.e2e.IHome.CS2104",
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Rate 5 other students' products"
@@ -297,10 +297,10 @@
   "feedbackResponses": {
     "response1": {
       "feedbackSessionName": "First Feedback Session",
-      "courseId": "IHomeE2eT.CS2104",
+      "courseId": "tm.e2e.IHome.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "IHomeE2eT.alice.b.tmms@gmail.tmt",
-      "recipient": "IHomeE2eT.danny.e.tmms@gmail.tmt",
+      "giver": "IHome.alice.b.tmms@gmail.tmt",
+      "recipient": "IHome.danny.e.tmms@gmail.tmt",
       "giverSection": "None",
       "recipientSection": "None",
       "responseDetails": {

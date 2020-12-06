@@ -39,7 +39,7 @@ public class InstructorHomePage extends AppPage {
     public InstructorSearchPage searchKeyword(String keyword) {
         fillTextBox(searchBar, keyword);
         click(searchButton);
-        waitForPageToLoad(true);
+        waitUntilAnimationFinish();
         return changePageType(InstructorSearchPage.class);
     }
 

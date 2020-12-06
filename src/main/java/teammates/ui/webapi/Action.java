@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -24,6 +25,7 @@ import teammates.logic.api.EmailSender;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
+import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
 
 /**
@@ -225,6 +227,27 @@ public abstract class Action {
             }
         }
         return Optional.empty();
+    }
+
+    InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
+        InstructorPrivilegeData privilege = new InstructorPrivilegeData();
+        privilege.constructCourseLevelPrivilege(instructor.privileges);
+        if (feedbackSessionName != null) {
+            privilege.setCanSubmitSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+            privilege.setCanViewSessionInSections(
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(
+                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            privilege.setCanModifySessionCommentsInSections(
+                    instructor.isAllowedForPrivilege(
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
+                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+        }
+        return privilege;
     }
 
     /**

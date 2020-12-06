@@ -75,7 +75,6 @@ public class AdminSearchPage extends AppPage {
     public void regenerateLinksForStudent(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
         studentRow.findElement(By.xpath("//button[text()='Regenerate links']")).click();
-        waitForPageToLoad();
 
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
@@ -153,11 +152,11 @@ public class AdminSearchPage extends AppPage {
 
     public void resetStudentGoogleId(StudentAttributes student) {
         WebElement studentRow = getStudentRow(student);
-        studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
-        waitForPageToLoad();
+        WebElement link = studentRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
+        link.click();
 
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
+        waitForElementStaleness(link);
     }
 
     public WebElement getInstructorRow(InstructorAttributes instructor) {
@@ -201,11 +200,11 @@ public class AdminSearchPage extends AppPage {
 
     public void resetInstructorGoogleId(InstructorAttributes instructor) {
         WebElement instructorRow = getInstructorRow(instructor);
-        instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID)).click();
-        waitForPageToLoad();
+        WebElement link = instructorRow.findElement(By.linkText(LINK_TEXT_RESET_GOOGLE_ID));
+        link.click();
 
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad();
+        waitForElementStaleness(link);
     }
 
     public int getNumExpandedRows(WebElement row) {

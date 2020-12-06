@@ -177,7 +177,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         courses.courses.forEach((course: Course) => {
           const model: CourseTabModel = {
             course,
-            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             sessionsTableRowModels: [],
             isTabExpanded: false,
             isAjaxSuccess: true,
@@ -188,7 +188,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           };
 
           this.courseTabModels.push(model);
-          this.updateCourseInstructorPrivilege(model);
         });
         this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
         this.sortCoursesBy(this.instructorCoursesSortBy);
@@ -196,20 +195,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         this.hasCoursesLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
 
-      });
-  }
-
-  /**
-   * Updates the instructor privilege in {@code CourseTabModel}.
-   */
-  updateCourseInstructorPrivilege(model: CourseTabModel): void {
-    this.instructorService.loadInstructorPrivilege({ courseId: model.course.courseId })
-      .subscribe((instructorPrivilege: InstructorPrivilege) => {
-        model.instructorPrivilege = instructorPrivilege;
-      }, (resp: ErrorMessageOutput) => {
-        this.courseTabModels = [];
-        this.hasCoursesLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
@@ -227,10 +212,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 feedbackSession,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
               };
               model.sessionsTableRowModels.push(m);
-              this.updateInstructorPrivilege(m);
             });
             model.hasPopulated = true;
             if (!model.isAjaxSuccess) {
@@ -367,8 +351,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               feedbackSession: session,
               responseRate: '',
               isLoadingResponseRate: false,
-
-              instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             };
             const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
                 tabModel.course.courseId === session.courseId);

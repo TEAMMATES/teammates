@@ -93,6 +93,8 @@ public final class Const {
         TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
     }
 
+    public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
+
     /*
      * Other Constants
      */
@@ -618,6 +620,7 @@ public final class Const {
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
         public static final String STUDENT_PROFILE_PAGE = STUDENT_PAGE + "/profile";
+        public static final String STUDENT_SESSION_SUBMISSION_PAGE = STUDENT_PAGE + "/sessions/submission";
         public static final String STUDENT_SESSION_RESULTS_PAGE = STUDENT_PAGE + "/sessions/result";
 
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
@@ -726,11 +729,6 @@ public final class Const {
                 "feedback-session-unpublished-email-queue";
         public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_URL =
                 URI_PREFIX + "/feedbackSessionUnpublishedEmail";
-
-        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_QUEUE_NAME =
-                "feedback-session-update-respondent-queue";
-        public static final String FEEDBACK_SESSION_UPDATE_RESPONDENT_WORKER_URL =
-                URI_PREFIX + "/feedbackSessionUpdateRespondent";
 
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME = "instructor-course-join-email-queue";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/instructorCourseJoinEmail";

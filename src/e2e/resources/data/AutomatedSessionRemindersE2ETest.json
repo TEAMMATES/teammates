@@ -1,0 +1,204 @@
+{
+  "accounts": {
+    "instructorWithEvals": {
+      "googleId": "tm.e2e.AutSesRem.instructor",
+      "name": "Test Ins for Aut Sessions Reminder",
+      "isInstructor": true,
+      "email": "AutSesRem.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "course": {
+      "id": "tm.e2e.AutSesRem.course",
+      "name": "Test Course for Aut Sessions Reminder",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "AutSesRem.instructor": {
+      "googleId": "tm.e2e.AutSesRem.instructor",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "name": "Test Ins for Aut Sessions Reminder",
+      "email": "AutSesRem.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@AutSesRem.course": {
+      "googleId": "tm.e2e.AutSesRem.alice.b.tmms",
+      "email": "AutSesRem.instructor@gmail.tmt",
+      "course": "tm.e2e.AutSesRem.course",
+      "name": "Alice Betsy</option></td></div>'\"",
+      "comments": "dummy comment</option></td></div>'\"",
+      "team": "Team 1</td></div>'\"",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {
+    "openingSession": {
+      "feedbackSessionName": "AutSesRem Opening Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2037-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T15:59:00Z",
+      "resultsVisibleFromTime": "2037-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 0,
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "closingSession": {
+      "feedbackSessionName": "AutSesRem Closing Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T23:59:00Z",
+      "endTime": "2037-04-30T23:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T23:59:00Z",
+      "resultsVisibleFromTime": "2037-05-01T23:59:00Z",
+      "timeZone": "UTC",
+      "gracePeriod": 15,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "closedSession": {
+      "feedbackSessionName": "AutSesRem Closed Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T23:59:00Z",
+      "endTime": "2037-04-30T23:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T23:59:00Z",
+      "resultsVisibleFromTime": "2037-05-01T23:59:00Z",
+      "timeZone": "UTC",
+      "gracePeriod": 15,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "publishedSession": {
+      "feedbackSessionName": "AutSesRem Published Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "creatorEmail": "AutSesRem.instructor@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2013-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 0,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "questionForOpeningSession": {
+      "feedbackSessionName": "AutSesRem Opening Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "questionForClosingSession": {
+      "feedbackSessionName": "AutSesRem Closing Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that closing reminders will be sent to students as it is unanswered."
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    },
+    "questionForPublishedSession": {
+      "feedbackSessionName": "AutSesRem Published Session",
+      "courseId": "tm.e2e.AutSesRem.course",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question is so that opening reminders will be sent to students, as the session needs to have question for students."
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

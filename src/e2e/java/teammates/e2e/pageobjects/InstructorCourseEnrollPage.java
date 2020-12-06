@@ -19,6 +19,9 @@ public class InstructorCourseEnrollPage extends AppPage {
     private static final int SPREADSHEET_NUM_STARTING_ROWS = 20;
     private static final int NUM_ENROLLMENT_ATTRIBUTES = 5;
 
+    @FindBy(id = "enroll-header")
+    private WebElement enrollHeader;
+
     @FindBy(id = "toggle-existing-students")
     private WebElement toggleExistingStudentsHeader;
 
@@ -47,6 +50,10 @@ public class InstructorCourseEnrollPage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageTitle().contains("Enroll Students for");
+    }
+
+    public void verifyIsCorrectPage(String courseId) {
+        assertEquals("Enroll Students for " + courseId, enrollHeader.getText());
     }
 
     public void clickToggleExistingStudentsHeader() {
@@ -125,8 +132,8 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     private void fillEnrollSpreadsheet(String[][] expectedStudentData) {
         WebElement firstCell = getEnrollSpreadsheetFirstCell();
+        scrollElementToCenterAndClick(firstCell);
         Actions actions = new Actions(browser.driver);
-        actions.click(firstCell).perform();
         for (String[] expectedRowData : expectedStudentData) {
             for (String expectedCellData : expectedRowData) {
                 actions.sendKeys(expectedCellData + Keys.TAB).perform();
@@ -134,9 +141,7 @@ public class InstructorCourseEnrollPage extends AppPage {
         }
     }
 
-    // Does not work if first cell is not visible
     private WebElement getEnrollSpreadsheetFirstCell() {
-        setWindowSize(1000, 1000);
         return enrollSpreadsheet.findElement(By.tagName("tbody")).findElement(By.tagName("td"));
     }
 

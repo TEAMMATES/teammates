@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FNumScaleQuestionE2eT.instructor",
+      "googleId": "tm.e2e.FNumScaleQn.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FNumScaleQuestionE2eT.CS2104",
+      "id": "tm.e2e.FNumScaleQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FNumScaleQuestionE2eT.CS1101",
+      "id": "tm.e2e.FNumScaleQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FNumScaleQuestionE2eT.instructor",
-      "courseId": "FNumScaleQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FNumScaleQn.instructor",
+      "courseId": "tm.e2e.FNumScaleQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FNumScaleQuestionE2eT.instructor",
-      "courseId": "FNumScaleQuestionE2eT.CS1101",
+      "googleId": "tm.e2e.FNumScaleQn.instructor",
+      "courseId": "tm.e2e.FNumScaleQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,37 +69,37 @@
     }
   },
   "students": {
-    "alice.tmms@FNumScaleQuestionE2eT.CS2104": {
-      "googleId": "FNumScaleQuestionE2eT.alice.tmms",
+    "alice.tmms@FNumScaleQn.CS2104": {
+      "googleId": "tm.e2e.FNumScaleQn.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS2104",
+      "course": "tm.e2e.FNumScaleQn.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@FNumScaleQuestionE2eT.CS2104": {
-      "googleId": "FNumScaleQuestionE2eT.benny.tmms",
+    "benny.tmms@FNumScaleQn.CS2104": {
+      "googleId": "tm.e2e.FNumScaleQn.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS2104",
+      "course": "tm.e2e.FNumScaleQn.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 2",
       "section": "None"
     },
-    "charlie.tmms@FNumScaleQuestionE2eT.CS2104": {
-      "googleId": "charlie.tmms",
-      "email": "FNumScaleQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS2104",
+    "charlie.tmms@FNumScaleQn.CS2104": {
+      "googleId": "tm.e2e.FNumScaleQn.charlie.tmms",
+      "email": "FNumScaleQn.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.FNumScaleQn.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 3",
       "section": "None"
     },
-    "danny.tmms@FNumScaleQuestionE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "FNumScaleQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FNumScaleQuestionE2eT.CS1101",
+    "danny.tmms@FNumScaleQn.CS1101": {
+      "googleId": "tm.e2e.FNumScaleQn.danny.tmms",
+      "email": "FNumScaleQn.danny.tmms@gmail.tmt",
+      "course": "tm.e2e.FNumScaleQn.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -109,7 +109,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FNumScaleQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FNumScaleQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -129,7 +129,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FNumScaleQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FNumScaleQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -151,7 +151,7 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FNumScaleQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FNumScaleQn.CS2104",
       "questionDetails": {
         "minScale": 0,
         "questionText": "Rate this team's product",
@@ -178,7 +178,7 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FNumScaleQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FNumScaleQn.CS1101",
       "questionDetails": {
         "minScale": 1,
         "questionText": "Rate this team's teamwork",

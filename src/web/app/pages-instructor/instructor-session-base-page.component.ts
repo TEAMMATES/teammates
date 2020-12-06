@@ -14,7 +14,6 @@ import {
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionStats,
-  InstructorPrivilege,
 } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
@@ -148,21 +147,6 @@ export abstract class InstructorSessionBasePageComponent {
           strB = '';
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
-  }
-
-  /**
-   * Updates the instructor privilege in {@code SessionsTableRowModel}.
-   */
-  protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
-    this.instructorService.loadInstructorPrivilege({
-      courseId: model.feedbackSession.courseId,
-      feedbackSessionName: model.feedbackSession.feedbackSessionName,
-    },
-    ).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      model.instructorPrivilege = instructorPrivilege;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
