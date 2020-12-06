@@ -206,6 +206,17 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
         verifyAccessibleForInstructorsOfTheSameCourse(params);
         verifyAccessibleForAdminToMasqueradeAsInstructor(params);
+
+        ______TS("observers of course can access result");
+
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
+        };
+
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, params);
     }
 
 }
