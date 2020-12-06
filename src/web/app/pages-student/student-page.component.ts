@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { MasqueradeModeService } from '../../services/masquerade-mode.service';
 import { AuthInfo } from '../../types/api-output';
 
 /**
@@ -37,8 +36,7 @@ export class StudentPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService,
-              private masqueradeModeService: MasqueradeModeService) {}
+  constructor(private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
@@ -48,7 +46,6 @@ export class StudentPageComponent implements OnInit {
           this.user = res.user.id;
           if (res.masquerade) {
             this.user += ' (M)';
-            this.masqueradeModeService.setMasqueradeUser(res.user.id);
           }
           this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;

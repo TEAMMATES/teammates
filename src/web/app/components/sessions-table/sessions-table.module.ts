@@ -10,6 +10,7 @@ import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { AjaxPreloadModule } from '../ajax-preload/ajax-preload.module';
 import { CopySessionModalModule } from '../copy-session-modal/copy-session-modal.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { PublishStatusTooltipPipe } from './publish-status-tooltip.pipe';
 import { ResendResultsLinkToRespondentModalComponent } from './resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
 import { RespondentListInfoTableComponent } from './respondent-list-info-table/respondent-list-info-table.component';
@@ -39,6 +40,7 @@ import { SubmissionStatusTooltipPipe } from './submission-status-tooltip.pipe';
     FormsModule,
     CopySessionModalModule,
     RouterModule,
+    TeammatesRouterModule,
   ],
   entryComponents: [
     ResendResultsLinkToRespondentModalComponent,

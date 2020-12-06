@@ -96,7 +96,7 @@
     <p>
       Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
       <br> The setup and result statistics is similar to the single answer version. See
-      <a (click)="jumpTo(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ); questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = true" [routerLink]="">above</a> for details.
+      <a (click)="jumpTo(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ); questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = true" [tmRouterLink]="">above</a> for details.
     </p>
     <p>
       <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
@@ -292,7 +292,7 @@
     </ol>
     <p>
       In the calculation, we do not allow (1) to affect (2). We use (2) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
-      <a (click)="openContribInfoModal(contributionTemplateBody)" [routerLink]="">here</a>.
+      <a (click)="openContribInfoModal(contributionTemplateBody)" [tmRouterLink]="">here</a>.
       <ng-template #contributionTemplateBody>
         <div class="modal-body">
           <ul>
@@ -660,7 +660,7 @@
       </li>
     </ul>
     <p>
-      Technical details about how ranks are calculated are available <a (click)="openRankInfoModal(rankInfoHelp)" [routerLink]="">here</a>.
+      Technical details about how ranks are calculated are available <a (click)="openRankInfoModal(rankInfoHelp)" [tmRouterLink]="">here</a>.
     </p>
     <ng-template #rankInfoHelp>
       <ul>

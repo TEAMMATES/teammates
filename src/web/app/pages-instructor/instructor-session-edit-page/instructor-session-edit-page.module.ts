@@ -10,6 +10,7 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { QuestionEditFormModule } from '../../components/question-edit-form/question-edit-form.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import {
   CopyQuestionsFromOtherSessionsModalComponent,
 } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
@@ -41,6 +42,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     LoadingRetryModule,
+    TeammatesRouterModule,
   ],
   entryComponents: [
     TemplateQuestionModalComponent,

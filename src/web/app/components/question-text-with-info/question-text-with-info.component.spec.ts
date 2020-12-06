@@ -11,6 +11,7 @@ import {
 import {
   QuestionAdditionalInfoModule,
 } from '../question-types/question-additional-info/question-additional-info.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
 
 describe('QuestionTextWithInfoComponent', () => {
@@ -23,6 +24,7 @@ describe('QuestionTextWithInfoComponent', () => {
       imports: [
         RouterTestingModule,
         QuestionAdditionalInfoModule,
+        TeammatesRouterModule,
       ],
     })
     .compileComponents();
