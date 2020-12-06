@@ -9,6 +9,7 @@ import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { FormValidator } from '../../../types/form-validator';
@@ -44,6 +45,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
               private router: Router,
               private statusMessageService: StatusMessageService,
               private studentService: StudentService,
+              private navigationService: NavigationService,
               private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService) { }
 
@@ -192,11 +194,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       requestBody: reqBody,
     })
       .subscribe((resp: MessageOutput) => {
-        this.router.navigate(['/web/instructor/courses/details'], {
-          queryParams: { courseid: this.courseId },
-        }).then(() => {
-          this.statusMessageService.showSuccessToast(resp.message);
-        });
+        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
+            resp.message, { courseid: this.courseId });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });

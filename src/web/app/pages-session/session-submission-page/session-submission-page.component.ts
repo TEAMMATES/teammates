@@ -250,7 +250,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Redirects to join course link for unregistered student.
    */
   joinCourseForUnregisteredStudent(): void {
-    this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
+    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
   }
 
   /**
@@ -316,8 +316,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
             'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.router.navigateByUrl('web/student/home');
+          this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
         }
       });
   }

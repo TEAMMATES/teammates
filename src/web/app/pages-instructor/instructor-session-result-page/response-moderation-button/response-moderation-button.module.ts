@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
+import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { ResponseModerationButtonComponent } from './response-moderation-button.component';
 
 /**
@@ -13,7 +13,7 @@ import { ResponseModerationButtonComponent } from './response-moderation-button.
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    TeammatesRouterModule,
   ],
   exports: [
     ResponseModerationButtonComponent,

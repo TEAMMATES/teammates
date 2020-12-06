@@ -25,7 +25,7 @@
                             headerText="Is there a size limit for a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
     <p>
-      No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS); questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true" [routerLink]="">divided into sections</a>.<br>
+      No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS); questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true" [tmRouterLink]="">divided into sections</a>.<br>
       TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
     </p>
   </tm-instructor-help-panel>
@@ -123,7 +123,7 @@
                             headerText="How do I set an instructor's access level?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
     <p>
-      When <a (click)="jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true" [routerLink]="">adding an instructor</a> or <a (click)="jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true" [routerLink]="">editing an instructor's information</a>, you can set the instructor's access level.
+      When <a (click)="jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true" [tmRouterLink]="">adding an instructor</a> or <a (click)="jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true" [tmRouterLink]="">editing an instructor's information</a>, you can set the instructor's access level.
       There are 4 pre-defined privilege options for you to choose from:
     </p>
     <ul>
@@ -226,7 +226,7 @@
     </p>
     <ol>
       <li>
-        <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true" [routerLink]="">View the student list</a> of Course B.
+        <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true" [tmRouterLink]="">View the student list</a> of Course B.
       </li>
       <li>
         In the row corresponding to Student A, click the <button class="btn btn-secondary btn-sm">Delete</button> button.
@@ -267,7 +267,7 @@
     </p>
     <p>
       The courses you have previously archived are listed here.
-      In order to access information in an archived course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_UNARCHIVE); questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = true" [routerLink]="">unarchive the course</a>.
+      In order to access information in an archived course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_UNARCHIVE); questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE] = true" [tmRouterLink]="">unarchive the course</a>.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
@@ -276,7 +276,7 @@
                             headerText="How do I unarchive an archived course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_UNARCHIVE]">
     <p>
-      To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [routerLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
+      To unarchive a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_ARCHIVED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_ARCHIVED] = true" [tmRouterLink]="">view the course</a> that you would like to unarchive in the <b>Courses</b> page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Unarchive</button> button corresponding to the course you want to unarchive.
     </p>
   </tm-instructor-help-panel>
@@ -293,7 +293,7 @@
     </p>
     <p>
       The courses you have previously deleted are listed here.
-      In order to access information in a deleted course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_RESTORE); questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = true" [routerLink]="">restore the course</a>.
+      In order to access information in a deleted course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_RESTORE); questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = true" [tmRouterLink]="">restore the course</a>.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
@@ -302,7 +302,7 @@
                             headerText="How do I restore a deleted course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
     <p>
-      To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
+      To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> that you would like to restore in the <b>Courses</b> page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
     </p>
     <p>
@@ -315,7 +315,7 @@
                             headerText="How do I permanently delete a course?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
     <p>
-      To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
+      To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> that you would like to permanently delete in the <b>Courses</b> page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm color-negative" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
     </p>
     <p>
@@ -328,7 +328,7 @@
                             headerText="How do I restore/delete all courses from Recycle Bin?"
                             [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
     <p>
-      First <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [routerLink]="">view the course</a> and check for courses in Recycle Bin.<br>
+      First <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> and check for courses in Recycle Bin.<br>
       To restore all courses, click on the <a class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top"><span class="fa fa-check"></span><strong> Restore All</strong></a> button in <b>Deleted courses</b> heading;
       to delete all courses, click on the <a class="btn btn-secondary btn-sm color-negative" data-toggle="tooltip" data-placement="top"><span class="fa fa-times"></span><strong> Delete All</strong></a> button in <b>Deleted courses</b> heading.
     </p>

@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorStudentListPageComponent } from './instructor-student-list-page.component';
 import { InstructorStudentListPageModule } from './instructor-student-list-page.module';
 
@@ -14,6 +15,7 @@ describe('InstructorStudentListPageComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        TeammatesRouterModule,
         RouterTestingModule,
         FormsModule,
         InstructorStudentListPageModule,

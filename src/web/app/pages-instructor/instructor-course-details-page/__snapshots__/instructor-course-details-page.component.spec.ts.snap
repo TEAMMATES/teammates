@@ -9,10 +9,8 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -54,10 +52,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading="false"
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -209,7 +205,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
          There are no students in this course. Click 
         <a
           href="/web/instructor/courses/enroll?courseid=CS101"
-          routerlink="/web/instructor/courses/enroll"
+          tmrouterlink="/web/instructor/courses/enroll"
         >
           here
         </a>
@@ -232,10 +228,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading="false"
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -637,10 +631,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

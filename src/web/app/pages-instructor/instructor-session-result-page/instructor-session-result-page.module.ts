@@ -7,6 +7,7 @@ import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.mo
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorSessionResultPageComponent } from './instructor-session-result-page.component';
 import { InstructorSessionResultViewModule } from './instructor-session-result-view.module';
 import { SectionTypeDescriptionPipe } from './section-type-description.pipe';
@@ -40,6 +41,7 @@ const routes: Routes = [
     LoadingSpinnerModule,
     AjaxLoadingModule,
     LoadingRetryModule,
+    TeammatesRouterModule,
   ],
 })
 export class InstructorSessionResultPageModule { }
