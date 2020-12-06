@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
+import { TeammatesRouterModule } from '../../teammates-router/teammates-router.module';
 import { ConstsumOptionsQuestionStatisticsComponent } from './constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from './constsum-recipients-question-statistics.component';
 import { ContributionQuestionStatisticsComponent,
@@ -53,6 +54,7 @@ import { TextQuestionStatisticsComponent } from './text-question-statistics.comp
     SortableTableModule,
     RouterModule,
     ContributionQuestionStatisticsModule,
+    TeammatesRouterModule,
   ],
 })
 export class QuestionStatisticsModule { }

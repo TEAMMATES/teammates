@@ -8,29 +8,22 @@ import { Injectable } from '@angular/core';
 })
 export class MasqueradeModeService {
 
-  private userIdToMasquerade: string = '';
-
   constructor() { }
 
   /**
    * Gets the masquerade user.
    */
   getMasqueradeUser(): string {
-    return this.userIdToMasquerade;
-  }
-
-  /**
-   * Sets the masquerade user.
-   */
-  setMasqueradeUser(user: string): void {
-    this.userIdToMasquerade = user;
+    const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+    const userParam: string | null = urlParams.get('user');
+    return userParam ? userParam : '';
   }
 
   /**
    * Checks whether masquerade mode is set.
    */
   isInMasqueradingMode(): boolean {
-    return this.userIdToMasquerade !== '';
+    return this.getMasqueradeUser() !== '';
   }
 
 }

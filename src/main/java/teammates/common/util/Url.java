@@ -60,21 +60,6 @@ public class Url {
         return baseUrl;
     }
 
-    /**
-     * Returns the value of the {@code parameterName} parameter. Null if no such parameter.
-     */
-    public String get(String parameterName) {
-        /*
-         * Regex meaning: from the start of the string, try to find either:
-         * 1. "?" followed by "{parameterName}="
-         * 2. Any amount of any character followed by "&{parameterName}="
-         * followed by as many characters as possible until the first & is found.
-         * Returns the first occurrence if found, null otherwise.
-         */
-        String keyValuePairRegex = "^(\\?|.*&)" + parameterName + "=([^&]*).*";
-        return query.matches(keyValuePairRegex) ? query.replaceFirst(keyValuePairRegex, "$2") : null;
-    }
-
     @SuppressWarnings("unchecked")
     public <T extends Url> T withParam(String paramName, String paramValue) {
         query = addParamToUrl(query, paramName, paramValue);
