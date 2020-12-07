@@ -20,4 +20,10 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackTextQuestionDetails();
         assertFalse(feedbackQuestionDetails.isFeedbackParticipantCommentsOnResponsesAllowed());
     }
+
+    @Test
+    public void testIsRichTextOptionTrueByDefault_shouldReturnTrue() {
+        FeedbackTextQuestionDetails feedbackQuestionDetails = new FeedbackTextQuestionDetails();
+        assertTrue(feedbackQuestionDetails.getShouldAllowRichText());
+    }
 }

@@ -11,6 +11,7 @@ import { QuestionSubmissionFormModule,
 import {
     QuestionStatisticsModule,
 } from '../../../components/question-types/question-statistics/question-statistics.module';
+import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { InstructorSessionResultViewModule } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view.module';
 import { ExampleBoxModule } from '../example-box/example-box.module';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
@@ -28,7 +29,7 @@ describe('InstructorHelpQuestionsSectionComponent', () => {
       ],
       imports: [
         InstructorSessionResultViewModule, NgbModule, RouterTestingModule, HttpClientTestingModule,
-        NgxPageScrollCoreModule, NoopAnimationsModule, ExampleBoxModule,
+        NgxPageScrollCoreModule, NoopAnimationsModule, ExampleBoxModule, TeammatesRouterModule,
         QuestionEditFormModule, QuestionStatisticsModule, QuestionSubmissionFormModule, PanelChevronModule,
       ],
     })

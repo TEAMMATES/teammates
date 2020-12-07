@@ -9,7 +9,7 @@
 </span>
 
 <ng-template #viewPhotoBtn>
-  <a *ngIf="!isPhotoShown" [routerLink]="" role="button" (click)="isPhotoShown=true; $event.stopPropagation();"
+  <a *ngIf="!isPhotoShown" [tmRouterLink]="" role="button" (click)="isPhotoShown=true; $event.stopPropagation();"
      queryParamsHandling="preserve">
     View Photo
   </a>

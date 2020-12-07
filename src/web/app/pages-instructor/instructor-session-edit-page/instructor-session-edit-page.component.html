@@ -37,7 +37,7 @@
           </ng-container>
         </div>
       </div>
-      <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" routerLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
+      <a type="button" class="btn btn-link" target="_blank" rel="noopener noreferrer" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: 'questions', section: 'questions'}"><i class="fas fa-info-circle"></i></a>
       <button id="btn-copy-question" class="btn btn-primary" (click)="copyQuestionsFromOtherSessionsHandler()" [disabled]="isCopyingQuestion"><tm-ajax-loading *ngIf="isCopyingQuestion"></tm-ajax-loading>Copy Question</button>
       <button class="btn btn-primary btn-margin-left" (click)="doneEditingHandler()">Done Editing</button>
     </div>
@@ -60,7 +60,7 @@
           <select id="preview-student" class="form-control preview-select" [(ngModel)]="emailOfStudentToPreview">
             <option *ngFor="let student of studentsOfCourse" [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
           </select>
-          <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" routerLink="/web/sessions/submission"
+          <a *ngIf="emailOfStudentToPreview.length !== 0; else previewStudentBtn" tmRouterLink="/web/sessions/submission"
              [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfStudentToPreview }"
              target="_blank"
              rel="noopener noreferrer"
@@ -75,7 +75,7 @@
           <select id="preview-instructor" class="form-control preview-select" [(ngModel)]="emailOfInstructorToPreview">
             <option *ngFor="let instructor of instructorsCanBePreviewedAs" [ngValue]="instructor.email">{{ instructor.name }}</option>
           </select>
-          <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" routerLink="/web/instructor/sessions/submission"
+          <a *ngIf="emailOfInstructorToPreview.length !== 0; else previewInstructorBtn" tmRouterLink="/web/instructor/sessions/submission"
              [queryParams]="{ courseid: courseId, fsname: feedbackSessionName, previewas: emailOfInstructorToPreview }"
              target="_blank"
              rel="noopener noreferrer"

@@ -13,6 +13,7 @@ import { ErrorReportModule } from './components/error-report/error-report.module
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
 import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
+import { TeammatesRouterModule } from './components/teammates-router/teammates-router.module';
 import { ToastModule } from './components/toast/toast.module';
 import { CustomUrlSerializer } from './custom-url-serializer';
 import { MaintenancePageComponent } from './maintenance-page.component';
@@ -148,6 +149,7 @@ if (environment.maintenance) {
       registrationStrategy: 'registerImmediately',
     }),
     LoadingSpinnerModule,
+    TeammatesRouterModule,
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

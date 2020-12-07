@@ -13,11 +13,13 @@ export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDet
   recommendedLength?: number;
   questionText: string = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;
+  shouldAllowRichText: boolean;
 
   constructor(apiOutput: FeedbackTextQuestionDetails) {
     super();
     this.recommendedLength = apiOutput.recommendedLength;
     this.questionText = apiOutput.questionText;
+    this.shouldAllowRichText = apiOutput.shouldAllowRichText;
   }
 
   getQuestionCsvStats(_: QuestionOutput): string[][] {
