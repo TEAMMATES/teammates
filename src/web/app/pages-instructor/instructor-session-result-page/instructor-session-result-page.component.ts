@@ -538,7 +538,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.viewType = newViewType;
 
     // change tooltip text based on currently selected view type
-    switch(this.viewType) {
+    switch (this.viewType) {
       case InstructorSessionResultViewType.QUESTION:
         this.viewTooltipText = 'Group responses by question';
         break;
@@ -554,8 +554,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       case InstructorSessionResultViewType.RQG:
         this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
         break;
+      default:
+        this.viewTooltipText = 'View results in different formats';
     }
-    
+
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
   }
