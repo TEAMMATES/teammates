@@ -83,6 +83,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   courseId: string = '';
   fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
+  viewTooltipText: string = 'View results in different formats';
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
@@ -535,6 +536,26 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       return;
     }
     this.viewType = newViewType;
+
+    // change tooltip text based on currently selected view type
+    switch(this.viewType) {
+      case InstructorSessionResultViewType.QUESTION:
+        this.viewTooltipText = 'Group responses by question';
+        break;
+      case InstructorSessionResultViewType.GRQ:
+        this.viewTooltipText = 'Group responses by giver, then by recipient, and then by question';
+        break;
+      case InstructorSessionResultViewType.RGQ:
+        this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
+        break;
+      case InstructorSessionResultViewType.GQR:
+        this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
+        break;
+      case InstructorSessionResultViewType.RQG:
+        this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
+        break;
+    }
+    
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
   }

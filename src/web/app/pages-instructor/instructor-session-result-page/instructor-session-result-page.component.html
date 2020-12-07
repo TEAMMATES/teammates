@@ -58,7 +58,7 @@
         <div class="col-md-6">
           <div class="report-config-item">
             <label class="report-config-label control-label">
-              <b ngbTooltip="View results in different formats" class="ngb-tooltip-class">View:</b>
+              <b ngbTooltip="{{viewTooltipText}}" class="ngb-tooltip-class">View:</b>
             </label>
             <div>
               <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
