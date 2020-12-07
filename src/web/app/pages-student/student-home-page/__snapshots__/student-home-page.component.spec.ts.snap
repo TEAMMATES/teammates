@@ -124,7 +124,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           <a
             class="btn btn-primary btn-sm button"
             href="/web/student/course?courseid=CS2103"
-            routerlink="/web/student/course"
+            tmrouterlink="/web/student/course"
           >
              View team 
           </a>
@@ -181,7 +181,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm btn-margin-right"
                   href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
-                  routerlink="/web/student/sessions/result"
+                  tmrouterlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
@@ -196,7 +196,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
-                  routerlink="/web/student/sessions/submission"
+                  tmrouterlink="/web/student/sessions/submission"
                 >
                    Edit Submission 
                 </a>
@@ -226,7 +226,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm btn-margin-right disabled"
                   href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
-                  routerlink="/web/student/sessions/result"
+                  tmrouterlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
@@ -235,7 +235,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
-                  routerlink="/web/student/sessions/submission"
+                  tmrouterlink="/web/student/sessions/submission"
                 >
                    Start Submission 
                 </a>
@@ -265,7 +265,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           <a
             class="btn btn-primary btn-sm button"
             href="/web/student/course?courseid=CS2102"
-            routerlink="/web/student/course"
+            tmrouterlink="/web/student/course"
           >
              View team 
           </a>
@@ -322,7 +322,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm btn-margin-right disabled"
                   href="/web/student/sessions/result?courseid=CS2102&fsname=Third%20Session"
-                  routerlink="/web/student/sessions/result"
+                  tmrouterlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
@@ -332,7 +332,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2102&fsname=Third%20Session"
-                  routerlink="/web/student/sessions/submission"
+                  tmrouterlink="/web/student/sessions/submission"
                 >
                    Edit Submission 
                 </a>
@@ -362,7 +362,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm btn-margin-right disabled"
                   href="/web/student/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
-                  routerlink="/web/student/sessions/result"
+                  tmrouterlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
@@ -373,7 +373,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 <a
                   class="btn btn-light btn-sm"
                   href="/web/student/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
-                  routerlink="/web/student/sessions/submission"
+                  tmrouterlink="/web/student/sessions/submission"
                 >
                    View Submission 
                 </a>
@@ -516,7 +516,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           <a
             class="btn btn-primary btn-sm button"
             href="/web/student/course?courseid=CS3281"
-            routerlink="/web/student/course"
+            tmrouterlink="/web/student/course"
           >
              View team 
           </a>

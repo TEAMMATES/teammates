@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { EnumToArrayPipe } from './enum-to-array.pipe';
 import { FormatDateBriefPipe } from './format-date-brief.pipe';
 import { FormatDateDetailPipe } from './format-date-detail.pipe';
@@ -28,6 +29,7 @@ import { ViewPhotoPopoverComponent } from './view-photo-popover/view-photo-popov
     RouterModule,
     NgbPopoverModule,
     NgbTooltipModule,
+    TeammatesRouterModule,
   ],
   declarations: [
     EnumToArrayPipe,

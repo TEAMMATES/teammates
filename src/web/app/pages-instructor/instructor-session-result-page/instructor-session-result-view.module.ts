@@ -12,6 +12,7 @@ import { GrqRgqViewResponsesModule } from '../../components/question-responses/g
 import { PerQuestionViewResponsesModule } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.module';
 import { SingleStatisticsModule } from '../../components/question-responses/single-statistics/single-statistics.module';
 import { QuestionTextWithInfoModule } from '../../components/question-text-with-info/question-text-with-info.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultGqrViewComponent } from './instructor-session-result-gqr-view.component';
 import { InstructorSessionResultGrqViewComponent } from './instructor-session-result-grq-view.component';
@@ -52,6 +53,7 @@ import { InstructorSessionResultRqgViewComponent } from './instructor-session-re
     SingleStatisticsModule,
     LoadingSpinnerModule,
     PanelChevronModule,
+    TeammatesRouterModule,
   ],
   providers: [
     CommentToCommentRowModelPipe,
