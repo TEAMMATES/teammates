@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 
 describe('InstructorSessionNoResponsePanelComponent', () => {
@@ -18,6 +19,7 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         PanelChevronModule,
+        TeammatesRouterModule,
       ],
     })
     .compileComponents();

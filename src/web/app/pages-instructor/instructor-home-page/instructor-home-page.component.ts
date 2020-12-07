@@ -114,9 +114,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Redirect to the search page and query the search
    */
   search(): void {
-    this.router.navigate(['web/instructor/search'], {
-      queryParams: { studentSearchkey: this.studentSearchkey },
-    });
+    this.navigationService.navigateByURL(this.router, '/web/instructor/search',
+        { studentSearchkey: this.studentSearchkey });
   }
 
   /**

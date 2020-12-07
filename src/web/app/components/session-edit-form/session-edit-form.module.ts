@@ -5,6 +5,7 @@ import { NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstra
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { TimePickerComponent } from './time-picker/time-picker.component';
@@ -21,6 +22,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
     AjaxLoadingModule,
     TeammatesCommonModule,
     RichTextEditorModule,
+    TeammatesRouterModule,
   ],
   declarations: [
     SessionEditFormComponent,

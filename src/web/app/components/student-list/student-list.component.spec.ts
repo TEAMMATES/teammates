@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JoinState } from '../../../types/api-output';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { JoinStatePipe } from './join-state.pipe';
 import { StudentListComponent } from './student-list.component';
 
@@ -16,6 +17,7 @@ describe('StudentListComponent', () => {
       declarations: [StudentListComponent, JoinStatePipe],
       imports: [
         HttpClientTestingModule,
+        TeammatesRouterModule,
         RouterTestingModule,
         NgbModule,
         TeammatesCommonModule,

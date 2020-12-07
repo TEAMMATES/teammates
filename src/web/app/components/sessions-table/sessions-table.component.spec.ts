@@ -11,6 +11,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
 import { SessionsTableModule } from './sessions-table.module';
@@ -21,7 +22,7 @@ describe('SessionsTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SessionsTableModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [SessionsTableModule, HttpClientTestingModule, RouterTestingModule, TeammatesRouterModule],
     })
     .compileComponents();
   }));
