@@ -62,5 +62,3 @@ src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
 
 !.gitkeep
-gradlew.bat
-angular.json
