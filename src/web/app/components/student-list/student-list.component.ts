@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../../../services/course.service';
-import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
@@ -47,9 +45,7 @@ export class StudentListComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState =  JoinState;
 
-  constructor(private router: Router,
-              private statusMessageService: StatusMessageService,
-              private navigationService: NavigationService,
+  constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private simpleModalService: SimpleModalService) {
   }
@@ -103,8 +99,7 @@ export class StudentListComponent implements OnInit {
   remindStudentFromCourse(studentEmail: string): void {
     this.courseService.remindStudentForJoin(this.courseId, studentEmail)
       .subscribe((resp: MessageOutput) => {
-        this.navigationService.navigateWithSuccessMessage(this.router,
-            `/web/instructor/courses/details?courseid=${this.courseId}`, resp.message);
+        this.statusMessageService.showSuccessToast(resp.message);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });

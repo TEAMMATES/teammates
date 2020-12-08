@@ -9,6 +9,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   isEnabled={[Function Boolean]}
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
+  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
@@ -50,6 +51,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   isEnabled={[Function Boolean]}
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
+  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
@@ -92,6 +94,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   isEnabled={[Function Boolean]}
   isStudentLoading="false"
   isTeamnameFieldChanged="false"
+  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}

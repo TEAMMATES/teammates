@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DynamicComponentModule } from 'ng-dynamic-component';
 import { SortableTableComponent } from '../../../sortable-table/sortable-table.component';
+import { TeammatesRouterModule } from '../../../teammates-router/teammates-router.module';
 import { ContributionQuestionStatisticsComponent } from './contribution-question-statistics.component';
 import { ContributionComponent } from './contribution.component';
 
@@ -13,7 +14,7 @@ describe('ContributionQuestionStatisticsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbTooltipModule, DynamicComponentModule, RouterTestingModule],
+      imports: [NgbTooltipModule, DynamicComponentModule, RouterTestingModule, TeammatesRouterModule],
       declarations: [
         ContributionQuestionStatisticsComponent,
         ContributionComponent,

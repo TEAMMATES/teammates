@@ -948,10 +948,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           <p>Are you sure you want to continue?</p>`;
       this.simpleModalService.openConfirmationModal(
           'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
-            this.router.navigateByUrl('/web/instructor/sessions');
+            this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
           }, () => {});
     } else {
-      this.router.navigateByUrl('/web/instructor/sessions');
+      this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
     }
     // TODO focus on the row of current feedback session in the sessions page
   }
