@@ -5,6 +5,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { Pipes } from '../../pipes/pipes.module';
 import { StudentHomePageComponent } from './student-home-page.component';
 
@@ -33,6 +34,7 @@ const routes: Routes = [
     TeammatesCommonModule,
     LoadingSpinnerModule,
     LoadingRetryModule,
+    TeammatesRouterModule,
   ],
 })
 export class StudentHomePageModule { }

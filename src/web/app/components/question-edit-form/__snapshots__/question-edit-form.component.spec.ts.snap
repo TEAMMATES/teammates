@@ -185,8 +185,21 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   style=""
                 >
                   <div
-                    class="row"
+                    class="row padding-15px"
                   >
+                    <div
+                      class="col-md-10 allow-rich-text"
+                    >
+                      <label>
+                        <input
+                          disabled=""
+                          type="checkbox"
+                        />
+                        <a>
+                           Allow rich-text formatting (e.g., bold text, links, bullet lists, colors, etc.) in the answers
+                        </a>
+                      </label>
+                    </div>
                     <div
                       class="col-12 question-recommended-length"
                     >

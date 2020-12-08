@@ -29,7 +29,7 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
 
     private String formatDateTime(Instant instant, String timeZone) {
         return DateTimeFormatter
-                .ofPattern("EEE, dd MMM YYYY, hh:mm a")
+                .ofPattern("EEE, dd MMM yyyy, hh:mm a")
                 .format(instant.atZone(ZoneId.of(timeZone)))
                 .replaceFirst(" AM$", " am")
                 .replaceFirst(" PM$", " pm");

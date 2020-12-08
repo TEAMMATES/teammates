@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
+import { NavigationService } from '../services/navigation.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
@@ -32,6 +33,7 @@ export class UserJoinPageComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private courseService: CourseService,
+              private navigationService: NavigationService,
               private authService: AuthService,
               private ngbModal: NgbModal) {}
 
@@ -53,7 +55,7 @@ export class UserJoinPageComponent implements OnInit {
         if (this.hasJoined && this.userId) {
           // The regkey has been used and there is a logged in user.
           // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
-          window.location.href = `${window.location.origin}/web/${this.entityType}/home`;
+          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
         } else {
           this.isLoading = false;
         }
@@ -81,7 +83,7 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
 
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
-      this.router.navigate([`/web/${this.entityType}`]);
+      this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);
       modalRef.componentInstance.requestId = resp.error.requestId;
