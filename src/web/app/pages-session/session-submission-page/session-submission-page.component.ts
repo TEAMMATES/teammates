@@ -19,8 +19,6 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
-  ConfirmationResponse,
-  ConfirmationResult,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
@@ -94,8 +92,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   intent: Intent = Intent.STUDENT_SUBMISSION;
 
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
-
-  shouldSendConfirmationEmail: boolean = true;
 
   isSavingResponses: boolean = false;
   isSubmissionFormsDisabled: boolean = false;
@@ -453,9 +449,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       moderatedPerson: this.moderatedPerson,
     }).pipe(finalize(() => this.isFeedbackSessionQuestionResponsesLoading = false))
       .subscribe((existingResponses: FeedbackResponsesResponse) => {
-        // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
-        this.shouldSendConfirmationEmail = this.shouldSendConfirmationEmail && existingResponses.responses.length === 0;
-
         if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
           // need to generate a full list of submission forms
           model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
@@ -612,44 +605,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     });
 
     this.isSavingResponses = true;
-    let hasSubmissionConfirmationError: boolean = false;
     forkJoin(savingRequests).pipe(
-        switchMap(() => {
-          return this.feedbackSessionsService.confirmSubmission({
-            courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
-            sendSubmissionEmail: String(this.shouldSendConfirmationEmail),
-            intent: this.intent,
-            key: this.regKey,
-            moderatedPerson: this.moderatedPerson,
-          });
-        }),
-    ).pipe(
         finalize(() => {
           this.isSavingResponses = false;
 
           const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
           modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values()).join(', ');
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
-          modalRef.componentInstance.hasSubmissionConfirmationError = hasSubmissionConfirmationError;
         }),
-    ).subscribe((response: ConfirmationResponse) => {
-      switch (response.result) {
-        case ConfirmationResult.SUCCESS:
-          break;
-        case ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND:
-          this.statusMessageService.showErrorToast(
-              `Submission confirmation email failed to send: ${response.message}`);
-          break;
-        default:
-          this.statusMessageService.showErrorToast(`Unknown result ${response.result}`);
-      }
-      hasSubmissionConfirmationError = false;
-      this.shouldSendConfirmationEmail = false;
-    }, (resp: ErrorMessageOutput) => {
-      hasSubmissionConfirmationError = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    ).subscribe();
   }
 
   /**

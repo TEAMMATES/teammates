@@ -102,14 +102,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         verifyPresentInDatastore(response);
 
-        ______TS("confirmation email");
-        submitPage.markWithConfirmationEmail();
-        submitPage.submitMcqResponse(1, recipient, response);
-
-        verifyEmailSent(student.getEmail(), "TEAMMATES: Feedback responses successfully recorded"
-                + " [Course: " + testData.courses.get("FSubmit.CS2104").getName() + "][Feedback Session: "
-                + gracePeriodSession.getFeedbackSessionName() + "]");
-
         ______TS("add comment");
         String responseId = getFeedbackResponse(response).getId();
         int qnToComment = 1;

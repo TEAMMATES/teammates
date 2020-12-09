@@ -17,9 +17,6 @@ export class SavingCompleteModalComponent implements OnInit {
   @Input()
   failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
 
-  @Input()
-  hasSubmissionConfirmationError: boolean = false;
-
   get hasFailToSaveQuestions(): boolean {
     return Object.keys(this.failToSaveQuestions).length !== 0;
   }
