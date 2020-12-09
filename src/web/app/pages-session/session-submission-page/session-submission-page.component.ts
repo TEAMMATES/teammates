@@ -82,6 +82,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   // the name of the person involved
   // (e.g. the student name for unregistered student, the name of instructor being moderated)
   personName: string = '';
+  personEmail: string = '';
 
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
@@ -224,6 +225,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.regKey,
         ).subscribe((student: Student) => {
           this.personName = student.name;
+          this.personEmail = student.email;
         });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
@@ -236,6 +238,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           previewAs: this.previewAsPerson,
         }).subscribe((instructor: Instructor) => {
           this.personName = instructor.name;
+          this.personEmail = instructor.email;
         });
         break;
       default:
@@ -531,6 +534,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveFeedbackResponses(): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
+    const requestIds: Record<string, string> = {};
+    const answers: Record<string, FeedbackResponse[]> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
 
@@ -571,7 +576,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 const responsesMap: Record<string, FeedbackResponse> = {};
                 resp.responses.forEach((response: FeedbackResponse) => {
                   responsesMap[response.recipientIdentifier] = response;
+                  answers[questionSubmissionFormModel.feedbackQuestionId] =
+                      answers[questionSubmissionFormModel.feedbackQuestionId] || [];
+                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
                 });
+                requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
                 questionSubmissionFormModel.recipientSubmissionForms
                     .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
@@ -610,7 +619,15 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.isSavingResponses = false;
 
           const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
-          modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values()).join(', ');
+          modalRef.componentInstance.requestIds = requestIds;
+          modalRef.componentInstance.courseId = this.courseId;
+          modalRef.componentInstance.feedbackSessionName = this.feedbackSessionName;
+          modalRef.componentInstance.feedbackSessionTimezone = this.feedbackSessionTimezone;
+          modalRef.componentInstance.personEmail = this.personEmail;
+          modalRef.componentInstance.personName = this.personName;
+          modalRef.componentInstance.questions = this.questionSubmissionForms;
+          modalRef.componentInstance.answers = answers;
+          modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
         }),
     ).subscribe();
