@@ -146,7 +146,7 @@
         Scroll to the bottom of the page.
       </li>
       <li>
-        Select between adding a question from our predefined <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a> or
+        Select between adding a question from our predefined <a role = "button" class = "modal-button" (click)="jumpTo('questions')">question types</a> or
         copying a question from an existing feedback session.
       </li>
       <li>
@@ -173,7 +173,7 @@
     </tm-example-box>
     <p>
       TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-      <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a>,
+      <a role = "button" class = "modal-button" (click)="jumpTo('questions')">question types</a>,
       you can also customize your desired:
     </p>
     <ul>
@@ -274,7 +274,7 @@
         Ask the student to view the submission page and send you his/her answers to the session questions.
       </li>
       <li>
-        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
+        <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true">View the results</a> of the session.
       </li>
       <li>
         Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -438,7 +438,7 @@
                             headerText="How do I create a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
     <p>
-      While <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
+      While <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true">viewing the results</a> of a session, you can add comments to respondents' answers.
     </p>
     <p>
       To create comments on a response in a session:
@@ -483,7 +483,7 @@
     </p>
     <ol>
       <li>
-        Navigate to the page where you <a (click)="jumpTo(SessionsSectionQuestions.SESSION_ADD_COMMENTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = true" [tmRouterLink]="">added the comment</a> that you want to edit or delete.
+        Navigate to the page where you <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.SESSION_ADD_COMMENTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = true">added the comment</a> that you want to edit or delete.
       </li>
       <li>
         Hover over the comment which you want to edit or delete.
@@ -547,7 +547,7 @@
     </tm-example-box>
     <p>
       The feedback sessions you have previously deleted are listed here.
-      In order to access information in a deleted session, <a (click)="jumpTo(SessionsSectionQuestions.RESTORE_SESSION); questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true" [tmRouterLink]="">restore the session</a>.
+      In order to access information in a deleted session, <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.RESTORE_SESSION); questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true">restore the session</a>.
     </p>
   </tm-instructor-help-panel>
   <!-- Question -->
@@ -556,7 +556,7 @@
                             headerText="How do I restore a deleted session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
     <p>
-      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+      To restore a deleted feedback session, first <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
@@ -575,7 +575,7 @@
                             headerText="How do I permanently delete a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
     <p>
-      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+      To permanently delete a feedback session, first <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
       Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
@@ -594,7 +594,7 @@
                             headerText="How do I restore/delete all sessions from Recycle Bin?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
     <p>
-      First <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
+      First <a role = "button" class = "modal-button" (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true">view the session</a> and check for sessions in Recycle Bin.<br>
       To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
       to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
     </p>

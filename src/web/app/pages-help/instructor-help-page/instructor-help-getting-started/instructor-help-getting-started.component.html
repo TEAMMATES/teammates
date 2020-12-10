@@ -8,12 +8,12 @@
     For more help, browse the answers to some <a [tmRouterLink]="instructorHelpPath">frequently asked questions</a>.
   </p>
   <ol>
-    <li><a (click)="jumpTo('course-setup')" [tmRouterLink]="">Set up a course</a></li>
-    <li><a (click)="jumpTo('session-setup')" [tmRouterLink]="">Create a session</a></li>
-    <li><a (click)="jumpTo('session-invites')" [tmRouterLink]="">Wait for your session to open</a></li>
-    <li><a (click)="jumpTo('session-results')" [tmRouterLink]="">View and publish session results</a></li>
-    <li><a (click)="jumpTo('other-actions')" [tmRouterLink]="">Learn about other actions you can perform</a></li>
-    <li><a (click)="jumpTo('contact-us')" [tmRouterLink]="">Contact us</a></li>
+    <li><a role = "button" class = "modal-button"(click)="jumpTo('course-setup')">Set up a course</a></li>
+    <li><a role = "button" class = "modal-button" (click)="jumpTo('session-setup')">Create a session</a></li>
+    <li><a role = "button" class = "modal-button" (click)="jumpTo('session-invites')">Wait for your session to open</a></li>
+    <li><a role = "button" class = "modal-button" (click)="jumpTo('session-results')">View and publish session results</a></li>
+    <li><a role = "button" class = "modal-button" (click)="jumpTo('other-actions')">Learn about other actions you can perform</a></li>
+    <li><a role = "button" class = "modal-button" (click)="jumpTo('contact-us')">Contact us</a></li>
   </ol>
   <div class="separate-content-holder">
     <hr>

@@ -9,3 +9,13 @@
 button {
   text-align: left;
 }
+
+.modal-button {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.modal-button:hover {
+  text-decoration: underline;
+  color: #0056B3;
+}
