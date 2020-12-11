@@ -25,6 +25,7 @@ import {
 import {
   SessionsRecycleBinTableModule,
 } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import {
   InstructorCourseStudentEditFormModule,
 } from '../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-form.module';
@@ -77,6 +78,7 @@ const routes: Routes = [
     InstructorSearchComponentsModule,
     InstructorCourseStudentEditFormModule,
     PanelChevronModule,
+    TeammatesRouterModule,
   ],
   declarations: [
     InstructorHelpPageComponent,

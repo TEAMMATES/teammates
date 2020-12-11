@@ -1,5 +1,6 @@
 package teammates.ui.output;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,14 @@ public class FeedbackResponsesData extends ApiOutput {
 
     public FeedbackResponsesData(List<FeedbackResponseAttributes> responses) {
         this.responses = responses.stream().map(FeedbackResponseData::new).collect(Collectors.toList());
+    }
+
+    public FeedbackResponsesData() {
+        responses = Collections.emptyList();
+    }
+
+    public void setResponses(List<FeedbackResponseData> responses) {
+        this.responses = responses;
     }
 
     public List<FeedbackResponseData> getResponses() {

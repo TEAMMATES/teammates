@@ -36,8 +36,10 @@ out/
 
 # JMeter
 jmeter.log
-src/e2e/lnp/*
-!src/e2e/resources/jmeter/bin
+src/lnp/resources/data/*
+src/lnp/resources/results/*
+src/lnp/resources/tests/*
+!src/lnp/resources/jmeter/bin
 
 # TEAMMATES
 gradle.properties

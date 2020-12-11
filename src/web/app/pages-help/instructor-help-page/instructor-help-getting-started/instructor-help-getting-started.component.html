@@ -5,15 +5,15 @@
   </p>
   <p>
     To get started using TEAMMATES, follow the following steps, or watch our <a href="https://www.youtube.com/embed/mDtfmNmRwBM?autoplay=1&rel=0" target="_blank"><i class="fas fa-film"></i> Video Tour</a>.<br>
-    For more help, browse the answers to some <a [routerLink]="instructorHelpPath">frequently asked questions</a>.
+    For more help, browse the answers to some <a [tmRouterLink]="instructorHelpPath">frequently asked questions</a>.
   </p>
   <ol>
-    <li><a (click)="jumpTo('course-setup')" [routerLink]="">Set up a course</a></li>
-    <li><a (click)="jumpTo('session-setup')" [routerLink]="">Create a session</a></li>
-    <li><a (click)="jumpTo('session-invites')" [routerLink]="">Wait for your session to open</a></li>
-    <li><a (click)="jumpTo('session-results')" [routerLink]="">View and publish session results</a></li>
-    <li><a (click)="jumpTo('other-actions')" [routerLink]="">Learn about other actions you can perform</a></li>
-    <li><a (click)="jumpTo('contact-us')" [routerLink]="">Contact us</a></li>
+    <li><a (click)="jumpTo('course-setup')" [tmRouterLink]="">Set up a course</a></li>
+    <li><a (click)="jumpTo('session-setup')" [tmRouterLink]="">Create a session</a></li>
+    <li><a (click)="jumpTo('session-invites')" [tmRouterLink]="">Wait for your session to open</a></li>
+    <li><a (click)="jumpTo('session-results')" [tmRouterLink]="">View and publish session results</a></li>
+    <li><a (click)="jumpTo('other-actions')" [tmRouterLink]="">Learn about other actions you can perform</a></li>
+    <li><a (click)="jumpTo('contact-us')" [tmRouterLink]="">Contact us</a></li>
   </ol>
   <div class="separate-content-holder">
     <hr>
@@ -33,15 +33,15 @@
         </tm-example-box>
       </li>
       <li>
-        <b><a [routerLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_STUDENTS, section: Sections.courses}">Enroll students in the course</a></b><br>
+        <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_STUDENTS, section: Sections.courses}">Enroll students in the course</a></b><br>
         Go to the <b>Courses</b> page and click the <button class="btn btn-secondary btn-sm">Enroll</button> button of the corresponding course.<br>
         Students can be enrolled into teams (e.g. project groups) and sections (e.g. tutorial classes, lecture groups) to facilitate giving feedback in and among these smaller groups.<br>
         TEAMMATES will <b>not</b> automatically notify students that they have been enrolled. However, if you would like students to access TEAMMATES sooner (e.g. if you would like them to fill in their profile page in advance), click the <button class="btn btn-sm btn-secondary">View</button> button of the course in the <b>Courses</b> page. Then, click <button class="btn btn-sm btn-primary"><i class="far fa-envelope"></i> Remind Students to Join</button> button, which will send them instructions to access TEAMMATES immediately.
       </li>
       <li>
-        <b><a [routerLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">Add instructors to the course</a></b><br>
+        <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">Add instructors to the course</a></b><br>
         From the <b>Courses</b> page, click the <button class="btn btn-secondary btn-sm" type="button">Edit</button> button of the course you would like to add instructors to. You will be directed to the <b>Edit Course</b> page where you can add a new instructor to your course.
-        You can specify the <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}">access level</a> of any instructor you add to a course. For more information about how to add an instructor to your course, click <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">here</a>.
+        You can specify the <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}">access level</a> of any instructor you add to a course. For more information about how to add an instructor to your course, click <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses}">here</a>.
       </li>
     </ol>
   </div>
@@ -74,12 +74,12 @@
         </ul>
       </ul>
       <li>
-        <b><a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_QUESTIONS, section: Sections.sessions}">Add questions</a> to your session to suit your needs.</b><br>
+        <b><a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_QUESTIONS, section: Sections.sessions}">Add questions</a> to your session to suit your needs.</b><br>
         For each question, you can set the following:
       </li>
       <ul>
         <li>
-          Question type: the style of question being asked. Choose from our 10 different <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: QuestionsSectionQuestions.ESSAY, section: Sections.questions}">question types</a>.
+          Question type: the style of question being asked. Choose from our 10 different <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: QuestionsSectionQuestions.ESSAY, section: Sections.questions}">question types</a>.
         </li>
         <li>
           Question feedback path: the feedback giver and feedback recipient
@@ -90,7 +90,7 @@
       </ul>
       <li>
         <b>Preview your session</b><br>
-        After you have finished setting up your session, <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_PREVIEW, section: Sections.sessions}">preview the session</a> as a student or another instructor.
+        After you have finished setting up your session, <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_PREVIEW, section: Sections.sessions}">preview the session</a> as a student or another instructor.
       </li>
     </ol>
   </div>
@@ -139,19 +139,19 @@
     </p>
     <ul>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-secondary btn-sm">Results</button> button.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_VIEW_RESULTS, section: Sections.sessions}">View responses</a>: see what respondents have answered, even if the session is still ongoing. Go to the <b>Sessions</b> page and click the corresponding <button class="btn btn-secondary btn-sm">Results</button> button.
       </li>
       <li>
         Moderate responses: edit inappropriate responses from respondents before publishing the responses.
       </li>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_ADD_COMMENTS, section: Sections.sessions}">Add comments to responses</a>: reply to respondents' answers, or add your own notes on a response. You can make your comment visible to other instructors, the response giver, and/or the response giver's team.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_ADD_COMMENTS, section: Sections.sessions}">Add comments to responses</a>: reply to respondents' answers, or add your own notes on a response. You can make your comment visible to other instructors, the response giver, and/or the response giver's team.
       </li>
       <li>
         Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also manually send reminder emails to students at any time while a session is open. Click the <button class="btn btn-sm btn-secondary">Remind</button> button of the session from the <b>Home</b> or <b>Sessions</b> page.
       </li>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_CANNOT_SUBMIT, section: Sections.sessions}">Submit responses for students</a>: if a student has missed the closing time of the session, or is unable to submit the evaluation due to technical problems, you can submit the student's responses on his/her behalf.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_CANNOT_SUBMIT, section: Sections.sessions}">Submit responses for students</a>: if a student has missed the closing time of the session, or is unable to submit the evaluation due to technical problems, you can submit the student's responses on his/her behalf.
       </li>
     </ul>
     <p>
@@ -179,19 +179,19 @@
     </p>
     <ul>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_VIEW_PROFILE, section: Sections.students}">View a student's profile</a> and <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_VIEW_RESPONSES, section: Sections.students}">all past records of a student</a>: view the profile that any enrolled student has written for him/herself, and see in one place all submissions given/received by a student. Handy for examining how a student progressed through a course.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_VIEW_PROFILE, section: Sections.students}">View a student's profile</a> and <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_VIEW_RESPONSES, section: Sections.students}">all past records of a student</a>: view the profile that any enrolled student has written for him/herself, and see in one place all submissions given/received by a student. Handy for examining how a student progressed through a course.
       </li>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_EDIT_DETAILS, section: Sections.students}">Edit a student's data</a>: change a student's registered name, section or team name, or email address. You can also note down comments on students, for example to inform other instructors of information about a student that they should take note of.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_EDIT_DETAILS, section: Sections.students}">Edit a student's data</a>: change a student's registered name, section or team name, or email address. You can also note down comments on students, for example to inform other instructors of information about a student that they should take note of.
       </li>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_EMAIL, section: Sections.students}">Email a group of students</a>: contact students regarding their feedback responses, or the course in general. Also handy for locating the email address of past students.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_EMAIL, section: Sections.students}">Email a group of students</a>: contact students regarding their feedback responses, or the course in general. Also handy for locating the email address of past students.
       </li>
       <li>
-        Search: <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_SEARCH, section: Sections.students}">search for students, teams or sections</a>, or <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_SEARCH, section: Sections.sessions}">search for questions, responses or comments</a>.
+        Search: <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: StudentsSectionQuestions.STUDENT_SEARCH, section: Sections.students}">search for students, teams or sections</a>, or <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: SessionsSectionQuestions.SESSION_SEARCH, section: Sections.sessions}">search for questions, responses or comments</a>.
       </li>
       <li>
-        <a [routerLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ARCHIVE, section: Sections.courses}">Archive old courses</a>: archive old courses that you no longer need actively.
+        <a [tmRouterLink]="instructorHelpPath" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_ARCHIVE, section: Sections.courses}">Archive old courses</a>: archive old courses that you no longer need actively.
       </li>
     </ul>
   </div>

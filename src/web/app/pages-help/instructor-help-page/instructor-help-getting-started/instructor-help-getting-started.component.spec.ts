@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import { InstructorHelpGettingStartedComponent } from './instructor-help-getting-started.component';
 
 @Component({ selector: 'tm-example-box', template: '' })
@@ -22,6 +23,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
       ],
       imports: [
         RouterTestingModule,
+        TeammatesRouterModule,
       ],
     })
     .compileComponents();

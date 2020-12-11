@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FMcqQuestionE2eT.instructor",
+      "googleId": "tm.e2e.FMcqQn.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FMcqQuestionE2eT.CS2104",
+      "id": "tm.e2e.FMcqQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FMcqQuestionE2eT.CS1101",
+      "id": "tm.e2e.FMcqQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FMcqQuestionE2eT.instructor",
-      "courseId": "FMcqQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FMcqQn.instructor",
+      "courseId": "tm.e2e.FMcqQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FMcqQuestionE2eT.instructor",
-      "courseId": "FMcqQuestionE2eT.CS1101",
+      "googleId": "tm.e2e.FMcqQn.instructor",
+      "courseId": "tm.e2e.FMcqQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,10 +69,10 @@
     }
   },
   "students": {
-    "alice.tmms@FMcqQuestionE2eT.CS2104": {
-      "googleId": "FMcqQuestionE2eT.alice.tmms",
+    "alice.tmms@FMcqQn.CS2104": {
+      "googleId": "tm.e2e.FMcqQn.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FMcqQuestionE2eT.CS2104",
+      "course": "tm.e2e.FMcqQn.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
@@ -82,7 +82,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FMcqQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FMcqQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -102,7 +102,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FMcqQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FMcqQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -124,7 +124,7 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FMcqQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FMcqQn.CS2104",
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "Which area did you work on the most?",
@@ -160,7 +160,7 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FMcqQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FMcqQn.CS1101",
       "questionDetails": {
         "numOfMcqChoices": 0,
         "mcqChoices": [],

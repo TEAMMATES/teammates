@@ -9,6 +9,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   isEnabled={[Function Boolean]}
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
+  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
@@ -50,6 +51,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   isEnabled={[Function Boolean]}
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
+  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
@@ -92,6 +94,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   isEnabled={[Function Boolean]}
   isStudentLoading="false"
   isTeamnameFieldChanged="false"
+  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
@@ -117,6 +120,21 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             id="instructor-student-edit-form"
             novalidate=""
           >
+            <div
+              class="form-row"
+            >
+              <label
+                class="col-sm-2"
+              >
+                Course ID:
+              </label>
+              <div
+                class="col-sm-10"
+                id="courseid"
+              >
+                
+              </div>
+            </div>
             <div
               class="form-row"
             >
@@ -221,7 +239,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             >
               <input
                 class="btn btn-success"
-                id="button_submit"
+                id="btn-submit"
                 type="submit"
                 value="Save Changes"
               />

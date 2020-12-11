@@ -178,7 +178,7 @@ export class SessionResultPageComponent implements OnInit {
    * Redirects to join course link for unregistered student.
    */
   joinCourseForUnregisteredStudent(): void {
-    this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
+    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
   }
 
   retryLoadingFeedbackSessionResults(): void {

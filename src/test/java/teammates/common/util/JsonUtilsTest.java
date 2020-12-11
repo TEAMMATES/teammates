@@ -41,6 +41,7 @@ public class JsonUtilsTest extends BaseTestCase {
                 + "  \"feedbackSessionName\": \"testFeedbackSession\",\n"
                 + "  \"courseId\": \"testingCourse\",\n"
                 + "  \"questionDetails\": {\n"
+                + "    \"shouldAllowRichText\": true,\n"
                 + "    \"questionType\": \"TEXT\",\n"
                 + "    \"questionText\": \"Question text.\"\n"
                 + "  },\n"
@@ -60,7 +61,8 @@ public class JsonUtilsTest extends BaseTestCase {
                 + "}", JsonUtils.toJson(fqa));
 
         assertEquals("{\"feedbackSessionName\":\"testFeedbackSession\","
-                + "\"courseId\":\"testingCourse\",\"questionDetails\":{\"questionType\":\"TEXT\","
+                + "\"courseId\":\"testingCourse\",\"questionDetails\":{\"shouldAllowRichText\":true,\"questionType\":"
+                + "\"TEXT\","
                 + "\"questionText\":\"Question text.\"},\"questionNumber\":1,"
                 + "\"giverType\":\"INSTRUCTORS\",\"recipientType\":\"SELF\",\"numberOfEntitiesToGiveFeedbackTo\":-100,"
                 + "\"showResponsesTo\":[\"RECEIVER\"],\"showGiverNameTo\":[\"RECEIVER\"],"

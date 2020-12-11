@@ -5,9 +5,11 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -17,6 +19,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.Intent;
@@ -121,6 +124,29 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                         .get(0);
         assertNotNull(actualResponse.getFeedbackResponseId());
         verifyFeedbackResponseEquals(expected, actualResponse);
+    }
+
+    @Test
+    protected void testExecute_commentSubmission_shouldGetCommentsSuccessfully() throws InvalidParametersException {
+        DataBundle dataBundle = loadDataBundle("/FeedbackResponseCommentCRUDTest.json");
+        removeAndRestoreDataBundle(dataBundle);
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        FeedbackQuestionAttributes qn3InSession1 = dataBundle.feedbackQuestions.get("qn3InSession1");
+        FeedbackResponseAttributes response1ForQ3 = dataBundle.feedbackResponses.get("response1ForQ3");
+        FeedbackResponseCommentAttributes comment1FromStudent1 =
+                dataBundle.feedbackResponseComments.get("comment1FromStudent1");
+
+        loginAsStudent(student1InCourse1.getGoogleId());
+        String[] params = {
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, qn3InSession1.getId(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
+        FeedbackResponsesData actualData = getFeedbackResponse(params);
+        List<FeedbackResponseData> actualResponses = actualData.getResponses();
+
+        assertEquals(1, actualResponses.size());
+        verifyFeedbackResponseEquals(response1ForQ3, actualResponses.get(0));
+        verifyFeedbackCommentEquals(comment1FromStudent1, actualResponses.get(0).getGiverComment());
     }
 
     @Test
@@ -260,5 +286,13 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         assertEquals(expected.getResponseDetails().getQuestionType(), actual.getResponseDetails().getQuestionType());
         assertEquals(JsonUtils.toJson(expected.getResponseDetails()),
                 JsonUtils.toJson(actual.getResponseDetails()));
+    }
+
+    private void verifyFeedbackCommentEquals(
+            FeedbackResponseCommentAttributes expected, FeedbackResponseCommentData actual) {
+        assertNotNull(actual);
+        assertEquals(expected.getCommentGiver(), actual.getCommentGiver());
+        assertEquals(expected.getCommentText(), actual.getCommentText());
+        assertEquals(expected.getLastEditorEmail(), actual.getLastEditorEmail());
     }
 }

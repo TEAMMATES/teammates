@@ -9,6 +9,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -45,6 +46,10 @@ public class EmailSender {
      * @return The HTTP status of the email request.
      */
     public EmailSendingStatus sendEmail(EmailWrapper message) {
+        if (isTestingAccount(message.getRecipient())) {
+            return new EmailSendingStatus(HttpStatus.SC_OK, "Not sending email to test account");
+        }
+
         EmailSendingStatus status;
         try {
             status = service.sendEmail(message);
@@ -60,6 +65,10 @@ public class EmailSender {
                 status.getMessage() == null ? "" : status.getMessage());
         log.info(emailLogInfo);
         return status;
+    }
+
+    private boolean isTestingAccount(String email) {
+        return email.endsWith(Const.TEST_EMAIL_DOMAIN);
     }
 
     /**
