@@ -1,0 +1,15 @@
+<div *ngIf="studentBannerContent === 1 || instructorBannerContent === 1" class="alert alert-primary alert-dismissible fade show" role="alert">
+    <div *ngIf="studentBannerContent === 1">
+        <h2>{{studentBannerData.title}}</h2>
+        <h5>{{studentBannerData.content}}</h5>
+        <h5 *ngFor="let link of studentBannerData.links">{{link.name + ': '}}<a [href]="link.link">{{link.link}}</a></h5>
+    </div>
+    <div *ngIf="instructorBannerContent === 1">
+        <h2>{{instructorBannerData.title}}</h2>
+        <h5>{{instructorBannerData.content}}</h5>
+        <h5 *ngFor="let link of instructorBannerData.links">{{link.name + ': '}}<a [href]="link.link">{{link.link}}</a></h5>
+    </div>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeBanner()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
