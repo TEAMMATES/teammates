@@ -135,7 +135,6 @@ export class SessionResultPageComponent implements OnInit {
 
   private loadPersonName(): void {
     this.studentService.getStudent(this.courseId, '', this.regKey).subscribe((student: Student) => {
-      // TODO: Add institute here
       this.personName = student.name;
     });
   }

@@ -42,7 +42,6 @@ export class PageComponent {
   @Input() hideAuthInfo: boolean = false;
   @Input() navItems: any[] = [];
   @Input() institute: string = '';
-  // TODO: Populate this value somehow
 
   isCollapsed: boolean = true;
   isUnsupportedBrowser: boolean = false;
