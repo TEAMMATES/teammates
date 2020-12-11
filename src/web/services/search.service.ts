@@ -156,6 +156,7 @@ export class SearchService {
       section: '',
       openSessions: {},
       notOpenSessions: {},
+      awaitingSessions: {},
       publishedSessions: {},
       courseId: '',
       courseName: '',
@@ -193,9 +194,9 @@ export class SearchService {
     }
 
     // Generate feedback session urls
-    const { openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
+    const { openSessions, notOpenSessions,awaitingSessions, publishedSessions }: StudentFeedbackSessions =
       this.classifyFeedbackSessions(feedbackSessions, student);
-    studentResult = { ...studentResult, openSessions, notOpenSessions, publishedSessions };
+    studentResult = { ...studentResult, openSessions, notOpenSessions, awaitingSessions, publishedSessions };
 
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
@@ -249,6 +250,7 @@ export class SearchService {
     const feedbackSessionLinks: StudentFeedbackSessions = {
       openSessions: {},
       notOpenSessions: {},
+      awaitingSessions: {},
       publishedSessions: {},
     };
     for (const feedbackSession of feedbackSessions.feedbackSessions) {
@@ -257,7 +259,16 @@ export class SearchService {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
         };
-      } else {
+      }
+
+      else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
+        feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        };
+      }
+
+      else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
@@ -366,7 +377,7 @@ export class SearchService {
   private getDistinctFeedbackSessions(distinctCourseIds: string[]): Observable<DistinctFeedbackSessionsMap> {
     return forkJoin(
       distinctCourseIds.map((id: string) =>
-        this.feedbackSessionService.getFeedbackSessionsForStudent(id)),
+        this.feedbackSessionService.getFeedbackSessionsForInstructor(id)),
     )
     .pipe(
       map((feedbackSessionsArray: FeedbackSessions[]) => {
@@ -433,11 +444,12 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   recordsPageLink: string;
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
+  awaitingSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
 }
 
 /**
- * Feedback session inforamtion for search result.
+ * Feedback session information for search result.
  */
 export interface FeedbackSessionsGroup {
   [name: string]: {
@@ -450,6 +462,7 @@ export interface FeedbackSessionsGroup {
 interface StudentFeedbackSessions {
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
+  awaitingSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
 }
 

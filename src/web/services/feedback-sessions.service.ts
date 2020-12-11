@@ -406,6 +406,14 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Checks if a given feedback session is awaiting.
+   */
+  isFeedbackSessionAwaiting(feedbackSession: FeedbackSession): boolean {
+    const date: number = Date.now();
+    return date < feedbackSession.submissionStartTimestamp;
+  }
+
+  /**
    * Checks if a given feedback session is published.
    */
   isFeedbackSessionPublished(feedbackSession: FeedbackSession): boolean {

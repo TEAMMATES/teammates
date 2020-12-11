@@ -187,6 +187,7 @@ export class AdminSearchPageComponent {
 
     updateSessions(student.openSessions);
     updateSessions(student.notOpenSessions);
+    updateSessions(student.awaitingSessions);
     updateSessions(student.publishedSessions);
   }
 

@@ -154,6 +154,7 @@ describe('AdminSearchPageComponent', () => {
         recordsPageLink: 'recordsPageLink1',
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        awaitingSessions:  DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }, {
         name: 'name2',
@@ -172,6 +173,7 @@ describe('AdminSearchPageComponent', () => {
         recordsPageLink: 'recordsPageLink2',
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+        awaitingSessions:  DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }];
 
@@ -230,6 +232,7 @@ describe('AdminSearchPageComponent', () => {
       recordsPageLink: 'recordsPageLink',
       openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      awaitingSessions:  DEFAULT_FEEDBACK_SESSION_GROUP,
       publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
@@ -338,6 +341,7 @@ describe('AdminSearchPageComponent', () => {
       recordsPageLink: 'recordsPageLink',
       openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      awaitingSessions:  DEFAULT_FEEDBACK_SESSION_GROUP,
       publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
@@ -384,6 +388,7 @@ describe('AdminSearchPageComponent', () => {
       recordsPageLink: 'recordsPageLink',
       openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+      awaitingSessions:  DEFAULT_FEEDBACK_SESSION_GROUP,
       publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
@@ -444,6 +449,13 @@ describe('AdminSearchPageComponent', () => {
         sessionName: {
           ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
           feedbackSessionUrl: 'notOpenSession?key=oldKey',
+        },
+      },
+      awaitingSessions:  {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'awaitingSession?key=oldKey',
         },
       },
       publishedSessions: {
@@ -516,6 +528,13 @@ describe('AdminSearchPageComponent', () => {
         sessionName: {
           ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
           feedbackSessionUrl: 'notOpenSession?key=oldKey',
+        },
+      },
+      awaitingSessions:  {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'awaitingSession?key=oldKey',
         },
       },
       publishedSessions: {
