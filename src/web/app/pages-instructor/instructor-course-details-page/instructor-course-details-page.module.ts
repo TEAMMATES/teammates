@@ -7,6 +7,7 @@ import { LoadingRetryModule } from '../../components/loading-retry/loading-retry
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { StudentListModule } from '../../components/student-list/student-list.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
     LoadingSpinnerModule,
     AjaxLoadingModule,
     LoadingRetryModule,
+    TeammatesRouterModule,
   ],
 })
 export class InstructorCourseDetailsPageModule { }

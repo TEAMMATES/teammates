@@ -181,9 +181,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     modalRef.result.then((result: CopyFromOtherSessionsResult) => {
       this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
           .subscribe((createdFeedbackSession: FeedbackSession) => {
-            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit'
-                + `?courseid=${createdFeedbackSession.courseId}&fsname=${createdFeedbackSession.feedbackSessionName}`,
-                'The feedback session has been copied. Please modify settings/questions as necessary.');
+            this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
+                'The feedback session has been copied. Please modify settings/questions as necessary.',
+                { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
           }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
     });
   }
@@ -249,13 +249,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       minute: 59,
       hour: 23,
     };
-  }
-
-  /**
-   * Redirects to page to create or unarchive courses.
-   */
-  createOrUnarchiveCourse(): void {
-    this.router.navigateByUrl('/web/instructor/courses');
   }
 
   /**

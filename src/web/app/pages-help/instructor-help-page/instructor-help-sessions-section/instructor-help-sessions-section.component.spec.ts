@@ -18,6 +18,7 @@ import { SessionEditFormModule } from '../../../components/session-edit-form/ses
 import {
   SessionsRecycleBinTableModule,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
+import { TeammatesRouterModule } from '../../../components/teammates-router/teammates-router.module';
 import {
   InstructorSearchComponentsModule,
 } from '../../../pages-instructor/instructor-search-page/instructor-search-components.module';
@@ -41,7 +42,7 @@ describe('InstructorHelpSessionsSectionComponent', () => {
       imports: [
         CommentBoxModule, FormsModule, HttpClientTestingModule, NgbModule, ExampleBoxModule,
         RouterTestingModule, NgxPageScrollCoreModule, NoopAnimationsModule,
-        SessionEditFormModule, SessionsRecycleBinTableModule,
+        SessionEditFormModule, SessionsRecycleBinTableModule, TeammatesRouterModule,
         InstructorSearchComponentsModule, InstructorSessionResultViewModule, QuestionTextWithInfoModule,
         SingleStatisticsModule, StudentViewResponsesModule, PanelChevronModule],
     })
