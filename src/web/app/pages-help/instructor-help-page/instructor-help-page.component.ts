@@ -17,7 +17,7 @@ import { Sections } from './sections';
 @Component({
   selector: 'tm-instructor-help-page',
   templateUrl: './instructor-help-page.component.html',
-  styleUrls: ['./instructor-help-page.component.scss', './queries.scss'],
+  styleUrls: ['./instructor-help-page.component.scss'],
 })
 export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
   // enum
