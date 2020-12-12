@@ -6,12 +6,8 @@ import { BannerComponent } from './banner.component';
  * Module for redirect banner.
  */
 @NgModule({
-    declarations: [BannerComponent],
-    exports: [
-        BannerComponent,
-    ],
-    imports: [
-        CommonModule,
-    ],
+  declarations: [BannerComponent],
+  exports: [BannerComponent],
+  imports: [CommonModule],
 })
-export class BannerModule { }
+export class BannerModule {}
