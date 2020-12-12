@@ -3,7 +3,7 @@ name: Continous Integration Tests
 on: 
   push:
     branches:
-      - travis-ci 
+      - migrate-to-ga 
 
 jobs:
   lint:
