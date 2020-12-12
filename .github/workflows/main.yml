@@ -76,25 +76,19 @@ jobs:
             ${{ runner.os }}-
       - name: Install Backend Dependancies 
         run: ./gradlew downloadDependencies downloadTestDependencies downloadLinters
-        shell: bash
       - name: Run Backend Tests    
         run: ./gradlew createConfigs componentTests 
-        shell: bash 
       - name: Check Backend Coverage 
         run: ./gradlew jacocoReport
-        shell: bash 
       - name: Generate Types 
         run: ./gradlew generateTypes
-        shell: bash 
       - name: Install Frontend Dependancies 
         run: npm ci 
-        shell: bash 
       - name: Run Frontend Tests and check Coverage 
         run: npm run coverage 
-        shell: bash
       - name: Upload to Codecov 
+        if: matrix.os == 'ubuntu-latest' #only upload to codecov on ubuntu VM 
         run: bash <(curl -s https://codecov.io/bash)
-        shell: bash 
   E2E-testing:
     runs-on: ubuntu-latest
     strategy:
