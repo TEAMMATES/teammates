@@ -155,7 +155,7 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     public void addFeedbackSession(FeedbackSessionAttributes newSession, boolean isUsingTemplate) {
         clickAddSessionButton();
-        waitForElementPresence(By.cssSelector("#instructions"));
+        waitForElementPresence(By.cssSelector("#instructions iframe"));
 
         if (isUsingTemplate) {
             selectDropdownOptionByText(sessionTypeDropdown, "session using template: team peer evaluation");
