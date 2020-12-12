@@ -134,4 +134,4 @@ jobs:
       - name: Start App Engine 
         run: ./gradlew appengineStart 
       - name: Start Tests 
-        run: xvfb-run ./gradlew e2eTests 
+        run: xvfb-run --server-args="-screen 0 1024x768x24" ./gradlew e2eTests 
