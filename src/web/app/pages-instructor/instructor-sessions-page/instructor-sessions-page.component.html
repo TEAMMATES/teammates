@@ -10,7 +10,7 @@
 
 <div class="margin-top-30px" *ngIf="isSessionEditFormExpanded" @collapseAnim>
   <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
-                        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+                        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions" [hasCourseLoaded]="hasCourseLoaded"
                         (addNewSessionEvent)="addNewSessionHandler()" (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
                         (closeEditFormEvent)="isSessionEditFormExpanded = false"
   ></tm-session-edit-form>

@@ -83,6 +83,8 @@ export class SessionEditFormComponent implements OnInit {
   courseCandidates: Course[] = [];
   @Input()
   templateSessions: TemplateSession[] = [];
+  @Input()
+  hasCourseLoaded: boolean = false;
 
   // event emission
   @Output()
