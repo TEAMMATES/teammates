@@ -1,4 +1,4 @@
-name: Continous Integration Tests
+name: Continuous Integration Tests
 
 on:
   push:
@@ -31,17 +31,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Cache NPM packages 
-        uses: actions/cache@v2 
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install Backend Dependancies 
-        run: ./gradlew downloadDependencies downloadTestDependencies downloadLinters
       - name: Run Backend Linting 
         run: ./gradlew lint --continue 
       - name: Install FrontEnd Dependancies
@@ -69,24 +58,11 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Cache NPM packages 
-        uses: actions/cache@v2 
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install Backend Dependancies 
-        run: ./gradlew downloadDependencies downloadTestDependencies downloadLinters
       - name: Run Backend Tests    
-        run: ./gradlew createConfigs componentTests 
-      - name: Check Backend Coverage 
-        run: ./gradlew jacocoReport
+        run: ./gradlew createConfigs componentTests jacocoReport 
       - name: Generate Types 
         run: ./gradlew generateTypes
-      - name: Install Frontend Dependancies 
+      - name: Install Frontend Dependencies 
         run: npm ci 
       - name: Run Frontend Tests and check Coverage 
         run: npm run coverage 
@@ -114,24 +90,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Cache NPM packages 
-        uses: actions/cache@v2 
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install Backend Dependancies 
-        run: ./gradlew downloadDependencies downloadTestDependencies downloadLinters
       - name: Update Property File 
         run: mv $GITHUB_WORKSPACE/src/e2e/resources/test.ci-$E2E_BROWSER.properties src/e2e/resources/test.properties
         env:
           E2E_BROWSER: ${{ matrix.browser }}
       - name: Create Config Files 
         run: ./gradlew createConfigs testClasses generateTypes 
-      - name: Install Frontend Dependancies
+      - name: Install Frontend Dependencies
         run: npm ci 
       - name: Build Frontend Bundle 
         run: npm run build -- --progress=false --serviceWorker=false 
