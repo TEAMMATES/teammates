@@ -203,7 +203,7 @@ export class SearchService {
     studentResult.homePageLink = this.linkService
       .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
     studentResult.courseDetailsPageLink = this.linkService
-      .generateCourseDetailsPageLink(courseId)
+      .generateCourseDetailsPageLink(courseId);
     studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, masqueradeGoogleId);
     studentResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
@@ -434,7 +434,7 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
-  courseDetailsPageLink: string
+  courseDetailsPageLink: string;
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
