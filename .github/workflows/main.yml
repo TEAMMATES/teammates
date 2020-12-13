@@ -125,8 +125,6 @@ jobs:
             ${{ runner.os }}-
       - name: Install Backend Dependancies 
         run: ./gradlew downloadDependencies downloadTestDependencies downloadLinters
-      - name: Find out where is chromedriver
-        run: whereis chromedriver 
       - name: Update Property File 
         run: mv $GITHUB_WORKSPACE/src/e2e/resources/test.ci-$E2E_BROWSER.properties src/e2e/resources/test.properties
         env:
