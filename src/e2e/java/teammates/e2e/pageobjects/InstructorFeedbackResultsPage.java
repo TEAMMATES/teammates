@@ -86,9 +86,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "include-missing-responses")
     private WebElement missingResponsesCheckbox;
 
-    @FindBy(id = "btn-expand-all")
-    private WebElement expandAllButton;
-
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
@@ -149,6 +146,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void expandAllPanels() {
+        WebElement expandAllButton = browser.driver.findElement(By.id("btn-expand-all"));
         if (expandAllButton.getText().contains("Expand")) {
             click(expandAllButton);
             waitUntilAnimationFinish();
@@ -711,7 +709,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return response.getAnswerString();
         case MCQ:
         case MSQ:
-            return response.getAnswerString().replace(", ", "\n");
+            return response.getAnswerString().replace(", ", System.lineSeparator());
         case RUBRIC:
             return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetails(),
                     (FeedbackRubricResponseDetails) response);
@@ -736,7 +734,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int answer : answers) {
             answerStrings.add(choices.get(answer) + " (Choice " + (answer + 1) + ")");
         }
-        return String.join("\n", answerStrings);
+        return String.join(System.lineSeparator(), answerStrings);
     }
 
     private String getRankOptionsAnsString(FeedbackRankOptionsQuestionDetails question,
@@ -747,7 +745,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         for (int i = 1; i <= options.size(); i++) {
             answerStrings.add(i + ": " + options.get(answers.indexOf(i)));
         }
-        return String.join("\n", answerStrings);
+        return String.join(System.lineSeparator(), answerStrings);
     }
 
     private String getConstSumOptionsAnsString(FeedbackConstantSumQuestionDetails question,
@@ -762,7 +760,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             answerStrings.add(options.get(i) + ": " + answers.get(i));
         }
         answerStrings.sort(Comparator.naturalOrder());
-        return String.join("\n", answerStrings);
+        return String.join(System.lineSeparator(), answerStrings);
     }
 
     private String getContribAnsString(FeedbackContributionResponseDetails responseDetails) {

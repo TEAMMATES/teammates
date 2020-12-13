@@ -359,6 +359,12 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         assertEquals(actual.isPublished(), state);
     }
 
+    private List<FeedbackQuestionAttributes> getQuestionsByCourse(String courseId) {
+        return testData.feedbackQuestions.values().stream()
+                .filter(question -> question.getCourseId().equals(courseId))
+                .collect(Collectors.toList());
+    }
+
     private List<StudentAttributes> getNotRespondedStudents(String courseId) {
         Set<String> responders = testData.feedbackResponses.values().stream()
                 .filter(response -> response.getCourseId().equals(courseId))
@@ -520,10 +526,10 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     }
 
     private void organiseResponses(String courseId) {
+        List<FeedbackQuestionAttributes> questions = getQuestionsByCourse(courseId);
         questionToResponses = new HashMap<>();
-        for (int i = 1; i <= 3; i++) {
-            FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn" + i);
-            List<FeedbackResponseAttributes> responses = getResponsesByQuestion(courseId, i);
+        for (FeedbackQuestionAttributes question : questions) {
+            List<FeedbackResponseAttributes> responses = getResponsesByQuestion(courseId, question.getQuestionNumber());
             questionToResponses.put(question, responses);
         }
 
