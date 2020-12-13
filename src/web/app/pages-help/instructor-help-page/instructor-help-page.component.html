@@ -5,7 +5,7 @@
       <div>
         <p>
           Have questions about how to use TEAMMATES? This page answers some frequently asked questions.
-          <br> If you are new to TEAMMATES, our <a [routerLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
+          <br> If you are new to TEAMMATES, our <a [tmRouterLink]="instructorGettingStartedPath">Getting Started</a> guide will introduce you to the basic functions of TEAMMATES.
           <br> If you have any remaining questions, don't hesitate to <a href="mailto:{{ supportEmail }}">email us</a>. We respond within 24 hours.
         </p>
         <div class="row">
@@ -48,22 +48,22 @@
     </b></p>
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <a (click)="scroll(Sections.students)" [routerLink]="">Students</a>
+        <a (click)="scroll(Sections.students)" [tmRouterLink]="">Students</a>
       </li>
       <li class="nav-item">
-        <a (click)="scroll(Sections.courses)" [routerLink]="">Courses</a>
+        <a (click)="scroll(Sections.courses)" [tmRouterLink]="">Courses</a>
       </li>
       <li class="nav-item">
-        <a (click)="scroll(Sections.sessions)" [routerLink]="">Sessions</a>
+        <a (click)="scroll(Sections.sessions)" [tmRouterLink]="">Sessions</a>
       </li>
       <li class="nav-item">
-        <a (click)="scroll(Sections.questions)" [routerLink]="">Questions</a>
+        <a (click)="scroll(Sections.questions)" [tmRouterLink]="">Questions</a>
       </li>
     </ul>
     <br>
     <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-        <a (click)="scroll(Sections.body)" [routerLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
+        <a (click)="scroll(Sections.body)" [tmRouterLink]="">Back to Top <i class="fas fa-arrow-up"></i> </a>
       </li>
     </ul>
   </div>

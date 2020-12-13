@@ -17,7 +17,7 @@
             </select>
           </div>
           <div class="col-1 col-md-1">
-            <button type="button" class="btn btn-link" (click)="sessionHelpHandler()"><i class="fas fa-info-circle"></i></button>
+            <a type="button" class="btn btn-link" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank"><i class="fas fa-info-circle"></i></a>
           </div>
         </div>
       </div>
@@ -329,13 +329,13 @@
         <span class="loader"></span>
         <div *ngIf="formMode === SessionEditFormMode.ADD">
           <button id="btn-create-session" type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Create Feedback Session
+            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Create Feedback Session
           </button>
           <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>
         </div>
         <div *ngIf="formMode === SessionEditFormMode.EDIT">
           <button type="button" class="btn btn-success" [disabled]="model.isSaving || !model.isEditable" *ngIf="formMode === SessionEditFormMode.EDIT" (click)="submitFormHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save Changes
+            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
           </button>
         </div>
       </div>

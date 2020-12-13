@@ -36,7 +36,7 @@
           <td>{{ noResponseStudent.teamName }}</td>
           <td>{{ noResponseStudent.name }}</td>
           <td>
-            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" routerLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
+            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
                [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
                class="btn btn-light btn-sm button">
               Submit responses

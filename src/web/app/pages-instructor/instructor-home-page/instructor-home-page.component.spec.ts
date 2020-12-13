@@ -10,6 +10,7 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
 
@@ -61,6 +62,7 @@ describe('InstructorHomePageComponent', () => {
         InstructorHomePageModule,
         HttpClientTestingModule,
         RouterTestingModule,
+        TeammatesRouterModule,
         BrowserAnimationsModule,
       ],
     })

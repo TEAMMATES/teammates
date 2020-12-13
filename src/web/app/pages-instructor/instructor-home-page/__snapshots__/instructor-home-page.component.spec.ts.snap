@@ -259,7 +259,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -442,7 +442,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -533,14 +533,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -566,7 +566,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -592,7 +592,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -626,7 +626,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -800,7 +800,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             
                             <a
                               href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback&editingMode=true"
-                              routerlink="/web/instructor/sessions/edit"
+                              tmrouterlink="/web/instructor/sessions/edit"
                             >
                               
                               <button
@@ -858,7 +858,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 <a
                                   class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback"
-                                  routerlink="/web/instructor/sessions/result"
+                                  tmrouterlink="/web/instructor/sessions/result"
                                 >
                                   View Results
                                 </a>
@@ -986,7 +986,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -1076,7 +1076,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -1102,7 +1102,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1128,7 +1128,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -1162,7 +1162,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1381,7 +1381,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 <a
                                   class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%201"
-                                  routerlink="/web/instructor/sessions/result"
+                                  tmrouterlink="/web/instructor/sessions/result"
                                 >
                                   View Results
                                 </a>
@@ -1534,7 +1534,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 <a
                                   class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%202"
-                                  routerlink="/web/instructor/sessions/result"
+                                  tmrouterlink="/web/instructor/sessions/result"
                                 >
                                   View Results
                                 </a>
@@ -1662,7 +1662,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -1753,14 +1753,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -1786,7 +1786,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1812,7 +1812,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -1846,7 +1846,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1952,7 +1952,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -2043,14 +2043,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -2076,7 +2076,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2102,7 +2102,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -2136,7 +2136,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2270,7 +2270,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -2361,14 +2361,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3243"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3243"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -2394,7 +2394,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2420,7 +2420,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3243"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -2454,7 +2454,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>

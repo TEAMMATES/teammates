@@ -78,12 +78,15 @@ export class InstructorHelpPageComponent implements OnInit, AfterViewInit {
    * Filters the help contents and displays only those that matches the filter.
    */
   search(): void {
-    this.matchFound = 0;
-    if (this.searchTerm !== '') {
-      this.key = this.searchTerm.toLowerCase();
-    } else {
+    if (this.searchTerm === '') {
       this.clear();
+      return;
     }
+    const nxtKey: String = this.searchTerm.toLowerCase();
+    if (nxtKey !== this.key) {
+      this.matchFound = 0;
+    }
+    this.key = nxtKey;
   }
 
   /**

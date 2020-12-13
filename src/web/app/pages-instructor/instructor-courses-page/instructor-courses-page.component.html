@@ -68,7 +68,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -78,7 +78,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -88,7 +88,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -98,7 +98,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -109,7 +109,7 @@
             <td class="text-center actions-cell">
               <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
                       ngbTooltip="Enroll student into the course"
-                      routerLink="/web/instructor/courses/enroll"
+                      tmRouterLink="/web/instructor/courses/enroll"
                       [queryParams]="{courseid: course.course.courseId}">
                 Enroll
               </a>
@@ -120,12 +120,12 @@
                 <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
                 <div ngbDropdownMenu>
                   <a class="btn btn-primary btn-sm dropdown-item clickable"
-                          routerLink="/web/instructor/courses/details"
+                          tmRouterLink="/web/instructor/courses/details"
                           [queryParams]="{courseid: course.course.courseId}">
                     View
                   </a>
                   <a class="btn btn-primary btn-sm dropdown-item clickable"
-                          routerLink="/web/instructor/courses/edit"
+                          tmRouterLink="/web/instructor/courses/edit"
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>

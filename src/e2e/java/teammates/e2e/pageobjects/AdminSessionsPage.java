@@ -96,7 +96,7 @@ public class AdminSessionsPage extends AppPage {
 
     private String formatDateTimeForFilter(Instant instant, ZoneId timeZone) {
         return DateTimeFormatter
-                .ofPattern("YYYY-MM-dd")
+                .ofPattern("yyyy-MM-dd")
                 .format(instant.atZone(timeZone));
     }
 
