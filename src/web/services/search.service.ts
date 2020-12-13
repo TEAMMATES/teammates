@@ -162,6 +162,7 @@ export class SearchService {
       institute: '',
       manageAccountLink: '',
       homePageLink: '',
+      courseDetailsPageLink: '',
       recordsPageLink: '',
       courseJoinLink: '',
       googleId: '',
@@ -201,6 +202,8 @@ export class SearchService {
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
     studentResult.homePageLink = this.linkService
       .generateHomePageLink(googleId, this.linkService.STUDENT_HOME_PAGE);
+    studentResult.courseDetailsPageLink = this.linkService
+      .generateCourseDetailsPageLink(courseId)
     studentResult.recordsPageLink = this.linkService.generateRecordsPageLink(student, masqueradeGoogleId);
     studentResult.manageAccountLink = this.linkService
       .generateManageAccountLink(googleId, this.linkService.ADMIN_ACCOUNTS_PAGE);
@@ -431,6 +434,7 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
+  courseDetailsPageLink: string
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
