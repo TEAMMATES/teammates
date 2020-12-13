@@ -1,0 +1,81 @@
+@startuml
+!include style.puml
+
+box Ui UI_COLOR_T1
+participant ":Browser" as Browser UI_COLOR
+participant AppSpot UI_COLOR
+participant ":WebPage\nServlet" as WebPage UI_COLOR
+participant ":*Filter" as Filter UI_COLOR
+participant ":WebApi\nServlet" as WebApi UI_COLOR
+participant ":Action\nFactory" as ActionFactory UI_COLOR
+participant ":*Action" as Action UI_COLOR
+participant ":*Result" as Result UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant Logic LOGIC_COLOR
+end box
+
+Browser -> AppSpot
+activate AppSpot
+note right of Browser : Web\nPage
+
+AppSpot -> WebPage
+activate WebPage
+
+WebPage --> AppSpot
+deactivate WebPage
+
+AppSpot --> Browser
+deactivate AppSpot
+
+Browser -> AppSpot
+activate AppSpot
+
+AppSpot -> Filter : apply
+activate Filter
+
+Filter --> AppSpot
+deactivate Filter
+
+AppSpot -> WebApi : forward
+activate WebApi
+
+WebApi -> ActionFactory : getAction()
+activate ActionFactory
+
+create Action
+ActionFactory -> Action : create
+ActionFactory --> WebApi
+deactivate ActionFactory
+
+WebApi -> Action : checkAccessControl()
+activate Action
+
+Action --> WebApi
+deactivate Action
+
+WebApi -> Action : execute()
+activate Action
+
+Action -> Logic
+Logic --> Action
+
+create Result
+Action -> Result : create
+
+Action --> WebApi
+deactivate Action
+
+WebApi -> Result : send()
+activate Result
+
+Result --> WebApi
+deactivate Result
+
+WebApi --> AppSpot
+deactivate WebApi
+
+AppSpot --> Browser
+deactivate AppSpot
+@enduml
