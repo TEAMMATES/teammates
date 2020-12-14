@@ -441,6 +441,14 @@ public abstract class AppPage {
     }
 
     /**
+     * Selects option in dropdown based on value.
+     */
+    protected void selectDropdownOptionByValue(WebElement dropdown, String value) {
+        Select select = new Select(dropdown);
+        select.selectByValue(value);
+    }
+
+    /**
      * Returns the value of the cell located at {@code (row, column)}
      *         from the first table (which is of type {@code class=table}) in the page.
      */
