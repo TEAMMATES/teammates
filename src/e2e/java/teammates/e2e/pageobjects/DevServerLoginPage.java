@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 /**
  * Page Object Model for login page in development server.
  */
-public class DevServerLoginPage extends LoginPage {
+public class DevServerLoginPage extends AppPage {
 
     @FindBy(id = "email")
     private WebElement emailTextBox;
@@ -15,7 +15,7 @@ public class DevServerLoginPage extends LoginPage {
     @FindBy(id = "isAdmin")
     private WebElement isAdminCheckBox;
 
-    @FindBy(xpath = "/html/body/form/div/p[3]/input[1]")
+    @FindBy(id = "btn-login")
     private WebElement loginButton;
 
     public DevServerLoginPage(Browser browser) {
@@ -28,26 +28,12 @@ public class DevServerLoginPage extends LoginPage {
         return getPageSource().contains("<h3>Not logged in</h3>");
     }
 
-    @Override
-    public void loginAsAdmin(String adminUsername, String adminPassword) {
+    public void loginAsAdmin(String adminUsername) {
         fillTextBox(emailTextBox, adminUsername);
         click(isAdminCheckBox);
         click(loginButton);
-        waitForElementVisibility(By.tagName("h1"));
+        waitForPageToLoad();
         browser.isAdminLoggedIn = true;
     }
 
-    @Override
-    public StudentHomePage loginAsStudent(String username, String password) {
-        return loginAsStudent(username, password, StudentHomePage.class);
-    }
-
-    @Override
-    public <T extends AppPage> T loginAsStudent(String username, String password, Class<T> typeOfPage) {
-        fillTextBox(emailTextBox, username);
-        click(loginButton);
-        waitForElementVisibility(By.tagName("h1"));
-        browser.isAdminLoggedIn = false;
-        return changePageType(typeOfPage);
-    }
 }

@@ -1,5 +1,5 @@
 <div *ngIf="responsesToShow.length">
-  <table class="table table-bordered">
+  <table id="response-table" class="table table-bordered">
     <thead>
       <tr class="header">
         <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" *ngIf="showGiver">
@@ -48,7 +48,9 @@
                            [courseId]="session.courseId"
           ></tm-student-name-with-photo>
         </td>
-        <td *ngIf="showRecipient">{{ response.recipientTeam }}</td>
+        <td *ngIf="showRecipient">
+          {{ response.recipientTeam === '-' ? 'No Specific Team' : response.recipientTeam}}
+        </td>
         <td *ngIf="showRecipient">
           <tm-student-name-with-photo [name]="response.recipient"
                            [email]="response.recipientEmail"
@@ -65,7 +67,7 @@
         <td class="text-center no-print">
           <tm-response-moderation-button *ngIf="response.relatedGiverEmail" [session]="session" [relatedGiverEmail]="response.relatedGiverEmail"
                                          [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
-          <button class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
+          <button id="btn-add-comment" class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
                   *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
                   (click)="showCommentTableModel(response, commentTableModal)">Add Comment
             <span *ngIf="instructorCommentTableModel[response.responseId].commentRows.length" class="badge badge-secondary">{{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
@@ -75,7 +77,7 @@
     </tbody>
   </table>
 </div>
-<div *ngIf="!responsesToShow.length">
+<div id="no-responses" *ngIf="!responsesToShow.length">
   <i>There are no responses for this question or you may not have the permission to see the response.</i>
 </div>
 

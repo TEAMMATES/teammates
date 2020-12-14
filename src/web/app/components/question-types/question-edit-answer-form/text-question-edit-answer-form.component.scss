@@ -13,3 +13,13 @@
     display: none;
   }
 }
+
+.plain-text-area {
+  height: 120px;
+}
+
+.plain-text-area > textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}

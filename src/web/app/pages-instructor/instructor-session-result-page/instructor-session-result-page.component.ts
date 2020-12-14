@@ -83,6 +83,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   courseId: string = '';
   fsName: string = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
+  viewTooltipText: string = 'View results in different formats';
   section: string = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   groupByTeam: boolean = true;
@@ -182,12 +183,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // load section tabs
       this.courseService.getCourseSectionNames(courseId)
           .subscribe((courseSectionNames: CourseSectionNames) => {
+            this.sectionsModel.None = {
+              questions: [],
+              hasPopulated: false,
+              isTabExpanded: false,
+            };
             for (const sectionName of courseSectionNames.sectionNames) {
-              this.sectionsModel.None = {
-                questions: [],
-                hasPopulated: false,
-                isTabExpanded: false,
-              };
               this.sectionsModel[sectionName] = {
                 questions: [],
                 hasPopulated: false,
@@ -422,6 +423,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       Intent.INSTRUCTOR_RESULT,
       this.indicateMissingResponses,
       this.showStatistics,
+      undefined,
       this.section.length === 0 ? undefined : this.section,
       this.section.length === 0 ? undefined : this.sectionType,
     ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe((resp: string) => {
@@ -534,6 +536,28 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       return;
     }
     this.viewType = newViewType;
+
+    // change tooltip text based on currently selected view type
+    switch (this.viewType) {
+      case InstructorSessionResultViewType.QUESTION:
+        this.viewTooltipText = 'Group responses by question';
+        break;
+      case InstructorSessionResultViewType.GRQ:
+        this.viewTooltipText = 'Group responses by giver, then by recipient, and then by question';
+        break;
+      case InstructorSessionResultViewType.RGQ:
+        this.viewTooltipText = 'Group responses by recipient, then by giver, and then by question';
+        break;
+      case InstructorSessionResultViewType.GQR:
+        this.viewTooltipText = 'Group responses by giver, then by question, and then by recipient';
+        break;
+      case InstructorSessionResultViewType.RQG:
+        this.viewTooltipText = 'Group responses by recipient, then by question, and then by giver';
+        break;
+      default:
+        this.viewTooltipText = 'View results in different formats';
+    }
+
     // the expand all will be reset if the view type changed
     this.collapseAllTabs();
   }

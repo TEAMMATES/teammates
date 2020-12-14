@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -113,9 +114,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Redirect to the search page and query the search
    */
   search(): void {
-    this.router.navigate(['web/instructor/search'], {
-      queryParams: { studentSearchkey: this.studentSearchkey },
-    });
+    this.navigationService.navigateByURL(this.router, '/web/instructor/search',
+        { studentSearchkey: this.studentSearchkey });
   }
 
   /**
@@ -176,7 +176,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         courses.courses.forEach((course: Course) => {
           const model: CourseTabModel = {
             course,
-            instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+            instructorPrivilege: course.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
             sessionsTableRowModels: [],
             isTabExpanded: false,
             isAjaxSuccess: true,
@@ -187,7 +187,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
           };
 
           this.courseTabModels.push(model);
-          this.updateCourseInstructorPrivilege(model);
         });
         this.isNewUser = !courses.courses.some((course: Course) => !/-demo\d*$/.test(course.courseId));
         this.sortCoursesBy(this.instructorCoursesSortBy);
@@ -195,20 +194,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
         this.hasCoursesLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
 
-      });
-  }
-
-  /**
-   * Updates the instructor privilege in {@code CourseTabModel}.
-   */
-  updateCourseInstructorPrivilege(model: CourseTabModel): void {
-    this.instructorService.loadInstructorPrivilege({ courseId: model.course.courseId })
-      .subscribe((instructorPrivilege: InstructorPrivilege) => {
-        model.instructorPrivilege = instructorPrivilege;
-      }, (resp: ErrorMessageOutput) => {
-        this.courseTabModels = [];
-        this.hasCoursesLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 
@@ -226,10 +211,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
                 feedbackSession,
                 responseRate: '',
                 isLoadingResponseRate: false,
-                instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+                instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
               };
               model.sessionsTableRowModels.push(m);
-              this.updateInstructorPrivilege(m);
             });
             model.hasPopulated = true;
             if (!model.isAjaxSuccess) {
@@ -356,10 +340,35 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Edits the feedback session.
+   * Copies the feedback session.
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
-    this.copySession(this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    this.failedToCopySessions = {};
+    const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
+        this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+    if (requestList.length === 1) {
+      this.copySingleSession(requestList[0]);
+    }
+    if (requestList.length > 1) {
+      forkJoin(requestList).subscribe((newSessions: FeedbackSession[]) => {
+        if (newSessions.length > 0) {
+          newSessions.forEach((session: FeedbackSession) => {
+            const model: SessionsTableRowModel = {
+              feedbackSession: session,
+              responseRate: '',
+              isLoadingResponseRate: false,
+              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+            };
+            const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
+                tabModel.course.courseId === session.courseId);
+            if (courseModel) {
+              courseModel.sessionsTableRowModels.push(model);
+            }
+          });
+        }
+        this.showCopyStatusMessage();
+      });
+    }
   }
 
   /**

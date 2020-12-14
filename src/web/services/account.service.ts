@@ -71,7 +71,7 @@ export class AccountService {
     const paramMap: Record<string, string> = {
       instructorid: googleId,
     };
-    return this.httpRequestService.get('/account', paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
   }
 
 }

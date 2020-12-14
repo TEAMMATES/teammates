@@ -15,18 +15,18 @@ import teammates.common.util.Logger;
  */
 public abstract class SearchQuery {
 
-    protected static final String AND = " AND ";
-    protected static final String OR = " OR ";
+    static final String AND = " AND ";
+    static final String OR = " OR ";
 
     private static final Logger log = Logger.getLogger();
 
-    protected QueryOptions options;
+    QueryOptions options;
 
     private String visibilityQueryString;
 
     private List<String> textQueryStrings = new ArrayList<>();
 
-    protected SearchQuery(List<InstructorAttributes> instructors, String queryString) {
+    SearchQuery(List<InstructorAttributes> instructors, String queryString) {
         options = QueryOptions.newBuilder()
                 .setLimit(20)
                 .build();
@@ -34,11 +34,11 @@ public abstract class SearchQuery {
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
 
-    protected SearchQuery(String queryString) {
+    SearchQuery(String queryString) {
         this(null, queryString);
     }
 
-    protected abstract String prepareVisibilityQueryString(List<InstructorAttributes> instructors);
+    abstract String prepareVisibilityQueryString(List<InstructorAttributes> instructors);
 
     /**
      * Returns how many query strings a SearchQuery object has.

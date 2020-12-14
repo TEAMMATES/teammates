@@ -1,0 +1,66 @@
+{
+  "accounts": {
+    "ICSDetEdit.instr": {
+      "googleId": "tm.e2e.ICSDetEdit.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICSDetEdit.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICSDetEdit.CS2104": {
+      "id": "tm.e2e.ICSDetEdit.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICSDetEdit.instr": {
+      "googleId": "tm.e2e.ICSDetEdit.instr",
+      "courseId": "tm.e2e.ICSDetEdit.CS2104",
+      "name": "Teammates Test",
+      "email": "ICSDetEdit.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "ICSDetEdit.jose.tmms": {
+      "googleId": "tm.e2e.ICSDetEdit.jose.tmms",
+      "email": "ICSDetEdit.jose.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDetEdit.CS2104",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
+      "team": "Team 1"
+    },
+    "ICSDetEdit.benny.c": {
+      "googleId": "",
+      "email": "ICSDetEdit.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDetEdit.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

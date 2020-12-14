@@ -37,15 +37,6 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btn-save-course")
     private WebElement submitButton;
 
-    @FindBy(id = "sort-course-name")
-    private WebElement sortByCourseNameIcon;
-
-    @FindBy (id = "sort-course-id")
-    private WebElement sortByCourseIdIcon;
-
-    @FindBy (id = "sort-creation-date")
-    private WebElement sortByCreationDateIcon;
-
     @FindBy(id = "active-courses-table")
     private WebElement activeCoursesTable;
 
@@ -220,15 +211,11 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     public void sortByCourseName() {
-        click(sortByCourseNameIcon);
+        click(waitForElementPresence(By.id("sort-course-name")));
     }
 
     public void sortByCourseId() {
-        click(sortByCourseIdIcon);
-    }
-
-    public void sortByCreationDate() {
-        click(sortByCreationDateIcon);
+        click(waitForElementPresence(By.id("sort-course-id")));
     }
 
     private WebElement getActiveTableRow(String courseId) {

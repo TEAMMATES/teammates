@@ -7,6 +7,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
@@ -24,9 +25,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -42,6 +41,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -50,6 +50,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -102,6 +103,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded="false"
@@ -119,9 +121,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -137,6 +137,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -145,6 +146,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -197,6 +199,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
@@ -214,9 +217,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -232,6 +233,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -240,6 +242,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -256,7 +259,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -282,17 +285,20 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -308,11 +314,14 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -373,6 +382,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
@@ -390,9 +400,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -408,6 +416,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -416,6 +425,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -432,7 +442,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -458,17 +468,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -484,11 +497,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -517,14 +533,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -550,7 +566,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -576,7 +592,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -590,6 +606,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -601,6 +618,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -608,7 +626,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -616,6 +634,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -780,8 +799,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                           >
                             
                             <a
-                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback"
-                              routerlink="/web/instructor/sessions/edit"
+                              href="/web/instructor/sessions/edit?courseid=CS3281&fsname=Feedback&editingMode=true"
+                              tmrouterlink="/web/instructor/sessions/edit"
                             >
                               
                               <button
@@ -839,7 +858,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 <a
                                   class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback"
-                                  routerlink="/web/instructor/sessions/result"
+                                  tmrouterlink="/web/instructor/sessions/result"
                                 >
                                   View Results
                                 </a>
@@ -907,6 +926,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
@@ -924,9 +944,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -942,6 +960,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -950,6 +969,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -966,7 +986,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -992,17 +1012,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -1018,11 +1041,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -1050,7 +1076,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -1076,7 +1102,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1102,7 +1128,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -1116,6 +1142,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1127,6 +1154,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1134,7 +1162,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1353,7 +1381,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 <a
                                   class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%201"
-                                  routerlink="/web/instructor/sessions/result"
+                                  tmrouterlink="/web/instructor/sessions/result"
                                 >
                                   View Results
                                 </a>
@@ -1506,7 +1534,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 <a
                                   class="btn dropdown-item clickable disabled"
                                   href="/web/instructor/sessions/result?courseid=CS3281&fsname=Feedback%202"
-                                  routerlink="/web/instructor/sessions/result"
+                                  tmrouterlink="/web/instructor/sessions/result"
                                 >
                                   View Results
                                 </a>
@@ -1574,6 +1602,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
@@ -1591,9 +1620,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -1609,6 +1636,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1617,6 +1645,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -1633,7 +1662,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -1659,17 +1688,20 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -1685,11 +1717,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -1718,14 +1753,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -1751,7 +1786,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1777,7 +1812,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -1791,6 +1826,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -1802,6 +1838,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -1809,7 +1846,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -1817,6 +1854,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -1854,6 +1892,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
@@ -1871,9 +1910,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -1889,6 +1926,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -1897,6 +1935,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -1913,7 +1952,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -1939,17 +1978,20 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -1965,11 +2007,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3281]: Thematic Systems
             </b>
             
@@ -1998,14 +2043,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3281"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3281"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -2031,7 +2076,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2057,7 +2102,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3281"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -2071,6 +2116,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2082,6 +2128,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2089,7 +2136,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3281"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2097,6 +2144,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 
@@ -2162,6 +2210,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseTabModels={[Function Array]}
+  failedToCopySessions={[Function Object]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
@@ -2179,9 +2228,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
-  <tm-redirect-banner>
-    
-  </tm-redirect-banner><h1>
+  <h1>
     Home
   </h1><div
     class="card no-border bg-light mb-4"
@@ -2197,6 +2244,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         >
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
+            id="search-input"
             placeholder="e.g. Charles Shultz, charles@gmail.com"
             type="text"
           />
@@ -2205,6 +2253,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
           >
             <button
               class="btn btn-primary"
+              id="btn-search"
             >
               Search
             </button>
@@ -2221,7 +2270,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       <a
         class="btn btn-success"
         href="/web/instructor/courses?isAddNewCourse=true"
-        routerlink="/web/instructor/courses"
+        tmrouterlink="/web/instructor/courses"
       >
         <i
           class="fas fa-plus"
@@ -2247,17 +2296,20 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         >
           <button
             class="btn btn-light"
+            id="sort-course-id"
           >
             Course ID
           </button>
           <button
             class="btn btn-light"
+            id="sort-course-name"
           >
             Course Name
           </button>
           <button
             class="btn btn-light"
             disabled=""
+            id="sort-course-date"
           >
             Creation Date
           </button>
@@ -2273,11 +2325,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         
         <div
           class="card"
+          id="course-tab"
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
           >
-            <b>
+            <b
+              id="course-details"
+            >
               [CS3243]: Introduction to AI
             </b>
             
@@ -2306,14 +2361,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/enroll?courseid=CS3243"
-                    routerlink="/web/instructor/courses/enroll"
+                    tmrouterlink="/web/instructor/courses/enroll"
                   >
                      Enroll 
                   </a>
                   <a
                     class="btn btn-info btn-sm dropdown-item"
                     href="/web/instructor/courses/details?courseid=CS3243"
-                    routerlink="/web/instructor/courses/details"
+                    tmrouterlink="/web/instructor/courses/details"
                   >
                      View / Edit 
                   </a>
@@ -2339,7 +2394,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2365,7 +2420,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/sessions?courseid=CS3243"
-                    routerlink="/web/instructor/sessions"
+                    tmrouterlink="/web/instructor/sessions"
                   >
                      Add 
                   </a>
@@ -2379,6 +2434,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   aria-expanded="false"
                   aria-haspopup="true"
                   class="btn btn-primary btn-sm dropdown-toggle"
+                  id="btn-course"
                   ngbdropdowntoggle=""
                 >
                    Course 
@@ -2390,6 +2446,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 >
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-archive-course"
                     ngbtooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)"
                   >
                      Archive 
@@ -2397,7 +2454,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   <a
                     class="btn btn-light btn-sm dropdown-item"
                     href="/web/instructor/courses/edit?courseid=CS3243"
-                    routerlink="/web/instructor/courses/edit"
+                    tmrouterlink="/web/instructor/courses/edit"
                   >
                      View / Edit 
                   </a>
@@ -2405,6 +2462,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   
                   <a
                     class="btn btn-light btn-sm dropdown-item"
+                    id="btn-delete-course"
                     ngbtooltip="Delete the course and its corresponding students and sessions"
                   >
                      Delete 

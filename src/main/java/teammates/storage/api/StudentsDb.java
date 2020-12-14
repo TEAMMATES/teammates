@@ -391,12 +391,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     @Override
-    protected LoadType<CourseStudent> load() {
+    LoadType<CourseStudent> load() {
         return ofy().load().type(CourseStudent.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(StudentAttributes entityToCreate) {
+    boolean hasExistingEntities(StudentAttributes entityToCreate) {
         return !load()
                 .filterKey(Key.create(CourseStudent.class,
                         CourseStudent.generateId(entityToCreate.getEmail(), entityToCreate.getCourse())))
@@ -405,7 +405,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     @Override
-    protected StudentAttributes makeAttributes(CourseStudent entity) {
+    StudentAttributes makeAttributes(CourseStudent entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return StudentAttributes.valueOf(entity);

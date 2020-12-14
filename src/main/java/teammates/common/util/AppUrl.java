@@ -38,4 +38,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.STUDENT_EMAIL, email);
     }
 
+    public AppUrl withEntityType(String entityType) {
+        return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
+    }
+
 }

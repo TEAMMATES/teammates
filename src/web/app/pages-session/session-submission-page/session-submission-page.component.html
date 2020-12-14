@@ -30,8 +30,14 @@
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
-      You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to
-      <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+      <div *ngIf="loggedInUser">
+        You are submitting feedback as <mark><b>{{ personName }}</b></mark>. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+        <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">click here</a>.
+      </div>
+      <div *ngIf="!loggedInUser">
+        You are submitting feedback as <mark><b>{{ personName }}</b></mark>. You may submit feedback for sessions that are currently open and view results without logging in.
+        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (optional).
+      </div>
     </div>
   </div>
 </div>
@@ -99,7 +105,7 @@
         <button id="btn-submit" type="submit" class="btn btn-success"
                 ngbTooltip="You can save your responses at any time and come back later to continue."
                 (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
-        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>&nbsp;Submit Feedback</button>
+        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Feedback</button>
       </div>
     </div>
   </div>

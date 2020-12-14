@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.ScriptTimeoutException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -21,7 +22,7 @@ import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * A programmatic interface to the Browser used to test the app.
@@ -39,21 +40,14 @@ public class Browser {
     }
 
     /**
-     * The {@link WebDriver} object that drives the Browser instance.
-     */
-    // TODO change this to private once all legacy UI tests are migrated
-    public WebDriver driver;
-
-    /**
      * Indicates whether the app is being used by an admin.
      */
     public boolean isAdminLoggedIn;
 
     /**
-     * Indicates to the {@link BrowserPool} that this object is currently being used
-     * and not ready to be reused by another test.
+     * The {@link WebDriver} object that drives the Browser instance.
      */
-    boolean isInUse;
+    WebDriver driver;
 
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
@@ -64,7 +58,7 @@ public class Browser {
         this.driver = createWebDriver();
         this.driver.manage().window().maximize();
         this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
-        this.isInUse = false;
+        this.driver.manage().timeouts().setScriptTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
         this.isAdminLoggedIn = false;
     }
 
@@ -126,6 +120,24 @@ public class Browser {
         driver.switchTo().window(windowHandles.pop());
     }
 
+    /**
+     * Closes the current browser.
+     */
+    public void close() {
+        driver.quit();
+    }
+
+    /**
+     * Visits the given URL.
+     */
+    public void goToUrl(String url) {
+        try {
+            driver.get(url);
+        } catch (TimeoutException e) {
+            System.out.println("Page could not load completely. Trying to continue test.");
+        }
+    }
+
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
@@ -170,6 +182,10 @@ public class Browser {
             profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+            if (TestProperties.isDevServer()) {
+                options.addArguments("-private");
+            }
+
             return new FirefoxDriver(options);
         }
 
@@ -179,11 +195,13 @@ public class Browser {
 
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("download.default_directory", downloadPath);
-            chromePrefs.put("profile.default_content_settings.popups", 0);
+            chromePrefs.put("download.prompt_for_download", false);
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
-            if (!TestProperties.isDevServer()) {
+            if (TestProperties.isDevServer()) {
+                options.addArguments("incognito");
+            } else {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
                 if (TestProperties.CHROME_USER_DATA_PATH.isEmpty()

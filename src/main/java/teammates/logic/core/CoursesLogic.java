@@ -67,7 +67,7 @@ public final class CoursesLogic {
      * @throws InvalidParametersException if the course is not valid
      * @throws EntityAlreadyExistsException if the course already exists in the Datastore.
      */
-    public CourseAttributes createCourse(CourseAttributes courseToCreate)
+    CourseAttributes createCourse(CourseAttributes courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createEntity(courseToCreate);
     }
@@ -129,7 +129,7 @@ public final class CoursesLogic {
     /**
      * Used to trigger an {@link EntityDoesNotExistException} if the course is not present.
      */
-    public void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
+    void verifyCourseIsPresent(String courseId) throws EntityDoesNotExistException {
         if (!isCoursePresent(courseId)) {
             throw new EntityDoesNotExistException("Course does not exist: " + courseId);
         }
@@ -192,18 +192,6 @@ public final class CoursesLogic {
                 .collect(Collectors.toList());
 
         return coursesDb.getCourses(courseIds);
-    }
-
-    /**
-     * Returns a list of {@link CourseAttributes} for courses a given instructor belongs to,
-     * except for courses in recycle bin.
-     *
-     * @param googleId The Google ID of the instructor
-     * @param omitArchived if {@code true}, omits all the archived courses from the return
-     */
-    public List<CourseAttributes> getCoursesForInstructor(String googleId, boolean omitArchived) {
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
-        return getCoursesForInstructor(instructorList);
     }
 
     /**

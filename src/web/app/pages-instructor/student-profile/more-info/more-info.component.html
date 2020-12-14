@@ -7,7 +7,7 @@
             (click)="openMoreInfoModal()" *ngIf="moreInfoText"></span>
         <h4 class="font-weight-bold">More Info:</h4>
         <!-- Note: When an element has class text-preserve-space, do not insert HTML spaces -->
-        <p class="text-preserve-space height-fixed-md">
+        <p id="more-info" class="text-preserve-space height-fixed-md">
           <span *ngIf="moreInfoText; else notSpecified">{{moreInfoText}}</span>
         </p>
       </div>

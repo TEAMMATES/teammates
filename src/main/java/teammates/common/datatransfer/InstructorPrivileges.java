@@ -125,38 +125,38 @@ public final class InstructorPrivileges {
         }
     }
 
-    public static boolean isPrivilegeNameValid(String privilegeName) {
+    static boolean isPrivilegeNameValid(String privilegeName) {
         return COURSE_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
                 || SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
                 || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
 
-    public static boolean isPrivilegeNameValidForSectionLevel(String privilegeName) {
+    static boolean isPrivilegeNameValidForSectionLevel(String privilegeName) {
         return SECTION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName)
                 || SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
 
-    public static boolean isPrivilegeNameValidForSessionLevel(String privilegeName) {
+    static boolean isPrivilegeNameValidForSessionLevel(String privilegeName) {
         return SESSION_LEVEL_ONLY_PRIVILEGES.contains(privilegeName);
     }
 
-    public void setDefaultPrivilegesForCoowner() {
+    void setDefaultPrivilegesForCoowner() {
         setDefaultPrivileges(PRIVILEGES_COOWNER);
     }
 
-    public void setDefaultPrivilegesForManager() {
+    void setDefaultPrivilegesForManager() {
         setDefaultPrivileges(PRIVILEGES_MANAGER);
     }
 
-    public void setDefaultPrivilegesForObserver() {
+    void setDefaultPrivilegesForObserver() {
         setDefaultPrivileges(PRIVILEGES_OBSERVER);
     }
 
-    public void setDefaultPrivilegesForTutor() {
+    void setDefaultPrivilegesForTutor() {
         setDefaultPrivileges(PRIVILEGES_TUTOR);
     }
 
-    public void setDefaultPrivilegesForCustom() {
+    void setDefaultPrivilegesForCustom() {
         setDefaultPrivileges(PRIVILEGES_CUSTOM);
     }
 
@@ -164,7 +164,7 @@ public final class InstructorPrivileges {
         defaultPrivileges.forEach((key, value) -> courseLevel.put(key, value));
     }
 
-    public Map<String, Boolean> getOverallPrivilegesForSections() {
+    private Map<String, Boolean> getOverallPrivilegesForSections() {
         Map<String, Boolean> privileges = new LinkedHashMap<>();
 
         privileges.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
@@ -233,7 +233,7 @@ public final class InstructorPrivileges {
         });
     }
 
-    public void addSectionWithDefaultPrivileges(String sectionName) {
+    void addSectionWithDefaultPrivileges(String sectionName) {
         this.sectionLevel.putIfAbsent(sectionName, getOverallPrivilegesForSections());
     }
 
@@ -296,9 +296,8 @@ public final class InstructorPrivileges {
      * Removes special settings for sectionName.
      */
     public void removeSectionLevelPrivileges(String sectionName) {
-        if (this.sectionLevel.containsKey(sectionName)) {
-            this.sectionLevel.remove(sectionName);
-        }
+
+        this.sectionLevel.remove(sectionName);
         this.removeSessionsPrivilegesForSection(sectionName);
     }
 
@@ -306,9 +305,7 @@ public final class InstructorPrivileges {
      * Removes special settings for all sessionNames in sectionName.
      */
     public void removeSessionsPrivilegesForSection(String sectionName) {
-        if (this.sessionLevel.containsKey(sectionName)) {
-            this.sessionLevel.remove(sectionName);
-        }
+        this.sessionLevel.remove(sectionName);
     }
 
     private boolean isAllowedInCourseLevel(String privilegeName) {

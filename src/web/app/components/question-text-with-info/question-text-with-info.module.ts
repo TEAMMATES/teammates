@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   QuestionAdditionalInfoModule,
 } from '../question-types/question-additional-info/question-additional-info.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
 
 /**
@@ -20,9 +20,9 @@ import { QuestionTextWithInfoComponent } from './question-text-with-info.compone
   ],
   imports: [
     CommonModule,
-    RouterModule,
     QuestionAdditionalInfoModule,
     NgbTooltipModule,
+    TeammatesRouterModule,
   ],
 })
 export class QuestionTextWithInfoModule { }

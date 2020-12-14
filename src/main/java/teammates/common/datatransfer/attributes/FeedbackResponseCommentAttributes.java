@@ -43,7 +43,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     // true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
 
-    FeedbackResponseCommentAttributes() {
+    private FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
         receiverSection = Const.DEFAULT_SECTION;
         showCommentTo = new ArrayList<>();
@@ -437,10 +437,10 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

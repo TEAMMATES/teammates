@@ -29,23 +29,6 @@ public class Url {
     }
 
     /**
-      * Returns the relative part (path) of the URL, after the
-      * authority (host name + port number if specified) but before the query.<br>
-      * Example:
-      * <ul>
-      * <li><code>new Url("http://localhost:8080/index.html").getRelativeUrl()</code>
-      * returns <code>/index.html</code></li>
-      * <li><code>new Url("http://google.com").getRelativeUrl()</code>
-      * returns <i>[empty string]</i></li>
-      * <li><code>new Url("https://teammatesv4.appspot.com/page/studentHomePage?user=abc").getRelativeUrl()</code>
-      * returns <code>/page/studentHomePage</code></li>
-      * </ul>
-      */
-    public String getRelativeUrl() {
-        return relativeUrl;
-    }
-
-    /**
       * Returns the first part of the URL, including the protocol and
       * authority (host name + port number if specified) but not the path.<br>
       * Example:
@@ -58,21 +41,6 @@ public class Url {
       */
     public String getBaseUrl() {
         return baseUrl;
-    }
-
-    /**
-     * Returns the value of the {@code parameterName} parameter. Null if no such parameter.
-     */
-    public String get(String parameterName) {
-        /*
-         * Regex meaning: from the start of the string, try to find either:
-         * 1. "?" followed by "{parameterName}="
-         * 2. Any amount of any character followed by "&{parameterName}="
-         * followed by as many characters as possible until the first & is found.
-         * Returns the first occurrence if found, null otherwise.
-         */
-        String keyValuePairRegex = "^(\\?|.*&)" + parameterName + "=([^&]*).*";
-        return query.matches(keyValuePairRegex) ? query.replaceFirst(keyValuePairRegex, "$2") : null;
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +63,7 @@ public class Url {
      * <code>index.html</code></li>
      * </ul>
      */
-    public static String addParamToUrl(String url, String key, String value) {
+    static String addParamToUrl(String url, String key, String value) {
         if (key == null || key.isEmpty() || value == null || value.isEmpty()
                 || url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
             // return the url if any of the key or the value is null or empty

@@ -197,12 +197,12 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     @Override
-    protected LoadType<FeedbackQuestion> load() {
+    LoadType<FeedbackQuestion> load() {
         return ofy().load().type(FeedbackQuestion.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(FeedbackQuestionAttributes entityToCreate) {
+    boolean hasExistingEntities(FeedbackQuestionAttributes entityToCreate) {
         return !load()
                 .filter("feedbackSessionName =", entityToCreate.getFeedbackSessionName())
                 .filter("courseId =", entityToCreate.getCourseId())
@@ -213,7 +213,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     @Override
-    protected FeedbackQuestionAttributes makeAttributes(FeedbackQuestion entity) {
+    FeedbackQuestionAttributes makeAttributes(FeedbackQuestion entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackQuestionAttributes.valueOf(entity);

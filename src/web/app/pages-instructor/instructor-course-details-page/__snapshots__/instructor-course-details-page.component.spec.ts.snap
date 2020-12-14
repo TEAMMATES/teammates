@@ -9,10 +9,8 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -54,10 +52,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading="false"
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -92,6 +88,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="course-id"
               >
                 <p
                   class="form-control-static"
@@ -110,7 +107,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
-                id="coursename"
+                id="course-name"
               >
                 <p
                   class="form-control-static"
@@ -129,6 +126,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-sections"
               >
                 <p
                   class="form-control-static"
@@ -147,6 +145,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-teams"
               >
                 <p
                   class="form-control-static"
@@ -165,6 +164,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-students"
               >
                 <p
                   class="form-control-static"
@@ -184,6 +184,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             </label>
             <div
               class="col-sm-6 text-sm-left"
+              id="instructors"
             >
               
               <div>
@@ -204,7 +205,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
          There are no students in this course. Click 
         <a
           href="/web/instructor/courses/enroll?courseid=CS101"
-          routerlink="/web/instructor/courses/enroll"
+          tmrouterlink="/web/instructor/courses/enroll"
         >
           here
         </a>
@@ -227,10 +228,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading="false"
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -265,6 +264,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="course-id"
               >
                 <p
                   class="form-control-static"
@@ -283,7 +283,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
-                id="coursename"
+                id="course-name"
               >
                 <p
                   class="form-control-static"
@@ -302,6 +302,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-sections"
               >
                 <p
                   class="form-control-static"
@@ -320,6 +321,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-teams"
               >
                 <p
                   class="form-control-static"
@@ -338,6 +340,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               </label>
               <div
                 class="col-sm-6 text-sm-left"
+                id="num-students"
               >
                 <p
                   class="form-control-static"
@@ -357,6 +360,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             </label>
             <div
               class="col-sm-6 text-sm-left"
+              id="instructors"
             >
               
               <div>
@@ -374,6 +378,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               >
                 <button
                   class="btn btn-primary"
+                  id="btn-remind-all"
                   type="button"
                   value="Remind Students to Join"
                 >
@@ -384,6 +389,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 </button>
                 <button
                   class="btn btn-primary btn-margin-left"
+                  id="btn-download"
                   type="button"
                 >
                   
@@ -395,6 +401,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                 </button>
                 <button
                   class="btn btn-danger btn-margin-left"
+                  id="btn-delete-all"
                   type="button"
                   value="Delete All Students"
                 >
@@ -411,6 +418,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       
       <div
         class="card-body p-0 student-table-margin card border"
+        id="student-list"
       >
         <tm-student-list>
           <div
@@ -457,6 +465,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </th>
                   <th
                     class="sortable-header"
+                    id="sort-by-name"
                   >
                      Student Name 
                     <span
@@ -471,6 +480,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   </th>
                   <th
                     class="sortable-header"
+                    id="sort-by-status"
                   >
                      Status 
                     <span
@@ -550,6 +560,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-view-details"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -560,6 +571,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-edit-details"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -572,6 +584,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
+                      id="btn-send-invite"
                     >
                       Send Invite
                     </button>
@@ -579,6 +592,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     
                     <button
                       class="btn btn-light btn-sm btn-margin-right"
+                      id="btn-delete"
                     >
                       Delete
                     </button>
@@ -586,6 +600,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                     <a
                       class="btn btn-light btn-sm btn-margin-right"
                       href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-view-records"
                       rel="noopener noreferrer"
                       target="_blank"
                     >
@@ -616,10 +631,8 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   instructors={[Function Array]}
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

@@ -118,12 +118,14 @@ sourceSets {
         java {
             srcDir "src/test/java"
             srcDir "src/e2e/java"
+            srcDir "src/lnp/java"
             srcDir "src/client/java"
             include "**/*.java"
         }
         resources {
             srcDir "src/test/resources"
             srcDir "src/e2e/resources"
+            srcDir "src/lnp/resources"
             srcDir "src/client/resources"
             exclude "**/*.java"
         }
@@ -151,22 +153,22 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.output.**",
+        "teammates.ui.output.**",
         "teammates.common.datatransfer.questions.**"
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"
     excludeClassPatterns = [
-        "teammates.ui.webapi.output.**Builder"
+        "teammates.ui.output.**Builder"
     ]
     excludeClasses = [
-        "teammates.ui.webapi.output.SessionResultsData\$NameInfo"
+        "teammates.ui.output.SessionResultsData\$NameInfo"
     ]
 }
 
 task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.request.**",
+        "teammates.ui.request.**",
         "teammates.common.util.EmailType"
     ]
     outputFile = "src/web/types/api-request.ts"
@@ -174,7 +176,7 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
 
 task generateApiEndpoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.webapi.endpoints.**"
+        "teammates.ui.endpoints.**"
     ]
     jsonLibrary = 'jackson2'
     jackson2Configuration = [
@@ -204,6 +206,7 @@ task createConfigs {
             "src/main/resources/build.template.properties",
             "src/web/environments/config.template.ts",
             "src/test/resources/test.template.properties",
+            "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
             "src/main/webapp/WEB-INF/appengine-web.template.xml"
@@ -439,12 +442,12 @@ task lint {
 
 // TEST TASKS
 
-def numOfTestRetries = 3
+def numOfTestRetries = 4
 
 task lnpTests(type: Test) {
     systemProperty "random.testing.seed", new Random().nextInt() // re-run tests even if they are up-to-date
     useTestNG()
-    options.suites "src/e2e/resources/testng-lnp.xml"
+    options.suites "src/lnp/resources/testng-lnp.xml"
     options.useDefaultListeners = true
     ignoreFailures false
     maxHeapSize = "1g"
@@ -519,49 +522,15 @@ task e2eTests {
         testLogging {
             events "passed"
         }
-        if (isLastRetry) {
-            afterTest afterTestClosure
-        } else if (isFirstTry) {
+        afterTest afterTestClosure
+        if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
         }
-        finalizedBy "killFirefox${id}", "killChromedriver${id}"
         onlyIf {
             isFirstTry || file("${buildDir}/reports/e2e-test-try-${id - 1}/testng-failed.xml").exists()
         }
     }
     e2eTests.dependsOn "e2eTestTry${id}"
-
-    task "killFirefox${id}"(type: Exec) {
-        doFirst {
-            if (isWindows) {
-                commandLine "taskkill", "/f", "/im", "firefox.exe"
-                commandLine "taskkill", "/f", "/im", "geckodriver.exe"
-            } else {
-                commandLine "pkill", "firefox"
-                commandLine "pkill", "geckodriver"
-            }
-            // Silence output for this task
-            standardOutput = new ByteArrayOutputStream()
-            errorOutput = standardOutput
-        }
-        ignoreExitValue = true
-        outputs.upToDateWhen { false }
-    }
-
-    task "killChromedriver${id}"(type: Exec) {
-        doFirst {
-            if (isWindows) {
-                commandLine "taskkill", "/f", "/im", "chromedriver.exe"
-            } else {
-                commandLine "pkill", "chromedriver"
-            }
-            // Silence output for this task
-            standardOutput = new ByteArrayOutputStream()
-            errorOutput = standardOutput
-        }
-        ignoreExitValue = true
-        outputs.upToDateWhen { false }
-    }
 }
 
 // COVERAGE TASKS

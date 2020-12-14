@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MasqueradeModeService } from '../services/masquerade-mode.service';
+import { environment } from '../environments/environment';
+import { AuthService } from '../services/auth.service';
 
 /**
  * Component for publicly available pages.
@@ -12,11 +13,14 @@ import { MasqueradeModeService } from '../services/masquerade-mode.service';
 export class PublicPageComponent {
 
   constructor(private route: ActivatedRoute,
-              private masqueradeModeService: MasqueradeModeService) {
+              private authService: AuthService) {
+    if (environment.maintenance) {
+      return;
+    }
     this.route.queryParams.subscribe((queryParams: any) => {
-      if (queryParams.user) {
-        this.masqueradeModeService.setMasqueradeUser(queryParams.user);
-      }
+      this.authService.getAuthUser(queryParams.user).subscribe(() => {
+        // No need to do anything; this is necessary to get CSRF token
+      });
     });
   }
 

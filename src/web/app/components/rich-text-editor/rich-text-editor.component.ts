@@ -1,4 +1,5 @@
-import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { TINYMCE_BASE_URL } from './tinymce';
 
 /**
  * A rich text editor.
@@ -60,8 +61,8 @@ export class RichTextEditorComponent implements OnInit {
 
   private getEditorSettings(): any {
     return {
-      base_url: '/tinymce',
-      skin_url: '/tinymce/skins/ui/oxide',
+      base_url: TINYMCE_BASE_URL,
+      skin_url: `${TINYMCE_BASE_URL}/skins/ui/oxide`,
       content_css: '/assets/tinymce/tinymce.css',
       suffix: '.min',
       height: this.minHeightInPx,

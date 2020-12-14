@@ -151,6 +151,17 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
+     * Gets all responses received by a user for a question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
+            String feedbackQuestionId, String receiver) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiver);
+
+        return makeAttributes(getFeedbackResponseEntitiesForReceiverForQuestion(feedbackQuestionId, receiver));
+    }
+
+    /**
      * Checks whether a user has responses in a session.
      */
     public boolean hasResponsesFromGiverInSession(
@@ -164,6 +175,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .limit(1)
+                .keys() // key query is free query
                 .list()
                 .isEmpty();
     }
@@ -364,6 +376,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .list();
     }
 
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForQuestion(
+            String feedbackQuestionId, String receiver) {
+        return load()
+                .filter("feedbackQuestionId =", feedbackQuestionId)
+                .filter("receiver =", receiver)
+                .list();
+    }
+
     private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForCourse(
             String courseId, String receiver) {
         return load()
@@ -381,12 +401,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     @Override
-    protected LoadType<FeedbackResponse> load() {
+    LoadType<FeedbackResponse> load() {
         return ofy().load().type(FeedbackResponse.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(FeedbackResponseAttributes entityToCreate) {
+    boolean hasExistingEntities(FeedbackResponseAttributes entityToCreate) {
         return !load()
                 .filterKey(Key.create(FeedbackResponse.class,
                         FeedbackResponse.generateId(entityToCreate.getFeedbackQuestionId(),
@@ -396,7 +416,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     @Override
-    protected FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
+    FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
 
         return FeedbackResponseAttributes.valueOf(entity);

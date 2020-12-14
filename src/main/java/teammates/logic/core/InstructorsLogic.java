@@ -33,7 +33,6 @@ public final class InstructorsLogic {
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private InstructorsLogic() {
         // prevent initialization
@@ -132,8 +131,8 @@ public final class InstructorsLogic {
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
-    public void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
-                                                      boolean isEditedInstructorDisplayed)
+    void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
+                                               boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
@@ -214,9 +213,6 @@ public final class InstructorsLogic {
             // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
                     updatedInstructor.courseId, originalInstructor.email, updatedInstructor.email);
-            // cascade respondents
-            fsLogic.updateRespondentsForInstructor(
-                    originalInstructor.email, updatedInstructor.email, updatedInstructor.courseId);
         }
 
         return updatedInstructor;
@@ -268,7 +264,7 @@ public final class InstructorsLogic {
             return;
         }
 
-        frLogic.deleteFeedbackResponsesInvolvedInstructorOfCourseCascade(courseId, email);
+        frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, email);
         instructorsDb.deleteInstructor(courseId, email);
     }
 

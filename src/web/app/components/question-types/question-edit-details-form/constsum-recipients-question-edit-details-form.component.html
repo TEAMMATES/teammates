@@ -7,9 +7,9 @@
     <div class="form-check">
       <label class="form-row form-check-label">
         <div class="col-sm-3">
-          <input class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
+          <input id="total-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="false"
                  (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
-          <input type="number" class="form-control" min="1" step="1"
+          <input id="total-points" type="number" class="form-control" min="1" step="1"
                  [ngModel]="!model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || model.pointsPerOption">
         </div>
         <div class="col-sm-9 text-left">
@@ -20,9 +20,9 @@
     <div class="form-check">
       <label class="form-check-label form-row">
         <div class="col-sm-3">
-          <input class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
+          <input id="per-option-points-radio" class="form-check-input" type="radio" [ngModel]="model.pointsPerOption" [value]="true"
                  (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
-          <input type="number" class="form-control" min="1" step="1"
+          <input id="per-option-points" type="number" class="form-control" min="1" step="1"
                  [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption">
         </div>
         <div class="col-sm-9">
@@ -33,10 +33,10 @@
   </div>
   <label class="form-row form-check-label col-sm-12 padding-left-33px margin-top-10px">
     <div class="col-sm-3">
-      <input class="form-check-input" type="checkbox"
+      <input id="uneven-distribution-checkbox" class="form-check-input" type="checkbox"
              [ngModel]="model.forceUnevenDistribution"
              (ngModelChange)="onForceUnevenDistribution($event)" [disabled]="!isEditable">
-      <select class="form-control" [ngModel]="model.distributePointsFor"
+      <select id="uneven-distribution-dropdown" class="form-control" [ngModel]="model.distributePointsFor"
               [disabled]="!isEditable || model.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE"
               (ngModelChange)="triggerModelChange('distributePointsFor', $event)">
         <option [value]="FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">

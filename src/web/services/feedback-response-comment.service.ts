@@ -25,7 +25,7 @@ export class FeedbackResponseCommentService {
   createComment(createRequest: FeedbackResponseCommentCreateRequest,
                 responseId: string, intent: Intent,
                 additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
-    return this.httpRequestService.post('/responsecomment', {
+    return this.httpRequestService.post(ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
       responseid: responseId,
       ...additionalParams,
@@ -52,20 +52,6 @@ export class FeedbackResponseCommentService {
     return this.httpRequestService.delete(ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
       responsecommentid: commentId.toString(),
-      ...additionalParams,
-    });
-  }
-
-  /**
-   * Loads comment given by feedback participant by calling API.
-   *
-   * <p> The comment is given by feedback participant to explain the response.
-   */
-  loadParticipantComment(responseId: string, intent: Intent,
-                         additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
-    return this.httpRequestService.get(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
-      responseid: responseId,
       ...additionalParams,
     });
   }

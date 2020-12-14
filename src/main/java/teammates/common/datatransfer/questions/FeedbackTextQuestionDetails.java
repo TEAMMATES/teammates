@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
@@ -13,19 +14,27 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Nullable
     private Integer recommendedLength;
 
+    private Boolean shouldAllowRichText;
+
     public FeedbackTextQuestionDetails() {
         super(FeedbackQuestionType.TEXT);
         recommendedLength = null;
+        shouldAllowRichText = true;
     }
 
     public FeedbackTextQuestionDetails(String questionText) {
         super(FeedbackQuestionType.TEXT, questionText);
         recommendedLength = null;
+        shouldAllowRichText = true;
     }
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
-        return false;
+        Assumption.assertTrue(newDetails instanceof FeedbackTextQuestionDetails);
+
+        // delete the existing response upon change from rich text allowed to disallowed
+        // due to the effort to cleanup of HTML tags from the respondents
+        return !((FeedbackTextQuestionDetails) newDetails).shouldAllowRichText && shouldAllowRichText;
     }
 
     @Override
@@ -58,5 +67,13 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     public void setRecommendedLength(Integer recommendedLength) {
         this.recommendedLength = recommendedLength;
+    }
+
+    public boolean getShouldAllowRichText() {
+        return shouldAllowRichText;
+    }
+
+    public void setShouldAllowRichText(Boolean shouldAllowRichText) {
+        this.shouldAllowRichText = shouldAllowRichText;
     }
 }
