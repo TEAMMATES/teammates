@@ -156,6 +156,7 @@
   <div class="card top-padded" *ngIf="isNoResponsePanelLoaded">
     <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
                                              [noResponseStudents]="noResponseStudents"
+                                             [isNoResponseStudentsLoaded]="isNoResponseStudentsLoaded"
                                              [section]="section" [session]="session"
                                              (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
   </div>

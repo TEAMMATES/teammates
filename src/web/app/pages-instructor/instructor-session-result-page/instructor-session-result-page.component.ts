@@ -105,6 +105,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   noResponseStudents: Student[] = [];
   isNoResponsePanelLoaded: boolean = false;
+  isNoResponseStudentsLoaded: boolean = false;
   hasNoResponseLoadingFailed: boolean = false;
 
   allStudentsInCourse: Student[] = [];
@@ -252,7 +253,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
       courseId,
       feedbackSessionName,
-    }).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
+    }).pipe(finalize(() => this.isNoResponseStudentsLoaded = true))
+    .subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
       // TODO team is missing
       this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
           !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));

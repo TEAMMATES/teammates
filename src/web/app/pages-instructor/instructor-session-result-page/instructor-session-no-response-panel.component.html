@@ -47,7 +47,7 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="!noResponseStudentsInSection.length">
+    <div *ngIf="isNoResponseStudentsLoaded && !noResponseStudentsInSection.length">
       <i>All students have responded to some questions in this session.</i>
     </div>
   </div>
