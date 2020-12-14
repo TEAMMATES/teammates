@@ -58,15 +58,15 @@
         <div class="col-md-6">
           <div class="report-config-item">
             <label class="report-config-label control-label">
-              <b ngbTooltip="View results in different formats" class="ngb-tooltip-class">View:</b>
+              <b ngbTooltip="{{viewTooltipText}}" class="ngb-tooltip-class">View:</b>
             </label>
             <div>
               <select class="form-control" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
                 <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
-                <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver > Recipient > Question</option>
-                <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient > Giver > Question</option>
-                <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver > Question > Recipient</option>
-                <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient > Question > Giver</option>
+                <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver &#8594; Recipient &#8594; Question</option>
+                <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient &#8594; Giver &#8594; Question</option>
+                <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver &#8594; Question &#8594; Recipient</option>
+                <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient &#8594; Question &#8594; Giver</option>
               </select>
             </div>
           </div>
