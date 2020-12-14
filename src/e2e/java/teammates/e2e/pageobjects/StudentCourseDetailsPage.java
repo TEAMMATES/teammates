@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -90,12 +91,15 @@ public class StudentCourseDetailsPage extends AppPage {
             profileItems.add("Name: " + teammates[i].getName());
             profileItems.add("Email: " + teammates[i].getEmail());
             profileItems.add("Gender: " + convertGender(teammateProfiles[i].getGender()));
-            if (!StringHelper.isEmpty(teammateProfiles[i].getInstitute())) {
-                profileItems.add("Institute: " + teammateProfiles[i].getInstitute());
-            }
             if (!StringHelper.isEmpty(teammateProfiles[i].getNationality())) {
                 profileItems.add("Nationality: " + teammateProfiles[i].getNationality());
             }
+            if (!StringHelper.isEmpty(teammateProfiles[i].getInstitute())) {
+                profileItems.add("Institute: " + teammateProfiles[i].getInstitute());
+            }
+
+            WebElement actualProfile = browser.driver.findElement(By.id("teammates-details-" + i));
+            assertEquals(profileItems.stream().collect(Collectors.joining(System.lineSeparator())), actualProfile.getText());
         }
     }
 
