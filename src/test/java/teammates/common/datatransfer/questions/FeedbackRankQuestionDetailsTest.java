@@ -17,15 +17,6 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateMinOptionsToBeRanked_differentValidValues_shouldReturnTrue() {
-        int testValue = 100;
-        int testDiffValue = 101;
-        FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-        feedbackRankQuestionDetails.setMinOptionsToBeRanked(testValue);
-        assertNotEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, testDiffValue);
-    }
-
-    @Test
     public void testValidateMaxOptionsToBeRanked_sameValidValues_shouldReturnTrue() {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
@@ -40,5 +31,28 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
         feedbackRankQuestionDetails.setMaxOptionsToBeRanked(testValue);
         assertNotEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, testDiffValue);
+    }
+
+    @Test
+    public void testValidateDuplicatesAllowed_validValues_shouldReturnTrue() {
+        FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+        feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
+        assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, true);
+
+        feedbackRankQuestionDetails.setAreDuplicatesAllowed(false);
+        assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, false);
+
+        feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
+        assertNotEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, false);
+
+        feedbackRankQuestionDetails.setAreDuplicatesAllowed(false);
+        assertNotEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, true);
+    }
+
+    @Test
+    public void testValidateDefaultValue_sameValues_shouldReturnTrue() {
+        FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+        assertEquals(feedbackRankQuestionDetails.getMaxOptionsToBeRanked(), Integer.MIN_VALUE);
+        assertEquals(feedbackRankQuestionDetails.getMinOptionsToBeRanked(), Integer.MIN_VALUE);
     }
 }
