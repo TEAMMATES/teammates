@@ -146,6 +146,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute1',
         courseJoinLink: 'courseJoinLink1',
         homePageLink: 'homePageLink1',
+        courseDetailsPageLink: 'courseDetailsPageLink1',
         manageAccountLink: 'manageAccountLink1',
         showLinks: true,
         section: 'section1',
@@ -164,6 +165,7 @@ describe('AdminSearchPageComponent', () => {
         institute: 'institute2',
         courseJoinLink: 'courseJoinLink2',
         homePageLink: 'homePageLink2',
+        courseDetailsPageLink: 'courseDetailsPageLink2',
         manageAccountLink: 'manageAccountLink2',
         showLinks: true,
         section: 'section2',
@@ -222,6 +224,7 @@ describe('AdminSearchPageComponent', () => {
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
+      courseDetailsPageLink: 'courseDetailsPageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
       section: 'section',
@@ -329,6 +332,7 @@ describe('AdminSearchPageComponent', () => {
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
+      courseDetailsPageLink: 'courseDetailsPageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
 
@@ -375,6 +379,7 @@ describe('AdminSearchPageComponent', () => {
       institute: 'institute',
       courseJoinLink: 'courseJoinLink',
       homePageLink: 'homePageLink',
+      courseDetailsPageLink: 'courseDetailsPageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
 
@@ -425,6 +430,7 @@ describe('AdminSearchPageComponent', () => {
       institute: 'institute',
       courseJoinLink: 'courseJoinLink?key=oldKey',
       homePageLink: 'homePageLink',
+      courseDetailsPageLink: 'courseDetailsPageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
 
@@ -497,6 +503,7 @@ describe('AdminSearchPageComponent', () => {
       institute: 'institute',
       courseJoinLink: 'courseJoinLink?key=oldKey',
       homePageLink: 'homePageLink',
+      courseDetailsPageLink: 'courseDetailsPageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
 
