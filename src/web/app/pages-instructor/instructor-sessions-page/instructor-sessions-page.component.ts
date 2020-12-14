@@ -136,7 +136,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   isRestoreFeedbackSessionLoading: boolean = false;
   isPermanentDeleteLoading: boolean = false;
   hasCourseLoadingFailed: boolean = false;
-  hasCourseLoaded: boolean = false;
   hasFeedbackSessionLoadingFailed: boolean = false;
 
   constructor(router: Router,
@@ -197,7 +196,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.courseService.getInstructorCoursesThatAreActive()
         .pipe(finalize(() => this.isCoursesLoading = false)).subscribe((courses: Courses) => {
           this.courseCandidates = courses.courses;
-          this.hasCourseLoaded = true;
 
           this.initDefaultValuesForSessionEditForm();
         }, (resp: ErrorMessageOutput) => {
