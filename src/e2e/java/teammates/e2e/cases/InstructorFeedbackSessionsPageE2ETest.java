@@ -18,7 +18,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.e2e.util.TestProperties;
 
@@ -94,7 +93,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been added."
                 + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
-        feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
+        feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
@@ -110,7 +109,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                         + "Please modify settings/questions as necessary.");
-        feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
+        feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession);
         verifyPresentInDatastore(copiedSession);
@@ -125,7 +124,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
+        feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession2);
         verifyPresentInDatastore(copiedSession2);

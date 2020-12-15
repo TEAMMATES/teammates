@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorHomePage;
 import teammates.e2e.pageobjects.InstructorSearchPage;
 import teammates.e2e.util.TestProperties;
@@ -79,7 +78,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         // A more thorough testing of this page will be done in its own E2E test
 
         searchPage.verifyNumCoursesInStudentResults(2);
-        homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
 
         ______TS("search for invalid student");
         searchPage = homePage.searchKeyword("INVALID");
@@ -87,7 +86,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         searchPage.verifyStatusMessage("No results found.");
         searchPage.verifyNumCoursesInStudentResults(0);
-        homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();
@@ -118,7 +117,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
         homePage.sortCoursesByName();
         // flip index after sorting
         courseIndex = 0;
