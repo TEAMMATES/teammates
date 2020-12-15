@@ -25,28 +25,10 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateMaxOptionsToBeRanked_differentValidValues_shouldReturnTrue() {
-        int testValue = 100;
-        int testDiffValue = 101;
-        FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-        feedbackRankQuestionDetails.setMaxOptionsToBeRanked(testValue);
-        assertNotEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, testDiffValue);
-    }
-
-    @Test
-    public void testValidateDuplicatesAllowed_validValues_shouldReturnTrue() {
+    public void testValidateDuplicatesAllowed_isAllowed_shouldReturnTrue() {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
         feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
         assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, true);
-
-        feedbackRankQuestionDetails.setAreDuplicatesAllowed(false);
-        assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, false);
-
-        feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
-        assertNotEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, false);
-
-        feedbackRankQuestionDetails.setAreDuplicatesAllowed(false);
-        assertNotEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, true);
     }
 
     @Test

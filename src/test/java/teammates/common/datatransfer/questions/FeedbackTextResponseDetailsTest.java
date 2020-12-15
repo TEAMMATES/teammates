@@ -10,7 +10,7 @@ import teammates.test.BaseTestCase;
  */
 public class FeedbackTextResponseDetailsTest extends BaseTestCase {
     @Test
-    public void testValidateResponseAnswer_sameValues_shouldReturnTrue() {
+    public void testValidateArgumentConstructor_sameValues_shouldReturnTrue() {
         String testAnswer = "Hello World";
         FeedbackTextResponseDetails feedbackTextResponseDetails = new FeedbackTextResponseDetails(testAnswer);
         assertEquals(feedbackTextResponseDetails.getAnswer(), "Hello World");
@@ -40,12 +40,12 @@ public class FeedbackTextResponseDetailsTest extends BaseTestCase {
     @Test
     public void testValidateSetAnswer_sameValues_shouldReturnTrue() {
         String testValue = "Hello World";
-        String emptyString = "";
         FeedbackTextResponseDetails feedbackTextResponseDetails = new FeedbackTextResponseDetails();
-        assertEquals(feedbackTextResponseDetails.getAnswerString(),
-                SanitizationHelper.sanitizeForRichText(emptyString));
+        assertNotEquals(feedbackTextResponseDetails.getAnswerString(),
+                SanitizationHelper.sanitizeForRichText(testValue));
 
         feedbackTextResponseDetails.setAnswer(testValue);
+
         assertEquals(feedbackTextResponseDetails.getAnswerString(),
                 SanitizationHelper.sanitizeForRichText(testValue));
     }

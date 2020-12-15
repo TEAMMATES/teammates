@@ -3,7 +3,6 @@ package teammates.common.datatransfer.questions;
 import teammates.common.util.SanitizationHelper;
 
 public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
-
     //For essay questions the response is saved as plain-text due to legacy format before there were multiple question types
     private String answer;
 
