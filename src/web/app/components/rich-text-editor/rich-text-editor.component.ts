@@ -36,21 +36,18 @@ export class RichTextEditorComponent implements OnInit {
       + '| alignleft aligncenter alignright alignjustify '
       + '| bullist numlist | link image charmap emoticons';
 
+  constructor() { }
+
   @HostListener('window:resize', ['$event'])
-  onResize(event: { target: Window; }) {
+  onResize(event: { target: Window; }): void {
     if (event.target.innerWidth < 768) {
-      console.log(event.target.innerWidth);
       this.render = false;
-      console.log("yes");
       this.init.toolbar1 = '';
     } else {
-      console.log(event.target.innerWidth);
       this.render = false;
       this.init.toolbar1 = this.defaultToolbar;
     }
   }
-
-  constructor() { }
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
