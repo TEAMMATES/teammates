@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEditPage;
 
 /**
@@ -50,7 +49,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withUserId(instructors[3].googleId)
                 .withCourseId(course.getId());
-        editPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEditPage.class);
+        editPage = getNewPageInstance(url, InstructorCourseEditPage.class);
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);
