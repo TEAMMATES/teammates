@@ -15,7 +15,9 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
   <div
     class="container"
   >
-    <h2>
+    <h2
+      id="error-report-header"
+    >
       Uh oh! Something went wrong.
     </h2>
     <hr />
@@ -80,6 +82,7 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
     
     <button
       class="btn btn-success"
+      id="send-error-report-button"
     >
       Send Error Report
     </button>
