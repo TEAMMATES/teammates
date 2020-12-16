@@ -13,7 +13,7 @@ exports[`ErrorReportComponent should snap with default view 1`] = `
   subject={[Function String]}
 >
   <div
-    class="container"
+    class="container error-container"
   >
     <h2>
       Uh oh! Something went wrong.
