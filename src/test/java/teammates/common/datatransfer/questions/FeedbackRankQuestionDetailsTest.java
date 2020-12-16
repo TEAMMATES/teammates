@@ -9,24 +9,30 @@ import teammates.test.BaseTestCase;
  */
 public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
     @Test
-    public void testValidateMinOptionsToBeRanked_sameValidValues_shouldReturnTrue() {
+    public void testValidateSetMinOptionsToBeRanked_sameValidValues_shouldReturnTrue() {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+
+        assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, Integer.MIN_VALUE);
         feedbackRankQuestionDetails.setMinOptionsToBeRanked(testValue);
         assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, testValue);
     }
 
     @Test
-    public void testValidateMaxOptionsToBeRanked_sameValidValues_shouldReturnTrue() {
+    public void testValidateSetMaxOptionsToBeRanked_sameValidValues_shouldReturnTrue() {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+
+        assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, Integer.MIN_VALUE);
         feedbackRankQuestionDetails.setMaxOptionsToBeRanked(testValue);
         assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, testValue);
     }
 
     @Test
-    public void testValidateDuplicatesAllowed_isAllowed_shouldReturnTrue() {
+    public void testValidateSetDuplicatesAllowed_validValues_shouldReturnTrue() {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
+
+        assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, false);
         feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
         assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, true);
     }

@@ -17,7 +17,7 @@ public class FeedbackTextResponseDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateAttributesOfAnswer_nullValue_shouldThrowException() {
+    public void testValidateAttributesOfAnswer_nullValue_shouldReturnNull() {
         FeedbackTextResponseDetails feedbackTextResponseDetails = new FeedbackTextResponseDetails(null);
         assertNull(feedbackTextResponseDetails.getAnswer());
     }
