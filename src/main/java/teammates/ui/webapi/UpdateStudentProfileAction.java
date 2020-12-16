@@ -25,7 +25,7 @@ class UpdateStudentProfileAction extends Action {
             throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
         }
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-        if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
+        if (!studentId.equals(userInfo.id)) {
             throw new UnauthorizedAccessException("You are not authorized to update this student's profile.");
         }
     }
