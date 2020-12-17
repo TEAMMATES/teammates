@@ -6,7 +6,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../simple-modal/simple-modal';
 
 /**
  * Model of row of student data containing details about a student and their section.

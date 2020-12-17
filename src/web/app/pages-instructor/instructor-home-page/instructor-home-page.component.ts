@@ -28,7 +28,7 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';

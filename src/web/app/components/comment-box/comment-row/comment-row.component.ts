@@ -6,7 +6,7 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { CommentVisibilityType, FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
-import { SimpleModalType } from '../../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../simple-modal/simple-modal';
 import { CommentEditFormModel } from '../comment-edit-form/comment-edit-form.component';
 
 /**

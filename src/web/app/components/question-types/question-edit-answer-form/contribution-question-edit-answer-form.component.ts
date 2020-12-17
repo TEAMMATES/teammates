@@ -12,7 +12,7 @@ import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../../../../types/feedback-response-details';
-import { SimpleModalType } from '../../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../simple-modal/simple-modal';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 
 /**

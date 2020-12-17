@@ -13,7 +13,7 @@ import {
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
-import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';

@@ -11,7 +11,7 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../simple-modal/simple-modal';
 import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 

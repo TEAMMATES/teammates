@@ -9,28 +9,25 @@
       <i *ngIf="type === SimpleModalType.DANGER" class="fas fa-times-circle"></i>
       <i *ngIf="type === SimpleModalType.WARNING" class="fas fa-exclamation-circle"></i>
       <i *ngIf="type === SimpleModalType.INFO" class="fas fa-info-circle"></i>
-      <span class="margin-left-5px" [innerHTML]="header"></span>
+      <span *ngIf="isHeaderTemplate" class="margin-left-5px">
+        <ng-container *ngTemplateOutlet="header"></ng-container>
+      </span>
+      <span *ngIf="!isHeaderTemplate" class="margin-left-5px" [innerHTML]="header"></span>
     </h5>
   </div>
-  <button type="button" class="close" (click)="activeModal.dismiss()">
+  <button type="button" class="close" tabindex="-1" (click)="activeModal.dismiss()">
     <i class="fas fa-times"></i>
   </button>
 </div>
 <div class="modal-body">
   <div *ngIf="isTemplate">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="content; context: context"></ng-container>
   </div>
   <div *ngIf="!isTemplate" [innerHTML]="content"></div>
 </div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-light modal-btn-cancel" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
-    {{ cancelMessage }}
+<div class="modal-footer" *ngIf="buttons.length">
+  <button *ngFor="let button of buttons" type="button" tabindex="-1" class="btn {{ button.classes }}"
+          (click)="activeModal.dismiss(); button.action && button.action.call();">
+    {{ button.text }}
   </button>
-  <button type="button" class="btn modal-btn-ok"
-          [ngClass]="{
-          'btn-danger' : type === SimpleModalType.DANGER,
-          'btn-warning' : type === SimpleModalType.WARNING,
-          'btn-info' : type === SimpleModalType.INFO,
-          'btn-primary' : type === SimpleModalType.NEUTRAL }"
-          (click)="activeModal.close()">{{ confirmMessage }}</button>
 </div>

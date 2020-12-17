@@ -18,7 +18,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 

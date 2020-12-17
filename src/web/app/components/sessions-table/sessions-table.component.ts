@@ -5,7 +5,7 @@ import { Course, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus }
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopySessionModalResult } from '../copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../copy-session-modal/copy-session-modal.component';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../simple-modal/simple-modal';
 import {
   CopySessionResult,
   SessionsTableColumn,

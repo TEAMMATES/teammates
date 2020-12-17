@@ -13,7 +13,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { FormValidator } from '../../../types/form-validator';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal';
 
 /**
  * Instructor course student edit page.

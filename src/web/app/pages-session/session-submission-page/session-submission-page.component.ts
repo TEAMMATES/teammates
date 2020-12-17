@@ -43,7 +43,7 @@ import {
   QuestionSubmissionFormMode,
   QuestionSubmissionFormModel,
 } from '../../components/question-submission-form/question-submission-form-model';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
 

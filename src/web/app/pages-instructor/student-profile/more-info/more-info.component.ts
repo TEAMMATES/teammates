@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
-import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal';
 
 /**
  * More info box and dialog

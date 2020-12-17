@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import { SimpleModalType } from '../../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../simple-modal/simple-modal';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 
 /**

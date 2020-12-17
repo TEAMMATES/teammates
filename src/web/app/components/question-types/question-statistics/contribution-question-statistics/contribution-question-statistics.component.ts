@@ -5,7 +5,7 @@ import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/defa
 import { SortBy } from '../../../../../types/sort-properties';
 import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../../pages-help/instructor-help-page/sections';
-import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
+import { SimpleModalType } from '../../../simple-modal/simple-modal';
 import {
   ColumnData,
   SortableTableCellData,
