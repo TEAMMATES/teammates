@@ -16,12 +16,6 @@ import {
   CopyFromOtherSessionsModalComponent,
 } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 
 const routes: Routes = [
   {
@@ -49,16 +43,12 @@ const routes: Routes = [
   declarations: [
     InstructorSessionsPageComponent,
     CopyFromOtherSessionsModalComponent,
-    SessionPermanentDeletionConfirmModalComponent,
-    SessionsPermanentDeletionConfirmModalComponent,
   ],
   exports: [
     InstructorSessionsPageComponent,
   ],
   entryComponents: [
     CopyFromOtherSessionsModalComponent,
-    SessionPermanentDeletionConfirmModalComponent,
-    SessionsPermanentDeletionConfirmModalComponent,
   ],
 })
 export class InstructorSessionsPageModule { }

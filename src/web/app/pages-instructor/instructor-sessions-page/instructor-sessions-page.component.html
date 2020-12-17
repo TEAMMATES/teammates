@@ -58,9 +58,18 @@
         (restoreSessionEvent)="restoreRecycleBinFeedbackSession($event)"
         (restoreAllRecycleBinFeedbackSessionEvent)="restoreAllRecycleBinFeedbackSession()"
         (permanentlyDeleteSessionEvent)="permanentDeleteSession($event)"
-        (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions()"
+        (permanentDeleteAllSessionsEvent)="permanentDeleteAllSessions(deleteAllSessionsModal)"
         (sortRecycleBinFeedbackSessionRowsEvent)="sortRecycleBinFeedbackSessionRowsEvent($event)"
         (recycleBinExpandEvent)="isRecycleBinExpanded = !isRecycleBinExpanded;">
     </tm-sessions-recycle-bin-table>
   </div>
 </tm-loading-retry>
+
+<ng-template #deleteAllSessionsModal let-feedbackSessions="feedbackSessions">
+  <p>
+    Are you sure you want to permanently delete the following {{ feedbackSessions.length }} feedback sessions in the <b>Recycle Bin</b>
+  </p>
+  <ul>
+    <li *ngFor="let feedbackSession of feedbackSessions">{{ feedbackSession.courseId }}: {{ feedbackSession.feedbackSessionName }}</li>
+  </ul>
+</ng-template>

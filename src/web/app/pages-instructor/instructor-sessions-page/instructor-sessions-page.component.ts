@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -9,6 +9,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -42,19 +43,13 @@ import {
   SessionsTableHeaderColorScheme,
   SessionsTableRowModel,
 } from '../../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
-import {
-  CopyFromOtherSessionsModalComponent,
-} from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
+import { CopyFromOtherSessionsModalComponent } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
+
 interface RecycleBinFeedbackSessionRowModel {
   feedbackSession: FeedbackSession;
 }
@@ -148,6 +143,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
               private courseService: CourseService,
+              private simpleModalService: SimpleModalService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
@@ -595,54 +591,53 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   permanentDeleteSession(model: RecycleBinFeedbackSessionRowModel): void {
     this.isPermanentDeleteLoading = true;
-    const modalRef: NgbModalRef = this.ngbModal.open(SessionPermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.courseId = model.feedbackSession.courseId;
-    modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
-
-    modalRef.result.then(() => {
-      this.feedbackSessionsService.deleteFeedbackSession(
-          model.feedbackSession.courseId,
-          model.feedbackSession.feedbackSessionName,
-      )
-        .pipe(finalize(() => this.isPermanentDeleteLoading = false))
-        .subscribe(() => {
-          this.recycleBinFeedbackSessionRowModels.splice(
-              this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
-          this.statusMessageService.showSuccessToast('The feedback session has been permanently deleted.');
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-    });
+    const modalContent: string = 'Are you sure you want to permanently delete the feedback session '
+        + `${model.feedbackSession.feedbackSessionName} in ${model.feedbackSession.courseId}?`;
+    this.simpleModalService.openConfirmationModal(
+        'Confirm deleting feedback session', SimpleModalType.DANGER, modalContent,
+        () => {
+          this.feedbackSessionsService.deleteFeedbackSession(
+              model.feedbackSession.courseId,
+              model.feedbackSession.feedbackSessionName,
+          ).pipe(finalize(() => this.isPermanentDeleteLoading = false)).subscribe(() => {
+            this.recycleBinFeedbackSessionRowModels.splice(
+                this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+            this.statusMessageService.showSuccessToast('The feedback session has been permanently deleted.');
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**
    * Deletes all feedback sessions in the recycle bin permanently.
    */
-  permanentDeleteAllSessions(): void {
+  permanentDeleteAllSessions(modal: TemplateRef<any>): void {
     this.isPermanentDeleteLoading = true;
-    const modalRef: NgbModalRef = this.ngbModal.open(SessionsPermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.sessionsToDelete =
-        this.recycleBinFeedbackSessionRowModels.map(
-            (model: RecycleBinFeedbackSessionRowModel) => model.feedbackSession);
+    this.simpleModalService.openConfirmationModal(
+        'Confirm deleting all feedback sessions in the Recycle Bin', SimpleModalType.DANGER, modal,
+        () => {
+          const deleteRequests: Observable<FeedbackSession>[] = [];
 
-    modalRef.result.then(() => {
-      const deleteRequests: Observable<any>[] = [];
+          this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
+            deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
+                model.feedbackSession.courseId,
+                model.feedbackSession.feedbackSessionName,
+            ));
+          });
 
-      this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
-        deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
-            model.feedbackSession.courseId,
-            model.feedbackSession.feedbackSessionName,
-        ));
-      });
-
-      forkJoin(deleteRequests).pipe(finalize(() => this.isPermanentDeleteLoading = false))
-        .subscribe(() => {
-          this.recycleBinFeedbackSessionRowModels = [];
-          this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
-    });
+          forkJoin(deleteRequests).pipe(finalize(() => this.isPermanentDeleteLoading = false)).subscribe(() => {
+            this.recycleBinFeedbackSessionRowModels = [];
+            this.statusMessageService.showSuccessToast('All sessions have been permanently deleted.');
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        }, {
+          feedbackSessions: this.recycleBinFeedbackSessionRowModels.map(
+              (model: RecycleBinFeedbackSessionRowModel) => model.feedbackSession),
+        },
+    );
   }
 
   /**
