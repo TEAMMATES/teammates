@@ -10,7 +10,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -52,7 +51,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -95,7 +93,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   isStudentLoading="false"
   isTeamnameFieldChanged="false"
   navigationService={[Function NavigationService]}
-  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -246,7 +243,6 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             </div>
             <br />
             <br />
-            
           </form>
         </div>
       </div>

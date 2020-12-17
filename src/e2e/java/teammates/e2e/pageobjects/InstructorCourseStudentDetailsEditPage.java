@@ -76,6 +76,6 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     public void editStudentEmailAndResendLinks(String newEmail) {
         fillTextBox(studentEmailTextbox, newEmail);
         click(submitButton);
-        click(waitForElementPresence(By.id("btn-resend-links")));
+        click(waitForElementPresence(By.className("btn-resend-links")));
     }
 }

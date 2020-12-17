@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -13,7 +12,7 @@ import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
 import { FormValidator } from '../../../types/form-validator';
-import { SimpleModalType } from '../../components/simple-modal/simple-modal';
+import { SimpleModalType, standardCancelButton, standardConfirmButton } from '../../components/simple-modal/simple-modal';
 
 /**
  * Instructor course student edit page.
@@ -46,7 +45,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
               private statusMessageService: StatusMessageService,
               private studentService: StudentService,
               private navigationService: NavigationService,
-              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
@@ -143,7 +141,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Handles logic related to showing the appropriate modal boxes
    * upon submission of the form. Submits the form otherwise.
    */
-  onSubmit(resendPastLinksModal: any): void {
+  onSubmit(): void {
     if (!this.isEnabled) {
       return;
     }
@@ -153,9 +151,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
             You may download the data before you make the changes.`;
       this.simpleModalService.openConfirmationModal(
           'Delete existing responses?', SimpleModalType.WARNING, modalContent,
-          () => this.deleteExistingResponses(resendPastLinksModal));
+          () => this.deleteExistingResponses());
     } else if (this.isEmailFieldChanged) {
-      this.ngbModal.open(resendPastLinksModal);
+      this.resendPastSessionLinksHandler();
     } else {
       this.submitEditForm(false);
     }
@@ -165,12 +163,26 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Shows the `resendPastSessionLinks` modal if email field has changed.
    * Submits the form  otherwise.
    */
-  deleteExistingResponses(resendPastLinksModal: any): void {
+  deleteExistingResponses(): void {
     if (this.isEmailFieldChanged) {
-      this.ngbModal.open(resendPastLinksModal);
+      this.resendPastSessionLinksHandler();
     } else {
       this.submitEditForm(false);
     }
+  }
+
+  private resendPastSessionLinksHandler(): void {
+    this.simpleModalService.open({
+      header: 'Resend past links to the new email?',
+      content: `Do you want to resend past session links of this course to the new email
+          ${this.editForm.get('newstudentemail')?.value}`,
+      type: SimpleModalType.INFO,
+      buttons: [
+        standardConfirmButton('btn-primary btn-resend-links', () => this.submitEditForm(true), 'Yes, save changes and resend links'),
+        standardConfirmButton('btn-primary', () => this.submitEditForm(false), 'No, just save the changes'),
+        standardCancelButton('No, cancel the operation'),
+      ],
+    });
   }
 
   /**
