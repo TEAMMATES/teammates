@@ -5,6 +5,9 @@
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
         <div *ngFor="let num of model.options; let i = index;
         trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
+          <div class="col-sm-1" cdkDragHandle>
+            <span class="input-group-addon">&#8597; </span>
+          </div>
           <tm-rank-options-field (elementDeleted)="onRankOptionDeleted($event)"
                                  [isEditable]="isEditable"
                                  [index]="i"
