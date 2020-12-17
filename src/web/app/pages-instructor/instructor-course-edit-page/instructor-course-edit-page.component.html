@@ -90,7 +90,7 @@
       <tm-instructor-edit-panel
           [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
           [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-          (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+          (viewRolePrivilegeModal)="viewRolePrivilegeModal($event, rolePrivilegesModal)"
           (deleteInstructor)="deleteInstructor(i)"
           (saveInstructor)="saveInstructor(i)"
           (cancelEditing)="cancelEditingInstructor(i)"
@@ -110,7 +110,43 @@
   <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
                             [isSavingNewInstructor]="isSavingNewInstructor"
                             [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
-                            (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+                            (viewRolePrivilegeModal)="viewRolePrivilegeModal($event, rolePrivilegesModal)"
                             (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
                             [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
 </div>
+<ng-template #rolePrivilegesModal let-instructorPrivilege="instructorPrivilege">
+  <div class="row">
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyCourse">
+      Edit/Delete/Restore Course
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyInstructor">
+      Add/Edit/Delete Instructors
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifySession">
+      Create/Edit/Delete/Restore Sessions
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyStudent">
+      Enroll/Edit/Delete Students
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canViewStudentInSections">
+      View Students' Details
+      <br>
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canSubmitSessionInSections">
+      Sessions: Submit Responses and Add Comments
+      <br>
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canViewSessionInSections">
+      Sessions: View Responses and Comments
+      <br>
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifySessionCommentsInSections">
+      Sessions: Edit/Delete Responses/Comments by others
+      <br>
+    </div>
+  </div>
+</ng-template>

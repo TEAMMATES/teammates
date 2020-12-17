@@ -8,7 +8,6 @@ import { TeammatesCommonModule } from '../../../components/teammates-common/team
 import {
   CustomPrivilegeSettingPanelComponent,
 } from '../custom-privilege-setting-panel/custom-privilege-setting-panel.component';
-import { ViewRolePrivilegesModalComponent } from '../view-role-privileges-modal/view-role-privileges-modal.component';
 import { InstructorEditPanelComponent } from './instructor-edit-panel.component';
 
 describe('InstructorEditPanelComponent', () => {
@@ -19,8 +18,6 @@ describe('InstructorEditPanelComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorEditPanelComponent,
-        InstructorEditPanelComponent,
-        ViewRolePrivilegesModalComponent,
         CustomPrivilegeSettingPanelComponent,
       ],
       imports: [

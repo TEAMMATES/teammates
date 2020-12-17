@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatAll, finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../../services/auth.service';
@@ -33,6 +31,7 @@ import { FormValidator } from '../../../types/form-validator';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
+import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
@@ -42,7 +41,6 @@ import {
   InstructorSessionLevelPermission,
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { EditMode, InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
@@ -162,7 +160,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private authService: AuthService,
-              private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
@@ -352,15 +349,16 @@ export class InstructorCourseEditPageComponent implements OnInit {
   /**
    * Shows the model of details permission for a role.
    */
-  viewRolePrivilegeModel(role: InstructorPermissionRole): void {
-    const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
-    modalRef.result.then(() => {}, () => {});
+  viewRolePrivilegeModal(role: InstructorPermissionRole, modal: TemplateRef<any>): void {
+    const pipe: InstructorRoleNamePipe = new InstructorRoleNamePipe();
     this.instructorService.loadInstructorPrivilege({
       courseId: this.courseId,
       instructorRole: role,
     }).subscribe((resp: InstructorPrivilege) => {
-      modalRef.componentInstance.instructorPrivilege = resp;
-      modalRef.componentInstance.role = role;
+      this.simpleModalService.openInformationModal(
+          `Permissions for ${pipe.transform(role)}`, SimpleModalType.NEUTRAL, modal,
+          { instructorPrivilege: resp },
+      );
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });

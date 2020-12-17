@@ -120,7 +120,7 @@ export class InstructorEditPanelComponent implements OnInit {
   @Output()
   saveInstructor: EventEmitter<void> = new EventEmitter();
   @Output()
-  viewRolePrivilegeModel: EventEmitter<InstructorPermissionRole> = new EventEmitter();
+  viewRolePrivilegeModal: EventEmitter<InstructorPermissionRole> = new EventEmitter();
 
   constructor() { }
 

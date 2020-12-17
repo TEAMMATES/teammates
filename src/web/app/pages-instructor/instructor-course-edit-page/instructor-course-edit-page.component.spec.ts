@@ -15,7 +15,6 @@ import { InstructorCourseEditPageComponent } from './instructor-course-edit-page
 import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 describe('InstructorCourseEditPageComponent', () => {
   let component: InstructorCourseEditPageComponent;
@@ -26,7 +25,6 @@ describe('InstructorCourseEditPageComponent', () => {
       declarations: [
         InstructorCourseEditPageComponent,
         InstructorEditPanelComponent,
-        ViewRolePrivilegesModalComponent,
         CustomPrivilegeSettingPanelComponent,
       ],
       imports: [

@@ -13,7 +13,6 @@ import {
 } from './custom-privilege-setting-panel/custom-privilege-setting-panel.component';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
 import { InstructorEditPanelComponent } from './instructor-edit-panel/instructor-edit-panel.component';
-import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
 
 const routes: Routes = [
   {
@@ -29,7 +28,6 @@ const routes: Routes = [
   declarations: [
     InstructorCourseEditPageComponent,
     InstructorEditPanelComponent,
-    ViewRolePrivilegesModalComponent,
     CustomPrivilegeSettingPanelComponent,
   ],
   exports: [
@@ -45,9 +43,6 @@ const routes: Routes = [
     AjaxLoadingModule,
     LoadingRetryModule,
     TeammatesRouterModule,
-  ],
-  entryComponents: [
-    ViewRolePrivilegesModalComponent,
   ],
 })
 export class InstructorCourseEditPageModule { }
