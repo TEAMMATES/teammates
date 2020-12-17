@@ -69,7 +69,7 @@
                                          [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
           <button id="btn-add-comment" class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
                   *ngIf="!response.isMissingResponse && question.questionType !== 'CONTRIB'"
-                  (click)="showCommentTableModel(response, commentTableModal)">Add Comment
+                  (click)="showCommentTableModal(response, commentTableModal)">Add Comment
             <span *ngIf="instructorCommentTableModel[response.responseId].commentRows.length" class="badge badge-secondary">{{this.instructorCommentTableModel[response.responseId].commentRows.length}}</span>
           </button>
         </td>
@@ -81,14 +81,14 @@
   <i>There are no responses for this question or you may not have the permission to see the response.</i>
 </div>
 
-<ng-template #commentTableModal let-modal>
-  <tm-comment-table-modal *ngIf="currResponseToAdd" [questionShowResponsesTo]="question.showResponsesTo"
-                          [activeModal]="modal"
-                          [model]="instructorCommentTableModel[currResponseToAdd.responseId]"
-                          [response]="currResponseToAdd"
-                          (modelChange)="triggerModelChangeForSingleResponse(currResponseToAdd.responseId, $event)"
-                          (saveNewCommentEvent)="triggerSaveNewCommentEvent(currResponseToAdd.responseId)"
-                          (updateCommentEvent)="triggerUpdateCommentEvent(currResponseToAdd.responseId, $event)"
-                          (deleteCommentEvent)="triggerDeleteCommentEvent(currResponseToAdd.responseId, $event)"
-  ></tm-comment-table-modal>
+<ng-template #commentTableModal let-response="response" let-model="model">
+  <tm-comment-table [questionShowResponsesTo]="question.showResponsesTo"
+                    [model]="model"
+                    [shouldHideClosingButtonForNewComment]="true"
+                    [response]="response"
+                    (modelChange)="triggerModelChangeForSingleResponse(response.responseId, $event)"
+                    (updateCommentEvent)="triggerSaveNewCommentEvent(response.responseId)"
+                    (deleteCommentEvent)="triggerUpdateCommentEvent(response.responseId, $event)"
+                    (saveNewCommentEvent)="triggerDeleteCommentEvent(response.responseId, $event)"
+  ></tm-comment-table>
 </ng-template>

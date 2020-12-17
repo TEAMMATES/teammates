@@ -7,7 +7,6 @@ import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.modul
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
 import { CommentEditFormComponent } from './comment-edit-form/comment-edit-form.component';
 import { CommentRowComponent } from './comment-row/comment-row.component';
-import { CommentTableModalComponent } from './comment-table-modal/comment-table-modal.component';
 import { CommentTableComponent } from './comment-table/comment-table.component';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import {
@@ -23,7 +22,6 @@ import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-mod
   declarations: [
     CommentEditFormComponent,
     CommentRowComponent,
-    CommentTableModalComponent,
     CommentTableComponent,
     CommentVisibilityControlNamePipe,
     CommentVisibilityTypeDescriptionPipe,
@@ -44,7 +42,6 @@ import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-mod
     CommentEditFormComponent,
     CommentRowComponent,
     CommentTableComponent,
-    CommentTableModalComponent,
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
   ],

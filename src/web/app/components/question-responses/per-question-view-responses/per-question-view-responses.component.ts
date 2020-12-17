@@ -1,7 +1,7 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -11,6 +11,8 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import {
   InstructorSessionResultSectionType,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { CommentTableModel } from '../../comment-box/comment-table/comment-table.component';
+import { SimpleModalType } from '../../simple-modal/simple-modal';
 import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 
 /**
@@ -56,12 +58,10 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;
 
-  currResponseToAdd?: ResponseOutput;
-
   constructor(private tableComparatorService: TableComparatorService,
               private questionsService: FeedbackQuestionsService,
               private feedbackResponsesService: FeedbackResponsesService,
-              private ngbModal: NgbModal) {
+              private simpleModalService: SimpleModalService) {
     super();
   }
 
@@ -154,16 +154,11 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   /**
    * Opens the comments table modal.
    */
-  showCommentTableModel(selectedResponse: ResponseOutput, modal: any): void {
-    // open as ng-template rather than concrete class due to the
-    // lack of ability to bind @Input to the modal
-    // https://github.com/ng-bootstrap/ng-bootstrap/issues/2645
+  showCommentTableModal(response: ResponseOutput, modal: TemplateRef<any>): void {
+    const model: CommentTableModel = this.instructorCommentTableModel[response.responseId];
+    model.isAddingNewComment = true;
 
-    const commentModalRef: NgbModalRef = this.ngbModal.open(modal);
-    this.currResponseToAdd = selectedResponse;
-    commentModalRef.result.then(() => {}, () => {
-      this.currResponseToAdd = undefined;
-    });
+    this.simpleModalService.openInformationModal('Comments', SimpleModalType.NEUTRAL, modal, { response, model });
   }
 
   /**

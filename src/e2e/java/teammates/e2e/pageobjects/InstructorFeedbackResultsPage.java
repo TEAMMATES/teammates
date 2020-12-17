@@ -564,7 +564,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             assertEquals(commentEditor, getCommentEditor(commentField));
         }
         if (isClosable) {
-            click(waitForElementPresence(By.id("btn-close-comments")));
+            waitForConfirmationModalAndClickOk();
             waitForPageToLoad();
         }
     }
