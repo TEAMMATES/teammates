@@ -15,7 +15,7 @@ export class LinkService {
   JOIN_PAGE: string = '/join';
   STUDENT_HOME_PAGE: string = '/student/home';
   INSTRUCTOR_HOME_PAGE: string = '/instructor/home';
-  INSTRUCTOR_COURSE_DETAILS_PAGE: string = '/instructor/courses/details';
+  INSTRUCTOR_COURSES_DETAILS_PAGE: string = '/instructor/courses/details';
   ADMIN_ACCOUNTS_PAGE: string = '/admin/accounts';
   INSTRUCTOR_STUDENT_RECORDS_PAGE: string = '/instructor/students/records';
   SESSIONS_SUBMISSION_PAGE: string = '/sessions/submission';
@@ -84,7 +84,7 @@ export class LinkService {
 
     this.filterEmptyParams(params);
     const encodedParams: string = this.navigationService.encodeParams(params);
-    return `${this.URI_PREFIX}${this.INSTRUCTOR_COURSE_DETAILS_PAGE}${encodedParams}`;
+    return `${this.URI_PREFIX}${this.INSTRUCTOR_COURSES_DETAILS_PAGE}${encodedParams}`;
   }
 
   /**
