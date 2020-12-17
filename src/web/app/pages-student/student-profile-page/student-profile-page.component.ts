@@ -118,9 +118,10 @@ export class StudentProfilePageComponent implements OnInit {
    * Prompts the user with a modal box to confirm changes made to the form.
    */
   onSubmit(): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Save Changes?', SimpleModalType.INFO, 'Are you sure you want to make changes to your profile?');
-    modalRef.result.then(() => this.submitEditForm(), () => {});
+    this.simpleModalService.openConfirmationModal(
+        'Save Changes?', SimpleModalType.INFO, 'Are you sure you want to make changes to your profile?',
+        () => this.submitEditForm(),
+    );
   }
 
   /**
@@ -193,12 +194,11 @@ export class StudentProfilePageComponent implements OnInit {
    * Prompts the user with a modal box to confirm deleting the profile picture.
    */
   onDelete(): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete profile picture?', SimpleModalType.DANGER,
-        'Warning: Profile picture cannot be recovered.');
-    modalRef.result.then(() => {
-      this.deleteProfilePicture();
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        'Delete profile picture?', SimpleModalType.DANGER,
+        'Warning: Profile picture cannot be recovered.',
+        () => this.deleteProfilePicture(),
+    );
   }
 
   /**

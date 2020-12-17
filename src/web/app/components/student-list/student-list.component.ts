@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -74,23 +73,21 @@ export class StudentListComponent implements OnInit {
   openRemindModal(studentModel: StudentListRowModel): void {
     const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students
           at the opening time of each session. Send a join request to <strong>${ studentModel.student.email }</strong> anyway?`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Send join request?', SimpleModalType.INFO, modalContent);
-    modalRef.result.then(() => {
-      this.remindStudentFromCourse(studentModel.student.email);
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        'Send join request?', SimpleModalType.INFO, modalContent,
+        () => this.remindStudentFromCourse(studentModel.student.email),
+    );
   }
 
   /**
    * Open the delete student confirmation modal.
    */
   openDeleteModal(studentModel: StudentListRowModel): void {
-    const modalContent: string = `Are you sure you want to remove <strong>${ studentModel.student.name }</strong> from the course <strong>${ this.courseId }?</strong>`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete student <strong>${ studentModel.student.name }</strong>?`, SimpleModalType.DANGER, modalContent);
-    modalRef.result.then(() => {
-      this.removeStudentFromCourse(studentModel.student.email);
-    }, () => {});
+    const modalContent: string = `Are you sure you want to remove <strong>${studentModel.student.name}</strong> from the course <strong>${ this.courseId }?</strong>`;
+    this.simpleModalService.openConfirmationModal(
+        `Delete student <strong>${studentModel.student.name}</strong>?`, SimpleModalType.DANGER, modalContent,
+        () => this.removeStudentFromCourse(studentModel.student.email),
+    );
   }
 
   /**

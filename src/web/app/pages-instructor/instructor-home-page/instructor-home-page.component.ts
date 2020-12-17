@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -124,22 +124,22 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   archiveCourse(courseId: string): void {
     const modalContent: string = 'This action can be reverted by going to the "Courses" tab and unarchiving the desired course(s).';
 
-    const modalRef: NgbModalRef =
-        this.simpleModalService.openConfirmationModal(
-            `Archive course <strong>${courseId}</strong>?`, SimpleModalType.INFO, modalContent);
-    modalRef.result.then(() => {
-      this.courseService.changeArchiveStatus(courseId, {
-        archiveStatus: true,
-      }).subscribe((courseArchive: CourseArchive) => {
-        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-          return model.course.courseId !== courseId;
-        });
-        this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
+    this.simpleModalService.openConfirmationModal(
+        `Archive course <strong>${courseId}</strong>?`, SimpleModalType.INFO, modalContent,
+        () => {
+          this.courseService.changeArchiveStatus(courseId, {
+            archiveStatus: true,
+          }).subscribe((courseArchive: CourseArchive) => {
+            this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+              return model.course.courseId !== courseId;
+            });
+            this.statusMessageService.showSuccessToast(`The course ${courseArchive.courseId} has been archived.
             You can retrieve it from the Courses page.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**
@@ -148,19 +148,20 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   deleteCourse(courseId: string): void {
     const modalContent: string = 'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent);
-    modalRef.result.then(() => {
-      this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
-          return model.course.courseId !== courseId;
-        });
-        this.statusMessageService.showSuccessToast(
-            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        `Move course <strong>${courseId}</strong> to Recycle Bin`, SimpleModalType.WARNING, modalContent,
+        () => {
+          this.courseService.binCourse(courseId).subscribe((course: Course) => {
+            this.courseTabModels = this.courseTabModels.filter((model: CourseTabModel) => {
+              return model.course.courseId !== courseId;
+            });
+            this.statusMessageService.showSuccessToast(
+                `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
   /**
    * Loads courses of current instructor.

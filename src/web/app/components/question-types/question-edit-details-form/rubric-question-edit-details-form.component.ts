@@ -167,16 +167,17 @@ export class RubricQuestionEditDetailsFormComponent
       return;
     }
 
-    this.simpleModalService.openConfirmationModal('Delete the row?', SimpleModalType.WARNING,
-        'Are you sure you want to clear the row?').result.then(() => {
-
+    this.simpleModalService.openConfirmationModal(
+        'Delete the row?', SimpleModalType.WARNING,
+        'Are you sure you want to clear the row?',
+        () => {
           const newSubQuestions: string[] = this.model.rubricSubQuestions.slice();
           newSubQuestions.splice(index, 1);
 
           const newDescriptions: string[][] = this.model.rubricDescriptions.map((arr: string[]) => arr.slice());
           newDescriptions.splice(index, 1);
 
-      // update weights
+          // update weights
           let newWeightsForEachCell: number[][] = [];
           if (this.model.hasAssignedWeights) {
             newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => arr.slice());
@@ -190,16 +191,18 @@ export class RubricQuestionEditDetailsFormComponent
             numOfRubricSubQuestions: this.model.numOfRubricSubQuestions - 1,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });
-
-        }, () => {});
+        },
+    );
   }
 
   /**
    * Deletes a choice.
    */
   deleteChoice(index: number): void {
-    this.simpleModalService.openConfirmationModal('Delete the column?', SimpleModalType.WARNING,
-        'Are you sure you want to clear the column?').result.then(() => {
+    this.simpleModalService.openConfirmationModal(
+        'Delete the column?', SimpleModalType.WARNING,
+        'Are you sure you want to clear the column?',
+        () => {
           const newChoices: string[] = this.model.rubricChoices.slice();
           newChoices.splice(index, 1);
 
@@ -209,7 +212,7 @@ export class RubricQuestionEditDetailsFormComponent
             return newArr;
           });
 
-      // update weights
+          // update weights
           let newWeightsForEachCell: number[][] = [];
           if (this.model.hasAssignedWeights) {
             newWeightsForEachCell = this.model.rubricWeightsForEachCell.map((arr: number[]) => {
@@ -225,7 +228,8 @@ export class RubricQuestionEditDetailsFormComponent
             rubricDescriptions: newDescriptions,
             rubricWeightsForEachCell: newWeightsForEachCell,
           });
-        }, () => {});
+        },
+    );
   }
 
   /**

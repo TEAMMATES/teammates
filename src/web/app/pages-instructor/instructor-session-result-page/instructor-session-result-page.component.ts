@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -361,45 +360,37 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
    */
   publishResultHandler(): void {
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
-    let modalRef: NgbModalRef;
-    if (isPublished) {
-      const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
-          will no longer be viewable by students.`;
-      modalRef = this.simpleModalService.openConfirmationModal(
-          `Unpublish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
-          SimpleModalType.WARNING, modalContent);
-    } else {
-      const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
-      modalRef = this.simpleModalService.openConfirmationModal(
-          `Publish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
-          SimpleModalType.WARNING, modalContent);
-    }
+    const header: string = `${isPublished ? 'Unpublish' : 'Publish'} the session <strong>${this.session.feedbackSessionName}</strong>?`;
+    const modalContent: string = isPublished
+        ? 'An email will be sent to students to inform them that the session has been unpublished and the session responses'
+            + 'will no longer be viewable by students.'
+        : 'An email will be sent to students to inform them that the responses are ready for viewing.';
 
-    modalRef.result.then(() => {
-      const response: Observable<any> = isPublished ?
-          this.feedbackSessionsService.unpublishFeedbackSession(
-            this.session.courseId, this.session.feedbackSessionName,
-          ) :
-          this.feedbackSessionsService.publishFeedbackSession(
-            this.session.courseId, this.session.feedbackSessionName,
-          )
-      ;
+    this.simpleModalService.openConfirmationModal(
+        header, SimpleModalType.WARNING, modalContent,
+        () => {
+          const response: Observable<FeedbackSession> = isPublished
+              ? this.feedbackSessionsService.unpublishFeedbackSession(
+                  this.session.courseId, this.session.feedbackSessionName)
+              : this.feedbackSessionsService.publishFeedbackSession(
+                  this.session.courseId, this.session.feedbackSessionName);
 
-      response.subscribe((res: FeedbackSession) => {
-        this.session = res;
-        if (this.session.resultVisibleFromTimestamp) {
-          this.formattedResultVisibleFromTime = this.timezoneService
-            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
-          this.statusMessageService.showSuccessToast('The feedback session has been published. '
-            + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        } else {
-          this.formattedResultVisibleFromTime = 'Not applicable';
-          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
-        }
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
+          response.subscribe((res: FeedbackSession) => {
+            this.session = res;
+            if (this.session.resultVisibleFromTimestamp) {
+              this.formattedResultVisibleFromTime = this.timezoneService
+                  .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+              this.statusMessageService.showSuccessToast('The feedback session has been published. '
+                  + 'Please allow up to 1 hour for all the notification emails to be sent out.');
+            } else {
+              this.formattedResultVisibleFromTime = 'Not applicable';
+              this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+            }
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**

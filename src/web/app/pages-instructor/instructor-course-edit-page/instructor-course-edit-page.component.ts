@@ -426,26 +426,26 @@ export class InstructorCourseEditPageComponent implements OnInit {
         You will not be able to access the course anymore.`
         : `Are you sure you want to delete the instructor <strong>${ panelDetail.originalInstructor.name }</strong> from the course <strong>${ panelDetail.originalInstructor.courseId }</strong>?
         He/she will not be able to access the course anymore.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete instructor <strong>${ panelDetail.originalInstructor.name }</strong>?`,
-        SimpleModalType.DANGER, modalContent);
-
-    modalRef.result.then(() => {
-      this.instructorService.deleteInstructor({
-        courseId: panelDetail.originalInstructor.courseId,
-        instructorEmail: panelDetail.originalInstructor.email,
-      }).subscribe(() => {
-        if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
-          this.navigationService.navigateWithSuccessMessage(
+    this.simpleModalService.openConfirmationModal(
+        `Delete instructor <strong>${panelDetail.originalInstructor.name}</strong>?`,
+        SimpleModalType.DANGER, modalContent,
+        () => {
+          this.instructorService.deleteInstructor({
+            courseId: panelDetail.originalInstructor.courseId,
+            instructorEmail: panelDetail.originalInstructor.email,
+          }).subscribe(() => {
+            if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
+              this.navigationService.navigateWithSuccessMessage(
                   this.router, '/web/instructor/courses', 'Instructor is successfully deleted.');
-        } else {
-          this.instructorDetailPanels.splice(index, 1);
-          this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
-        }
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
+            } else {
+              this.instructorDetailPanels.splice(index, 1);
+              this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
+            }
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**
@@ -454,18 +454,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
   resendReminderEmail(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const modalContent: string = `Do you wish to re-send the invitation email to instructor ${ panelDetail.originalInstructor.name } from course ${ panelDetail.originalInstructor.courseId }?`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Re-send invitation email?', SimpleModalType.INFO, modalContent);
-
-    modalRef.result.then(() => {
-      this.courseService
-          .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
-          .subscribe((resp: MessageOutput) => {
-            this.statusMessageService.showSuccessToast(resp.message);
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          });
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        'Re-send invitation email?', SimpleModalType.INFO, modalContent,
+        () => {
+          this.courseService
+              .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
+              .subscribe((resp: MessageOutput) => {
+                this.statusMessageService.showSuccessToast(resp.message);
+              }, (resp: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorToast(resp.error.message);
+              });
+        },
+    );
   }
 
   /**

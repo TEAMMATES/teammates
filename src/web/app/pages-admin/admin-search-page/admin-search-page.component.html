@@ -58,7 +58,7 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleId(instructor, $event)" *ngIf="instructor.googleId">
+              <a id="reset-instructor-id-{{i}}" href="javascript:;" (click)="resetInstructorGoogleIdHandler(instructor, $event)" *ngIf="instructor.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
             </td>
@@ -133,11 +133,11 @@
                 <i class="fas fa-info-circle"></i> Manage this account
               </a>
               <br>
-              <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleId(student, $event)" *ngIf="student.googleId">
+              <a id="reset-student-id-{{i}}" href="javascript:;" (click)="resetStudentGoogleIdHandler(student, $event)" *ngIf="student.googleId">
                 <i class="fas fa-sync"></i> Reset Google ID
               </a>
               <br>
-              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinks(student);">Regenerate links</button>
+              <button id="regenerate-student-key-{{i}}" class="btn btn-danger" (click)="student.showLinks = !student.showLinks; regenerateFeedbackSessionLinksHandler(student);">Regenerate links</button>
             </td>
           </tr>
           <tr>

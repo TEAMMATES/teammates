@@ -188,17 +188,17 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     const modalContent: string = `Usually, there is no need to use this feature because TEAMMATES sends an automatic invite to students at the opening
       time of each session. Send a join request to all yet-to-join students in ${ this.courseDetails.course.courseId } anyway?`;
     this.simpleModalService.openConfirmationModal(
-        'Sending join requests?', SimpleModalType.INFO, modalContent).result.then(() => {
-          this.remindAllStudentsFromCourse(this.courseDetails.course.courseId);
-        }, () => {});
+        'Sending join requests?', SimpleModalType.INFO, modalContent,
+        () => this.remindAllStudentsFromCourse(this.courseDetails.course.courseId),
+    );
   }
 
   openDeleteAllStudentsModal(): void {
     const modalContent: string = `Are you sure you want to remove all students from the course ${ this.courseDetails.course.courseId }?`;
     this.simpleModalService.openConfirmationModal(
-        'Delete all students?', SimpleModalType.DANGER, modalContent).result.then(() => {
-          this.deleteAllStudentsFromCourse(this.courseDetails.course.courseId);
-        }, () => {});
+        'Delete all students?', SimpleModalType.DANGER, modalContent,
+        () => this.deleteAllStudentsFromCourse(this.courseDetails.course.courseId),
+    );
   }
 
   /**

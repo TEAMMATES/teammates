@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
@@ -311,11 +310,11 @@ export class QuestionEditFormComponent implements OnInit {
       this.discardChanges();
       return;
     }
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost');
-    modalRef.result.then(() => {
-      this.discardChanges();
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        `Discard unsaved ${isNewQuestion ? 'question' : 'edits'}?`, SimpleModalType.WARNING,
+        'Warning: Any unsaved changes will be lost',
+        () => this.discardChanges(),
+    );
   }
 
   private discardChanges(): void {
@@ -343,22 +342,16 @@ export class QuestionEditFormComponent implements OnInit {
             <p>You seem to have changed the feedback path settings of this question. Please note that changing the
             feedback path will cause <b>all existing responses to be deleted.</b> Proceed?</p>
         `;
-        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-            'Save the question?', SimpleModalType.DANGER, modalContent);
-        modalRef.result.then(() => {
-          this.saveExistingQuestionEvent.emit();
-        }, () => {});
+        this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.DANGER, modalContent, () => this.saveExistingQuestionEvent.emit());
       } else if (this.model.isQuestionDetailsChanged) {
         // alert user that editing question may result in deletion of responses
         const modalContent: string = `
             <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may
             cause all the existing responses for this question to be deleted.</b> Proceed?</p>
         `;
-        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-            'Save the question?', SimpleModalType.DANGER, modalContent);
-        modalRef.result.then(() => {
-          this.saveExistingQuestionEvent.emit();
-        }, () => {});
+        this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.DANGER, modalContent, () => this.saveExistingQuestionEvent.emit());
       } else if (this.model.isVisibilityChanged) {
         // alert user that editing visibility options will not delete responses
         const modalContent: string = `
@@ -366,11 +359,8 @@ export class QuestionEditFormComponent implements OnInit {
             responses will remain but their visibility will be changed as per the new visibility settings.</b>
             Proceed?</p>
         `;
-        const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-            'Save the question?', SimpleModalType.WARNING, modalContent);
-        modalRef.result.then(() => {
-          this.saveExistingQuestionEvent.emit();
-        }, () => {});
+        this.simpleModalService.openConfirmationModal(
+            'Save the question?', SimpleModalType.WARNING, modalContent, () => this.saveExistingQuestionEvent.emit());
       }
     }
     if (this.formMode === QuestionEditFormMode.ADD) {

@@ -98,13 +98,12 @@ export class SessionsTableComponent implements OnInit {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(rowIndex: number): void {
-    const modalContent: string = 'Session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete session <strong>${ this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, modalContent);
-    modalRef.result.then(() => {
-      this.moveSessionToRecycleBinEvent.emit(rowIndex);
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        `Delete session <strong>${this.sessionsTableRowModels[rowIndex].feedbackSession.feedbackSessionName}</strong>?`,
+        SimpleModalType.WARNING,
+        'Session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).',
+        () => this.moveSessionToRecycleBinEvent.emit(rowIndex),
+    );
   }
 
   /**
@@ -131,13 +130,11 @@ export class SessionsTableComponent implements OnInit {
   publishSession(rowIndex: number): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
 
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Publish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.');
-
-    modalRef.result.then(() => {
-      this.publishSessionEvent.emit(rowIndex);
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
+        SimpleModalType.WARNING, 'An email will be sent to students to inform them that the responses are ready for viewing.',
+        () => this.publishSessionEvent.emit(rowIndex),
+    );
   }
 
   /**
@@ -148,13 +145,11 @@ export class SessionsTableComponent implements OnInit {
     const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished
         and the session responses will no longer be viewable by students.`;
 
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Unpublish session <strong>${ model.feedbackSession.feedbackSessionName }</strong>?`,
-        SimpleModalType.WARNING, modalContent);
-
-    modalRef.result.then(() => {
-      this.unpublishSessionEvent.emit(rowIndex);
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
+        SimpleModalType.WARNING, modalContent,
+        () => this.unpublishSessionEvent.emit(rowIndex),
+    );
   }
 
   /**

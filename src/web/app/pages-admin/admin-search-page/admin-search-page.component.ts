@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
@@ -109,7 +108,7 @@ export class AdminSearchPageComponent {
   /**
    * Resets the instructor's Google ID.
    */
-  resetInstructorGoogleId(instructor: InstructorAccountSearchResult, event: any): void {
+  resetInstructorGoogleIdHandler(instructor: InstructorAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -117,60 +116,66 @@ export class AdminSearchPageComponent {
 
     const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ instructor.name }</strong> in the course <strong>${ instructor.courseId }</strong>?
         The user will need to re-associate their account with a new Google ID.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${ instructor.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
+    this.simpleModalService.openConfirmationModal(
+        `Reset <strong>${instructor.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent,
+        () => this.resetInstructorGoogleId(instructor),
+    );
+  }
 
-    modalRef.result.then(() => {
-      this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
-        this.search();
-        this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
+  resetInstructorGoogleId(instructor: InstructorAccountSearchResult): void {
+    this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe(() => {
+      this.search();
+      this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
    * Resets the student's Google ID.
    */
-  resetStudentGoogleId(student: StudentAccountSearchResult, event: any): void {
+  resetStudentGoogleIdHandler(student: StudentAccountSearchResult, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
     const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for <strong>${ student.name }</strong> in the course <strong>${ student.courseId }</strong>?
         The user will need to re-associate their account with a new Google ID.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${ student.name }</strong>\'s Google ID?`, SimpleModalType.WARNING, modalContent);
+    this.simpleModalService.openConfirmationModal(
+        `Reset <strong>${student.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent,
+        () => this.resetStudentGoogleId(student),
+    );
+  }
 
-    modalRef.result.then(() => {
-      this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
-        student.googleId = '';
-        this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    }, () => {});
+  resetStudentGoogleId(student: StudentAccountSearchResult): void {
+    this.accountService.resetStudentAccount(student.courseId, student.email).subscribe(() => {
+      student.googleId = '';
+      this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
    * Regenerates the student's course join and feedback session links.
    */
-  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
+  regenerateFeedbackSessionLinksHandler(student: StudentAccountSearchResult): void {
     const modalContent: string = `Are you sure you want to regenerate the course registration and feedback session links for <strong>${ student.name }</strong> for the course <strong>${ student.courseId }</strong>?
         An email will be sent to the student with all the new links.`;
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${ student.name }</strong>\'s course links?`, SimpleModalType.WARNING, modalContent);
+    this.simpleModalService.openConfirmationModal(
+        `Regenerate <strong>${student.name}</strong>\'s course links?`, SimpleModalType.WARNING, modalContent,
+        () => this.regenerateFeedbackSessionLinks(student),
+    );
+  }
 
-    modalRef.result.then(() => {
-      this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
+  regenerateFeedbackSessionLinks(student: StudentAccountSearchResult): void {
+    this.studentService.regenerateStudentCourseLinks(student.courseId, student.email)
         .subscribe((resp: RegenerateStudentCourseLinks) => {
           this.statusMessageService.showSuccessToast(resp.message);
           this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
         }, (response: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(response.error.message);
         });
-    }, () => {});
   }
 
   /**

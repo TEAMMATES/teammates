@@ -211,22 +211,23 @@ export class SessionEditFormComponent implements OnInit {
    * Handles cancel button click event.
    */
   cancelHandler(): void {
-    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
-        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
-          this.cancelEditingSessionEvent.emit();
-        }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        'Discard unsaved edit?',
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.',
+        () => this.cancelEditingSessionEvent.emit(),
+    );
   }
 
   /**
    * Handles delete current feedback session button click event.
    */
   deleteHandler(): void {
-    this.simpleModalService.openConfirmationModal(`Delete the session <strong>${ this.model.feedbackSessionName }</strong>?`,
+    this.simpleModalService.openConfirmationModal(
+        `Delete the session <strong>${this.model.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING,
         'The session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).',
-    ).result.then(() => {
-      this.deleteExistingSessionEvent.emit();
-    }, () => {});
+        () => this.deleteExistingSessionEvent.emit(),
+    );
   }
 
   /**

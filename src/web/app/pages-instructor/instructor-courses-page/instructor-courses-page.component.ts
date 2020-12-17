@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -254,17 +253,19 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Warning: The course will be moved to the recycle bin.',
-            SimpleModalType.WARNING, 'Are you sure you want to continue?');
-    modalRef.result.then(() => {
-      this.courseService.binCourse(courseId).subscribe((course: Course) => {
-        this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
-        this.statusMessageService.showSuccessToast(
-          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    });
+    this.simpleModalService.openConfirmationModal(
+        'Warning: The course will be moved to the recycle bin.',
+        SimpleModalType.WARNING, 'Are you sure you want to continue?',
+        () => {
+          this.courseService.binCourse(courseId).subscribe((course: Course) => {
+            this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
+            this.statusMessageService.showSuccessToast(
+                `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**
@@ -301,17 +302,17 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete course <strong>${ courseId }</strong> permanently?`, SimpleModalType.DANGER, modalContent);
-    modalRef.componentInstance.courseId = courseId;
-    modalRef.result.then(() => {
-      this.courseService.deleteCourse(courseId).subscribe(() => {
-        this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-        this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-    });
+    this.simpleModalService.openConfirmationModal(
+        `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent,
+        () => {
+          this.courseService.deleteCourse(courseId).subscribe(() => {
+            this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+            this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**
@@ -339,22 +340,22 @@ export class InstructorCoursesPageComponent implements OnInit {
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
-    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
-    modalRef.result.then(() => {
-      const deleteRequests: Observable<MessageOutput>[] = [];
-      this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
-        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
-      });
+    this.simpleModalService.openConfirmationModal(
+        'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent,
+        () => {
+          const deleteRequests: Observable<MessageOutput>[] = [];
+          this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
+            deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
+          });
 
-      forkJoin(deleteRequests).subscribe(() => {
-        this.softDeletedCourses = [];
-        this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
-
-    });
+          forkJoin(deleteRequests).subscribe(() => {
+            this.softDeletedCourses = [];
+            this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          });
+        },
+    );
   }
 
   /**

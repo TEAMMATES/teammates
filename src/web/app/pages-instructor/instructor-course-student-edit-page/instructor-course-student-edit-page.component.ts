@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -151,11 +151,9 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     if (this.isTeamnameFieldChanged) {
       const modalContent: string = `Editing these fields will result in some existing responses from this student to be deleted.
             You may download the data before you make the changes.`;
-      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-          'Delete existing responses?', SimpleModalType.WARNING, modalContent);
-      modalRef.result.then(() => {
-        this.deleteExistingResponses(resendPastLinksModal);
-      }, () => {});
+      this.simpleModalService.openConfirmationModal(
+          'Delete existing responses?', SimpleModalType.WARNING, modalContent,
+          () => this.deleteExistingResponses(resendPastLinksModal));
     } else if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {

@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import {
@@ -27,7 +27,6 @@ describe('AdminSearchPageComponent', () => {
   let searchService: SearchService;
   let studentService: StudentService;
   let statusMessageService: StatusMessageService;
-  let ngbModal: NgbModal;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,7 +36,7 @@ describe('AdminSearchPageComponent', () => {
         HttpClientTestingModule,
         NgbTooltipModule,
       ],
-      providers: [AccountService, SearchService, StatusMessageService, NgbModal],
+      providers: [AccountService, SearchService, StatusMessageService],
     })
     .compileComponents();
   }));
@@ -49,7 +48,6 @@ describe('AdminSearchPageComponent', () => {
     searchService = TestBed.inject(SearchService);
     studentService = TestBed.inject(StudentService);
     statusMessageService = TestBed.inject(StatusMessageService);
-    ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
   });
 
@@ -253,17 +251,6 @@ describe('AdminSearchPageComponent', () => {
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
     };
-    component.instructors = [instructorResult];
-    fixture.detectChanges();
-
-    spyOn(ngbModal, 'open').and.callFake(() => {
-      return {
-        componentInstance: {
-          name: 'dummy', course: 'dummy',
-        },
-        result: Promise.resolve(),
-      };
-    });
 
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(of('Success'));
     const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
@@ -271,8 +258,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('The instructor\'s Google ID has been reset.');
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
-    link.click();
+    component.resetInstructorGoogleId(instructorResult);
 
     expect(spyStatusMessageService).toBeCalled();
   });
@@ -290,17 +276,6 @@ describe('AdminSearchPageComponent', () => {
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
     };
-    component.instructors = [instructorResult];
-    fixture.detectChanges();
-
-    spyOn(ngbModal, 'open').and.callFake(() => {
-      return {
-        componentInstance: {
-          name: 'dummy', course: 'dummy',
-        },
-        result: Promise.resolve(),
-      };
-    });
 
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(throwError({
       error: {
@@ -313,8 +288,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('This is the error message');
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
-    link.click();
+    component.resetInstructorGoogleId(instructorResult);
 
     expect(spyStatusMessageService).toBeCalled();
   });
@@ -340,17 +314,6 @@ describe('AdminSearchPageComponent', () => {
       notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    spyOn(ngbModal, 'open').and.callFake(() => {
-      return {
-        componentInstance: {
-          name: 'dummy', course: 'dummy',
-        },
-        result: Promise.resolve(),
-      };
-    });
 
     spyOn(accountService, 'resetStudentAccount').and.returnValue(of('success'));
 
@@ -359,8 +322,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('The student\'s Google ID has been reset.');
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
-    link.click();
+    component.resetStudentGoogleId(studentResult);
 
     expect(spyStatusMessageService).toBeCalled();
   });
@@ -386,17 +348,6 @@ describe('AdminSearchPageComponent', () => {
       notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    spyOn(ngbModal, 'open').and.callFake(() => {
-      return {
-        componentInstance: {
-          name: 'dummy', course: 'dummy',
-        },
-        result: Promise.resolve(),
-      };
-    });
 
     spyOn(accountService, 'resetStudentAccount').and.returnValue(throwError({
       error: {
@@ -409,8 +360,7 @@ describe('AdminSearchPageComponent', () => {
         expect(args).toEqual('This is the error message.');
       });
 
-    const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
-    link.click();
+    component.resetStudentGoogleId(studentResult);
 
     expect(spyStatusMessageService).toBeCalled();
   });
@@ -454,17 +404,6 @@ describe('AdminSearchPageComponent', () => {
         },
       },
     };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    spyOn(ngbModal, 'open').and.callFake(() => {
-      return {
-        componentInstance: {
-          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
-        },
-        result: Promise.resolve(),
-      };
-    });
 
     spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(of({
       message: 'success',
@@ -476,8 +415,7 @@ describe('AdminSearchPageComponent', () => {
           expect(args).toEqual('success');
         });
 
-    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
-    regenerateButton.click();
+    component.regenerateFeedbackSessionLinks(studentResult);
 
     expect(spyStatusMessageService).toBeCalled();
 
@@ -526,17 +464,6 @@ describe('AdminSearchPageComponent', () => {
         },
       },
     };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    spyOn(ngbModal, 'open').and.callFake(() => {
-      return {
-        componentInstance: {
-          studentName: 'dummy', regenerateLinksCourseId: 'dummy',
-        },
-        result: Promise.resolve(),
-      };
-    });
 
     spyOn(studentService, 'regenerateStudentCourseLinks').and.returnValue(throwError({
       error: {
@@ -549,8 +476,7 @@ describe('AdminSearchPageComponent', () => {
           expect(args).toEqual('This is the error message.');
         });
 
-    const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
-    regenerateButton.click();
+    component.regenerateFeedbackSessionLinks(studentResult);
 
     expect(spyStatusMessageService).toBeCalled();
   });

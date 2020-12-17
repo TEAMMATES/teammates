@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -154,13 +153,10 @@ export class CommentRowComponent implements OnInit, OnChanges {
    * Triggers the delete comment event
    */
   triggerDeleteCommentEvent(): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete the comment permanently?', SimpleModalType.DANGER,
-            'Are you sure you want to continue?');
-
-    modalRef.result.then(() => {
-      this.deleteCommentEvent.emit();
-    }, () => {});
+    this.simpleModalService.openConfirmationModal(
+        'Delete the comment permanently?', SimpleModalType.DANGER, 'Are you sure you want to continue?',
+        () => this.deleteCommentEvent.emit(),
+    );
   }
 
   /**

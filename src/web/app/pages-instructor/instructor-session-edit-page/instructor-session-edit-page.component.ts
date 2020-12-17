@@ -660,21 +660,22 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Deletes the existing question.
    */
   deleteExistingQuestionHandler(index: number): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete the question?', SimpleModalType.DANGER,
-            'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
-    modalRef.result.then(() => {
-      const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-      this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId).subscribe(
-          () => {
-            // remove form model
-            this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
-            this.questionEditFormModels.splice(index, 1);
-            this.normalizeQuestionNumberInQuestionForms();
+    this.simpleModalService.openConfirmationModal(
+        'Delete the question?', SimpleModalType.DANGER,
+        'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>',
+        () => {
+          const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
+          this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId).subscribe(
+              () => {
+                // remove form model
+                this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
+                this.questionEditFormModels.splice(index, 1);
+                this.normalizeQuestionNumberInQuestionForms();
 
-            this.statusMessageService.showSuccessToast('The question has been deleted.');
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-    }, () => {});
+                this.statusMessageService.showSuccessToast('The question has been deleted.');
+              }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        },
+    );
   }
 
   /**
@@ -946,9 +947,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       const modalContent: string = `<p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
           <p>Are you sure you want to continue?</p>`;
       this.simpleModalService.openConfirmationModal(
-          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
-            this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
-          }, () => {});
+          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent,
+          () => this.navigationService.navigateByURL(this.router, '/web/instructor/sessions'),
+      );
     } else {
       this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
     }
