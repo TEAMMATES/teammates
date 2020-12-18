@@ -82,7 +82,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         for (String recipient : submitRequest.getRecipients()) {
             if (!recipientsOfTheQuestion.containsKey(recipient)) {
-                throw new UnauthorizedAccessException("The recipient is not a valid recipient of the question");
+                throw new UnauthorizedAccessException(
+                        "The recipient " + recipient + " is not a valid recipient of the question", true);
             }
         }
     }
