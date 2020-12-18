@@ -21,6 +21,8 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -32,6 +34,8 @@ import teammates.ui.request.Intent;
  * same feedback question.
  */
 class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -130,6 +134,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         List<FeedbackResponseAttributes.UpdateOptions> feedbackResponsesToUpdate = new ArrayList<>();
 
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
+        log.info(JsonUtils.toCompactJson(submitRequest));
 
         submitRequest.getResponses().forEach(responseRequest -> {
             String recipient = responseRequest.getRecipient();
