@@ -45,7 +45,7 @@ class GetSessionResultsAction extends Action {
             StudentAttributes student = getStudent(courseId);
             gateKeeper.verifyAccessible(student, fs);
             if (!fs.isPublished()) {
-                throw new UnauthorizedAccessException("This feedback session is not yet published.");
+                throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
             break;
         case INSTRUCTOR_SUBMISSION:

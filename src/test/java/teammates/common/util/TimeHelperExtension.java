@@ -2,8 +2,6 @@ package teammates.common.util;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 /**
  * Holds additional methods for {@link teammates.common.util.TimeHelper} used only in tests.
@@ -30,13 +28,6 @@ public final class TimeHelperExtension {
      */
     public static Instant getInstantHoursOffsetFromNow(long offsetInHours) {
         return Instant.now().plus(Duration.ofHours(offsetInHours));
-    }
-
-    /**
-     * Converts the {@code Instant} at the specified {@code timeZone} to {@code localDateTime}.
-     */
-    public static LocalDateTime convertInstantToLocalDateTime(Instant instant, ZoneId timeZoneId) {
-        return instant == null ? null : instant.atZone(timeZoneId).toLocalDateTime();
     }
 
 }
