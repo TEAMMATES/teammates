@@ -21,7 +21,7 @@ class DeleteStudentProfilePictureAction extends Action {
             throw new UnauthorizedAccessException("Student privilege is required to update this resource.");
         }
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-        if (!userInfo.id.equals(googleId) && !isMasqueradeMode()) {
+        if (!userInfo.id.equals(googleId)) {
             throw new UnauthorizedAccessException("You are not authorized to delete this student's profile.");
         }
     }

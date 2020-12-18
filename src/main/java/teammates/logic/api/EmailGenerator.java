@@ -221,37 +221,6 @@ public class EmailGenerator {
     }
 
     /**
-     * Generates the feedback submission confirmation email for the given {@code session} for {@code student}.
-     */
-    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student, Instant timestamp) {
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getFeedbackSessionName())
-                .withRegistrationKey(StringHelper.encrypt(student.key))
-                .withStudentEmail(student.email)
-                .toAbsoluteString();
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email, timestamp);
-    }
-
-    /**
-     * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
-     */
-    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor, Instant timestamp) {
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getFeedbackSessionName())
-                .toAbsoluteString();
-
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email, timestamp);
-    }
-
-    /**
      * Generates for the student an recovery email listing the links to submit/view responses for all feedback sessions
      * under {@code recoveryEmailAddress} in the past 180 days. If no student with {@code recoveryEmailAddress} is
      * found, generate an email stating that there is no such student in the system. If no feedback sessions are found,
@@ -277,31 +246,6 @@ public class EmailGenerator {
                     template, subject, additionalContactInformation));
         }
         return emails;
-    }
-
-    private EmailWrapper generateSubmissionConfirmationEmail(
-            CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail, Instant timestamp) {
-        String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
-        String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
-        String additionalContactInformation = getAdditionalContactInformationFragment(course);
-        String emailBody = Templates.populateTemplate(template,
-                "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${submitUrl}", submitUrl,
-                "${timeStamp}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatInstant(timestamp, session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${additionalContactInformation}", additionalContactInformation);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
-        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody);
-        return email;
-
     }
 
     private EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {

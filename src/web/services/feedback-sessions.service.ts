@@ -7,7 +7,6 @@ import {
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-endpoints';
 import {
-  ConfirmationResponse,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -215,29 +214,6 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_SUBMISSION, paramMap, request);
-  }
-
-  /**
-   * Saves and confirms a submission by posting it using API.
-   */
-  confirmSubmission(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
-    sendSubmissionEmail: string,
-    intent: string,
-    key: string,
-    moderatedPerson: string,
-  }): Observable<ConfirmationResponse> {
-    const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
-      sendsubmissionemail: queryParams.sendSubmissionEmail,
-      intent: queryParams.intent,
-      key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
-    };
-
-    return this.httpRequestService.post(ResourceEndpoints.SUBMISSION_CONFIRMATION, paramMap);
   }
 
   /**
