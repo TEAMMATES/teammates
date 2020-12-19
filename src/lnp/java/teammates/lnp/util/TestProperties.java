@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.UrlExtension;
-
 /**
  * Represents properties in test.properties file.
  */
@@ -43,7 +41,7 @@ public final class TestProperties {
             try (InputStream testPropStream = Files.newInputStream(Paths.get("src/lnp/resources/test.properties"))) {
                 prop.load(testPropStream);
             }
-            TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
+            TEAMMATES_URL = prop.getProperty("test.app.url");
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 
