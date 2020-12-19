@@ -59,7 +59,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Run Backend Tests    
-        run: ./gradlew createConfigs componentTests jacocoReport 
+        run: |
+          ./gradlew createConfigs componentTests 
+          ./gradlew jacocoReport
       - name: Generate Types 
         run: ./gradlew generateTypes
       - name: Install Frontend Dependencies 
