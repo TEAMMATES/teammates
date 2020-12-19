@@ -429,10 +429,6 @@ public abstract class AppPage {
      */
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
-
-        //wait for dropdown text to load
-        this.waitForPageToLoad();
-
         return select.getFirstSelectedOption().getText();
     }
 
