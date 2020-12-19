@@ -14,7 +14,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -44,9 +43,6 @@ import teammates.common.util.Const;
  * Represents the feedback submission page of the website.
  */
 public class FeedbackSubmitPage extends AppPage {
-
-    @FindBy(id = "confirmation-email-checkbox")
-    private WebElement confirmationEmailCheckbox;
 
     public FeedbackSubmitPage(Browser browser) {
         super(browser);
@@ -114,10 +110,6 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyCannotSubmit() {
         assertFalse(getSubmitButton().isEnabled());
-    }
-
-    public void markWithConfirmationEmail() {
-        markOptionAsSelected(confirmationEmailCheckbox);
     }
 
     public void addComment(int qnNumber, String recipient, String newComment) {

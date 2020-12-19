@@ -1,8 +1,6 @@
 package teammates.logic.api;
 
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +23,6 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.TimeHelperExtension;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -265,26 +262,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, unregisteredStudent.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailForRegeneratedUnregisteredStudent.html");
 
-        ______TS("feedback session submission email");
-
-        Instant time = TimeHelper.parseInstant("2016-09-04 05:30 AM +0000");
-        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForStudent(session, student1, time);
-        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                                session.getFeedbackSessionName());
-        verifyEmail(email, student1.email, subject, "/sessionSubmissionConfirmationEmailPositiveTimeZone.html");
-
-        setTimeZoneButMaintainLocalDate(session, ZoneId.of("Pacific/Marquesas"));
-        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
-        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                                session.getFeedbackSessionName());
-        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailNegativeTimeZone.html");
-
-        setTimeZoneButMaintainLocalDate(session, ZoneId.of("UTC"));
-        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
-        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                                session.getFeedbackSessionName());
-        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailZeroTimeZone.html");
-
         ______TS("no email alerts sent for sessions not answerable/viewable for students");
 
         FeedbackSessionAttributes notAnswerableSession =
@@ -352,14 +329,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmail(email, student1.email, subject,
                 "/summaryOfFeedbackSessionsOfCourseEmailTestingSanitizationForStudent.html");
 
-        ______TS("feedback session submission email: sanitization required");
-
-        Instant time = TimeHelper.parseInstant("2016-09-04 05:30 AM +0000");
-
-        email = new EmailGenerator().generateFeedbackSubmissionConfirmationEmailForInstructor(session, instructor1, time);
-        subject = String.format(EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject(), course.getName(),
-                session.getFeedbackSessionName());
-        verifyEmail(email, instructor1.email, subject, "/sessionSubmissionConfirmationEmailTestingSanitization.html");
     }
 
     @Test
@@ -612,25 +581,6 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION);
 
         verifyEmail(email, Config.SUPPORT_EMAIL, subject, "/severeLogsCompilationEmail.html");
-    }
-
-    private static Instant convertLocalDateTimeToInstant(LocalDateTime localDateTime, ZoneId timeZone) {
-        return localDateTime == null ? null : localDateTime.atZone(timeZone).toInstant();
-    }
-
-    private void setTimeZoneButMaintainLocalDate(FeedbackSessionAttributes session, ZoneId newTimeZone) {
-        ZoneId oldTimeZone = session.getTimeZone();
-        LocalDateTime localStart = TimeHelperExtension.convertInstantToLocalDateTime(session.getStartTime(), oldTimeZone);
-        LocalDateTime localEnd = TimeHelperExtension.convertInstantToLocalDateTime(session.getEndTime(), oldTimeZone);
-        LocalDateTime localSessionVisibleFrom =
-                TimeHelperExtension.convertInstantToLocalDateTime(session.getSessionVisibleFromTime(), oldTimeZone);
-        LocalDateTime localResultsVisibleFrom = TimeHelperExtension.convertInstantToLocalDateTime(
-                session.getResultsVisibleFromTime(), oldTimeZone);
-        session.setTimeZone(newTimeZone);
-        session.setStartTime(convertLocalDateTimeToInstant(localStart, newTimeZone));
-        session.setEndTime(convertLocalDateTimeToInstant(localEnd, newTimeZone));
-        session.setSessionVisibleFromTime(convertLocalDateTimeToInstant(localSessionVisibleFrom, newTimeZone));
-        session.setResultsVisibleFromTime(convertLocalDateTimeToInstant(localResultsVisibleFrom, newTimeZone));
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)

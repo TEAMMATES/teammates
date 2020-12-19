@@ -138,7 +138,7 @@ public class GateKeeper {
         }
 
         if (!feedbackSession.isVisible()) {
-            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
         }
     }
 
@@ -274,7 +274,7 @@ public class GateKeeper {
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
+            throw new UnauthorizedAccessException("Feedback question is not answerable for students", true);
         }
     }
 
@@ -286,7 +286,7 @@ public class GateKeeper {
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
+            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors", true);
         }
     }
 
