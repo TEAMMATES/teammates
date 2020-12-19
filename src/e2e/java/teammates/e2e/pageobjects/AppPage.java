@@ -429,6 +429,7 @@ public abstract class AppPage {
      */
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
+        ThreadHelper.waitFor(2000); //short wait for text to appear
         return select.getFirstSelectedOption().getText();
     }
 
