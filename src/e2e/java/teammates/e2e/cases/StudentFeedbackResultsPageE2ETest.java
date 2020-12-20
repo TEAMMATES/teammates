@@ -18,7 +18,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.StudentFeedbackResultsPage;
 
 /**
@@ -51,7 +50,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withStudentEmail(unregistered.email)
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withRegistrationKey(getKeyForStudent(unregistered));
-        resultsPage = AppPage.getNewPageInstance(browser, url, StudentFeedbackResultsPage.class);
+        resultsPage = getNewPageInstance(url, StudentFeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession);
 
