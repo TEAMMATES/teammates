@@ -33,7 +33,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Run Backend Linting 
         run: ./gradlew lint --continue 
-      - name: Install FrontEnd Dependancies
+      - name: Install Frontend Dependencies
         run: npm ci 
       - name: Run Lint Checks 
         run: npm run lint 
