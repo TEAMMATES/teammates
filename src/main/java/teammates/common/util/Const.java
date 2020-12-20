@@ -512,8 +512,6 @@ public final class Const {
         public static final String USER_ID = "user";
         public static final String HINT = "hint";
 
-        public static final String SEND_SUBMISSION_EMAIL = "sendsubmissionemail";
-
         public static final String SEARCH_KEY = "searchkey";
 
         public static final String RESPONDENT_EMAIL = "respondentemail";
@@ -672,7 +670,6 @@ public final class Const {
         public static final String QUESTION_RECIPIENTS = URI_PREFIX + "/question/recipients";
         public static final String RESPONSES = URI_PREFIX + "/responses";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
-        public static final String SUBMISSION_CONFIRMATION = URI_PREFIX + "/submission/confirmation";
         public static final String JOIN = URI_PREFIX + "/join";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
