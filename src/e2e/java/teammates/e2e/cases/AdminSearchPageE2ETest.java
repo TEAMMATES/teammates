@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AdminSearchPage;
 
 /**
@@ -60,12 +61,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String originalJoinLink = searchPage.getStudentJoinLink(student);
 
         searchPage.regenerateLinksForStudent(student);
-<<<<<<< HEAD
         ThreadHelper.waitFor(5000); //wait for links to load
-        verifyRegenerateStudentCourseLinks(studentRow, originalJoinLink);
-=======
         searchPage.verifyRegenerateStudentCourseLinks(student, originalJoinLink);
->>>>>>> 85ca1e578c54cba5a0e46f1088aeff9b095665ad
         searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for instructor email");
