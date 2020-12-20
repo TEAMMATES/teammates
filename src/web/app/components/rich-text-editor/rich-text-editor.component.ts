@@ -38,17 +38,6 @@ export class RichTextEditorComponent implements OnInit {
 
   constructor() { }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: { target: Window; }): void {
-    if (event.target.innerWidth < 768) {
-      this.render = false;
-      this.init.toolbar1 = '';
-    } else {
-      this.render = false;
-      this.init.toolbar1 = this.defaultToolbar;
-    }
-  }
-
   ngOnInit(): void {
     this.init = this.getEditorSettings();
     if (window.innerWidth < 768) {
