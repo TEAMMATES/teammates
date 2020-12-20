@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TINYMCE_BASE_URL } from './tinymce';
 
 /**
@@ -40,9 +40,6 @@ export class RichTextEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
-    if (window.innerWidth < 768) {
-      this.init.toolbar1 = '';
-    }
   }
 
   private getEditorSettings(): any {
