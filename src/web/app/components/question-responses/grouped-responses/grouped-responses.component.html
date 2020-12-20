@@ -1,6 +1,6 @@
 <div class="row" [class.border-bottom]="!isLastGroupedResponses"
     *ngIf="responses.length && responses[0].allResponses.length && hasRealResponses">
-  <div class="col-md-3">
+  <div id="users-details" class="col-md-3">
     <div>
       {{ isGrq ? 'To' : 'From' }}:
       <tm-student-name-with-photo [name]="responses[0].allResponses[0][this.isGrq ? 'recipient' : 'giver']"
@@ -24,13 +24,13 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div *ngFor="let response of responses">
+    <div id="question-panel" *ngFor="let response of responses">
       <div class="card bottom-padded alert-primary-border">
         <div class="card-header alert-primary">
           <tm-question-text-with-info [questionNumber]="response.feedbackQuestion.questionNumber" [questionDetails]="response.feedbackQuestion.questionDetails"></tm-question-text-with-info>
         </div>
         <div class="card-body">
-          <div class="row" style="margin: 0;">
+          <div id="response" class="row" style="margin: 0;">
             <tm-single-response
                     [class.color-neutral]="response.allResponses[0].isMissingResponse"
                     [responseDetails]="response.allResponses[0].responseDetails"
@@ -38,7 +38,7 @@
                     [giverEmail]="response.allResponses[0].giverEmail"
                     [recipientEmail]="response.allResponses[0].recipientEmail"
                     [statistics]="response.questionStatistics"></tm-single-response>
-            <button (click)="toggleAddComment(response.allResponses[0].responseId)"
+            <button id="btn-add-comment" (click)="toggleAddComment(response.allResponses[0].responseId)"
                     *ngIf="!response.allResponses[0].isMissingResponse && response.feedbackQuestion.questionType !== 'CONTRIB'"
                     ngbTooltip="Add comment" type="button" class="btn btn-light btn-sm comment-button">
               <i class="fas fa-comment"></i>
