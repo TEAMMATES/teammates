@@ -32,9 +32,9 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
     public void testValidateSetDuplicatesAllowed_validValues_shouldReturnTrue() {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
-        assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, false);
+        assertFalse(feedbackRankQuestionDetails.areDuplicatesAllowed);
         feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
-        assertEquals(feedbackRankQuestionDetails.areDuplicatesAllowed, true);
+        assertTrue(feedbackRankQuestionDetails.areDuplicatesAllowed);
     }
 
     @Test
