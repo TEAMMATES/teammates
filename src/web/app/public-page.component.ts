@@ -26,14 +26,12 @@ export class PublicPageComponent {
         // No need to do anything with result; this is necessary to get CSRF token
 
         // Loads institute for student session submission and result
-        const courseId: string = queryParams.courseid ? queryParams.courseid : '';
-        const regKey: string = queryParams.key ? queryParams.key : '';
-        const studentEmail: string = queryParams.studentemail ? queryParams.studentemail : '';
+        const courseId: string = queryParams.courseid;
+        const regKey: string = queryParams.key;
+        const studentEmail: string = queryParams.studentemail;
         if (courseId && regKey && studentEmail) {
           this.studentService.getStudent(courseId, studentEmail, regKey).subscribe((student: Student) => {
-            if (student) {
-              this.institute = student.institute ? student.institute : '';
-            }
+            this.institute = student.institute || '';
           });
         }
       });
