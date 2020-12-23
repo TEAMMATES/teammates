@@ -40,7 +40,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         resp = new FeedbackNumericalScaleResponseDetails();
         resp.setAnswer(1.22);
         errors = numScaleQuestion.validateResponsesDetails(Arrays.asList(resp), 1);
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         assertEquals("Please enter a valid value. The two nearest valid values are 1.2 and 1.3.", errors.get(0));
 
         ______TS("Test Val=1.333 and Step=0.1 triggers error");
@@ -94,7 +94,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         resp = new FeedbackNumericalScaleResponseDetails();
         resp.setAnswer(5.1);
         errors = numScaleQuestion.validateResponsesDetails(Arrays.asList(resp), 1);
-        assertTrue(errors.size() == 1);
+        assertEquals(1, errors.size());
         assertEquals("5.1 is out of the range for Numerical-scale question.(min=3, max=5)", errors.get(0));
 
         FeedbackNumericalScaleResponseDetails correctResp = new FeedbackNumericalScaleResponseDetails();
