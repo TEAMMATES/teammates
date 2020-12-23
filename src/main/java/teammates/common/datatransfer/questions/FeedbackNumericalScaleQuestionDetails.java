@@ -58,9 +58,10 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             }
 
             // when the answer is within range but not one of the possible values
+            BigDecimal minval = BigDecimal.valueOf(this.minScale);
             BigDecimal answer = BigDecimal.valueOf(details.getAnswer());
             BigDecimal stepBd = BigDecimal.valueOf(step);
-            BigDecimal remainder = answer.remainder(stepBd);
+            BigDecimal remainder = answer.subtract(minval).remainder(stepBd);
             boolean isAnsMultipleOfStep = remainder.compareTo(BigDecimal.ZERO) == 0;
             if (!isAnsMultipleOfStep && !isAnswerOutOfRange) {
                 double posValSmall = answer.subtract(remainder).setScale(5, RoundingMode.HALF_UP).doubleValue();
