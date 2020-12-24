@@ -60,7 +60,7 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
 
         ______TS("Test Val=1.33333 and Step=0.00001 does not trigger error");
         resp = new FeedbackNumericalScaleResponseDetails();
-        resp.setAnswer(1.333);
+        resp.setAnswer(1.33333);
         errors = numScaleQuestion.validateResponsesDetails(Arrays.asList(resp), 1);
         assertTrue(errors.isEmpty());
 
@@ -76,21 +76,21 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         numScaleQuestion.setMinScale(3);
         numScaleQuestion.setMaxScale(5);
 
-        ______TS("Test Val=6 and Max=5,Step=1 triggers error");
+        ______TS("Test Val=6 and Max=5,Step=0.7 triggers error");
         resp = new FeedbackNumericalScaleResponseDetails();
         resp.setAnswer(5.1);
         errors = numScaleQuestion.validateResponsesDetails(Arrays.asList(resp), 1);
         assertEquals(1, errors.size());
         assertEquals("5.1 is out of the range for Numerical-scale question.(min=3, max=5)", errors.get(0));
 
-        ______TS("Test Val=0 and Min=3,Step=1 triggers error");
+        ______TS("Test Val=0 and Min=3,Step=0.7 triggers error");
         resp = new FeedbackNumericalScaleResponseDetails();
         resp.setAnswer(5.1);
         errors = numScaleQuestion.validateResponsesDetails(Arrays.asList(resp), 1);
         assertEquals(1, errors.size());
         assertEquals("5.1 is out of the range for Numerical-scale question.(min=3, max=5)", errors.get(0));
 
-        ______TS("Test Val=5.1 and Max=5,Step=1 triggers error");
+        ______TS("Test Val=5.1 and Max=5,Step=0.7 triggers error");
         resp = new FeedbackNumericalScaleResponseDetails();
         resp.setAnswer(5.1);
         errors = numScaleQuestion.validateResponsesDetails(Arrays.asList(resp), 1);
