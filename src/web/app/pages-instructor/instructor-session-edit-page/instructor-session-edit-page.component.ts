@@ -115,6 +115,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isSaving: false,
     isEditable: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -244,7 +245,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
+    this.sessionEditFormModel.isCopying = true
     this.courseService.getInstructorCoursesThatAreActive()
+    .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
@@ -279,6 +282,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     const model: SessionEditFormModel = {
       isEditable,
+      isCopying: false,
       courseId: feedbackSession.courseId,
       timeZone: feedbackSession.timeZone,
       courseName: this.courseName,
