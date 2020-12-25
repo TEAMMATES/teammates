@@ -45,6 +45,8 @@ export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQue
       { header: 'Self Rank', sortBy: SortBy.RANK_RECIPIENTS_SELF_RANK },
       { header: 'Overall Rank', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK },
       { header: 'Overall Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF },
+      { header: 'Team Rank', sortBy: SortBy.RANK_RECIPIENTS_TEAM_RANK },
+      { header: 'Team Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF }
     ];
 
     this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
@@ -55,6 +57,8 @@ export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQue
         { value: this.selfRankPerOption[key] || '-' },
         { value: this.rankPerOption[key] || '-' },
         { value: this.rankPerOptionExcludeSelf[key] || '-' },
+        { value: this.rankPerOptionInTeam[key] || '-' },
+        { value: this.rankPerOptionInTeamExcludeSelf[key] || '-' }
       ];
     });
   }

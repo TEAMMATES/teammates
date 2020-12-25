@@ -20,6 +20,8 @@ export class RankRecipientsQuestionStatisticsCalculation
   selfRankPerOption: Record<string, number> = {};
   rankPerOption: Record<string, number> = {};
   rankPerOptionExcludeSelf: Record<string, number> = {};
+  rankPerOptionInTeam: Record<string, number> = {};
+  rankPerOptionInTeamExcludeSelf: Record<string, number> = {};
 
   constructor(question: FeedbackRankRecipientsQuestionDetails) {
     super(question);
@@ -32,11 +34,15 @@ export class RankRecipientsQuestionStatisticsCalculation
     this.selfRankPerOption = {};
     this.rankPerOption = {};
     this.rankPerOptionExcludeSelf = {};
+    this.rankPerOptionInTeam = {};
+    this.rankPerOptionInTeamExcludeSelf = {};
 
     const ranksReceivedPerOptionExcludeSelf: Record<string, number[]> = {};
 
     const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+
+    const optionsPerTeam: Record<string, string[]> = {}; 
 
     for (const response of this.responses) {
       const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
@@ -57,6 +63,12 @@ export class RankRecipientsQuestionStatisticsCalculation
       if (!this.emailToName[identifier]) {
         this.emailToName[identifier] = response.recipient;
       }
+
+      optionsPerTeam[response.recipientTeam] = optionsPerTeam[response.recipientTeam] || [];
+      if (!optionsPerTeam[response.recipientTeam].includes(identifier)) {
+        optionsPerTeam[response.recipientTeam].push(identifier);
+      }
+
     }
 
     for (const option of Object.keys(this.ranksReceivedPerOption)) {
@@ -64,6 +76,10 @@ export class RankRecipientsQuestionStatisticsCalculation
     }
     this.rankPerOption = this.calculateRankPerOption(this.ranksReceivedPerOption);
     this.rankPerOptionExcludeSelf = this.calculateRankPerOption(ranksReceivedPerOptionExcludeSelf);
+
+    this.rankPerOptionInTeam = this.calculateRankPerOptionInTeam(this.ranksReceivedPerOption, optionsPerTeam);
+    this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(ranksReceivedPerOptionExcludeSelf, optionsPerTeam);
+
   }
 
   private calculateRankPerOption(ranksReceivedPerOption: Record<string, number[]>): Record<string, number> {
@@ -103,6 +119,26 @@ export class RankRecipientsQuestionStatisticsCalculation
     }
 
     return rankPerOption;
+  }
+
+  private calculateRankPerOptionInTeam(ranksReceivedPerOption: Record<string, number[]>, optionsPerTeam: Record<string, string[]>): Record<string, number> {
+    const rankPerOptionInTeam: Record<string, number> = {};
+
+    for (const team of Object.keys(optionsPerTeam)) {
+      const ranksReceivedPerOptionForTeam: Record<string, number[]> = {};
+
+      for (const option of optionsPerTeam[team]) {
+        ranksReceivedPerOptionForTeam[option] = ranksReceivedPerOption[option];
+      }
+
+      const ranksPerOptionForTeam: Record<string, number> = this.calculateRankPerOption(ranksReceivedPerOptionForTeam);
+
+      for (const option of Object.keys(ranksPerOptionForTeam)) {
+        rankPerOptionInTeam[option] = ranksPerOptionForTeam[option];
+      }
+    }
+
+    return rankPerOptionInTeam;
   }
 
 }
