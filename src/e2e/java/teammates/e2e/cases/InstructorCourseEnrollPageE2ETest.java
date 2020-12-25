@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
 
 /**
@@ -46,7 +45,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage.verifyResultsPanelContains(studentsEnrollingToEmptyCourse, null, null, null, null);
 
         // refresh page to confirm enrollment
-        enrollPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);
+        enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
         enrollPage.verifyExistingStudentsTableContains(studentsEnrollingToEmptyCourse);
 
         // verify students in datastore
@@ -86,7 +85,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         assertNull(getStudent(student5));
 
         // refresh page to confirm enrollment
-        enrollPage = AppPage.getNewPageInstance(browser, url, InstructorCourseEnrollPage.class);
+        enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
         StudentAttributes[] expectedExistingData = {student1, student2, student3, student4};
         enrollPage.verifyExistingStudentsTableContains(expectedExistingData);
     }

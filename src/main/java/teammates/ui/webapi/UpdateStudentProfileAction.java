@@ -24,16 +24,15 @@ class UpdateStudentProfileAction extends Action {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
         }
+        String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        if (!studentId.equals(userInfo.id)) {
+            throw new UnauthorizedAccessException("You are not authorized to update this student's profile.");
+        }
     }
 
     @Override
     JsonResult execute() {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
-        if (!studentId.equals(userInfo.id) && !isMasqueradeMode()) {
-            return new JsonResult("You are not authorized to update this student's profile.",
-                    HttpStatus.SC_FORBIDDEN);
-        }
-
         StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
 
         try {
