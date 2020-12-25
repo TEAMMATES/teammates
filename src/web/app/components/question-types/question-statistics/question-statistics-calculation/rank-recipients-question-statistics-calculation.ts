@@ -42,7 +42,7 @@ export class RankRecipientsQuestionStatisticsCalculation
     const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
-    const optionsPerTeam: Record<string, string[]> = {}; 
+    const optionsPerTeam: Record<string, string[]> = {};
 
     for (const response of this.responses) {
       const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
@@ -78,7 +78,8 @@ export class RankRecipientsQuestionStatisticsCalculation
     this.rankPerOptionExcludeSelf = this.calculateRankPerOption(ranksReceivedPerOptionExcludeSelf);
 
     this.rankPerOptionInTeam = this.calculateRankPerOptionInTeam(this.ranksReceivedPerOption, optionsPerTeam);
-    this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(ranksReceivedPerOptionExcludeSelf, optionsPerTeam);
+    this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(ranksReceivedPerOptionExcludeSelf,
+      optionsPerTeam);
 
   }
 
@@ -121,7 +122,8 @@ export class RankRecipientsQuestionStatisticsCalculation
     return rankPerOption;
   }
 
-  private calculateRankPerOptionInTeam(ranksReceivedPerOption: Record<string, number[]>, optionsPerTeam: Record<string, string[]>): Record<string, number> {
+  private calculateRankPerOptionInTeam(ranksReceivedPerOption: Record<string, number[]>,
+    optionsPerTeam: Record<string, string[]>): Record<string, number> {
     const rankPerOptionInTeam: Record<string, number> = {};
 
     for (const team of Object.keys(optionsPerTeam)) {

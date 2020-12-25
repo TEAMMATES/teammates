@@ -47,7 +47,7 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
       'Overall Rank Excluding Self',
       'Ranks Received',
       'Team Rank',
-      'Team Rank Excluding Self'
+      'Team Rank Excluding Self',
     ]);
 
     Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((recipient: string) => {
