@@ -1,0 +1,75 @@
+@startuml
+!include style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component UI {
+    package "ui::webapi" as UiWebApi {
+        rectangle WebApiServlet
+        rectangle ActionFactory
+        rectangle Action
+        rectangle ActionResult
+        rectangle WebPageServlet
+        rectangle ImageResult
+        rectangle JsonResult
+        rectangle "*Result" as Result
+        collections "*Filter" as Filter
+    }
+
+    package "ui::website" as UiWebsite {
+        rectangle #FFFFFF {
+            file "index.html" as IndexHtml
+            collections "*.css" as Css
+            collections "*.js" as Js
+        }
+
+        rectangle #FFFFFF {
+            collections "*.html" as Html
+            collections "*.scss" as Scss
+            collections "*.ts" as Ts
+        }
+    }
+}
+
+rectangle "GAE\nServer" as GaeServer
+rectangle "Http\nServlet\nRequest" as HSR
+rectangle Browser {
+    file WebPage
+}
+rectangle Logic
+
+GaeServer ..> HSR : sends >
+Browser ..> HSR : sends >
+HSR ..> WebApiServlet
+HSR ..> WebPageServlet
+Browser ..> IndexHtml
+
+WebApiServlet ..> ActionFactory : <<uses>>
+WebApiServlet ..> ActionResult : sends back >
+ActionFactory ..> Action : <<creates>>
+Action ..> ActionResult : <<creates>>
+ImageResult -> ActionResult
+JsonResult -> ActionResult
+Result -> ActionResult
+Action ..> Logic
+
+IndexHtml ..> Css
+IndexHtml ..> Js
+
+' The hidden associations are for positioning purposes only
+HSR -[hidden]down- Browser
+WebApiServlet -[hidden]right- ActionFactory
+ActionFactory -[hidden]right- Action
+ActionFactory -[hidden]down- ActionResult
+Action -[hidden]down- ActionResult
+ActionResult -[hidden]down- ImageResult
+ActionResult -[hidden]down- JsonResult
+Filter -[hidden]right- ImageResult
+Browser -[hidden]down- IndexHtml
+
+
+@enduml
