@@ -128,7 +128,7 @@ export class RankRecipientsQuestionStatisticsCalculation
       const ranksReceivedPerOptionForTeam: Record<string, number[]> = {};
 
       for (const option of optionsPerTeam[team]) {
-        ranksReceivedPerOptionForTeam[option] = ranksReceivedPerOption[option];
+        ranksReceivedPerOptionForTeam[option] = ranksReceivedPerOption[option] || [];
       }
 
       const ranksPerOptionForTeam: Record<string, number> = this.calculateRankPerOption(ranksReceivedPerOptionForTeam);
