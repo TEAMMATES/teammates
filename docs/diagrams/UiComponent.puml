@@ -21,13 +21,13 @@ component UI {
     }
 
     package "ui::website" as UiWebsite {
-        rectangle #FFFFFF {
+        rectangle Rect1 #FFFFFF {
             file "index.html" as IndexHtml
             collections "*.css" as Css
             collections "*.js" as Js
         }
 
-        rectangle #FFFFFF {
+        rectangle Rect2 #FFFFFF {
             collections "*.html" as Html
             collections "*.scss" as Scss
             collections "*.ts" as Ts
@@ -62,14 +62,18 @@ IndexHtml ..> Js
 
 ' The hidden associations are for positioning purposes only
 HSR -[hidden]down- Browser
-WebApiServlet -[hidden]right- ActionFactory
-ActionFactory -[hidden]right- Action
+WebApiServlet -[hidden]down- ActionFactory
+ActionFactory -[hidden]down- Action
 ActionFactory -[hidden]down- ActionResult
+WebApiServlet -[hidden]right- ActionResult
 Action -[hidden]down- ActionResult
 ActionResult -[hidden]down- ImageResult
 ActionResult -[hidden]down- JsonResult
 Filter -[hidden]right- ImageResult
-Browser -[hidden]down- IndexHtml
+Browser -[hidden]down- Rect1
+
+Rect1 -[hidden]down- Rect2
+Rect1 - Rect2 : built from >
 
 
 @enduml
