@@ -38,7 +38,6 @@ import {
 export abstract class InstructorSessionModalPageComponent extends InstructorSessionBasePageComponent {
 
   isSendReminderLoading: boolean = false;
-  isResultActionLoading: boolean = false;
 
   protected constructor(router: Router,
                         instructorService: InstructorService,
@@ -57,7 +56,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
    * Sends e-mails to remind respondents on the published results link.
    */
   resendResultsLinkToRespondentsEventHandler(model: SessionsTableRowModel): void {
-    this.isResultActionLoading = true;
+    this.isSendReminderLoading = true;
     const courseId: string = model.feedbackSession.courseId;
     const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
 
@@ -94,7 +93,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
             } as InstructorListInfoTableRowModel));
 
         modalRef.result.then((respondentsToRemind: any[]) => {
-          this.isResultActionLoading = true;
+          this.isSendReminderLoading = true;
           this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
             usersToRemind: respondentsToRemind.map((m: any) => m.email),
           }).pipe(finalize(() => this.isSendReminderLoading = false))
