@@ -19,9 +19,13 @@
   padding-bottom: 5px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1500px) {
   .side-nav {
     display: none;
+  }
+
+  .main-body {
+    width:100%;
   }
 
   .flex-container {
