@@ -76,7 +76,7 @@ jobs:
     strategy:
       fail-fast: false #ensure both tests run even if one fails
       matrix:
-        browser: [chrome, firefox]
+        browser: [firefox]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
