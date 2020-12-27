@@ -247,7 +247,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     // load course candidates first
     this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
-    .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
@@ -266,7 +265,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.showCopyStatusMessage();
           });
         }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+        this.sessionEditFormModel.isCopying = false;
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
+      .catch(() => this.sessionEditFormModel.isCopying = false);
     });
   }
 
