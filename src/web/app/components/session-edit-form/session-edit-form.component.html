@@ -38,7 +38,7 @@
         <button id="btn-fs-save" type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable"><i *ngIf="!model.isSaving" class="fas fa-check"></i><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save </button>
         <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler()" *ngIf="model.isEditable" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel </button>
         <button id="btn-fs-delete" type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
-        <button id="btn-fs-copy" type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()" [disabled]="model.isSaving"><i class="far fa-copy"></i><tm-ajax-loading class="loading-copy" *ngIf="model.isCopying"></tm-ajax-loading> Copy</button>
+        <button id="btn-fs-copy" type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()" [disabled]="model.isSaving"><tm-ajax-loading class="loading-copy" *ngIf="model.isCopying"></tm-ajax-loading><i class="far fa-copy"></i> Copy</button>
       </div>
     </div>
 
