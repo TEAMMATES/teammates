@@ -32,7 +32,6 @@ import teammates.common.util.Url;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
-import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
 
@@ -401,9 +400,8 @@ public abstract class AppPage {
             uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Wait for dropdown text to load") {
                 @Override
                 public void run() {
-                    String s = select.getFirstSelectedOption().getText();
-                    assertNotEquals("", s);
-                    ;
+                    String txt = select.getFirstSelectedOption().getText();
+                    assertNotEquals("", txt);
                 }
             }, WebDriverException.class, AssertionError.class);
             return select.getFirstSelectedOption().getText();
