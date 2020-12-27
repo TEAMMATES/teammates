@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +43,6 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
         return errors;
     }
 
-    private static double convertTo5dp(double num) {
-        return Double.valueOf(String.format("%.5f", num));
-    }
-
     @Override
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
@@ -60,15 +58,17 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             }
 
             // when the answer is within range but not one of the possible values
-            double interval = details.getAnswer() - minScale;
-            double remainder = convertTo5dp(interval - Math.floor(interval / step) * step);
-            boolean isAnswerNotAPossibleValueWithinRange = remainder != 0.0 && !isAnswerOutOfRange;
+            BigDecimal minval = BigDecimal.valueOf(this.minScale);
+            BigDecimal answer = BigDecimal.valueOf(details.getAnswer());
+            BigDecimal stepBd = BigDecimal.valueOf(step);
+            BigDecimal remainder = answer.subtract(minval).remainder(stepBd);
+            boolean isAnsMultipleOfStep = remainder.compareTo(BigDecimal.ZERO) == 0;
+            if (!isAnsMultipleOfStep && !isAnswerOutOfRange) {
+                double posValSmall = answer.subtract(remainder).setScale(5, RoundingMode.HALF_UP).doubleValue();
+                double posValBig = answer.subtract(remainder).add(stepBd).setScale(5, RoundingMode.HALF_UP).doubleValue();
 
-            if (isAnswerNotAPossibleValueWithinRange) {
-                double nextPossibleValueLessThanCurrent = convertTo5dp(details.getAnswer() - remainder);
-                double nextPossibleValueGreaterThanCurrent = convertTo5dp(nextPossibleValueLessThanCurrent + step);
                 errors.add("Please enter a valid value. The two nearest valid values are "
-                        + nextPossibleValueLessThanCurrent + " and " + nextPossibleValueGreaterThanCurrent + ".");
+                        + posValSmall + " and " + posValBig + ".");
             }
         }
 
