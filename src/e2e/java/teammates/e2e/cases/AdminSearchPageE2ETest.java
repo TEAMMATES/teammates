@@ -61,7 +61,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         String originalJoinLink = searchPage.getStudentJoinLink(student);
 
         searchPage.regenerateLinksForStudent(student);
-        ThreadHelper.waitFor(5000); //wait for links to load
         searchPage.verifyRegenerateStudentCourseLinks(student, originalJoinLink);
         searchPage.waitForPageToLoad();
 

@@ -2,6 +2,7 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -31,6 +32,7 @@ import teammates.common.util.Url;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
+import teammates.common.util.retry.RetryableTaskReturnsThrows;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
 
@@ -395,8 +397,19 @@ public abstract class AppPage {
      */
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
-        ThreadHelper.waitFor(2000); //short wait for text to appear
-        return select.getFirstSelectedOption().getText();
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Wait for dropdown text to load") {
+                @Override
+                public void run() {
+                    String s = select.getFirstSelectedOption().getText();
+                    assertNotEquals("", s);
+                    ;
+                }
+            }, WebDriverException.class, AssertionError.class);
+            return select.getFirstSelectedOption().getText();
+        } catch (MaximumRetriesExceededException e) {
+            return select.getFirstSelectedOption().getText();
+        }
     }
 
     /**
