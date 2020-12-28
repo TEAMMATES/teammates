@@ -317,7 +317,7 @@ public class StudentFeedbackResultsPage extends AppPage {
             }
         } else {
             additionalInfo.append("The options for this question is automatically generated from the list of all ")
-                    .append(generateOptionsFor.toDisplayGiverName().toLowerCase())
+                    .append(getDisplayGiverName(generateOptionsFor).toLowerCase())
                     .append('.');
 
         }

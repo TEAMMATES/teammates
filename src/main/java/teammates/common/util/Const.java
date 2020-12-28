@@ -212,8 +212,7 @@ public final class Const {
                 "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
         public static final String CONTRIB_ERROR_INVALID_FEEDBACK_PATH =
                 Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
-                + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
-                + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
+                + "Students in this course and Giver's team members and Giver"
                 + " as the feedback giver and recipient respectively."
                 + " These values will be used instead.";
         public static final String CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS =
