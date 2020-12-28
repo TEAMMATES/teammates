@@ -61,10 +61,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.email);
         assertEquals(newInstructorEmail, response.getEmail());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
@@ -169,7 +169,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
         ______TS("instructors of other courses cannot access");
 
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);

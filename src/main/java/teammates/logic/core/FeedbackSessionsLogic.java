@@ -828,14 +828,14 @@ public final class FeedbackSessionsLogic {
             boolean isGiverSectionRestricted =
                     !instructor.isAllowedForPrivilege(response.giverSection,
                                                       response.feedbackSessionName,
-                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                                      Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
                     relatedQuestion.recipientType != FeedbackParticipantType.NONE
                     && !instructor.isAllowedForPrivilege(response.recipientSection,
                                                          response.feedbackSessionName,
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {

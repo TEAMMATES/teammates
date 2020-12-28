@@ -444,10 +444,10 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     instructor == null
                             || !instructor.isAllowedForPrivilege(
                             response.giverSection, response.feedbackSessionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || !instructor.isAllowedForPrivilege(
                             response.recipientSection, response.feedbackSessionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 
             if (isNotAllowedForInstructor) {
                 int sizeOfCommentList = frCommentSearchResults.comments.get(response.getId()).size();

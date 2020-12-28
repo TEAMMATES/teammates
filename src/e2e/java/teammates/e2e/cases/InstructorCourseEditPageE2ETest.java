@@ -81,20 +81,20 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("edit instructor");
         instructors[0].name = "Edited Name";
         instructors[0].email = "ICEdit.edited@gmail.tmt";
-        instructors[0].privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, true);
-        instructors[0].privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, false);
+        instructors[0].privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
+        instructors[0].privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
         instructors[0].privileges.updatePrivilege("Section 2",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, true);
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, true);
         instructors[0].privileges.updatePrivilege("Section 1", "First feedback session",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, true);
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(1, instructors[0]);
-        editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        editPage.toggleCustomCourseLevelPrivilege(1, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        editPage.toggleCustomCourseLevelPrivilege(1, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        editPage.toggleCustomCourseLevelPrivilege(1, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         editPage.toggleCustomSectionLevelPrivilege(1, 1, "Section 2",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
         editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
         editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0]);
 

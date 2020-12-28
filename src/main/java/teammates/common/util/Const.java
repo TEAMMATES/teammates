@@ -313,6 +313,17 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
 
+    public static class InstructorPermissions {
+        public static final String CAN_MODIFY_COURSE = "canmodifycourse";
+        public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
+        public static final String CAN_MODIFY_SESSION = "canmodifysession";
+        public static final String CAN_MODIFY_STUDENT = "canmodifystudent";
+        public static final String CAN_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
+        public static final String CAN_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
+        public static final String CAN_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
+        public static final String CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
+    }
+
     public static class ParamsNames {
 
         public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
@@ -328,17 +339,6 @@ public final class Const {
         public static final String INSTITUTION_MAC = "mac";
 
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
-
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_COURSE = "canmodifycourse";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR = "canmodifyinstructor";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION = "canmodifysession";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_STUDENT = "canmodifystudent";
-
-        public static final String INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS = "canviewstudentinsection";
-        public static final String INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS = "canviewsessioninsection";
-        public static final String INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS = "cansubmitsessioninsection";
-        public static final String INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS =
-                "canmodifysessioncommentinsection";
 
         public static final String LOCAL_DATE_TIME = "localdatetime";
         public static final String TIME_ZONE = "timezone";

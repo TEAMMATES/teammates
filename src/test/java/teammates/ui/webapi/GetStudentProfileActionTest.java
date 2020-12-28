@@ -244,7 +244,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         instructor1OfCourse1.privileges
-                .updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, false);
+                .updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
         InstructorAttributes.UpdateOptionsWithEmail updateOptions =
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())

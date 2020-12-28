@@ -315,6 +315,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
     }
 }
