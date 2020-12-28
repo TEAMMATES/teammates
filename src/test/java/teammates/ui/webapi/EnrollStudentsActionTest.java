@@ -312,7 +312,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, "",
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

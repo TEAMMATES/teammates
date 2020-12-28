@@ -33,6 +33,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorAttributes instructorToEdit = typicalBundle.instructors.get("instructorNotDisplayedToStudent1");
         String instructorId = instructorToEdit.googleId;
         String courseId = instructorToEdit.courseId;
+        String instructorDisplayName = instructorToEdit.displayedName;
 
         loginAsInstructor(instructorId);
 
@@ -47,7 +48,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, instructorToEdit.role,
-                instructorToEdit.displayedName, instructorToEdit.isDisplayedToStudents);
+                instructorDisplayName, instructorToEdit.isDisplayedToStudents);
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
@@ -70,7 +71,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         String invalidEmail = "wrongEmail.com";
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
+                instructorDisplayName, true);
 
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
@@ -103,7 +104,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
+                instructorDisplayName, true);
 
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
@@ -126,7 +127,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         final String[] emptySubmissionParams = new String[0];
         final InstructorCreateRequest newReqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
+                instructorDisplayName, true);
 
         assertThrows(NullHttpParameterException.class, () -> {
             UpdateInstructorAction illegalAction = getAction(newReqBody, emptySubmissionParams);
@@ -137,7 +138,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         final InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
+                instructorDisplayName, true);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             UpdateInstructorAction illegalAction = getAction(nullNameReq, submissionParams);
@@ -148,7 +149,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         final InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
                 null, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-                Const.ParamsNames.INSTRUCTOR_DISPLAY_NAME, true);
+                instructorDisplayName, true);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             UpdateInstructorAction illegalAction = getAction(nullEmailReq, submissionParams);
