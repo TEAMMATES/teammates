@@ -568,10 +568,6 @@ public final class Const {
     /* These indicate status of an operation, but they are not shown to the user */
     public static class StatusCodes {
 
-        // Backdoor responses
-        public static final String BACKDOOR_STATUS_SUCCESS = "[BACKDOOR_STATUS_SUCCESS]";
-        public static final String BACKDOOR_STATUS_FAILURE = "[BACKDOOR_STATUS_FAILURE]";
-
         // General Error codes
         public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
 

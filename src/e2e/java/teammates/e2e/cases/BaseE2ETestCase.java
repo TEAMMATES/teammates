@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -349,13 +350,25 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException {
-        return BACKDOOR.removeAndRestoreDataBundle(testData);
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle testData) {
+        try {
+            BACKDOOR.removeAndRestoreDataBundle(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
+        }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle testData) {
-        return BACKDOOR.putDocuments(testData);
+    protected boolean doPutDocuments(DataBundle testData) {
+        try {
+            BACKDOOR.putDocuments(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
+        }
     }
 
 }
