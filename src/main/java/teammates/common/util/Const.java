@@ -565,20 +565,4 @@ public final class Const {
 
     }
 
-    /* These indicate status of an operation, but they are not shown to the user */
-    public static class StatusCodes {
-
-        // General Error codes
-        public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
-
-        // Error message used across DB level
-        public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
-
-        // HTTP parameter null message
-        public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
-
-        // body parameter null message
-        public static final String NULL_BODY_PARAMETER = "The body parameter is null";
-    }
-
 }

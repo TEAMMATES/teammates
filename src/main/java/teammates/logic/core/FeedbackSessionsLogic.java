@@ -320,8 +320,8 @@ public final class FeedbackSessionsLogic {
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
     public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseTimeZone);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(courseTimeZone);
 
         List<FeedbackSessionAttributes> fsForCourse = fsDb.getFeedbackSessionsForCourse(courseId);
         fsForCourse.forEach(fs -> {
