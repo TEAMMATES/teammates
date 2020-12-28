@@ -4,14 +4,14 @@
     <div class="font-weight-bold col-md-3">Session: {{ tableRow.feedbackSession.feedbackSessionName }} ({{ tableRow.feedbackSession.courseId }})</div>
     <div class="col-md-9">
       <div *ngFor="let question of tableRow.questions">
-        <div *ngFor="let response of question.allResponses" class="card p-0 border border-primary mb-3">
+        <div *ngFor="let response of question.allResponses" class="card p-0 border-light-blue border-primary mb-3">
           <div class="card-header bg-light-blue">
             <b>Question {{ question.feedbackQuestion.questionNumber }}:</b> {{ question.feedbackQuestion.questionDetails.questionText }}
           </div>
-          <div class="card-body border-bottom border-secondary">
+          <div class="card-body border-bottom">
             <b>From:</b> {{ response.giver }} <b>To:</b> {{ response.recipient }}
           </div>
-          <div class="card-body border-bottom border-secondary">
+          <div class="card-body border-bottom">
             <b>Response:</b>
             <tm-single-response
                 [isStudentPage]="false"
@@ -22,7 +22,7 @@
                 [responseDetails]="response.responseDetails">
             </tm-single-response>
           </div>
-          <div class="card p-0">
+          <div class="card p-0" style="border-width: 0;">
             <div class="card-body bg-secondary text-white font-weight-bold">Comment(s):</div>
             <tm-comment-table *ngIf="response.instructorComments.length"
                 [model]="response.instructorComments | commentsToCommentTableModel: true: tableRow.feedbackSession.timeZone"
