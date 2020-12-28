@@ -185,6 +185,7 @@ public final class Const {
 
     }
 
+    @Deprecated
     public static class LegacyURIs {
 
         public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";

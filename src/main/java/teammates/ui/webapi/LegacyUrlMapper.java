@@ -16,6 +16,7 @@ import teammates.common.util.StringHelper;
  *
  * <p>This class does not check for parameter validity.
  */
+@Deprecated
 @SuppressWarnings("serial")
 public class LegacyUrlMapper extends HttpServlet {
 
