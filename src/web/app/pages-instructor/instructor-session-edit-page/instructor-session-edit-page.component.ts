@@ -245,7 +245,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
-    this.sessionEditFormModel.isCopying = true;
+    this.sessionEditFormModel.isCopying = true
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
