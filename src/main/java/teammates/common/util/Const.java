@@ -71,9 +71,6 @@ public final class Const {
     public static final int POINTS_NOT_SURE = -101;
     public static final int POINTS_NOT_SUBMITTED = -999;
 
-    public static final int VISIBILITY_TABLE_GIVER = 0;
-    public static final int VISIBILITY_TABLE_RECIPIENT = 1;
-
     public static final String GENERAL_QUESTION = "%GENERAL%";
     public static final String USER_IS_TEAM = "%TEAM%";
     public static final String USER_IS_NOBODY = "%NOBODY%";
