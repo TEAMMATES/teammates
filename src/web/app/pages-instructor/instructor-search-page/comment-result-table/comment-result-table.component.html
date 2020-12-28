@@ -24,9 +24,13 @@
           </div>
           <div class="card p-0">
             <div class="card-body bg-secondary text-white font-weight-bold">Comment(s):</div>
-            <tm-comment-table
+            <tm-comment-table *ngIf="response.instructorComments.length"
                 [model]="response.instructorComments | commentsToCommentTableModel: true: tableRow.feedbackSession.timeZone"
                 [shouldHideClosingButtonForNewComment]="true">
+            </tm-comment-table>
+            <tm-comment-table *ngIf="response.participantComment"
+                              [model]="[response.participantComment] | commentsToCommentTableModel: true: tableRow.feedbackSession.timeZone"
+                              [shouldHideClosingButtonForNewComment]="true">
             </tm-comment-table>
           </div>
         </div>
