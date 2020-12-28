@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -60,7 +61,15 @@ public class InstructorSearchPage extends AppPage {
             searchKeyword.clear();
             searchKeyword.sendKeys(searchTerm);
             click(searchButton);
-            waitForLoadingElement();
+            WebElement loadingContainer = null;
+            try {
+                loadingContainer = waitForElementPresence(By.className("loading-container"));
+            } catch (TimeoutException e) {
+                // loading has finished before this block is reached
+            }
+            if (loadingContainer != null) {
+                waitForElementStaleness(loadingContainer);
+            }
         } else {
             verifyUnclickable(searchButton);
         }
