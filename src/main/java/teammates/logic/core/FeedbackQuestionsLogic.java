@@ -36,6 +36,8 @@ import teammates.storage.api.FeedbackQuestionsDb;
  */
 public final class FeedbackQuestionsLogic {
 
+    static final String USER_NAME_FOR_SELF = "Myself";
+
     private static final Logger log = Logger.getLogger();
 
     private static FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
@@ -272,7 +274,7 @@ public final class FeedbackQuestionsLogic {
             if (question.giverType == FeedbackParticipantType.TEAMS) {
                 recipients.put(studentGiver.team, studentGiver.team);
             } else {
-                recipients.put(giver, Const.USER_NAME_FOR_SELF);
+                recipients.put(giver, USER_NAME_FOR_SELF);
             }
             break;
         case STUDENTS:
@@ -367,7 +369,7 @@ public final class FeedbackQuestionsLogic {
             if (question.giverType == FeedbackParticipantType.TEAMS) {
                 recipients.put(giverTeam, giverTeam);
             } else {
-                recipients.put(giverEmail, Const.USER_NAME_FOR_SELF);
+                recipients.put(giverEmail, USER_NAME_FOR_SELF);
             }
             break;
         case STUDENTS:

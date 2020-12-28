@@ -25,33 +25,10 @@ public final class Const {
      */
 
     public static final String USER_NOBODY_TEXT = "-";
-    public static final String USER_UNKNOWN_TEXT = "Unknown user";
-    public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
 
-    public static final String NONE_OF_THE_ABOVE = "None of the above";
-    public static final String DELETION_DATE_NOT_APPLICABLE = "Not Applicable";
-
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
-    public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
-
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM = "custom";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE = "atvisible";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER = "later";
-    public static final String INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE = "No Response";
-
-    public static final String STUDENT_COURSE_STATUS_YET_TO_JOIN = "Yet to join";
-    public static final String STUDENT_COURSE_STATUS_JOINED = "Joined";
-
-    public static final String USER_NAME_FOR_SELF = "Myself";
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
-    public static final String NO_SPECIFIC_SECTION = "No specific section";
 
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
-
-    public static final String ACTION_RESULT_FAILURE = "Servlet Action Failure";
-
-    public static final int SIZE_LIMIT_PER_ENROLLMENT = 100;
-    public static final int INSTRUCTOR_VIEW_RESPONSE_LIMIT = 8000;
 
     public static final String DEFAULT_SECTION = "None";
 
@@ -72,9 +49,6 @@ public final class Const {
     public static final int POINTS_NOT_SUBMITTED = -999;
 
     public static final String GENERAL_QUESTION = "%GENERAL%";
-    public static final String USER_IS_TEAM = "%TEAM%";
-    public static final String USER_IS_NOBODY = "%NOBODY%";
-    public static final String USER_IS_MISSING = "%MISSING%";
 
     public static final Instant TIME_REPRESENTS_FOLLOW_OPENING;
     public static final Instant TIME_REPRESENTS_FOLLOW_VISIBLE;

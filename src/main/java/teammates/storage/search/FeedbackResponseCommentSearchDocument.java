@@ -31,6 +31,8 @@ import teammates.common.util.StringHelper;
  */
 public class FeedbackResponseCommentSearchDocument extends SearchDocument {
 
+    private static final String USER_UNKNOWN_TEXT = "Unknown user";
+
     private FeedbackResponseCommentAttributes comment;
     private FeedbackResponseAttributes relatedResponse;
     private String responseGiverName;
@@ -67,7 +69,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                 || relatedQuestion.giverType == FeedbackParticipantType.SELF) {
             InstructorAttributes ins = instructorsDb.getInstructorForEmail(comment.courseId, relatedResponse.giver);
             if (ins == null || addedEmailSet.contains(ins.email)) {
-                responseGiverName = Const.USER_UNKNOWN_TEXT;
+                responseGiverName = USER_UNKNOWN_TEXT;
             } else {
                 relatedInstructors.add(ins);
                 addedEmailSet.add(ins.email);
@@ -78,7 +80,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         } else {
             StudentAttributes stu = studentsDb.getStudentForEmail(comment.courseId, relatedResponse.giver);
             if (stu == null || addedEmailSet.contains(stu.email)) {
-                responseGiverName = Const.USER_UNKNOWN_TEXT;
+                responseGiverName = USER_UNKNOWN_TEXT;
             } else {
                 relatedStudents.add(stu);
                 addedEmailSet.add(stu.email);
@@ -125,7 +127,7 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
             }
 
             if (stu == null || team == null) {
-                responseRecipientName = Const.USER_UNKNOWN_TEXT;
+                responseRecipientName = USER_UNKNOWN_TEXT;
             }
             break;
         }

@@ -720,8 +720,7 @@ public final class FeedbackSessionsLogic {
                                     .withFeedbackSessionName(feedbackSession.getFeedbackSessionName())
                                     .withGiverSection(giverInfo.getSectionName())
                                     .withRecipientSection(recipientInfo.getSectionName())
-                                    .withResponseDetails(new FeedbackTextResponseDetails(
-                                                    Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE))
+                                    .withResponseDetails(new FeedbackTextResponseDetails("No Response"))
                                     .build();
 
                     // check visibility of the missing response
