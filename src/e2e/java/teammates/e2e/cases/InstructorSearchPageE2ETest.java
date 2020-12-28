@@ -96,16 +96,20 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         ______TS("action: delete student");
 
-        StudentAttributes studentToDelete = testData.students.get("student2InCourse1");
+        StudentAttributes studentToDelete = testData.students.get("student2InCourse2");
 
-        searchPage.deleteStudent(course1, studentToDelete.getEmail());
+        searchPage.deleteStudent(course2, studentToDelete.getEmail());
 
         StudentAttributes[] studentsAfterDelete = {
-                testData.students.get("student2.2InCourse1"),
+                testData.students.get("student2.2InCourse2"),
         };
 
-        searchPage.verifyStudentDetails(course1, studentsAfterDelete);
+        searchPage.verifyStudentDetails(course2, studentsAfterDelete);
         verifyAbsentInDatastore(studentToDelete);
+
+        ______TS("search for response comments");
+
+        searchPage.search(false, true, "comment");
 
         // TODO add tests for search response comments
 
