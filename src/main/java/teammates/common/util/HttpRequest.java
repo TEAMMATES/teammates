@@ -39,7 +39,7 @@ public final class HttpRequest {
                                                      .build()
                                                      .execute(request);
         HttpEntity entity = httpResponse.getEntity();
-        String response = EntityUtils.toString(entity, "UTF-8");
+        String response = EntityUtils.toString(entity, Const.ENCODING);
 
         if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
             return response;

@@ -27,6 +27,7 @@ public final class Const {
     public static final String DEFAULT_SECTION = "None";
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
+    public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
 
@@ -51,11 +52,11 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
-        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
-        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31T00:00:00Z");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22T00:00:00Z");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01T00:00:00Z");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14T00:00:00Z");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01T00:00:00Z");
     }
 
     public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
@@ -66,34 +67,6 @@ public final class Const {
 
     private Const() {
         // Utility class containing constants
-    }
-
-    public static class SystemParams {
-
-        public static final String ENCODING = "UTF8";
-        public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
-
-        /**
-         * This is the limit after which TEAMMATES will send error message.
-         *
-         * <p>Must be within the range of int.
-         */
-        public static final int MAX_PROFILE_PIC_SIZE = 5000000;
-
-        /** e.g. "2014-04-01 11:59 PM UTC" */
-        public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
-
-        /** Number to trim the Google ID when displaying to the user. */
-        public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-
-        /* Field sizes and error messages for invalid fields can be found
-         * in the FieldValidator class.
-         */
-
-        public static final ZoneId ADMIN_TIME_ZONE = ZoneId.of("Asia/Singapore");
-
-        public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
-
     }
 
     public static class InstructorPermissionRoleNames {
