@@ -354,7 +354,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
-    }).catch(() => {});
+    }).catch(() => {}) ;
   }
 
   /**
