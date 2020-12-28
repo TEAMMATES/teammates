@@ -211,7 +211,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         logic.createStudent(studentToJoinMaxSection);
 
-        for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
+        for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
             StudentAttributes addedStudent = StudentAttributes
                     .builder(courseId, i + "email@test.com")
                     .withName("Name " + i)
@@ -225,7 +225,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
 
-        assertEquals(Const.StudentsLogicConst.SECTION_SIZE_LIMIT,
+        assertEquals(Const.SECTION_SIZE_LIMIT,
                 studentList.stream().filter(student -> student.section.equals(sectionInMaxCapacity)).count());
         assertEquals(courseId, studentToJoinMaxSection.getCourse());
 
