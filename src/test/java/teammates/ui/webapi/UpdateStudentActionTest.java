@@ -169,8 +169,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_NOT_FOUND, nonExistentStudentOuput.getStatusCode());
         invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
 
-        assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
-                invalidParamsOutput.getMessage());
+        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, invalidParamsOutput.getMessage());
     }
 
     @Test

@@ -366,7 +366,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         MessageOutput output = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
     }
 
     @Test

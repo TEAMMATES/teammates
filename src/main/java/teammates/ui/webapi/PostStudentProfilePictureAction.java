@@ -37,13 +37,15 @@ class PostStudentProfilePictureAction extends Action {
         try {
             Part image = req.getPart("studentprofilephoto");
             if (image == null) {
-                throw new InvalidHttpRequestBodyException(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
+                throw new InvalidHttpRequestBodyException("Please specify a file to be uploaded.");
             }
             if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
-                throw new InvalidHttpRequestBodyException(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+                throw new InvalidHttpRequestBodyException("The uploaded profile picture was too large. "
+                        + "Please try again with a smaller picture.");
             }
             if (!image.getContentType().startsWith("image/")) {
-                throw new InvalidHttpRequestBodyException(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+                throw new InvalidHttpRequestBodyException("The file that you have uploaded is not a picture. "
+                        + "Please upload a picture (usually it ends with .jpg or .png)");
             }
             byte[] imageData = new byte[(int) image.getSize()];
             try (InputStream is = image.getInputStream()) {
