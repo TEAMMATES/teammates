@@ -1,14 +1,14 @@
 <div class="card border border-primary mb-4">
   <div class="card-header text-white bg-primary font-weight-bold">Questions, responses, comments on responses</div>
-  <div class="card-body p-4 row" *ngFor="let tableRow of commentTables">
-    <div class="font-weight-bold col-md-3">Session: {{ tableRow.feedbackSession.feedbackSessionName }} ({{ tableRow.feedbackSession.courseId }})</div>
+  <div class="card-body p-4 row comment-search-session" *ngFor="let tableRow of commentTables">
+    <div class="font-weight-bold col-md-3" id="comment-search-session-name">Session: {{ tableRow.feedbackSession.feedbackSessionName }} ({{ tableRow.feedbackSession.courseId }})</div>
     <div class="col-md-9">
-      <div *ngFor="let question of tableRow.questions">
-        <div *ngFor="let response of question.allResponses" class="card p-0 border-light-blue border-primary mb-3">
-          <div class="card-header bg-light-blue">
+      <div class="comment-search-question" *ngFor="let question of tableRow.questions">
+        <div *ngFor="let response of question.allResponses" class="card p-0 border-light-blue border-primary mb-3 comment-search-response">
+          <div class="card-header bg-light-blue" id="comment-search-question-text">
             <b>Question {{ question.feedbackQuestion.questionNumber }}:</b> {{ question.feedbackQuestion.questionDetails.questionText }}
           </div>
-          <div class="card-body border-bottom">
+          <div class="card-body border-bottom" id="comment-search-response-giver-recipient">
             <b>From:</b> {{ response.giver }} <b>To:</b> {{ response.recipient }}
           </div>
           <div class="card-body border-bottom">
