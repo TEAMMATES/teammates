@@ -292,22 +292,6 @@ public final class InstructorPrivileges {
         return true;
     }
 
-    /**
-     * Removes special settings for sectionName.
-     */
-    public void removeSectionLevelPrivileges(String sectionName) {
-
-        this.sectionLevel.remove(sectionName);
-        this.removeSessionsPrivilegesForSection(sectionName);
-    }
-
-    /**
-     * Removes special settings for all sessionNames in sectionName.
-     */
-    public void removeSessionsPrivilegesForSection(String sectionName) {
-        this.sessionLevel.remove(sectionName);
-    }
-
     private boolean isAllowedInCourseLevel(String privilegeName) {
 
         Assumption.assertTrue(isPrivilegeNameValid(privilegeName));

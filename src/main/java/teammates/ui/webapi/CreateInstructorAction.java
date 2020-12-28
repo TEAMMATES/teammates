@@ -15,7 +15,7 @@ import teammates.ui.request.InstructorCreateRequest;
 /**
  * Action: adds another instructor to a course that already exists.
  */
-class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
+class CreateInstructorAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
@@ -42,7 +42,10 @@ class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
     @Override
     JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        InstructorAttributes instructorToAdd = extractCompleteInstructor(courseId);
+        InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
+        InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
+                instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
+                instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
 
         /* Process adding the instructor and setup status to be shown to user and admin */
         try {
@@ -57,29 +60,6 @@ class CreateInstructorAction extends UpdateInstructorPrivilegesAbstractAction {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
 
-    }
-
-    /**
-     * Creates a new instructor with all information filled in, using request parameters.
-     *
-     * <p>This includes basic information as well as custom privileges (if applicable).
-     *
-     * @param courseId Id of the course the instructor is being added to.
-     * @return An instructor with all relevant info filled in.
-     */
-    private InstructorAttributes extractCompleteInstructor(String courseId) {
-        InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
-        InstructorAttributes instructorToAdd = createInstructorWithBasicAttributes(courseId,
-                instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
-                instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
-
-        if (instructorToAdd.getRole().equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
-            updateInstructorCourseLevelPrivileges(instructorToAdd);
-        }
-
-        updateInstructorWithSectionLevelPrivileges(courseId, instructorToAdd);
-        instructorToAdd.privileges.validatePrivileges();
-        return instructorToAdd;
     }
 
     /**
