@@ -200,7 +200,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
-
+        public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
         private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
@@ -239,13 +239,10 @@ public final class Const {
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
-        public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
     }
 
     public static class ResourceURIs {
-
-        public static final String URI_PREFIX = "/webapi";
-        public static final String LOGOUT = "/logout";
+        private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
@@ -299,7 +296,7 @@ public final class Const {
     }
 
     public static class CronJobURIs {
-        public static final String URI_PREFIX = "/auto";
+        private static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
