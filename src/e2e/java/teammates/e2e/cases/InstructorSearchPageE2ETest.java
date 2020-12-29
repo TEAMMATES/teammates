@@ -6,12 +6,15 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorSearchPage;
+import teammates.e2e.pageobjects.InstructorSearchPage.CommentSearchResponseResult;
+import teammates.e2e.pageobjects.InstructorSearchPage.CommentSearchSessionResult;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 
 /**
@@ -111,7 +114,29 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.search(false, true, "comment");
 
-        // TODO add tests for search response comments
+        CommentSearchSessionResult firstResult = new CommentSearchSessionResult();
+        firstResult.session = testData.feedbackSessions.get("First Session");
+
+        CommentSearchResponseResult firstResponse = new CommentSearchResponseResult();
+        firstResponse.question = testData.feedbackQuestions.get("qn1");
+        firstResponse.response = testData.feedbackResponses.get("qn1response1");
+        firstResponse.comments = new FeedbackResponseCommentAttributes[] {
+                testData.feedbackResponseComments.get("qn1Comment1"),
+                testData.feedbackResponseComments.get("qn1Comment2"),
+        };
+
+        CommentSearchResponseResult secondResponse = new CommentSearchResponseResult();
+        secondResponse.question = testData.feedbackQuestions.get("qn1");
+        secondResponse.response = testData.feedbackResponses.get("qn1response3");
+        secondResponse.comments = new FeedbackResponseCommentAttributes[] {
+                testData.feedbackResponseComments.get("qn1Comment3"),
+        };
+
+        firstResult.responses = new CommentSearchResponseResult[] { firstResponse, secondResponse };
+
+        CommentSearchSessionResult[] commentSearchSessionResults = { firstResult };
+        searchPage.verifyCommentSearchResults(commentSearchSessionResults, testData.students.values(),
+                testData.instructors.values());
 
     }
 
