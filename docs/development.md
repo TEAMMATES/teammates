@@ -223,8 +223,7 @@ There are several files used to configure various aspects of the system.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
 * `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
 * `angular.json`: Contains the Angular application configuration.
-* `.travis.yml`: Contains the Travis CI job configuration.
-* `appveyor.yml`: Contains the AppVeyor CI job configuration.
+* `main.yml`: Contains the Github Actions CI job configuration.
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
 * `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
