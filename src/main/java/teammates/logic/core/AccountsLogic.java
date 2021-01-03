@@ -60,7 +60,7 @@ public final class AccountsLogic {
         return a != null && a.isInstructor;
     }
 
-    private String getCourseInstitute(String courseId) {
+    public String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
         Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
