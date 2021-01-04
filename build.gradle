@@ -526,44 +526,11 @@ task e2eTests {
         if (isFirstTry) {
             afterSuite checkTestNgFailureClosure
         }
-        finalizedBy "killFirefox${id}", "killChromedriver${id}"
         onlyIf {
             isFirstTry || file("${buildDir}/reports/e2e-test-try-${id - 1}/testng-failed.xml").exists()
         }
     }
     e2eTests.dependsOn "e2eTestTry${id}"
-
-    task "killFirefox${id}"(type: Exec) {
-        doFirst {
-            if (isWindows) {
-                commandLine "taskkill", "/f", "/im", "firefox.exe"
-                commandLine "taskkill", "/f", "/im", "geckodriver.exe"
-            } else {
-                commandLine "pkill", "firefox"
-                commandLine "pkill", "geckodriver"
-            }
-            // Silence output for this task
-            standardOutput = new ByteArrayOutputStream()
-            errorOutput = standardOutput
-        }
-        ignoreExitValue = true
-        outputs.upToDateWhen { false }
-    }
-
-    task "killChromedriver${id}"(type: Exec) {
-        doFirst {
-            if (isWindows) {
-                commandLine "taskkill", "/f", "/im", "chromedriver.exe"
-            } else {
-                commandLine "pkill", "chromedriver"
-            }
-            // Silence output for this task
-            standardOutput = new ByteArrayOutputStream()
-            errorOutput = standardOutput
-        }
-        ignoreExitValue = true
-        outputs.upToDateWhen { false }
-    }
 }
 
 // COVERAGE TASKS

@@ -4,11 +4,11 @@
 
 <div>
   <button id="btn-add-session" class="btn btn-success" (click)="isSessionEditFormExpanded = true"
-          [disabled]="isSessionEditFormExpanded"><i class="fas fa-plus"></i> Add New Feedback Session
+          [disabled]="isSessionEditFormExpanded || isCoursesLoading"><i class="fas fa-plus"></i> Add New Feedback Session
   </button>
 </div>
 
-<div class="margin-top-30px" *ngIf="isSessionEditFormExpanded" @collapseAnim>
+<div class="margin-top-30px" *ngIf="isSessionEditFormExpanded && !isCoursesLoading" @collapseAnim>
   <div *tmIsLoading= "isCopyOtherSessionLoading">
     <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel"
                           [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
