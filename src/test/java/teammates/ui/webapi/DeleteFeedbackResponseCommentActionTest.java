@@ -133,7 +133,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         InstructorAttributes instructor2 = typicalBundle.instructors.get("instructor2OfCourse1");
 
         grantInstructorWithSectionPrivilege(instructor2,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
         loginAsInstructor(instructor2.googleId);
@@ -143,14 +143,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         ______TS("Instructor with only section 1 privilege should fail");
 
         grantInstructorWithSectionPrivilege(instructor2,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A"});
         verifyCannotAccess(submissionParams);
 
         ______TS("Instructor with only section 2 privilege should fail");
 
         grantInstructorWithSectionPrivilege(instructor2,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section B"});
         verifyCannotAccess(submissionParams);
     }
@@ -252,7 +252,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         };
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
         loginAsInstructor(instructor.googleId);
@@ -262,7 +262,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         ______TS("Instructor with only section A privilege cannot delete comment");
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A"});
 
         verifyCannotAccess(submissionParams);
@@ -270,7 +270,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         ______TS("Instructor with only section B privilege cannot delete comment");
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section B"});
 
         verifyCannotAccess(submissionParams);
@@ -323,7 +323,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         InstructorAttributes instructor = typicalBundle.instructors.get("helperOfCourse1");
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
         loginAsInstructor(instructor.googleId);
@@ -333,7 +333,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         ______TS("Instructor with only section A privilege cannot delete comment");
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A"});
 
         verifyCannotAccess(submissionParams);
@@ -341,7 +341,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         ______TS("Instructor with only section B privilege cannot delete comment");
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section B"});
 
         verifyCannotAccess(submissionParams);

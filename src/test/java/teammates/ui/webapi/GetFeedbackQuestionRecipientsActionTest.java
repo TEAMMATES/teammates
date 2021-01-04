@@ -254,7 +254,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyCannotAccess(moderatedStudentSubmissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section 1"});
         verifyCanAccess(moderatedStudentSubmissionParams);
 
@@ -264,7 +264,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                         "", "", student1InCourse1.email);
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewStudentSubmissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, previewStudentSubmissionParams);
 
     }
 
@@ -275,7 +275,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         String[] instructorSubmissionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, instructorSubmissionParams);
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, instructorSubmissionParams);
 
         ______TS("Instructor intends to access student's question, should not be accessible");
         loginAsInstructor(instructor1OfCourse1.googleId);
@@ -289,7 +289,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
                         "", instructor1OfCourse1.email, "");
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 moderatedInstructorSubmissionParams);
 
         ______TS("Instructor previews another instructor's question,"
@@ -298,7 +298,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.email);
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
         loginAsInstructor(instructor1OfCourse1.googleId);

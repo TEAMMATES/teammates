@@ -28,7 +28,7 @@ class UnpublishFeedbackSessionAction extends Action {
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
 
         gateKeeper.verifyAccessible(instructor, feedbackSession,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

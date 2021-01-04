@@ -506,21 +506,21 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getCourseLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE:
+        case Const.InstructorPermissions.CAN_MODIFY_COURSE:
             return COURSE_MODIFY_COURSE;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR:
+        case Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR:
             return COURSE_MODIFY_INSTRUCTORS;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION:
             return COURSE_MODIFY_SESSIONS;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT:
+        case Const.InstructorPermissions.CAN_MODIFY_STUDENT:
             return COURSE_MODIFY_STUDENTS;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
             return COURSE_VIEW_STUDENTS;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
             return COURSE_GIVE_RESPONSES_IN_SESSION;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
             return COURSE_VIEW_RESPONSES_IN_SESSION;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
             return COURSE_MODIFY_RESPONSES_IN_SESSION;
         default:
             return -1;
@@ -529,13 +529,13 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getSectionLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS:
             return SECTION_VIEW_STUDENTS;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
             return SECTION_GIVE_RESPONSES_IN_SESSION;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
             return SECTION_VIEW_RESPONSES_IN_SESSION;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
             return SECTION_MODIFY_RESPONSES_IN_SESSION;
         default:
             return -1;
@@ -544,11 +544,11 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getSessionLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS:
             return SESSION_GIVE_RESPONSES;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS:
             return SESSION_VIEW_RESPONSES;
-        case Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS:
+        case Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS:
             return SESSION_MODIFY_RESPONSES;
         default:
             return -1;

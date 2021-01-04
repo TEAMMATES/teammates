@@ -195,7 +195,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         ______TS("Sending registration emails to all students");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
 
         ______TS("Sending registration emails to student");
 
@@ -204,7 +204,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 Const.ParamsNames.STUDENT_EMAIL, typicalBundle.students.get("student1InCourse1").email,
         };
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
 
         ______TS("Sending registration emails to instructor");
 
@@ -213,7 +213,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 Const.ParamsNames.INSTRUCTOR_EMAIL, typicalBundle.instructors.get("instructor1OfCourse1").email,
         };
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
     }
 
 }

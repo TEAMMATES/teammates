@@ -87,21 +87,21 @@ public class InstructorPrivilegeData extends ApiOutput {
      */
     public void constructCourseLevelPrivilege(InstructorPrivileges privileges) {
         setCanModifyInstructor(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         setCanModifyStudent(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         setCanModifySession(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
         setCanModifyCourse(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
         setCanViewStudentInSections(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         setCanViewSessionInSections(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         setCanSubmitSessionInSections(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         setCanModifySessionCommentsInSections(privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
 
     /**
@@ -109,13 +109,13 @@ public class InstructorPrivilegeData extends ApiOutput {
      */
     public void constructSectionLevelPrivilege(InstructorPrivileges privileges, String sectionName) {
         setCanViewStudentInSections(privileges.isAllowedForPrivilege(
-                sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                sectionName, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         setCanViewSessionInSections(privileges.isAllowedForPrivilege(
-                sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                sectionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         setCanSubmitSessionInSections(privileges.isAllowedForPrivilege(
-                sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                sectionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         setCanModifySessionCommentsInSections(privileges.isAllowedForPrivilege(
-                sectionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                sectionName, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
 
     /**
@@ -124,11 +124,11 @@ public class InstructorPrivilegeData extends ApiOutput {
     public void constructSessionLevelPrivilege(InstructorPrivileges privileges, String sectionName,
                                                String sessionName) {
         setCanViewSessionInSections(privileges.isAllowedForPrivilege(
-                sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                sectionName, sessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         setCanSubmitSessionInSections(privileges.isAllowedForPrivilege(
-                sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                sectionName, sessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         setCanModifySessionCommentsInSections(privileges.isAllowedForPrivilege(
-                sectionName, sessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                sectionName, sessionName, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
 
 }
