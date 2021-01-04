@@ -366,7 +366,7 @@ export class FeedbackSessionsService {
     captchaResponse: string,
   }): Observable<SessionLinksRecoveryResponse> {
     const paramMap: Record<string, string> = {
-      sessionlinksrecoveryemail: queryParam.sessionLinksRecoveryEmail,
+      studentemail: queryParam.sessionLinksRecoveryEmail,
       captcharesponse: queryParam.captchaResponse,
     };
 

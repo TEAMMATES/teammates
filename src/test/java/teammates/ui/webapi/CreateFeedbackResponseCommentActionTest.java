@@ -551,7 +551,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         InstructorAttributes instructor = helperOfCourse1;
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
         loginAsInstructor(instructor.googleId);
@@ -566,14 +566,14 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         InstructorAttributes instructor = helperOfCourse1;
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A"});
 
         loginAsInstructor(instructor.googleId);
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section B"});
 
         verifyCannotAccess(submissionParams);

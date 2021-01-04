@@ -45,7 +45,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     protected void testExecute_searchCourseId_shouldSucceed() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getCourseId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getCourseId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
@@ -58,7 +58,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     protected void testExecute_searchDisplayedName_shouldSucceed() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getDisplayedName() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getDisplayedName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
@@ -71,7 +71,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     protected void testExecute_searchEmail_shouldSucceed() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getEmail() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getEmail() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
@@ -86,7 +86,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     protected void testExecute_searchGoogleId_shouldSucceed() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getGoogleId() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getGoogleId() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
@@ -101,7 +101,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     protected void testExecute_searchName_shouldSucceed() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, acc.getName() };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getName() };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
@@ -116,7 +116,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
     @Test
     protected void testExecute_searchNoMatch_shouldBeEmpty() {
         loginAsAdmin();
-        String[] submissionParams = new String[] { Const.ParamsNames.ADMIN_SEARCH_KEY, "noMatch" };
+        String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "noMatch" };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();

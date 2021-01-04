@@ -28,7 +28,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -124,7 +124,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         int numOfInstrCanModifyInstructor = 0;
         InstructorAttributes instrWithModifyInstructorPrivilege = null;
         for (InstructorAttributes instructor : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 numOfInstrCanModifyInstructor++;
                 instrWithModifyInstructorPrivilege = instructor;
             }
@@ -135,7 +135,7 @@ class UpdateInstructorPrivilegeAction extends Action {
                 || instrWithModifyInstructorPrivilege.googleId
                 .equals(instructorToEdit.googleId));
         if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
+            instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
 }

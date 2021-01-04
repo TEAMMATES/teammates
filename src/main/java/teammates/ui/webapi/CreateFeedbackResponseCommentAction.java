@@ -84,9 +84,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             gateKeeper.verifyLoggedInUserPrivileges();
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             if (!question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
                 throw new InvalidHttpParameterException("Invalid question type for instructor comment");
             }
