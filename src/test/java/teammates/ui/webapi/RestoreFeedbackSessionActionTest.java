@@ -89,7 +89,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
     }
 
 }

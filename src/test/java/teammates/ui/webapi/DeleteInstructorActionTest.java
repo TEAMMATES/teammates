@@ -347,7 +347,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
         verifyAccessibleForAdmin(submissionParams);
     }
 
