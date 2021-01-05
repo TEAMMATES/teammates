@@ -1,4 +1,26 @@
 import { ApiConst } from './api-const';
+import { FeedbackQuestionType } from './api-output';
+import {
+  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_RESPONSE_DETAILS,
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+  DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_MCQ_RESPONSE_DETAILS,
+  DEFAULT_MSQ_QUESTION_DETAILS,
+  DEFAULT_MSQ_RESPONSE_DETAILS,
+  DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
+  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
+  DEFAULT_RUBRIC_QUESTION_DETAILS,
+  DEFAULT_RUBRIC_RESPONSE_DETAILS,
+  DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_TEXT_RESPONSE_DETAILS,
+} from './default-question-structs';
 
 describe('Constants', () => {
   // Here we test that the constants are positive numbers
@@ -37,5 +59,77 @@ describe('Constants', () => {
     expect(typeof ApiConst.RANK_OPTIONS_ANSWER_NOT_SUBMITTED).toEqual('number');
     expect(typeof ApiConst.RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED).toEqual('number');
     expect(typeof ApiConst.NO_VALUE).toEqual('number');
+  });
+
+  // Here we test that:
+  // 1. The string is parseable to JSON
+  // 2. The question type is correct
+  // 3. There is questionText field
+  // They are sufficient to ascertain that the correct structure is generated
+  it('should generate question details correctly', () => {
+    expect(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM_OPTIONS);
+    expect(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS().questionType)
+        .toEqual(FeedbackQuestionType.CONSTSUM_RECIPIENTS);
+    expect(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_CONTRIBUTION_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.CONTRIB);
+    expect(DEFAULT_CONTRIBUTION_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_MCQ_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.MCQ);
+    expect(DEFAULT_MCQ_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_MSQ_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.MSQ);
+    expect(DEFAULT_MSQ_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_NUMSCALE_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.NUMSCALE);
+    expect(DEFAULT_NUMSCALE_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.RANK_OPTIONS);
+    expect(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.RANK_RECIPIENTS);
+    expect(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_RUBRIC_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.RUBRIC);
+    expect(DEFAULT_RUBRIC_QUESTION_DETAILS().questionText).toEqual('');
+
+    expect(DEFAULT_TEXT_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.TEXT);
+    expect(DEFAULT_TEXT_QUESTION_DETAILS().questionText).toEqual('');
+  });
+
+  // Here we test that:
+  // 1. The string is parseable to JSON
+  // 2. The question type is correct
+  // 3. There is either answer or answers field (depending on question type)
+  // They are sufficient to ascertain that the correct structure is generated
+  it('should generate response details correctly', () => {
+    expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM);
+    expect(DEFAULT_CONSTSUM_RESPONSE_DETAILS().answers).toBeTruthy();
+
+    expect(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.CONTRIB);
+    expect(DEFAULT_CONTRIBUTION_RESPONSE_DETAILS().answer).toBeTruthy();
+
+    expect(DEFAULT_MCQ_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.MCQ);
+    expect(DEFAULT_MCQ_RESPONSE_DETAILS().answer).toEqual('');
+
+    expect(DEFAULT_MSQ_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.MSQ);
+    expect(DEFAULT_MSQ_RESPONSE_DETAILS().answers).toBeTruthy();
+
+    expect(DEFAULT_NUMSCALE_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.NUMSCALE);
+    expect(DEFAULT_NUMSCALE_RESPONSE_DETAILS().answer).toBeTruthy();
+
+    expect(DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.RANK_OPTIONS);
+    expect(DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS().answers).toBeTruthy();
+
+    expect(DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.RANK_RECIPIENTS);
+    expect(DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS().answer).toBeTruthy();
+
+    expect(DEFAULT_RUBRIC_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.RUBRIC);
+    expect(DEFAULT_RUBRIC_RESPONSE_DETAILS().answer).toBeTruthy();
+
+    expect(DEFAULT_TEXT_RESPONSE_DETAILS().questionType).toEqual(FeedbackQuestionType.TEXT);
+    expect(DEFAULT_TEXT_RESPONSE_DETAILS().answer).toEqual('');
   });
 });
