@@ -31,7 +31,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
-        super(FeedbackQuestionType.CONTRIB);
+        this(null);
+    }
+
+    public FeedbackContributionQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.CONTRIB, questionText);
         isNotSureAllowed = true;
     }
 

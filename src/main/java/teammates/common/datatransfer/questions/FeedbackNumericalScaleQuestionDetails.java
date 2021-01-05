@@ -14,7 +14,11 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     private double step;
 
     public FeedbackNumericalScaleQuestionDetails() {
-        super(FeedbackQuestionType.NUMSCALE);
+        this(null);
+    }
+
+    public FeedbackNumericalScaleQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.NUMSCALE, questionText);
         this.minScale = 1;
         this.maxScale = 5;
         this.step = 0.5;

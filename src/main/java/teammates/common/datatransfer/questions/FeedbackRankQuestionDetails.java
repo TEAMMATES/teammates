@@ -8,8 +8,8 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     protected int maxOptionsToBeRanked;
     protected boolean areDuplicatesAllowed;
 
-    FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
-        super(questionType);
+    FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
+        super(questionType, questionText);
         minOptionsToBeRanked = Const.POINTS_NO_VALUE;
         maxOptionsToBeRanked = Const.POINTS_NO_VALUE;
     }

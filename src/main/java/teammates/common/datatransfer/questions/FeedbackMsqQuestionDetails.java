@@ -19,8 +19,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private transient int numOfGeneratedMsqChoices;
 
     public FeedbackMsqQuestionDetails() {
-        super(FeedbackQuestionType.MSQ);
+        this(null);
+    }
 
+    public FeedbackMsqQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.MSQ, questionText);
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;

@@ -17,8 +17,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     private List<List<String>> rubricDescriptions;
 
     public FeedbackRubricQuestionDetails() {
-        super(FeedbackQuestionType.RUBRIC);
+        this(null);
+    }
 
+    public FeedbackRubricQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.RUBRIC, questionText);
         this.hasAssignedWeights = false;
         this.numOfRubricChoices = 0;
         this.rubricChoices = new ArrayList<>();

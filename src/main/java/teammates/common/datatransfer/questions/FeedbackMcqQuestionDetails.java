@@ -18,8 +18,11 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
     private FeedbackParticipantType generateOptionsFor;
 
     public FeedbackMcqQuestionDetails() {
-        super(FeedbackQuestionType.MCQ);
+        this(null);
+    }
 
+    public FeedbackMcqQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.MCQ, questionText);
         this.hasAssignedWeights = false;
         this.mcqWeights = new ArrayList<>();
         this.numOfMcqChoices = 0;

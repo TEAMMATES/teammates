@@ -11,7 +11,11 @@ import teammates.common.util.Const;
 public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionDetails {
 
     public FeedbackRankRecipientsQuestionDetails() {
-        super(FeedbackQuestionType.RANK_RECIPIENTS);
+        this(null);
+    }
+
+    public FeedbackRankRecipientsQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
     }
 
     @Override

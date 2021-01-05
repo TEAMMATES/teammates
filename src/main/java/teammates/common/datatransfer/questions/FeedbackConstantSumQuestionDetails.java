@@ -19,8 +19,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private int points;
 
     public FeedbackConstantSumQuestionDetails() {
-        super(FeedbackQuestionType.CONSTSUM);
+        this(null);
+    }
 
+    public FeedbackConstantSumQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.CONSTSUM, questionText);
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = false;

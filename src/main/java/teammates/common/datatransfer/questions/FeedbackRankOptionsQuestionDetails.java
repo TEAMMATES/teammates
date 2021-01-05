@@ -31,8 +31,11 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     private List<String> options;
 
     public FeedbackRankOptionsQuestionDetails() {
-        super(FeedbackQuestionType.RANK_OPTIONS);
+        this(null);
+    }
 
+    public FeedbackRankOptionsQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.RANK_OPTIONS, questionText);
         this.options = new ArrayList<>();
     }
 
