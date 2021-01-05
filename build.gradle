@@ -176,7 +176,7 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
 
 task generateApiEndpoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.endpoints.**"
+        "teammates.ui.constants.ResourceEndpoints"
     ]
     jsonLibrary = 'jackson2'
     jackson2Configuration = [
