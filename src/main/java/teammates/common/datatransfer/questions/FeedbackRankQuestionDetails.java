@@ -1,16 +1,17 @@
 package teammates.common.datatransfer.questions;
 
+import teammates.common.util.Const;
+
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
-    static final transient int NO_VALUE = Integer.MIN_VALUE;
     protected int minOptionsToBeRanked;
     protected int maxOptionsToBeRanked;
     protected boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType) {
         super(questionType);
-        minOptionsToBeRanked = NO_VALUE;
-        maxOptionsToBeRanked = NO_VALUE;
+        minOptionsToBeRanked = Const.POINTS_NO_VALUE;
+        maxOptionsToBeRanked = Const.POINTS_NO_VALUE;
     }
 
     public int getMinOptionsToBeRanked() {

@@ -121,7 +121,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMsqOtherWeight(0);
         msqDetails.setMsqWeights(new ArrayList<>());
         msqDetails.setMaxSelectableChoices(3);
-        msqDetails.setMinSelectableChoices(Integer.MIN_VALUE);
+        msqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
@@ -140,7 +140,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMsqOtherWeight(0);
         msqDetails.setMsqWeights(new ArrayList<>());
         msqDetails.setMaxSelectableChoices(3);
-        msqDetails.setMinSelectableChoices(Integer.MIN_VALUE);
+        msqDetails.setMinSelectableChoices(Const.POINTS_NO_VALUE);
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(0, errors.size());

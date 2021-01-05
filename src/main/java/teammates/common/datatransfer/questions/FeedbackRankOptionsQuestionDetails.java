@@ -56,8 +56,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             errors.add(ERROR_EMPTY_OPTIONS_ENTERED);
         }
 
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Const.POINTS_NO_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Const.POINTS_NO_VALUE;
 
         if (isMaxOptionsToBeRankedEnabled) {
             if (maxOptionsToBeRanked < 1) {
@@ -93,8 +93,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
 
-        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Const.POINTS_NO_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Const.POINTS_NO_VALUE;
 
         for (FeedbackResponseDetails response : responses) {
             FeedbackRankOptionsResponseDetails details = (FeedbackRankOptionsResponseDetails) response;

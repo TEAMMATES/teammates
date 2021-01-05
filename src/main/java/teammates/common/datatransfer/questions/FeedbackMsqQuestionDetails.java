@@ -24,8 +24,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
         this.generateOptionsFor = FeedbackParticipantType.NONE;
-        this.maxSelectableChoices = Integer.MIN_VALUE;
-        this.minSelectableChoices = Integer.MIN_VALUE;
+        this.maxSelectableChoices = Const.POINTS_NO_VALUE;
+        this.minSelectableChoices = Const.POINTS_NO_VALUE;
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
         this.msqOtherWeight = 0;
@@ -45,23 +45,27 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
 
-        if (this.maxSelectableChoices == Integer.MIN_VALUE && newMsqDetails.maxSelectableChoices != Integer.MIN_VALUE) {
+        if (this.maxSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE) {
             // Delete responses if max selectable restriction is newly added
             return true;
         }
 
-        if (this.minSelectableChoices == Integer.MIN_VALUE && newMsqDetails.minSelectableChoices != Integer.MIN_VALUE) {
+        if (this.minSelectableChoices == Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE) {
             // Delete responses if min selectable restriction is newly added
             return true;
         }
 
-        if (this.minSelectableChoices != Integer.MIN_VALUE && newMsqDetails.minSelectableChoices != Integer.MIN_VALUE
+        if (this.minSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.minSelectableChoices != Const.POINTS_NO_VALUE
                 && this.minSelectableChoices < newMsqDetails.minSelectableChoices) {
             // A more strict min selectable choices restriction is placed
             return true;
         }
 
-        if (this.maxSelectableChoices != Integer.MIN_VALUE && newMsqDetails.maxSelectableChoices != Integer.MIN_VALUE
+        if (this.maxSelectableChoices != Const.POINTS_NO_VALUE
+                && newMsqDetails.maxSelectableChoices != Const.POINTS_NO_VALUE
                 && this.maxSelectableChoices > newMsqDetails.maxSelectableChoices) {
             // A more strict max selectable choices restriction is placed
             return true;
@@ -127,8 +131,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Integer.MIN_VALUE;
-        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Integer.MIN_VALUE;
+        boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Const.POINTS_NO_VALUE;
+        boolean isMinSelectableChoicesEnabled = minSelectableChoices != Const.POINTS_NO_VALUE;
 
         int numOfMsqChoices = numOfGeneratedMsqChoices;
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
@@ -168,8 +172,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
             // number of Msq options selected including other option
             int totalChoicesSelected = details.getAnswers().size();
-            boolean isMaxSelectableEnabled = maxSelectableChoices != Integer.MIN_VALUE;
-            boolean isMinSelectableEnabled = minSelectableChoices != Integer.MIN_VALUE;
+            boolean isMaxSelectableEnabled = maxSelectableChoices != Const.POINTS_NO_VALUE;
+            boolean isMinSelectableEnabled = minSelectableChoices != Const.POINTS_NO_VALUE;
             boolean isNoneOfTheAboveOptionEnabled =
                     details.getAnswers().contains(Const.FeedbackQuestion.MSQ_ANSWER_NONE_OF_THE_ABOVE);
 

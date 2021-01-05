@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
 /**
@@ -18,8 +19,8 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsQuestionDetails rankDetails = new FeedbackRankOptionsQuestionDetails();
 
         assertEquals(FeedbackQuestionType.RANK_OPTIONS, rankDetails.getQuestionType());
-        assertEquals(rankDetails.getMinOptionsToBeRanked(), FeedbackRankQuestionDetails.NO_VALUE);
-        assertEquals(rankDetails.getMaxOptionsToBeRanked(), FeedbackRankQuestionDetails.NO_VALUE);
+        assertEquals(rankDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
+        assertEquals(rankDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
         assertFalse(rankDetails.areDuplicatesAllowed());
     }
 
