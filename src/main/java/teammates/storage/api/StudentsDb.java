@@ -150,8 +150,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
 
         return makeAttributesOrNull(getCourseStudentEntityForEmail(courseId, email));
     }
@@ -160,7 +160,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets list of students by email.
      */
     public List<StudentAttributes> getAllStudentsForEmail(String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+        Assumption.assertNotNull(email);
 
         List<CourseStudent> students = getAllCourseStudentEntitiesForEmail(email);
         return students.stream().map(this::makeAttributes).collect(Collectors.toList());
@@ -170,8 +170,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique constraint courseId-googleId.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(googleId);
+        Assumption.assertNotNull(courseId);
 
         CourseStudent student = load()
                 .filter("courseId =", courseId)
@@ -185,7 +185,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique constraint encryptedKey.
      */
     public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedRegistrationKey);
+        Assumption.assertNotNull(encryptedRegistrationKey);
 
         try {
             String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
@@ -199,7 +199,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students associated with a googleId.
      */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+        Assumption.assertNotNull(googleId);
 
         return makeAttributes(getCourseStudentEntitiesForGoogleId(googleId));
     }
@@ -208,7 +208,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributes(getCourseStudentEntitiesForCourse(courseId));
     }
@@ -217,8 +217,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students of a team of a course.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, teamName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(teamName);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributes(getCourseStudentEntitiesForTeam(teamName, courseId));
     }
@@ -227,7 +227,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         List<StudentAttributes> unregistered = new ArrayList<>();
@@ -253,7 +253,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      */
     public StudentAttributes updateStudent(StudentAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
@@ -315,8 +315,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * <p>Fails silently if there is no such student.
      */
     public void deleteStudent(String courseId, String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(email);
 
         CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudentToDelete != null) {
@@ -406,7 +406,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     @Override
     StudentAttributes makeAttributes(CourseStudent entity) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+        Assumption.assertNotNull(entity);
 
         return StudentAttributes.valueOf(entity);
     }

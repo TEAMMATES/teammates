@@ -302,8 +302,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+            Assumption.assertNotNull(courseId);
+            Assumption.assertNotNull(email);
 
             this.courseId = courseId;
             this.email = email;
@@ -343,7 +343,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             }
 
             public Builder withNewEmail(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+                Assumption.assertNotNull(email);
 
                 updateOptions.newEmailOption = UpdateOption.of(email);
                 return thisBuilder;
@@ -374,21 +374,21 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+            Assumption.assertNotNull(name);
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withLastName(String name) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+            Assumption.assertNotNull(name);
 
             updateOptions.lastNameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withComment(String comment) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, comment);
+            Assumption.assertNotNull(comment);
 
             updateOptions.commentOption = UpdateOption.of(comment);
             return thisBuilder;
@@ -401,14 +401,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public B withTeamName(String teamName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, teamName);
+            Assumption.assertNotNull(teamName);
 
             updateOptions.teamNameOption = UpdateOption.of(teamName);
             return thisBuilder;
         }
 
         public B withSectionName(String sectionName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sectionName);
+            Assumption.assertNotNull(sectionName);
 
             updateOptions.sectionNameOption = UpdateOption.of(sectionName);
             return thisBuilder;

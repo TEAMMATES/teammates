@@ -73,14 +73,10 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     protected void testExecute_withEmptyParameters_shouldFail() {
         loginAsInstructor(instructorId);
 
-        NullHttpParameterException emptyParamsException = assertThrows(NullHttpParameterException.class, () -> {
+        assertThrows(NullHttpParameterException.class, () -> {
             RestoreFeedbackSessionAction emptyParamsAction = getAction();
             getJsonResult(emptyParamsAction);
         });
-        assertEquals(
-                String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, Const.ParamsNames.COURSE_ID),
-                emptyParamsException.getMessage()
-        );
     }
 
     @Test

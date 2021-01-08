@@ -69,12 +69,10 @@ public class RestoreCourseActionTest
 
         ______TS("Not enough parameters");
 
-        NullHttpParameterException exception = assertThrows(NullHttpParameterException.class, () -> {
+        assertThrows(NullHttpParameterException.class, () -> {
             RestoreCourseAction emptyParamsAction = getAction();
             getJsonResult(emptyParamsAction);
         });
-        assertEquals(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, Const.ParamsNames.COURSE_ID),
-                exception.getMessage());
 
         ______TS("Non-Existent Course");
 

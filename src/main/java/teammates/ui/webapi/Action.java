@@ -144,7 +144,7 @@ public abstract class Action {
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
+            throw new NullHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return value;
     }
@@ -201,7 +201,7 @@ public abstract class Action {
     <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException(Const.StatusCodes.NULL_BODY_PARAMETER);
+            throw new NullHttpParameterException("The request body is null");
         }
         requestBody.validate();
         return requestBody;
