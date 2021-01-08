@@ -76,12 +76,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     student.getSection(),
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             if (!StringHelper.isEmpty(student.googleId)) {
                 if (userInfo == null) {
@@ -124,11 +124,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges();
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }

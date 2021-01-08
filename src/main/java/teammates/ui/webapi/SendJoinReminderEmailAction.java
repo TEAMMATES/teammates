@@ -39,13 +39,13 @@ class SendJoinReminderEmailAction extends Action {
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
         if (isSendingToStudent) {
-            gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         } else if (isSendingToInstructor) {
-            gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
         } else {
             // this is sending registration emails to all students in the course and we will check if the instructor
             // canmodifystudent for course level since for modifystudent privilege there is only course level setting for now
-            gateKeeper.verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         }
     }
 
