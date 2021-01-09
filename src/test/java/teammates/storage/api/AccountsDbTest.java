@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.test.AssertHelper;
@@ -36,8 +35,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
         assertNull(retrieved);
 
         ______TS("failure: null parameter");
-        AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.getAccount(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> accountsDb.getAccount(null));
 
         // delete created account
         accountsDb.deleteAccount(a.googleId);
@@ -83,8 +81,7 @@ public class AccountsDbTest extends BaseComponentTestCase {
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
-        AssertionError ae = assertThrows(AssertionError.class, () -> accountsDb.createEntity(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> accountsDb.createEntity(null));
     }
 
     @Test
@@ -138,9 +135,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("failure: null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> accountsDb.updateAccount(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         accountsDb.deleteAccount(a.googleId);
     }
@@ -183,9 +179,8 @@ public class AccountsDbTest extends BaseComponentTestCase {
 
         ______TS("failure null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> accountsDb.deleteAccount(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private AccountAttributes createNewAccount() throws Exception {

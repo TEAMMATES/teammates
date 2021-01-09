@@ -42,7 +42,7 @@ class EnrollStudentsAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

@@ -102,11 +102,11 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         String expectedInvalidSectionError =
                 String.format(
-                        Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
-                        Const.StudentsLogicConst.SECTION_SIZE_LIMIT, "Section 1")
+                        StudentsLogic.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                        Const.SECTION_SIZE_LIMIT, "Section 1")
                         + " "
-                        + String.format(Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
-                        Const.StudentsLogicConst.SECTION_SIZE_LIMIT);
+                        + String.format(StudentsLogic.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                        Const.SECTION_SIZE_LIMIT);
 
         assertEquals(expectedInvalidSectionError, ee.getMessage());
 
@@ -130,9 +130,9 @@ public class StudentsLogicTest extends BaseLogicTest {
         ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
 
         String expectedInvalidTeamError =
-                String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")
+                String.format(StudentsLogic.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")
                 + " "
-                + Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME_INSTRUCTION;
+                + StudentsLogic.ERROR_INVALID_TEAM_NAME_INSTRUCTION;
 
         assertEquals(expectedInvalidTeamError, ee.getMessage());
     }
@@ -277,9 +277,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsLogic.getStudentForEmail(null, "valid@email.tmt"));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("non-exist student");
 
@@ -298,8 +297,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> studentsLogic.getStudentForRegistrationKey(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> studentsLogic.getStudentForRegistrationKey(null));
 
         ______TS("non-exist student");
 
@@ -376,8 +374,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> studentsLogic.getStudentsForGoogleId(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> studentsLogic.getStudentsForGoogleId(null));
     }
 
     private void testGetStudentForCourseIdAndGoogleId() {
@@ -407,9 +404,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsLogic.getStudentForCourseIdAndGoogleId("valid.course", null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testGetStudentsForCourse() {
@@ -432,8 +428,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> studentsLogic.getStudentsForCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> studentsLogic.getStudentsForCourse(null));
 
         ______TS("non-existent course");
 
@@ -575,9 +570,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         ______TS("null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsLogic.deleteStudentCascade(null, "valid@email.tmt"));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test

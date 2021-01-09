@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -100,8 +99,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                 String.format(StudentsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, s.toString()), eaee.getMessage());
 
         ______TS("null params check");
-        AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> studentsDb.createEntity(null));
 
         studentsDb.deleteStudent(s.getCourse(), s.getEmail());
     }
@@ -150,11 +148,9 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertTrue(isEnrollInfoSameAs(studentsDb.getStudentsForTeam(s.team, s.course).get(0), s));
 
         ______TS("null params case");
-        AssertionError ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail(null, "valid@email.com"));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail(null, "valid@email.com"));
 
-        ae = assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail("any-course-id", null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> studentsDb.getStudentForEmail("any-course-id", null));
 
         studentsDb.deleteStudent(s.course, s.email);
         studentsDb.deleteStudent(s2.course, s2.email);
@@ -211,20 +207,18 @@ public class StudentsDbTest extends BaseComponentTestCase {
         assertEquals(StudentsDb.ERROR_UPDATE_NON_EXISTENT + updateOptions, ednee.getMessage());
 
         ______TS("null course case");
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsDb.updateStudent(
                         StudentAttributes.updateOptionsBuilder(null, s.email)
                                 .withName("new-name")
                                 .build()));
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("null email case");
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsDb.updateStudent(
                         StudentAttributes.updateOptionsBuilder(s.course, null)
                                 .withName("new-name")
                                 .build()));
-        assertEquals(Const.StatusCodes.NULL_PARAMETER, ae.getMessage());
 
         ______TS("duplicate email case");
         StudentAttributes duplicate = createNewStudent();
@@ -394,13 +388,11 @@ public class StudentsDbTest extends BaseComponentTestCase {
 
         // null params check:
         StudentAttributes[] finalStudent = new StudentAttributes[] { s };
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsDb.deleteStudent(null, finalStudent[0].email));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> studentsDb.deleteStudent(finalStudent[0].course, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private StudentAttributes createNewStudent() throws Exception {

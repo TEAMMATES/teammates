@@ -130,7 +130,6 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
     protected void testAccessControl() {
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

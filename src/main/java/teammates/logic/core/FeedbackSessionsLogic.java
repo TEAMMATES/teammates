@@ -320,8 +320,8 @@ public final class FeedbackSessionsLogic {
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
     public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseTimeZone);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(courseTimeZone);
 
         List<FeedbackSessionAttributes> fsForCourse = fsDb.getFeedbackSessionsForCourse(courseId);
         fsForCourse.forEach(fs -> {
@@ -584,8 +584,9 @@ public final class FeedbackSessionsLogic {
         InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
 
         // visibility table for each response and comment
-        Map<String, boolean[]> responseVisibilityTable = new HashMap<>();
-        Map<Long, boolean[]> commentVisibilityTable = new HashMap<>();
+        Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
+        Map<String, Boolean> responseRecipientVisibilityTable = new HashMap<>();
+        Map<Long, Boolean> commentVisibilityTable = new HashMap<>();
 
         // build response
         for (FeedbackResponseAttributes response : allResponses) {
@@ -606,7 +607,10 @@ public final class FeedbackSessionsLogic {
             relatedQuestionsMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
             relatedResponsesMap.put(response.getId(), response);
             // generate giver/recipient name visibility table
-            addResponseVisibilityToTable(responseVisibilityTable, correspondingQuestion, response, userEmail, role, roster);
+            responseGiverVisibilityTable.put(response.getId(),
+                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, role, true, roster));
+            responseRecipientVisibilityTable.put(response.getId(),
+                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, role, false, roster));
         }
 
         // build comment
@@ -626,7 +630,7 @@ public final class FeedbackSessionsLogic {
 
             relatedCommentsMap.computeIfAbsent(relatedResponse.getId(), key -> new ArrayList<>()).add(frc);
             // generate comment giver name visibility table
-            addCommentVisibilityToTable(commentVisibilityTable, frc, relatedResponse, userEmail, roster);
+            commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
         }
 
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
@@ -634,39 +638,23 @@ public final class FeedbackSessionsLogic {
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         if (role == UserRole.INSTRUCTOR) {
             missingResponses = buildMissingResponses(
-                    instructor, responseVisibilityTable, session,
+                    instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
                     relatedQuestionsMap, existingResponses, roster, section);
         }
 
         return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
-                responseVisibilityTable, relatedCommentsMap, commentVisibilityTable, roster);
-    }
-
-    private void addResponseVisibilityToTable(
-            Map<String, boolean[]> responseVisibilityTable, FeedbackQuestionAttributes question,
-            FeedbackResponseAttributes response, String userEmail,
-            UserRole role, CourseRoster roster) {
-        boolean[] responseVisibility = new boolean[2];
-        responseVisibility[Const.VISIBILITY_TABLE_GIVER] = frLogic.isNameVisibleToUser(
-                question, response, userEmail, role, true, roster);
-        responseVisibility[Const.VISIBILITY_TABLE_RECIPIENT] = frLogic.isNameVisibleToUser(
-                question, response, userEmail, role, false, roster);
-        responseVisibilityTable.put(response.getId(), responseVisibility);
-    }
-
-    private void addCommentVisibilityToTable(
-            Map<Long, boolean[]> commentVisibilityTable, FeedbackResponseCommentAttributes frc,
-            FeedbackResponseAttributes response, String userEmail, CourseRoster roster) {
-        boolean[] commentVisibility = new boolean[1];
-        commentVisibility[Const.VISIBILITY_TABLE_GIVER] = frcLogic.isNameVisibleToUser(frc, response, userEmail, roster);
-        commentVisibilityTable.put(frc.getId(), commentVisibility);
+                responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
+                commentVisibilityTable, roster);
     }
 
     /**
      * Builds viewable missing responses for the session for instructor.
      *
      * @param instructor the instructor
-     * @param responseVisibilityTable the visibility table which will be updated with the visibility of missing responses
+     * @param responseGiverVisibilityTable
+     *         the giver visibility table which will be updated with the visibility of missing responses
+     * @param responseRecipientVisibilityTable
+     *         the recipient visibility table which will be updated with the visibility of missing responses
      * @param feedbackSession the feedback sessions
      * @param relatedQuestionsMap the relevant questions
      * @param existingResponses existing responses
@@ -676,7 +664,7 @@ public final class FeedbackSessionsLogic {
      */
     private List<FeedbackResponseAttributes> buildMissingResponses(
             InstructorAttributes instructor,
-            Map<String, boolean[]> responseVisibilityTable,
+            Map<String, Boolean> responseGiverVisibilityTable, Map<String, Boolean> responseRecipientVisibilityTable,
             FeedbackSessionAttributes feedbackSession, Map<String, FeedbackQuestionAttributes> relatedQuestionsMap,
             List<FeedbackResponseAttributes> existingResponses, CourseRoster courseRoster, @Nullable String section) {
 
@@ -732,8 +720,7 @@ public final class FeedbackSessionsLogic {
                                     .withFeedbackSessionName(feedbackSession.getFeedbackSessionName())
                                     .withGiverSection(giverInfo.getSectionName())
                                     .withRecipientSection(recipientInfo.getSectionName())
-                                    .withResponseDetails(new FeedbackTextResponseDetails(
-                                                    Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE))
+                                    .withResponseDetails(new FeedbackTextResponseDetails("No Response"))
                                     .build();
 
                     // check visibility of the missing response
@@ -745,8 +732,12 @@ public final class FeedbackSessionsLogic {
                     }
 
                     // generate giver/recipient name visibility table
-                    addResponseVisibilityToTable(responseVisibilityTable, correspondingQuestion,
-                            missingResponse, instructor.getEmail(), UserRole.INSTRUCTOR, courseRoster);
+                    responseGiverVisibilityTable.put(missingResponse.getId(),
+                            frLogic.isNameVisibleToUser(correspondingQuestion, missingResponse,
+                                    instructor.getEmail(), UserRole.INSTRUCTOR, true, courseRoster));
+                    responseRecipientVisibilityTable.put(missingResponse.getId(),
+                            frLogic.isNameVisibleToUser(correspondingQuestion, missingResponse,
+                                    instructor.getEmail(), UserRole.INSTRUCTOR, false, courseRoster));
                     missingResponses.add(missingResponse);
                 }
             }
@@ -836,14 +827,14 @@ public final class FeedbackSessionsLogic {
             boolean isGiverSectionRestricted =
                     !instructor.isAllowedForPrivilege(response.giverSection,
                                                       response.feedbackSessionName,
-                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                                      Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
                     relatedQuestion.recipientType != FeedbackParticipantType.NONE
                     && !instructor.isAllowedForPrivilege(response.recipientSection,
                                                          response.feedbackSessionName,
-                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+                                                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
