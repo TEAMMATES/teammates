@@ -681,7 +681,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
-    this.ngbModal.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
+    const windowClass: string = 'modal-large';
+    this.ngbModal.open(TemplateQuestionModalComponent, { windowClass }).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {

@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.BaseComponentTestCase;
 
@@ -103,10 +102,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
     @Test
     public void testUpdateOrCreateStudentProfile_nullParameter_shouldThrowAssertionException() throws Exception {
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> profilesDb.updateOrCreateStudentProfile(null));
-
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     // the test is to ensure that optimized saving policy is implemented without false negative

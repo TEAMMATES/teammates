@@ -112,6 +112,6 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 }

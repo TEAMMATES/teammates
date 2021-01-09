@@ -281,7 +281,7 @@ public class TeamEvalResult {
             count++;
         }
 
-        double idealSum = count * 100.0;
+        double idealSum = count * Const.POINTS_EQUAL_SHARE * 1.0;
         double factor = actualSum == 0 ? 0 : idealSum / actualSum;
         log.fine("Factor = " + idealSum + "/" + actualSum + " = " + factor);
         return factor;
