@@ -3,12 +3,12 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="row margin-bottom-20px" *ngFor="let num of model.options; let i = index;
+        <div class="row margin-bottom-20px padding-left-12px d-flex" *ngFor="let num of model.options; let i = index;
         trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
-          <span class="col-sm-1" cdkDragHandle>
+          <div cdkDragHandle>
             <span class="input-group-addon">&#8597; </span>
-          </span>
-          <div class="col-sm-8">
+          </div>
+          <div class="flex-grow-1">
             <tm-rank-options-field (elementDeleted)="onRankOptionDeleted($event)"
                                   [isEditable]="isEditable"
                                   [index]="i"
