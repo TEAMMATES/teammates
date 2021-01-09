@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeedbackRankRecipientsResponseDetails } from '../../../../types/api-output';
+import { FeedbackParticipantType, FeedbackRankRecipientsResponseDetails } from '../../../../types/api-output';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { Response } from './question-statistics';
 import { RankRecipientsQuestionStatisticsComponent } from './rank-recipients-question-statistics.component';
@@ -37,6 +37,7 @@ describe('RankRecipientsQuestionStatisticsComponent', () => {
   it('should rank correctly within team', () => {
     const responses: Response<FeedbackRankRecipientsResponseDetails>[] = loadTestData('rankRecipientsResponses.json');
     component.responses = responses;
+    component.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
 
     const bob: string = 'bob';
     const charlie: string = 'charlie';

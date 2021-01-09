@@ -42,6 +42,9 @@ export class RankRecipientsQuestionStatisticsCalculation
     const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
+    const isRecipientOwnTeamMember: boolean = this.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS
+        || this.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+
     const optionsPerTeam: Record<string, string[]> = {};
 
     for (const response of this.responses) {
@@ -77,9 +80,11 @@ export class RankRecipientsQuestionStatisticsCalculation
     this.rankPerOption = this.calculateRankPerOption(this.ranksReceivedPerOption);
     this.rankPerOptionExcludeSelf = this.calculateRankPerOption(ranksReceivedPerOptionExcludeSelf);
 
-    this.rankPerOptionInTeam = this.calculateRankPerOptionInTeam(this.ranksReceivedPerOption, optionsPerTeam);
-    this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(ranksReceivedPerOptionExcludeSelf,
-      optionsPerTeam);
+    if (isRecipientOwnTeamMember) {
+      this.rankPerOptionInTeam = this.calculateRankPerOptionInTeam(this.ranksReceivedPerOption, optionsPerTeam);
+      this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(ranksReceivedPerOptionExcludeSelf,
+        optionsPerTeam);
+    }
 
   }
 
