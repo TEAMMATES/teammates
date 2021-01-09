@@ -12,6 +12,7 @@ import teammates.common.util.Const;
  */
 public class StudentsEnrollRequest extends BasicRequest {
 
+    static final int SIZE_LIMIT_PER_ENROLLMENT = 100;
     private static final String ERROR_MESSAGE_DUPLICATE_EMAIL =
             "Error, duplicated email addresses detected in the input: %s";
     private static final String ERROR_MESSAGE_TOO_MANY_ENROLLMENTS = "You are trying to enroll more than 100 students. "
@@ -33,7 +34,7 @@ public class StudentsEnrollRequest extends BasicRequest {
     @Override
     public void validate() {
         assertTrue(!studentEnrollRequests.isEmpty(), ERROR_MESSAGE_EMPTY_ENROLLMENT);
-        assertTrue(studentEnrollRequests.size() <= Const.SIZE_LIMIT_PER_ENROLLMENT, ERROR_MESSAGE_TOO_MANY_ENROLLMENTS);
+        assertTrue(studentEnrollRequests.size() <= SIZE_LIMIT_PER_ENROLLMENT, ERROR_MESSAGE_TOO_MANY_ENROLLMENTS);
         for (StudentEnrollRequest request : studentEnrollRequests) {
             request.validate();
         }

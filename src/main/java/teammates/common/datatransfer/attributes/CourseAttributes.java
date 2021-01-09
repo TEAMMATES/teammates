@@ -206,7 +206,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(courseId);
 
             this.courseId = courseId;
         }
@@ -259,14 +259,14 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+            Assumption.assertNotNull(name);
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withTimezone(ZoneId timezone) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timezone);
+            Assumption.assertNotNull(timezone);
 
             updateOptions.timeZoneOption = UpdateOption.of(timezone);
             return thisBuilder;

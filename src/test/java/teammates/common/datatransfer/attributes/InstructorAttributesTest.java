@@ -301,17 +301,17 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .withPrivileges(privileges)
                 .build();
 
-        assertFalse(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
 
         String sectionId = "sectionId";
         String sessionId = "sessionId";
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         instructor.privileges = null;
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
 
     @Test

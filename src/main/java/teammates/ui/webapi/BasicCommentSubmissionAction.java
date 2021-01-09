@@ -13,6 +13,9 @@ import teammates.common.exception.UnauthorizedAccessException;
  * Basic action class for feedback response comment related operation.
  */
 abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionAction {
+
+    static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
+
     /**
      * Validates the questionType of the corresponding question.
      */

@@ -30,7 +30,7 @@ class CreateFeedbackQuestionAction extends Action {
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                 getNonNullFeedbackSession(feedbackSessionName, courseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
