@@ -406,7 +406,7 @@ public class EmailGenerator {
 
             for (StudentAttributes student : studentsForCourse) {
                 try {
-                    if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(session.getFeedbackSessionName(),
+                    if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
                             session.getCourseId(), student.email)) {
                         students.add(student);
                     }

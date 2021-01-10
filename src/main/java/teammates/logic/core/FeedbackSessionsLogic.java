@@ -878,6 +878,28 @@ public final class FeedbackSessionsLogic {
         return true;
     }
 
+    public boolean isFeedbackSessionAttemptedByStudent(
+            String feedbackSessionName,
+            String courseId, String userEmail)
+            throws EntityDoesNotExistException {
+
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
+        }
+
+        List<FeedbackQuestionAttributes> allQuestions =
+                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
+                        courseId);
+
+        for (FeedbackQuestionAttributes question : allQuestions) {
+            //as long as one question is fully answered, student has attempted
+            if (fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isFeedbackSessionViewableToStudents(
             FeedbackSessionAttributes session) {
         // Allow students to view the feedback session if there are questions for them
