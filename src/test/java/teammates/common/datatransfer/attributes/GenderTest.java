@@ -21,11 +21,11 @@ public class GenderTest extends BaseTestCase {
 
         // valid values
         assertEquals(StudentProfileAttributes.Gender.MALE,
-                StudentProfileAttributes.Gender.getGenderEnumValue("MALE"));
+                StudentProfileAttributes.Gender.getGenderEnumValue("male"));
         assertEquals(StudentProfileAttributes.Gender.FEMALE,
                 StudentProfileAttributes.Gender.getGenderEnumValue("female"));
         assertEquals(StudentProfileAttributes.Gender.OTHER,
-                StudentProfileAttributes.Gender.getGenderEnumValue("oTheR"));
+                StudentProfileAttributes.Gender.getGenderEnumValue("other"));
     }
 
 }
