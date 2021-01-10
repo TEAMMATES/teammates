@@ -8,7 +8,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Const;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCase;
 
@@ -34,8 +33,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_NOT_ENOUGH_CHOICES
-                + Const.FeedbackQuestion.MSQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_NOT_ENOUGH_CHOICES
+                + FeedbackMsqQuestionDetails.MSQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
     }
 
     @Test
@@ -48,7 +47,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -73,7 +72,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -88,7 +87,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -99,13 +98,13 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
 
         //duplicate cases that has trailing and leading spaces
         msqDetails.setMsqChoices(Arrays.asList("choice 1", " choice 1 "));
         errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_DUPLICATE_MSQ_OPTION, errors.get(0));
 
     }
 
@@ -125,7 +124,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = msqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        AssertHelper.assertContains(Const.FeedbackQuestion.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL, errors.get(0));
+        AssertHelper.assertContains(FeedbackMsqQuestionDetails.MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL, errors.get(0));
     }
 
     @Test
@@ -161,7 +160,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         List<String> errors = msqQuestionDetails.validateResponsesDetails(
                 Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_OPTION, errors.get(0));
 
         // now set other field to empty
         feedbackMsqResponseDetails.setOtherFieldContent("");
@@ -185,7 +184,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
                 Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(1, errors.size());
         assertEquals(feedbackMsqResponseDetails.getAnswerString()
-                + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION, errors.get(0));
+                + " " + FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_OPTION, errors.get(0));
 
         // now set choice to be within the valid choices
         feedbackMsqResponseDetails.setAnswers(Arrays.asList("choiceA"));
@@ -199,8 +198,8 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         errors = msqQuestionDetails.validateResponsesDetails(Collections.singletonList(feedbackMsqResponseDetails), 0);
         assertEquals(2, errors.size());
         assertEquals(feedbackMsqResponseDetails.getAnswerString()
-                + " " + Const.FeedbackQuestion.MSQ_ERROR_INVALID_OPTION, errors.get(0));
-        assertEquals(Const.FeedbackQuestion.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED, errors.get(1));
+                + " " + FeedbackMsqQuestionDetails.MSQ_ERROR_INVALID_OPTION, errors.get(0));
+        assertEquals(FeedbackMsqQuestionDetails.MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED, errors.get(1));
 
         // make answer list and other field content consistent
         feedbackMsqResponseDetails.setOther(true);

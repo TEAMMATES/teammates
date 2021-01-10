@@ -7,9 +7,10 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
+
+    static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 1 or greater";
 
     @Nullable
     private Integer recommendedLength;
@@ -41,7 +42,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (recommendedLength != null && recommendedLength < 1) {
-            errors.add(Const.FeedbackQuestion.TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
+            errors.add(TEXT_ERROR_INVALID_RECOMMENDED_LENGTH);
         }
         return errors;
     }

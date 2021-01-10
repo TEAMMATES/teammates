@@ -170,7 +170,7 @@ public abstract class AbstractBackDoor {
         HttpPost post = new HttpPost(createBasicUri(url, params));
 
         if (body != null) {
-            StringEntity entity = new StringEntity(body, Charset.forName("UTF-8"));
+            StringEntity entity = new StringEntity(body, Charset.forName(Const.ENCODING));
             post.setEntity(entity);
         }
 
@@ -181,7 +181,7 @@ public abstract class AbstractBackDoor {
         HttpPut put = new HttpPut(createBasicUri(url, params));
 
         if (body != null) {
-            StringEntity entity = new StringEntity(body, Charset.forName("UTF-8"));
+            StringEntity entity = new StringEntity(body, Charset.forName(Const.ENCODING));
             put.setEntity(entity);
         }
 

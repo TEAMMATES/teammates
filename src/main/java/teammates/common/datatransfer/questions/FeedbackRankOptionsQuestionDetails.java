@@ -6,27 +6,20 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Const;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
-    static final transient int MIN_NUM_OF_OPTIONS = 2;
-    static final transient String ERROR_INVALID_MAX_OPTIONS_ENABLED =
-            "Max options enabled is invalid";
-    static final transient String ERROR_INVALID_MIN_OPTIONS_ENABLED =
-            "Min options enabled is invalid";
-    static final transient String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES =
-            "Min options enabled is more than the total choices";
-    static final transient String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES =
-            "Max options enabled is more than the total choices";
-    static final transient String ERROR_NOT_ENOUGH_OPTIONS =
-            "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION
-            + ". Minimum number of options is: ";
-    static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
-            "Empty Rank Options are not allowed";
-    static final transient String ERROR_DUPLICATE_RANK_RESPONSE =
-            "Duplicate Ranks are not allowed.";
-    static final transient String ERROR_INVALID_RANK_RESPONSE =
-            "Invalid rank assigned.";
+
+    static final String QUESTION_TYPE_NAME = "Rank (options) question";
+    static final int MIN_NUM_OF_OPTIONS = 2;
+    static final String ERROR_INVALID_MAX_OPTIONS_ENABLED = "Max options enabled is invalid";
+    static final String ERROR_INVALID_MIN_OPTIONS_ENABLED = "Min options enabled is invalid";
+    static final String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES = "Min options enabled is more than the total choices";
+    static final String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES = "Max options enabled is more than the total choices";
+    static final String ERROR_NOT_ENOUGH_OPTIONS =
+            "Too little options for " + QUESTION_TYPE_NAME + ". Minimum number of options is: ";
+    static final String ERROR_EMPTY_OPTIONS_ENTERED = "Empty rank options are not allowed";
+    static final String ERROR_DUPLICATE_RANK_RESPONSE = "Duplicate ranks are not allowed.";
+    static final String ERROR_INVALID_RANK_RESPONSE = "Invalid rank assigned.";
 
     private List<String> options;
 

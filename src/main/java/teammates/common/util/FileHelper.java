@@ -27,7 +27,7 @@ public final class FileHelper {
      */
     public static String readResourceFile(String file) {
 
-        try (Scanner scanner = new Scanner(getResourceAsStream(file), Const.SystemParams.ENCODING)) {
+        try (Scanner scanner = new Scanner(getResourceAsStream(file), Const.ENCODING)) {
             return scanner.useDelimiter("\\Z").next();
         }
     }

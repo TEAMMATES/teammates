@@ -430,8 +430,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                                 .build()));
         AssertHelper.assertContains(
                 String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        FeedbackParticipantType.OWN_TEAM_MEMBERS.toDisplayRecipientName(),
-                        FeedbackParticipantType.TEAMS.toDisplayGiverName()),
+                        "Giver's team members",
+                        "Teams in this course"),
                 ipe.getMessage());
 
         ______TS("feedback session does not exist");

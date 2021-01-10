@@ -757,7 +757,7 @@ public class EmailGenerator {
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
         String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         return Templates.populateTemplate(emailBody,
@@ -769,9 +769,9 @@ public class EmailGenerator {
             InstructorAttributes instructor, String emailBody, String institute) {
         AppUrl url = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
+                .withEntityType(Const.EntityType.INSTRUCTOR);
         if (institute != null) {
-            url = url.withParam(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+            url = url.withInstructorInstitution(institute);
         }
         String joinUrl = url.toAbsoluteString();
 
