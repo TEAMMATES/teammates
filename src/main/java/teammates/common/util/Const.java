@@ -3,14 +3,6 @@ package teammates.common.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Stores constants that are widely used across classes.
@@ -35,6 +27,7 @@ public final class Const {
     public static final String DEFAULT_SECTION = "None";
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
+    public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
 
@@ -60,11 +53,11 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
-        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
-        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31T00:00:00Z");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22T00:00:00Z");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01T00:00:00Z");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14T00:00:00Z");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01T00:00:00Z");
     }
 
     public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
@@ -75,211 +68,6 @@ public final class Const {
 
     private Const() {
         // Utility class containing constants
-    }
-
-    public static class SystemParams {
-
-        public static final String ENCODING = "UTF8";
-        public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
-
-        /**
-         * This is the limit after which TEAMMATES will send error message.
-         *
-         * <p>Must be within the range of int.
-         */
-        public static final int MAX_PROFILE_PIC_SIZE = 5000000;
-
-        /** e.g. "2014-04-01 11:59 PM UTC" */
-        public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
-
-        /** Number to trim the Google ID when displaying to the user. */
-        public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-
-        /* Field sizes and error messages for invalid fields can be found
-         * in the FieldValidator class.
-         */
-
-        public static final ZoneId ADMIN_TIME_ZONE = ZoneId.of("Asia/Singapore");
-
-        public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
-
-    }
-
-    public static class FeedbackQuestion {
-
-        public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
-
-        static {
-            Map<String, String> visibilityOptionInit = new LinkedHashMap<>();
-
-            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
-                                     "Shown anonymously to recipient and instructors");
-            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
-                                     "Shown anonymously to recipient, visible to instructors");
-            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS",
-                                     "Shown anonymously to recipient and team members, visible to instructors");
-            visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
-            visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
-
-            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(visibilityOptionInit);
-        }
-
-        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
-                COMMON_FEEDBACK_PATHS;
-
-        static {
-            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer = new LinkedHashMap<>();
-
-            initializer.put(FeedbackParticipantType.SELF,
-                    new ArrayList<>(
-                            Arrays.asList(FeedbackParticipantType.NONE,
-                                    FeedbackParticipantType.SELF,
-                                    FeedbackParticipantType.INSTRUCTORS)));
-
-            initializer.put(FeedbackParticipantType.STUDENTS,
-                    new ArrayList<>(
-                            Arrays.asList(FeedbackParticipantType.NONE,
-                                    FeedbackParticipantType.SELF,
-                                    FeedbackParticipantType.INSTRUCTORS,
-                                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                                    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
-
-            initializer.put(FeedbackParticipantType.INSTRUCTORS,
-                    new ArrayList<>(
-                            Arrays.asList(FeedbackParticipantType.NONE,
-                                    FeedbackParticipantType.SELF,
-                                    FeedbackParticipantType.INSTRUCTORS)));
-
-            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
-        }
-
-        // Mcq
-        public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MCQ_ERROR_NOT_ENOUGH_CHOICES =
-                "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
-        public static final String MCQ_ERROR_INVALID_OPTION =
-                " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
-        public static final String MCQ_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
-                + " must be valid non-negative numbers with precision up to 2 decimal places.";
-        public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
-        public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
-        public static final String MCQ_ERROR_DUPLICATE_MCQ_OPTION = "The Mcq options cannot be duplicate";
-
-        // Msq
-        public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MSQ_ERROR_EMPTY_MSQ_OPTION = "The Msq options cannot be empty";
-        public static final String MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
-        public static final String MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER = "No other choices are allowed with "
-                + "None of the above option";
-        public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
-                "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
-        public static final String MSQ_ERROR_INVALID_OPTION =
-                " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
-        public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
-                "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
-        public static final String MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM =
-                "Number of choices selected is more than the maximum number ";
-        public static final String MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES =
-                "Minimum selectable choices exceeds number of options ";
-        public static final String MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM =
-                "Number of choices selected is less than the minimum number ";
-        public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
-                "Minimum selectable choices exceeds maximum selectable choices for "
-                + Const.FeedbackQuestionTypeNames.MSQ;
-        public static final String MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES =
-                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
-        public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
-                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
-        public static final String MSQ_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
-                + " must be valid numbers with precision up to 2 decimal places.";
-        /**
-         * Special answer of a MSQ question indicating 'None of the above'.
-         */
-        public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "";
-        public static final String MSQ_ERROR_DUPLICATE_MSQ_OPTION = "The Msq options cannot be duplicate";
-
-        // Numscale
-        public static final String NUMSCALE_ERROR_MIN_MAX =
-                "Minimum value must be < maximum value for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-        public static final String NUMSCALE_ERROR_STEP =
-                "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-        public static final String NUMSCALE_ERROR_OUT_OF_RANGE =
-                " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-
-        // Contribution
-        public static final String CONTRIB_ERROR_INVALID_OPTION =
-                "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
-        public static final String CONTRIB_ERROR_INVALID_FEEDBACK_PATH =
-                Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
-                + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
-                + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
-                + " as the feedback giver and recipient respectively."
-                + " These values will be used instead.";
-        public static final String CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS =
-                Const.FeedbackQuestionTypeNames.CONTRIB + " must use one of the common visibility options. The \""
-                + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
-                                        .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
-                + "\" option will be used instead.";
-
-        // Constant sum
-        public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
-        public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
-        public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS =
-                "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION
-                + ". Minimum number of options is: ";
-        public static final String CONST_SUM_ERROR_DUPLICATE_OPTIONS = "Duplicate options are not allowed.";
-        public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
-                "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT
-                + ". Minimum number of points is: ";
-        public static final String CONST_SUM_ERROR_MISMATCH =
-                "Please distribute all the points for distribution questions. "
-                + "To skip a distribution question, leave the boxes blank.";
-        public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
-        public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
-        public static final String CONST_SUM_ERROR_SOME_UNIQUE =
-                "At least some options must be given a different number of points.";
-        public static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
-        public static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
-
-        // Rubric
-        public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
-
-        public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
-                "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
-        public static final int RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS =
-                "Too little sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". "
-                + "Minimum number of sub-questions is: ";
-        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE =
-                "Invalid number of descriptions for " + Const.FeedbackQuestionTypeNames.RUBRIC;
-        public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION =
-                "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
-        public static final String RUBRIC_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of each Sub-question of a "
-                + Const.FeedbackQuestionTypeNames.RUBRIC
-                + " must be valid numbers with precision up to 2 decimal places.";
-
-        public static final String RUBRIC_EMPTY_ANSWER = "Empty answer.";
-        public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
-
-        // Text Question
-        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 1 or greater";
-    }
-
-    public static class FeedbackQuestionTypeNames {
-        public static final String TEXT = "Essay question";
-        public static final String MCQ = "Multiple-choice (single answer) question";
-        public static final String MSQ = "Multiple-choice (multiple answers) question";
-        public static final String NUMSCALE = "Numerical-scale question";
-        public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
-        public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
-        public static final String RANK_OPTION = "Rank (options) question";
-        public static final String RANK_RECIPIENT = "Rank (recipients) question";
-        public static final String CONTRIB = "Team contribution question";
-        public static final String RUBRIC = "Rubric question";
     }
 
     public static class InstructorPermissionRoleNames {
@@ -398,6 +186,7 @@ public final class Const {
 
     }
 
+    @Deprecated
     public static class LegacyURIs {
 
         public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
@@ -413,7 +202,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
-
+        public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
         private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
@@ -452,13 +241,10 @@ public final class Const {
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
-        public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
     }
 
     public static class ResourceURIs {
-
-        public static final String URI_PREFIX = "/webapi";
-        public static final String LOGOUT = "/logout";
+        private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
@@ -512,7 +298,7 @@ public final class Const {
     }
 
     public static class CronJobURIs {
-        public static final String URI_PREFIX = "/auto";
+        private static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";

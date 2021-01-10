@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
 /**
@@ -127,20 +126,20 @@ public class FeedbackNumericalScaleQuestionDetailsTest extends BaseTestCase {
         numScaleQuestion.setMinScale(10);
         errors = numScaleQuestion.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX, errors.get(0));
+        assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_MIN_MAX, errors.get(0));
 
         ______TS("Test Step <= 0 error");
         numScaleQuestion.setMaxScale(100);
         numScaleQuestion.setStep(0);
         errors = numScaleQuestion.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.NUMSCALE_ERROR_STEP, errors.get(0));
+        assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_STEP, errors.get(0));
 
         ______TS("Test Step <= 0 + Min >= Max error");
         numScaleQuestion.setMinScale(100);
         errors = numScaleQuestion.validateQuestionDetails();
         assertEquals(2, errors.size());
-        assertEquals(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX, errors.get(0));
-        assertEquals(Const.FeedbackQuestion.NUMSCALE_ERROR_STEP, errors.get(1));
+        assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_MIN_MAX, errors.get(0));
+        assertEquals(FeedbackNumericalScaleQuestionDetails.NUMSCALE_ERROR_STEP, errors.get(1));
     }
 }

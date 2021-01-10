@@ -158,7 +158,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.goToUrl(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
+        browser.goToUrl(createUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
