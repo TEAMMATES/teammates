@@ -73,7 +73,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         questionDetails = (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetails();
         questionDetails.setAreDuplicatesAllowed(false);
         questionDetails.setMaxOptionsToBeRanked(3);
-        questionDetails.setMinOptionsToBeRanked(Integer.MIN_VALUE);
+        questionDetails.setMinOptionsToBeRanked(Const.POINTS_NO_VALUE);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editRankQuestion(2, questionDetails);
 

@@ -1,4 +1,4 @@
-package teammates.ui.endpoints;
+package teammates.ui.constants;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

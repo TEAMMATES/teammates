@@ -42,6 +42,7 @@ public final class Const {
     public static final int POINTS_EQUAL_SHARE = 100;
     public static final int POINTS_NOT_SURE = -101;
     public static final int POINTS_NOT_SUBMITTED = -999;
+    public static final int POINTS_NO_VALUE = Integer.MIN_VALUE;
 
     public static final String GENERAL_QUESTION = "%GENERAL%";
 

@@ -1338,7 +1338,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyMaxOptions(int questionNum, int maxOptions) {
-        if (maxOptions == Integer.MIN_VALUE) {
+        if (maxOptions == Const.POINTS_NO_VALUE) {
             assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
         } else {
             assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
@@ -1348,7 +1348,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyMinOptions(int questionNum, int minOptions) {
-        if (minOptions == Integer.MIN_VALUE) {
+        if (minOptions == Const.POINTS_NO_VALUE) {
             assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
         } else {
             assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
@@ -1370,7 +1370,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputMaxOptions(int questionNum, int maxOptions) {
-        if (maxOptions == Integer.MIN_VALUE) {
+        if (maxOptions == Const.POINTS_NO_VALUE) {
             markOptionAsUnselected(getMaxOptionsCheckbox(questionNum));
         } else {
             markOptionAsSelected(getMaxOptionsCheckbox(questionNum));
@@ -1379,7 +1379,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputMinOptions(int questionNum, int minOptions) {
-        if (minOptions == Integer.MIN_VALUE) {
+        if (minOptions == Const.POINTS_NO_VALUE) {
             markOptionAsUnselected(getMinOptionsCheckbox(questionNum));
         } else {
             markOptionAsSelected(getMinOptionsCheckbox(questionNum));

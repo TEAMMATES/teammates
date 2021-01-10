@@ -18,9 +18,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     private Boolean shouldAllowRichText;
 
     public FeedbackTextQuestionDetails() {
-        super(FeedbackQuestionType.TEXT);
-        recommendedLength = null;
-        shouldAllowRichText = true;
+        this(null);
     }
 
     public FeedbackTextQuestionDetails(String questionText) {
