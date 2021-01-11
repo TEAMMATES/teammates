@@ -9,9 +9,9 @@ class "InstructorAttributes" as IA1
 class "StudentAttributes" as SA1
 class CourseAttributes
 class AccountAttributes
-class "*Attributes" as Attributes
+class " *Attributes" as Attributes
 
-class "*SearchResultBundle" as SearchResultBundle
+class " *SearchResultBundle" as SearchResultBundle
 class "InstructorAttributes" as IA2
 class "StudentAttributes" as SA2
 class "FeedbackResponse\nCommentAttributes" as FeedbackResponseCommentAttributes
