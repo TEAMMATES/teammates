@@ -451,7 +451,7 @@ public class EmailGenerator {
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<>();
         ArrayList<StudentAttributes> students = new ArrayList<>();
-        for (StudentAttributes student: studentsForCourse) {
+        for (StudentAttributes student : studentsForCourse) {
             try {
                 if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
                         session.getCourseId(), student.email)) {
