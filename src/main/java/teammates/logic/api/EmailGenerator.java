@@ -447,9 +447,24 @@ public class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeededForStudents
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<>();
-        List<StudentAttributes> students = isEmailNeededForStudents
+        List<StudentAttributes> studentsForCourse = isEmailNeededForStudents
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<>();
+        ArrayList<StudentAttributes> students = new ArrayList<>();
+        for (StudentAttributes student: studentsForCourse) {
+            try {
+                if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
+                        session.getCourseId(), student.email)) {
+                    students.add(student);
+                }
+            } catch (EntityDoesNotExistException e) {
+                log.severe("Course " + session.getCourseId() + " does not exist or "
+                        + "session " + session.getFeedbackSessionName() + " does not exist");
+                // Course or session cannot be found for one student => it will be the case for all students
+                // Do not waste time looping through all students
+                break;
+            }
+        }
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
