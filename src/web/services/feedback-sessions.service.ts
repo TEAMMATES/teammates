@@ -5,7 +5,7 @@ import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackQuestion,
   FeedbackSession,

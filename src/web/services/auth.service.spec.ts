@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { environment } from '../environments/environment';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { AuthService } from './auth.service';
 import { HttpRequestService } from './http-request.service';
 

@@ -95,7 +95,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
                 .withRegistrationKey(StringHelper.encrypt(key))
                 .withStudentEmail(email)
                 .withCourseId(course)
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
+                .withEntityType(Const.EntityType.STUDENT)
                 .toString();
     }
 

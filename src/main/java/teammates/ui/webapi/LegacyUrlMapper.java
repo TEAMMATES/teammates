@@ -16,6 +16,7 @@ import teammates.common.util.StringHelper;
  *
  * <p>This class does not check for parameter validity.
  */
+@Deprecated
 @SuppressWarnings("serial")
 public class LegacyUrlMapper extends HttpServlet {
 
@@ -36,7 +37,7 @@ public class LegacyUrlMapper extends HttpServlet {
             String institute = req.getParameter(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
             AppUrl newUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(key)
-                    .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
+                    .withEntityType(Const.EntityType.INSTRUCTOR);
             if (institute != null) {
                 newUrl = newUrl
                         .withInstructorInstitution(institute)
@@ -49,7 +50,7 @@ public class LegacyUrlMapper extends HttpServlet {
             key = req.getParameter(Const.ParamsNames.REGKEY);
             redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(key)
-                    .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
+                    .withEntityType(Const.EntityType.STUDENT)
                     .toString();
             break;
         case Const.LegacyURIs.STUDENT_HOME_PAGE:

@@ -5,6 +5,7 @@ import {
   FeedbackParticipantType,
   FeedbackQuestionType, QuestionOutput,
 } from '../api-output';
+import { NO_VALUE } from '../feedback-response-details';
 import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
 
 /**
@@ -16,8 +17,8 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
   msqChoices: string[] = [];
   otherEnabled: boolean = false;
   generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
-  maxSelectableChoices: number = Number.MIN_VALUE;
-  minSelectableChoices: number = Number.MIN_VALUE;
+  maxSelectableChoices: number = NO_VALUE;
+  minSelectableChoices: number = NO_VALUE;
   hasAssignedWeights: boolean = false;
   msqWeights: number[] = [];
   msqOtherWeight: number = 0;
