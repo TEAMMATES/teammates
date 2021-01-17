@@ -216,7 +216,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, params);
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, params);
     }
 
 }

@@ -200,7 +200,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
                 new String[] {"Section 1"});
         verifyCanAccess(submissionParams);
 
