@@ -46,7 +46,7 @@ class UpdateStudentProfileAction extends Action {
                             .withInstitute(studentProfile.institute)
                             .withMoreInfo(studentProfile.moreInfo)
                             .build());
-            return new JsonResult(Const.StatusMessages.STUDENT_PROFILE_EDITED, HttpStatus.SC_ACCEPTED);
+            return new JsonResult("Your profile has been edited successfully", HttpStatus.SC_ACCEPTED);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

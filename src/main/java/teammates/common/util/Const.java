@@ -3,14 +3,6 @@ package teammates.common.util;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import teammates.common.datatransfer.FeedbackParticipantType;
 
 /**
  * Stores constants that are widely used across classes.
@@ -30,9 +22,12 @@ public final class Const {
 
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
+    public static final int SECTION_SIZE_LIMIT = 100;
+
     public static final String DEFAULT_SECTION = "None";
 
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
+    public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
 
@@ -47,6 +42,7 @@ public final class Const {
     public static final int POINTS_EQUAL_SHARE = 100;
     public static final int POINTS_NOT_SURE = -101;
     public static final int POINTS_NOT_SUBMITTED = -999;
+    public static final int POINTS_NO_VALUE = Integer.MIN_VALUE;
 
     public static final String GENERAL_QUESTION = "%GENERAL%";
 
@@ -57,11 +53,11 @@ public final class Const {
     public static final Instant TIME_REPRESENTS_DEFAULT_TIMESTAMP;
 
     static {
-        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31 12:00 AM +0000");
-        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22 12:00 AM +0000");
-        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01 12:00 AM +0000");
-        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14 12:00 AM +0000");
-        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01 12:00 AM +0000");
+        TIME_REPRESENTS_FOLLOW_OPENING = TimeHelper.parseInstant("1970-12-31T00:00:00Z");
+        TIME_REPRESENTS_FOLLOW_VISIBLE = TimeHelper.parseInstant("1970-06-22T00:00:00Z");
+        TIME_REPRESENTS_LATER = TimeHelper.parseInstant("1970-01-01T00:00:00Z");
+        TIME_REPRESENTS_NOW = TimeHelper.parseInstant("1970-02-14T00:00:00Z");
+        TIME_REPRESENTS_DEFAULT_TIMESTAMP = TimeHelper.parseInstant("2011-01-01T00:00:00Z");
     }
 
     public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
@@ -72,211 +68,6 @@ public final class Const {
 
     private Const() {
         // Utility class containing constants
-    }
-
-    public static class SystemParams {
-
-        public static final String ENCODING = "UTF8";
-        public static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
-
-        /**
-         * This is the limit after which TEAMMATES will send error message.
-         *
-         * <p>Must be within the range of int.
-         */
-        public static final int MAX_PROFILE_PIC_SIZE = 5000000;
-
-        /** e.g. "2014-04-01 11:59 PM UTC" */
-        public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
-
-        /** Number to trim the Google ID when displaying to the user. */
-        public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
-
-        /* Field sizes and error messages for invalid fields can be found
-         * in the FieldValidator class.
-         */
-
-        public static final ZoneId ADMIN_TIME_ZONE = ZoneId.of("Asia/Singapore");
-
-        public static final String DEFAULT_PROFILE_PICTURE_PATH = "/images/profile_picture_default.png";
-
-    }
-
-    public static class FeedbackQuestion {
-
-        public static final Map<String, String> COMMON_VISIBILITY_OPTIONS;
-
-        static {
-            Map<String, String> visibilityOptionInit = new LinkedHashMap<>();
-
-            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_INSTRUCTORS",
-                                     "Shown anonymously to recipient and instructors");
-            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_VISIBLE_TO_INSTRUCTORS",
-                                     "Shown anonymously to recipient, visible to instructors");
-            visibilityOptionInit.put("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS",
-                                     "Shown anonymously to recipient and team members, visible to instructors");
-            visibilityOptionInit.put("VISIBLE_TO_INSTRUCTORS_ONLY", "Visible to instructors only");
-            visibilityOptionInit.put("VISIBLE_TO_RECIPIENT_AND_INSTRUCTORS", "Visible to recipient and instructors");
-
-            COMMON_VISIBILITY_OPTIONS = Collections.unmodifiableMap(visibilityOptionInit);
-        }
-
-        public static final Map<FeedbackParticipantType, List<FeedbackParticipantType>>
-                COMMON_FEEDBACK_PATHS;
-
-        static {
-            Map<FeedbackParticipantType, List<FeedbackParticipantType>> initializer = new LinkedHashMap<>();
-
-            initializer.put(FeedbackParticipantType.SELF,
-                    new ArrayList<>(
-                            Arrays.asList(FeedbackParticipantType.NONE,
-                                    FeedbackParticipantType.SELF,
-                                    FeedbackParticipantType.INSTRUCTORS)));
-
-            initializer.put(FeedbackParticipantType.STUDENTS,
-                    new ArrayList<>(
-                            Arrays.asList(FeedbackParticipantType.NONE,
-                                    FeedbackParticipantType.SELF,
-                                    FeedbackParticipantType.INSTRUCTORS,
-                                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                                    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)));
-
-            initializer.put(FeedbackParticipantType.INSTRUCTORS,
-                    new ArrayList<>(
-                            Arrays.asList(FeedbackParticipantType.NONE,
-                                    FeedbackParticipantType.SELF,
-                                    FeedbackParticipantType.INSTRUCTORS)));
-
-            COMMON_FEEDBACK_PATHS = Collections.unmodifiableMap(initializer);
-        }
-
-        // Mcq
-        public static final int MCQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MCQ_ERROR_NOT_ENOUGH_CHOICES =
-                "Too little choices for " + Const.FeedbackQuestionTypeNames.MCQ + ". Minimum number of options is: ";
-        public static final String MCQ_ERROR_INVALID_OPTION =
-                " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MCQ + ".";
-        public static final String MCQ_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MCQ
-                + " must be valid non-negative numbers with precision up to 2 decimal places.";
-        public static final String MCQ_ERROR_EMPTY_MCQ_OPTION = "The Mcq options cannot be empty";
-        public static final String MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
-        public static final String MCQ_ERROR_DUPLICATE_MCQ_OPTION = "The Mcq options cannot be duplicate";
-
-        // Msq
-        public static final int MSQ_MIN_NUM_OF_CHOICES = 2;
-        public static final String MSQ_ERROR_EMPTY_MSQ_OPTION = "The Msq options cannot be empty";
-        public static final String MSQ_ERROR_OTHER_CONTENT_NOT_PROVIDED = "No text provided for other option";
-        public static final String MSQ_ERROR_NONE_OF_THE_ABOVE_ANSWER = "No other choices are allowed with "
-                + "None of the above option";
-        public static final String MSQ_ERROR_NOT_ENOUGH_CHOICES =
-                "Too little choices for " + Const.FeedbackQuestionTypeNames.MSQ + ". Minimum number of options is: ";
-        public static final String MSQ_ERROR_INVALID_OPTION =
-                " is not a valid option for the " + Const.FeedbackQuestionTypeNames.MSQ + ".";
-        public static final String MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL =
-                "Maximum selectable choices exceeds the total number of options for " + Const.FeedbackQuestionTypeNames.MSQ;
-        public static final String MSQ_ERROR_NUM_SELECTED_MORE_THAN_MAXIMUM =
-                "Number of choices selected is more than the maximum number ";
-        public static final String MSQ_ERROR_MIN_SELECTABLE_MORE_THAN_NUM_CHOICES =
-                "Minimum selectable choices exceeds number of options ";
-        public static final String MSQ_ERROR_NUM_SELECTED_LESS_THAN_MINIMUM =
-                "Number of choices selected is less than the minimum number ";
-        public static final String MSQ_ERROR_MIN_SELECTABLE_EXCEEDED_MAX_SELECTABLE =
-                "Minimum selectable choices exceeds maximum selectable choices for "
-                + Const.FeedbackQuestionTypeNames.MSQ;
-        public static final String MSQ_ERROR_MIN_FOR_MAX_SELECTABLE_CHOICES =
-                "Maximum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 2.";
-        public static final String MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES =
-                "Minimum selectable choices for " + Const.FeedbackQuestionTypeNames.MSQ + " must be at least 1.";
-        public static final String MSQ_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of a " + Const.FeedbackQuestionTypeNames.MSQ
-                + " must be valid numbers with precision up to 2 decimal places.";
-        /**
-         * Special answer of a MSQ question indicating 'None of the above'.
-         */
-        public static final String MSQ_ANSWER_NONE_OF_THE_ABOVE = "";
-        public static final String MSQ_ERROR_DUPLICATE_MSQ_OPTION = "The Msq options cannot be duplicate";
-
-        // Numscale
-        public static final String NUMSCALE_ERROR_MIN_MAX =
-                "Minimum value must be < maximum value for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-        public static final String NUMSCALE_ERROR_STEP =
-                "Step value must be > 0 for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-        public static final String NUMSCALE_ERROR_OUT_OF_RANGE =
-                " is out of the range for " + Const.FeedbackQuestionTypeNames.NUMSCALE + ".";
-
-        // Contribution
-        public static final String CONTRIB_ERROR_INVALID_OPTION =
-                "Invalid option for the " + Const.FeedbackQuestionTypeNames.CONTRIB + ".";
-        public static final String CONTRIB_ERROR_INVALID_FEEDBACK_PATH =
-                Const.FeedbackQuestionTypeNames.CONTRIB + " must have "
-                + FeedbackParticipantType.STUDENTS.toDisplayGiverName()
-                + " and " + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF.toDisplayRecipientName()
-                + " as the feedback giver and recipient respectively."
-                + " These values will be used instead.";
-        public static final String CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS =
-                Const.FeedbackQuestionTypeNames.CONTRIB + " must use one of the common visibility options. The \""
-                + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
-                                        .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
-                + "\" option will be used instead.";
-
-        // Constant sum
-        public static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
-        public static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
-        public static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS =
-                "Too little options for " + Const.FeedbackQuestionTypeNames.CONSTSUM_OPTION
-                + ". Minimum number of options is: ";
-        public static final String CONST_SUM_ERROR_DUPLICATE_OPTIONS = "Duplicate options are not allowed.";
-        public static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
-                "Too little points for " + Const.FeedbackQuestionTypeNames.CONSTSUM_RECIPIENT
-                + ". Minimum number of points is: ";
-        public static final String CONST_SUM_ERROR_MISMATCH =
-                "Please distribute all the points for distribution questions. "
-                + "To skip a distribution question, leave the boxes blank.";
-        public static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
-        public static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
-        public static final String CONST_SUM_ERROR_SOME_UNIQUE =
-                "At least some options must be given a different number of points.";
-        public static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
-        public static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
-
-        // Rubric
-        public static final int RUBRIC_ANSWER_NOT_CHOSEN = -1;
-
-        public static final int RUBRIC_MIN_NUM_OF_CHOICES = 2;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_CHOICES =
-                "Too little choices for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". Minimum number of options is: ";
-        public static final int RUBRIC_MIN_NUM_OF_SUB_QUESTIONS = 1;
-        public static final String RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS =
-                "Too little sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + ". "
-                + "Minimum number of sub-questions is: ";
-        public static final String RUBRIC_ERROR_DESC_INVALID_SIZE =
-                "Invalid number of descriptions for " + Const.FeedbackQuestionTypeNames.RUBRIC;
-        public static final String RUBRIC_ERROR_EMPTY_SUB_QUESTION =
-                "Sub-questions for " + Const.FeedbackQuestionTypeNames.RUBRIC + " cannot be empty.";
-        public static final String RUBRIC_ERROR_INVALID_WEIGHT =
-                "The weights for the choices of each Sub-question of a "
-                + Const.FeedbackQuestionTypeNames.RUBRIC
-                + " must be valid numbers with precision up to 2 decimal places.";
-
-        public static final String RUBRIC_EMPTY_ANSWER = "Empty answer.";
-        public static final String RUBRIC_INVALID_ANSWER = "The answer for the rubric question is not valid.";
-
-        // Text Question
-        public static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 1 or greater";
-    }
-
-    public static class FeedbackQuestionTypeNames {
-        public static final String TEXT = "Essay question";
-        public static final String MCQ = "Multiple-choice (single answer) question";
-        public static final String MSQ = "Multiple-choice (multiple answers) question";
-        public static final String NUMSCALE = "Numerical-scale question";
-        public static final String CONSTSUM_OPTION = "Distribute points (among options) question";
-        public static final String CONSTSUM_RECIPIENT = "Distribute points (among recipients) question";
-        public static final String RANK_OPTION = "Rank (options) question";
-        public static final String RANK_RECIPIENT = "Rank (recipients) question";
-        public static final String CONTRIB = "Team contribution question";
-        public static final String RUBRIC = "Rubric question";
     }
 
     public static class InstructorPermissionRoleNames {
@@ -395,6 +186,7 @@ public final class Const {
 
     }
 
+    @Deprecated
     public static class LegacyURIs {
 
         public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
@@ -410,7 +202,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
-
+        public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
         private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
@@ -449,13 +241,10 @@ public final class Const {
         public static final String SESSION_RESULTS_PAGE = URI_PREFIX + "/sessions/result";
         public static final String SESSION_SUBMISSION_PAGE = URI_PREFIX + "/sessions/submission";
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
-        public static final String INSTRUCTOR_HELP_PAGE = FRONT_PAGE + "/help/instructor";
     }
 
     public static class ResourceURIs {
-
-        public static final String URI_PREFIX = "/webapi";
-        public static final String LOGOUT = "/logout";
+        private static final String URI_PREFIX = "/webapi";
 
         public static final String DATABUNDLE = URI_PREFIX + "/databundle";
         public static final String DATABUNDLE_DOCUMENTS = URI_PREFIX + "/databundle/documents";
@@ -509,7 +298,7 @@ public final class Const {
     }
 
     public static class CronJobURIs {
-        public static final String URI_PREFIX = "/auto";
+        private static final String URI_PREFIX = "/auto";
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
@@ -561,211 +350,6 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
 
-    }
-
-    /* These are status messages that may be shown to the user */
-    @Deprecated
-    public static class StatusMessages {
-
-        public static final String DUPLICATE_EMAIL_INFO = "Same email address as the student in line";
-
-        public static final String COURSE_EDITED = "The course has been edited.";
-        public static final String COURSE_ARCHIVED =
-                "The course %s has been archived. It will not appear in the home page any more.";
-        // TODO: Let undo process to be in the Course page for now.
-        // Should implement to be able to undo the archiving from the home page later.
-        public static final String COURSE_MOVED_TO_RECYCLE_BIN =
-                "The course %s has been deleted. You can restore it from the deleted courses table below.";
-        public static final String COURSE_EMPTY =
-                "You do not seem to have any courses. Use the form above to create a course.";
-        public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
-
-        public static final String TEAM_INVALID_SECTION_EDIT =
-                "The team \"%s\" is in multiple sections. "
-                + "The team ID should be unique across the entire course "
-                + "and a team cannot be spread across multiple sections.<br>";
-        public static final String SECTION_QUOTA_EXCEED =
-                "You are trying enroll more than 100 students in section \"%s\". "
-                + "To avoid performance problems, please do not enroll more than 100 students in a single section.<br>";
-
-        public static final String COURSE_INSTRUCTOR_ADDED = "The instructor %s has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to %s in a few minutes.";
-        public static final String COURSE_INSTRUCTOR_EXISTS =
-                "An instructor with the same email address already exists in the course.";
-        public static final String COURSE_INSTRUCTOR_EDITED = "The changes to the instructor %s has been updated.";
-        public static final String COURSE_INSTRUCTOR_DELETED = "The instructor has been deleted from the course.";
-        public static final String COURSE_INSTRUCTOR_DELETE_NOT_ALLOWED =
-                "The instructor you are trying to delete is the last instructor in the course. "
-                + "Deleting the last instructor from the course is not allowed.";
-
-        public static final String STUDENT_EVENTUAL_CONSISTENCY =
-                "If the student was created during the last few minutes, "
-                + "try again in a few more minutes as the student may still be being saved.";
-
-        public static final String STUDENT_EDITED = "The student has been edited successfully.";
-        public static final String STUDENT_NOT_FOUND_FOR_EDIT =
-                "The student you tried to edit does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
-        public static final String STUDENT_DELETED = "The student has been removed from the course";
-        public static final String STUDENT_PROFILE_EDITED = "Your profile has been edited successfully";
-        public static final String STUDENT_PROFILE_PICTURE_SAVED = "Your profile picture has been saved successfully";
-        public static final String STUDENT_PROFILE_PIC_TOO_LARGE = "The uploaded profile picture was too large. "
-                + "Please try again with a smaller picture.";
-        public static final String STUDENT_EMAIL_TAKEN_MESSAGE =
-                "Trying to update to an email that is already used by: %s/%s";
-
-        public static final String FEEDBACK_SESSION_ADDED =
-                "The feedback session has been added. "
-                + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
-        public static final String FEEDBACK_SESSION_COPIED =
-                "The feedback session has been copied. Please modify settings/questions as necessary.";
-        public static final String FEEDBACK_SESSION_COPY_NONESELECTED =
-                "You have not selected any course to copy the feedback session to";
-        public static final String FEEDBACK_SESSION_COPY_ALREADYEXISTS =
-                "A feedback session with the name \"%s\" already exists in the following course(s): %s.";
-        public static final String FEEDBACK_SESSION_EDITED = "The feedback session has been updated.";
-        public static final String FEEDBACK_SESSION_END_TIME_EARLIER_THAN_START_TIME =
-                "The end time for this feedback session cannot be earlier than the start time.";
-        public static final String FEEDBACK_SESSION_MOVED_TO_RECYCLE_BIN =
-                "The feedback session has been deleted. You can restore it from the deleted sessions table below.";
-        public static final String FEEDBACK_SESSION_RESTORED = "The feedback session has been restored.";
-        public static final String FEEDBACK_SESSION_ALL_RESTORED = "All sessions have been restored.";
-        public static final String FEEDBACK_SESSION_DOWNLOAD_FILE_SIZE_EXCEEDED = "This session has more responses than "
-                + "that can be downloaded in one go. Please download responses for one question at a time instead. "
-                + "To download responses for a specific question, click on the corresponding question number.";
-        public static final String FEEDBACK_SESSION_PUBLISHED =
-                "The feedback session has been published. "
-                + "Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String FEEDBACK_SESSION_RESEND_EMAIL_EMPTY_RECIPIENT =
-                "You have not selected any student to email.";
-        public static final String FEEDBACK_SESSION_UNPUBLISHED = "The feedback session has been unpublished.";
-        public static final String FEEDBACK_SESSION_REMINDERSSENT =
-                "Reminder e-mails have been sent out to those students and instructors. "
-                + "Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String FEEDBACK_SESSION_REMINDERSSESSIONNOTOPEN =
-                "The feedback session is not open for submissions. "
-                + "You cannot send reminders for a session that is not open.";
-        public static final String FEEDBACK_SESSION_REMINDERSEMPTYRECIPIENT = "You have not selected any student to remind.";
-        public static final String FEEDBACK_SESSION_EXISTS =
-                "A feedback session by this name already exists under this course";
-
-        public static final String FEEDBACK_QUESTION_ADDED = "The question has been added to this feedback session.";
-        public static final String FEEDBACK_QUESTION_ADDED_MULTIPLE =
-                "The questions have been added to this feedback session.";
-        public static final String FEEDBACK_QUESTION_DUPLICATED = "The question has been duplicated below.";
-        public static final String FEEDBACK_QUESTION_EDITED = "The changes to the question have been updated.";
-        public static final String FEEDBACK_QUESTION_DELETED = "The question has been deleted.";
-        public static final String FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID =
-                "Please enter the maximum number of recipients each respondents should give feedback to.";
-        public static final String FEEDBACK_QUESTION_TEXTINVALID =
-                "Please enter a valid question. The question text cannot be empty.";
-
-        public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted successfully!";
-        public static final String FEEDBACK_RESPONSES_MSQ_MIN_CHECK = "Minimum selectable choices for question %d is %d.";
-        public static final String FEEDBACK_RESPONSES_MSQ_MAX_CHECK = "Maximum selectable choices for question %d is %d.";
-
-        public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
-
-        public static final String FEEDBACK_UNANSWERED_QUESTIONS = "Note that some questions are yet to be answered. "
-                + "They are: ";
-
-        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING =
-                "This session seems to have a large number of responses. "
-                + "It is recommended to view the results one question/section at a time. "
-                + "To view responses for a particular question, click on the question below. "
-                + "To view response for a particular section, click the 'Edit View' button above and choose a section.";
-        public static final String FEEDBACK_RESULTS_QUESTIONVIEWWARNING =
-                "This session seems to have a large number of responses. "
-                + "It is recommended to view the results for one question at a time. "
-                + "To view responses for a particular question, click on the question below.";
-        public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
-
-        public static final String INSTRUCTOR_REMOVED_FROM_COURSE = "The Instructor has been removed from the Course";
-
-        public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
-        public static final String INSTRUCTOR_SEARCH_TIPS =
-                "Search Tips:<br>"
-                + "<ul>"
-                    + "<li>Put more keywords to search for more precise results.</li>"
-                    + "<li>Put quotation marks around words <b>\"[any word]\"</b>"
-                            + " to search for an exact phrase in an exact order.</li>"
-                + "</ul>";
-
-        public static final String HINT_FOR_NO_SESSIONS_STUDENT =
-                "Currently, there are no open feedback sessions in the course %s. "
-                + "When a session is open for submission you will be notified.";
-
-        // Messages that are templates only
-        /** Template String. Parameters: Student's name, Course ID */
-        public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";
-
-        /** Template String. Parameters:  Course ID */
-        public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
-                + "Please upload a picture (usually it ends with .jpg or .png)";
-        public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";
-        public static final String STUDENT_NOT_FOUND_FOR_RECORDS =
-                "The student you tried to view records for does not exist. " + STUDENT_EVENTUAL_CONSISTENCY;
-
-        public static final String AMBIGUOUS_LOCAL_DATE_TIME_GAP =
-                "The %s, %s, falls within the gap period when clocks spring forward at the start of DST. "
-                        + "It was resolved to %s.";
-
-        public static final String AMBIGUOUS_LOCAL_DATE_TIME_OVERLAP =
-                "The %s, %s, falls within the overlap period when clocks fall back at the end of DST. "
-                        + "It can refer to %s or %s. It was resolved to %s.";
-    }
-
-    /**
-     * These are status messages related to students logic that may be shown to the user.
-     */
-    public static class StudentsLogicConst {
-        /**
-         * Error message when trying to create the same team in more than one section.
-         */
-        public static final String ERROR_INVALID_TEAM_NAME =
-                "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
-
-        /**
-         * Error message to be appended to the ERROR_INVALID_TEAM_NAME message.
-         */
-        public static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
-                "Please use different team names in different sections.";
-
-        /**
-         * Error message when trying to enroll to a section that has maximum capacity.
-         */
-        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
-                "You are trying enroll more than %s students in section \"%s\".";
-
-        /**
-         * Error message to be appended to the ERROR_ENROLL_EXCEED_SECTION_LIMIT message.
-         */
-        public static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
-                "To avoid performance problems, please do not enroll more than %s students in a single section.";
-
-        /**
-         * The maximum allowable number of students to be enrolled in a section.
-         */
-        public static final int SECTION_SIZE_LIMIT = 100;
-    }
-
-    /* These indicate status of an operation, but they are not shown to the user */
-    public static class StatusCodes {
-
-        // Backdoor responses
-        public static final String BACKDOOR_STATUS_SUCCESS = "[BACKDOOR_STATUS_SUCCESS]";
-        public static final String BACKDOOR_STATUS_FAILURE = "[BACKDOOR_STATUS_FAILURE]";
-
-        // General Error codes
-        public static final String NULL_PARAMETER = "ERRORCODE_NULL_PARAMETER";
-
-        // Error message used across DB level
-        public static final String DBLEVEL_NULL_INPUT = "Supplied parameter was null";
-
-        // HTTP parameter null message
-        public static final String NULL_HTTP_PARAMETER = "The [%s] HTTP parameter is null.";
-
-        // body parameter null message
-        public static final String NULL_BODY_PARAMETER = "The body parameter is null";
     }
 
 }

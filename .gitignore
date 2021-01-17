@@ -53,7 +53,7 @@ geckodriver*
 chromedriver*
 api-output.ts
 api-request.ts
-api-endpoints.ts
+api-const.ts
 src/main/webapp/*
 !src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/

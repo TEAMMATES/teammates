@@ -135,7 +135,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         // Edit comment text
         String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
-            return new JsonResult(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult(FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
         }
 
         List<FeedbackParticipantType> showCommentTo = comment.getShowCommentTo();

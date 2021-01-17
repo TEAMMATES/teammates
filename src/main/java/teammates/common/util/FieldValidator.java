@@ -607,9 +607,11 @@ public final class FieldValidator {
         if (giverType == FeedbackParticipantType.TEAMS
                 && (recipientType == FeedbackParticipantType.OWN_TEAM
                         || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            String displayRecipientName = recipientType == FeedbackParticipantType.OWN_TEAM
+                    ? "Giver's team" : "Giver's team members";
             errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                    recipientType.toDisplayRecipientName(),
-                    giverType.toDisplayGiverName()));
+                    displayRecipientName,
+                    "Teams in this course"));
         }
 
         return errors;

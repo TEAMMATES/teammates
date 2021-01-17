@@ -23,6 +23,19 @@ import teammates.common.util.Logger;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
 
+    static final String QUESTION_TYPE_NAME = "Team contribution question";
+    static final String CONTRIB_ERROR_INVALID_OPTION =
+            "Invalid option for the " + QUESTION_TYPE_NAME + ".";
+    static final String CONTRIB_ERROR_INVALID_FEEDBACK_PATH =
+            QUESTION_TYPE_NAME + " must have "
+                    + "\"Students in this course\" and \"Giver's team members and Giver\" "
+                    + "as the feedback giver and recipient respectively. "
+                    + "These values will be used instead.";
+    static final String CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS =
+            QUESTION_TYPE_NAME + " must use one of the common visibility options. The "
+                    + "\"Shown anonymously to recipient and team members, visible to instructors\" "
+                    + "option will be used instead.";
+
     private static final int SUMMARY_INDEX_CLAIMED = 0;
     private static final int SUMMARY_INDEX_PERCEIVED = 1;
 
@@ -31,7 +44,11 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private boolean isNotSureAllowed;
 
     public FeedbackContributionQuestionDetails() {
-        super(FeedbackQuestionType.CONTRIB);
+        this(null);
+    }
+
+    public FeedbackContributionQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.CONTRIB, questionText);
         isNotSureAllowed = true;
     }
 
@@ -258,7 +275,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 validAnswer = true;
             }
             if (!validAnswer) {
-                errors.add(Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_OPTION);
+                errors.add(CONTRIB_ERROR_INVALID_OPTION);
             }
         }
         return errors;
@@ -273,7 +290,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType
                        + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
             feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
-            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
+            errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
 
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
@@ -282,7 +299,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                        + feedbackQuestionAttributes.recipientType
                        + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
             feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
-            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
+            errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
 
         // restrictions on visibility options
@@ -292,14 +309,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             log.severe("Unexpected showResponsesTo for contribution question: "
                        + feedbackQuestionAttributes.showResponsesTo + " (forced to :"
-                       + Const.FeedbackQuestion.COMMON_VISIBILITY_OPTIONS
-                                               .get("ANONYMOUS_TO_RECIPIENT_AND_TEAM_VISIBLE_TO_INSTRUCTORS")
+                       + "Shown anonymously to recipient and team members, visible to instructors"
                        + ")");
             feedbackQuestionAttributes.showResponsesTo = Arrays.asList(FeedbackParticipantType.RECEIVER,
                                                                        FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                                                                        FeedbackParticipantType.OWN_TEAM_MEMBERS,
                                                                        FeedbackParticipantType.INSTRUCTORS);
-            errorMsg = Const.FeedbackQuestion.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
+            errorMsg = CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
         }
 
         return errorMsg;
