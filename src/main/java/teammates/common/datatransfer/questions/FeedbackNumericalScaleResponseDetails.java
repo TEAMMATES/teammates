@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
 public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetails {
@@ -8,6 +9,7 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
 
     public FeedbackNumericalScaleResponseDetails() {
         super(FeedbackQuestionType.NUMSCALE);
+        answer = Const.POINTS_NOT_SUBMITTED;
     }
 
     @Override

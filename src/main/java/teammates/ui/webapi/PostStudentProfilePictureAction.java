@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.ui.output.StudentProfilePictureResults;
 
@@ -20,6 +19,9 @@ import teammates.ui.output.StudentProfilePictureResults;
  * Action: saves the file information of the profile picture that was just uploaded.
  */
 class PostStudentProfilePictureAction extends Action {
+
+    private static final int MAX_PROFILE_PIC_SIZE = 5000000;
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -39,7 +41,7 @@ class PostStudentProfilePictureAction extends Action {
             if (image == null) {
                 throw new InvalidHttpRequestBodyException("Please specify a file to be uploaded.");
             }
-            if (image.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
+            if (image.getSize() > MAX_PROFILE_PIC_SIZE) {
                 throw new InvalidHttpRequestBodyException("The uploaded profile picture was too large. "
                         + "Please try again with a smaller picture.");
             }
