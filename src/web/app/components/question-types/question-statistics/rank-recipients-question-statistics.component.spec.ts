@@ -34,19 +34,32 @@ describe('RankRecipientsQuestionStatisticsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should rank correctly within team', () => {
-    const responses: Response<FeedbackRankRecipientsResponseDetails>[] = loadTestData('rankRecipientsResponses.json');
-    component.responses = responses;
+  it('should not calculate team rank if recipient type is invalid', () => {
+    component.responses = loadTestData('rankRecipientsResponses.json');
+
+    // ranks inside teams are meaningless when ranking across teams
+    component.recipientType = FeedbackParticipantType.TEAMS;
+
+    component.calculateStatistics();
+
+    expect(component.rankPerOptionInTeam).toMatchObject({});
+  });
+
+  it('should rank correctly within team when recipient type is valid', () => {
+    component.responses = loadTestData('rankRecipientsResponses.json');
     component.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
 
     const bob: string = 'bob';
     const charlie: string = 'charlie';
+    const delta: string = 'delta';
 
     component.calculateStatistics();
 
-    expect(component.rankPerOption[charlie]).toBe(3);
-    expect(component.rankPerOptionInTeam[charlie]).toBe(2);
+    expect(component.rankPerOption[delta]).toBe(2);
     expect(component.rankPerOptionInTeam[bob]).toBe(1);
+    expect(component.rankPerOptionInTeam[charlie]).toBe(2);
+    expect(component.rankPerOptionInTeam[delta]).toBe(1);
+    expect(component.rankPerOptionInTeamExcludeSelf[delta]).toBe(2);
 
   });
 
