@@ -3,7 +3,7 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onRankOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div class="row margin-bottom-20px padding-left-12px d-flex" *ngFor="let num of model.options; let i = index;
+        <div class="row margin-bottom-20px padding-left-12px" *ngFor="let num of model.options; let i = index;
         trackBy: trackRankOption" cdkDrag cdkDragLockAxis="y">
           <div cdkDragHandle>
             <span class="input-group-addon">&#8597; </span>
