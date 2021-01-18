@@ -53,6 +53,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
         IanaTimezonePage ianaPage = getNewPageInstance(
                 new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
+        ianaPage.waitForPageToLoad();
         String latestTzVersion = ianaPage.getVersion();
 
         if (!currentTzVersion.equals(latestTzVersion)) {
