@@ -1,3 +1,7 @@
+.main-body {
+  width: 1100px;
+}
+
 .side-nav {
   width: 150px;
   top: 100px;
@@ -8,14 +12,14 @@
 .flex-container {
   display: flex;
   flex-wrap: nowrap;
-  padding-right: 30px;
+  padding-right: 160px;
 }
 
 .section-body {
   padding-bottom: 5px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 480px) {
   .side-nav {
     display: none;
   }
