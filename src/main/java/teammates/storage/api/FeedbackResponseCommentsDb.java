@@ -82,9 +82,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String feedbackResponseId, String commentGiver, Instant createdAt) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
+        Assumption.assertNotNull(feedbackResponseId);
+        Assumption.assertNotNull(commentGiver);
+        Assumption.assertNotNull(createdAt);
 
         return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt));
     }
@@ -96,9 +96,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String courseId, Instant createdAt, String commentGiver) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, createdAt);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(commentGiver);
+        Assumption.assertNotNull(createdAt);
 
         return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver));
     }
@@ -107,8 +107,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Gets all comments given by a user in a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String commentGiver) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentGiver);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(commentGiver);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, commentGiver));
     }
@@ -117,7 +117,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Gets all response comments for a response.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
+        Assumption.assertNotNull(feedbackResponseId);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForResponse(feedbackResponseId));
     }
@@ -131,7 +131,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
             String feedbackResponseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
+        Assumption.assertNotNull(feedbackResponseId);
         return makeAttributesOrNull(getFeedbackResponseCommentEntitiesForResponseFromParticipant(feedbackResponseId));
     }
 
@@ -140,8 +140,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSession(
             String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForSession(courseId, feedbackSessionName));
     }
@@ -150,7 +150,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Gets all comments of a feedback question of a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForQuestion(String questionId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionId);
+        Assumption.assertNotNull(questionId);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForQuestion(questionId));
     }
@@ -160,9 +160,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(
             String courseId, String feedbackSessionName, String section) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(section);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section));
     }
@@ -172,8 +172,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForQuestionInSection(
             String questionId, String section) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
+        Assumption.assertNotNull(questionId);
+        Assumption.assertNotNull(section);
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForQuestionInSection(questionId, section));
     }
@@ -188,7 +188,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         FeedbackResponseComment frc = getFeedbackResponseCommentEntity(updateOptions.getFeedbackResponseCommentId());
         if (frc == null) {
@@ -241,9 +241,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Updates the giver email to a new one for all comments in a course.
      */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedEmail);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(oldEmail);
+        Assumption.assertNotNull(updatedEmail);
 
         if (oldEmail.equals(updatedEmail)) {
             return;
@@ -263,9 +263,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Updates the last editor to a new one for all comments in a course.
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedEmail);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(oldEmail);
+        Assumption.assertNotNull(updatedEmail);
 
         if (oldEmail.equals(updatedEmail)) {
             return;
@@ -327,7 +327,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Deletes comments using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
+        Assumption.assertNotNull(query);
 
         Query<FeedbackResponseComment> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
@@ -487,7 +487,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     @Override
     FeedbackResponseCommentAttributes makeAttributes(FeedbackResponseComment entity) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+        Assumption.assertNotNull(entity);
 
         return FeedbackResponseCommentAttributes.valueOf(entity);
     }

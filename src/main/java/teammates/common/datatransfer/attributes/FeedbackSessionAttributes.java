@@ -520,7 +520,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withCreatorEmail(String creatorEmail) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, creatorEmail);
+            Assumption.assertNotNull(creatorEmail);
 
             feedbackSessionAttributes.creatorEmail = creatorEmail;
 
@@ -557,8 +557,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(feedbackSessionName);
+            Assumption.assertNotNull(courseId);
 
             this.feedbackSessionName = feedbackSessionName;
             this.courseId = courseId;
@@ -622,7 +622,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, updateOptions);
+                Assumption.assertNotNull(updateOptions);
                 thisBuilder = this;
             }
 
@@ -676,49 +676,49 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public B withInstructions(String instruction) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instruction);
+            Assumption.assertNotNull(instruction);
 
             updateOptions.instructionsOption = UpdateOption.of(instruction);
             return thisBuilder;
         }
 
         public B withStartTime(Instant startTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, startTime);
+            Assumption.assertNotNull(startTime);
 
             updateOptions.startTimeOption = UpdateOption.of(startTime);
             return thisBuilder;
         }
 
         public B withEndTime(Instant endTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, endTime);
+            Assumption.assertNotNull(endTime);
 
             updateOptions.endTimeOption = UpdateOption.of(endTime);
             return thisBuilder;
         }
 
         public B withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sessionVisibleFromTime);
+            Assumption.assertNotNull(sessionVisibleFromTime);
 
             updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
             return thisBuilder;
         }
 
         public B withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, resultsVisibleFromTime);
+            Assumption.assertNotNull(resultsVisibleFromTime);
 
             updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
             return thisBuilder;
         }
 
         public B withTimeZone(ZoneId timeZone) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timeZone);
+            Assumption.assertNotNull(timeZone);
 
             updateOptions.timeZoneOption = UpdateOption.of(timeZone);
             return thisBuilder;
         }
 
         public B withGracePeriod(Duration gracePeriod) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gracePeriod);
+            Assumption.assertNotNull(gracePeriod);
 
             updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
             return thisBuilder;

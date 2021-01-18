@@ -366,7 +366,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         MessageOutput output = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
     }
 
     @Test
@@ -511,9 +511,9 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         InstructorAttributes instructor = helperOfCourse1;
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege("Section A",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
         instructorPrivileges.updatePrivilege("Section B",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
         logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
                 .withPrivileges(instructorPrivileges).build());
@@ -530,7 +530,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         InstructorAttributes instructor = helperOfCourse1;
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
         instructorPrivileges.updatePrivilege("Section A",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
         logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
                 .withPrivileges(instructorPrivileges).build());
@@ -539,9 +539,9 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         verifyCannotAccess(submissionParams);
 
         instructorPrivileges.updatePrivilege("Section A",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
         instructorPrivileges.updatePrivilege("Section B",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
         logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
                 .withPrivileges(instructorPrivileges).build());
 

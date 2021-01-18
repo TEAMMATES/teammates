@@ -94,7 +94,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
     }
 
 }

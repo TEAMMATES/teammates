@@ -118,16 +118,16 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     public Map<String, Boolean> getAllPresentCourseLevelPrivileges() {
         Map<String, Boolean> privilegesMap = new HashMap<>();
         if (this.canModifyCourse != null) {
-            privilegesMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, this.canModifyCourse);
+            privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, this.canModifyCourse);
         }
         if (this.canModifySession != null) {
-            privilegesMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, this.canModifySession);
+            privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, this.canModifySession);
         }
         if (this.canModifyStudent != null) {
-            privilegesMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, this.canModifyStudent);
+            privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, this.canModifyStudent);
         }
         if (this.canModifyInstructor != null) {
-            privilegesMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, this.canModifyInstructor);
+            privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, this.canModifyInstructor);
         }
         return privilegesMap;
     }
@@ -139,7 +139,7 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
         Map<String, Boolean> privilegesMap = new HashMap<>();
         if (this.canViewStudentInSections != null) {
             privilegesMap.put(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, this.canViewStudentInSections);
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, this.canViewStudentInSections);
         }
         return privilegesMap;
     }
@@ -151,14 +151,14 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
         Map<String, Boolean> privilegesMap = new HashMap<>();
         if (this.canSubmitSessionInSections != null) {
             privilegesMap.put(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, this.canSubmitSessionInSections);
+                    Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, this.canSubmitSessionInSections);
         }
         if (this.canViewSessionInSections != null) {
             privilegesMap.put(
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, this.canViewSessionInSections);
+                    Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, this.canViewSessionInSections);
         }
         if (this.canModifySessionCommentsInSections != null) {
-            privilegesMap.put(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+            privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                     this.canModifySessionCommentsInSections);
         }
         return privilegesMap;

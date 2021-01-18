@@ -86,9 +86,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                 return;
             }
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -135,7 +135,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         // Edit comment text
         String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
-            return new JsonResult(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
+            return new JsonResult(FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
         }
 
         List<FeedbackParticipantType> showCommentTo = comment.getShowCommentTo();

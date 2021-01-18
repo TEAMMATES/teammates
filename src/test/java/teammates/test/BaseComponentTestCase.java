@@ -20,7 +20,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
 import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.retry.RetryManager;
 import teammates.logic.api.LogicExtension;
@@ -115,23 +114,25 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
             logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle dataBundle) {
+    protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 

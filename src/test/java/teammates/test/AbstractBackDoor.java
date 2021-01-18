@@ -242,10 +242,11 @@ public abstract class AbstractBackDoor {
         removeDataBundle(dataBundle);
         ResponseBodyAndCode putRequestOutput =
                 executePostRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
-        if (putRequestOutput.responseCode == HttpStatus.SC_OK) {
-            return putRequestOutput.responseBody;
+        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
+            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
+                    + putRequestOutput.responseBody);
         }
-        throw new HttpRequestFailedException("Request failed with status code: " + putRequestOutput.responseCode);
+        return putRequestOutput.responseBody;
     }
 
     /**
@@ -260,11 +261,14 @@ public abstract class AbstractBackDoor {
     /**
      * Puts searchable documents in data bundle into the datastore.
      */
-    public String putDocuments(DataBundle dataBundle) {
+    public String putDocuments(DataBundle dataBundle) throws HttpRequestFailedException {
         ResponseBodyAndCode putRequestOutput =
                 executePutRequest(Const.ResourceURIs.DATABUNDLE_DOCUMENTS, null, JsonUtils.toJson(dataBundle));
-        return putRequestOutput.responseCode == HttpStatus.SC_OK
-                ? Const.StatusCodes.BACKDOOR_STATUS_SUCCESS : Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
+        if (putRequestOutput.responseCode != HttpStatus.SC_OK) {
+            throw new HttpRequestFailedException("Request failed: [" + putRequestOutput.responseCode + "] "
+                    + putRequestOutput.responseBody);
+        }
+        return putRequestOutput.responseBody;
     }
 
     /**
