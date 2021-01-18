@@ -1,0 +1,792 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionResultPageComponent should snap when session results failed to load 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId="undefined"
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey=""
+  retryAttempts={[Function Number]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load results
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with an open feedback session with no questions 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId="undefined"
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey=""
+  retryAttempts={[Function Number]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          CS3281
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          Peer Review 1
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with default fields 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId="undefined"
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey=""
+  retryAttempts={[Function Number]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with session results are loading 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId="undefined"
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading={[Function Boolean]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey=""
+  retryAttempts={[Function Number]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with user that is logged in and using session link 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId="undefined"
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName={[Function String]}
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        <div>
+           You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
+          <a
+            href="#"
+          >
+            click here
+          </a>
+          . 
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with user that is not logged in and using session link 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId="undefined"
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName={[Function String]}
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
