@@ -129,7 +129,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="row padding-15px text-left"
               >
                 <div
-                  class="col-md-2"
+                  class="col-lg-3"
                 >
                   <div
                     class="question-basic-info"
@@ -138,7 +138,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   </div>
                 </div>
                 <div
-                  class="col-md-10"
+                  class="col-lg-9"
                 >
                   <textarea
                     class="form-control ng-untouched ng-pristine ng-valid"
@@ -152,7 +152,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                 class="row padding-15px text-left"
               >
                 <div
-                  class="col-md-2"
+                  class="col-lg-3"
                 >
                   <div
                     class="question-basic-info"
@@ -163,7 +163,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   </div>
                 </div>
                 <div
-                  class="col-md-10"
+                  class="col-lg-9"
                 >
                   <tm-rich-text-editor
                     minheightinpx="100"
