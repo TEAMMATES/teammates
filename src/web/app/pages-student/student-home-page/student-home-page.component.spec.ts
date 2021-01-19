@@ -72,6 +72,35 @@ describe('StudentHomePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap with no feedback session over 2 courses', () => {
+      const studentCourseA: any = {
+        course: {
+          courseId: 'CS3281',
+          courseName: 'Thematic Systems I',
+          timeZone: 'Asia/Singapore',
+          creationTimestamp: 1549095330000,
+          deletionTimestamp: 0,
+        },
+        feedbackSessions: [],
+      };
+
+      const studentCourseB: any = {
+        course: {
+          courseId: 'CS3282',
+          courseName: 'Thematic Systems II',
+          timeZone: 'Asia/Singapore',
+          creationTimestamp: 1549095330000,
+          deletionTimestamp: 0,
+        },
+        feedbackSessions: [],
+      };
+
+      component.courses = [studentCourseA, studentCourseB];
+      component.isCoursesLoading = false;
+      fixture.detectChanges();
+      expect(fixture).toMatchSnapshot();
+    });
+
   it('should snap with all feedback sessions over 2 courses', () => {
     const studentCourseA: any = {
       course: {
@@ -196,4 +225,10 @@ describe('StudentHomePageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should snap when there is course loading failed', () => {
+      component.hasCoursesLoadingFailed = true;
+      fixture.detectChanges();
+      expect(fixture).toMatchSnapshot();
+    });
 });
