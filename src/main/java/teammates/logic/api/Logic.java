@@ -1177,6 +1177,10 @@ public class Logic {
         return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);
     }
 
+    public int getTotalFeedBackResponseCount() {
+        return feedbackResponsesLogic.getTotalFeedbackResponseCount();
+    }
+
     /**
      * Creates a feedback response.
      *

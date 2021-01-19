@@ -68,6 +68,13 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
+     * Gets a feedback response.
+     */
+    public int getTotalFeedbackResponseCount() {
+        return load().count();
+    }
+
+    /**
      * Gets a feedback response by unique constraint question-giver-receiver.
      */
     public FeedbackResponseAttributes getFeedbackResponse(

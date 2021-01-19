@@ -175,6 +175,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets the count of all feedback responses so far.
+     */
+    public int getTotalFeedbackResponseCount() {
+        return frDb.getTotalFeedbackResponseCount();
+    }
+
+    /**
      * Get existing feedback responses from student or his team for the given
      * question.
      */
