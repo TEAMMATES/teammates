@@ -6,11 +6,16 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.util.Const;
 
 public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionDetails {
 
     public FeedbackRankRecipientsQuestionDetails() {
-        super(FeedbackQuestionType.RANK_RECIPIENTS);
+        this(null);
+    }
+
+    public FeedbackRankRecipientsQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.RANK_RECIPIENTS, questionText);
     }
 
     @Override
@@ -27,8 +32,8 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
 
-        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Const.POINTS_NO_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Const.POINTS_NO_VALUE;
 
         Set<Integer> responseRank = new HashSet<>();
         for (FeedbackResponseDetails response : responses) {

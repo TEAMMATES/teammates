@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 import DoneCallback = jest.DoneCallback;
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { Nationalities } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 import { NationalitiesService } from './nationalities.service';

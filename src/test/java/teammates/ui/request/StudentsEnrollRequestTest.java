@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
-import teammates.ui.request.StudentsEnrollRequest;
 
 /**
  * SUT: {@link StudentsEnrollRequest}.
@@ -40,7 +38,7 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
     @Test
     public void testValidate_withEnrollmentExceedQuota_shouldFail() {
         List<StudentsEnrollRequest.StudentEnrollRequest> requests = new ArrayList<>();
-        for (int i = 0; i <= Const.SIZE_LIMIT_PER_ENROLLMENT; i++) {
+        for (int i = 0; i <= StudentsEnrollRequest.SIZE_LIMIT_PER_ENROLLMENT; i++) {
             requests.add(getTypicalStudentEnrollRequest(i));
         }
         StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(requests);
