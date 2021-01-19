@@ -28,6 +28,11 @@ describe('GiverTypeDescriptionPipe', () => {
       .toBe('Teams in this course');
   });
 
+  it('transform FeedbackParticipantType.OWN_TEAM', () => {
+    expect(pipe.transform(FeedbackParticipantType.OWN_TEAM))
+        .toBe('Unknown');
+  });
+
   it('transform default', () => {
     expect(pipe.transform('' as FeedbackParticipantType))
       .toBe('Unknown');
@@ -80,6 +85,11 @@ describe('RecipientTypeDescriptionPipe', () => {
   it('transform FeedbackParticipantType.NONE', () => {
     expect(pipe.transform(FeedbackParticipantType.NONE))
       .toBe('Nobody specific (For general class feedback)');
+  });
+
+  it('transform FeedbackParticipantType.TEAMS_EXCLUDING_SELF', () => {
+    expect(pipe.transform(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))
+        .toBe('Unknown');
   });
 
   it('transform default', () => {
