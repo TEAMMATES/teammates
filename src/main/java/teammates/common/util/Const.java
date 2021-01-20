@@ -145,6 +145,9 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
+
+        public static final String DURATION = "duration";
+        public static final String INTERVAL = "interval";
     }
 
     public static class SearchIndex {
