@@ -51,6 +51,223 @@ describe('StudentHomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should disable view response button when session is not published', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0');
+    expect(button.textContent).toEqual(' View Responses ');
+    expect(button.className).toContain('disabled');
+  });
+
+  it('should disable start submission button when session is waiting to open', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: true,
+          isPublished: true,
+          isSubmitted: false,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#disabled-start-submit-btn-0');
+    expect(button.textContent).toEqual(' Start Submission ');
+    expect(button.className).toContain('disabled');
+  });
+
+  it('should activate start submission button when session is open and response is not submitted', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: true,
+          isSubmitted: false,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#start-submit-btn-0');
+    expect(button.textContent).toEqual(' Start Submission ');
+  });
+
+  it('should activate edit submission button when session is open and response is submitted', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#edit-submit-btn-0');
+    expect(button.textContent).toEqual(' Edit Submission ');
+  });
+
+  it('should activate view submission button when session is not open', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0');
+    expect(button.textContent).toEqual(' View Submission ');
+  });
+
   it('should navigate to student course page to view the corresponding team', () => {
     const studentCourseA: any = {
       course: {
@@ -113,7 +330,7 @@ describe('StudentHomePageComponent', () => {
           },
           isOpened: true,
           isWaitingToOpen: false,
-          isPublished: false,
+          isPublished: true,
           isSubmitted: true,
         },
         {
@@ -135,7 +352,7 @@ describe('StudentHomePageComponent', () => {
           },
           isOpened: false,
           isWaitingToOpen: false,
-          isPublished: false,
+          isPublished: true,
           isSubmitted: true,
         },
       ],

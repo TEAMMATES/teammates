@@ -60,18 +60,20 @@
                      id="view-responses-btn-{{i}}" class="btn btn-light btn-sm btn-margin-right">
                     View Responses
                   </a>
-                  <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled">
+                  <a *ngIf="session.isWaitingToOpen" id="disabled-start-submit-btn-{{i}}" class="btn btn-light btn-sm disabled">
                     Start Submission
                   </a>
                   <a *ngIf="session.isOpened && !session.isSubmitted"
                      tmRouterLink="/web/student/sessions/submission"
                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     id="start-submit-btn-{{i}}"
                      class="btn btn-light btn-sm">
                     Start Submission
                   </a>
                   <a *ngIf="session.isOpened && session.isSubmitted"
                      tmRouterLink="/web/student/sessions/submission"
                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     id="edit-submit-btn-{{i}}"
                      class="btn btn-light btn-sm">
                     Edit Submission
                   </a>
