@@ -34,6 +34,7 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
+import teammates.logic.core.FeedbackResponseRecordLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -56,6 +57,8 @@ public class Logic {
     protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
+    protected static final FeedbackResponseRecordLogic feedbackResponseRecordLogic =
+            FeedbackResponseRecordLogic.inst();
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
@@ -1324,6 +1327,14 @@ public class Logic {
      */
     public void deleteFeedbackResponseComment(long commentId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(commentId);
+    }
+
+    /**
+     * Saves a feedback response record.
+     */
+    public void createFeedbackResponseRecord(int count, int timestamp)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        feedbackResponseRecordLogic.createFeedbackResponseRecord(count, timestamp);
     }
 
     /**
