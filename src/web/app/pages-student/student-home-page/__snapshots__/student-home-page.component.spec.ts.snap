@@ -56,7 +56,7 @@ exports[`StudentHomePageComponent should snap when there is course loading faile
   courses={[Function Array]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasCoursesLoadingFailed={[Function Boolean]}
-  isCoursesLoading={[Function Boolean]}
+  isCoursesLoading="false"
   route={[Function ActivatedRoute]}
   sortBy="0"
   statusMessageService={[Function StatusMessageService]}
@@ -139,11 +139,13 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           >
             <button
               class="btn btn-light"
+              id="sort-course-id-btn"
             >
               Course ID
             </button>
             <button
               class="btn btn-light"
+              id="sort-course-name-btn"
             >
               Course Name
             </button>
@@ -486,6 +488,257 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
 </tm-student-home-page>
 `;
 
+exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
+<tm-student-home-page
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoadingFailed="false"
+  isCoursesLoading="false"
+  route={[Function ActivatedRoute]}
+  sortBy="0"
+  statusMessageService={[Function StatusMessageService]}
+  studentFeedbackSessionStatusAwaiting={[Function String]}
+  studentFeedbackSessionStatusClosed={[Function String]}
+  studentFeedbackSessionStatusNotPublished={[Function String]}
+  studentFeedbackSessionStatusPending={[Function String]}
+  studentFeedbackSessionStatusPublished={[Function String]}
+  studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <div />
+    
+    
+    <div
+      class="row mb-2"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="float-right"
+        >
+          <strong
+            class="d-inline"
+          >
+             Sort By: 
+          </strong>
+          <div
+            class="btn-group"
+          >
+            <button
+              class="btn btn-light"
+              id="sort-course-id-btn"
+            >
+              Course ID
+            </button>
+            <button
+              class="btn btn-light"
+              id="sort-course-name-btn"
+            >
+              Course Name
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div
+      class="card bg-light top-padded"
+    >
+      
+      <div
+        class="card-header bg-primary text-white"
+      >
+        <strong>
+          [CS2103]: Software Engineering
+        </strong>
+        <div
+          class="card-header-btn-toolbar"
+        >
+          <a
+            class="btn btn-primary btn-sm button"
+            href="/web/student/course?courseid=CS2103"
+            tmrouterlink="/web/student/course"
+          >
+             View team 
+          </a>
+        </div>
+      </div>
+      <div
+        class="table-responsive"
+      >
+        
+        <table
+          class="table table-striped table-bordered margin-0"
+        >
+          <thead>
+            <tr>
+              <th>
+                Session Name
+              </th>
+              <th>
+                Deadline
+              </th>
+              <th>
+                Submissions
+              </th>
+              <th>
+                Responses
+              </th>
+              <th>
+                Action(s)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              
+              <td>
+                First Session
+              </td>
+              
+              <td>
+                Sat, 02 Feb 2019, 16:15 PM +08
+              </td>
+              <td>
+                <span>
+                   Submitted 
+                </span>
+              </td>
+              <td>
+                <span>
+                   Published 
+                </span>
+              </td>
+              <td>
+                <a
+                  class="btn btn-light btn-sm btn-margin-right"
+                  href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
+                  tmrouterlink="/web/student/sessions/result"
+                >
+                   View Responses 
+                </a>
+                
+                <a
+                  class="btn btn-light btn-sm disabled"
+                >
+                   Start Submission 
+                </a>
+                
+                
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
+                  tmrouterlink="/web/student/sessions/submission"
+                >
+                   Edit Submission 
+                </a>
+                
+              </td>
+            </tr>
+            <tr>
+              
+              <td>
+                Second Session
+              </td>
+              
+              <td>
+                Sat, 02 Feb 2019, 16:15 PM +08
+              </td>
+              <td>
+                <span>
+                   Pending 
+                </span>
+              </td>
+              <td>
+                <span>
+                   Not Published 
+                </span>
+              </td>
+              <td>
+                <a
+                  class="btn btn-light btn-sm btn-margin-right disabled"
+                  href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
+                  tmrouterlink="/web/student/sessions/result"
+                >
+                   View Responses 
+                </a>
+                
+                
+                <a
+                  class="btn btn-light btn-sm"
+                  href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
+                  tmrouterlink="/web/student/sessions/submission"
+                >
+                   Start Submission 
+                </a>
+                
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    
+    
+    
+    
+  </tm-loading-retry>
+</tm-student-home-page>
+`;
+
+exports[`StudentHomePageComponent should snap with no course 1`] = `
+<tm-student-home-page
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasCoursesLoadingFailed="false"
+  isCoursesLoading="false"
+  route={[Function ActivatedRoute]}
+  sortBy="0"
+  statusMessageService={[Function StatusMessageService]}
+  studentFeedbackSessionStatusAwaiting={[Function String]}
+  studentFeedbackSessionStatusClosed={[Function String]}
+  studentFeedbackSessionStatusNotPublished={[Function String]}
+  studentFeedbackSessionStatusPending={[Function String]}
+  studentFeedbackSessionStatusPublished={[Function String]}
+  studentFeedbackSessionStatusSubmitted={[Function String]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <div />
+    
+    <div>
+       You are not enrolled in any courses. Please refer to the 
+      <a
+        href="/web/student/help"
+        tmrouterlink="/web/student/help"
+      >
+        help page
+      </a>
+       if you need more information. 
+    </div>
+    
+    
+    
+  </tm-loading-retry>
+</tm-student-home-page>
+`;
+
 exports[`StudentHomePageComponent should snap with no feedback session over 2 courses 1`] = `
 <tm-student-home-page
   SortBy={[Function Object]}
@@ -531,11 +784,13 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
           >
             <button
               class="btn btn-light"
+              id="sort-course-id-btn"
             >
               Course ID
             </button>
             <button
               class="btn btn-light"
+              id="sort-course-name-btn"
             >
               Course Name
             </button>
@@ -683,11 +938,13 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           >
             <button
               class="btn btn-light"
+              id="sort-course-id-btn"
             >
               Course ID
             </button>
             <button
               class="btn btn-light"
+              id="sort-course-name-btn"
             >
               Course Name
             </button>

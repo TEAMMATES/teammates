@@ -51,7 +51,376 @@ describe('StudentHomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should sort courses by their IDs', () => {
+    const studentCourseA: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Second Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    const studentCourseB: any = {
+      course: {
+        courseId: 'LSM1306',
+        courseName: 'Forensic Science',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'Third Session',
+            courseId: 'LSM1306',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Fourth Session',
+            courseId: 'LSM1306',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    const studentCourseC: any = {
+      course: {
+        courseId: 'MA1521',
+        courseName: 'Calculus for Computing',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'Fifth Session',
+            courseId: 'MA1521',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Sixth Session',
+            courseId: 'MA1521',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourseB, studentCourseC, studentCourseA];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id-btn');
+    button.click();
+
+    expect(component.courses[0].course.courseId).toEqual(studentCourseA.course.courseId);
+    expect(component.courses[1].course.courseId).toEqual(studentCourseB.course.courseId);
+    expect(component.courses[2].course.courseId).toEqual(studentCourseC.course.courseId);
+  });
+
+  it('should sort courses by their names', () => {
+    const studentCourseA: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Second Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    const studentCourseB: any = {
+      course: {
+        courseId: 'LSM1306',
+        courseName: 'Forensic Science',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'Third Session',
+            courseId: 'LSM1306',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Fourth Session',
+            courseId: 'LSM1306',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    const studentCourseC: any = {
+      course: {
+        courseId: 'MA1521',
+        courseName: 'Calculus for Computing',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'Fifth Session',
+            courseId: 'MA1521',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Sixth Session',
+            courseId: 'MA1521',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourseA, studentCourseB, studentCourseC];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name-btn');
+    button.click();
+
+    expect(component.courses[0].course.courseId).toEqual(studentCourseC.course.courseId);
+    expect(component.courses[1].course.courseId).toEqual(studentCourseA.course.courseId);
+    expect(component.courses[2].course.courseId).toEqual(studentCourseB.course.courseId);
+  });
+
   it('should snap with default fields', () => {
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with no course', () => {
+    component.courses = [];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
@@ -96,6 +465,69 @@ describe('StudentHomePageComponent', () => {
     };
 
     component.courses = [studentCourseA, studentCourseB];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap with feedback sessions', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS2103',
+        courseName: 'Software Engineering',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS2103',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: true,
+          isPublished: true,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Second Session',
+            courseId: 'CS2103',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: false,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
     component.isCoursesLoading = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -227,6 +659,7 @@ describe('StudentHomePageComponent', () => {
   });
 
   it('should snap when there is course loading failed', () => {
+    component.isCoursesLoading = false;
     component.hasCoursesLoadingFailed = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
