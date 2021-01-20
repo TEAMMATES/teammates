@@ -6,6 +6,12 @@
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
+      <url>/auto/recordTotalFeedbackResponseCount</url>
+      <description>Records the current total feedback response count and store into DB with timestamp for admin viewing.</description>
+      <schedule>every 1 seconds synchronized</schedule>
+        <timezone>Australia/Perth</timezone>
+    </cron>
+    <cron>
       <url>/auto/feedbackSessionClosingReminders</url>
       <description>Checks for feedback sessions that are due in 24 hours and send reminders to students who have not submitted their responses in full.</description>
       <schedule>every 60 minutes from 00:06 to 23:59</schedule>

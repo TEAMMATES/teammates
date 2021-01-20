@@ -83,6 +83,13 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
+     * Gets a feedback response.
+     */
+    public int getTotalFeedbackResponseCount() {
+        return load().count();
+    }
+
+    /**
      * Gets all feedback responses of a question in a specific section.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
