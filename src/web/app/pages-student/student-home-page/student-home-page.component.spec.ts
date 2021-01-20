@@ -51,6 +51,175 @@ describe('StudentHomePageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should navigate to student course page to view the corresponding team', () => {
+    const studentCourseA: any = {
+      course: {
+        courseId: 'CS3281',
+        courseName: 'Thematic Systems I',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [],
+    };
+
+    const studentCourseB: any = {
+      course: {
+        courseId: 'CS3282',
+        courseName: 'Thematic Systems II',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [],
+    };
+
+    component.courses = [studentCourseA, studentCourseB];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const href1: any = fixture.debugElement.nativeElement.querySelector('#view-team-btn-0').getAttribute('href');
+    const href2: any = fixture.debugElement.nativeElement.querySelector('#view-team-btn-1').getAttribute('href');
+    expect(href1).toEqual('/web/student/course?courseid=CS3281');
+    expect(href2).toEqual('/web/student/course?courseid=CS3282');
+  });
+
+  it('should navigate to student session result page to view responses', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: true,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Second Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const href1: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0').getAttribute('href');
+    const href2: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-1').getAttribute('href');
+    expect(href1).toEqual('/web/student/sessions/result?courseid=CS1231&fsname=First%20Session');
+    expect(href2).toEqual('/web/student/sessions/result?courseid=CS1231&fsname=Second%20Session');
+  });
+
+  // start/edit/view submission button share the same router link and query params
+  // here we only have to test one of them
+  it('should navigate to student session submission page for viewing', () => {
+    const studentCourse: any = {
+      course: {
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      },
+      feedbackSessions: [
+        {
+          session: {
+            feedbackSessionName: 'First Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+        {
+          session: {
+            feedbackSessionName: 'Second Session',
+            courseId: 'CS1231',
+            timeZone: 'Asia/Singapore',
+            instructions: '',
+            submissionStartTimestamp: 0,
+            submissionEndTimestamp: 1549095330000,
+            gracePeriod: 0,
+            sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+            responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+            submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+            publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+            isClosingEmailEnabled: true,
+            isPublishedEmailEnabled: true,
+            createdAtTimestamp: 0,
+          },
+          isOpened: false,
+          isWaitingToOpen: false,
+          isPublished: false,
+          isSubmitted: true,
+        },
+      ],
+    };
+
+    component.courses = [studentCourse];
+    component.isCoursesLoading = false;
+    fixture.detectChanges();
+
+    const href1: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0').getAttribute('href');
+    const href2: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-1').getAttribute('href');
+    expect(href1).toEqual('/web/student/sessions/submission?courseid=CS1231&fsname=First%20Session');
+    expect(href2).toEqual('/web/student/sessions/submission?courseid=CS1231&fsname=Second%20Session');
+  });
+
   it('should sort courses by their IDs', () => {
     const studentCourseA: any = {
       course: {
