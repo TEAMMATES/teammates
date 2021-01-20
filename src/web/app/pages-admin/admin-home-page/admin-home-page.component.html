@@ -79,12 +79,10 @@
           </tr>
         </tbody>
       </table>
-      <div class="top-padded">
-        <button class="btn btn-primary" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">
-          <tm-ajax-loading *ngIf="isAddingInstructors"></tm-ajax-loading>
-          Add All Instructors
-        </button>
-      </div>
+      <button class="btn btn-primary top-padded" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">
+        <tm-ajax-loading *ngIf="isAddingInstructors"></tm-ajax-loading>
+        Add All Instructors
+      </button>
     </div>
   </div>
 </div>
