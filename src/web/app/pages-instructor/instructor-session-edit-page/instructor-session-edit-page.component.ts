@@ -939,24 +939,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   /**
-   * Handles 'Done Editing' click event.
-   */
-  doneEditingHandler(): void {
-    if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
-        || this.sessionEditFormModel.isEditable) {
-      const modalContent: string = `<p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
-          <p>Are you sure you want to continue?</p>`;
-      this.simpleModalService.openConfirmationModal(
-          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
-            this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
-          }, () => {});
-    } else {
-      this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
-    }
-    // TODO focus on the row of current feedback session in the sessions page
-  }
-
-  /**
    * Gets all students of a course.
    */
   getAllStudentsOfCourse(): void {
