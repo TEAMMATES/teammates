@@ -40,6 +40,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.storage.entity.FeedbackResponseRecord;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -1182,6 +1183,10 @@ public class Logic {
 
     public int getTotalFeedBackResponseCount() {
         return feedbackResponsesLogic.getTotalFeedbackResponseCount();
+    }
+
+    public Set<FeedbackResponseRecord> getResponseRecords(long duration, long interval) {
+        return feedbackResponseRecordLogic.getFeedbackResponseRecords(duration, interval);
     }
 
     /**

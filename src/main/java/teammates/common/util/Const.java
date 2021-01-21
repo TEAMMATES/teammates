@@ -145,6 +145,9 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
+
+        public static final String DURATION = "duration";
+        public static final String INTERVAL = "interval";
     }
 
     public static class SearchIndex {
@@ -295,6 +298,8 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
         public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
+
+        public static final String RESPONSE_STATS = URI_PREFIX + "/response-stats";
     }
 
     public static class CronJobURIs {

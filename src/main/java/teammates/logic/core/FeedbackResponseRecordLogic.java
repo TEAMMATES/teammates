@@ -1,9 +1,12 @@
 package teammates.logic.core;
 
+import java.util.Set;
+
 import teammates.common.datatransfer.attributes.FeedbackResponseRecordAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseMonitorDb;
+import teammates.storage.entity.FeedbackResponseRecord;
 
 /**
  * Handles operations related to feedback response recording.
@@ -24,6 +27,10 @@ public class FeedbackResponseRecordLogic {
     public void createFeedbackResponseRecord(int count, int timestamp)
             throws InvalidParametersException, EntityAlreadyExistsException {
         frmDb.createEntity(new FeedbackResponseRecordAttributes(count, timestamp));
+    }
+
+    public Set<FeedbackResponseRecord> getFeedbackResponseRecords(long duration, long interval) {
+        return frmDb.getResponseRecords(duration, interval);
     }
 
 }
