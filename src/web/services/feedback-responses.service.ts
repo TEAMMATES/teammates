@@ -6,7 +6,7 @@ import {
 import {
   FeedbackResponsesResponse,
 } from '../app/pages-session/session-submission-page/session-submission-page.component';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackConstantSumResponseDetails,
   FeedbackContributionResponseDetails,

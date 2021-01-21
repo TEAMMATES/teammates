@@ -44,7 +44,7 @@ class CreateAccountAction extends AdminOnlyAction {
                 .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
                 .withInstructorInstitution(instructorInstitution)
                 .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                 instructorList.get(0).email, instructorName, joinLink);
