@@ -619,15 +619,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         public B withQuestionDetails(FeedbackQuestionDetails questionDetails) {
             Assumption.assertNotNull(questionDetails);
 
-
-
             updateOptions.questionDetailsOption = UpdateOption.of(questionDetails.getDeepCopy());
             return thisBuilder;
         }
 
         public B withQuestionDescription(String questionDescription) {
             // questionDescription can be null
-
             updateOptions.questionDescriptionOption = UpdateOption.of(questionDescription);
             return thisBuilder;
         }
