@@ -38,12 +38,34 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     private Collection<InstructorAttributes> instructors;
     private Collection<StudentAttributes> students;
 
+    private AppUrl resultsUrl;
     private InstructorFeedbackResultsPage resultsPage;
 
     // Maps to organise responses
     private Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponses;
     private Map<FeedbackQuestionAttributes, Map<String, List<FeedbackResponseAttributes>>> questionToGiverToResponses;
     private Map<FeedbackQuestionAttributes, Map<String, List<FeedbackResponseAttributes>>> questionToRecipientToResponses;
+
+    // We either test all questions or just use qn2
+    private FeedbackQuestionAttributes qn2;
+    private List<FeedbackResponseAttributes> qn2Responses;
+    private Map<String, List<FeedbackResponseAttributes>> qn2GiverResponses;
+    private Map<String, List<FeedbackResponseAttributes>> qn2RecipientResponses;
+
+    // For testing section filtering
+    private String section;
+    private List<FeedbackResponseAttributes> filteredQn2Responses;
+    private Map<String, List<FeedbackResponseAttributes>> filteredQn2GiverResponses;
+    private Map<String, List<FeedbackResponseAttributes>> filteredQn2RecipientResponses;
+
+    // For testing missing responses
+    private FeedbackResponseAttributes missingResponse;
+    private Map<String, List<FeedbackResponseAttributes>> qn2GiverResponsesWithMissing;
+    private Map<String, List<FeedbackResponseAttributes>> qn2RecipientResponsesWithMissing;
+
+    // For testing comment
+    private FeedbackResponseAttributes responseWithComment;
+    private FeedbackResponseCommentAttributes comment;
 
     @Override
     protected void prepareTestData() {
@@ -63,58 +85,48 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     @BeforeClass
     public void classSetup() {
         deleteDownloadsFile(fileName);
-    }
 
-    @Test
-    @Override
-    public void testAll() {
-        testViews();
-        testActions();
-    }
-
-    private void testViews() {
         CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2104");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session");
 
-        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+        resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withUserId(instructor.getGoogleId())
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         // -------------------------------------- Prepare responses -------------------------------------- //
         organiseResponses(course.getId());
-        // we either test all questions or just use qn2
-        FeedbackQuestionAttributes qn2 = testData.feedbackQuestions.get("qn2");
-        List<FeedbackResponseAttributes> qn2Responses = questionToResponses.get(qn2);
-        Map<String, List<FeedbackResponseAttributes>> qn2GiverResponses = questionToGiverToResponses.get(qn2);
-        Map<String, List<FeedbackResponseAttributes>> qn2RecipientResponses = questionToRecipientToResponses.get(qn2);
 
-        // For testing section filtering
-        String section = testData.students.get("Alice").getSection();
-        List<FeedbackResponseAttributes> filteredQn2Responses = filterResponsesBySection(qn2Responses, section);
-        Map<String, List<FeedbackResponseAttributes>> filteredQn2GiverResponses =
-                filterMapBySection(qn2GiverResponses, section);
-        Map<String, List<FeedbackResponseAttributes>> filteredQn2RecipientResponses =
-                filterMapBySection(qn2RecipientResponses, section);
+        qn2 = testData.feedbackQuestions.get("qn2");
+        qn2Responses = questionToResponses.get(qn2);
+        qn2GiverResponses = questionToGiverToResponses.get(qn2);
+        qn2RecipientResponses = questionToRecipientToResponses.get(qn2);
 
-        // For testing missing responses
+        section = testData.students.get("Alice").getSection();
+        filteredQn2Responses = filterResponsesBySection(qn2Responses, section);
+        filteredQn2GiverResponses = filterMapBySection(qn2GiverResponses, section);
+        filteredQn2RecipientResponses = filterMapBySection(qn2RecipientResponses, section);
+
         StudentAttributes noResponseStudent = testData.students.get("Benny");
         StudentAttributes teammate = testData.students.get("Alice");
-        FeedbackResponseAttributes missingResponse =
-                getMissingResponse(qn2.getQuestionNumber(), noResponseStudent, teammate);
-        Map<String, List<FeedbackResponseAttributes>> qn2GiverResponsesWithMissing =
+        missingResponse = getMissingResponse(qn2.getQuestionNumber(), noResponseStudent, teammate);
+        qn2GiverResponsesWithMissing =
                 addMissingResponseToMap(qn2GiverResponses, missingResponse, noResponseStudent.getEmail());
-        Map<String, List<FeedbackResponseAttributes>> qn2RecipientResponsesWithMissing =
+        qn2RecipientResponsesWithMissing =
                 addMissingResponseToMap(qn2RecipientResponses, missingResponse, teammate.getEmail());
 
-        // For testing comment
-        FeedbackResponseAttributes responseWithComment = testData.feedbackResponses.get("qn2response1");
-        FeedbackResponseCommentAttributes comment = testData.feedbackResponseComments.get("qn2Comment2");
+        responseWithComment = testData.feedbackResponses.get("qn2response1");
+        comment = testData.feedbackResponseComments.get("qn2Comment2");
+    }
 
-        boolean isGroupedByTeam = true;
+    @Override
+    public void testAll() {
+        // not used; run individual test cases instead as the entire test cases take > 5 minutes to run
+    }
 
-        // -------------------------------------- Question View -------------------------------------- //
+    @Test
+    public void testQuestionView() {
+        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -146,11 +158,14 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Question view: verify comments");
         resultsPage.verifyQnViewComment(qn2, comment, responseWithComment, instructors, students);
+    }
 
-        // -------------------------------------- GRQ View -------------------------------------- //
+    @Test
+    public void testGrqView() {
+        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("GRQ view: no missing responses");
-        isGroupedByTeam = true;
+        boolean isGroupedByTeam = true;
         resultsPage.includeStatistics(true);
         resultsPage.includeGroupingByTeam(true);
         resultsPage.includeMissingResponses(false);
@@ -177,11 +192,14 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("GRQ view: verify comments");
         resultsPage.verifyGrqViewComment(qn2, comment, responseWithComment, instructors, students, false);
+    }
 
-        // -------------------------------------- RGQ View -------------------------------------- //
+    @Test
+    public void testRgqView() {
+        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("RGQ view: no missing responses");
-        isGroupedByTeam = true;
+        boolean isGroupedByTeam = true;
         resultsPage.includeStatistics(true);
         resultsPage.includeGroupingByTeam(true);
         resultsPage.includeMissingResponses(false);
@@ -209,11 +227,14 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("RGQ view: verify comments");
         resultsPage.verifyRgqViewComment(qn2, comment, responseWithComment, instructors, students, false);
+    }
 
-        // -------------------------------------- GQR View -------------------------------------- //
+    @Test
+    public void testGqrView() {
+        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("GQR view: no missing responses");
-        isGroupedByTeam = true;
+        boolean isGroupedByTeam = true;
         resultsPage.includeStatistics(true);
         resultsPage.includeGroupingByTeam(true);
         resultsPage.includeMissingResponses(false);
@@ -249,11 +270,14 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("GQR view: verify comments");
         resultsPage.verifyGqrViewComment(qn2, comment, responseWithComment, instructors, students, false);
+    }
 
-        // -------------------------------------- RQG View -------------------------------------- //
+    @Test
+    public void testRqgView() {
+        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
 
         ______TS("RQG view: no missing responses");
-        isGroupedByTeam = true;
+        boolean isGroupedByTeam = true;
         resultsPage.includeStatistics(true);
         resultsPage.includeGroupingByTeam(true);
         resultsPage.includeMissingResponses(false);
@@ -290,7 +314,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyRqgViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    private void testActions() {
+    @Test
+    public void testActions() {
         CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2103");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session 2");
 

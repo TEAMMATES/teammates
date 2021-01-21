@@ -181,10 +181,6 @@ public abstract class AppPage {
         waitUntilAnimationFinish(browser);
     }
 
-    public void waitForLoadingElement() {
-        waitForElementStaleness(waitForElementPresence(By.className("loading-container")));
-    }
-
     /**
      * Waits until an element is no longer attached to the DOM or the timeout expires.
      * @param element the WebElement
