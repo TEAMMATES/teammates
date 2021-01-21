@@ -79,7 +79,7 @@
           </tr>
         </tbody>
       </table>
-      <button class="btn btn-primary" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">
+      <button class="btn btn-primary top-padded" (click)="addAllInstructors()" id="add-all-instructors" [disabled]="activeRequests > 0 || isAddingInstructors">
         <tm-ajax-loading *ngIf="isAddingInstructors"></tm-ajax-loading>
         Add All Instructors
       </button>
