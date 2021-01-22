@@ -21,6 +21,9 @@ public final class Config {
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
 
+    /** The value of the "app.region" in build.properties file. */
+    public static final String APP_REGION;
+
     /** The value of the "app.version" in build.properties file. */
     public static final String APP_VERSION;
 
@@ -90,6 +93,7 @@ public final class Config {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         APP_ID = properties.getProperty("app.id");
+        APP_REGION = properties.getProperty("app.region");
         APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
         CSRF_KEY = properties.getProperty("app.csrf.key");

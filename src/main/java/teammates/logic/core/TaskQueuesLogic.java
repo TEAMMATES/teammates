@@ -1,16 +1,31 @@
 package teammates.logic.core;
 
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.Instant;
 
+import com.google.cloud.tasks.v2.AppEngineHttpRequest;
+import com.google.cloud.tasks.v2.CloudTasksClient;
+import com.google.cloud.tasks.v2.HttpMethod;
+import com.google.cloud.tasks.v2.QueueName;
+import com.google.cloud.tasks.v2.Task;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Timestamp;
+
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.AppUrl;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
 
 /**
  * Handles operations related to task queues.
  */
 public class TaskQueuesLogic {
+
+    private static final Logger log = Logger.getLogger();
 
     /**
      * Adds the given task to the specified queue.
@@ -28,20 +43,41 @@ public class TaskQueuesLogic {
      * @param countdownTime the time delay for the task to be executed
      */
     public void addDeferredTask(TaskWrapper task, long countdownTime) {
-        Queue requiredQueue = QueueFactory.getQueue(task.getQueueName());
-        TaskOptions taskToBeAdded = TaskOptions.Builder.withUrl(task.getWorkerUrl());
-        if (countdownTime > 0) {
-            taskToBeAdded.countdownMillis(countdownTime);
+        if (Config.isDevServer()) {
+            // Task queues will not be activated in dev server
+            return;
         }
 
-        // GAE's Task Queue API only allows either parameter map or body, not both
-        if (task.getRequestBody() == null) {
-            task.getParamMap().forEach((key, value) -> taskToBeAdded.param(key, value));
-        } else {
-            taskToBeAdded.payload(JsonUtils.toCompactJson(task.getRequestBody()));
-        }
+        try (CloudTasksClient client = CloudTasksClient.create()) {
+            String queuePath = QueueName.of(Config.APP_ID, Config.APP_REGION, task.getQueueName()).toString();
 
-        requiredQueue.add(taskToBeAdded);
+            AppEngineHttpRequest.Builder requestBuilder =
+                    AppEngineHttpRequest.newBuilder()
+                            .setHttpMethod(HttpMethod.POST);
+
+            if (task.getRequestBody() == null) {
+                String relativeUrl = "http://place.holder"; // the value is not important
+                AppUrl url = new AppUrl(relativeUrl + task.getWorkerUrl());
+                task.getParamMap().forEach((key, value) -> url.withParam(key, value));
+
+                requestBuilder.setRelativeUri(url.toString());
+            } else {
+                String requestBody = JsonUtils.toCompactJson(task.getRequestBody());
+                requestBuilder.setRelativeUri(task.getWorkerUrl())
+                        .setBody(ByteString.copyFrom(requestBody, Charset.forName(Const.ENCODING)));
+            }
+
+            Task.Builder taskBuilder = Task.newBuilder().setAppEngineHttpRequest(requestBuilder.build());
+            if (countdownTime > 0) {
+                taskBuilder.setScheduleTime(
+                        Timestamp.newBuilder()
+                                .setSeconds(Instant.now().plusMillis(countdownTime).getEpochSecond()));
+            }
+
+            client.createTask(queuePath, taskBuilder.build());
+        } catch (IOException e) {
+            log.severe("Cannot create Cloud Tasks client: " + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
 }
