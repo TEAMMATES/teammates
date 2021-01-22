@@ -2,15 +2,17 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogQuery;
-import com.google.appengine.api.log.LogService;
-import com.google.appengine.api.log.LogService.LogLevel;
-import com.google.appengine.api.log.LogServiceFactory;
-import com.google.appengine.api.log.RequestLogs;
+import com.google.api.gax.paging.Page;
+import com.google.cloud.logging.LogEntry;
+import com.google.cloud.logging.Logging;
+import com.google.cloud.logging.Logging.EntryListOption;
+import com.google.cloud.logging.LoggingOptions;
 
+import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
 
 /**
@@ -20,47 +22,56 @@ class CompileLogsAction extends AdminOnlyAction {
 
     @Override
     JsonResult execute() {
-        List<AppLogLine> errorLogs = getErrorLogs();
+        List<LogEntry> errorLogs = getErrorLogs();
         sendEmail(errorLogs);
         return new JsonResult("Successful");
     }
 
-    private List<AppLogLine> getErrorLogs() {
-        LogService logService = LogServiceFactory.getLogService();
+    private List<LogEntry> getErrorLogs() {
+        if (Config.isDevServer()) {
+            // Not supported in dev server
+            return new ArrayList<>();
+        }
+        LoggingOptions options = LoggingOptions.getDefaultInstance();
+        Logging logging = options.getService();
 
-        long endTime = Instant.now().toEpochMilli();
+        Instant endTime = Instant.now();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         long queryRange = 1000 * 60 * 6;
-        long startTime = endTime - queryRange;
+        Instant startTime = endTime.minusMillis(queryRange);
 
-        LogQuery q = LogQuery.Builder.withDefaults()
-                                     .includeAppLogs(true)
-                                     .startTimeMillis(startTime)
-                                     .endTimeMillis(endTime)
-                                     .minLogLevel(LogLevel.ERROR);
+        List<String> logOptions = Arrays.asList(
+                "resource.type=\"gae_app\"",
+                "resource.labels.module_id=\"default\"",
+                "logName=\"projects/" + options.getProjectId() + "/logs/appengine.googleapis.com%2Frequest_log\"",
+                "severity>=ERROR",
+                "timestamp>\"" + startTime.toString() + "\"",
+                "timestamp<=\"" + endTime.toString() + "\""
+        );
 
-        Iterable<RequestLogs> logs = logService.fetch(q);
-        List<AppLogLine> errorLogs = new ArrayList<>();
+        List<LogEntry> logs = new ArrayList<>();
+        Page<LogEntry> entries = logging.listLogEntries(
+                EntryListOption.filter(logOptions.stream().collect(Collectors.joining("\n")))
+        );
 
-        for (RequestLogs requestLogs : logs) {
-            List<AppLogLine> logList = requestLogs.getAppLogLines();
-
-            for (AppLogLine currentLog : logList) {
-                LogLevel logLevel = currentLog.getLogLevel();
-
-                if (LogLevel.FATAL == logLevel || LogLevel.ERROR == logLevel) {
-                    errorLogs.add(currentLog);
-                }
-            }
+        for (LogEntry logEntry : entries.iterateAll()) {
+            logs.add(logEntry);
         }
 
-        return errorLogs;
+        return logs;
     }
 
-    private void sendEmail(List<AppLogLine> logs) {
+    private void sendEmail(List<LogEntry> logs) {
+        List<String> logMessages = new ArrayList<>();
+        List<String> logLevels = new ArrayList<>();
+
+        for (LogEntry logEntry : logs) {
+            // TODO
+        }
+
         // Do not send any emails if there are no severe logs; prevents spamming
-        if (!logs.isEmpty()) {
-            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(logs);
+        if (!logMessages.isEmpty()) {
+            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(logMessages, logLevels);
             emailSender.sendReport(message);
         }
     }

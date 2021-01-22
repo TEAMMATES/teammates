@@ -55,6 +55,7 @@ dependencies {
 
     implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
     implementation("com.google.cloud:google-cloud-tasks:1.30.11")
+    implementation("com.google.cloud:google-cloud-logging:2.1.2")
 
     // This dependency needs to be resolved individually
     // because the main dependency (appengine-gcs-client) does not have its transitive dependencies up-to-date

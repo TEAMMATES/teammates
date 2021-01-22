@@ -11,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
@@ -61,9 +60,7 @@ public class GaeSimulation {
             LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
             localSearch.setPersistent(false);
             LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-            LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
-                                                localSearch, localModules, localLog);
+            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localSearch, localModules);
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();
