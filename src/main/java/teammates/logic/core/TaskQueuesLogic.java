@@ -1,8 +1,21 @@
 package teammates.logic.core;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.google.cloud.tasks.v2.AppEngineHttpRequest;
 import com.google.cloud.tasks.v2.CloudTasksClient;
@@ -44,7 +57,29 @@ public class TaskQueuesLogic {
      */
     public void addDeferredTask(TaskWrapper task, long countdownTime) {
         if (Config.isDevServer()) {
-            // Task queues will not be activated in dev server
+            // In dev server, task queues are either not active (i.e. they will not be executed even if queued)
+            // or they will be executed immediately without going through any kind of "queue"
+
+            if (!Config.TASKQUEUE_ACTIVE) {
+                return;
+            }
+            HttpPost post = new HttpPost(createBasicUri(
+                    "http://localhost:8080" + task.getWorkerUrl(), task.getParamMap()));
+
+            if (task.getRequestBody() != null) {
+                StringEntity entity = new StringEntity(
+                        JsonUtils.toCompactJson(task.getRequestBody()), Charset.forName(Const.ENCODING));
+                post.setEntity(entity);
+            }
+
+            post.addHeader("X-AppEngine-QueueName", task.getQueueName());
+            post.addHeader("X-Google-DevAppserver-SkipAdminCheck", "true");
+
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                httpClient.execute(post);
+            } catch (IOException e) {
+                log.severe("Error when executing HTTP request: " + TeammatesException.toStringWithStackTrace(e));
+            }
             return;
         }
 
@@ -77,6 +112,22 @@ public class TaskQueuesLogic {
             client.createTask(queuePath, taskBuilder.build());
         } catch (IOException e) {
             log.severe("Cannot create Cloud Tasks client: " + TeammatesException.toStringWithStackTrace(e));
+        }
+    }
+
+    private static URI createBasicUri(String url, Map<String, String> params) {
+        List<NameValuePair> postParameters = new ArrayList<>();
+        if (params != null) {
+            params.forEach((key, value) -> postParameters.add(new BasicNameValuePair(key, value)));
+        }
+
+        try {
+            URIBuilder uriBuilder = new URIBuilder(url);
+            uriBuilder.addParameters(postParameters);
+
+            return uriBuilder.build();
+        } catch (URISyntaxException e) {
+            return null;
         }
     }
 
