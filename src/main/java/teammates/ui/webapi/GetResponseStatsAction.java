@@ -1,11 +1,11 @@
 package teammates.ui.webapi;
 
-import java.util.Set;
+import java.util.List;
 
+import teammates.common.datatransfer.attributes.FeedbackResponseRecordAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackResponseRecord;
-import teammates.ui.output.FeedbackResponseRecordData;
+import teammates.ui.output.FeedbackResponseRecordsData;
 
 /**
  * Get response records.
@@ -21,9 +21,9 @@ public class GetResponseStatsAction extends Action {
     JsonResult execute() {
         String durationStr = getNonNullRequestParamValue(Const.ParamsNames.DURATION);
         String intervalStr = getNonNullRequestParamValue(Const.ParamsNames.INTERVAL);
-        Set<FeedbackResponseRecord> feedbackResponseRecords =
+        List<FeedbackResponseRecordAttributes> feedbackResponseRecords =
                 logic.getResponseRecords(Long.parseLong(durationStr), Long.parseLong(intervalStr));
-        return new JsonResult(new FeedbackResponseRecordData(feedbackResponseRecords));
+        return new JsonResult(new FeedbackResponseRecordsData(feedbackResponseRecords));
     }
 
     @Override
