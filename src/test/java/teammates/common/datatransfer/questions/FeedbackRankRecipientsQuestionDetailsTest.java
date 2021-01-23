@@ -1,13 +1,10 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Arrays;
+
 import org.testng.annotations.Test;
 
-import teammates.storage.entity.FeedbackResponse;
 import teammates.test.BaseTestCase;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * SUT: {@link FeedbackRankRecipientsQuestionDetails}.
@@ -40,7 +37,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankRecipientsResponseDetails detailsDup2 = new FeedbackRankRecipientsResponseDetails();
         detailsDup2.setAnswer(answerDup);
 
-        String errorString = "Duplicate rank " + answerDup +  " in question";
+        String errorString = "Duplicate rank " + answerDup + " in question";
         assertEquals(
                 feedbackQuestionDetails.validateResponsesDetails(Arrays.asList(
                         details, detailsValid, detailsDup, detailsDup2), 4),
