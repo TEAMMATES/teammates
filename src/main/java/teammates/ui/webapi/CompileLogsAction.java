@@ -7,10 +7,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
+import com.google.appengine.logging.v1.LogLine;
+import com.google.appengine.logging.v1.RequestLog;
+import com.google.appengine.logging.v1.SourceLocation;
+import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
 import com.google.cloud.logging.LoggingOptions;
+import com.google.logging.type.LogSeverity;
+import com.google.protobuf.Any;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.util.JsonFormat;
 
 import teammates.common.util.Config;
 import teammates.common.util.EmailWrapper;
@@ -66,7 +74,34 @@ class CompileLogsAction extends AdminOnlyAction {
         List<String> logLevels = new ArrayList<>();
 
         for (LogEntry logEntry : logs) {
-            // TODO
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
+                    logMessages.add(line.getLogMessage().replaceAll("\n", "\n<br>"));
+                    logLevels.add(line.getSeverity().toString());
+                }
+            }
         }
 
         // Do not send any emails if there are no severe logs; prevents spamming
