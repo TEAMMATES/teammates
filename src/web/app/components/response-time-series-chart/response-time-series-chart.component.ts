@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import {ResponseTimeSeriesChartModel} from "./response-time-series-chart.model";
-import {FeedbackResponseStatsService} from "../../../services/feedback-response-stats.service";
-import {interval} from "rxjs";
-import {finalize} from "rxjs/operators";
-import {FeedbackResponseStats} from "../../../types/api-output";
-import {ErrorMessageOutput} from "../../error-message-output";
+import { ResponseTimeSeriesChartModel } from "./response-time-series-chart.model";
+import { FeedbackResponseStatsService } from "../../../services/feedback-response-stats.service";
+import { BehaviorSubject, interval } from "rxjs";
+import { switchMap, tap } from "rxjs/operators";
+import { FeedbackResponseStats } from "../../../types/api-output";
+import { ErrorMessageOutput } from "../../error-message-output";
 
 /**
  * Response-tracking time series chart for admin user.
@@ -20,56 +20,56 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
   @Input()
   model: ResponseTimeSeriesChartModel = {
     durationMinutes: 60,
-    intervalSeconds: 60
+    intervalMinutes: 1
   }
+
+  interval: BehaviorSubject<number> = new BehaviorSubject<number>(1);
 
   constructor(private feedbackResponseStatsService: FeedbackResponseStatsService) { }
 
   ngOnInit(): void {
-    // var data: any = {
-    //   "datapoints": {}
-    // }
-    // var now = Date.now() - 12 * 60 * 60 * 1000;
-    // for (var i = 0; i < 1000; i++) {
-    //   data.datapoints[new Date(now).toJSON()] = Math.round(Math.random()*100);
-    //   now = now + 5 * 60 * 1000;
-    // }
+    this.interval.pipe(
+        switchMap(value => interval(value * 1000)), // in seconds (for easier testing), actual one will be in minutes
+        tap(() => this.refresh())
+    ).subscribe();
+  }
 
-    // interval(this.model.duration).pipe(
-    //     finalize(() => {
-    //       this.feedbackResponseStatsService.loadResponseStats(
-    //           this.model.duration.toString(), this.model.interval.toString())
-    //     }))
-    //     .subscribe((data: FeedbackResponseStats) => {
-    //       console.log(data);
-    //       // parse data
-    //       // draw chart
-    //     }, (resp: ErrorMessageOutput) => {
-    //       console.log((resp.error));
-    //     });
-
-    // var parsedData = this.parseData(data);
-    // this.drawChart(parsedData, this.model.durationMinutes * 60 * 1000);
+  refresh() {
+    this.feedbackResponseStatsService.loadResponseStats(this.model.durationMinutes.toString(), this.model.intervalMinutes.toString())
+        .subscribe((data: FeedbackResponseStats) => {
+          console.log(data);
+          // parse data
+          const parsedData = this.parseData(data);
+          // draw chart
+          this.drawChart(parsedData, this.model.durationMinutes * 60 * 1000);
+        }, (resp: ErrorMessageOutput) => {
+          console.log((resp.error));
+        });
   }
 
   /**
-   * Handles a change in duration set by the drop-down
+   * Handles a change in duration
    */
   setDurationHandler(duration: number): void {
     this.model.durationMinutes = duration;
-    console.log(this.model.durationMinutes);
+  }
+
+  /**
+   * Handles a change in interval
+   */
+  setIntervalHandler(interval: number): void {
+    this.model.durationMinutes = interval;
+    this.interval.next(interval);
   }
 
   drawChart(data: object[], duration: number): void {
 
-    // constants
     const svgWidth: number = 800;
     const svgHeight: number = 400;
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
     const width: number = svgWidth - margin.left - margin.right;
     const height: number = svgHeight - margin.top - margin.bottom;
 
-    // set width and height
     var svg = d3.select('svg')
         .attr("width", svgWidth)
         .attr("height", svgHeight);
@@ -85,22 +85,12 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
         .rangeRound([height, 0]);
 
     x.domain([Date.now() - duration, Date.now()]);
-    y.domain(d3.extent(data, function(d: any) {
-      return d.resCount
-    }));
+    y.domain(d3.extent(data, (d: any) => d.resCount));
 
     var line = d3.line()
-        .defined(function(d: any) {
-          const belowXLimit: boolean = d.timestamp < Date.now() - duration;
-          const aboveXLimit: boolean = d.timestamp > Date.now();
-          return !belowXLimit && !aboveXLimit;
-        })
-        .x(function(d: any) {
-          return x(d.timestamp);
-        })
-        .y(function(d: any) {
-          return y(d.resCount)
-        });
+        .defined((d: any) => d.timestamp >= Date.now() - duration && d.timestamp <= Date.now())
+        .x((d: any) => x(d.timestamp))
+        .y((d: any) => y(d.resCount));
 
     g.append("g")
         .attr("transform", "translate(0," + height + ")")
