@@ -2,9 +2,15 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs';
+import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import {
+  Courses,
   FeedbackSessionPublishStatus,
+  FeedbackSessions,
   FeedbackSessionSubmissionStatus,
+  HasResponses,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
@@ -20,6 +26,8 @@ import { SubmissionStatusPipe } from '../../pipes/session-submission-status.pipe
 describe('StudentHomePageComponent', () => {
   let component: StudentHomePageComponent;
   let fixture: ComponentFixture<StudentHomePageComponent>;
+  let courseService: CourseService;
+  let feedbackSessionsService: FeedbackSessionsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -44,11 +52,224 @@ describe('StudentHomePageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StudentHomePageComponent);
     component = fixture.componentInstance;
+    courseService = TestBed.inject(CourseService);
+    feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should load the courses and feedback sessions involving the student', () => {
+    const studentCourses: Courses = {
+      courses: [{
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      }],
+    };
+
+    const studentFeedbackSessions: FeedbackSessions = {
+      feedbackSessions: [
+        {
+          feedbackSessionName: 'First Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1549095330000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+      ],
+    };
+
+    const hasRes: HasResponses = {
+      hasResponses: false,
+    };
+
+    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
+    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+
+    component.loadStudentCourses();
+
+    expect(component.courses.length).toEqual(1);
+    expect(component.courses[0].course.courseId).toEqual('CS1231');
+    expect(component.courses[0].course.courseName).toEqual('Discrete Structures');
+    expect(component.courses[0].feedbackSessions[0].session.feedbackSessionName).toEqual('First Session');
+    expect(component.isCoursesLoading).toBeFalsy();
+  });
+
+  it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
+    const studentCourses: Courses = {
+      courses: [{
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      }],
+    };
+
+    const studentFeedbackSessions: FeedbackSessions = {
+      feedbackSessions: [
+        {
+          feedbackSessionName: 'Latest update Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1611392191000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 1603443391000,
+        },
+        {
+          feedbackSessionName: 'Orientation Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1549095330000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 1603356991000,
+        },
+        {
+          feedbackSessionName: 'Welcome Tea Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1579769791000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 1603270591000,
+        },
+      ],
+    };
+
+    const hasRes: HasResponses = {
+      hasResponses: false,
+    };
+
+    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
+    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+
+    component.loadStudentCourses();
+
+    expect(component.courses.length).toEqual(1);
+    expect(component.courses[0].feedbackSessions.length).toEqual(3);
+    expect(component.courses[0].feedbackSessions[0].session.feedbackSessionName).toEqual('Welcome Tea Session');
+    expect(component.courses[0].feedbackSessions[1].session.feedbackSessionName).toEqual('Orientation Session');
+    expect(component.courses[0].feedbackSessions[2].session.feedbackSessionName).toEqual('Latest update Session');
+  });
+
+  it('should sort feedback sessions by submissionEndTimestamp, when createdAtTimestamps are equal', () => {
+    const studentCourses: Courses = {
+      courses: [{
+        courseId: 'CS1231',
+        courseName: 'Discrete Structures',
+        timeZone: 'Asia/Singapore',
+        creationTimestamp: 1549095330000,
+        deletionTimestamp: 0,
+      }],
+    };
+
+    const studentFeedbackSessions: FeedbackSessions = {
+      feedbackSessions: [
+        {
+          feedbackSessionName: 'Latest update Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1611392191000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+        {
+          feedbackSessionName: 'Orientation Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1549095330000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+        {
+          feedbackSessionName: 'Welcome Tea Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1579769791000,
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+      ],
+    };
+
+    const hasRes: HasResponses = {
+      hasResponses: false,
+    };
+
+    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
+    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+
+    component.loadStudentCourses();
+
+    expect(component.courses.length).toEqual(1);
+    expect(component.courses[0].feedbackSessions.length).toEqual(3);
+    expect(component.courses[0].feedbackSessions[0].session.feedbackSessionName).toEqual('Orientation Session');
+    expect(component.courses[0].feedbackSessions[1].session.feedbackSessionName).toEqual('Welcome Tea Session');
+    expect(component.courses[0].feedbackSessions[2].session.feedbackSessionName).toEqual('Latest update Session');
   });
 
   it('should disable view response button when session is not published', () => {
