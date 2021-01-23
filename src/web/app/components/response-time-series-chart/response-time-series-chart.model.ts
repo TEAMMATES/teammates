@@ -3,5 +3,5 @@
  */
 export interface ResponseTimeSeriesChartModel {
     durationMinutes: number;
-    intervalSeconds: number;
+    intervalMinutes: number;
 }
