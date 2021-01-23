@@ -263,7 +263,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.showCopyStatusMessage();
           });
         }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
+      .catch(() => {});
     });
   }
 
