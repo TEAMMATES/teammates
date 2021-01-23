@@ -4,11 +4,11 @@
     </div>
     <div>
         <label>Duration:</label>
-        <select class="form-control">
+        <select class="form-control" [ngModel]="model.durationSeconds" (ngModelChange)="setDurationHandler($event)">
             <option *ngFor="let duration of [1, 5, 10, 15, 30, 60]" [ngValue]="duration">{{ duration + ' min'}}</option>
         </select>
         <label>Interval:</label>
-        <select class="form-control">
+        <select class="form-control" [ngModel]="model.intervalSeconds">
             <option *ngFor="let interval of [1, 5, 10, 15, 30, 60]" [ngValue]="interval">{{ interval + ' sec'}}</option>
         </select>
     </div>
