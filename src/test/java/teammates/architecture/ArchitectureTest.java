@@ -460,15 +460,6 @@ public class ArchitectureTest {
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .should().accessClassesThat().resideInAPackage("com.google.cloud.storage..")
                 .check(ALL_CLASSES);
-
-        noClasses().that().resideInAPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return !"BlobKey".equals(input.getSimpleName())
-                                && input.getPackageName().startsWith("com.google.appengine.api.blobstore");
-                    }
-                }).check(ALL_CLASSES);
     }
 
     @Test

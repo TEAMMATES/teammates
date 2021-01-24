@@ -8,11 +8,8 @@ import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.LegacyBlobstoreService;
 
 /**
  * Action: saves the file information of the profile picture that was just uploaded.
@@ -53,14 +50,7 @@ class PostStudentProfilePictureAction extends Action {
                 is.read(imageData);
             }
             fileStorage.create(userInfo.id, imageData, image.getContentType());
-            String pictureKey = LegacyBlobstoreService.createBlobKey(userInfo.id);
-            logic.updateOrCreateStudentProfile(
-                    StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
-                            .withPictureKey(pictureKey)
-                            .build());
             return new JsonResult("Your profile picture is updated successfully.");
-        } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
         } catch (ServletException | IOException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }

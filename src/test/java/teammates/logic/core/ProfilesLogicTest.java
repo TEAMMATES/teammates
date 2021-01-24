@@ -48,29 +48,6 @@ public class ProfilesLogicTest extends BaseLogicTest {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         assertEquals(expectedSpa.toString(), updateSpa.toString());
-
-        ______TS("update SP");
-
-        expectedSpa.pictureKey = "non-empty";
-        profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
-                        .withPictureKey(expectedSpa.pictureKey)
-                        .build());
-
-        actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-
-        ______TS("update picture");
-
-        expectedSpa.pictureKey = "newpicturekey";
-        profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
-                        .withPictureKey(expectedSpa.pictureKey)
-                        .build());
-        actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
     }
 
     @Test
@@ -80,12 +57,9 @@ public class ProfilesLogicTest extends BaseLogicTest {
         profilesLogic.updateOrCreateStudentProfile(
                 StudentProfileAttributes.updateOptionsBuilder("sp.logic.test")
                         .withShortName("Test Name")
-                        .withPictureKey("newpicturekey")
                         .build());
-        // make sure we create an profile with picture key
         StudentProfileAttributes savedProfile = profilesLogic.getStudentProfile("sp.logic.test");
         assertNotNull(savedProfile);
-        assertFalse(savedProfile.pictureKey.isEmpty());
 
         profilesLogic.deleteStudentProfile("sp.logic.test");
         // check that profile get deleted and picture get deleted

@@ -63,7 +63,7 @@ class GetStudentProfilePictureAction extends Action {
             }
         }
 
-        if (studentProfile == null || studentProfile.pictureKey.equals("")) {
+        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.googleId)) {
             return new ImageResult();
         }
 

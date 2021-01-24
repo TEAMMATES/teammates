@@ -61,8 +61,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
                 && this.<String>hasSameValue(studentProfile.getInstitute(), newAttributes.getInstitute())
                 && this.<String>hasSameValue(studentProfile.getNationality(), newAttributes.getNationality())
                 && this.<String>hasSameValue(studentProfile.getGender(), newAttributes.getGender().name().toLowerCase())
-                && this.<String>hasSameValue(studentProfile.getMoreInfo(), newAttributes.getMoreInfo())
-                && this.<String>hasSameValue(studentProfile.getPictureKey(), newAttributes.getPictureKey());
+                && this.<String>hasSameValue(studentProfile.getMoreInfo(), newAttributes.getMoreInfo());
         if (!shouldCreateEntity && hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, StudentProfile.class.getSimpleName(), updateOptions));
             return newAttributes;
@@ -74,7 +73,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         studentProfile.setNationality(newAttributes.nationality);
         studentProfile.setGender(newAttributes.gender.name().toLowerCase());
         studentProfile.setMoreInfo(newAttributes.moreInfo);
-        studentProfile.setPictureKey(newAttributes.pictureKey);
         studentProfile.setModifiedDate(Instant.now());
 
         saveEntity(studentProfile);
@@ -95,22 +93,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         Key<Account> parentKey = Key.create(Account.class, googleId);
         Key<StudentProfile> profileKey = Key.create(parentKey, StudentProfile.class, googleId);
         deleteEntity(profileKey);
-    }
-
-    /**
-     * Deletes the {@code pictureKey} of the profile with given {@code googleId} by setting it to an empty string.
-     *
-     * <p>Fails silently if the {@code studentProfile} doesn't exist.</p>
-     */
-    public void deletePictureKey(String googleId) {
-        Assumption.assertNotNull(googleId);
-        StudentProfile studentProfile = getStudentProfileEntityFromDb(googleId);
-
-        if (studentProfile != null) {
-            studentProfile.setPictureKey("");
-            studentProfile.setModifiedDate(Instant.now());
-            saveEntity(studentProfile);
-        }
     }
 
     /**

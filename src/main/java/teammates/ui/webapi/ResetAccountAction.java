@@ -5,7 +5,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
@@ -62,9 +61,8 @@ class ResetAccountAction extends AdminOnlyAction {
         if (wrongGoogleId != null
                 && logic.getStudentsForGoogleId(wrongGoogleId).isEmpty()
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
-            StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(wrongGoogleId);
-            if (studentProfileAttributes != null && !studentProfileAttributes.pictureKey.equals("")) {
-                fileStorage.delete(studentProfileAttributes.googleId);
+            if (fileStorage.doesFileExist(wrongGoogleId)) {
+                fileStorage.delete(wrongGoogleId);
             }
             logic.deleteAccountCascade(wrongGoogleId);
         }

@@ -12,7 +12,6 @@ import com.googlecode.objectify.cmd.Query;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
-import teammates.common.util.LegacyBlobstoreService;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
@@ -99,19 +98,14 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         ofy().delete().type(Account.class).id(oldGoogleId).now();
 
         if (oldStudentProfile != null) {
-            String pictureKey = oldStudentProfile.getPictureKey();
-
             if (!ClientProperties.isTargetUrlDevServer()) {
                 Storage storage = StorageOptions.newBuilder().setProjectId(Config.APP_ID).build().getService();
                 Blob blob = storage.get(Config.PRODUCTION_GCS_BUCKETNAME, oldGoogleId);
                 blob.copyTo(Config.PRODUCTION_GCS_BUCKETNAME, newGoogleId);
                 blob.delete();
-
-                pictureKey = LegacyBlobstoreService.createBlobKey(newGoogleId);
             }
 
             oldStudentProfile.setGoogleId(newGoogleId);
-            oldStudentProfile.setPictureKey(pictureKey);
             ofy().save().entity(oldStudentProfile).now();
             ofy().delete().key(oldStudentProfileKey).now();
         }

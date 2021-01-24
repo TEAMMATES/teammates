@@ -161,17 +161,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         assertEquals("more info", updatedProfile.getMoreInfo());
         assertEquals("more info", actualProfile.getMoreInfo());
         assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
-
-        assertNotEquals("newPic", actualProfile.getPictureKey());
-        updatedProfile =
-                profilesDb.updateOrCreateStudentProfile(
-                        StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.getGoogleId())
-                                .withPictureKey("newPic")
-                                .build());
-        actualProfile = profilesDb.getStudentProfile(typicalProfileWithoutPicture.getGoogleId());
-        assertEquals("newPic", updatedProfile.getPictureKey());
-        assertEquals("newPic", actualProfile.getPictureKey());
-        assertEquals(actualProfile.getModifiedDate(), updatedProfile.getModifiedDate());
     }
 
     @Test
@@ -202,7 +191,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
                 StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithPicture.googleId)
                         .withShortName(typicalProfileWithPicture.shortName)
                         .withGender(typicalProfileWithPicture.gender)
-                        .withPictureKey(typicalProfileWithPicture.pictureKey)
                         .withMoreInfo(typicalProfileWithPicture.moreInfo)
                         .withInstitute(typicalProfileWithPicture.institute)
                         .withEmail(typicalProfileWithPicture.email)
@@ -225,17 +213,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         verifyPresentInDatastore(typicalProfileWithPicture);
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.getModifiedDate(), storedProfile.getModifiedDate());
-    }
-
-    @Test
-    public void testUpdateOrCreateStudentProfile_withNonEmptyPictureKey_shouldUpdateSuccessfully() throws Exception {
-        StudentProfileAttributes updatedSpa = profilesDb.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.googleId)
-                        .withPictureKey(typicalProfileWithoutPicture.pictureKey)
-                        .build());
-
-        verifyPresentInDatastore(typicalProfileWithoutPicture);
-        assertEquals(typicalProfileWithoutPicture.pictureKey, updatedSpa.pictureKey);
     }
 
     @Test
