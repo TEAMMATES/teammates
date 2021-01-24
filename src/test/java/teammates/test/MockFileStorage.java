@@ -11,9 +11,7 @@ public class MockFileStorage extends FileStorage {
 
     private static final String TEST_FILESTORAGE_DIRECTORY = "src/test/resources/filestorage";
 
-    /**
-     * Returns true if a file with the specified {@code fileKey} exists in the storage.
-     */
+    @Override
     public boolean doesFileExist(String fileKey) {
         try {
             FileHelper.readFileAsBytes(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);

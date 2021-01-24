@@ -28,6 +28,13 @@ public final class GoogleCloudStorageService implements FileStorageService {
     }
 
     @Override
+    public boolean doesFileExist(String fileKey) {
+        BlobId blobId = BlobId.of(Config.PRODUCTION_GCS_BUCKETNAME, fileKey);
+        Blob blob = storage.get(blobId);
+        return blob.exists();
+    }
+
+    @Override
     public byte[] getContent(String fileKey) {
         BlobId blobId = BlobId.of(Config.PRODUCTION_GCS_BUCKETNAME, fileKey);
         Blob blob = storage.get(blobId);

@@ -38,6 +38,11 @@ public final class LocalFileStorageService implements FileStorageService {
     }
 
     @Override
+    public boolean doesFileExist(String fileKey) {
+        return Files.exists(Paths.get(constructFilePath(fileKey)));
+    }
+
+    @Override
     public byte[] getContent(String fileKey) {
         byte[] buffer = new byte[1024 * 300];
         try (InputStream fis = Files.newInputStream(Paths.get(constructFilePath(fileKey)))) {

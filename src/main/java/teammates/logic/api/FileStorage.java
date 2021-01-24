@@ -21,6 +21,13 @@ public class FileStorage {
     }
 
     /**
+     * Returns true if a file with the specified {@code fileKey} exists in the storage.
+     */
+    public boolean doesFileExist(String fileKey) {
+        return service.doesFileExist(fileKey);
+    }
+
+    /**
      * Gets the content of the file with the specified {@code fileKey} as bytes.
      */
     public byte[] getContent(String fileKey) {
