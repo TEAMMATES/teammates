@@ -64,7 +64,7 @@ class ResetAccountAction extends AdminOnlyAction {
                 && logic.getInstructorsForGoogleId(wrongGoogleId).isEmpty()) {
             StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(wrongGoogleId);
             if (studentProfileAttributes != null && !studentProfileAttributes.pictureKey.equals("")) {
-                fileStorage.delete(studentProfileAttributes.pictureKey);
+                fileStorage.delete(studentProfileAttributes.googleId);
             }
             logic.deleteAccountCascade(wrongGoogleId);
         }

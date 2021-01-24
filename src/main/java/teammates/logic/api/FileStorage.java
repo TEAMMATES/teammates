@@ -1,7 +1,5 @@
 package teammates.logic.api;
 
-import java.io.IOException;
-
 import teammates.common.util.Config;
 import teammates.logic.core.FileStorageService;
 import teammates.logic.core.GoogleCloudStorageService;
@@ -25,7 +23,7 @@ public class FileStorage {
     /**
      * Gets the content of the file with the specified {@code fileKey} as bytes.
      */
-    public byte[] getContent(String fileKey) throws IOException {
+    public byte[] getContent(String fileKey) {
         return service.getContent(fileKey);
     }
 
@@ -39,8 +37,8 @@ public class FileStorage {
     /**
      * Creates a file with the specified {@code contentBytes} as content and with type {@code contentType}.
      */
-    public String create(String fileKey, byte[] contentBytes, String contentType) throws IOException {
-        return service.create(fileKey, contentBytes, contentType);
+    public void create(String fileKey, byte[] contentBytes, String contentType) {
+        service.create(fileKey, contentBytes, contentType);
     }
 
 }

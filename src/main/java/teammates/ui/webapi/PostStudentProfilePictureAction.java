@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.LegacyBlobstoreService;
 
 /**
  * Action: saves the file information of the profile picture that was just uploaded.
@@ -51,7 +52,8 @@ class PostStudentProfilePictureAction extends Action {
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
             }
-            String pictureKey = fileStorage.create(userInfo.id, imageData, image.getContentType());
+            fileStorage.create(userInfo.id, imageData, image.getContentType());
+            String pictureKey = LegacyBlobstoreService.createBlobKey(userInfo.id);
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
                             .withPictureKey(pictureKey)

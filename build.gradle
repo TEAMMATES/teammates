@@ -56,19 +56,7 @@ dependencies {
     implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
     implementation("com.google.cloud:google-cloud-tasks:1.30.11")
     implementation("com.google.cloud:google-cloud-logging:2.1.2")
-
-    // This dependency needs to be resolved individually
-    // because the main dependency (appengine-gcs-client) does not have its transitive dependencies up-to-date
-    implementation("com.google.appengine.tools:appengine-gcs-client:0.8.1") {
-        // Use the newer servlet library instead
-        exclude group: "javax.servlet", module: "servlet-api"
-    }
-    implementation("com.google.api-client:google-api-client-appengine:1.30.9") {
-        // Use the newer servlet library instead
-        exclude group: "javax.servlet", module: "servlet-api"
-    }
-    implementation("com.google.apis:google-api-services-storage:v1-rev20200430-1.30.9")
-
+    implementation("com.google.cloud:google-cloud-storage:1.113.9")
     implementation("com.google.code.gson:gson:2.8.6")
     implementation("com.google.guava:guava:30.1-jre")
     implementation(objectify)

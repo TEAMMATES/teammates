@@ -1,16 +1,14 @@
 package teammates.logic.core;
 
-import java.io.IOException;
-
 /**
  * A binary file storage interface used for managing binary files such as profile pictures.
  */
 public interface FileStorageService {
 
-    byte[] getContent(String fileKey) throws IOException;
+    byte[] getContent(String fileKey);
 
     void delete(String fileKey);
 
-    String create(String fileKey, byte[] contentBytes, String contentType) throws IOException;
+    void create(String fileKey, byte[] contentBytes, String contentType);
 
 }

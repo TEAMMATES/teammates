@@ -34,7 +34,7 @@ class DeleteStudentProfilePictureAction extends Action {
             return new JsonResult("Invalid student profile", HttpStatus.SC_NOT_FOUND);
         }
         if (!"".equals(studentProfileAttributes.pictureKey)) {
-            fileStorage.delete(studentProfileAttributes.pictureKey);
+            fileStorage.delete(studentProfileAttributes.googleId);
         }
         logic.deletePictureKey(userInfo.id);
         return new JsonResult("Your profile picture has been deleted successfully", HttpStatus.SC_OK);

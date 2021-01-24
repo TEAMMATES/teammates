@@ -51,10 +51,10 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
     }
 
-    protected static String writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
+    protected static void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
         byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
         String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
-        return MOCK_FILE_STORAGE.create(targetFileName, bytes, contentType);
+        MOCK_FILE_STORAGE.create(targetFileName, bytes, contentType);
     }
 
     protected static boolean doesFileExist(String fileName) {

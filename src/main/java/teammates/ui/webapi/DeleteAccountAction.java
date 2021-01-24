@@ -15,7 +15,7 @@ class DeleteAccountAction extends AdminOnlyAction {
         String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(Const.ParamsNames.INSTRUCTOR_ID);
         if (studentProfileAttributes != null && !studentProfileAttributes.pictureKey.equals("")) {
-            fileStorage.delete(studentProfileAttributes.pictureKey);
+            fileStorage.delete(studentProfileAttributes.googleId);
         }
         logic.deleteAccountCascade(instructorId);
         return new JsonResult("Account is successfully deleted.", HttpStatus.SC_OK);
