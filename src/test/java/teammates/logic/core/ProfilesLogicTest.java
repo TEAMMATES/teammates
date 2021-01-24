@@ -63,7 +63,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
 
         ______TS("update picture");
 
-        expectedSpa.pictureKey = writeFileToStorage(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
+        expectedSpa.pictureKey = "newpicturekey";
         profilesLogic.updateOrCreateStudentProfile(
                 StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
                         .withPictureKey(expectedSpa.pictureKey)
@@ -80,7 +80,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
         profilesLogic.updateOrCreateStudentProfile(
                 StudentProfileAttributes.updateOptionsBuilder("sp.logic.test")
                         .withShortName("Test Name")
-                        .withPictureKey(writeFileToStorage("sp.logic.test", "src/test/resources/images/profile_pic_default.png"))
+                        .withPictureKey("newpicturekey")
                         .build());
         // make sure we create an profile with picture key
         StudentProfileAttributes savedProfile = profilesLogic.getStudentProfile("sp.logic.test");
@@ -90,14 +90,6 @@ public class ProfilesLogicTest extends BaseLogicTest {
         profilesLogic.deleteStudentProfile("sp.logic.test");
         // check that profile get deleted and picture get deleted
         verifyAbsentInDatastore(savedProfile);
-        assertFalse(doesFileExist(savedProfile.pictureKey));
-    }
-
-    @Test
-    public void testDeletePicture() throws Exception {
-        String keyString = writeFileToStorage("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
-        profilesLogic.deletePicture(keyString);
-        assertFalse(doesFileExist(keyString));
     }
 
 }

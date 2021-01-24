@@ -10,7 +10,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.logic.api.FileStorage;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -93,22 +92,9 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         if (sp == null) {
             return;
         }
-        if (!sp.getPictureKey().equals("")) {
-            deletePicture(sp.getPictureKey());
-        }
         Key<Account> parentKey = Key.create(Account.class, googleId);
         Key<StudentProfile> profileKey = Key.create(parentKey, StudentProfile.class, googleId);
         deleteEntity(profileKey);
-    }
-
-    /**
-     * Deletes picture associated with the {@code key}.
-     *
-     * <p>Fails silently if the {@code key} doesn't exist.</p>
-     */
-    public void deletePicture(String key) {
-        // TODO this is architecture-breaking; move this method out
-        new FileStorage().delete(key);
     }
 
     /**

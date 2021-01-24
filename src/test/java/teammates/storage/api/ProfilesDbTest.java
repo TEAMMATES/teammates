@@ -1,7 +1,5 @@
 package teammates.storage.api;
 
-import java.io.IOException;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,22 +18,15 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
     private StudentProfileAttributes typicalProfileWithPicture;
     private StudentProfileAttributes typicalProfileWithoutPicture;
-    private String typicalPictureKey;
 
     @BeforeMethod
     public void createTypicalData() throws Exception {
-        // typical picture
-        typicalPictureKey = uploadDefaultPictureForProfile("valid.googleId");
-        assertTrue(doesFileExist(typicalPictureKey));
-
         // typical profiles
         profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId")
                 .withInstitute("TEAMMATES Test Institute 1")
-                .withPictureKey(typicalPictureKey)
                 .build());
         profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId2")
                 .withInstitute("TEAMMATES Test Institute 1")
-                .withPictureKey(typicalPictureKey)
                 .build());
 
         // save entity and picture
@@ -50,10 +41,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
         verifyAbsentInDatastore(typicalProfileWithPicture);
         verifyAbsentInDatastore(typicalProfileWithoutPicture);
-
-        // delete picture
-        profilesDb.deletePicture(typicalPictureKey);
-        assertFalse(doesFileExist(typicalPictureKey));
     }
 
     @Test
@@ -225,8 +212,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         StudentProfileAttributes storedProfile = profilesDb.getStudentProfile(typicalProfileWithPicture.googleId);
         // other fields remain
         verifyPresentInDatastore(typicalProfileWithPicture);
-        // picture remains
-        assertTrue(doesFileExist(storedProfile.pictureKey));
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.modifiedDate, storedProfile.modifiedDate);
 
@@ -238,16 +223,12 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         storedProfile = profilesDb.getStudentProfile(typicalProfileWithPicture.getGoogleId());
         // other fields remain
         verifyPresentInDatastore(typicalProfileWithPicture);
-        // picture remains
-        assertTrue(doesFileExist(storedProfile.getPictureKey()));
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.getModifiedDate(), storedProfile.getModifiedDate());
     }
 
     @Test
     public void testUpdateOrCreateStudentProfile_withNonEmptyPictureKey_shouldUpdateSuccessfully() throws Exception {
-        typicalProfileWithoutPicture.pictureKey = uploadDefaultPictureForProfile(typicalProfileWithPicture.googleId);
-
         StudentProfileAttributes updatedSpa = profilesDb.updateOrCreateStudentProfile(
                 StudentProfileAttributes.updateOptionsBuilder(typicalProfileWithoutPicture.googleId)
                         .withPictureKey(typicalProfileWithoutPicture.pictureKey)
@@ -255,9 +236,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         verifyPresentInDatastore(typicalProfileWithoutPicture);
         assertEquals(typicalProfileWithoutPicture.pictureKey, updatedSpa.pictureKey);
-
-        // tear down
-        profilesDb.deletePicture(typicalProfileWithoutPicture.pictureKey);
     }
 
     @Test
@@ -280,30 +258,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         // check that profile get deleted and picture get deleted
         verifyAbsentInDatastore(typicalProfileWithPicture);
-        assertFalse(doesFileExist(typicalProfileWithPicture.pictureKey));
     }
 
-    @Test
-    public void testDeletePicture_unknownBlobKey_shouldFailSilently() {
-        profilesDb.deletePicture("unknown");
-
-        assertFalse(doesFileExist("unknown"));
-    }
-
-    @Test
-    public void testDeletePicture_typicalBlobKey_shouldDeleteSuccessfully() {
-        profilesDb.deletePicture(typicalPictureKey);
-
-        assertFalse(doesFileExist(typicalPictureKey));
-    }
-
-    //-------------------------------------------------------------------------------------------------------
-    //-------------------------------------- Helper Functions -----------------------------------------------
-    //-------------------------------------------------------------------------------------------------------
-
-    private String uploadDefaultPictureForProfile(String googleId)
-            throws IOException {
-        // we upload a small text file as the actual file does not matter here
-        return writeFileToStorage(googleId, "src/test/resources/images/not_a_picture.txt");
-    }
 }

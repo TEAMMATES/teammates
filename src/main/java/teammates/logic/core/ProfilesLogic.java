@@ -51,15 +51,6 @@ public final class ProfilesLogic {
     }
 
     /**
-     * Deletes picture associated with the {@code key}.
-     *
-     * <p>Fails silently if the {@code key} doesn't exist.</p>
-     */
-    public void deletePicture(String key) {
-        profilesDb.deletePicture(key);
-    }
-
-    /**
      * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
      *
      * <p>If the associated profile doesn't exist, create a new one.</p>
