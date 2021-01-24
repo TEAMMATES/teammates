@@ -64,7 +64,7 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
 
   drawChart(data: object[], duration: number): void {
 
-    var svg = d3.select('svg');
+    let svg = d3.select('svg');
 
     // clear all content
     svg.selectAll("*").remove();
@@ -78,29 +78,29 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
     svg.attr("width", svgWidth);
     svg.attr("height", svgHeight);
 
-    var g = svg.append("g")
+    let container = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var x = d3.scaleTime()
+    let x = d3.scaleTime()
         .rangeRound([0, width])
         .nice();
 
-    var y = d3.scaleLinear()
+    let y = d3.scaleLinear()
         .rangeRound([height, 0]);
 
     x.domain([Date.now() - duration, Date.now()]);
     y.domain(d3.extent(data, (d: any) => d.resCount));
 
-    var line = d3.line()
+    let line = d3.line()
         .defined((d: any) => d.timestamp >= Date.now() - duration && d.timestamp <= Date.now())
         .x((d: any) => x(d.timestamp))
         .y((d: any) => y(d.resCount));
 
-    g.append("g")
+    container.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
 
-    g.append("g")
+    container.append("g")
         .call(d3.axisLeft(y))
         .append("text")
         .attr("fill", "#000")
@@ -110,7 +110,7 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
         .attr("text-anchor", "end")
         .text("No. of responses");
 
-    g.append("path")
+    container.append("path")
         .datum(data)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
@@ -121,8 +121,8 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
   }
 
   parseData(data: any): any[] {
-    var arr: any[] = [];
-    for (var i in data.datapoints) {
+    let arr: any[] = [];
+    for (let i in data.datapoints) {
       arr.push({
         timestamp: new Date(i),
         resCount: +data.datapoints[i]
