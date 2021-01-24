@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.output.StudentProfilePictureResults;
 
 /**
  * SUT: {@link PostStudentProfilePictureAction}.
@@ -35,14 +34,6 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        StudentProfilePictureResults output = (StudentProfilePictureResults) result.getOutput();
-        String resultPictureKey = output.getPictureKey();
-        String newPictureKey = logic.getStudentProfile(student1.googleId).pictureKey;
-
-        assertNotNull(resultPictureKey);
-        assertNotEquals(resultPictureKey, "");
-        assertEquals(resultPictureKey, newPictureKey);
 
         ______TS("Typical case: profile picture is null");
 

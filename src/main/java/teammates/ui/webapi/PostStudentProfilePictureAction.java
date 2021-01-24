@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.ui.output.StudentProfilePictureResults;
 
 /**
  * Action: saves the file information of the profile picture that was just uploaded.
@@ -57,9 +56,7 @@ class PostStudentProfilePictureAction extends Action {
                     StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
                             .withPictureKey(pictureKey)
                             .build());
-            StudentProfilePictureResults dataFormat =
-                    new StudentProfilePictureResults(pictureKey);
-            return new JsonResult(dataFormat);
+            return new JsonResult("Your profile picture is updated successfully.");
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
         } catch (ServletException | IOException e) {
