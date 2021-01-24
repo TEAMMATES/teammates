@@ -286,6 +286,7 @@ public final class Const {
         public static final String QUESTION = URI_PREFIX + "/question";
         public static final String QUESTION_RECIPIENTS = URI_PREFIX + "/question/recipients";
         public static final String RESPONSES = URI_PREFIX + "/responses";
+        public static final String RESPONSE_STATS = URI_PREFIX + "/response-stats";
         public static final String HAS_RESPONSES = URI_PREFIX + "/hasResponses";
         public static final String JOIN = URI_PREFIX + "/join";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
@@ -298,8 +299,6 @@ public final class Const {
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
         public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
-
-        public static final String RESPONSE_STATS = URI_PREFIX + "/response-stats";
     }
 
     public static class CronJobURIs {

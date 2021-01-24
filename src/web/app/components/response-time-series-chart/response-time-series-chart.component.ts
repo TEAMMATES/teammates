@@ -58,11 +58,16 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
    * Handles a change in interval
    */
   setIntervalHandler(interval: number): void {
-    this.model.durationMinutes = interval;
+    this.model.intervalMinutes = interval;
     this.interval.next(interval);
   }
 
   drawChart(data: object[], duration: number): void {
+
+    var svg = d3.select('svg');
+
+    // clear all content
+    svg.selectAll("*").remove();
 
     const svgWidth: number = 800;
     const svgHeight: number = 400;
@@ -70,9 +75,8 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
     const width: number = svgWidth - margin.left - margin.right;
     const height: number = svgHeight - margin.top - margin.bottom;
 
-    var svg = d3.select('svg')
-        .attr("width", svgWidth)
-        .attr("height", svgHeight);
+    svg.attr("width", svgWidth);
+    svg.attr("height", svgHeight);
 
     var g = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
