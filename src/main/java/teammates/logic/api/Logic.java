@@ -19,6 +19,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseRecordAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -40,7 +41,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.entity.FeedbackResponseRecord;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -1185,7 +1185,7 @@ public class Logic {
         return feedbackResponsesLogic.getTotalFeedbackResponseCount();
     }
 
-    public Set<FeedbackResponseRecord> getResponseRecords(long duration, long interval) {
+    public List<FeedbackResponseRecordAttributes> getResponseRecords(long duration, long interval) {
         return feedbackResponseRecordLogic.getFeedbackResponseRecords(duration, interval);
     }
 

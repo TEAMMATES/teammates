@@ -1,22 +1,27 @@
 package teammates.ui.output;
 
-import java.util.Set;
-
-import teammates.storage.entity.FeedbackResponseRecord;
+import teammates.common.datatransfer.attributes.FeedbackResponseRecordAttributes;
 
 /**
- * Output format of response record data.
+ * The API output format of {@link FeedbackResponseRecordAttributes}.
  */
 public class FeedbackResponseRecordData extends ApiOutput {
 
-    private final Set<FeedbackResponseRecord> feedbackResponseRecords;
+    private final int count;
 
-    public FeedbackResponseRecordData(Set<FeedbackResponseRecord> feedbackResponseRecords) {
-        this.feedbackResponseRecords = feedbackResponseRecords;
+    private final int timestamp;
+
+    public FeedbackResponseRecordData(FeedbackResponseRecordAttributes feedbackResponseRecordAttributes) {
+        this.count = feedbackResponseRecordAttributes.getCount();
+        this.timestamp = feedbackResponseRecordAttributes.getTimestamp();
     }
 
-    public Set<FeedbackResponseRecord> getFeedbackResponseRecords() {
-        return feedbackResponseRecords;
+    public int getCount() {
+        return count;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
     }
 
 }

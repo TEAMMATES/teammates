@@ -57,4 +57,12 @@ public class FeedbackResponseRecordAttributes extends EntityAttributes<FeedbackR
     public void sanitizeForSaving() {
         // no additional sanitization required
     }
+
+    public int getCount() {
+        return this.count;
+    }
+
+    public int getTimestamp() {
+        return this.timestamp;
+    }
 }

@@ -2,9 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -45,11 +44,11 @@ public class FeedbackResponseMonitorDb extends EntitiesDb<FeedbackResponseRecord
     /**
      * Gets a set of response records with chosen duration and interval.
      */
-    public Set<FeedbackResponseRecord> getResponseRecords(long duration, long interval) {
+    public List<FeedbackResponseRecordAttributes> getResponseRecords(long duration, long interval) {
         long currentTimeInSec = System.currentTimeMillis() / 1000;
         long startTimeInSec = currentTimeInSec - duration;
         List<Key<FeedbackResponseRecord>> keysOfRecords = load().keys().list();
-        Set<FeedbackResponseRecord> records = new HashSet<>();
+        List<FeedbackResponseRecord> records = new ArrayList<>();
         long currentTimestamp = -1;
         for (Key<FeedbackResponseRecord> key : keysOfRecords) {
             String[] tokens = key.getName().split("-");
@@ -61,6 +60,6 @@ public class FeedbackResponseMonitorDb extends EntitiesDb<FeedbackResponseRecord
                 currentTimestamp = timestamp;
             }
         }
-        return records;
+        return makeAttributes(records);
     }
 }
