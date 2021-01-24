@@ -4,8 +4,8 @@ exports[`SessionResultPageComponent should snap when session results failed to l
 <tm-session-result-page
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId="undefined"
-  feedbackSessionName="undefined"
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -16,9 +16,9 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   ngbModal={[Function NgbModal]}
   personName=""
   questions={[Function Array]}
-  regKey=""
+  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
@@ -29,6 +29,29 @@ exports[`SessionResultPageComponent should snap when session results failed to l
      Feedback Session Results
   
   </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -137,8 +160,8 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
 <tm-session-result-page
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId="undefined"
-  feedbackSessionName="undefined"
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -149,9 +172,9 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   ngbModal={[Function NgbModal]}
   personName=""
   questions={[Function Array]}
-  regKey=""
+  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
@@ -162,6 +185,29 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
      Feedback Session Results
   
   </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -257,8 +303,8 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
 <tm-session-result-page
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId="undefined"
-  feedbackSessionName="undefined"
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -269,9 +315,9 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   ngbModal={[Function NgbModal]}
   personName=""
   questions={[Function Array]}
-  regKey=""
+  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
@@ -282,6 +328,29 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
      Feedback Session Results
   
   </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -377,8 +446,8 @@ exports[`SessionResultPageComponent should snap with session results are loading
 <tm-session-result-page
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId="undefined"
-  feedbackSessionName="undefined"
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -389,9 +458,9 @@ exports[`SessionResultPageComponent should snap with session results are loading
   ngbModal={[Function NgbModal]}
   personName=""
   questions={[Function Array]}
-  regKey=""
+  regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
@@ -402,6 +471,29 @@ exports[`SessionResultPageComponent should snap with session results are loading
      Feedback Session Results
   
   </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -509,8 +601,8 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
 <tm-session-result-page
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId="undefined"
-  feedbackSessionName="undefined"
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -523,7 +615,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
@@ -548,6 +640,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
            You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
           <a
             href="#"
+            id="join-course-btn"
           >
             click here
           </a>
@@ -652,8 +745,8 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
 <tm-session-result-page
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId="undefined"
-  feedbackSessionName="undefined"
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -666,7 +759,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   questions={[Function Array]}
   regKey={[Function String]}
   retryAttempts={[Function Number]}
-  route={[Function ActivatedRoute]}
+  route={[Function Object]}
   router={[Function Router]}
   session={[Function Object]}
   statusMessageService={[Function StatusMessageService]}
