@@ -8,7 +8,7 @@ describe('ResponseTimeSeriesChartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResponseTimeSeriesChartComponent ]
+      declarations: [ResponseTimeSeriesChartComponent],
     })
     .compileComponents();
   }));
