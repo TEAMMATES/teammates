@@ -125,5 +125,4 @@ export class AdminHomePageComponent {
       this.addInstructor(i);
     }
   }
-
 }

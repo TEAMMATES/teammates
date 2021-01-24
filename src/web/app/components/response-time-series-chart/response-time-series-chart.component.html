@@ -1,0 +1,15 @@
+<div class="card bg-light top-padded">
+    <div class="line-chart">
+        <svg></svg>
+    </div>
+    <div>
+        <label>Duration:</label>
+        <select class="form-control" [ngModel]="model.durationMinutes" (ngModelChange)="setDurationHandler($event)">
+            <option *ngFor="let duration of [1, 5, 10, 15, 30, 60]" [ngValue]="duration">{{ duration + ' min'}}</option>
+        </select>
+        <label>Interval:</label>
+        <select class="form-control" [ngModel]="model.intervalMinutes" (ngModelChange)="setIntervalHandler($event)">
+            <option *ngFor="let interval of [1, 5, 10, 15, 30, 60]" [ngValue]="interval">{{ interval + ' min'}}</option>
+        </select>
+    </div>
+</div>

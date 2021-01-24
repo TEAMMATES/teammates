@@ -53,6 +53,7 @@
     "@angular/cli": "~9.1.9",
     "@angular/compiler-cli": "~9.1.11",
     "@angular/language-service": "~9.1.11",
+    "@types/d3": "^6.2.0",
     "@types/jest": "^26.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.2.2",
