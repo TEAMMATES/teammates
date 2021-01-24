@@ -6,12 +6,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.logic.api.FileStorage;
 
 /**
  * Action result in form of an image.
  */
 class ImageResult extends ActionResult {
+
+    // TODO figure out how to inject fileStorage to this class without explicit initialization
+    private FileStorage fileStorage = new FileStorage();
 
     /** The blob key for the image. */
     private String blobKey;
@@ -33,7 +36,7 @@ class ImageResult extends ActionResult {
     void send(HttpServletResponse resp) throws IOException {
         resp.setContentType("image/png");
         if (blobKey != null) {
-            GoogleCloudStorageHelper.serve(resp, blobKey);
+            fileStorage.serve(resp, blobKey);
         }
     }
 

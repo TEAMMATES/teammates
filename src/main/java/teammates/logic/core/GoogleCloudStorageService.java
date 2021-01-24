@@ -1,4 +1,4 @@
-package teammates.common.util;
+package teammates.logic.core;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -14,38 +14,25 @@ import com.google.appengine.tools.cloudstorage.GcsOutputChannel;
 import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
 import com.google.appengine.tools.cloudstorage.RetryParams;
 
+import teammates.common.util.Config;
+import teammates.common.util.Logger;
+
 /**
  * Holds functions for operations related to Google Cloud Storage.
  */
-public final class GoogleCloudStorageHelper {
+public final class GoogleCloudStorageService implements FileStorageService {
 
     private static final Logger log = Logger.getLogger();
-
-    private GoogleCloudStorageHelper() {
-        // utility class
-    }
 
     private static BlobstoreService service() {
         return BlobstoreServiceFactory.getBlobstoreService();
     }
 
     /**
-     * Returns true if a file with the specified {@code fileKey} exists in the
-     *         Google Cloud Storage.
-     */
-    public static boolean doesFileExistInGcs(String fileKey) {
-        try {
-            service().fetchData(new BlobKey(fileKey), 0, 1);
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-    }
-
-    /**
      * Deletes the file with the specified {@code fileKey} in the Google Cloud Storage.
      */
-    public static void deleteFile(String fileKey) {
+    @Override
+    public void delete(String fileKey) {
         try {
             service().delete(new BlobKey(fileKey));
         } catch (Exception e) {
@@ -59,7 +46,8 @@ public final class GoogleCloudStorageHelper {
      *
      * @return the {@link BlobKey} used as the image's identifier in Google Cloud Storage
      */
-    public static String writeImageDataToGcs(String googleId, byte[] imageData, String contentType) throws IOException {
+    @Override
+    public String create(String googleId, byte[] imageData, String contentType) throws IOException {
         GcsFilename gcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, googleId);
         try (GcsOutputChannel outputChannel =
                 GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance())
@@ -81,7 +69,8 @@ public final class GoogleCloudStorageHelper {
     /**
      * Serves the content of the file with the specified {@code fileKey} as the body of the given HTTP response.
      */
-    public static void serve(HttpServletResponse resp, String fileKey) throws IOException {
+    @Override
+    public void serve(HttpServletResponse resp, String fileKey) throws IOException {
         service().serve(new BlobKey(fileKey), resp);
     }
 

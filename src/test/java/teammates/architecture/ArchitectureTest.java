@@ -456,7 +456,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_gcsApiCanOnlyBeAccessedByGcsHelper() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
+        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageService")
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .should().accessClassesThat().resideInAPackage("com.google.appengine.tools.cloudstorage..")
                 .check(ALL_CLASSES);
@@ -464,7 +464,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_blobstoreApiCanOnlyBeAccessedByGcsHelper() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
+        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageService")
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
                 .should().accessClassesThat().resideInAPackage("com.google.appengine.api.blobstore..")
                 .check(ALL_CLASSES);
@@ -513,7 +513,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
+        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageService")
                 .and().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
                 .and().doNotHaveSimpleName("GaeSimulation")

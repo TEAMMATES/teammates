@@ -13,7 +13,7 @@ import com.googlecode.objectify.cmd.Query;
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
-import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.logic.core.GoogleCloudStorageService;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
@@ -109,7 +109,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
                     GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
                     gcsService.copy(oldGcsFilename, newGcsFilename);
                     gcsService.delete(oldGcsFilename);
-                    pictureKey = GoogleCloudStorageHelper.createBlobKey(newGoogleId);
+                    pictureKey = GoogleCloudStorageService.createBlobKey(newGoogleId);
                 } catch (Exception e) {
                     log("Profile picture not exist or error during copy: " + e.getMessage());
                 }

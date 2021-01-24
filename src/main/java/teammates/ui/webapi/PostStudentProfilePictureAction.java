@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.ui.output.StudentProfilePictureResults;
 
 /**
@@ -53,7 +52,7 @@ class PostStudentProfilePictureAction extends Action {
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
             }
-            String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(userInfo.id, imageData, image.getContentType());
+            String pictureKey = fileStorage.create(userInfo.id, imageData, image.getContentType());
             logic.updateOrCreateStudentProfile(
                     StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
                             .withPictureKey(pictureKey)

@@ -22,6 +22,7 @@ import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
+import teammates.logic.api.FileStorage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
@@ -40,6 +41,7 @@ public abstract class Action {
     EmailGenerator emailGenerator = new EmailGenerator();
     TaskQueuer taskQueuer = new TaskQueuer();
     EmailSender emailSender = new EmailSender();
+    FileStorage fileStorage = new FileStorage();
     RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
 
     HttpServletRequest req;
@@ -71,6 +73,14 @@ public abstract class Action {
 
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
+    }
+
+    public FileStorage getFileStorage() {
+        return fileStorage;
+    }
+
+    public void setFileStorage(FileStorage fileStorage) {
+        this.fileStorage = fileStorage;
     }
 
     public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {

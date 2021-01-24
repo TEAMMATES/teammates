@@ -10,7 +10,7 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.GoogleCloudStorageHelper;
+import teammates.logic.api.FileStorage;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -107,7 +107,8 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
      * <p>Fails silently if the {@code key} doesn't exist.</p>
      */
     public void deletePicture(String key) {
-        GoogleCloudStorageHelper.deleteFile(key);
+        // TODO this is architecture-breaking; move this method out
+        new FileStorage().delete(key);
     }
 
     /**

@@ -26,7 +26,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     public void createTypicalData() throws Exception {
         // typical picture
         typicalPictureKey = uploadDefaultPictureForProfile("valid.googleId");
-        assertTrue(doesFileExistInGcs(typicalPictureKey));
+        assertTrue(doesFileExist(typicalPictureKey));
 
         // typical profiles
         profilesDb.createEntity(StudentProfileAttributes.builder("valid.googleId")
@@ -53,7 +53,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         // delete picture
         profilesDb.deletePicture(typicalPictureKey);
-        assertFalse(doesFileExistInGcs(typicalPictureKey));
+        assertFalse(doesFileExist(typicalPictureKey));
     }
 
     @Test
@@ -226,7 +226,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         // other fields remain
         verifyPresentInDatastore(typicalProfileWithPicture);
         // picture remains
-        assertTrue(doesFileExistInGcs(storedProfile.pictureKey));
+        assertTrue(doesFileExist(storedProfile.pictureKey));
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.modifiedDate, storedProfile.modifiedDate);
 
@@ -239,7 +239,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         // other fields remain
         verifyPresentInDatastore(typicalProfileWithPicture);
         // picture remains
-        assertTrue(doesFileExistInGcs(storedProfile.getPictureKey()));
+        assertTrue(doesFileExist(storedProfile.getPictureKey()));
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.getModifiedDate(), storedProfile.getModifiedDate());
     }
@@ -280,21 +280,21 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         // check that profile get deleted and picture get deleted
         verifyAbsentInDatastore(typicalProfileWithPicture);
-        assertFalse(doesFileExistInGcs(typicalProfileWithPicture.pictureKey));
+        assertFalse(doesFileExist(typicalProfileWithPicture.pictureKey));
     }
 
     @Test
     public void testDeletePicture_unknownBlobKey_shouldFailSilently() {
         profilesDb.deletePicture("unknown");
 
-        assertFalse(doesFileExistInGcs("unknown"));
+        assertFalse(doesFileExist("unknown"));
     }
 
     @Test
     public void testDeletePicture_typicalBlobKey_shouldDeleteSuccessfully() {
         profilesDb.deletePicture(typicalPictureKey);
 
-        assertFalse(doesFileExistInGcs(typicalPictureKey));
+        assertFalse(doesFileExist(typicalPictureKey));
     }
 
     //-------------------------------------------------------------------------------------------------------
@@ -304,6 +304,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     private String uploadDefaultPictureForProfile(String googleId)
             throws IOException {
         // we upload a small text file as the actual file does not matter here
-        return writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt");
+        return writeFileToStorage(googleId, "src/test/resources/images/not_a_picture.txt");
     }
 }
