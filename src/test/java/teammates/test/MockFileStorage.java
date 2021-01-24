@@ -1,5 +1,7 @@
 package teammates.test;
 
+import java.io.IOException;
+
 import teammates.logic.api.FileStorage;
 
 /**
@@ -7,12 +9,41 @@ import teammates.logic.api.FileStorage;
  */
 public class MockFileStorage extends FileStorage {
 
+    private static final String TEST_FILESTORAGE_DIRECTORY = "src/test/resources/filestorage";
+
     /**
      * Returns true if a file with the specified {@code fileKey} exists in the storage.
      */
     public boolean doesFileExist(String fileKey) {
-        // TODO implement this
-        return true;
+        try {
+            FileHelper.readFileAsBytes(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public byte[] getContent(String fileKey) {
+        try {
+            return FileHelper.readFileAsBytes(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void delete(String fileKey) {
+        FileHelper.deleteFile(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);
+    }
+
+    @Override
+    public void create(String fileKey, byte[] contentBytes, String contentType) {
+        try {
+            FileHelper.saveFile(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey, contentBytes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

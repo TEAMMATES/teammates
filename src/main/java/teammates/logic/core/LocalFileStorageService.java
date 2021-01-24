@@ -1,24 +1,52 @@
 package teammates.logic.core;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import teammates.common.exception.TeammatesException;
+import teammates.common.util.Logger;
+
 /**
  * Holds functions for operations related to binary file storage in local dev environment.
  */
 public final class LocalFileStorageService implements FileStorageService {
 
-    @Override
-    public void delete(String fileKey) {
-        // TODO implement this
+    private static final String BASE_DIRECTORY = "../../filestorage-dev";
+    private static final Logger log = Logger.getLogger();
+
+    private static String constructFilePath(String fileKey) {
+        return BASE_DIRECTORY + "/" + fileKey;
     }
 
     @Override
-    public void create(String googleId, byte[] imageData, String contentType) {
-        // TODO implement this
+    public void delete(String fileKey) {
+        File file = new File(constructFilePath(fileKey));
+        file.delete();
+    }
+
+    @Override
+    public void create(String fileKey, byte[] contentBytes, String contentType) {
+        try (OutputStream os = Files.newOutputStream(Paths.get(constructFilePath(fileKey)))) {
+            os.write(contentBytes);
+        } catch (IOException e) {
+            log.warning(TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
     @Override
     public byte[] getContent(String fileKey) {
-        // TODO implement this
-        return new byte[0];
+        byte[] buffer = new byte[1024 * 300];
+        try (InputStream fis = Files.newInputStream(Paths.get(constructFilePath(fileKey)))) {
+            fis.read(buffer);
+        } catch (IOException e) {
+            log.warning(TeammatesException.toStringWithStackTrace(e));
+            return new byte[0];
+        }
+        return buffer;
     }
 
 }

@@ -268,9 +268,8 @@ appengine {
         port = 8080
         jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
                 // Absolute paths are not supported, the following is relative to the project directory
-                // These only specify the datastore/blobstore paths, but search indexes are still generated in WEB-INF/appengine-generated
-                "-Ddatastore.backing_store=../../appengine-generated/local_db.bin",
-                "-Dblobstore.backing_store=../../appengine-generated"]
+                // These only specify the datastore paths, but search indexes are still generated in WEB-INF/appengine-generated
+                "-Ddatastore.backing_store=../../appengine-generated/local_db.bin"]
         automaticRestart = true
     }
     deploy {
