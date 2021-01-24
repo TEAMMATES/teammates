@@ -2,8 +2,6 @@ package teammates.logic.core;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * Holds functions for operations related to binary file storage in local dev environment.
  */
@@ -21,8 +19,9 @@ public final class LocalFileStorageService implements FileStorageService {
     }
 
     @Override
-    public void serve(HttpServletResponse resp, String fileKey) throws IOException {
+    public byte[] getContent(String fileKey) throws IOException {
         // TODO implement this
+        return new byte[0];
     }
 
 }

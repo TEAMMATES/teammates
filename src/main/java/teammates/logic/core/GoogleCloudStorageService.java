@@ -3,8 +3,6 @@ package teammates.logic.core;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -66,12 +64,11 @@ public final class GoogleCloudStorageService implements FileStorageService {
         return service().createGsBlobKey("/gs/" + Config.PRODUCTION_GCS_BUCKETNAME + "/" + identifier).getKeyString();
     }
 
-    /**
-     * Serves the content of the file with the specified {@code fileKey} as the body of the given HTTP response.
-     */
     @Override
-    public void serve(HttpServletResponse resp, String fileKey) throws IOException {
-        service().serve(new BlobKey(fileKey), resp);
+    public byte[] getContent(String objectKey) throws IOException {
+        // TODO this is not supported in blobstore
+        // service().serve(new BlobKey(fileKey), resp);
+        return new byte[0];
     }
 
 }

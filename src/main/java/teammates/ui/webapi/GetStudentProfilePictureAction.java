@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.io.IOException;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -67,6 +69,11 @@ class GetStudentProfilePictureAction extends Action {
             return new ImageResult();
         }
 
-        return new ImageResult(studentProfile.pictureKey);
+        try {
+            byte[] bytes = fileStorage.getContent(studentProfile.pictureKey);
+            return new ImageResult(bytes);
+        } catch (IOException e) {
+            return new JsonResult("Image not processable", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 }

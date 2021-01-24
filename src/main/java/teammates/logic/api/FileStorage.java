@@ -2,8 +2,6 @@ package teammates.logic.api;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
-
 import teammates.common.util.Config;
 import teammates.logic.core.FileStorageService;
 import teammates.logic.core.GoogleCloudStorageService;
@@ -25,10 +23,10 @@ public class FileStorage {
     }
 
     /**
-     * Gets the file with the specified {@code fileKey} and serves it within the HTTP response.
+     * Gets the content of the file with the specified {@code fileKey} as bytes.
      */
-    public void serve(HttpServletResponse resp, String fileKey) throws IOException {
-        service.serve(resp, fileKey);
+    public byte[] getContent(String fileKey) throws IOException {
+        return service.getContent(fileKey);
     }
 
     /**
