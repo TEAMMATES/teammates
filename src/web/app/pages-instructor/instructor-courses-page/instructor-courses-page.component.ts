@@ -264,7 +264,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    });
+    }).catch(() => {});
   }
 
   /**
@@ -311,7 +311,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    });
+    }).catch(() => {});
   }
 
   /**
@@ -354,7 +354,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
-    });
+    }).catch(() => {});
   }
 
   /**
