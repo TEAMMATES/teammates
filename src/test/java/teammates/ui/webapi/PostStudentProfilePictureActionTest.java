@@ -27,6 +27,8 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
         loginAsStudent(student1.googleId);
 
+        deleteFile(student1.googleId);
+
         ______TS("Typical case: upload profile picture operation successful");
 
         String filePath = "src/test/resources/images/profile_pic.png";
@@ -34,6 +36,7 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        assertTrue(doesFileExist(student1.googleId));
 
         ______TS("Typical case: profile picture is null");
 
@@ -56,6 +59,8 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
                 getActionWithParts("studentprofilephoto", invalidProfilePicFilePath);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> invalidProfilePicAction.execute());
+
+        deleteFile(student1.googleId);
     }
 
     @Override

@@ -57,6 +57,10 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         MOCK_FILE_STORAGE.create(targetFileName, bytes, contentType);
     }
 
+    protected static void deleteFile(String fileName) {
+        MOCK_FILE_STORAGE.delete(fileName);
+    }
+
     protected static boolean doesFileExist(String fileName) {
         return MOCK_FILE_STORAGE.doesFileExist(fileName);
     }

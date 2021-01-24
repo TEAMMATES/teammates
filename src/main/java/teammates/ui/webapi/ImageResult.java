@@ -23,6 +23,10 @@ class ImageResult extends ActionResult {
         this.bytes = bytes;
     }
 
+    byte[] getBytes() {
+        return this.bytes;
+    }
+
     @Override
     void send(HttpServletResponse resp) throws IOException {
         resp.setContentType("image/png");

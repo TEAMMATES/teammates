@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.test.FileHelper;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -26,15 +27,21 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
     @Override
     @Test
     public void testExecute() throws Exception {
+        String student1PicPath = "src/test/resources/images/profile_pic.png";
+        byte[] student1PicBytes = FileHelper.readFileAsBytes(student1PicPath);
+
         ______TS("Success case: student gets his own image");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student1InCourse1.googleId);
 
+        writeFileToStorage(student1InCourse1.googleId, student1PicPath);
+
         GetStudentProfilePictureAction action = getAction();
         ImageResult imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: student passes in incomplete params but still gets his own image");
 
@@ -55,6 +62,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: student gets his teammate's image");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
@@ -70,6 +78,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: instructor with privilege views image of his student");
         gaeSimulation.logoutUser();
@@ -85,6 +94,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Failure case: requesting image of an unregistered student");
 
@@ -99,6 +109,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, imageResult.getStatusCode());
+        assertEquals(0, imageResult.getBytes().length);
 
         ______TS("Success case: requested student has no profile picture");
 
@@ -111,6 +122,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, imageResult.getStatusCode());
+        assertEquals(0, imageResult.getBytes().length);
 
         ______TS("Failure case: requesting image of a non-existing student");
 
@@ -126,6 +138,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
         assertEquals("No student found", message.getMessage());
 
+        deleteFile(student1InCourse1.googleId);
     }
 
     @Test

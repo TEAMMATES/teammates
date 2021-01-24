@@ -37,14 +37,13 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
         testInvalidProfileAction();
     }
 
-    private void testActionWithBlobKey() {
-        testActionWithBlobKeySuccess();
-    }
-
-    private void testActionWithBlobKeySuccess() {
+    private void testActionWithBlobKey() throws Exception {
         ______TS("Typical case: success scenario");
 
         loginAsStudent(account.googleId);
+
+        writeFileToStorage(account.googleId, "src/test/resources/images/profile_pic.png");
+        assertTrue(doesFileExist(account.googleId));
 
         String[] submissionParams = {
                 Const.ParamsNames.STUDENT_ID, account.googleId,
@@ -58,6 +57,7 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
         assertEquals(messageOutput.getMessage(), "Your profile picture has been deleted successfully");
         assertEquals("", newPictureKey);
 
+        assertFalse(doesFileExist(account.googleId));
     }
 
     private void testInvalidProfileAction() {
