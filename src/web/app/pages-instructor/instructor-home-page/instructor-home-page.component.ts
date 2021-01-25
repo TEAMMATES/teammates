@@ -33,7 +33,10 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
-interface CourseTabModel {
+/**
+ * Data model for the course tab.
+ */
+export interface CourseTabModel {
   course: Course;
   instructorPrivilege: InstructorPrivilege;
   sessionsTableRowModels: SessionsTableRowModel[];
