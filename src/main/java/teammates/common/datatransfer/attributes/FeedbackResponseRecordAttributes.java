@@ -12,10 +12,10 @@ public class FeedbackResponseRecordAttributes extends EntityAttributes<FeedbackR
 
     private static final Logger log = Logger.getLogger();
 
-    private int count;
-    private int timestamp;
+    private long count;
+    private long timestamp;
 
-    public FeedbackResponseRecordAttributes(int count, int timestamp) {
+    public FeedbackResponseRecordAttributes(long count, long timestamp) {
         this.count = count;
         this.timestamp = timestamp;
     }
@@ -58,11 +58,11 @@ public class FeedbackResponseRecordAttributes extends EntityAttributes<FeedbackR
         // no additional sanitization required
     }
 
-    public int getCount() {
+    public long getCount() {
         return this.count;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return this.timestamp;
     }
 }
