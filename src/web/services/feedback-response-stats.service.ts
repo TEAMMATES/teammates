@@ -23,6 +23,7 @@ export class FeedbackResponseStatsService {
       interval: intervalMinutes,
     };
 
+    console.log("hi")
     return this.httpRequestService.get(ResourceEndpoints.RESPONSE_STATS, paramMap);
   }
 

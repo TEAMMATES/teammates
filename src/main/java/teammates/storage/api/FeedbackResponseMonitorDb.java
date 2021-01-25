@@ -59,7 +59,7 @@ public class FeedbackResponseMonitorDb extends EntitiesDb<FeedbackResponseRecord
                 continue;
             }
 
-            if (lastTimestamp == -1 || timestamp - lastTimestamp > interval) {
+            if (lastTimestamp == -1 || timestamp - lastTimestamp >= interval) {
                 records.add(new FeedbackResponseRecord(key.getName()));
                 lastTimestamp = timestamp;
             }

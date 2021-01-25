@@ -38,6 +38,7 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
     this.feedbackResponseStatsService.loadResponseStats(this.model.durationMinutes.toString(),
         this.model.intervalMinutes.toString())
         .subscribe((data: FeedbackResponseRecords) => {
+          console.log(data)
           const parsedData: any[] = this.parseData(data);
           this.drawChart(parsedData, this.model.durationMinutes * 60 * 1000);
         }, (e: ErrorMessageOutput) => {
