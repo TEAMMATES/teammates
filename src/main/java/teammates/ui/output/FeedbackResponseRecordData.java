@@ -7,20 +7,20 @@ import teammates.common.datatransfer.attributes.FeedbackResponseRecordAttributes
  */
 public class FeedbackResponseRecordData extends ApiOutput {
 
-    private final int count;
+    private final long count;
 
-    private final int timestamp;
+    private final long timestamp;
 
     public FeedbackResponseRecordData(FeedbackResponseRecordAttributes feedbackResponseRecordAttributes) {
         this.count = feedbackResponseRecordAttributes.getCount();
         this.timestamp = feedbackResponseRecordAttributes.getTimestamp();
     }
 
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 

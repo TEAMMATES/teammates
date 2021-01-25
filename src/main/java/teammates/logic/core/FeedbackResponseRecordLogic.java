@@ -23,13 +23,17 @@ public class FeedbackResponseRecordLogic {
         return instance;
     }
 
-    public void createFeedbackResponseRecord(int count, int timestamp)
+    public void createFeedbackResponseRecord(long count, long timestamp)
             throws InvalidParametersException, EntityAlreadyExistsException {
         frmDb.createEntity(new FeedbackResponseRecordAttributes(count, timestamp));
     }
 
     public List<FeedbackResponseRecordAttributes> getFeedbackResponseRecords(long duration, long interval) {
         return frmDb.getResponseRecords(duration, interval);
+    }
+
+    public void purgeFeedbackResponseRecord() {
+        frmDb.purgeResponseRecords();
     }
 
 }

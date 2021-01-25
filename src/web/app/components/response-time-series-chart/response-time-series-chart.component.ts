@@ -82,7 +82,6 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
     const y: any = d3.scaleLinear()
         .rangeRound([height, 0]);
 
-    console.log(data);
     x.domain([Date.now() - duration, Date.now()]);
     y.domain(d3.extent(data, (r: FeedbackResponseRecord) => r.count));
 

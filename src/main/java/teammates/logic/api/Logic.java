@@ -1189,6 +1189,10 @@ public class Logic {
         return feedbackResponseRecordLogic.getFeedbackResponseRecords(duration, interval);
     }
 
+    public void purgeFeedbackResponseRecords() {
+        feedbackResponseRecordLogic.purgeFeedbackResponseRecord();
+    }
+
     /**
      * Creates a feedback response.
      *
@@ -1337,7 +1341,7 @@ public class Logic {
     /**
      * Saves a feedback response record.
      */
-    public void createFeedbackResponseRecord(int count, int timestamp)
+    public void createFeedbackResponseRecord(long count, long timestamp)
             throws InvalidParametersException, EntityAlreadyExistsException {
         feedbackResponseRecordLogic.createFeedbackResponseRecord(count, timestamp);
     }
