@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResourceEndpoints } from '../types/api-const';
-import { FeedbackResponseStats } from '../types/api-output';
+import { FeedbackResponseRecords } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -17,7 +17,7 @@ export class FeedbackResponseStatsService {
   /**
    * Loads feedback response statistics by calling API.
    */
-  loadResponseStats(durationMinutes: string, intervalMinutes: string): Observable<FeedbackResponseStats> {
+  loadResponseStats(durationMinutes: string, intervalMinutes: string): Observable<FeedbackResponseRecords> {
     const paramMap: Record<string, string> = {
       duration: durationMinutes,
       interval: intervalMinutes,

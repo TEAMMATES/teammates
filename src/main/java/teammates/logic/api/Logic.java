@@ -1189,6 +1189,10 @@ public class Logic {
         return feedbackResponseRecordLogic.getFeedbackResponseRecords(duration, interval);
     }
 
+    public void purgeFeedbackResponseRecords() {
+        feedbackResponseRecordLogic.purgeFeedbackResponseRecord();
+    }
+
     /**
      * Creates a feedback response.
      *

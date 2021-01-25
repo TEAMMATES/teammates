@@ -32,4 +32,8 @@ public class FeedbackResponseRecordLogic {
         return frmDb.getResponseRecords(duration, interval);
     }
 
+    public void purgeFeedbackResponseRecord() {
+        frmDb.purgeResponseRecords();
+    }
+
 }

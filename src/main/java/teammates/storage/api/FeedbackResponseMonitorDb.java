@@ -62,4 +62,12 @@ public class FeedbackResponseMonitorDb extends EntitiesDb<FeedbackResponseRecord
         }
         return makeAttributes(records);
     }
+
+    /**
+     * Purse old entries, for local development use.
+     */
+    public void purgeResponseRecords() {
+        ofy().delete().entities(load().list()).now();
+    }
+
 }
