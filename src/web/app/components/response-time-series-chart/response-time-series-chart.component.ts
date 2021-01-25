@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { BehaviorSubject, interval } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { FeedbackResponseStatsService } from '../../../services/feedback-response-stats.service';
-import { FeedbackResponseStats } from '../../../types/api-output';
+import { FeedbackResponseRecords } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { ResponseTimeSeriesChartModel } from './response-time-series-chart.model';
 
@@ -37,11 +37,12 @@ export class ResponseTimeSeriesChartComponent implements OnInit {
   refresh(): void {
     this.feedbackResponseStatsService.loadResponseStats(this.model.durationMinutes.toString(),
         this.model.intervalMinutes.toString())
-        .subscribe((data: FeedbackResponseStats) => {
+        .subscribe((data: FeedbackResponseRecords) => {
+          console.log(data)
           const parsedData: any[] = this.parseData(data);
           this.drawChart(parsedData, this.model.durationMinutes * 60 * 1000);
-        }, (resp: ErrorMessageOutput) => {
-
+        }, (e: ErrorMessageOutput) => {
+          console.log(e)
         });
   }
 

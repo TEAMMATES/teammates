@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpStatus;
 
@@ -8,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -15,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.JoinLinkData;
@@ -24,6 +27,8 @@ import teammates.ui.request.AccountCreateRequest;
  * Creates a new instructor account with sample courses.
  */
 class CreateAccountAction extends AdminOnlyAction {
+
+    static final Logger log = Logger.getLogger();
 
     @Override
     JsonResult execute() {
@@ -84,6 +89,31 @@ class CreateAccountAction extends AdminOnlyAction {
         logic.putFeedbackResponseCommentDocuments(frComments);
         logic.putStudentDocuments(students);
         logic.putInstructorDocuments(instructors);
+
+        // Populate dummy feedback response record data
+        logic.purgeFeedbackResponseRecords();
+        Random rand = new Random(100); // Set seed for deterministic number generation
+
+        int numResponses = data.feedbackResponses.size();
+        int numIntervals = rand.nextInt(numResponses);
+        if (numIntervals < (numResponses / 10)) {
+            numIntervals *= 10;
+        }
+
+        int count = numResponses;
+        int timestamp = (int) (System.currentTimeMillis() / 1000);
+
+        for (int i = 0; i < numIntervals; i++) {
+            try {
+                log.info("creating feedback response record entry");
+                logic.createFeedbackResponseRecord(count, timestamp);
+            } catch (EntityAlreadyExistsException e) {
+                continue;
+            }
+
+            count -= rand.nextInt(numResponses / numIntervals);
+            timestamp -= 120; // 2 minutes interval
+        }
 
         return courseId;
     }

@@ -47,19 +47,32 @@ public class FeedbackResponseMonitorDb extends EntitiesDb<FeedbackResponseRecord
     public List<FeedbackResponseRecordAttributes> getResponseRecords(long duration, long interval) {
         long currentTimeInSec = System.currentTimeMillis() / 1000;
         long startTimeInSec = currentTimeInSec - duration;
+
         List<Key<FeedbackResponseRecord>> keysOfRecords = load().keys().list();
         List<FeedbackResponseRecord> records = new ArrayList<>();
-        long currentTimestamp = -1;
+
+        long lastTimestamp = -1;
         for (Key<FeedbackResponseRecord> key : keysOfRecords) {
             String[] tokens = key.getName().split("-");
             long timestamp = Long.parseLong(tokens[0]);
-            if (timestamp >= startTimeInSec) {
-                if (currentTimestamp == -1 || timestamp - currentTimestamp == interval) {
-                    records.add(new FeedbackResponseRecord(key.getName()));
-                }
-                currentTimestamp = timestamp;
+            if (timestamp < startTimeInSec) {
+                continue;
+            }
+
+            if (lastTimestamp == -1 || timestamp - lastTimestamp >= interval) {
+                records.add(new FeedbackResponseRecord(key.getName()));
+                lastTimestamp = timestamp;
             }
         }
+
         return makeAttributes(records);
     }
+
+    /**
+     * Purse old entries, for local development use.
+     */
+    public void purgeResponseRecords() {
+        ofy().delete().entities(load().list()).now();
+    }
+
 }
