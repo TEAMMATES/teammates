@@ -59,6 +59,45 @@ const feedbackSession: FeedbackSession = {
   createdAtTimestamp: 0,
 };
 
+const activeCourseTabModels: CourseTabModel[] = [
+  {
+    course: {
+      courseId: 'CS1231',
+      courseName: 'Discrete Structures',
+      creationTimestamp: 1549095330000,
+      deletionTimestamp: 0,
+      timeZone: 'Asia/Singapore',
+    },
+    instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+    sessionsTableRowModels: [],
+    sessionsTableRowModelsSortBy: SortBy.NONE,
+    sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+    hasPopulated: false,
+    isAjaxSuccess: false,
+    isTabExpanded: false,
+    hasLoadingFailed: false,
+  },
+  {
+    course: {
+      courseId: 'CS3281',
+      courseName: 'Thematic Systems I',
+      creationTimestamp: 1549095330000,
+      deletionTimestamp: 0,
+      timeZone: 'Asia/Singapore',
+    },
+    instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+    sessionsTableRowModels: [],
+    sessionsTableRowModelsSortBy: SortBy.NONE,
+    sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+    hasPopulated: false,
+    isAjaxSuccess: false,
+    isTabExpanded: false,
+    hasLoadingFailed: false,
+  },
+];
+
 describe('InstructorHomePageComponent', () => {
   let courseService: CourseService;
   let feedbackSessionsService: FeedbackSessionsService;
@@ -88,6 +127,30 @@ describe('InstructorHomePageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should get course candidates', () => {
+    component.courseTabModels = activeCourseTabModels;
+    fixture.detectChanges();
+
+    const courses: Course[] = component.courseCandidates;
+
+    expect(courses.length).toEqual(2);
+    expect(courses[0].courseId).toEqual('CS1231');
+    expect(courses[0].courseName).toEqual('Discrete Structures');
+  });
+
+  it('should expand the course tab model upon clicking', () => {
+    component.courseTabModels = activeCourseTabModels;
+    component.hasCoursesLoaded = true;
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#course-tab-header');
+    button.click();
+    expect(component.courseTabModels[0].isTabExpanded).toBeTruthy();
+
+    button.click();
+    expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
   });
 
   it('should load courses of the current instructor', () => {
@@ -124,27 +187,6 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should load feedbackSessions in the course', () => {
-    const courseTabModels: CourseTabModel[] = [
-      {
-        course: {
-          courseId: 'CS1231',
-          courseName: 'Discrete Structures',
-          creationTimestamp: 1549095330000,
-          deletionTimestamp: 0,
-          timeZone: 'Asia/Singapore',
-        },
-        instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-        sessionsTableRowModels: [],
-        sessionsTableRowModelsSortBy: SortBy.NONE,
-        sessionsTableRowModelsSortOrder: SortOrder.ASC,
-
-        hasPopulated: false,
-        isAjaxSuccess: false,
-        isTabExpanded: false,
-        hasLoadingFailed: false,
-      },
-    ];
-
     const courseSessions: FeedbackSessions = {
       feedbackSessions: [
         {
@@ -183,7 +225,7 @@ describe('InstructorHomePageComponent', () => {
     };
 
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').and.returnValue(of(courseSessions));
-    component.courseTabModels = courseTabModels;
+    component.courseTabModels = activeCourseTabModels;
     component.loadFeedbackSessions(0);
     fixture.detectChanges();
 

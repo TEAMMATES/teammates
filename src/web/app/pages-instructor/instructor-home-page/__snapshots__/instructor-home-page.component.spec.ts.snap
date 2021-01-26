@@ -318,6 +318,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
+            id="course-tab-header"
           >
             <b
               id="course-details"
@@ -501,6 +502,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
+            id="course-tab-header"
           >
             <b
               id="course-details"
@@ -1045,6 +1047,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
+            id="course-tab-header"
           >
             <b
               id="course-details"
@@ -1721,6 +1724,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
+            id="course-tab-header"
           >
             <b
               id="course-details"
@@ -2011,6 +2015,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
+            id="course-tab-header"
           >
             <b
               id="course-details"
@@ -2329,6 +2334,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
         >
           <div
             class="card-header bg-primary text-white cursor-pointer"
+            id="course-tab-header"
           >
             <b
               id="course-details"
