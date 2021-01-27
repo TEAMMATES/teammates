@@ -230,6 +230,100 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].course.courseName).toEqual('Thematic Systems I');
   });
 
+  it('should delete the entire course from the instructor', () => {
+    const deleteCourseTabModels: CourseTabModel[] = [
+      {
+        course: {
+          courseId: 'CS1231',
+          courseName: 'Discrete Structures',
+          creationTimestamp: 1549095330000,
+          deletionTimestamp: 0,
+          timeZone: 'Asia/Singapore',
+        },
+        instructorPrivilege: {
+          canModifyCourse: true,
+          canModifySession: false,
+          canModifyStudent: false,
+          canSubmitSessionInSections: false,
+          canModifyInstructor: false,
+          canViewStudentInSections: false,
+          canModifySessionCommentsInSections: false,
+          canViewSessionInSections: false,
+        },
+        sessionsTableRowModels: [],
+        sessionsTableRowModelsSortBy: SortBy.NONE,
+        sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+        hasPopulated: true,
+        isAjaxSuccess: true,
+        isTabExpanded: true,
+        hasLoadingFailed: false,
+      },
+      {
+        course: {
+          courseId: 'CS3281',
+          courseName: 'Thematic Systems I',
+          creationTimestamp: 1549095330000,
+          deletionTimestamp: 0,
+          timeZone: 'Asia/Singapore',
+        },
+        instructorPrivilege: {
+          canModifyCourse: true,
+          canModifySession: false,
+          canModifyStudent: false,
+          canSubmitSessionInSections: false,
+          canModifyInstructor: false,
+          canViewStudentInSections: false,
+          canModifySessionCommentsInSections: false,
+          canViewSessionInSections: false,
+        },
+        sessionsTableRowModels: [],
+        sessionsTableRowModelsSortBy: SortBy.NONE,
+        sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+        hasPopulated: true,
+        isAjaxSuccess: true,
+        isTabExpanded: true,
+        hasLoadingFailed: false,
+      },
+    ];
+
+    const courseToDelete: Course = {
+      courseId: 'CS1231',
+      courseName: 'Discrete Structures',
+      creationTimestamp: 1549095330000,
+      deletionTimestamp: 0,
+      timeZone: 'Asia/Singapore',
+    };
+
+    component.courseTabModels = deleteCourseTabModels;
+    component.hasCoursesLoaded = true;
+    fixture.detectChanges();
+
+    expect(component.courseTabModels.length).toEqual(2);
+    expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
+    expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
+
+    spyOn(simpleModalService, 'openConfirmationModal').and.callFake(() => {
+      return {
+        componentInstance: {
+          header: 'mock header', content: 'mock content', type: SimpleModalType.WARNING,
+        },
+        result: Promise.resolve(),
+      };
+    });
+    spyOn(courseService, 'binCourse').and.returnValue(of(courseToDelete));
+
+    const courseButton: any = fixture.debugElement.nativeElement.querySelector('#btn-course');
+    courseButton.click();
+    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-course');
+    archiveButton.click();
+
+    expect(component.courseTabModels.length).toEqual(1);
+    expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
+    expect(component.courseTabModels[0].course.courseName).toEqual('Thematic Systems I');
+  });
+
   it('should load courses of the current instructor', () => {
     const activeCourses: Courses = {
       courses: [
