@@ -5,8 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
-  Course, Courses,
+  Course, CourseArchive, Courses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
@@ -17,6 +18,7 @@ import {
 } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
 import { InstructorHomePageModule } from './instructor-home-page.module';
@@ -100,6 +102,7 @@ const activeCourseTabModels: CourseTabModel[] = [
 
 describe('InstructorHomePageComponent', () => {
   let courseService: CourseService;
+  let simpleModalService: SimpleModalService;
   let feedbackSessionsService: FeedbackSessionsService;
   let component: InstructorHomePageComponent;
   let fixture: ComponentFixture<InstructorHomePageComponent>;
@@ -121,6 +124,7 @@ describe('InstructorHomePageComponent', () => {
     fixture = TestBed.createComponent(InstructorHomePageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     fixture.detectChanges();
   });
@@ -151,6 +155,79 @@ describe('InstructorHomePageComponent', () => {
 
     button.click();
     expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
+  });
+
+  it('should archive the entire course from the instructor', () => {
+    const archiveCourseTabModels: CourseTabModel[] = [
+      {
+        course: {
+          courseId: 'CS1231',
+          courseName: 'Discrete Structures',
+          creationTimestamp: 1549095330000,
+          deletionTimestamp: 0,
+          timeZone: 'Asia/Singapore',
+        },
+        instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+        sessionsTableRowModels: [],
+        sessionsTableRowModelsSortBy: SortBy.NONE,
+        sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+        hasPopulated: true,
+        isAjaxSuccess: true,
+        isTabExpanded: true,
+        hasLoadingFailed: false,
+      },
+      {
+        course: {
+          courseId: 'CS3281',
+          courseName: 'Thematic Systems I',
+          creationTimestamp: 1549095330000,
+          deletionTimestamp: 0,
+          timeZone: 'Asia/Singapore',
+        },
+        instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+        sessionsTableRowModels: [],
+        sessionsTableRowModelsSortBy: SortBy.NONE,
+        sessionsTableRowModelsSortOrder: SortOrder.ASC,
+
+        hasPopulated: true,
+        isAjaxSuccess: true,
+        isTabExpanded: true,
+        hasLoadingFailed: false,
+      },
+    ];
+
+    const courseArchive: CourseArchive = {
+      courseId: 'CS1231',
+      isArchived: true,
+    };
+
+    component.courseTabModels = archiveCourseTabModels;
+    component.hasCoursesLoaded = true;
+    fixture.detectChanges();
+
+    expect(component.courseTabModels.length).toEqual(2);
+    expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
+    expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
+
+    spyOn(simpleModalService, 'openConfirmationModal').and.callFake(() => {
+      return {
+        componentInstance: {
+          header: 'mock header', content: 'mock content', type: SimpleModalType.INFO,
+        },
+        result: Promise.resolve(),
+      };
+    });
+    spyOn(courseService, 'changeArchiveStatus').and.returnValue(of(courseArchive));
+
+    const courseButton: any = fixture.debugElement.nativeElement.querySelector('#btn-course');
+    courseButton.click();
+    const archiveButton: any = fixture.debugElement.nativeElement.querySelector('#btn-archive-course');
+    archiveButton.click();
+
+    expect(component.courseTabModels.length).toEqual(1);
+    expect(component.courseTabModels[0].course.courseId).toEqual('CS3281');
+    expect(component.courseTabModels[0].course.courseName).toEqual('Thematic Systems I');
   });
 
   it('should load courses of the current instructor', () => {
