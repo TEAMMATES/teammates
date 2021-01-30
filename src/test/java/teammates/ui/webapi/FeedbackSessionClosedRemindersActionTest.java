@@ -104,7 +104,7 @@ public class FeedbackSessionClosedRemindersActionTest
         action = getAction();
         action.execute();
 
-        // 5 students and 5 instructors in course1
+        // 5 students and 5 instructors in course1 and 4 students have submitted
         verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
