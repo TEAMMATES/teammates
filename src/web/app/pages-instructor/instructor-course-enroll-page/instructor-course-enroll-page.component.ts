@@ -130,8 +130,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
 
-      for (const failToEnrollStudent of resp.failToEnrollStudents) {
-        this.failToEnrollStudents[failToEnrollStudent.studentEmail] = failToEnrollStudent.errorMessage;
+      if (resp.failToEnrollStudents != null) {
+        for (const failToEnrollStudent of resp.failToEnrollStudents) {
+          this.failToEnrollStudents[failToEnrollStudent.studentEmail] = failToEnrollStudent.errorMessage;
+        }
       }
 
       this.enrollResultPanelList =
