@@ -41,6 +41,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   showEnrollResults?: boolean = false;
   enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
+  failToEnrollStudents: { [email: string]: string } = {};
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
 
@@ -128,6 +129,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       this.showEnrollResults = true;
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
+
+      for (const failToEnrollStudent of resp.failToEnrollStudents) {
+        this.failToEnrollStudents[failToEnrollStudent.studentEmail] = failToEnrollStudent.errorMessage;
+      }
+
       this.enrollResultPanelList =
           this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
               studentsEnrollRequest.studentEnrollRequests);

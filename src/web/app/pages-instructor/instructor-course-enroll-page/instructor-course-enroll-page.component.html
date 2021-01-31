@@ -260,6 +260,7 @@
             <th>Student Name</th>
             <th>E-mail address</th>
             <th>Comments</th>
+            <th *ngIf="enrollResultPanel.status === EnrollStatus.ERROR">Errors</th>
           </tr>
         </thead>
         <tbody>
@@ -269,6 +270,7 @@
             <td>{{ student.name }}</td>
             <td>{{ student.email }}</td>
             <td>{{ student.comments }}</td>
+            <td *ngIf="enrollResultPanel.status === EnrollStatus.ERROR">{{ failToEnrollStudents[student.email] }}</td>
           </tr>
         </tbody>
       </table>
