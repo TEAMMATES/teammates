@@ -52,7 +52,7 @@ describe('InstructorSearchPageComponent', () => {
         sectionName: 'Section 2',
       },
     ],
-    failToEnrollStudents: []
+    failToEnrollStudents: [],
   };
 
   beforeEach(() => {
