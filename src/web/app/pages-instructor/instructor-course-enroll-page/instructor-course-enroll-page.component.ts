@@ -8,7 +8,7 @@ import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
+import { EnrollStudents, HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StatusMessage } from '../../components/status-message/status-message';
@@ -124,8 +124,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.studentService.enrollStudents(
         this.courseId, studentsEnrollRequest,
-    ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: Students) => {
-      const enrolledStudents: Student[] = resp.students;
+    ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: EnrollStudents) => {
+      const enrolledStudents: Student[] = resp.studentsData.students;
       this.showEnrollResults = true;
       this.statusMessage.pop(); // removes any existing error status message
       this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');

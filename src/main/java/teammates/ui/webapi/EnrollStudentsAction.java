@@ -14,7 +14,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.ui.output.EnrollError;
+import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 
@@ -72,7 +72,7 @@ class EnrollStudentsAction extends Action {
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
-        List<EnrollError> failToEnrollStudents = new ArrayList<>();
+        List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
         studentsToEnroll.forEach(student -> {
             if (existingStudentsEmail.contains(student.email)) {
                 // The student has been enrolled in the course.
@@ -89,7 +89,8 @@ class EnrollStudentsAction extends Action {
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollError(student.email, exception.getMessage()));
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                            exception.getMessage()));
                     return;
                 }
             } else {
@@ -99,11 +100,12 @@ class EnrollStudentsAction extends Action {
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollError(student.email, exception.getMessage()));
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                            exception.getMessage()));
                     return;
                 }
             }
         });
-        return new JsonResult(new StudentsData(enrolledStudents, failToEnrollStudents));
+        return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
     }
 }
