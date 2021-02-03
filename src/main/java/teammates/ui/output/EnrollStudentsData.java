@@ -8,19 +8,19 @@ import java.util.List;
 public class EnrollStudentsData extends ApiOutput {
 
     private StudentsData studentsData;
-    private List<EnrollErrorResults> failToEnrollStudents;
+    private List<EnrollErrorResults> unsuccessfulEnrolls;
 
-    public EnrollStudentsData(StudentsData studentsData, List<EnrollErrorResults> failToEnrollStudents) {
+    public EnrollStudentsData(StudentsData studentsData, List<EnrollErrorResults> unsuccessfulEnrolls) {
         this.studentsData = studentsData;
-        this.failToEnrollStudents = failToEnrollStudents;
+        this.unsuccessfulEnrolls = unsuccessfulEnrolls;
     }
 
-    public List<EnrollErrorResults> getFailToEnrollStudents() {
-        return failToEnrollStudents;
+    public List<EnrollErrorResults> getUnsuccessfulEnrolls() {
+        return unsuccessfulEnrolls;
     }
 
-    public void setFailToEnrollStudents(List<EnrollErrorResults> failToEnrollStudents) {
-        this.failToEnrollStudents = failToEnrollStudents;
+    public void setUnsuccessfulEnrolls(List<EnrollErrorResults> unsuccessfulEnrolls) {
+        this.unsuccessfulEnrolls = unsuccessfulEnrolls;
     }
 
     public StudentsData getStudentsData() {

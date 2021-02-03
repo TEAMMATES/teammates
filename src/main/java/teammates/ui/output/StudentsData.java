@@ -28,5 +28,4 @@ public class StudentsData extends ApiOutput {
     public void setStudents(List<StudentData> students) {
         this.students = students;
     }
-
 }

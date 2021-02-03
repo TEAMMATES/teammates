@@ -91,7 +91,6 @@ class EnrollStudentsAction extends Action {
                     // Unsuccessfully enrolled students will not be returned.
                     failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
                             exception.getMessage()));
-                    return;
                 }
             } else {
                 // The student is new.
@@ -102,7 +101,6 @@ class EnrollStudentsAction extends Action {
                     // Unsuccessfully enrolled students will not be returned.
                     failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
                             exception.getMessage()));
-                    return;
                 }
             }
         });
