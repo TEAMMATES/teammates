@@ -193,12 +193,11 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closed alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
-        assertEquals(11, emails.size());
+        assertEquals(8, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionClosedEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
 
         ______TS("feedback session published alerts");
