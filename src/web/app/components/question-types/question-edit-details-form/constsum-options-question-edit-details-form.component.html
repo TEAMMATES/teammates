@@ -3,15 +3,18 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div *ngFor="let option of model.constSumOptions; let i = index;
+        <div class="row margin-bottom-20px padding-left-12px" *ngFor="let option of model.constSumOptions; let i = index;
         trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
-          <br>
-          <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
-                                 [isEditable]="isEditable"
-                                 (textChange)="onConstsumOptionEntered($event, i)"
-                                 [text]="option"></tm-constsum-options-field>
+          <div cdkDragHandle>
+            <span class="input-group-addon">&#8597; </span>
+          </div>
+          <div class="flex-grow-1">
+            <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
+                                  [isEditable]="isEditable"
+                                  (textChange)="onConstsumOptionEntered($event, i)"
+                                  [text]="option"></tm-constsum-options-field>
+          </div>
         </div>
-        <br>
       </div>
     </div>
     <div class="row">
