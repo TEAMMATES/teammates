@@ -173,16 +173,10 @@ Their full descriptions can be viewed under the [labels page](https://github.com
 #### Code review
 
 Your code will be reviewed, in this sequence, by:
-* Github Actions: by running static analysis.<br>
-  If there are problems found, the build will terminate without proceeding to testing.<br>
-  Most of the tools will display the cause of the failures in the console;
-  if this is not the case, you can run any of the static analysis tools and obtain the reports locally.<br>
-  Ensure that the static analysis passes before triggering another build.
-* Github Actions: by building and running tests.<br>
+* GitHub Actions: by building and running tests.<br>
   If there are failed tests, the build will be marked as a failure.
   You can consult the CI log to find which tests.<br>
   Ensure that all tests pass before triggering another build.
-  * The CI log will also contain the command that will enable running the failed tests locally.
 * Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.FinalReview`) or suggest changes (`s.Ongoing`).
   Feel free to add a comment if:
   * a reviewer is not assigned within 24 hours.
