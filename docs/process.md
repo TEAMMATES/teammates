@@ -186,7 +186,7 @@ Your code will be reviewed, in this sequence, by:
 
 #### Updating the PR
 
-If you are tasked to update your PR either by Github Actions or by your reviewer, **do not** close the PR and open a new one.
+If you are tasked to update your PR either by GitHub Actions or by your reviewer, **do not** close the PR and open a new one.
 You should make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
 
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
@@ -210,7 +210,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 
 [GitHub's review feature](https://github.com/blog/2256-a-whole-new-github-universe-announcing-new-tools-forums-and-features#code-better-with-reviews) is to be used in this task.
 
-* Ensure that the Github Actions CI build is successful.
+* Ensure that the GitHub Actions CI build is successful.
 * Ensure the following:
   * Naming conventions for PR and branch are followed, and `Fixes #....` or similar keyword is present in the PR description.
   * The items in [this list](#things-to-check) are all satisfied.
