@@ -173,6 +173,10 @@ Their full descriptions can be viewed under the [labels page](https://github.com
 #### Code review
 
 Your code will be reviewed, in this sequence, by:
+* GitHub Actions: by running static analysis.<br>
+  Most of the tools will display the cause of the failures in the console;
+  if this is not the case, you can run any of the static analysis tools and obtain the reports locally.<br>
+  Ensure that the static analysis passes before triggering another build.
 * GitHub Actions: by building and running tests.<br>
   If there are failed tests, the build will be marked as a failure.
   You can consult the CI log to find which tests.<br>

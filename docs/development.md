@@ -223,9 +223,9 @@ There are several files used to configure various aspects of the system.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
 * `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
 * `angular.json`: Contains the Angular application configuration.
-* `component.yml`: GitHub Action configuration for component tests run on every pull request/push to master or release branch.
-* `e2e.yml`: GitHub Action configuration for E2E tests run on every pull request/push to master or release branch.
-* `lnp.yml`: GitHub Action configuration for load & performance tests run on every push to master or release branch.
+* `component.yml`: GitHub Action configuration for component tests.
+* `e2e.yml`: GitHub Action configuration for E2E tests.
+* `lnp.yml`: GitHub Action configuration for load & performance tests.
 
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
