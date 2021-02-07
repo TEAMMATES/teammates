@@ -1,6 +1,8 @@
 package teammates.client.scripts;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 
 import teammates.client.remoteapi.RemoteApiClient;
@@ -13,9 +15,18 @@ public class ListActiveInstructors extends RemoteApiClient {
     @Override
     protected void doOperation() {
         //2020/01/01
-        long startTime = 1577808000000L;
+        int startDate = 1;
+        int startMonth = 1;
+        int startYear = 2020;
         //2021/02/01
-        long endTime = 1612108800000L;
+        int endDate = 1;
+        int endMonth = 2;
+        int endYear = 2021;
+
+        LocalDate startPoint = LocalDate.of(startYear, startMonth, startDate);
+        LocalDate endPoint = LocalDate.of(endYear, endMonth, endDate);
+        long startTime = startPoint.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
+        long endTime = endPoint.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
 
         ArrayList<String> activeInstructorEmails = new ArrayList<>();
         ofy().load().type(FeedbackSession.class).forEach(feedbackSession -> {
