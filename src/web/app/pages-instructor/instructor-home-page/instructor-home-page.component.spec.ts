@@ -36,7 +36,7 @@ const instructorPrivilege: InstructorPrivilege = {
 const defaultCourse: Course = {
   courseId: 'CS3281',
   courseName: 'Thematic Systems',
-  creationTimestamp: 4924740000,
+  creationTimestamp: 1552390757, // Tuesday, 12 March 2019 19:39:17 GMT+08:00
   deletionTimestamp: 0,
   timeZone: 'Asia/Singapore',
 };
@@ -46,7 +46,7 @@ const feedbackSession: FeedbackSession = {
   timeZone: 'Asia/Singapore',
   feedbackSessionName: 'Feedback',
   instructions: 'Answer all questions',
-  submissionStartTimestamp: 1552390757,
+  submissionStartTimestamp: 1552390757, // Tuesday, 12 March 2019 19:39:17 GMT+08:00
   submissionEndTimestamp: 1552590757,
   gracePeriod: 0,
   sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
@@ -65,8 +65,7 @@ const activeCourseTabModels: CourseTabModel[] = [
     course: {
       courseId: 'CS1231',
       courseName: 'Discrete Structures',
-      // Saturday, 2 February 2019 16:15:30 GMT+08:00
-      creationTimestamp: 1549095330000,
+      creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
       deletionTimestamp: 0,
       timeZone: 'Asia/Singapore',
     },
@@ -93,8 +92,7 @@ const activeCourseTabModels: CourseTabModel[] = [
     course: {
       courseId: 'CS3281',
       courseName: 'Thematic Systems I',
-      // Saturday, 2 February 2019 16:15:30 GMT+08:00
-      creationTimestamp: 1549095330000,
+      creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
       deletionTimestamp: 0,
       timeZone: 'Asia/Singapore',
     },
@@ -213,7 +211,7 @@ describe('InstructorHomePageComponent', () => {
     const courseToDelete: Course = {
       courseId: 'CS1231',
       courseName: 'Discrete Structures',
-      creationTimestamp: 1549095330000,
+      creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
       deletionTimestamp: 0,
       timeZone: 'Asia/Singapore',
     };
@@ -252,14 +250,14 @@ describe('InstructorHomePageComponent', () => {
         {
           courseId: 'CS1231',
           courseName: 'Discrete Structures',
-          creationTimestamp: 1549095330000,
+          creationTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
           deletionTimestamp: 0,
           timeZone: 'Asia/Singapore',
         },
         {
           courseId: 'CS3281',
           courseName: 'Thematic Systems',
-          creationTimestamp: 1611580917000,
+          creationTimestamp: 1611580917000, // Monday, 25 January 2021 21:21:57 GMT+08:00
           deletionTimestamp: 0,
           timeZone: 'Asia/Singapore',
         },
@@ -288,7 +286,7 @@ describe('InstructorHomePageComponent', () => {
           timeZone: 'Asia/Singapore',
           instructions: '',
           submissionStartTimestamp: 0,
-          submissionEndTimestamp: 1610371317000,
+          submissionEndTimestamp: 1610371317000, // Monday, 11 January 2021 21:21:57 GMT+08:00
           gracePeriod: 0,
           sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
           responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -304,7 +302,7 @@ describe('InstructorHomePageComponent', () => {
           timeZone: 'Asia/Singapore',
           instructions: '',
           submissionStartTimestamp: 0,
-          submissionEndTimestamp: 1611148917000,
+          submissionEndTimestamp: 1611148917000, // Wednesday, 20 January 2021 21:21:57 GMT+08:00
           gracePeriod: 0,
           sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
           responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -343,7 +341,7 @@ describe('InstructorHomePageComponent', () => {
       course: {
         courseId: 'CS3243',
         courseName: 'Introduction to AI',
-        creationTimestamp: 1546198490630,
+        creationTimestamp: 1546198490000, // Monday, 31 December 2018 03:34:50 GMT+08:00
         timeZone: 'Asia/Singapore',
       },
       sessionsTableRowModels: [],
