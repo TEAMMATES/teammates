@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import org.testng.annotations.Test;
 
+import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
 /**
@@ -13,7 +14,7 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
-        assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, Integer.MIN_VALUE);
+        assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, Const.POINTS_NO_VALUE);
         feedbackRankQuestionDetails.setMinOptionsToBeRanked(testValue);
         assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, testValue);
     }
@@ -23,7 +24,7 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
-        assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, Integer.MIN_VALUE);
+        assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, Const.POINTS_NO_VALUE);
         feedbackRankQuestionDetails.setMaxOptionsToBeRanked(testValue);
         assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, testValue);
     }
@@ -40,7 +41,7 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateDefaultValue_sameValues_shouldReturnTrue() {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-        assertEquals(feedbackRankQuestionDetails.getMaxOptionsToBeRanked(), Integer.MIN_VALUE);
-        assertEquals(feedbackRankQuestionDetails.getMinOptionsToBeRanked(), Integer.MIN_VALUE);
+        assertEquals(feedbackRankQuestionDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
+        assertEquals(feedbackRankQuestionDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
     }
 }

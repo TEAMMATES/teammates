@@ -556,8 +556,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                                 .build()));
         assertEquals(
                 String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        questionToUpdate.recipientType.toDisplayRecipientName(),
-                        questionToUpdate.giverType.toDisplayGiverName()),
+                        "Giver's team members",
+                        "Teams in this course"),
                 ipe.getMessage());
     }
 

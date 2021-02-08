@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
@@ -12,6 +13,7 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     public FeedbackRubricResponseDetails() {
         super(FeedbackQuestionType.RUBRIC);
+        answer = new ArrayList<>();
     }
 
     @Override

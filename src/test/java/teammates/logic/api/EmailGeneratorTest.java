@@ -173,7 +173,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closing alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
-        assertEquals(9, emails.size());
+        assertEquals(8, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
@@ -193,12 +193,11 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("feedback session closed alerts");
 
         emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
-        assertEquals(11, emails.size());
+        assertEquals(8, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionClosedEmailForStudent.html");
         verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
 
         ______TS("feedback session published alerts");
@@ -355,7 +354,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(regkey))
                 .withInstructorInstitution("Test Institute")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()
@@ -420,7 +419,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor1.key))
                 .withInstructorInstitution("Test Institute")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()

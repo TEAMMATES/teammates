@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
 /**
@@ -32,8 +31,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_NOT_ENOUGH_CHOICES
-                + Const.FeedbackQuestion.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
+                + FeedbackMcqQuestionDetails.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
     }
 
     @Test
@@ -46,7 +45,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -70,7 +69,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -84,7 +83,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -96,13 +95,13 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
 
         //duplicate cases that has trailing and leading spaces
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", " choice 1 "));
         errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
     }
 
     @Test

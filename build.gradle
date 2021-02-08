@@ -174,25 +174,22 @@ task generateApiRequestFormat(type: cz.habarta.typescript.generator.gradle.Gener
     outputFile = "src/web/types/api-request.ts"
 }
 
-task generateApiEndpoints(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
+task generateApiConstants(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
-        "teammates.ui.endpoints.**"
+        "teammates.ui.constants.**"
     ]
     jsonLibrary = 'jackson2'
-    jackson2Configuration = [
-        'enumsUsingToString': true
-    ]
-    outputFile = "src/web/types/api-endpoints.ts"
+    outputFile = "src/web/types/api-const.ts"
 }
 
 generateApiOutputFormat.dependsOn classes
 generateApiRequestFormat.dependsOn classes
-generateApiEndpoints.dependsOn classes
+generateApiConstants.dependsOn classes
 
 task generateTypes {
     dependsOn generateApiOutputFormat
     dependsOn generateApiRequestFormat
-    dependsOn generateApiEndpoints
+    dependsOn generateApiConstants
 }
 
 // SETUP TASKS
@@ -376,9 +373,6 @@ def checkTestNgFailureClosure = { descriptor, result ->
     }
 }
 
-def isTravis = System.getenv("TRAVIS") != null
-def isAppVeyor = System.getenv("APPVEYOR") != null
-
 // Displays full exception; to be run after the test fails after the last retry
 def afterTestClosure = { descriptor, result ->
     if (result.resultType == TestResult.ResultType.FAILURE && result.exception != null && result.exception.getMessage() != null) {
@@ -395,11 +389,9 @@ def afterTestClosure = { descriptor, result ->
             def process = "${diffCommand} ${expectedFileName} ${actualFileName}".execute()
             println process.getText()
             process.waitFor()
-            if (!isAppVeyor && !isTravis) { // CI does not allow deleting files
-                def deleteCommand = isWindows ? "del" : "rm"
-                "${deleteCommand} ${expectedFileName}".execute()
-                "${deleteCommand} ${actualFileName}".execute()
-            }
+            def deleteCommand = isWindows ? "del" : "rm"
+            "${deleteCommand} ${expectedFileName}".execute()
+            "${deleteCommand} ${actualFileName}".execute()
         } else {
             println "${result.exception.getClass().getName()}: ${result.exception.getMessage()}"
         }
@@ -484,11 +476,7 @@ task componentTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    if (isTravis) {
-        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-    } else {
-        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-    }
+    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
@@ -514,11 +502,7 @@ task e2eTests {
         maxHeapSize = "1g"
         reports.html.enabled = false
         reports.junitXml.enabled = false
-        if (isTravis) {
-            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8", "-Djava.io.tmpdir=" + System.getenv("TRAVIS_BUILD_DIR")
-        } else {
-            jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
-        }
+        jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
         testLogging {
             events "passed"
         }

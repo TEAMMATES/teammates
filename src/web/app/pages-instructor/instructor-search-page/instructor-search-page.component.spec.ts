@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { HttpRequestService } from '../../../services/http-request.service';
-import { ResourceEndpoints } from '../../../types/api-endpoints';
+import { ResourceEndpoints } from '../../../types/api-const';
 import { InstructorPrivilege, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { InstructorSearchPageComponent } from './instructor-search-page.component';

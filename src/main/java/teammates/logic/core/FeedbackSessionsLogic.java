@@ -30,7 +30,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Const.SystemParams;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -52,6 +51,8 @@ public final class FeedbackSessionsLogic {
                                                            + "Session has already been published.";
     private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
                                                              + "Session has already been unpublished.";
+
+    private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
     private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
@@ -304,7 +305,7 @@ public final class FeedbackSessionsLogic {
             // also reset sentClosingEmail
             newUpdateOptions.withSentClosingEmail(
                     newSession.isClosed()
-                            || newSession.isClosedAfter(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
+                            || newSession.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
 
         // reset sentPublishedEmail if the session has been published but is
@@ -395,7 +396,7 @@ public final class FeedbackSessionsLogic {
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isClosingWithinTimeLimit(SystemParams.NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
+            if (session.isClosingWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT)
                     && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
                 requiredSessions.add(session);
             }
@@ -875,6 +876,28 @@ public final class FeedbackSessionsLogic {
             }
         }
         return true;
+    }
+
+    public boolean isFeedbackSessionAttemptedByStudent(
+            String feedbackSessionName,
+            String courseId, String userEmail)
+            throws EntityDoesNotExistException {
+
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
+        }
+
+        List<FeedbackQuestionAttributes> allQuestions =
+                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
+                        courseId);
+
+        for (FeedbackQuestionAttributes question : allQuestions) {
+            //as long as one question is fully answered, student has attempted
+            if (fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isFeedbackSessionViewableToStudents(
