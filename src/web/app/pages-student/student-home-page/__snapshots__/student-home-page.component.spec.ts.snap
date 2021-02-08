@@ -163,14 +163,14 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         class="card-header bg-primary text-white"
       >
         <strong>
-          [CS2103]: Software Engineering
+          [CS1231]: Discrete Structures
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
             class="btn btn-primary btn-sm button"
-            href="/web/student/course?courseid=CS2103"
+            href="/web/student/course?courseid=CS1231"
             id="view-team-btn-0"
             tmrouterlink="/web/student/course"
           >
@@ -222,30 +222,24 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </td>
               <td>
                 <span>
-                   Published 
+                   Not Published 
                 </span>
               </td>
               <td>
                 <a
-                  class="btn btn-light btn-sm btn-margin-right"
-                  href="/web/student/sessions/result?courseid=CS2103&fsname=First%20Session"
+                  class="btn btn-light btn-sm btn-margin-right disabled"
+                  href="/web/student/sessions/result?courseid=CS1231&fsname=First%20Session"
                   id="view-responses-btn-0"
                   tmrouterlink="/web/student/sessions/result"
                 >
                    View Responses 
                 </a>
                 
-                <a
-                  class="btn btn-light btn-sm disabled"
-                  id="disabled-start-submit-btn-0"
-                >
-                   Start Submission 
-                </a>
                 
                 
                 <a
                   class="btn btn-light btn-sm"
-                  href="/web/student/sessions/submission?courseid=CS2103&fsname=First%20Session"
+                  href="/web/student/sessions/submission?courseid=CS1231&fsname=First%20Session"
                   id="edit-submit-btn-0"
                   tmrouterlink="/web/student/sessions/submission"
                 >
@@ -265,7 +259,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               </td>
               <td>
                 <span>
-                   Pending 
+                   Closed 
                 </span>
               </td>
               <td>
@@ -276,7 +270,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               <td>
                 <a
                   class="btn btn-light btn-sm btn-margin-right disabled"
-                  href="/web/student/sessions/result?courseid=CS2103&fsname=Second%20Session"
+                  href="/web/student/sessions/result?courseid=CS1231&fsname=Second%20Session"
                   id="view-responses-btn-1"
                   tmrouterlink="/web/student/sessions/result"
                 >
@@ -284,16 +278,16 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 </a>
                 
                 
+                
+                
                 <a
                   class="btn btn-light btn-sm"
-                  href="/web/student/sessions/submission?courseid=CS2103&fsname=Second%20Session"
-                  id="start-submit-btn-1"
+                  href="/web/student/sessions/submission?courseid=CS1231&fsname=Second%20Session"
+                  id="view-submit-btn-1"
                   tmrouterlink="/web/student/sessions/submission"
                 >
-                   Start Submission 
+                   View Submission 
                 </a>
-                
-                
               </td>
             </tr>
           </tbody>
@@ -310,14 +304,14 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         class="card-header bg-primary text-white"
       >
         <strong>
-          [CS2102]: Databases
+          [LSM1306]: Forensic Science
         </strong>
         <div
           class="card-header-btn-toolbar"
         >
           <a
             class="btn btn-primary btn-sm button"
-            href="/web/student/course?courseid=CS2102"
+            href="/web/student/course?courseid=LSM1306"
             id="view-team-btn-1"
             tmrouterlink="/web/student/course"
           >
@@ -375,7 +369,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               <td>
                 <a
                   class="btn btn-light btn-sm btn-margin-right disabled"
-                  href="/web/student/sessions/result?courseid=CS2102&fsname=Third%20Session"
+                  href="/web/student/sessions/result?courseid=LSM1306&fsname=Third%20Session"
                   id="view-responses-btn-0"
                   tmrouterlink="/web/student/sessions/result"
                 >
@@ -386,7 +380,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 
                 <a
                   class="btn btn-light btn-sm"
-                  href="/web/student/sessions/submission?courseid=CS2102&fsname=Third%20Session"
+                  href="/web/student/sessions/submission?courseid=LSM1306&fsname=Third%20Session"
                   id="edit-submit-btn-0"
                   tmrouterlink="/web/student/sessions/submission"
                 >
@@ -417,7 +411,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
               <td>
                 <a
                   class="btn btn-light btn-sm btn-margin-right disabled"
-                  href="/web/student/sessions/result?courseid=CS2102&fsname=Fourth%20Session"
+                  href="/web/student/sessions/result?courseid=LSM1306&fsname=Fourth%20Session"
                   id="view-responses-btn-1"
                   tmrouterlink="/web/student/sessions/result"
                 >
@@ -429,7 +423,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 
                 <a
                   class="btn btn-light btn-sm"
-                  href="/web/student/sessions/submission?courseid=CS2102&fsname=Fourth%20Session"
+                  href="/web/student/sessions/submission?courseid=LSM1306&fsname=Fourth%20Session"
                   id="view-submit-btn-1"
                   tmrouterlink="/web/student/sessions/submission"
                 >
