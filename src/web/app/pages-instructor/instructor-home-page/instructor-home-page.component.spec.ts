@@ -16,7 +16,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
@@ -66,36 +65,56 @@ const activeCourseTabModels: CourseTabModel[] = [
     course: {
       courseId: 'CS1231',
       courseName: 'Discrete Structures',
+      // Saturday, 2 February 2019 16:15:30 GMT+08:00
       creationTimestamp: 1549095330000,
       deletionTimestamp: 0,
       timeZone: 'Asia/Singapore',
     },
-    instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+    instructorPrivilege: {
+      canModifyCourse: true,
+      canModifySession: true,
+      canModifyStudent: true,
+      canSubmitSessionInSections: true,
+      canModifyInstructor: false,
+      canViewStudentInSections: false,
+      canModifySessionCommentsInSections: false,
+      canViewSessionInSections: false,
+    },
     sessionsTableRowModels: [],
     sessionsTableRowModelsSortBy: SortBy.NONE,
     sessionsTableRowModelsSortOrder: SortOrder.ASC,
 
     hasPopulated: false,
-    isAjaxSuccess: false,
-    isTabExpanded: false,
+    isAjaxSuccess: true,
+    isTabExpanded: true,
     hasLoadingFailed: false,
   },
   {
     course: {
       courseId: 'CS3281',
       courseName: 'Thematic Systems I',
+      // Saturday, 2 February 2019 16:15:30 GMT+08:00
       creationTimestamp: 1549095330000,
       deletionTimestamp: 0,
       timeZone: 'Asia/Singapore',
     },
-    instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
+    instructorPrivilege: {
+      canModifyCourse: true,
+      canModifySession: true,
+      canModifyStudent: true,
+      canSubmitSessionInSections: true,
+      canModifyInstructor: false,
+      canViewStudentInSections: false,
+      canModifySessionCommentsInSections: false,
+      canViewSessionInSections: false,
+    },
     sessionsTableRowModels: [],
     sessionsTableRowModelsSortBy: SortBy.NONE,
     sessionsTableRowModelsSortOrder: SortOrder.ASC,
 
     hasPopulated: false,
-    isAjaxSuccess: false,
-    isTabExpanded: false,
+    isAjaxSuccess: true,
+    isTabExpanded: true,
     hasLoadingFailed: false,
   },
 ];
@@ -151,58 +170,18 @@ describe('InstructorHomePageComponent', () => {
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#course-tab-header');
     button.click();
-    expect(component.courseTabModels[0].isTabExpanded).toBeTruthy();
-
-    button.click();
     expect(component.courseTabModels[0].isTabExpanded).toBeFalsy();
+    button.click();
+    expect(component.courseTabModels[0].isTabExpanded).toBeTruthy();
   });
 
   it('should archive the entire course from the instructor', () => {
-    const archiveCourseTabModels: CourseTabModel[] = [
-      {
-        course: {
-          courseId: 'CS1231',
-          courseName: 'Discrete Structures',
-          creationTimestamp: 1549095330000,
-          deletionTimestamp: 0,
-          timeZone: 'Asia/Singapore',
-        },
-        instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-        sessionsTableRowModels: [],
-        sessionsTableRowModelsSortBy: SortBy.NONE,
-        sessionsTableRowModelsSortOrder: SortOrder.ASC,
-
-        hasPopulated: true,
-        isAjaxSuccess: true,
-        isTabExpanded: true,
-        hasLoadingFailed: false,
-      },
-      {
-        course: {
-          courseId: 'CS3281',
-          courseName: 'Thematic Systems I',
-          creationTimestamp: 1549095330000,
-          deletionTimestamp: 0,
-          timeZone: 'Asia/Singapore',
-        },
-        instructorPrivilege: DEFAULT_INSTRUCTOR_PRIVILEGE,
-        sessionsTableRowModels: [],
-        sessionsTableRowModelsSortBy: SortBy.NONE,
-        sessionsTableRowModelsSortOrder: SortOrder.ASC,
-
-        hasPopulated: true,
-        isAjaxSuccess: true,
-        isTabExpanded: true,
-        hasLoadingFailed: false,
-      },
-    ];
-
     const courseArchive: CourseArchive = {
       courseId: 'CS1231',
       isArchived: true,
     };
 
-    component.courseTabModels = archiveCourseTabModels;
+    component.courseTabModels = activeCourseTabModels;
     component.hasCoursesLoaded = true;
     fixture.detectChanges();
 
@@ -231,63 +210,6 @@ describe('InstructorHomePageComponent', () => {
   });
 
   it('should delete the entire course from the instructor', () => {
-    const deleteCourseTabModels: CourseTabModel[] = [
-      {
-        course: {
-          courseId: 'CS1231',
-          courseName: 'Discrete Structures',
-          creationTimestamp: 1549095330000,
-          deletionTimestamp: 0,
-          timeZone: 'Asia/Singapore',
-        },
-        instructorPrivilege: {
-          canModifyCourse: true,
-          canModifySession: false,
-          canModifyStudent: false,
-          canSubmitSessionInSections: false,
-          canModifyInstructor: false,
-          canViewStudentInSections: false,
-          canModifySessionCommentsInSections: false,
-          canViewSessionInSections: false,
-        },
-        sessionsTableRowModels: [],
-        sessionsTableRowModelsSortBy: SortBy.NONE,
-        sessionsTableRowModelsSortOrder: SortOrder.ASC,
-
-        hasPopulated: true,
-        isAjaxSuccess: true,
-        isTabExpanded: true,
-        hasLoadingFailed: false,
-      },
-      {
-        course: {
-          courseId: 'CS3281',
-          courseName: 'Thematic Systems I',
-          creationTimestamp: 1549095330000,
-          deletionTimestamp: 0,
-          timeZone: 'Asia/Singapore',
-        },
-        instructorPrivilege: {
-          canModifyCourse: true,
-          canModifySession: false,
-          canModifyStudent: false,
-          canSubmitSessionInSections: false,
-          canModifyInstructor: false,
-          canViewStudentInSections: false,
-          canModifySessionCommentsInSections: false,
-          canViewSessionInSections: false,
-        },
-        sessionsTableRowModels: [],
-        sessionsTableRowModelsSortBy: SortBy.NONE,
-        sessionsTableRowModelsSortOrder: SortOrder.ASC,
-
-        hasPopulated: true,
-        isAjaxSuccess: true,
-        isTabExpanded: true,
-        hasLoadingFailed: false,
-      },
-    ];
-
     const courseToDelete: Course = {
       courseId: 'CS1231',
       courseName: 'Discrete Structures',
@@ -296,7 +218,7 @@ describe('InstructorHomePageComponent', () => {
       timeZone: 'Asia/Singapore',
     };
 
-    component.courseTabModels = deleteCourseTabModels;
+    component.courseTabModels = activeCourseTabModels;
     component.hasCoursesLoaded = true;
     fixture.detectChanges();
 
