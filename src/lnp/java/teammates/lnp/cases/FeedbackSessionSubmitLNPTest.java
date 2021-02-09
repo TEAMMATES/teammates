@@ -40,7 +40,7 @@ import teammates.ui.request.FeedbackResponsesRequest;
  */
 public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 100;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 10;
     private static final int RAMP_UP_PERIOD = 2;
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "personalEmail";
