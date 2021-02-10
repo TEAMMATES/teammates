@@ -3,7 +3,8 @@ package teammates.client.scripts;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.storage.entity.FeedbackSession;
@@ -28,16 +29,13 @@ public class ListActiveInstructors extends RemoteApiClient {
         long startTime = startPoint.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
         long endTime = endPoint.atStartOfDay().toInstant(ZoneOffset.UTC).toEpochMilli();
 
-        ArrayList<String> activeInstructorEmails = new ArrayList<>();
+        Set<String> activeInstructorEmails = new HashSet<>();
         ofy().load().type(FeedbackSession.class).forEach(feedbackSession -> {
             Instant createdTime = feedbackSession.getCreatedTime();
             //validate active period of instructors
             if (createdTime.isAfter(Instant.ofEpochMilli(startTime))
                     && createdTime.isBefore(Instant.ofEpochMilli(endTime))) {
-                String creatorEmail = feedbackSession.getCreatorEmail();
-                if (!activeInstructorEmails.contains(creatorEmail)) {
-                    activeInstructorEmails.add(creatorEmail);
-                }
+                activeInstructorEmails.add(feedbackSession.getCreatorEmail());
             }
         });
 
