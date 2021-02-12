@@ -42,6 +42,11 @@ public final class MockCourseWithLargeResponseScript {
     private static final int NUMBER_OF_TEAMS = 100;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 25;
 
+    // For each student, the number of responses depends on:
+    // number_of_students / number_of_teams * (per team feedback strategy)
+    private static final FeedbackParticipantType FEEDBACK_QUESTION_RECIPIENT_TYPE =
+            FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+
     // Change the course ID to be recognizable
     private static final String COURSE_ID = "TestData.600S25Q100T";
     private static final String COURSE_NAME = "MockLargeCourse";
@@ -175,7 +180,7 @@ public final class MockCourseWithLargeResponseScript {
                             .withQuestionDetails(details)
                             .withQuestionNumber(i)
                             .withGiverType(FeedbackParticipantType.STUDENTS)
-                            .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                            .withRecipientType(FEEDBACK_QUESTION_RECIPIENT_TYPE)
                             .withShowResponsesTo(showResponses)
                             .withShowGiverNameTo(showGiverName)
                             .withShowRecipientNameTo(showRecepientName)
