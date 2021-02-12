@@ -104,8 +104,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.createEntity(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> instructorsDb.createEntity(null));
 
     }
 
@@ -126,9 +125,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> instructorsDb.getInstructorForEmail(null, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -149,8 +147,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.getInstructorForGoogleId(null, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> instructorsDb.getInstructorForGoogleId(null, null));
 
     }
 
@@ -177,9 +174,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> instructorsDb.getInstructorForRegistrationKey(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -213,9 +209,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> instructorsDb.getInstructorsForGoogleId(null, false));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -248,8 +243,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.getInstructorsForCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> instructorsDb.getInstructorsForCourse(null));
     }
 
     @Test
@@ -278,9 +272,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         assertEquals(0, retrieved.size());
 
         ______TS("Failure: null parameters");
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> instructorsDb.getInstructorsDisplayedToStudents(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -366,9 +359,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> instructorsDb.updateInstructorByGoogleId(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -701,9 +693,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> instructorsDb.updateInstructorByEmail(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
     }
 
@@ -738,8 +729,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructor(null, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructor(null, null));
 
     }
 
@@ -781,8 +771,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructors(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> instructorsDb.deleteInstructors(null));
 
     }
 }

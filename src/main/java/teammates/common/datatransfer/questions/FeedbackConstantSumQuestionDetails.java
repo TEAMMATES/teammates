@@ -6,10 +6,29 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 
 public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails {
+
+    static final String QUESTION_TYPE_NAME_OPTION = "Distribute points (among options) question";
+    static final String QUESTION_TYPE_NAME_RECIPIENT = "Distribute points (among recipients) question";
+    static final int CONST_SUM_MIN_NUM_OF_OPTIONS = 2;
+    static final int CONST_SUM_MIN_NUM_OF_POINTS = 1;
+    static final String CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS =
+            "Too little options for " + QUESTION_TYPE_NAME_OPTION + ". Minimum number of options is: ";
+    static final String CONST_SUM_ERROR_DUPLICATE_OPTIONS = "Duplicate options are not allowed.";
+    static final String CONST_SUM_ERROR_NOT_ENOUGH_POINTS =
+            "Too little points for " + QUESTION_TYPE_NAME_RECIPIENT + ". Minimum number of points is: ";
+    static final String CONST_SUM_ERROR_MISMATCH =
+            "Please distribute all the points for distribution questions. "
+                    + "To skip a distribution question, leave the boxes blank.";
+    static final String CONST_SUM_ERROR_NEGATIVE = "Points given must be 0 or more.";
+    static final String CONST_SUM_ERROR_UNIQUE = "Every option must be given a different number of points.";
+    static final String CONST_SUM_ERROR_SOME_UNIQUE =
+            "At least some options must be given a different number of points.";
+    static final String CONST_SUM_ANSWER_OPTIONS_NOT_MATCH = "The answers are inconsistent with the options";
+    static final String CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH = "The answer is inconsistent with the recipient";
+
     private int numOfConstSumOptions;
     private List<String> constSumOptions;
     private boolean distributeToRecipients;
@@ -19,8 +38,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     private int points;
 
     public FeedbackConstantSumQuestionDetails() {
-        super(FeedbackQuestionType.CONSTSUM);
+        this(null);
+    }
 
+    public FeedbackConstantSumQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.CONSTSUM, questionText);
         this.numOfConstSumOptions = 0;
         this.constSumOptions = new ArrayList<>();
         this.distributeToRecipients = false;
@@ -62,18 +84,18 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
-        if (!distributeToRecipients && constSumOptions.size() < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
-                       + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
+        if (!distributeToRecipients && constSumOptions.size() < CONST_SUM_MIN_NUM_OF_OPTIONS) {
+            errors.add(CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
+                       + CONST_SUM_MIN_NUM_OF_OPTIONS + ".");
         }
 
-        if (points < Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NOT_ENOUGH_POINTS
-                       + Const.FeedbackQuestion.CONST_SUM_MIN_NUM_OF_POINTS + ".");
+        if (points < CONST_SUM_MIN_NUM_OF_POINTS) {
+            errors.add(CONST_SUM_ERROR_NOT_ENOUGH_POINTS
+                       + CONST_SUM_MIN_NUM_OF_POINTS + ".");
         }
 
         if (!FieldValidator.areElementsUnique(constSumOptions)) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_DUPLICATE_OPTIONS);
+            errors.add(CONST_SUM_ERROR_DUPLICATE_OPTIONS);
         }
 
         return errors;
@@ -102,7 +124,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackConstantSumResponseDetails details = (FeedbackConstantSumResponseDetails) response;
 
             if (details.getAnswers().size() != constSumOptions.size()) {
-                errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_OPTIONS_NOT_MATCH);
+                errors.add(CONST_SUM_ANSWER_OPTIONS_NOT_MATCH);
                 return errors;
             }
 
@@ -127,7 +149,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
             if (details.getAnswers().size() != 1) {
                 // Distribute to recipient must have array size one
-                errors.add(Const.FeedbackQuestion.CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH);
+                errors.add(CONST_SUM_ANSWER_RECIPIENT_NOT_MATCH);
             }
 
             // Return an error if any response is erroneous
@@ -149,7 +171,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         int sum = 0;
         for (int i : givenPoints) {
             if (i < 0) {
-                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_NEGATIVE);
+                errors.add(CONST_SUM_ERROR_NEGATIVE);
                 return errors;
             }
 
@@ -158,7 +180,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
 
         // Check that points sum up properly
         if (sum != totalPoints) {
-            errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_MISMATCH);
+            errors.add(CONST_SUM_ERROR_MISMATCH);
             return errors;
         }
 
@@ -176,14 +198,14 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             }
 
             if (!hasDifferentPoints) {
-                errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_SOME_UNIQUE);
+                errors.add(CONST_SUM_ERROR_SOME_UNIQUE);
                 return errors;
             }
         } else if (forceUnevenDistribution || distributePointsFor.equals(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption())) {
             for (int i : givenPoints) {
                 if (answerSet.contains(i)) {
-                    errors.add(Const.FeedbackQuestion.CONST_SUM_ERROR_UNIQUE);
+                    errors.add(CONST_SUM_ERROR_UNIQUE);
                     return errors;
                 }
                 answerSet.add(i);

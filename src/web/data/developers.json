@@ -63,6 +63,10 @@
       "username": "askhubchandani"
     },
     {
+      "name": "Adithya Narayan",
+      "username": "AdithyaNarayan"
+    },
+    {
       "multiple": true,
       "name": "Aditya Hegde",
       "username": "adityavhegde"
@@ -418,6 +422,11 @@
     {
       "name": "Dante Radovani",
       "username": "dRadest"
+    },
+    {
+      "multiple": true,
+      "name": "Dao Ngoc Hieu",
+      "username": "daongochieu2810"
     },
     {
       "multiple": true,
@@ -909,6 +918,7 @@
       "username": "leonardhml"
     },
     {
+      "multiple": true,
       "name": "Li Jianhan",
       "username": "jianhandev"
     },
@@ -1449,6 +1459,11 @@
       "username": "shivakrishna9"
     },
     {
+      "multiple": true,
+      "name": "Shivam Deotarse",
+      "username": "srdeotarse"
+    },
+    {
       "name": "Shivang Tripathi",
       "username": "shivangg"
     },
@@ -1646,6 +1661,10 @@
       "username": "josephinex"
     },
     {
+      "name": "Teik Jun",
+      "username": "teikjun"
+    },
+    {
       "name": "Telvin Zhong",
       "username": "telvinzhong"
     },
@@ -1752,6 +1771,11 @@
     {
       "multiple": true,
       "name": "Wu Lifu"
+    },
+    {
+      "multiple": true,
+      "name": "Wu Qirui",
+      "username": "hhdqirui"
     },
     {
       "name": "Wu Xiao Xiao",

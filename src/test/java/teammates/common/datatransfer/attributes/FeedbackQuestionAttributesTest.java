@@ -423,8 +423,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(fq.isValid());
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                                     fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + System.lineSeparator()
+                                     "Giver's team",
+                                     "Teams in this course") + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
@@ -445,8 +445,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertFalse(fq.isValid());
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                                     fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + System.lineSeparator()
+                                     "Giver's team members",
+                                     "Teams in this course") + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()

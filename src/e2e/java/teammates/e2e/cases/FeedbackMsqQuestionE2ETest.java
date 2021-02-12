@@ -12,6 +12,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
+import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
@@ -74,7 +75,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails.setMsqWeights(new ArrayList<>());
         questionDetails.setOtherEnabled(false);
         questionDetails.setMsqOtherWeight(0);
-        questionDetails.setMaxSelectableChoices(Integer.MIN_VALUE);
+        questionDetails.setMaxSelectableChoices(Const.POINTS_NO_VALUE);
         List<String> choices = questionDetails.getMsqChoices();
         choices.add("Edited choice");
         questionDetails.setMsqChoices(choices);

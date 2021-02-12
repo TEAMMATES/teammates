@@ -36,7 +36,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
     protected void testExecute_invalidEmail_shouldFail() {
         ______TS("email address is not valid");
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "invalid-email-address",
+                Const.ParamsNames.STUDENT_EMAIL, "invalid-email-address",
         };
 
         SessionLinksRecoveryAction a = getAction(nonExistingParam);
@@ -52,7 +52,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         ______TS("Typical case: non-existent email address");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "non-existent@abc.com",
+                Const.ParamsNames.STUDENT_EMAIL, "non-existent@abc.com",
         };
 
         SessionLinksRecoveryAction a = getAction(nonExistingParam);
@@ -76,7 +76,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse2.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse2.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -102,7 +102,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 + "closed and unpublished.");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse3.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse3.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -128,7 +128,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 + "closed and published.");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);

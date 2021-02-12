@@ -258,21 +258,21 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             super(new UpdateOptions(""));
             thisBuilder = this;
 
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giver);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipient);
+            Assumption.assertNotNull(feedbackQuestionId);
+            Assumption.assertNotNull(giver);
+            Assumption.assertNotNull(recipient);
             fra = new FeedbackResponseAttributes(feedbackQuestionId, giver, recipient);
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(courseId);
             fra.courseId = courseId;
 
             return this;
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+            Assumption.assertNotNull(feedbackSessionName);
             fra.feedbackSessionName = feedbackSessionName;
 
             return this;
@@ -299,7 +299,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         private UpdateOption<FeedbackResponseDetails> responseDetailsUpdateOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackResponseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseId);
+            Assumption.assertNotNull(feedbackResponseId);
 
             this.feedbackResponseId = feedbackResponseId;
         }
@@ -331,14 +331,14 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             }
 
             public Builder withGiver(String giver) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giver);
+                Assumption.assertNotNull(giver);
 
                 updateOptions.giverOption = UpdateOption.of(giver);
                 return thisBuilder;
             }
 
             public Builder withRecipient(String recipient) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipient);
+                Assumption.assertNotNull(recipient);
 
                 updateOptions.recipientOption = UpdateOption.of(recipient);
                 return thisBuilder;
@@ -369,21 +369,21 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
 
         public B withGiverSection(String giverSection) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverSection);
+            Assumption.assertNotNull(giverSection);
 
             updateOptions.giverSectionOption = UpdateOption.of(giverSection);
             return thisBuilder;
         }
 
         public B withRecipientSection(String recipientSection) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipientSection);
+            Assumption.assertNotNull(recipientSection);
 
             updateOptions.recipientSectionOption = UpdateOption.of(recipientSection);
             return thisBuilder;
         }
 
         public B withResponseDetails(FeedbackResponseDetails responseDetails) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, responseDetails);
+            Assumption.assertNotNull(responseDetails);
 
             updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails.getDeepCopy());
             return thisBuilder;

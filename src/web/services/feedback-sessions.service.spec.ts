@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SessionsTableRowModel } from '../app/components/sessions-table/sessions-table-model';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,

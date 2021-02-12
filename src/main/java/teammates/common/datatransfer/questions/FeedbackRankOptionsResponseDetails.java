@@ -10,6 +10,7 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackResponseDetails 
 
     public FeedbackRankOptionsResponseDetails() {
         super(FeedbackQuestionType.RANK_OPTIONS);
+        answers = new ArrayList<>();
     }
 
     /**
