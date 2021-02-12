@@ -9,12 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
-import com.google.appengine.tools.remoteapi.RemoteApiOptions;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.util.Closeable;
-
-import teammates.client.util.ClientProperties;
+import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -31,16 +26,15 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
-import teammates.storage.api.OfyHelper;
 
 /**
  * Script to mock a course and populate large number of responses.
  */
-public final class MockCourseWithLargeResponseScript {
+public final class MockCourseWithLargeResponseScript extends RemoteApiClient {
     // Change the following params for different course setup
-    private static final int NUMBER_OF_STUDENTS = 600;
+    private static final int NUMBER_OF_STUDENTS = 500;
     private static final int NUMBER_OF_TEAMS = 100;
-    private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 25;
+    private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 30;
 
     // For each student, the number of responses depends on:
     // number_of_students / number_of_teams * (per team feedback strategy)
@@ -48,7 +42,7 @@ public final class MockCourseWithLargeResponseScript {
             FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
 
     // Change the course ID to be recognizable
-    private static final String COURSE_ID = "TestData.600S25Q100T";
+    private static final String COURSE_ID = "TestData.500S30Q100T";
     private static final String COURSE_NAME = "MockLargeCourse";
     private static final String COURSE_TIME_ZONE = "UTC";
 
@@ -71,12 +65,11 @@ public final class MockCourseWithLargeResponseScript {
 
     private static final String FEEDBACK_RESPONSE_ID = "ResponseForQ";
 
-    // Private constructor to prevent instantiation
     private MockCourseWithLargeResponseScript() {
-        throw new UnsupportedOperationException();
     }
 
-    private static void generateMockCourse() {
+    @Override
+    protected void doOperation() {
         try {
             Logic logic = new Logic();
             DataBundle data = generateDataBundle();
@@ -239,44 +232,8 @@ public final class MockCourseWithLargeResponseScript {
         return dataBundle;
     }
 
-    private static void setupRemoteClientAndPopulateCourse() throws IOException {
-        String appUrl = ClientProperties.TARGET_URL.replaceAll("^https?://", "");
-        String appDomain = appUrl.split(":")[0];
-        int appPort = appUrl.contains(":") ? Integer.parseInt(appUrl.split(":")[1]) : 443;
-
-        System.out.println("--- Starting remote operation ---");
-        System.out.println("Going to connect to:" + appDomain + ":" + appPort);
-
-        RemoteApiOptions options = new RemoteApiOptions().server(appDomain, appPort);
-
-        if (ClientProperties.isTargetUrlDevServer()) {
-            // Dev Server doesn't require credential.
-            options.useDevelopmentServerCredential();
-        } else {
-            // Your Google Cloud SDK needs to be authenticated for Application Default Credentials
-            // in order to run any script in production server.
-            // Refer to https://developers.google.com/identity/protocols/application-default-credentials.
-            options.useApplicationDefaultCredential();
-        }
-
-        RemoteApiInstaller installer = new RemoteApiInstaller();
-        installer.install(options);
-
-        OfyHelper.registerEntityClasses();
-        Closeable objectifySession = ObjectifyService.begin();
-
-        try {
-            generateMockCourse();
-        } finally {
-            objectifySession.close();
-            installer.uninstall();
-        }
-
-        System.out.println("--- Remote operation completed ---");
-    }
-
     public static void main(String[] args) throws IOException {
-        setupRemoteClientAndPopulateCourse();
+        new MockCourseWithLargeResponseScript().doOperationRemotely();
     }
 
 }
