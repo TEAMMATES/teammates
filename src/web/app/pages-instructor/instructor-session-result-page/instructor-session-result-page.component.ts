@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { forkJoin, Observable } from 'rxjs';
+import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -418,8 +418,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     let blob: any;
     const out: string[] = [];
 
-    forkJoin(
-      Object.keys(this.questionsModel).map((k: string) =>
+    concat(
+        ...Object.keys(this.questionsModel).map((k: string) =>
         this.feedbackSessionsService.downloadSessionResults(
             this.session.courseId,
             this.session.feedbackSessionName,
@@ -432,8 +432,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         ),
       ),
     ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe({
-      next: (resp: string[]) => {
-        out.push(...resp);
+      next: (resp: string) => {
+        out.push(resp);
       },
       complete: () => {
         blob = new Blob(out, { type: 'text/csv' });
