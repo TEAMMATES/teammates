@@ -50,7 +50,7 @@ public class OfyHelper implements ServletContextListener {
         // TEST
         ObjectifyService.init(new ObjectifyFactory(
                 DatastoreOptions.newBuilder()
-                        .setHost("http://localhost:8483")
+                        .setHost("http://localhost:8484")
                         .setProjectId("tm-obj-v6-test")
                         .build()
                         .getService()
