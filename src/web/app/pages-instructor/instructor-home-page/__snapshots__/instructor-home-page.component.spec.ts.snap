@@ -15,6 +15,8 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -111,6 +113,8 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -207,6 +211,8 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -390,6 +396,8 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -934,6 +942,8 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -1610,6 +1620,8 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -1900,6 +1912,8 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
@@ -2218,6 +2232,8 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
   isNewUser="false"
+  isResultActionLoading="false"
+  isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   publishUnpublishRetryAttempts={[Function Number]}
