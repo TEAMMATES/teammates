@@ -3,7 +3,8 @@ name: L&P Tests
 on:
   push:
     branches:
-      - master 
+      - master
+      - objectify-v6-migration
       - release
 jobs:
   LnP-testing:
