@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -416,21 +416,32 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.isDownloadingResults = true;
     const filename: string = `${this.session.courseId}_${this.session.feedbackSessionName}_result.csv`;
     let blob: any;
+    const out: string[] = [];
 
-    this.feedbackSessionsService.downloadSessionResults(
-      this.session.courseId,
-      this.session.feedbackSessionName,
-      Intent.INSTRUCTOR_RESULT,
-      this.indicateMissingResponses,
-      this.showStatistics,
-      undefined,
-      this.section.length === 0 ? undefined : this.section,
-      this.section.length === 0 ? undefined : this.sectionType,
-    ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe((resp: string) => {
-      blob = new Blob([resp], { type: 'text/csv' });
-      saveAs(blob, filename);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    forkJoin(
+      Object.keys(this.questionsModel).map((k: string) =>
+        this.feedbackSessionsService.downloadSessionResults(
+            this.session.courseId,
+            this.session.feedbackSessionName,
+            Intent.INSTRUCTOR_RESULT,
+            this.indicateMissingResponses,
+            this.showStatistics,
+            this.questionsModel[k].question.feedbackQuestionId,
+            this.section.length === 0 ? undefined : this.section,
+            this.section.length === 0 ? undefined : this.sectionType,
+        ),
+      ),
+    ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe({
+      next: (resp: string[]) => {
+        out.push(...resp);
+      },
+      complete: () => {
+        blob = new Blob(out, { type: 'text/csv' });
+        saveAs(blob, filename);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
     });
   }
 
