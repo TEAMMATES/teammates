@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { concat, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeWhile } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
@@ -416,7 +416,18 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.isDownloadingResults = true;
     const filename: string = `${this.session.courseId}_${this.session.feedbackSessionName}_result.csv`;
     let blob: any;
+    let downloadAborted: boolean = false;
     const out: string[] = [];
+
+    let numberOfQuestionsDownloaded: number = 0;
+    const modalContent: string =
+        `Download progress: ${numberOfQuestionsDownloaded}/${Object.keys(this.questionsModel).length} downloaded`;
+    const downloadModalRef: NgbModalRef = this.simpleModalService.openDownloadModal(
+        'Download Progress', SimpleModalType.INFO, modalContent);
+    downloadModalRef.result.then(() => {
+      this.isDownloadingResults = false;
+      downloadAborted = true;
+    });
 
     concat(
         ...Object.keys(this.questionsModel).map((k: string) =>
@@ -431,18 +442,28 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             this.section.length === 0 ? undefined : this.sectionType,
         ),
       ),
-    ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe({
-      next: (resp: string) => {
-        out.push(resp);
-      },
-      complete: () => {
-        blob = new Blob(out, { type: 'text/csv' });
-        saveAs(blob, filename);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    ).pipe(finalize(() => this.isDownloadingResults = false))
+      .pipe(takeWhile(() => this.isDownloadingResults))
+      .subscribe({
+        next: (resp: string) => {
+          out.push(resp);
+          numberOfQuestionsDownloaded += 1;
+          downloadModalRef.componentInstance.content =
+              `Download progress: ${numberOfQuestionsDownloaded}/${Object.keys(this.questionsModel).length} downloaded`;
+        },
+        complete: () => {
+          if (downloadAborted) {
+            return;
+          }
+
+          downloadModalRef.close();
+          blob = new Blob(out, { type: 'text/csv' });
+          saveAs(blob, filename);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
