@@ -265,6 +265,7 @@ public final class Const {
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
         public static final String RESULT = URI_PREFIX + "/result";
+        public static final String PAGINATION_META_DATA = URI_PREFIX + "/pagination/metadata";
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
         public static final String SESSIONS_ONGOING = URI_PREFIX + "/sessions/ongoing";

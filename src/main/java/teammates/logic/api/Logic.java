@@ -1387,4 +1387,8 @@ public class Logic {
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
+    public int getSubmittedResponseCountForQuestion(String questionId) {
+        return feedbackResponsesLogic.getSubmittedResponseCountForQuestion(questionId);
+    }
+
 }

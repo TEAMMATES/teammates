@@ -615,6 +615,13 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Get the total number of submitted responses for a question.
+     */
+    public int getSubmittedResponseCountForQuestion(String questionId) {
+        return frDb.getSubmittedResponseCountForQuestion(questionId);
+    }
+
+    /**
      * Set contains only unique response.
      */
     private static class UniqueResponsesSet {

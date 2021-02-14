@@ -399,6 +399,15 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .list();
     }
 
+    /**
+     * Get number of submitted responses for a question.
+     */
+    public int getSubmittedResponseCountForQuestion(String questionId) {
+        return load()
+                .filter("feedbackQuestionId =", questionId)
+                .count();
+    }
+
     @Override
     LoadType<FeedbackResponse> load() {
         return ofy().load().type(FeedbackResponse.class);
