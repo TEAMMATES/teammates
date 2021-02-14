@@ -1,10 +1,10 @@
 package teammates.test;
 
-import com.google.cloud.datastore.DatastoreOptions;
-import com.googlecode.objectify.ObjectifyFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
+import com.google.cloud.datastore.DatastoreOptions;
+import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
