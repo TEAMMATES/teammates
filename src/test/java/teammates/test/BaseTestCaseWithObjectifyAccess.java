@@ -17,6 +17,7 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
 
     @BeforeClass
     public void setupObjectify() {
+        ObjectifyService.init();
         OfyHelper.registerEntityClasses();
         closeable = ObjectifyService.begin();
     }
