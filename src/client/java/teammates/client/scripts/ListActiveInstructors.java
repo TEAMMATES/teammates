@@ -34,8 +34,8 @@ public class ListActiveInstructors extends RemoteApiClient {
         Set<String> activeInstructorEmails = new HashSet<>();
 
         ofy().load().type(FeedbackSession.class)
-                .filter("createdAt >=", startTime)
-                .filter("createdAt <=", endTime).project().forEach(feedbackSession -> {
+                .filter("startTime >=", startTime)
+                .filter("startTime <=", endTime).project().forEach(feedbackSession -> {
                     activeInstructorEmails.add(feedbackSession.getCreatorEmail());
                 });
 
