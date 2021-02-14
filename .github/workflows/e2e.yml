@@ -3,11 +3,13 @@ name: E2E Tests
 on:
   push:
     branches:
-      - master 
+      - master
+      - objectify-v6-migration
       - release
   pull_request:
     branches:
-      - master 
+      - master
+      - objectify-v6-migration
       - release
   schedule:
     - cron: "0 0 * * *" #end of every day
