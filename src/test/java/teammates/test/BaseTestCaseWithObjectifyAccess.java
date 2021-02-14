@@ -1,5 +1,7 @@
 package teammates.test;
 
+import com.google.cloud.datastore.DatastoreOptions;
+import com.googlecode.objectify.ObjectifyFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -17,7 +19,12 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
 
     @BeforeClass
     public void setupObjectify() {
-        ObjectifyService.init();
+        ObjectifyService.init(new ObjectifyFactory(
+                DatastoreOptions.newBuilder()
+                        .setProjectId("tm-obj-v6-test")
+                        .build()
+                        .getService()
+        ));
         OfyHelper.registerEntityClasses();
         closeable = ObjectifyService.begin();
     }
