@@ -219,7 +219,7 @@
                 ngbTooltip="Delete the course and its corresponding students and sessions">
               Delete
             </button>
-            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+            <button id="btn-soft-delete-archived-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
               Delete
             </button>
           </td>
@@ -315,7 +315,7 @@
                         ngbTooltip="Restore the deleted course and its corresponding students and sessions">
                   Restore
                 </button>
-                <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+                <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
                   Restore
                 </button>
                 <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger" *ngIf="course.canModifyCourse"
@@ -323,7 +323,7 @@
                         ngbTooltip="Permanently delete the course and its corresponding students and sessions">
                   Delete Permanently
                 </button>
-                <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
+                <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
                   Delete Permanently
                 </button>
               </td>
