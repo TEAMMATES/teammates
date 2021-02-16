@@ -400,7 +400,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    }, () => { });
+    }, () => {});
   }
 
   /**
