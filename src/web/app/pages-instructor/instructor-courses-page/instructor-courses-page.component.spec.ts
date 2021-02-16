@@ -5,8 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Courses, JoinState, Students } from '../../../types/api-output';
+import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -14,12 +15,14 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
+import Spy = jasmine.Spy;
 
 describe('InstructorCoursesPageComponent', () => {
   let component: InstructorCoursesPageComponent;
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
   let courseService: CourseService;
   let studentService: StudentService;
+  let simpleModalService: SimpleModalService;
 
   const date1: Date = new Date('2018-11-05T08:15:30');
   const date2: Date = new Date('2019-02-02T08:15:30');
@@ -285,6 +288,7 @@ describe('InstructorCoursesPageComponent', () => {
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
     studentService = TestBed.inject(StudentService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
 
@@ -293,7 +297,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should load all courses by the instructor', () => {
-    spyOn(courseService, 'getAllCoursesAsInstructor').and.callFake(
+    const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and.callFake(
       (courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
           return of({ courses: [courseCS1231] });
@@ -306,6 +310,11 @@ describe('InstructorCoursesPageComponent', () => {
       });
 
     component.loadInstructorCourses();
+
+    expect(courseSpy.calls.count()).toEqual(3);
+    expect(courseSpy.calls.all()[0].args[0]).toEqual('active');
+    expect(courseSpy.calls.all()[1].args[0]).toEqual('archived');
+    expect(courseSpy.calls.all()[2].args[0]).toEqual('softDeleted');
 
     expect(component.activeCourses.length).toEqual(1);
     expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
@@ -324,13 +333,97 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should get the course statistics', () => {
     component.activeCourses = [courseModelCS1231];
-    spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of(students));
+    const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of(students));
     component.getCourseStats(0);
+
+    expect(studentSpy.calls.count()).toEqual(1);
+    expect(studentSpy.calls.mostRecent().args[0]).toEqual({ courseId: 'CS1231' });
 
     expect(component.courseStats.CS1231.sections).toEqual(2);
     expect(component.courseStats.CS1231.teams).toEqual(3);
     expect(component.courseStats.CS1231.students).toEqual(8);
     expect(component.courseStats.CS1231.unregistered).toEqual(1);
+  });
+
+  it('should archive an active course', () => {
+    const courseArchiveCS1231: CourseArchive = {
+      courseId: 'CS1231',
+      isArchived: true,
+    };
+    component.activeCourses = [courseModelCS1231];
+    const courseSpy: Spy = spyOn(courseService, 'changeArchiveStatus').and.returnValue(of(courseArchiveCS1231));
+    component.changeArchiveStatus('CS1231', true);
+
+    expect(courseSpy.calls.count()).toEqual(1);
+    expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
+    expect(courseSpy.calls.mostRecent().args[1]).toEqual({ archiveStatus: true });
+
+    expect(component.activeCourses.length).toEqual(0);
+    expect(component.archivedCourses.length).toEqual(1);
+    expect(component.archivedCourses[0].course.courseId).toEqual('CS1231');
+  });
+
+  it('should unarchive an archived course', () => {
+    const courseArchiveCS1231: CourseArchive = {
+      courseId: 'CS1231',
+      isArchived: false,
+    };
+    component.archivedCourses = [courseModelCS1231];
+    const courseSpy: Spy = spyOn(courseService, 'changeArchiveStatus').and.returnValue(of(courseArchiveCS1231));
+    component.changeArchiveStatus('CS1231', false);
+
+    expect(courseSpy.calls.count()).toEqual(1);
+    expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
+    expect(courseSpy.calls.mostRecent().args[1]).toEqual({ archiveStatus: false });
+
+    expect(component.archivedCourses.length).toEqual(0);
+    expect(component.activeCourses.length).toEqual(1);
+    expect(component.activeCourses[0].course.courseId).toEqual('CS1231');
+  });
+
+  it('should soft delete a course', (done: any) => {
+    component.activeCourses = [courseModelCS1231];
+    const courseSpy: Spy = spyOn(courseService, 'binCourse').and.returnValue(of(courseCS1231));
+    spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({ result: Promise.resolve() });
+
+    component.onDelete('CS1231').then(() => {
+      expect(courseSpy.calls.count()).toEqual(1);
+      expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
+
+      expect(component.softDeletedCourses.length).toEqual(1);
+      expect(component.activeCourses.length).toEqual(0);
+      done();
+    });
+  });
+
+  it('should permanently delete a course', (done: any) => {
+    component.archivedCourses = [courseModelCS1231];
+    const courseSpy: Spy = spyOn(courseService, 'deleteCourse').and.returnValue(of(courseCS1231));
+    spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({
+      componentInstance: {},
+      result: Promise.resolve(),
+    });
+
+    component.onDeletePermanently('CS1231').then(() => {
+      expect(courseSpy.calls.count()).toEqual(1);
+      expect(courseSpy.calls.mostRecent().args[0]).toEqual('CS1231');
+
+      expect(component.activeCourses.length).toEqual(0);
+      expect(component.softDeletedCourses.length).toEqual(0);
+      done();
+    });
+  });
+
+  it('should show add course form and disable button when clicking on add new course', () => {
+    component.activeCourses = [courseModelCS3282];
+    component.isLoading = false;
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
+    button.click();
+    fixture.detectChanges();
+
+    const div: any = fixture.debugElement.nativeElement.querySelector('#add-course-section');
+    expect(div).toBeTruthy();
+    expect(button.disabled).toBeTruthy();
   });
 
   it('should disable enroll button when instructor cannot modify student', () => {
@@ -453,6 +546,19 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should snap when courses are still loading', () => {
     component.isLoading = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when new course form is expanded', () => {
+    component.isAddNewCourseFormExpanded = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when archived courses are expanded', () => {
+    component.archivedCourses = archivedCoursesSnap;
+    component.isArchivedCourseExpanded = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

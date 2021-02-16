@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<div class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
+<div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
   ></tm-add-course-form>
