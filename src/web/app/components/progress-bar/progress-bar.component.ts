@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 
 /**
  * Progress bar used to show download progress.
@@ -10,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProgressBarComponent implements OnInit {
 
-  constructor() { }
+  progressPercentage: number = 0;
+
+  constructor(private progressBarService: ProgressBarService) { }
 
   ngOnInit(): void {
+    this.getProgress();
   }
-
+  
+  getProgress(): void {
+    this.progressBarService.progressPercentage.subscribe((progressPercentage) => {
+      this.progressPercentage = progressPercentage;
+    })
+  }
 }
