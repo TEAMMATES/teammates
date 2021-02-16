@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SimpleModalComponent } from './simple-modal.component';
+import { ProgressBarModule } from '../../components/progress-bar/progress-bar.module';
 
 /**
  * Module for the modal component
@@ -10,6 +11,7 @@ import { SimpleModalComponent } from './simple-modal.component';
   exports: [SimpleModalComponent],
   imports: [
     CommonModule,
+    ProgressBarModule
   ],
   entryComponents: [SimpleModalComponent],
 })
