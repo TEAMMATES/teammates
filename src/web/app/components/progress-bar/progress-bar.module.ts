@@ -1,6 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
-import { CommonModule } from '@angular/common';
 import { ProgressBarComponent } from './progress-bar.component';
 
 /**
@@ -10,7 +10,7 @@ import { ProgressBarComponent } from './progress-bar.component';
   declarations: [ProgressBarComponent],
   imports: [
     NgbProgressbarModule,
-    CommonModule
+    CommonModule,
   ],
   exports: [
     ProgressBarComponent,
