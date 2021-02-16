@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { finalize } from 'rxjs/operators';
+import { concat } from 'rxjs';
+import { finalize, takeWhile } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -79,7 +80,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private simpleModalService: SimpleModalService) { }
+              private simpleModalService: SimpleModalService) {
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -99,54 +101,83 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
-    const studentsEnrollRequest: StudentsEnrollRequest = {
-      studentEnrollRequests: [],
-    };
+    const allStudentChunks: StudentEnrollRequest[][] = [];
+    let currentStudentChunk: StudentEnrollRequest[] = [];
+    const numberOfStudentsPerRequest: number = 50;
 
     // Parse the user input to be requests.
     // Handsontable contains null value initially,
     // see https://github.com/handsontable/handsontable/issues/3927
     newStudentsHOTInstance.getData()
         .filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
-        .forEach((row: string[]) => (studentsEnrollRequest.studentEnrollRequests.push({
-          section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-          team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-          name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-          email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-          comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
-        })));
+        .forEach((row: string[]) => {
+          currentStudentChunk.push({
+            section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
+                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
+            team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
+                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
+            name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
+                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
+            email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
+                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
+            comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
+                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
+          });
+          if (currentStudentChunk.length >= numberOfStudentsPerRequest) {
+            allStudentChunks.push(currentStudentChunk);
+            currentStudentChunk = [];
+          }
+        });
+    if (currentStudentChunk.length > 0) {
+      allStudentChunks.push(currentStudentChunk);
+      currentStudentChunk = [];
+    }
 
-    this.studentService.enrollStudents(
-        this.courseId, studentsEnrollRequest,
-    ).pipe(finalize(() => this.isEnrolling = false)).subscribe((resp: Students) => {
-      const enrolledStudents: Student[] = resp.students;
-      this.showEnrollResults = true;
-      this.statusMessage.pop(); // removes any existing error status message
-      this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
-      this.enrollResultPanelList =
-          this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
-              studentsEnrollRequest.studentEnrollRequests);
-    }, (resp: ErrorMessageOutput) => {
-      this.enrollErrorMessage = resp.error.message;
-    }, () => {
-      this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
-        this.existingStudents = resp.students;
-        if (!this.isExistingStudentsPanelCollapsed) {
-          const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
-          this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
-        }
-        this.isExistingStudentsPresent = true;
-      });
-    });
+    const enrolledStudents: Student[] = [];
+
+    concat(
+        ...allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
+          const studentsEnrollRequest: StudentsEnrollRequest = {
+            studentEnrollRequests: studentChunk,
+          };
+          return this.studentService.enrollStudents(
+              this.courseId, studentsEnrollRequest,
+          );
+        }),
+    ).pipe(finalize(() => this.isEnrolling = false))
+        .pipe(takeWhile(() => this.isEnrolling))
+        .subscribe({
+          next: (resp: Students) => {
+            enrolledStudents.push(...resp.students);
+          },
+          complete: () => {
+            this.showEnrollResults = true;
+            this.statusMessage.pop(); // removes any existing error status message
+            this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
+
+            const allStudentEntries: StudentEnrollRequest[] = [];
+            allStudentChunks.forEach((chunk: StudentEnrollRequest[]) => allStudentEntries.push(...chunk));
+
+            this.enrollResultPanelList =
+                this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents, allStudentEntries);
+
+            this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
+              this.existingStudents = resp.students;
+              if (!this.isExistingStudentsPanelCollapsed) {
+                const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+                this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+              }
+              this.isExistingStudentsPresent = true;
+            });
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.enrollErrorMessage = resp.error.message;
+          },
+        });
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
-                                         enrollRequests: StudentEnrollRequest[]): EnrollResultPanel[] {
+                                        enrollRequests: StudentEnrollRequest[]): EnrollResultPanel[] {
 
     const panels: EnrollResultPanel[] = [];
     const studentLists: Student[][] = [];
@@ -282,7 +313,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         (header: string) => {
           if (header === 'team') {
             return (student as any).teamName;
-          }  if (header === 'section') {
+          }
+          if (header === 'section') {
             return (student as any).sectionName;
           }
           return (student as any)[header];
@@ -315,15 +347,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
-        (resp: Students) => {
-          if (resp.students.length !== 0) {
-            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-          } else {
-            // Shows a message if there are no existing students. Panel would not be expanded.
-            this.isExistingStudentsPresent = false;
-            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-          }
-        }, (resp: ErrorMessageOutput) => {
+    (resp: Students) => {
+      if (resp.students.length !== 0) {
+        this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
+      } else {
+        // Shows a message if there are no existing students. Panel would not be expanded.
+        this.isExistingStudentsPresent = false;
+        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+      }
+    }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
