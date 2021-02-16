@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
  * Service to handle display of the download progress bar
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProgressBarService {
 

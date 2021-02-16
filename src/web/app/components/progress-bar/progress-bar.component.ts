@@ -18,10 +18,10 @@ export class ProgressBarComponent implements OnInit {
   ngOnInit(): void {
     this.getProgress();
   }
-  
+
   getProgress(): void {
-    this.progressBarService.progressPercentage.subscribe((progressPercentage) => {
+    this.progressBarService.progressPercentage.subscribe((progressPercentage: number) => {
       this.progressPercentage = progressPercentage;
-    })
+    });
   }
 }

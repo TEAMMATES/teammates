@@ -384,8 +384,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         ) :
         this.feedbackSessionsService.publishFeedbackSession(
           this.session.courseId, this.session.feedbackSessionName,
-        )
-        ;
+        );
 
       response.subscribe((res: FeedbackSession) => {
         this.session = res;
@@ -423,7 +422,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
     let numberOfQuestionsDownloaded: number = 0;
     const modalContent: string =
-      `Downloading the results of your feedback session...`;
+      'Downloading the results of your feedback session...';
     const downloadModalRef: NgbModalRef = this.simpleModalService.openDownloadModal(
       'Download Progress', SimpleModalType.LOAD, modalContent);
     downloadModalRef.result.then(() => {
@@ -450,8 +449,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
         next: (resp: string) => {
           out.push(resp);
           numberOfQuestionsDownloaded += 1;
-          const totalNumberOfQuestions = Object.keys(this.questionsModel).length;
-          const progressPercentage = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
+          const totalNumberOfQuestions: number = Object.keys(this.questionsModel).length;
+          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
           this.progressBarService.updateProgress(progressPercentage);
         },
         complete: () => {
