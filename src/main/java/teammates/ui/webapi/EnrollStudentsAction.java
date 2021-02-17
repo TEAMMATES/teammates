@@ -60,13 +60,15 @@ class EnrollStudentsAction extends Action {
                     .build());
         });
 
+        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
+        List<StudentAttributes> enrolmentTargetList = logic.getEnrolmentTargetList(studentsToEnroll,
+                existingStudents);
+
         try {
-            logic.validateSectionsAndTeams(studentsToEnroll, courseId);
+            logic.validateSectionsAndTeamsFromMergedList(enrolmentTargetList);
         } catch (EnrollException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
-
-        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
 
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());

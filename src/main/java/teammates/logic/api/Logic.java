@@ -777,6 +777,44 @@ public class Logic {
     }
 
     /**
+     * Merge all the students expected to be enrolled with the students currently in the course from input.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @param studentsToEnroll the students to be enrolled or updated
+     * @param studentsAlreadyInCourse the students already in the course
+     * @return list of students expected in a course after enrolment
+     */
+    public List<StudentAttributes> getEnrolmentTargetList(
+            List<StudentAttributes> studentsToEnroll, List<StudentAttributes> studentsAlreadyInCourse) {
+
+        Assumption.assertNotNull(studentsToEnroll);
+        Assumption.assertNotNull(studentsAlreadyInCourse);
+
+        return studentsLogic.getEnrolmentTargetList(studentsToEnroll, studentsAlreadyInCourse);
+
+    }
+
+    /**
+     * Validates merged list of students of their sections for any limit violations and teams for any team name
+     * violations.
+     *
+     * <p>Built as a way to reduce the datastore access when the data is readily available.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateSectionsAndTeamsFromMergedList(List)
+     */
+    public void validateSectionsAndTeamsFromMergedList(List<StudentAttributes> mergedList) throws EnrollException {
+
+        Assumption.assertNotNull(mergedList);
+
+        studentsLogic.validateSectionsAndTeamsFromMergedList(mergedList);
+    }
+
+    /**
      * Gets all students of a team.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
