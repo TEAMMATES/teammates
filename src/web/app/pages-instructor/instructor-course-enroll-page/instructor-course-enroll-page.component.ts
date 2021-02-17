@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { concat } from 'rxjs';
-import { finalize, takeWhile } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -80,8 +80,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
-              private simpleModalService: SimpleModalService) {
-  }
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -96,14 +95,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   submitEnrollData(): void {
     this.isEnrolling = true;
     this.enrollErrorMessage = '';
+
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
-
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
-
     const allStudentChunks: StudentEnrollRequest[][] = [];
+    const numberOfStudentsPerRequest: number = 50; // at most 50 students per chunk
+
     let currentStudentChunk: StudentEnrollRequest[] = [];
-    const numberOfStudentsPerRequest: number = 50;
 
     // Parse the user input to be requests.
     // Handsontable contains null value initially,
@@ -145,7 +144,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           );
         }),
     ).pipe(finalize(() => this.isEnrolling = false))
-        .pipe(takeWhile(() => this.isEnrolling))
         .subscribe({
           next: (resp: Students) => {
             enrolledStudents.push(...resp.students);
