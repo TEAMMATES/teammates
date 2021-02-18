@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gson.JsonParseException;
 
+import teammates.Globals;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -34,12 +35,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     private transient Instant updatedAt;
 
     private String feedbackQuestionId;
-
     private FeedbackQuestionAttributes() {
         this.showResponsesTo = new ArrayList<>();
         this.showGiverNameTo = new ArrayList<>();
         this.showRecipientNameTo = new ArrayList<>();
     }
+
 
     /**
      * Returns a builder for {@link FeedbackQuestionAttributes}.
@@ -227,92 +228,148 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
     @Override
     public boolean equals(Object obj) {
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getEqualList();
+        list.set(49, true);
+
         if (this == obj) {
+            list.set(0, true);
             return true;
         }
+        list.set(1, true);
 
         if (obj == null) {
+            list.set(2, true);
             return false;
         }
+        list.set(3, true);
 
         if (getClass() != obj.getClass()) {
+            list.set(4, true);
             return false;
         }
+        list.set(5, true);
 
         FeedbackQuestionAttributes other = (FeedbackQuestionAttributes) obj;
 
         if (courseId == null) {
+            list.set(6, true);
             if (other.courseId != null) {
+                list.set(7, true);
                 return false;
             }
+            list.set(8, true);
         } else if (!courseId.equals(other.courseId)) {
+            list.set(9, true);
             return false;
         }
+        list.set(10, true);
 
         if (feedbackSessionName == null) {
+            list.set(11, true);
             if (other.feedbackSessionName != null) {
+                list.set(12, true);
                 return false;
             }
+            list.set(13, true);
         } else if (!feedbackSessionName.equals(other.feedbackSessionName)) {
+            list.set(14, true);
             return false;
+        } else {
+            list.set(15, true);
         }
 
         if (giverType != other.giverType) {
+            list.set(16, true);
             return false;
         }
-
+        list.set(17, true);
         if (numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo) {
+            list.set(18, true);
             return false;
         }
-
+        list.set(19, true);
         if (questionNumber != other.questionNumber) {
+            list.set(20, true);
             return false;
         }
-
+        list.set(21, true);
         if (questionDetails == null) {
+            list.set(22, true);
             if (other.questionDetails != null) {
+                list.set(23, true);
                 return false;
             }
+            list.set(24, true);
         } else if (!questionDetails.equals(other.questionDetails)) {
+            list.set(25, true);
             return false;
+        } else {
+            list.set(26, true);
         }
 
         if (questionDescription == null) {
+            list.set(27, true);
             if (other.questionDescription != null) {
+                list.set(28, true);
                 return false;
             }
+            list.set(29, true);
         } else if (!questionDescription.equals(other.questionDescription)) {
+            list.set(30, true);
             return false;
+        } else {
+            list.set(31, true);
         }
 
         if (recipientType != other.recipientType) {
+            list.set(32, true);
             return false;
         }
-
+        list.set(33, true);
         if (showGiverNameTo == null) {
+            list.set(34, true);
             if (other.showGiverNameTo != null) {
+                list.set(35, true);
                 return false;
             }
+            list.set(36, true);
         } else if (!showGiverNameTo.equals(other.showGiverNameTo)) {
+            list.set(37, true);
             return false;
+        } else {
+            list.set(38, true);
         }
 
         if (showRecipientNameTo == null) {
+            list.set(39, true);
             if (other.showRecipientNameTo != null) {
+                list.set(40, true);
                 return false;
             }
+            list.set(41, true);
         } else if (!showRecipientNameTo.equals(other.showRecipientNameTo)) {
+            list.set(42, true);
             return false;
+        } else {
+            list.set(43, true);
         }
 
         if (showResponsesTo == null) {
+            list.set(44, true);
             if (other.showResponsesTo != null) {
+                list.set(45, true);
                 return false;
             }
+            list.set(46, true);
         } else if (!showResponsesTo.equals(other.showResponsesTo)) {
+            list.set(47, true);
             return false;
+        } else {
+            list.set(48, true);
         }
 
+        globals.setEqualList(list);
         return true;
     }
 

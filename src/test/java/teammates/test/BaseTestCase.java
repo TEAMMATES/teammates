@@ -2,11 +2,15 @@ package teammates.test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 
+import teammates.Globals;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -16,6 +20,19 @@ import teammates.common.util.JsonUtils;
  */
 public class BaseTestCase {
 
+    @AfterSuite
+    public void tearDown() {
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getEqualList();
+        int count = 0;
+        for (int i = 0; i < list.size(); i++){
+            System.out.print(i + "\t " + list.get(i).toString() + "\n");
+            if (list.get(i))
+                count++;
+        };
+        System.out.print("total true: " + count + "/" + list.size() + "\n");
+        System.out.print("percentage true: " + (float)count / (float)list.size());
+    }
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.

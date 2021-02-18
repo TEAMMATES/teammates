@@ -3,9 +3,13 @@ package teammates.common.datatransfer.attributes;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 import org.testng.collections.Lists;
 
+import teammates.Globals;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
