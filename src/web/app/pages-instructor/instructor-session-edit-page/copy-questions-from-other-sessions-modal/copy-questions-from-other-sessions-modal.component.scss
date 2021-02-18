@@ -16,10 +16,14 @@
   background-color: white;
 }
 
-.form-control {
-  height: calc(.5em + 1vh);
-  width: calc(.5em + 1vw);
-  float: none;
+td {
   text-align: center;
-  vertical-align: bottom;
+  vertical-align: middle;
+}
+
+.form-control {
+  height: calc(.5em + 1.5vh);
+  width: calc(.5em + 1.5vw);
+  display: inline;
+  position: relative;
 }
