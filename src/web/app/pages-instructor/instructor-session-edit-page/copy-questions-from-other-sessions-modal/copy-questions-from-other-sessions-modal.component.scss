@@ -17,5 +17,9 @@
 }
 
 .form-control {
-  size: calc(.5em + 1vw);
+  height: calc(.5em + 1vh);
+  width: calc(.5em + 1vw);
+  float: none;
+  text-align: center;
+  vertical-align: bottom;
 }
