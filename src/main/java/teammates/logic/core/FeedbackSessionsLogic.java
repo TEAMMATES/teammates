@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import teammates.Globals;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -515,6 +516,11 @@ public final class FeedbackSessionsLogic {
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
             @Nullable String questionId, @Nullable String section) {
+
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getGetSessionResultsForUserList();
+        list.set(0, true);
+
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
@@ -523,12 +529,16 @@ public final class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> allQuestions;
         Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
         if (questionId == null) {
+            list.set(1, true);
             allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } else {
+            list.set(2, true);
             FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
             if (fqa == null) {
+                list.set(3, true);
                 allQuestions = Collections.emptyList();
             } else {
+                list.set(4, true);
                 allQuestions = Collections.singletonList(fqa);
             }
         }
@@ -540,15 +550,22 @@ public final class FeedbackSessionsLogic {
         StudentAttributes student = getStudent(courseId, userEmail, role);
         List<FeedbackResponseAttributes> allResponses;
         if (isInstructor(role)) {
+            list.set(5, true);
             // load all response for instructors and passively filter them later
             if (questionId == null) {
+                list.set(6, true);
                 allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
             } else {
+                list.set(7, true);
                 allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
             }
         } else {
+            list.set(8, true);
             if (section != null) {
+                list.set(9, true);
                 throw new UnsupportedOperationException("Specify section filtering is not supported for student result");
+            } else {
+                list.set(10, true);
             }
             allResponses = new ArrayList<>();
             // load viewable responses for students proactively
@@ -563,8 +580,10 @@ public final class FeedbackSessionsLogic {
         // load comment(s)
         List<FeedbackResponseCommentAttributes> allComments;
         if (questionId == null) {
+            list.set(11, true);
             allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
         } else {
+            list.set(12, true);
             allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
         }
 
@@ -574,10 +593,13 @@ public final class FeedbackSessionsLogic {
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
         // student will have no related question at the beginning
         if (isInstructor(role)) {
+            list.set(13, true);
             // all questions are related questions for instructor
             for (FeedbackQuestionAttributes qn : allQuestions) {
                 relatedQuestionsMap.put(qn.getId(), qn);
             }
+        } else {
+            list.set(14, true);
         }
 
         // consider the current viewing user
@@ -593,14 +615,20 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (correspondingQuestion == null) {
+                list.set(15, true);
                 // orphan response without corresponding question, ignore it
                 continue;
+            } else {
+                list.set(16, true);
             }
             // check visibility of response
             boolean isVisibleResponse = isResponseVisibleForUser(
                     userEmail, role, student, studentsEmailInTeam, response, correspondingQuestion, instructor);
             if (!isVisibleResponse) {
+                list.set(17, true);
                 continue;
+            } else {
+                list.set(18, true);
             }
 
             // only if there are viewable responses, the corresponding question becomes related.
@@ -620,13 +648,19 @@ public final class FeedbackSessionsLogic {
             FeedbackQuestionAttributes relatedQuestion = relatedQuestionsMap.get(frc.feedbackQuestionId);
             // the comment needs to be relevant to the question and response
             if (relatedQuestion == null || relatedResponse == null) {
+                list.set(19, true);
                 continue;
+            } else {
+                list.set(20, true);
             }
             // check visibility of comment
             boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
                     userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (!isVisibleResponseComment) {
+                list.set(21, true);
                 continue;
+            } else {
+                list.set(22, true);
             }
 
             relatedCommentsMap.computeIfAbsent(relatedResponse.getId(), key -> new ArrayList<>()).add(frc);
@@ -638,9 +672,12 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         if (role == UserRole.INSTRUCTOR) {
+            list.set(23, true);
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
                     relatedQuestionsMap, existingResponses, roster, section);
+        } else {
+            list.set(24, true);
         }
 
         return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,

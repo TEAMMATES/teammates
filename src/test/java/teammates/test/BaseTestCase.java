@@ -30,9 +30,11 @@ public class BaseTestCase {
             if (list.get(i))
                 count++;
         };
+
         System.out.print("total true: " + count + "/" + list.size() + "\n");
         System.out.print("percentage true: " + (float)count / (float)list.size());
     }
+
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
