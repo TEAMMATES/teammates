@@ -29,6 +29,7 @@ public class BaseTestCase {
             if (list.get(i))
                 count++;
         };
+
         System.out.print("total true: " + count + "/" + list.size() + "\n");
         System.out.print("percentage true: " + (float)count / (float)list.size());
     }
@@ -46,11 +47,29 @@ public class BaseTestCase {
         System.out.print("percentage true: " + (float)count / (float)list.size());
     }
 
+    private void printGetSessionResultsForUser() {
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getGetSessionResultsForUserList();
+        int count = 0;
+        for (int i = 0; i < list.size(); i++){
+            System.out.print(i + "\t " + list.get(i).toString() + "\n");
+            if (list.get(i))
+                count++;
+        };
+        System.out.print("total true: " + count + "/" + list.size() + "\n");
+        System.out.print("percentage true: " + (float)count / (float)list.size());
+    }
+
     @AfterSuite
     public void tearDown() {
+        System.out.println("\n" + "Equals" + "\n");
         printEquals();
+        System.out.println("\n" + "isResponseVisibleForUser" + "\n");
         printIsResponseVisibleForUser();
+        System.out.println("\n" + "getSessionResultsForUser" + "\n");
+        printGetSessionResultsForUser();
     }
+
     /**
      * Test Segment divider. Used to divide a test case into logical sections.
      * The weird name is for easy spotting.
