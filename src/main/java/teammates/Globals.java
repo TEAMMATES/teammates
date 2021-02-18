@@ -12,10 +12,14 @@ public class Globals {
     }
 
     private List<Boolean> equalList = new ArrayList<>();
+    private List<Boolean> isResponseVisibleForUserList = new ArrayList<>();
 
     private Globals() {
         for (int i = 0; i < 50; i++) {
             equalList.add(false);
+        }
+        for (int i = 0; i < 13; i++) {
+            isResponseVisibleForUserList.add(false);
         }
     }
 
@@ -26,4 +30,8 @@ public class Globals {
     public void setEqualList(List<Boolean> equalList) {
         this.equalList = equalList;
     }
+
+    public List<Boolean> getIsResponseVisibleForUserList() {return isResponseVisibleForUserList;}
+
+    public void setIsResponseVisibleForUserList(List<Boolean> isResponseVisibleForUserList) {this.isResponseVisibleForUserList = isResponseVisibleForUserList;}
 }
