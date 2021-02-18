@@ -12,14 +12,22 @@ public class Globals {
     }
 
     private List<Boolean> equalList = new ArrayList<>();
+
     private List<Boolean> getSessionResultsForUserList = new ArrayList<>();
+
+    private List<Boolean> isResponseVisibleForUserList = new ArrayList<>();
 
     private Globals() {
         for (int i = 0; i < 50; i++) {
             equalList.add(false);
         }
+
         for (int i = 0; i < 25; i++) {
             getSessionResultsForUserList.add(false);
+        }
+
+        for (int i = 0; i < 13; i++) {
+            isResponseVisibleForUserList.add(false);
         }
     }
 
@@ -33,7 +41,13 @@ public class Globals {
     public void setEqualList(List<Boolean> equalList) {
         this.equalList = equalList;
     }
+
     public void setGetSessionResultsForUserList(List<Boolean> getSessionResultsForUserList) {
         this.getSessionResultsForUserList = getSessionResultsForUserList;
+    }
+
+    public List<Boolean> getIsResponseVisibleForUserList() {return isResponseVisibleForUserList;}
+
+    public void setIsResponseVisibleForUserList(List<Boolean> isResponseVisibleForUserList) {this.isResponseVisibleForUserList = isResponseVisibleForUserList;
     }
 }
