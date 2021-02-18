@@ -480,9 +480,9 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_taskQueueApiCanOnlyBeAccessedByTaskQueueLogic() {
+    public void testArchitecture_externalApi_cloudTasksApiCanOnlyBeAccessedByTaskQueueLogic() {
         noClasses().that().doNotHaveSimpleName("TaskQueuesLogic")
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.taskqueue..")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.tasks.v2..")
                 .check(ALL_CLASSES);
     }
 
