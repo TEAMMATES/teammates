@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import teammates.Globals;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -800,6 +801,10 @@ public final class FeedbackSessionsLogic {
             Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getIsResponseVisibleForUserList();
+
+        list.set(0, true);
 
         boolean isVisibleResponse = false;
         if (isInstructor(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
@@ -808,23 +813,34 @@ public final class FeedbackSessionsLogic {
                 || response.giver.equals(userEmail)
                 || isStudent(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
+            list.set(1, true);
         } else if (studentsEmailInTeam != null && isStudent(role)) {
+            list.set(2, true);
             if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.recipient.equals(student.team)) {
+                list.set(3, true);
                 isVisibleResponse = true;
             } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
                        && studentsEmailInTeam.contains(response.giver)) {
+                list.set(4, true);
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                        && studentsEmailInTeam.contains(response.giver)) {
+                list.set(5, true);
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                        && studentsEmailInTeam.contains(response.recipient)) {
+                list.set(6, true);
                 isVisibleResponse = true;
+            } else {
+                list.set(7, true);
             }
+        } else {
+            list.set(8, true);
         }
         if (isVisibleResponse && instructor != null) {
+            list.set(9, true);
             boolean isGiverSectionRestricted =
                     !instructor.isAllowedForPrivilege(response.giverSection,
                                                       response.feedbackSessionName,
@@ -839,8 +855,13 @@ public final class FeedbackSessionsLogic {
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
+                list.set(10, true);
                 isVisibleResponse = false;
+            } else {
+                list.set(11, true);
             }
+        } else {
+            list.set(12, true);
         }
         return isVisibleResponse;
     }
