@@ -17,6 +17,8 @@ public class Globals {
 
     private List<Boolean> isResponseVisibleForUserList = new ArrayList<>();
 
+    private List<Boolean> recipientsOfQuestionList = new ArrayList<>();
+
     private Globals() {
         for (int i = 0; i < 50; i++) {
             equalList.add(false);
@@ -29,6 +31,11 @@ public class Globals {
         for (int i = 0; i < 13; i++) {
             isResponseVisibleForUserList.add(false);
         }
+
+        for (int i = 0; i < 43; i++) {
+            recipientsOfQuestionList.add(false);
+        }
+
     }
 
     public List<Boolean> getEqualList() {
@@ -36,6 +43,9 @@ public class Globals {
     }
     public List<Boolean> getGetSessionResultsForUserList() {
         return getSessionResultsForUserList;
+    }
+    public List<Boolean> getRecipientsOfQuestionList() {
+        return recipientsOfQuestionList;
     }
 
     public void setEqualList(List<Boolean> equalList) {
@@ -45,6 +55,11 @@ public class Globals {
     public void setGetSessionResultsForUserList(List<Boolean> getSessionResultsForUserList) {
         this.getSessionResultsForUserList = getSessionResultsForUserList;
     }
+
+    public void setRecipientsOfQuestionList(List<Boolean> list) {
+        this.recipientsOfQuestionList = list;
+    }
+
 
     public List<Boolean> getIsResponseVisibleForUserList() {return isResponseVisibleForUserList;}
 

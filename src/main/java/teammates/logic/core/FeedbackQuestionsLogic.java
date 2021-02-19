@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import teammates.Globals;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -346,7 +347,11 @@ public final class FeedbackQuestionsLogic {
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver,
             @Nullable CourseRoster courseRoster) {
         Assumption.assertTrue(instructorGiver != null || studentGiver != null);
+        Globals globals = Globals.getInstance();
+        List<Boolean> branchList = globals.getRecipientsOfQuestionList();
 
+
+        branchList.set(0, true);
         Map<String, String> recipients = new HashMap<>();
 
         boolean isStudentGiver = studentGiver != null;
@@ -357,116 +362,168 @@ public final class FeedbackQuestionsLogic {
         if (isStudentGiver) {
             giverEmail = studentGiver.email;
             giverTeam = studentGiver.team;
+            branchList.set(1, true);
+
         } else if (isInstructorGiver) {
             giverEmail = instructorGiver.email;
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            branchList.set(2, true);
+
+        } else {
+            branchList.set(3, true);
         }
 
         FeedbackParticipantType recipientType = question.recipientType;
 
         switch (recipientType) {
         case SELF:
+            branchList.set(4, true);
             if (question.giverType == FeedbackParticipantType.TEAMS) {
                 recipients.put(giverTeam, giverTeam);
+                branchList.set(5, true);
             } else {
                 recipients.put(giverEmail, USER_NAME_FOR_SELF);
+                branchList.set(6, true);
             }
             break;
         case STUDENTS:
+            branchList.set(7, true);
             List<StudentAttributes> studentsInCourse;
             if (courseRoster == null) {
                 studentsInCourse = studentsLogic.getStudentsForCourse(question.courseId);
+                branchList.set(8, true);
             } else {
                 studentsInCourse = courseRoster.getStudents();
+                branchList.set(9, true);
             }
             for (StudentAttributes student : studentsInCourse) {
+                branchList.set(10, true);
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         student.section, question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see students in allowed sections for him/her
+                    branchList.set(11, true);
                     continue;
                 }
                 // Ensure student does not evaluate himself
                 if (!giverEmail.equals(student.email)) {
                     recipients.put(student.email, student.name);
+                    branchList.set(12, true);
+                } else {
+                    branchList.set(13, true);
                 }
             }
             break;
         case INSTRUCTORS:
+            branchList.set(14, true);
             List<InstructorAttributes> instructorsInCourse;
             if (courseRoster == null) {
                 instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.courseId);
+                branchList.set(15, true);
             } else {
                 instructorsInCourse = courseRoster.getInstructors();
+                branchList.set(16, true);
             }
             for (InstructorAttributes instr : instructorsInCourse) {
+                branchList.set(17, true);
                 // remove hidden instructors for students
                 if (isStudentGiver && !instr.isDisplayedToStudents()) {
+                    branchList.set(18, true);
                     continue;
+                } else {
+                    branchList.set(19, true);
                 }
                 // Ensure instructor does not evaluate himself
                 if (!giverEmail.equals(instr.email)) {
                     recipients.put(instr.email, instr.name);
+                    branchList.set(20, true);
+                } else {
+                    branchList.set(21, true);
                 }
             }
             break;
         case TEAMS:
+            branchList.set(22, true);
             Map<String, List<StudentAttributes>> teamToTeamMembersTable;
             if (courseRoster == null) {
                 List<StudentAttributes> students = studentsLogic.getStudentsForCourse(question.courseId);
                 teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(students);
+                branchList.set(23, true);
             } else {
                 teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
+                branchList.set(24, true);
             }
             for (Map.Entry<String, List<StudentAttributes>> team : teamToTeamMembersTable.entrySet()) {
+                branchList.set(25, true);
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         team.getValue().iterator().next().getSection(),
                         question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see teams in allowed sections for him/her
+                    branchList.set(26, true);
                     continue;
+                } else {
+                    branchList.set(27, true);
                 }
                 // Ensure student('s team) does not evaluate own team.
                 if (!giverTeam.equals(team.getKey())) {
                     // recipientEmail doubles as team name in this case.
                     recipients.put(team.getKey(), team.getKey());
+                    branchList.set(28, true);
+                } else {
+                    branchList.set(29, true);
                 }
             }
             break;
         case OWN_TEAM:
+            branchList.set(30, true);
             recipients.put(giverTeam, giverTeam);
             break;
         case OWN_TEAM_MEMBERS:
+            branchList.set(31, true);
             List<StudentAttributes> students;
             if (courseRoster == null) {
                 students = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+                branchList.set(32, true);
             } else {
                 students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
+                branchList.set(33, true);
             }
             for (StudentAttributes student : students) {
+                branchList.set(34, true);
                 if (!student.email.equals(giverEmail)) {
+                    branchList.set(35, true);
                     recipients.put(student.email, student.name);
+                } else {
+                    branchList.set(36, true);
                 }
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            branchList.set(37, true);
             List<StudentAttributes> teamMembers;
             if (courseRoster == null) {
                 teamMembers = studentsLogic.getStudentsForTeam(giverTeam, question.courseId);
+                branchList.set(38, true);
             } else {
                 teamMembers = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
+                branchList.set(39, true);
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
                 recipients.put(student.email, student.name);
+                branchList.set(40, true);
             }
             break;
         case NONE:
+            branchList.set(41, true);
             recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
             break;
         default:
+            branchList.set(42, true);
             break;
         }
+        globals.setRecipientsOfQuestionList(branchList);
         return recipients;
     }
 
