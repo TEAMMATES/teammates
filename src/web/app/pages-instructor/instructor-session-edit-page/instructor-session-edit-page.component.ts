@@ -116,6 +116,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isSaving: false,
     isEditable: false,
     isDeleting: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -245,6 +246,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
+    this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
@@ -260,9 +262,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.copySingleSession(requestList[0]);
         }
         if (requestList.length > 1) {
-          forkJoin(requestList).subscribe(() => {
-            this.showCopyStatusMessage();
-          });
+          forkJoin(requestList).pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+	          .subscribe(() => {
+	            this.showCopyStatusMessage();
+	          });
         }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
@@ -311,6 +314,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isSaving: false,
       isDeleting: false,
+      isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
