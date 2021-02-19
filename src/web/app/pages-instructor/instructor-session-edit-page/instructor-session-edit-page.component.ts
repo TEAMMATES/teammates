@@ -115,6 +115,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isSaving: false,
     isEditable: false,
+    isDeleting: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -309,6 +310,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
+      isDeleting: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
@@ -440,12 +442,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles deleting current feedback session.
    */
   deleteExistingSessionHandler(): void {
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName).subscribe(() => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
-          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+  	this.sessionEditFormModel.isDeleting = true;
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+    	.pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
+    	.subscribe(() => {
+	      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+	          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+	    }, 
+	    (resp: ErrorMessageOutput) => {
+      		this.statusMessageService.showErrorToast(resp.error.message);
+    	});
   }
 
   /**
