@@ -80,7 +80,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             // If there are Empty Mcq options entered trigger this error
             boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> mcqText.trim().equals(""));
-            if (isEmptyMcqOptionEntered) {
+            if (isEmptyMcqOptionEntered) { //TODO make mcQtext an empty string to test empty string error
                 list.set(4, true);
                 errors.add(MCQ_ERROR_EMPTY_MCQ_OPTION);
             } else {
@@ -129,7 +129,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             // If 'Other' option is enabled, and other weight has negative value,
             // trigger this error.
-            if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) {
+            if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) { //TODO set all variables to true to test invalid weight
                 list.set(14, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
             } else {
