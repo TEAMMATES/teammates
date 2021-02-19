@@ -26,7 +26,7 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
     private Closeable closeable;
 
     @BeforeSuite
-    public void setLocalDatastoreHelper() throws IOException, InterruptedException {
+    public void setupLocalDatastoreHelper() throws IOException, InterruptedException {
         localDatastoreHelper = LocalDatastoreHelper.create(DB_CONSISTENCY);
         localDatastoreHelper.start();
     }
