@@ -370,7 +370,7 @@ public final class FeedbackQuestionsLogic {
             branchList.set(2, true);
 
         } else {
-            branchList.set(3, true);
+            branchList.set(3, true); //TODO: Make the above if-statements fail by setting both the of the variables to false.
         }
 
         FeedbackParticipantType recipientType = question.recipientType;
@@ -402,7 +402,7 @@ public final class FeedbackQuestionsLogic {
                         student.section, question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see students in allowed sections for him/her
-                    branchList.set(11, true);
+                    branchList.set(11, true); //TODO: Set recipientType to students, set isInstructorGiver to not have privilege
                     continue;
                 }
                 // Ensure student does not evaluate himself
@@ -460,7 +460,7 @@ public final class FeedbackQuestionsLogic {
                         question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see teams in allowed sections for him/her
-                    branchList.set(26, true);
+                    branchList.set(26, true); //TODO: Set recipientType to Team, set the instructorGiver to not have privilege
                     continue;
                 } else {
                     branchList.set(27, true);
@@ -507,7 +507,7 @@ public final class FeedbackQuestionsLogic {
                 branchList.set(38, true);
             } else {
                 teamMembers = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
-                branchList.set(39, true);
+                branchList.set(39, true); //TODO: Set recipientType to OWN_TEAM_MEMBERS_INCLUDING_SELF and the courseRoster to something.
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
@@ -520,7 +520,7 @@ public final class FeedbackQuestionsLogic {
             recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
             break;
         default:
-            branchList.set(42, true);
+            branchList.set(42, true); //TODO: Set recipientType to something random that is not listed in the cases above.
             break;
         }
         globals.setRecipientsOfQuestionList(branchList);

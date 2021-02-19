@@ -535,7 +535,7 @@ public final class FeedbackSessionsLogic {
             list.set(2, true);
             FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
             if (fqa == null) {
-                list.set(3, true);
+                list.set(3, true); //TODO: Set questionID to null.
                 allQuestions = Collections.emptyList();
             } else {
                 list.set(4, true);
@@ -615,7 +615,7 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (correspondingQuestion == null) {
-                list.set(15, true);
+                list.set(15, true); //TODO: Set the value in allQuestionsMap to null for questionId-key
                 // orphan response without corresponding question, ignore it
                 continue;
             } else {
@@ -867,10 +867,10 @@ public final class FeedbackSessionsLogic {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
                        && studentsEmailInTeam.contains(response.recipient)) {
-                list.set(6, true);
+                list.set(6, true); //TODO: Make both requirements true and make all the other else if fail.
                 isVisibleResponse = true;
             } else {
-                list.set(7, true);
+                list.set(7, true); //TODO: Make all the above elseif fail
             }
         } else {
             list.set(8, true);
@@ -891,7 +891,7 @@ public final class FeedbackSessionsLogic {
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
-                list.set(10, true);
+                list.set(10, true); //TODO: Make this if-statement true by the above declarations.
                 isVisibleResponse = false;
             } else {
                 list.set(11, true);
