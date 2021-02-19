@@ -73,6 +73,20 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
+    public void testValidateQuestionDetails_otherWeightSetWithoutOtherEnabled_errorsReturned() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setNumOfMcqChoices(2);
+        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", "Choice 2"));
+        mcqDetails.setMcqWeights(Arrays.asList(1.22, 1.55));
+        mcqDetails.setHasAssignedWeights(true);
+        mcqDetails.setMcqOtherWeight(2);
+
+        List<String> errors = mcqDetails.validateQuestionDetails();
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+    }
+
+    @Test
     public void testValidateQuestionDetails_negativeOtherWeight_errorsReturned() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         mcqDetails.setNumOfMcqChoices(2);
@@ -80,10 +94,22 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqWeights(Arrays.asList(1.22, 1.55));
         mcqDetails.setHasAssignedWeights(true);
         mcqDetails.setMcqOtherWeight(-2);
+        mcqDetails.setOtherEnabled(true);
 
         List<String> errors = mcqDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
         assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+    }
+
+    @Test
+    public void testValidateQuestionDetails_emptyMcqOption_errorsReturned() {
+        FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
+        mcqDetails.setNumOfMcqChoices(2);
+        mcqDetails.setMcqChoices(Arrays.asList("Choice 1", ""));
+
+        List<String> errors = mcqDetails.validateQuestionDetails();
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_EMPTY_MCQ_OPTION, errors.get(0));
     }
 
     @Test
