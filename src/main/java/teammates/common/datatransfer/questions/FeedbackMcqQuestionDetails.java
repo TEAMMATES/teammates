@@ -2,7 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import teammates.Globals;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
@@ -63,18 +63,28 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public List<String> validateQuestionDetails() {
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getValidateQuestionDetailsList();
+        list.set(0, true);
+
         List<String> errors = new ArrayList<>();
         if (generateOptionsFor == FeedbackParticipantType.NONE) {
-
+            list.set(1, true);
             if (numOfMcqChoices < MCQ_MIN_NUM_OF_CHOICES) {
                 errors.add(MCQ_ERROR_NOT_ENOUGH_CHOICES
                         + MCQ_MIN_NUM_OF_CHOICES + ".");
+                list.set(2, true);
+            } else {
+                list.set(3, true);
             }
 
             // If there are Empty Mcq options entered trigger this error
             boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> mcqText.trim().equals(""));
             if (isEmptyMcqOptionEntered) {
+                list.set(4, true);
                 errors.add(MCQ_ERROR_EMPTY_MCQ_OPTION);
+            } else {
+                list.set(5, true);
             }
 
             // If weights are enabled, number of choices and weights should be same.
@@ -82,43 +92,63 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             // the mcqChoices.size() will be greater than mcqWeights.size(),
             // in that case, trigger this error.
             if (hasAssignedWeights && mcqChoices.size() != mcqWeights.size()) {
+                list.set(6, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
+            } else {
+                list.set(7, true);
             }
 
             // If weights are not enabled, but weight list is not empty or otherWeight is not 0
             // In that case, trigger this error.
             if (!hasAssignedWeights && (!mcqWeights.isEmpty() || mcqOtherWeight != 0)) {
+                list.set(8, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
+            } else {
+                list.set(9, true);
             }
 
             // If weights are enabled, but other option is disabled, and mcqOtherWeight is not 0
             // In that case, trigger this error.
             if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
+                list.set(10, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
+            } else {
+                list.set(11, true);
             }
 
             // If weights are enabled, and any of the weights have negative value,
             // trigger this error.
             if (hasAssignedWeights && !mcqWeights.isEmpty()) {
+                list.set(12, true);
                 mcqWeights.stream()
                         .filter(weight -> weight < 0)
                         .forEach(weight -> errors.add(MCQ_ERROR_INVALID_WEIGHT));
+            } else {
+                list.set(13, true);
             }
 
             // If 'Other' option is enabled, and other weight has negative value,
             // trigger this error.
             if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) {
+                list.set(14, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
+            } else {
+                list.set(15, true);
             }
 
             //If there are duplicate mcq options trigger this error
             boolean isDuplicateOptionsEntered = mcqChoices.stream().map(String::trim).distinct().count()
                                                 != mcqChoices.size();
             if (isDuplicateOptionsEntered) {
+                list.set(16, true);
                 errors.add(MCQ_ERROR_DUPLICATE_MCQ_OPTION);
+            } else {
+                list.set(17, true);
             }
+        } else {
+            list.set(18, true);
         }
-
+        globals.setValidateQuestionDetailsList(list);
         return errors;
     }
 
