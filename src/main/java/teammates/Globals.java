@@ -17,6 +17,8 @@ public class Globals {
 
     private List<Boolean> isResponseVisibleForUserList = new ArrayList<>();
 
+    private List<Boolean> recipientsOfQuestionList = new ArrayList<>();
+
     private List<Boolean> validateQuestionDetailsList = new ArrayList<>();
 
 
@@ -33,6 +35,10 @@ public class Globals {
             isResponseVisibleForUserList.add(false);
         }
 
+        for (int i = 0; i < 43; i++) {
+            recipientsOfQuestionList.add(false);
+        }
+
         for (int i = 0; i < 18; i++) {
             validateQuestionDetailsList.add(false);
         }
@@ -43,6 +49,9 @@ public class Globals {
     }
     public List<Boolean> getGetSessionResultsForUserList() {
         return getSessionResultsForUserList;
+    }
+    public List<Boolean> getRecipientsOfQuestionList() {
+        return recipientsOfQuestionList;
     }
     public List<Boolean> getValidateQuestionDetailsList() {
         return validateQuestionDetailsList;
@@ -56,6 +65,11 @@ public class Globals {
     public void setGetSessionResultsForUserList(List<Boolean> getSessionResultsForUserList) {
         this.getSessionResultsForUserList = getSessionResultsForUserList;
     }
+
+    public void setRecipientsOfQuestionList(List<Boolean> list) {
+        this.recipientsOfQuestionList = list;
+    }
+
 
     public void setValidateQuestionDetailsList(List<Boolean> validateQuestionDetailsList) {
         this.validateQuestionDetailsList = validateQuestionDetailsList;
