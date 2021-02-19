@@ -73,6 +73,19 @@ public class BaseTestCase {
         System.out.print("percentage true: " + (float)count / (float)list.size());
     }
 
+    private void printValidateQuestionDetails() {
+        Globals globals = Globals.getInstance();
+        List<Boolean> list = globals.getValidateQuestionDetailsList();
+        int count = 0;
+        for (int i = 0; i < list.size(); i++){
+            System.out.print(i + "\t " + list.get(i).toString() + "\n");
+            if (list.get(i))
+                count++;
+        };
+        System.out.print("total true: " + count + "/" + list.size() + "\n");
+        System.out.print("percentage true: " + (float)count / (float)list.size());
+    }
+
     @AfterSuite
     public void tearDown() {
         System.out.println("\n" + "Equals" + "\n");
@@ -83,6 +96,8 @@ public class BaseTestCase {
         printGetSessionResultsForUser();
         System.out.println("\n" + "RecipientsOfQuestion branch coverage:" + "\n");
         printRecipientsOfQuestion();
+        System.out.println("\n" + "validateQuestionDetails()" + "\n");
+        printValidateQuestionDetails();
     }
 
     /**
