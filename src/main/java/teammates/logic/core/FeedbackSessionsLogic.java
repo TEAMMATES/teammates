@@ -535,7 +535,7 @@ public final class FeedbackSessionsLogic {
             list.set(2, true);
             FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
             if (fqa == null) {
-                list.set(3, true); //TODO: Set questionID to null.
+                list.set(3, true);
                 allQuestions = Collections.emptyList();
             } else {
                 list.set(4, true);
