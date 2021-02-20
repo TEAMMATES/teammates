@@ -134,19 +134,19 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     InstructorSessionNoResponsePanelComponent;
 
   constructor(private feedbackSessionsService: FeedbackSessionsService,
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private courseService: CourseService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private route: ActivatedRoute,
-    private timezoneService: TimezoneService,
-    private simpleModalService: SimpleModalService,
-    private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-    private progressBarService: ProgressBarService,
-    statusMessageService: StatusMessageService,
-    commentService: FeedbackResponseCommentService,
-    commentToCommentRowModel: CommentToCommentRowModelPipe,
-    tableComparatorService: TableComparatorService) {
+              private feedbackQuestionsService: FeedbackQuestionsService,
+              private courseService: CourseService,
+              private studentService: StudentService,
+              private instructorService: InstructorService,
+              private route: ActivatedRoute,
+              private timezoneService: TimezoneService,
+              private simpleModalService: SimpleModalService,
+              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              private progressBarService: ProgressBarService,
+              statusMessageService: StatusMessageService,
+              commentService: FeedbackResponseCommentService,
+              commentToCommentRowModel: CommentToCommentRowModelPipe,
+              tableComparatorService: TableComparatorService) {
     super(commentToCommentRowModel, commentService, statusMessageService, tableComparatorService);
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -171,12 +171,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }).subscribe((feedbackSession: FeedbackSession) => {
       this.session = feedbackSession;
       this.formattedSessionOpeningTime = this.timezoneService
-        .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
+          .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
-        .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
+          .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
       if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
-          .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
+            .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
       } else {
         this.formattedResultVisibleFromTime = 'Not applicable';
       }
@@ -289,18 +289,18 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       feedbackSessionName: this.session.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
     })
-      .subscribe((resp: SessionResults) => {
-        if (resp.questions.length) {
-          const responses: QuestionOutput = resp.questions[0];
-          this.questionsModel[questionId].responses = responses.allResponses;
-          this.questionsModel[questionId].statistics = responses.questionStatistics;
-          this.questionsModel[questionId].hasPopulated = true;
+        .subscribe((resp: SessionResults) => {
+          if (resp.questions.length) {
+            const responses: QuestionOutput = resp.questions[0];
+            this.questionsModel[questionId].responses = responses.allResponses;
+            this.questionsModel[questionId].statistics = responses.questionStatistics;
+            this.questionsModel[questionId].hasPopulated = true;
 
-          this.preprocessComments(responses.allResponses);
-        }
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+            this.preprocessComments(responses.allResponses);
+          }
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
   }
 
   /**
@@ -327,19 +327,19 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       intent: Intent.INSTRUCTOR_RESULT,
       groupBySection: sectionName,
     })
-      .subscribe((resp: SessionResults) => {
-        this.sectionsModel[sectionName].questions = resp.questions;
-        this.sectionsModel[sectionName].hasPopulated = true;
+        .subscribe((resp: SessionResults) => {
+          this.sectionsModel[sectionName].questions = resp.questions;
+          this.sectionsModel[sectionName].hasPopulated = true;
 
-        // sort questions by question number
-        resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-          a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-        resp.questions.forEach((question: QuestionOutput) => {
-          this.preprocessComments(question.allResponses);
+          // sort questions by question number
+          resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+            a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+          resp.questions.forEach((question: QuestionOutput) => {
+            this.preprocessComments(question.allResponses);
+          });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
         });
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
   }
 
   /**
@@ -351,7 +351,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-        this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
+         this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
       this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
@@ -368,23 +368,23 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
           will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
-        `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING, modalContent);
+          `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
+          SimpleModalType.WARNING, modalContent);
     } else {
       const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
-        `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING, modalContent);
+          `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
+          SimpleModalType.WARNING, modalContent);
     }
 
     modalRef.result.then(() => {
       const response: Observable<any> = isPublished ?
-        this.feedbackSessionsService.unpublishFeedbackSession(
-          this.session.courseId, this.session.feedbackSessionName,
-        ) :
-        this.feedbackSessionsService.publishFeedbackSession(
-          this.session.courseId, this.session.feedbackSessionName,
-        );
+          this.feedbackSessionsService.unpublishFeedbackSession(
+            this.session.courseId, this.session.feedbackSessionName,
+          ) :
+          this.feedbackSessionsService.publishFeedbackSession(
+            this.session.courseId, this.session.feedbackSessionName,
+          );
 
       response.subscribe((res: FeedbackSession) => {
         this.session = res;
@@ -422,27 +422,27 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
     let numberOfQuestionsDownloaded: number = 0;
     const modalContent: string =
-      'Downloading the results of your feedback session...';
+        'Downloading the results of your feedback session...';
     const downloadModalRef: NgbModalRef = this.simpleModalService.openDownloadModal(
-      'Download Progress', SimpleModalType.LOAD, modalContent);
+        'Download Progress', SimpleModalType.LOAD, modalContent);
     downloadModalRef.result.then(() => {
       this.isDownloadingResults = false;
       downloadAborted = true;
     });
 
     concat(
-      ...Object.keys(this.questionsModel).map((k: string) =>
-        this.feedbackSessionsService.downloadSessionResults(
-          this.session.courseId,
-          this.session.feedbackSessionName,
-          Intent.INSTRUCTOR_RESULT,
-          this.indicateMissingResponses,
-          this.showStatistics,
-          this.questionsModel[k].question.feedbackQuestionId,
-          this.section.length === 0 ? undefined : this.section,
-          this.section.length === 0 ? undefined : this.sectionType,
+        ...Object.keys(this.questionsModel).map((k: string) =>
+          this.feedbackSessionsService.downloadSessionResults(
+              this.session.courseId,
+              this.session.feedbackSessionName,
+              Intent.INSTRUCTOR_RESULT,
+              this.indicateMissingResponses,
+              this.showStatistics,
+              this.questionsModel[k].question.feedbackQuestionId,
+              this.section.length === 0 ? undefined : this.section,
+              this.section.length === 0 ? undefined : this.sectionType,
+          ),
         ),
-      ),
     ).pipe(finalize(() => this.isDownloadingResults = false))
       .pipe(takeWhile(() => this.isDownloadingResults))
       .subscribe({
@@ -470,15 +470,15 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
     const filename: string =
-      `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
+        `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
     this.feedbackSessionsService.downloadSessionResults(
-      this.session.courseId,
-      this.session.feedbackSessionName,
-      Intent.INSTRUCTOR_RESULT,
-      this.indicateMissingResponses,
-      this.showStatistics,
-      question.questionId,
+        this.session.courseId,
+        this.session.feedbackSessionName,
+        Intent.INSTRUCTOR_RESULT,
+        this.indicateMissingResponses,
+        this.showStatistics,
+        question.questionId,
     ).subscribe((resp: string) => {
       const blob: any = new Blob([resp], { type: 'text/csv' });
       saveAs(blob, filename);
