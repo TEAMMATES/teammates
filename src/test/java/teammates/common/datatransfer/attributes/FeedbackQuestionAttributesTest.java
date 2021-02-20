@@ -821,6 +821,23 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         // When the other object is of different class
         assertFalse(feedbackQuestion.equals(3));
+
+        // When comparing the same feedback question
+        assertTrue(feedbackQuestion.equals(feedbackQuestion)); //B1
+        // When comparing feedback question to null
+        assertFalse(feedbackQuestion.equals(null));
+        // When comparing feedback questions that have courseID null
+        FeedbackQuestionAttributes feedbackQuestionNullCourseID = FeedbackQuestionAttributes.builder()
+        .withCourseId("")
+        .build();
+        assertFalse(feedbackQuestionNullCourseID.equals(feedbackQuestion));
+
+        //When comparing feedbacksession name
+        FeedbackQuestionAttributes feedbackQuestionSessionNull = FeedbackQuestionAttributes.builder()
+        .withFeedbackSessionName("")
+        .build();
+        assertFalse(feedbackQuestionSessionNull.equals(feedbackQuestion));
+        
     }
 
     @Test

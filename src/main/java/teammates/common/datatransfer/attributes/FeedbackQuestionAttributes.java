@@ -233,13 +233,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         list.set(49, true);
 
         if (this == obj) {
-            list.set(0, true); //TODO Compare the same object
+            list.set(0, true); 
             return true;
         }
         list.set(1, true);
 
         if (obj == null) {
-            list.set(2, true); //TODO Compare object to null
+            list.set(2, true); 
             return false;
         }
         list.set(3, true);
@@ -258,7 +258,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                 return false;
             }
             list.set(8, true);
-        } else if (!courseId.equals(other.courseId)) {
+        } else if (!courseId.equals(other.courseId)) { //TODO dead code, 1. null
             list.set(9, true);
             return false;
         }
