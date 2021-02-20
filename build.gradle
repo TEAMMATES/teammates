@@ -485,8 +485,8 @@ task componentTests(type: Test) {
     afterSuite checkTestNgFailureClosure
     testLogging {
         events "passed"
+        showStandardStreams = true
     }
-    testLogging.showStandardStreams = true
 }
 
 task e2eTests {
