@@ -309,6 +309,13 @@
           </div>
           <div class="col-md-4">
             <div class="form-check form-check-inline">
+              <label class="ngb-tooltip-class form-check-label" ngbTooltip="Notify instructors 24h before the session is going to open.">
+                <input id="email-opening-soon" class="form-check-input" type="checkbox" checked disabled>Instructor opening reminder
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check form-check-inline">
               <label class="ngb-tooltip-class form-check-label" ngbTooltip="Remind students to submit 24 hours before the end of the session.">
                 <input id="email-closing" class="form-check-input" type="checkbox" [ngModel]="model.isClosingEmailEnabled" (ngModelChange)="triggerModelChange('isClosingEmailEnabled', $event)" [disabled]="!model.isEditable"> Session closing reminder
               </label>

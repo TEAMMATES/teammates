@@ -205,6 +205,22 @@ public final class FeedbackSessionsLogic {
         return sessionsToSendEmailsFor;
     }
 
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpeningSoonEmailsToBeSent() {
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSessionAttributes session : sessions) {
+            if (session.isOpened() && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
+                sessionsToSendEmailsFor.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                sessionsToSendEmailsFor.size()));
+        return sessionsToSendEmailsFor;
+    }
+
     public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
         return fs.getCreatorEmail().equals(userEmail);

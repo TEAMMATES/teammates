@@ -41,6 +41,8 @@ public class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions";
     private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
+    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is opening in 24 hours";
+
     private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
     private static final String FEEDBACK_STATUS_SESSION_CLOSED =
             "is now closed. You can still view your submission by going to the link sent earlier, "
@@ -60,6 +62,27 @@ public class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
+    /**
+     * Generates the feedback session opening in 24 hrs emails to instructors for the given {@code session}.
+     */
+    public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSessionAttributes session) {
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        boolean isEmailNeeded = fsLogic.isFeedbackSessionForStudentsToAnswer(session);
+        List<InstructorAttributes> instructors = isEmailNeeded
+                ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
+                : new ArrayList<>();
+        List<StudentAttributes> students = new ArrayList<>();
+
+        List<EmailWrapper> emails = generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+                EmailType.FEEDBACK_OPENING_SOON.getSubject());
+        for (EmailWrapper email : emails) {
+            email.setContent(email.getContent().replace("${status}", FEEDBACK_STATUS_SESSION_OPENING_SOON));
+        }
+        return emails;
+    }
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */

@@ -171,6 +171,16 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
+     * Gets a list of undeleted feedback sessions which start within the next 23~24 hours
+     * and possibly need an open email to be sent.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
      * and possibly need a closing email to be sent.
      */
@@ -373,6 +383,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentOpenEmail =", false)
+                .list();
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
+        return load()
+                .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
+                .filter("sentOpeningSoonEmail =", false)
                 .list();
     }
 

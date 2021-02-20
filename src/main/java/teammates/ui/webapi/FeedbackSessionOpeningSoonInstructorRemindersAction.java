@@ -7,7 +7,12 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 
-public class FeedbackSessionOpeningSoonInstructorReminderAction extends AdminOnlyAction {
+
+/**
+ * Cron job: schedules feedback session opening soon emails to be sent.
+ */
+
+public class FeedbackSessionOpeningSoonInstructorRemindersAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
@@ -21,7 +26,7 @@ public class FeedbackSessionOpeningSoonInstructorReminderAction extends AdminOnl
                 logic.updateFeedbackSession(
                         FeedbackSessionAttributes
                                 .updateOptionsBuilder(session.getFeedbackSessionName(), session.getCourseId())
-                                .withSentOpenEmail(true)
+                                .withSentOpeningSoonEmail(true)
                                 .build());
             } catch (Exception e) {
                 log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));

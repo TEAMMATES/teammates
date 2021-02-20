@@ -118,8 +118,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
-                false, false, false, false,
-                true, true, true);
+                false, false, false, false, false,
+                true, true, true, true);
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
 
@@ -150,8 +150,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
-                false, false, false, false,
-                true, true, true);
+                false, false,false, false, false,
+                true, true, true, true);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);

@@ -1348,6 +1348,10 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpenEmailsToBeSent();
     }
 
+    public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpeningSoonEmailsToBeSent() {
+        return feedbackSessionsLogic.getFeedbackSessionsWhichNeedOpeningSoonEmailsToBeSent();
+    }
+
     public String getSectionForTeam(String courseId, String teamName) {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(teamName);

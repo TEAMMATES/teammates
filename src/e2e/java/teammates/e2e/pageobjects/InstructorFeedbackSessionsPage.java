@@ -88,6 +88,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "email-opening")
     private WebElement openingSessionEmailCheckbox;
 
+    @FindBy(id = "email-opening-soon")
+    private WebElement openingSessionSoonEmailCheckbox;
+
     @FindBy(id = "email-closing")
     private WebElement closingSessionEmailCheckbox;
 
@@ -405,6 +408,9 @@ public class InstructorFeedbackSessionsPage extends AppPage {
         showEmailSettings();
         if (newFeedbackSessionDetails.isOpeningEmailEnabled() != openingSessionEmailCheckbox.isSelected()) {
             click(openingSessionEmailCheckbox);
+        }
+        if (newFeedbackSessionDetails.isOpeningEmailEnabled() != openingSessionSoonEmailCheckbox.isSelected()) {
+            click(openingSessionSoonEmailCheckbox);
         }
         if (newFeedbackSessionDetails.isClosingEmailEnabled() != closingSessionEmailCheckbox.isSelected()) {
             click(closingSessionEmailCheckbox);

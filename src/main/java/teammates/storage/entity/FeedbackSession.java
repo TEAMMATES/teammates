@@ -64,6 +64,8 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean sentOpenEmail;
 
+    private boolean sentOpeningSoonEmail;
+
     private boolean sentClosingEmail;
 
     private boolean sentClosedEmail;
@@ -71,6 +73,8 @@ public class FeedbackSession extends BaseEntity {
     private boolean sentPublishedEmail;
 
     private boolean isOpeningEmailEnabled;
+
+    private boolean isOpeningSoonEmailEnabled;
 
     private boolean isClosingEmailEnabled;
 
@@ -84,9 +88,9 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpenEmail, boolean sentClosingEmail,
+            boolean sentOpenEmail, boolean sentOpeningSoonEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean isOpeningEmailEnabled, boolean isOpeningSoonEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -100,10 +104,12 @@ public class FeedbackSession extends BaseEntity {
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
         this.sentOpenEmail = sentOpenEmail;
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
         this.sentClosingEmail = sentClosingEmail;
         this.sentClosedEmail = sentClosedEmail;
         this.sentPublishedEmail = sentPublishedEmail;
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
+        this.isOpeningSoonEmailEnabled = isOpeningSoonEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
@@ -221,6 +227,14 @@ public class FeedbackSession extends BaseEntity {
         this.sentOpenEmail = sentOpenEmail;
     }
 
+    public boolean isSentOpeningSoonEmail() {
+        return sentOpeningSoonEmail;
+    }
+
+    public void setSentOpeningSoonEmail(boolean sentOpeningSoonEmail) {
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
+    }
+
     public boolean isSentClosingEmail() {
         return sentClosingEmail;
     }
@@ -253,6 +267,14 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
     }
 
+    public boolean isOpeningSoonEmailEnabled() {
+        return isOpeningSoonEmailEnabled;
+    }
+
+    public void setIsOpeningSoonEmailEnabled(boolean isOpeningSoonEmailEnabled) {
+        this.isOpeningSoonEmailEnabled = isOpeningSoonEmailEnabled;
+    }
+
     public boolean isClosingEmailEnabled() {
         return isClosingEmailEnabled;
     }
@@ -280,6 +302,7 @@ public class FeedbackSession extends BaseEntity {
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod
                 + ", sentOpenEmail=" + sentOpenEmail
+                + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
