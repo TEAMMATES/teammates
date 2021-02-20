@@ -90,7 +90,8 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpenEmail, boolean sentOpeningSoonEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isOpeningSoonEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean isOpeningEmailEnabled, boolean isOpeningSoonEmailEnabled,
+                           boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;

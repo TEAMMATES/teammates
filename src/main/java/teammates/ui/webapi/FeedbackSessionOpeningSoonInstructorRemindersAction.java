@@ -7,11 +7,9 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 
-
 /**
  * Cron job: schedules feedback session opening soon emails to be sent.
  */
-
 public class FeedbackSessionOpeningSoonInstructorRemindersAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 

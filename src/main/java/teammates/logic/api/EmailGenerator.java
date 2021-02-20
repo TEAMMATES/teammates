@@ -83,6 +83,7 @@ public class EmailGenerator {
         }
         return emails;
     }
+
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
