@@ -10,6 +10,7 @@ apply plugin: "pmd"
 apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
+apply plugin: "java"
 
 def appengineVersion = "1.9.81"
 def checkstyleVersion = "8.33"
@@ -485,6 +486,7 @@ task componentTests(type: Test) {
     testLogging {
         events "passed"
     }
+    testLogging.showStandardStreams = true
 }
 
 task e2eTests {
