@@ -248,10 +248,10 @@ export class QuestionEditFormComponent implements OnInit {
     }
     if (this.model.isUsingOtherFeedbackPath && this.isCustomFeedbackVisibilitySettingAllowed) {
       this.triggerModelChangeBatch({
+        giverType,
         isUsingOtherFeedbackPath: false,
-        giverType: giverType,
         recipientType: newRecipientType,
-       });
+      });
     } else {
       this.triggerModelChangeBatch({
         giverType,
