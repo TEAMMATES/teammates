@@ -246,15 +246,23 @@ export class QuestionEditFormComponent implements OnInit {
     if (allowedRecipientTypes.indexOf(recipientType) === -1) {
       newRecipientType = allowedRecipientTypes[0];
     }
-    this.triggerModelChangeBatch({
-      giverType,
-      recipientType: newRecipientType,
-      commonVisibilitySettingName: 'Please select a visibility option',
-      isUsingOtherVisibilitySetting: false,
-      showResponsesTo: [],
-      showGiverNameTo: [],
-      showRecipientNameTo: [],
-    });
+    if (this.model.isUsingOtherFeedbackPath && this.isCustomFeedbackVisibilitySettingAllowed) {
+      this.triggerModelChangeBatch({
+        isUsingOtherFeedbackPath: false,
+        giverType: giverType,
+        recipientType: newRecipientType,
+       });
+    } else {
+      this.triggerModelChangeBatch({
+        giverType,
+        recipientType: newRecipientType,
+        commonVisibilitySettingName: 'Please select a visibility option',
+        isUsingOtherVisibilitySetting: false,
+        showResponsesTo: [],
+        showGiverNameTo: [],
+        showRecipientNameTo: [],
+      });
+    }
   }
 
   /**
