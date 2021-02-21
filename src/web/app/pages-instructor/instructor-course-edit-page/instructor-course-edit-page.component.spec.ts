@@ -79,14 +79,15 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should not change course details if CANCEL is requested', () => {
-    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of({
+    component.course = {
       courseId: 'exampleId',
       courseName: 'Example Course',
       timeZone: 'UTC (UTC)',
       creationTimestamp: 0,
       deletionTimestamp: 1000,
-    }));
-    component.loadCourseInfo();
+    };
+    component.isCourseLoading = false;
+    component.originalCourse = Object.assign({}, component.course);
     fixture.detectChanges();
 
     component.isEditingCourse = true;
@@ -94,7 +95,6 @@ describe('InstructorCourseEditPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-cancel-course');
-
     button.click();
 
     expect(component.isEditingCourse).toBeFalsy();
@@ -102,14 +102,14 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should update course details if SAVE is requested', () => {
-    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of({
+    component.course = {
       courseId: 'exampleId',
       courseName: 'Example Course',
       timeZone: 'UTC (UTC)',
       creationTimestamp: 0,
       deletionTimestamp: 1000,
-    }));
-    component.loadCourseInfo();
+    };
+    component.isCourseLoading = false;
     fixture.detectChanges();
 
     component.isEditingCourse = true;
@@ -125,7 +125,6 @@ describe('InstructorCourseEditPageComponent', () => {
     }));
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
-
     button.click();
 
     expect(component.isEditingCourse).toBeFalsy();
