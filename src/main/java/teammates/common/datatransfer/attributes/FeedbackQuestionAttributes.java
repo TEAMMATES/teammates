@@ -1,11 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.JsonParseException;
-
 import teammates.Globals;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -16,6 +11,10 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
+
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
@@ -257,115 +256,115 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             if (other.courseId != null) { //TODO 1. CourseID: Null, other.courseID: Null set  2. CourseId: null, other.CourseID: != null
                 return false;
             }
-            list.set(8, true);
+            list.set(7, true);
         } else if (!courseId.equals(other.courseId)) { //TODO dead code, 1. null
-            list.set(9, true);
+            list.set(8, true);
             return false;
         }
-        list.set(10, true);
+        list.set(9, true);
 
         if (feedbackSessionName == null) {
-            list.set(11, true);
+            list.set(10, true);
             if (other.feedbackSessionName != null) { //TODO feedbackSessionName: null, other: null
-                list.set(12, true);
+                list.set(11, true);
                 return false;
             }
-            list.set(13, true); //TODO feedback: null, other: != null
+            list.set(12, true); //TODO feedback: null, other: != null
         } else if (!feedbackSessionName.equals(other.feedbackSessionName)) { //TODO feedbacksessionname=other.feedbacksessionname
-            list.set(14, true);
+            list.set(13, true);
             return false;
         } else {
-            list.set(15, true);
+            list.set(14, true);
         }
 
         if (giverType != other.giverType) { //TODO givertype != other.givertype
-            list.set(16, true);
+            list.set(15, true);
             return false;
         }
-        list.set(17, true);
+        list.set(16, true);
         if (numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo) { //TODO  numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo
-            list.set(18, true);
+            list.set(17, true);
             return false;
         }
-        list.set(19, true);
+        list.set(18, true);
         if (questionNumber != other.questionNumber) { //TODO questionNumber != other.questionNumber
-            list.set(20, true);
+            list.set(19, true);
             return false;
         }
-        list.set(21, true);
+        list.set(20, true);
         if (questionDetails == null) {
-            list.set(22, true);
+            list.set(21, true);
             if (other.questionDetails != null) {
-                list.set(23, true);
+                list.set(22, true);
                 return false;
             }
-            list.set(24, true);
+            list.set(23, true);
         } else if (!questionDetails.equals(other.questionDetails)) {
-            list.set(25, true);
+            list.set(24, true);
             return false;
         } else {
-            list.set(26, true);
+            list.set(25, true);
         }
 
         if (questionDescription == null) {
-            list.set(27, true);
+            list.set(26, true);
             if (other.questionDescription != null) {
-                list.set(28, true);
+                list.set(27, true);
                 return false;
             }
-            list.set(29, true);
+            list.set(28, true);
         } else if (!questionDescription.equals(other.questionDescription)) {
-            list.set(30, true);
+            list.set(29, true);
             return false;
         } else {
-            list.set(31, true);
+            list.set(30, true);
         }
 
         if (recipientType != other.recipientType) {
-            list.set(32, true);
+            list.set(31, true);
             return false;
         }
-        list.set(33, true);
+        list.set(32, true);
         if (showGiverNameTo == null) {
-            list.set(34, true);
+            list.set(33, true);
             if (other.showGiverNameTo != null) {
-                list.set(35, true);
+                list.set(34, true);
                 return false;
             }
-            list.set(36, true);
+            list.set(35, true);
         } else if (!showGiverNameTo.equals(other.showGiverNameTo)) {
-            list.set(37, true);
+            list.set(36, true);
             return false;
         } else {
-            list.set(38, true);
+            list.set(37, true);
         }
 
         if (showRecipientNameTo == null) {
-            list.set(39, true);
+            list.set(38, true);
             if (other.showRecipientNameTo != null) {
-                list.set(40, true);
+                list.set(39, true);
                 return false;
             }
-            list.set(41, true);
+            list.set(40, true);
         } else if (!showRecipientNameTo.equals(other.showRecipientNameTo)) {
-            list.set(42, true);
+            list.set(41, true);
             return false;
         } else {
-            list.set(43, true);
+            list.set(42, true);
         }
 
         if (showResponsesTo == null) {
-            list.set(44, true);
+            list.set(43, true);
             if (other.showResponsesTo != null) {
-                list.set(45, true);
+                list.set(44, true);
                 return false;
             }
-            list.set(46, true);
+            list.set(45, true);
         } else if (!showResponsesTo.equals(other.showResponsesTo)) {
-            list.set(47, true);
+            list.set(46, true);
             return false;
         } else {
-            list.set(48, true);
+            list.set(47, true);
         }
 
         globals.setEqualList(list);

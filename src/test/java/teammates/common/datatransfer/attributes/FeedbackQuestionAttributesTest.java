@@ -1,11 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.Test;
 import org.testng.collections.Lists;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -17,6 +13,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SUT: {@link FeedbackQuestionAttributes}.
@@ -837,7 +836,13 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         .withFeedbackSessionName("")
         .build();
         assertFalse(feedbackQuestionSessionNull.equals(feedbackQuestion));
-        
+
+        //When comparing and both have coursId set to null.
+        FeedbackQuestionAttributes feedbackQuestionNullCourseID2 = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes feedbackQuestionNullCourseID3 = getNewFeedbackQuestionAttributes();
+        feedbackQuestionNullCourseID2.courseId = null;
+        feedbackQuestionNullCourseID3.courseId = null;
+        assertTrue(feedbackQuestionNullCourseID2.equals(feedbackQuestionNullCourseID3));
     }
 
     @Test
