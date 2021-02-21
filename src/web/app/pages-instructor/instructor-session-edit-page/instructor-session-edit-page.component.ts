@@ -263,9 +263,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }
         if (requestList.length > 1) {
           forkJoin(requestList).pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
-	          .subscribe(() => {
-	            this.showCopyStatusMessage();
-	          });
+           .subscribe(() => {
+             this.showCopyStatusMessage();
+           });
         }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
@@ -446,16 +446,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles deleting current feedback session.
    */
   deleteExistingSessionHandler(): void {
-  	this.sessionEditFormModel.isDeleting = true;
+    this.sessionEditFormModel.isDeleting = true;
     this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
-    	.pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
-    	.subscribe(() => {
-	      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
-	          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
-	    }, 
-	    (resp: ErrorMessageOutput) => {
-      		this.statusMessageService.showErrorToast(resp.error.message);
-    	});
+     .pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
+     .subscribe(() => {
+       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+     },
+     (resp: ErrorMessageOutput) => {
+       this.statusMessageService.showErrorToast(resp.error.message);
+     });
   }
 
   /**
