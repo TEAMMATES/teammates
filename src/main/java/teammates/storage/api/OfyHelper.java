@@ -1,12 +1,16 @@
 package teammates.storage.api;
 
+import java.io.IOException;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.cloud.datastore.testing.LocalDatastoreHelper;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
+import teammates.common.util.Logger;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
@@ -22,6 +26,9 @@ import teammates.storage.entity.StudentProfile;
  * Setup in web.xml to register Objectify at application startup.
  **/
 public class OfyHelper implements ServletContextListener {
+    private static final Logger log = Logger.getLogger();
+
+    private static final double DB_CONSISTENCY = 1.0;
 
     /**
      * Register entity classes in Objectify service.
@@ -47,14 +54,29 @@ public class OfyHelper implements ServletContextListener {
         // PRODUCTION
         //ObjectifyService.init();
 
-        // TEST
+        // LOCAL TEST
+        LocalDatastoreHelper localDatastoreHelper = LocalDatastoreHelper.create(DB_CONSISTENCY);
+        try {
+            localDatastoreHelper.start();
+        } catch (InterruptedException | IOException e) {
+            log.warning("local datastore helper exception");
+        }
+
+        DatastoreOptions options = localDatastoreHelper.getOptions();
+        ObjectifyService.init(new ObjectifyFactory(
+                options.getService()
+        ));
+
+        // MANUAL TEST
+        /*
         ObjectifyService.init(new ObjectifyFactory(
                 DatastoreOptions.newBuilder()
-                        .setHost("http://localhost:8484")
+                        .setHost("http://localhost:8080")
                         .setProjectId("tm-obj-v6-test")
                         .build()
                         .getService()
         ));
+        */
 
         registerEntityClasses();
     }
