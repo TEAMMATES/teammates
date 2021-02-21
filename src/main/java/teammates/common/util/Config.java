@@ -21,11 +21,17 @@ public final class Config {
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
 
+    /** The value of the "app.region" in build.properties file. */
+    public static final String APP_REGION;
+
     /** The value of the "app.version" in build.properties file. */
     public static final String APP_VERSION;
 
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
+
+    /** The value of the "app.taskqueue.active" in build.properties file. */
+    public static final boolean TASKQUEUE_ACTIVE;
 
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
@@ -90,8 +96,10 @@ public final class Config {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         APP_ID = properties.getProperty("app.id");
+        APP_REGION = properties.getProperty("app.region");
         APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
+        TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
         CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");

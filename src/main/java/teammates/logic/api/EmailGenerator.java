@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.appengine.api.log.AppLogLine;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -799,10 +797,10 @@ public class EmailGenerator {
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
-    public EmailWrapper generateCompiledLogsEmail(List<AppLogLine> logs) {
+    public EmailWrapper generateCompiledLogsEmail(List<String> logMessages, List<String> logLevels) {
         StringBuilder emailBody = new StringBuilder();
-        for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i)));
+        for (int i = 0; i < logMessages.size(); i++) {
+            emailBody.append(generateSevereErrorLogLine(i, logMessages.get(i), logLevels.get(i)));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
@@ -811,12 +809,12 @@ public class EmailGenerator {
         return email;
     }
 
-    private String generateSevereErrorLogLine(int index, AppLogLine logLine) {
+    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel) {
         return Templates.populateTemplate(
                 EmailTemplates.SEVERE_ERROR_LOG_LINE,
                 "${index}", String.valueOf(index),
-                "${errorType}", logLine.getLogLevel().toString(),
-                "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
+                "${errorType}", logLevel,
+                "${errorMessage}", logMessage);
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
