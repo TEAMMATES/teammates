@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { concat } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { concat, Observable } from 'rxjs';
+import { catchError, finalize, takeWhile } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -76,6 +76,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isAjaxSuccess: boolean = true;
   isEnrolling: boolean = false;
 
+  allStudentChunks: StudentEnrollRequest[][] = [];
+  remainingStudentChunks: StudentEnrollRequest[][] = [];
+  numberOfStudentsPerRequest: number = 100; // at most 100 students per chunk
+
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
@@ -95,12 +99,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   submitEnrollData(): void {
     this.isEnrolling = true;
     this.enrollErrorMessage = '';
+    this.allStudentChunks = [];
 
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
-    const allStudentChunks: StudentEnrollRequest[][] = [];
-    const numberOfStudentsPerRequest: number = 200; // at most 100 students per chunk
 
     let currentStudentChunk: StudentEnrollRequest[] = [];
 
@@ -122,20 +125,21 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
                 '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
           });
-          if (currentStudentChunk.length >= numberOfStudentsPerRequest) {
-            allStudentChunks.push(currentStudentChunk);
+          if (currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
+            this.allStudentChunks.push(currentStudentChunk);
             currentStudentChunk = [];
           }
         });
     if (currentStudentChunk.length > 0) {
-      allStudentChunks.push(currentStudentChunk);
+      this.allStudentChunks.push(currentStudentChunk);
       currentStudentChunk = [];
     }
 
     const enrolledStudents: Student[] = [];
+    this.remainingStudentChunks = [...this.allStudentChunks];
 
-    concat(
-        ...allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
+    const enrollRequests: Observable<Students> = concat(
+        ...this.allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
           const studentsEnrollRequest: StudentsEnrollRequest = {
             studentEnrollRequests: studentChunk,
           };
@@ -143,37 +147,77 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               this.courseId, studentsEnrollRequest,
           );
         }),
-    ).pipe(finalize(() => this.isEnrolling = false))
-        .subscribe({
-          next: (resp: Students) => {
-            enrolledStudents.push(...resp.students);
-          },
-          complete: () => {
-            this.showEnrollResults = true;
-            this.statusMessage.pop(); // removes any existing error status message
-            this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
+    );
 
-            const allStudentEntries: StudentEnrollRequest[] = [];
-            allStudentChunks.forEach((chunk: StudentEnrollRequest[]) => allStudentEntries.push(...chunk));
+    const handledRequests: Observable<Students> = this.handleTimeoutForEnrollRequest(enrollRequests);
+    handledRequests.subscribe({
+      next: (resp: Students) => {
+        enrolledStudents.push(...resp.students);
+        this.remainingStudentChunks = this.remainingStudentChunks.slice(1, this.remainingStudentChunks.length);
+      },
+      complete: () => {
+        this.showEnrollResults = true;
+        this.statusMessage.pop(); // removes any existing error status message
+        this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
 
-            this.enrollResultPanelList =
-                this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents, allStudentEntries);
+        const allStudentEntries: StudentEnrollRequest[] = [];
+        this.allStudentChunks.forEach((chunk: StudentEnrollRequest[]) => allStudentEntries.push(...chunk));
 
-            this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
-              this.existingStudents = resp.students;
-              if (!this.isExistingStudentsPanelCollapsed) {
-                const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
-                this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
-              }
-              this.isExistingStudentsPresent = true;
-            });
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.enrollErrorMessage = resp.error.message;
-          },
+        this.enrollResultPanelList =
+            this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents, allStudentEntries);
+
+        this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
+          this.existingStudents = resp.students;
+          if (!this.isExistingStudentsPanelCollapsed) {
+            const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+            this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+          }
+          this.isExistingStudentsPresent = true;
         });
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.enrollErrorMessage = resp.error.message;
+      },
+    });
   }
 
+  private handleTimeoutForEnrollRequest(prevRequests: Observable<Students>): Observable<Students> {
+
+    return prevRequests.pipe(finalize(() => this.isEnrolling = false))
+        .pipe(takeWhile(() => this.remainingStudentChunks.length > 0))
+        .pipe(catchError(() => {
+          // First request in the list caused the timeout
+          const currentLongRequest: StudentEnrollRequest[] = this.remainingStudentChunks[0];
+
+          // Break the long request into half
+          const studentEnrollRequest1: StudentEnrollRequest[] =
+              currentLongRequest.slice(0, currentLongRequest.length / 2);
+
+          const studentEnrollRequest2: StudentEnrollRequest[] =
+              currentLongRequest.slice(currentLongRequest.length / 2, currentLongRequest.length);
+
+          this.remainingStudentChunks =
+              this.remainingStudentChunks.filter((chunk: StudentEnrollRequest[]) =>
+                  chunk !== currentLongRequest);
+          this.remainingStudentChunks =
+              [studentEnrollRequest1, studentEnrollRequest2, ...this.remainingStudentChunks];
+
+          // Prepare chunks for new stream
+          const newRequests: Observable<Students> = concat(
+              ...this.remainingStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
+                const studentsEnrollRequest: StudentsEnrollRequest = {
+                  studentEnrollRequests: studentChunk,
+                };
+                return this.studentService.enrollStudents(
+                    this.courseId, studentsEnrollRequest,
+                );
+              }),
+          );
+
+          // Return a new stream
+          return this.handleTimeoutForEnrollRequest(newRequests);
+        }));
+  }
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
                                         enrollRequests: StudentEnrollRequest[]): EnrollResultPanel[] {
 
