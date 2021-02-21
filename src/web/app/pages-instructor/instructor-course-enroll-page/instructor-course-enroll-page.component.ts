@@ -100,7 +100,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
     const allStudentChunks: StudentEnrollRequest[][] = [];
-    const numberOfStudentsPerRequest: number = 50; // at most 50 students per chunk
+    const numberOfStudentsPerRequest: number = 200; // at most 100 students per chunk
 
     let currentStudentChunk: StudentEnrollRequest[] = [];
 
