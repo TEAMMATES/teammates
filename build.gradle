@@ -30,7 +30,7 @@ buildscript {
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:29.0-jre"
+        classpath "com.google.guava:guava:30.1-jre"
     }
 }
 
@@ -54,6 +54,8 @@ dependencies {
     annotationProcessor(objectify)
 
     implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
+    implementation("com.google.cloud:google-cloud-tasks:1.30.11")
+    implementation("com.google.cloud:google-cloud-logging:2.1.2")
 
     // This dependency needs to be resolved individually
     // because the main dependency (appengine-gcs-client) does not have its transitive dependencies up-to-date
@@ -68,7 +70,7 @@ dependencies {
     implementation("com.google.apis:google-api-services-storage:v1-rev20200430-1.30.9")
 
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("com.google.guava:guava:29.0-jre")
+    implementation("com.google.guava:guava:30.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20200615.1")
     implementation("com.mailjet:mailjet-client:4.5.0")
@@ -319,6 +321,7 @@ spotbugs {
     reportLevel = "low"
     toolVersion = spotbugsVersion
     includeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs.xml")
+    excludeFilter = file("$rootProject.projectDir/static-analysis/teammates-spotbugs-exclude.xml")
 }
 
 tasks.withType(com.github.spotbugs.snom.SpotBugsTask) {

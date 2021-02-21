@@ -7,9 +7,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.log.AppLogLine;
-import com.google.appengine.api.log.LogService.LogLevel;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -566,16 +563,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
     @Test
     public void testGenerateCompiledLogsEmail() throws IOException {
-        AppLogLine typicalLogLine = new AppLogLine();
-        typicalLogLine.setLogLevel(LogLevel.ERROR);
-        typicalLogLine.setLogMessage("Typical log message");
+        List<String> logMessages = Arrays.asList(
+                "Typical log message",
+                "Log line <br> with line break <br> and also HTML br tag"
+        );
+        List<String> logLevels = Arrays.asList("ERROR", "ERROR");
 
-        AppLogLine logLineWithLineBreak = new AppLogLine();
-        logLineWithLineBreak.setLogLevel(LogLevel.ERROR);
-        logLineWithLineBreak.setLogMessage("Log line \n with line break <br> and also HTML br tag");
-
-        EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(
-                Arrays.asList(typicalLogLine, logLineWithLineBreak));
+        EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(logMessages, logLevels);
 
         String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION);
 
