@@ -402,7 +402,9 @@ public final class FeedbackQuestionsLogic {
                         student.section, question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see students in allowed sections for him/her
-                    branchList.set(11, true); //TODO: Set recipientType to students, set isInstructorGiver to not have privilege
+                    branchList.set(11, true);
+                    //TODO: Set isInstructorGiver to not have privilege
+                    //Done. This is now tested
                     continue;
                 }
                 // Ensure student does not evaluate himself

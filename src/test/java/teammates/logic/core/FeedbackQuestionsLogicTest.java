@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -151,6 +152,19 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.get(email), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
 
+    }
+
+    @Test
+    public void testGetRecipientsOfQuestionWithInstructorAndWithoutPrivilege() {
+        FeedbackQuestionAttributes question;
+        InstructorAttributes instructorGiver;
+        Map<String, String> recipients;
+
+        question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
+        instructorGiver.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 0); //Should always be null because instructorGiver is missing privilege.
     }
 
     @Test
