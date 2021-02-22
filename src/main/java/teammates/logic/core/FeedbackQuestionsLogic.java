@@ -1,16 +1,5 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
-
 import teammates.Globals;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
@@ -28,6 +17,10 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
+
+import javax.annotation.Nullable;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Handles operations related to feedback questions.
@@ -370,7 +363,7 @@ public final class FeedbackQuestionsLogic {
             branchList.set(2, true);
 
         } else {
-            branchList.set(3, true); //TODO: Make the above if-statements fail by setting both the of the variables to false.
+            branchList.set(3, true); //TODO: Make the above if-statements fail by setting both the of the variables to false. (imposssible)
         }
 
         FeedbackParticipantType recipientType = question.recipientType;
@@ -462,7 +455,7 @@ public final class FeedbackQuestionsLogic {
                         question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see teams in allowed sections for him/her
-                    branchList.set(26, true); //TODO: Set recipientType to Team, set the instructorGiver to not have privilege
+                    branchList.set(26, true); //TODO: Set recipientType to Team, set the instructorGiver to not have privilege (fixed)
                     continue;
                 } else {
                     branchList.set(27, true);
@@ -509,7 +502,7 @@ public final class FeedbackQuestionsLogic {
                 branchList.set(38, true);
             } else {
                 teamMembers = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
-                branchList.set(39, true); //TODO: Set recipientType to OWN_TEAM_MEMBERS_INCLUDING_SELF and the courseRoster to something.
+                branchList.set(39, true); //TODO: Set recipientType to OWN_TEAM_MEMBERS_INCLUDING_SELF and the courseRoster to something.(Fixed)
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
@@ -522,7 +515,7 @@ public final class FeedbackQuestionsLogic {
             recipients.put(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION);
             break;
         default:
-            branchList.set(42, true); //TODO: Set recipientType to something random that is not listed in the cases above.
+            branchList.set(42, true); //TODO: Set recipientType to something random that is not listed in the cases above.(Fixed)
             break;
         }
         globals.setRecipientsOfQuestionList(branchList);

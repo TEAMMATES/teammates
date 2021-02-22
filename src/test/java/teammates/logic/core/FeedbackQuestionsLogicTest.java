@@ -1,24 +1,12 @@
 package teammates.logic.core;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.attributes.*;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -27,6 +15,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+
+import java.util.*;
 
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
@@ -168,6 +158,18 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGetRecipientsOfQuestionWithTypeTeamsAndInstructorWithoutPrivilege() {
+        FeedbackQuestionAttributes question;
+        InstructorAttributes instructorGiver;
+        Map<String, String> recipients;
+
+        question = getQuestionFromDatastore("team.feedback");
+        instructorGiver = dataBundle.instructors.get("helperOfCourse1");
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 0); //Should always be null because instructorGiver is missing privilege.
+    }
+
+    @Test
     public void testGetRecipientsOfQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         StudentAttributes studentGiver;
@@ -295,6 +297,16 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
         assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
+
+        //Test default
+        question.setRecipientType(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        recipients = fqLogic.getRecipientsOfQuestion(question,null, studentGiver, null);
+        assertEquals(recipients, new HashMap<>());
+
+        //When participantType=OWN_TEAM_MEMBERS_INCLUDING_SELF, and courseRoster is given.
+        question.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        recipients = fqLogic.getRecipientsOfQuestion(question,null, studentGiver, courseRoster);
+        assertEquals(recipients.size(), 4);
     }
 
     @Test
