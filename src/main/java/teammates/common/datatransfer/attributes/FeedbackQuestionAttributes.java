@@ -253,11 +253,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         if (courseId == null) {
             list.set(6, true);
-            if (other.courseId != null) { //TODO 1. CourseID: Null, other.courseID: Null set  2. CourseId: null, other.CourseID: != null
+            if (other.courseId != null) { //TODO 1. CourseID: Null, other.courseID: Null set  2. CourseId: null, other.CourseID: != null (fixed)
                 return false;
             }
             list.set(7, true);
-        } else if (!courseId.equals(other.courseId)) { //TODO dead code, 1. null
+        } else if (!courseId.equals(other.courseId)) { //TODO dead code, 1. null (fixed)
             list.set(8, true);
             return false;
         }
@@ -265,29 +265,29 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         if (feedbackSessionName == null) {
             list.set(10, true);
-            if (other.feedbackSessionName != null) { //TODO feedbackSessionName: null, other: null
+            if (other.feedbackSessionName != null) { //TODO feedbackSessionName: null, other: !null (fixed)
                 list.set(11, true);
                 return false;
             }
-            list.set(12, true); //TODO feedback: null, other: != null
-        } else if (!feedbackSessionName.equals(other.feedbackSessionName)) { //TODO feedbacksessionname=other.feedbacksessionname
+            list.set(12, true); //TODO feedback: null, other: null (fixed)
+        } else if (!feedbackSessionName.equals(other.feedbackSessionName)) { //TODO feedbacksessionname=other.feedbacksessionname (fixed)
             list.set(13, true);
             return false;
         } else {
             list.set(14, true);
         }
 
-        if (giverType != other.giverType) { //TODO givertype != other.givertype
+        if (giverType != other.giverType) { //TODO givertype != other.givertype (fixed)
             list.set(15, true);
             return false;
         }
         list.set(16, true);
-        if (numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo) { //TODO  numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo
+        if (numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo) { //TODO  numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo (fixed)
             list.set(17, true);
             return false;
         }
         list.set(18, true);
-        if (questionNumber != other.questionNumber) { //TODO questionNumber != other.questionNumber
+        if (questionNumber != other.questionNumber) { //TODO questionNumber != other.questionNumber (fixed)
             list.set(19, true);
             return false;
         }

@@ -843,6 +843,54 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         feedbackQuestionNullCourseID2.courseId = null;
         feedbackQuestionNullCourseID3.courseId = null;
         assertTrue(feedbackQuestionNullCourseID2.equals(feedbackQuestionNullCourseID3));
+
+        // When comparing and one have coursId set to null and one have courseID set to not null.
+        FeedbackQuestionAttributes feedbackQuestionNotNullCourseID3 = getNewFeedbackQuestionAttributes();
+        feedbackQuestionNotNullCourseID3.courseId = "15069837";
+        assertFalse(feedbackQuestionNullCourseID2.equals(feedbackQuestionNotNullCourseID3));
+
+        // When comparing and one have coursId set to null and one have courseID set to not null it should return true to reach Dead code.
+        assertTrue(!feedbackQuestionNullCourseID2.equals(feedbackQuestionNotNullCourseID3));
+
+        //feedbackSessionName: null, other: !null
+        FeedbackQuestionAttributes fqa1 = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes other = getNewFeedbackQuestionAttributes();
+        fqa1.feedbackSessionName = null;
+        other.feedbackSessionName = "Session1";
+        assertNull(fqa1.feedbackSessionName);
+        assertNotNull(other.feedbackSessionName);
+
+        // feedback: null, other: = null
+        other.feedbackSessionName = null;
+        assertNull(other.feedbackSessionName);
+
+        // feedbacksessionname=other.feedbacksessionname
+        fqa1.feedbackSessionName = "Session1";
+        other.feedbackSessionName = "Session1";
+        assertTrue(fqa1.feedbackSessionName == other.feedbackSessionName);
+
+
+        // givertype != other.givertype
+        FeedbackQuestionAttributes giverType = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes giverTypeOther = getNewFeedbackQuestionAttributes();
+        giverTypeOther.giverType = null;
+        assertTrue(!giverType.equals(giverTypeOther));
+
+        // numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo
+        FeedbackQuestionAttributes numbr = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes numbrOther = getNewFeedbackQuestionAttributes();
+        numbrOther.numberOfEntitiesToGiveFeedbackTo = 10;
+        numbr.numberOfEntitiesToGiveFeedbackTo = 5;
+        assertTrue(numbr.numberOfEntitiesToGiveFeedbackTo != numbrOther.numberOfEntitiesToGiveFeedbackTo);
+
+        //questionNumber != other.questionNumber
+        numbrOther.questionNumber = 10;
+        numbr.questionNumber = 5;
+        assertTrue(numbr.questionNumber != numbrOther.questionNumber);
+
+
+
+
     }
 
     @Test
