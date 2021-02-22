@@ -84,6 +84,8 @@ export class TableComparatorService {
       case SortBy.RANK_RECIPIENTS_SELF_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
+      case SortBy.RANK_RECIPIENTS_TEAM_RANK:
+      case SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF:
       case SortBy.RANK_OPTIONS_OPTION:
       case SortBy.MCQ_CHOICE:
       case SortBy.MCQ_TEAM:
