@@ -303,6 +303,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         recipients = fqLogic.getRecipientsOfQuestion(question,null, studentGiver, null);
         assertEquals(recipients, new HashMap<>());
 
+        //When participantType=OWN_TEAM_MEMBERS_INCLUDING_SELF, and courseRoster is given.
         question.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         recipients = fqLogic.getRecipientsOfQuestion(question,null, studentGiver, courseRoster);
         assertEquals(recipients.size(), 4);
