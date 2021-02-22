@@ -615,7 +615,7 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (correspondingQuestion == null) {
-                list.set(15, true); //TODO: Set the value in allQuestionsMap to null for questionId-key
+                list.set(15, true); 
                 // orphan response without corresponding question, ignore it
                 continue;
             } else {
