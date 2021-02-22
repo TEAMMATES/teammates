@@ -535,7 +535,7 @@ public final class FeedbackSessionsLogic {
             list.set(2, true);
             FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
             if (fqa == null) {
-                list.set(3, true); //TODO: Set questionID to null.
+                list.set(3, true);
                 allQuestions = Collections.emptyList();
             } else {
                 list.set(4, true);
@@ -615,7 +615,7 @@ public final class FeedbackSessionsLogic {
         for (FeedbackResponseAttributes response : allResponses) {
             FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.feedbackQuestionId);
             if (correspondingQuestion == null) {
-                list.set(15, true); //TODO: Set the value in allQuestionsMap to null for questionId-key
+                list.set(15, true); 
                 // orphan response without corresponding question, ignore it
                 continue;
             } else {
