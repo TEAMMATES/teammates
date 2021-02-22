@@ -886,7 +886,27 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         numbr2.questionNumber = 5;
         assertTrue(!numbr2.equals(numbrOther2));
 
+        //When at least one of the question details is null
+        FeedbackQuestionAttributes detailsNull = getNewFeedbackQuestionAttributes();
+        detailsNull.questionDetails = null;
+        FeedbackQuestionAttributes detailsNullComparison = getNewFeedbackQuestionAttributes();
+        assertFalse(detailsNull.equals(detailsNullComparison));
+        detailsNullComparison.questionDetails = null;
+        assertTrue(detailsNull.equals(detailsNullComparison));
 
+        //Comparing question descriptions
+        FeedbackQuestionAttributes descriptionNull = getNewFeedbackQuestionAttributes();
+        detailsNull.questionDescription = null;
+        String description = "This is the base description.";
+        FeedbackQuestionAttributes baseDescription = getNewFeedbackQuestionAttributes();
+        baseDescription.questionDescription = description;
+        assertFalse(descriptionNull.equals(baseDescription));
+
+        FeedbackQuestionAttributes descriptionComparison = getNewFeedbackQuestionAttributes();
+        descriptionComparison.questionDescription = description;
+        assertTrue(baseDescription.equals(descriptionComparison));
+        descriptionComparison.questionDescription = "This is another description.";
+        assertFalse(baseDescription.equals(descriptionComparison));
 
 
     }

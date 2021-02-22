@@ -293,12 +293,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
         list.set(20, true);
         if (questionDetails == null) {
-            list.set(21, true); //TODO: Make a test case with questionDetails null but does not trigger any of the previous return statements
+            list.set(21, true); //TODO: Make a test case with questionDetails null but does not trigger any of the previous return statements (fixed)
             if (other.questionDetails != null) {
-                list.set(22, true); //TODO: Make a test case with other.questionDetails not null and questionDetails null that does not trigger any of the previous return statements
+                list.set(22, true); //TODO: Make a test case with other.questionDetails not null and questionDetails null that does not trigger any of the previous return statements (fixed)
                 return false;
             }
-            list.set(23, true); //TODO: Make a test case with questionDetails null that does not trigger any of the previous return statements (other.questionDetails should be null)
+            list.set(23, true); //TODO: Make a test case with questionDetails null that does not trigger any of the previous return statements (other.questionDetails should be null) (fixed)
         } else if (!questionDetails.equals(other.questionDetails)) {
             list.set(24, true); //TODO: Make a test case with questionDetails NOT null & other.questionDetails not equal to questionDetails, that does not trigger any of the previous return statements
             return false;
@@ -309,15 +309,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         if (questionDescription == null) {
             list.set(26, true);
             if (other.questionDescription != null) {
-                list.set(27, true); //TODO: Make a test case with other.questionDescription not null that does not trigger any of the previous return statements
+                list.set(27, true); //TODO: Make a test case with other.questionDescription not null that does not trigger any of the previous return statements (fixed)
                 return false;
             }
             list.set(28, true);
         } else if (!questionDescription.equals(other.questionDescription)) {
-            list.set(29, true); //TODO: Make a test case where the questionDescriptions are different that does not trigger any of the previous return statements
+            list.set(29, true); //TODO: Make a test case where the questionDescriptions are different that does not trigger any of the previous return statements (fixed)
             return false;
         } else {
-            list.set(30, true); //TODO: Make a test case where the questionDescriptions are the same that does not trigger any of the previous return statements
+            list.set(30, true); //TODO: Make a test case where the questionDescriptions are the same that does not trigger any of the previous return statements (fixed)
         }
 
         if (recipientType != other.recipientType) {
