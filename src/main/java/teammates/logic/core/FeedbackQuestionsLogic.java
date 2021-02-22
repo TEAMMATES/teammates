@@ -370,7 +370,7 @@ public final class FeedbackQuestionsLogic {
             branchList.set(2, true);
 
         } else {
-            branchList.set(3, true); //TODO: Make the above if-statements fail by setting both the of the variables to false.
+            branchList.set(3, true); //TODO: Make the above if-statements fail by setting both the of the variables to false. (imposssible)
         }
 
         FeedbackParticipantType recipientType = question.recipientType;
@@ -462,7 +462,7 @@ public final class FeedbackQuestionsLogic {
                         question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see teams in allowed sections for him/her
-                    branchList.set(26, true); //TODO: Set recipientType to Team, set the instructorGiver to not have privilege
+                    branchList.set(26, true); //TODO: Set recipientType to Team, set the instructorGiver to not have privilege (fixed)
                     continue;
                 } else {
                     branchList.set(27, true);
