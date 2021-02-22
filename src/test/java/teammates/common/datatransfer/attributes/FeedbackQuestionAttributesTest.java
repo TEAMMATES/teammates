@@ -1,11 +1,7 @@
 package teammates.common.datatransfer.attributes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.Test;
 import org.testng.collections.Lists;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -17,6 +13,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SUT: {@link FeedbackQuestionAttributes}.
@@ -821,6 +820,75 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         // When the other object is of different class
         assertFalse(feedbackQuestion.equals(3));
+
+        // When comparing the same feedback question
+        assertTrue(feedbackQuestion.equals(feedbackQuestion)); //B1
+        // When comparing feedback question to null
+        assertFalse(feedbackQuestion.equals(null));
+        // When comparing feedback questions that have courseID null
+        FeedbackQuestionAttributes feedbackQuestionNullCourseID = FeedbackQuestionAttributes.builder()
+        .withCourseId("")
+        .build();
+        assertFalse(feedbackQuestionNullCourseID.equals(feedbackQuestion));
+
+        //When comparing feedbacksession name
+        FeedbackQuestionAttributes feedbackQuestionSessionNull = FeedbackQuestionAttributes.builder()
+        .withFeedbackSessionName("")
+        .build();
+        assertFalse(feedbackQuestionSessionNull.equals(feedbackQuestion));
+
+        //When comparing and both have coursId set to null.
+        FeedbackQuestionAttributes feedbackQuestionNullCourseID2 = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes feedbackQuestionNullCourseID3 = getNewFeedbackQuestionAttributes();
+        feedbackQuestionNullCourseID2.courseId = null;
+        feedbackQuestionNullCourseID3.courseId = null;
+        assertTrue(feedbackQuestionNullCourseID2.equals(feedbackQuestionNullCourseID3));
+
+        // When comparing and one have coursId set to null and one have courseID set to not null.
+        FeedbackQuestionAttributes feedbackQuestionNotNullCourseID3 = getNewFeedbackQuestionAttributes();
+        feedbackQuestionNotNullCourseID3.courseId = "15069837";
+        assertTrue(!feedbackQuestionNullCourseID2.equals(feedbackQuestionNotNullCourseID3));
+
+        //feedbackSessionName: null, other: !null
+        FeedbackQuestionAttributes fqa1 = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes other = getNewFeedbackQuestionAttributes();
+        fqa1.feedbackSessionName = null;
+        other.feedbackSessionName = "Session1";
+        assertTrue(!fqa1.equals(other));
+
+        // feedback: null, other: = null
+        other.feedbackSessionName = null;
+        assertTrue(fqa1.equals(other));
+
+        // feedbacksessionname != other.feedbacksessionname
+        fqa1.feedbackSessionName = "Session2";
+        other.feedbackSessionName = "Session1";
+        assertTrue(!fqa1.equals(other));
+
+
+        // givertype != other.givertype
+        FeedbackQuestionAttributes giverType = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes giverTypeOther = getNewFeedbackQuestionAttributes();
+        giverTypeOther.giverType = null;
+        assertTrue(!giverType.equals(giverTypeOther));
+
+        // numberOfEntitiesToGiveFeedbackTo != other.numberOfEntitiesToGiveFeedbackTo
+        FeedbackQuestionAttributes numbr = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes numbrOther = getNewFeedbackQuestionAttributes();
+        numbrOther.numberOfEntitiesToGiveFeedbackTo = 10;
+        numbr.numberOfEntitiesToGiveFeedbackTo = 5;
+        assertTrue(!numbr.equals(numbrOther));
+
+        //questionNumber != other.questionNumber
+        FeedbackQuestionAttributes numbr2 = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes numbrOther2 = getNewFeedbackQuestionAttributes();
+        numbrOther2.questionNumber = 10;
+        numbr2.questionNumber = 5;
+        assertTrue(!numbr2.equals(numbrOther2));
+
+
+
+
     }
 
     @Test

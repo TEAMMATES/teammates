@@ -10,6 +10,8 @@ apply plugin: "pmd"
 apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
+apply plugin: "java"
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 def appengineVersion = "1.9.81"
 def checkstyleVersion = "8.33"
@@ -483,7 +485,7 @@ task componentTests(type: Test) {
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
-        events "passed"
+        events "passed", TestLogEvent.STANDARD_OUT
     }
 }
 

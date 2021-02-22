@@ -80,7 +80,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             // If there are Empty Mcq options entered trigger this error
             boolean isEmptyMcqOptionEntered = mcqChoices.stream().anyMatch(mcqText -> mcqText.trim().equals(""));
-            if (isEmptyMcqOptionEntered) { //TODO make mcQtext an empty string to test empty string error
+            if (isEmptyMcqOptionEntered) { //make mcQtext an empty string to test empty string error - DONE
                 list.set(4, true);
                 errors.add(MCQ_ERROR_EMPTY_MCQ_OPTION);
             } else {
@@ -109,7 +109,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             // If weights are enabled, but other option is disabled, and mcqOtherWeight is not 0
             // In that case, trigger this error.
-            if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) {
+            if (hasAssignedWeights && !otherEnabled && mcqOtherWeight != 0) { //Add test for otherWeight set without other enabled - Done
                 list.set(10, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
             } else {
@@ -129,7 +129,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
             // If 'Other' option is enabled, and other weight has negative value,
             // trigger this error.
-            if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) { //TODO set all variables to true to test invalid weight
+            if (hasAssignedWeights && otherEnabled && mcqOtherWeight < 0) { //set all variables to true to test invalid weight - Done
                 list.set(14, true);
                 errors.add(MCQ_ERROR_INVALID_WEIGHT);
             } else {

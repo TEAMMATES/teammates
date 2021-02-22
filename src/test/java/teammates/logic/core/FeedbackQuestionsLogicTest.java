@@ -158,6 +158,18 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGetRecipientsOfQuestionWithTypeTeamsAndInstructorWithoutPrivilege() {
+        FeedbackQuestionAttributes question;
+        InstructorAttributes instructorGiver;
+        Map<String, String> recipients;
+
+        question = getQuestionFromDatastore("team.feedback");
+        instructorGiver = dataBundle.instructors.get("helperOfCourse1");
+        recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
+        assertEquals(recipients.size(), 0); //Should always be null because instructorGiver is missing privilege.
+    }
+
+    @Test
     public void testGetRecipientsOfQuestion() throws Exception {
         FeedbackQuestionAttributes question;
         StudentAttributes studentGiver;

@@ -944,6 +944,28 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testGetSessionResultsForUser_studentSpecificQuestion_incorrectQuestionId_shouldGenerateEmptyLists() {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(dataBundle);
+        //A questionId that does not exist in the database
+        String questionId = "notActuallyAnExistingQuestionId";
+
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
+                question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
+                UserRole.STUDENT, questionId, null);
+        //The questionId does not exist in the database, so there should be no related questions, responses or comments.
+        assertEquals(0, bundle.getQuestionsMap().size());
+        assertEquals(0, bundle.getQuestionResponseMap().size());
+        assertEquals(0, bundle.getQuestionMissingResponseMap().size());
+        assertEquals(0, bundle.getResponseCommentsMap().size());
+
+    }
+
+
+
+    @Test
     public void testGetSessionResultsForUser_studentAllQuestions_shouldGenerateCorrectBundle() {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
         removeAndRestoreDataBundle(responseBundle);
