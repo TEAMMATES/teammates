@@ -1,5 +1,5 @@
-<div class="modal-header"
-     [ngClass]="{
+<div class="transparent-overlay" [ngClass]="{ 'display-none': type !== SimpleModalType.LOAD }"></div>
+<div class="modal-header" [ngClass]="{
      'alert-danger' : type === SimpleModalType.DANGER,
      'alert-warning' : type === SimpleModalType.WARNING,
      'alert-info' : type === SimpleModalType.INFO || type === SimpleModalType.LOAD,

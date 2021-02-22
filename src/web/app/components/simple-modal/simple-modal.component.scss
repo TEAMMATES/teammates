@@ -6,3 +6,17 @@
   margin-top: 10px;
   margin-bottom: 2px;
 }
+
+.transparent-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  visibility: false;
+  z-index: -1;
+}
+
+.display-none {
+  display: none;
+}
