@@ -289,18 +289,18 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       feedbackSessionName: this.session.feedbackSessionName,
       intent: Intent.INSTRUCTOR_RESULT,
     })
-        .subscribe((resp: SessionResults) => {
-          if (resp.questions.length) {
-            const responses: QuestionOutput = resp.questions[0];
-            this.questionsModel[questionId].responses = responses.allResponses;
-            this.questionsModel[questionId].statistics = responses.questionStatistics;
-            this.questionsModel[questionId].hasPopulated = true;
+    .subscribe((resp: SessionResults) => {
+      if (resp.questions.length) {
+        const responses: QuestionOutput = resp.questions[0];
+        this.questionsModel[questionId].responses = responses.allResponses;
+        this.questionsModel[questionId].statistics = responses.questionStatistics;
+        this.questionsModel[questionId].hasPopulated = true;
 
-            this.preprocessComments(responses.allResponses);
-          }
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
+        this.preprocessComments(responses.allResponses);
+      }
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
@@ -327,19 +327,19 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       intent: Intent.INSTRUCTOR_RESULT,
       groupBySection: sectionName,
     })
-        .subscribe((resp: SessionResults) => {
-          this.sectionsModel[sectionName].questions = resp.questions;
-          this.sectionsModel[sectionName].hasPopulated = true;
+    .subscribe((resp: SessionResults) => {
+      this.sectionsModel[sectionName].questions = resp.questions;
+      this.sectionsModel[sectionName].hasPopulated = true;
 
-          // sort questions by question number
-          resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-            a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-          resp.questions.forEach((question: QuestionOutput) => {
-            this.preprocessComments(question.allResponses);
-          });
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        });
+      // sort questions by question number
+      resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
+        a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+      resp.questions.forEach((question: QuestionOutput) => {
+        this.preprocessComments(question.allResponses);
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
