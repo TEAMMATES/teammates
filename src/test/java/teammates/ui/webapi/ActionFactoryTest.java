@@ -30,12 +30,12 @@ public class ActionFactoryTest extends BaseTestCase {
         ______TS("Action does not exist and ActionMappingException is thrown");
 
         MockHttpServletRequest nonExistentActionServletRequest = new MockHttpServletRequest(
-                HttpGet.METHOD_NAME, Const.ResourceURIs.URI_PREFIX + "blahblahblah");
+                HttpGet.METHOD_NAME, "/blahblahblah");
         nonExistentActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         ActionMappingException nonExistentActionException = assertThrows(ActionMappingException.class,
                 () -> actionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
         assertTrue(nonExistentActionException.getMessage()
-                .equals("Resource with URI " + Const.ResourceURIs.URI_PREFIX + "blahblahblah" + " is not found."));
+                .equals("Resource with URI /blahblahblah is not found."));
 
         ______TS("Method does not exist on action and ActionMappingException is thrown");
 

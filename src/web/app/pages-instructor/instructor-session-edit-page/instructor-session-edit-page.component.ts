@@ -263,7 +263,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.showCopyStatusMessage();
           });
         }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
+      .catch(() => {});
     });
   }
 
@@ -681,7 +682,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
-    this.ngbModal.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
+    const windowClass: string = 'modal-large';
+    this.ngbModal.open(TemplateQuestionModalComponent, { windowClass }).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
@@ -934,24 +936,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       });
     });
-  }
-
-  /**
-   * Handles 'Done Editing' click event.
-   */
-  doneEditingHandler(): void {
-    if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
-        || this.sessionEditFormModel.isEditable) {
-      const modalContent: string = `<p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
-          <p>Are you sure you want to continue?</p>`;
-      this.simpleModalService.openConfirmationModal(
-          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
-            this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
-          }, () => {});
-    } else {
-      this.navigationService.navigateByURL(this.router, '/web/instructor/sessions');
-    }
-    // TODO focus on the row of current feedback session in the sessions page
   }
 
   /**

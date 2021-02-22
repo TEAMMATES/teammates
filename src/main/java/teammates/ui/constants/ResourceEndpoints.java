@@ -1,4 +1,4 @@
-package teammates.ui.endpoints;
+package teammates.ui.constants;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -9,10 +9,6 @@ import teammates.common.util.Const.ResourceURIs;
  */
 public enum ResourceEndpoints {
     //CHECKSTYLE.OFF:JavadocVariable
-    URI_PREFIX(ResourceURIs.URI_PREFIX),
-    LOGOUT(ResourceURIs.LOGOUT),
-    DATABUNDLE(ResourceURIs.DATABUNDLE),
-    EXCEPTION(ResourceURIs.EXCEPTION),
     ERROR_REPORT(ResourceURIs.ERROR_REPORT),
     AUTH(ResourceURIs.AUTH),
     AUTH_REGKEY(ResourceURIs.AUTH_REGKEY),
@@ -45,7 +41,6 @@ public enum ResourceEndpoints {
     QUESTION_RECIPIENTS(ResourceURIs.QUESTION_RECIPIENTS),
     RESPONSES(ResourceURIs.RESPONSES),
     HAS_RESPONSES(ResourceURIs.HAS_RESPONSES),
-    SUBMISSION_CONFIRMATION(ResourceURIs.SUBMISSION_CONFIRMATION),
     JOIN(ResourceURIs.JOIN),
     JOIN_REMIND(ResourceURIs.JOIN_REMIND),
     TIMEZONE(ResourceURIs.TIMEZONE),

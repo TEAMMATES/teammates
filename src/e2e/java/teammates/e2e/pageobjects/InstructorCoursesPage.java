@@ -218,10 +218,6 @@ public class InstructorCoursesPage extends AppPage {
         click(waitForElementPresence(By.id("sort-course-id")));
     }
 
-    public void sortByCreationDate() {
-        click(waitForElementPresence(By.id("sort-creation-date")));
-    }
-
     private WebElement getActiveTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return activeCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);

@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackConstantSumResponseDetails extends
@@ -8,6 +9,7 @@ public class FeedbackConstantSumResponseDetails extends
 
     public FeedbackConstantSumResponseDetails() {
         super(FeedbackQuestionType.CONSTSUM);
+        answers = new ArrayList<>();
     }
 
     @Override

@@ -11,12 +11,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
 import teammates.common.datatransfer.UserInfo;
@@ -37,8 +35,6 @@ public class GaeSimulation {
     // This can be any valid URL; it is not used beyond validation
     private static final String SIMULATION_BASE_URL = "http://localhost:8080";
 
-    private static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
-
     private static GateKeeper gateKeeper = new GateKeeper();
     private static GaeSimulation instance = new GaeSimulation();
 
@@ -58,18 +54,13 @@ public class GaeSimulation {
         synchronized (this) {
             System.out.println("Setting up GAE simulation");
 
-            LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-            localTasks.setQueueXmlPath(QUEUE_XML_PATH);
-
             LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
             LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
             LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
             LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
             localSearch.setPersistent(false);
             LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-            LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
-                                                localTasks, localSearch, localModules, localLog);
+            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localSearch, localModules);
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();

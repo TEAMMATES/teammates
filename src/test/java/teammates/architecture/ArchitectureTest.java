@@ -480,9 +480,9 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_taskQueueApiCanOnlyBeAccessedByTaskQueueLogic() {
+    public void testArchitecture_externalApi_cloudTasksApiCanOnlyBeAccessedByTaskQueueLogic() {
         noClasses().that().doNotHaveSimpleName("TaskQueuesLogic")
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.taskqueue..")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.tasks.v2..")
                 .check(ALL_CLASSES);
     }
 
@@ -533,6 +533,13 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("AssertHelper")
                 .and().doNotHaveSimpleName("EmailChecker")
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_seleniumApiCanOnlyBeAccessedByPageObjects() {
+        noClasses().that().resideOutsideOfPackage(E2E_PAGEOBJECTS_PACKAGE)
+                .should().accessClassesThat().resideInAPackage("org.openqa.selenium..")
                 .check(ALL_CLASSES);
     }
 

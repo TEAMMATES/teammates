@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { Course, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';

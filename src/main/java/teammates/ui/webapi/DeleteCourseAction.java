@@ -22,7 +22,7 @@ class DeleteCourseAction extends Action {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, userInfo.id),
                 logic.getCourse(idOfCourseToDelete),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+                Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override

@@ -124,7 +124,7 @@ On designing API endpoints (for AJAX requests):
 On data exchange between front-end and back-end:
 
 - Back-end is the single source of truth for all data format and the code used by front-end is generated from this.
-  - The endpoint information is synced to `api-endpoints.ts`.
+  - Some important constants (including API endpoints information) are synced to `api-const.ts`.
   - The schemas of the DTOs defined in `output` and `request` packages are synced to `api-output.ts` and `api-request.ts` in the frontend.
 
 ## Logic Component

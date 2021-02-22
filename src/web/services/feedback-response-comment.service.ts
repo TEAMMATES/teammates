@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { FeedbackResponseComment, FeedbackVisibilityType } from '../types/api-output';
 import {
   FeedbackResponseCommentCreateRequest,

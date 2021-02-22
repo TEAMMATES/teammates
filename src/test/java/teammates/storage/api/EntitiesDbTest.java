@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.test.AssertHelper;
 import teammates.test.BaseComponentTestCase;
@@ -64,8 +63,7 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                 ipe.getMessage());
 
         ______TS("fails: null parameter");
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.createEntity(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.createEntity(null));
     }
 
 }

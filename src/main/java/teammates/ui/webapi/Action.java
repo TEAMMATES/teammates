@@ -77,10 +77,6 @@ public abstract class Action {
         this.recaptchaVerifier = recaptchaVerifier;
     }
 
-    boolean isMasqueradeMode() {
-        return userInfo.isAdmin && authType == AuthType.MASQUERADE;
-    }
-
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
@@ -148,7 +144,7 @@ public abstract class Action {
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
+            throw new NullHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return value;
     }
@@ -205,7 +201,7 @@ public abstract class Action {
     <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException(Const.StatusCodes.NULL_BODY_PARAMETER);
+            throw new NullHttpParameterException("The request body is null");
         }
         requestBody.validate();
         return requestBody;
@@ -234,18 +230,18 @@ public abstract class Action {
         privilege.constructCourseLevelPrivilege(instructor.privileges);
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
                     instructor.isAllowedForPrivilege(
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
     }

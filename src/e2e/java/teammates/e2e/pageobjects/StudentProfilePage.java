@@ -156,11 +156,6 @@ public class StudentProfilePage extends AppPage {
         fillFileBox(ele, fileName);
     }
 
-    public String getProfilePicLink() {
-        click(uploadEditModal.findElement(By.className("close")));
-        return browser.driver.findElement(By.className("profile-pic")).getAttribute("src");
-    }
-
     public void showPictureEditor() {
         click(uploadPopupButton);
         waitForUploadEditModalVisible();
