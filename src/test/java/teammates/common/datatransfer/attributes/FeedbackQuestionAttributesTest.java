@@ -847,9 +847,6 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         // When comparing and one have coursId set to null and one have courseID set to not null.
         FeedbackQuestionAttributes feedbackQuestionNotNullCourseID3 = getNewFeedbackQuestionAttributes();
         feedbackQuestionNotNullCourseID3.courseId = "15069837";
-        assertFalse(feedbackQuestionNullCourseID2.equals(feedbackQuestionNotNullCourseID3));
-
-        // When comparing and one have coursId set to null and one have courseID set to not null it should return true to reach Dead code.
         assertTrue(!feedbackQuestionNullCourseID2.equals(feedbackQuestionNotNullCourseID3));
 
         //feedbackSessionName: null, other: !null
@@ -857,17 +854,16 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes other = getNewFeedbackQuestionAttributes();
         fqa1.feedbackSessionName = null;
         other.feedbackSessionName = "Session1";
-        assertNull(fqa1.feedbackSessionName);
-        assertNotNull(other.feedbackSessionName);
+        assertTrue(!fqa1.equals(other));
 
         // feedback: null, other: = null
         other.feedbackSessionName = null;
-        assertNull(other.feedbackSessionName);
+        assertTrue(fqa1.equals(other));
 
         // feedbacksessionname=other.feedbacksessionname
         fqa1.feedbackSessionName = "Session1";
         other.feedbackSessionName = "Session1";
-        assertTrue(fqa1.feedbackSessionName == other.feedbackSessionName);
+        assertTrue(fqa1.feedbackSessionName.equals(other.feedbackSessionName));
 
 
         // givertype != other.givertype
@@ -881,12 +877,14 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestionAttributes numbrOther = getNewFeedbackQuestionAttributes();
         numbrOther.numberOfEntitiesToGiveFeedbackTo = 10;
         numbr.numberOfEntitiesToGiveFeedbackTo = 5;
-        assertTrue(numbr.numberOfEntitiesToGiveFeedbackTo != numbrOther.numberOfEntitiesToGiveFeedbackTo);
+        assertTrue(!numbr.equals(numbrOther));
 
         //questionNumber != other.questionNumber
-        numbrOther.questionNumber = 10;
-        numbr.questionNumber = 5;
-        assertTrue(numbr.questionNumber != numbrOther.questionNumber);
+        FeedbackQuestionAttributes numbr2 = getNewFeedbackQuestionAttributes();
+        FeedbackQuestionAttributes numbrOther2 = getNewFeedbackQuestionAttributes();
+        numbrOther2.questionNumber = 10;
+        numbr2.questionNumber = 5;
+        assertTrue(!numbr2.equals(numbrOther2.questionNumber));
 
 
 
