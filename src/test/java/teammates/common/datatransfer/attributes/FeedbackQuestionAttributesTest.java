@@ -860,10 +860,10 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         other.feedbackSessionName = null;
         assertTrue(fqa1.equals(other));
 
-        // feedbacksessionname=other.feedbacksessionname
-        fqa1.feedbackSessionName = "Session1";
+        // feedbacksessionname != other.feedbacksessionname
+        fqa1.feedbackSessionName = "Session2";
         other.feedbackSessionName = "Session1";
-        assertTrue(fqa1.feedbackSessionName.equals(other.feedbackSessionName));
+        assertTrue(!fqa1.feedbackSessionName.equals(other.feedbackSessionName));
 
 
         // givertype != other.givertype
