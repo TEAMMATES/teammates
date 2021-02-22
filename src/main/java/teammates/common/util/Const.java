@@ -119,6 +119,9 @@ public final class Const {
 
         public static final String FEEDBACK_RESPONSE_COMMENT_ID = "responsecommentid";
 
+        public static final String FEEDBACK_SESSION_LOGS_STARTTIME = "fslstarttime";
+        public static final String FEEDBACK_SESSION_LOGS_ENDTIME = "fslendtime";
+
         public static final String FEEDBACK_RESULTS_GROUPBYSECTION = "frgroupbysection";
 
         public static final String PREVIEWAS = "previewas";
@@ -275,6 +278,7 @@ public final class Const {
         public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
+        public static final String SESSION_ACCESS_LOGS = URI_PREFIX + "/sesion/accesslogs";
         public static final String SEARCH_COMMENTS = URI_PREFIX + "/search/comments";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
