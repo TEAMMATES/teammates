@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { concat, Observable } from 'rxjs';
+import { concat, EMPTY, Observable } from 'rxjs';
 import { catchError, finalize, takeWhile } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -78,7 +78,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   allStudentChunks: StudentEnrollRequest[][] = [];
   remainingStudentChunks: StudentEnrollRequest[][] = [];
-  numberOfStudentsPerRequest: number = 100; // at most 100 students per chunk
+  numberOfStudentsPerRequest: number = 200; // at most 200 students per chunk
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -149,11 +149,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }),
     );
 
-    const handledRequests: Observable<Students> = this.handleTimeoutForEnrollRequest(enrollRequests);
-    handledRequests.subscribe({
+    this.handleTimeoutForEnrollRequest(enrollRequests).subscribe({
       next: (resp: Students) => {
         enrolledStudents.push(...resp.students);
-        this.remainingStudentChunks = this.remainingStudentChunks.slice(1, this.remainingStudentChunks.length);
+        this.remainingStudentChunks.shift();
       },
       complete: () => {
         this.showEnrollResults = true;
@@ -185,22 +184,25 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     return prevRequests.pipe(finalize(() => this.isEnrolling = false))
         .pipe(takeWhile(() => this.remainingStudentChunks.length > 0))
-        .pipe(catchError(() => {
+        .pipe(catchError((resp: ErrorMessageOutput) => {
           // First request in the list caused the timeout
           const currentLongRequest: StudentEnrollRequest[] = this.remainingStudentChunks[0];
+
+          // If the length of the long request falls under max / 4, abort the whole stream
+          // In other words, we limit the number of retries for a request to 2
+          if (currentLongRequest.length === this.numberOfStudentsPerRequest / 4) {
+            this.enrollErrorMessage = resp.error.message;
+            return EMPTY;
+          }
 
           // Break the long request into half
           const studentEnrollRequest1: StudentEnrollRequest[] =
               currentLongRequest.slice(0, currentLongRequest.length / 2);
-
           const studentEnrollRequest2: StudentEnrollRequest[] =
               currentLongRequest.slice(currentLongRequest.length / 2, currentLongRequest.length);
 
-          this.remainingStudentChunks =
-              this.remainingStudentChunks.filter((chunk: StudentEnrollRequest[]) =>
-                  chunk !== currentLongRequest);
-          this.remainingStudentChunks =
-              [studentEnrollRequest1, studentEnrollRequest2, ...this.remainingStudentChunks];
+          this.remainingStudentChunks.shift();
+          this.remainingStudentChunks.unshift(studentEnrollRequest1, studentEnrollRequest2);
 
           // Prepare chunks for new stream
           const newRequests: Observable<Students> = concat(
@@ -209,15 +211,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
                   studentEnrollRequests: studentChunk,
                 };
                 return this.studentService.enrollStudents(
-                    this.courseId, studentsEnrollRequest,
+                  this.courseId, studentsEnrollRequest,
                 );
               }),
           );
 
-          // Return a new stream
           return this.handleTimeoutForEnrollRequest(newRequests);
         }));
   }
+
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
                                         enrollRequests: StudentEnrollRequest[]): EnrollResultPanel[] {
 
