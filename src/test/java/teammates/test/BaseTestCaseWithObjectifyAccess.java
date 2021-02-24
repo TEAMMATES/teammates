@@ -22,12 +22,13 @@ import teammates.storage.api.OfyHelper;
  */
 public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMinimalGaeEnvironment {
     private static final double DB_CONSISTENCY = 1.0;
+    private static final int EMULATOR_PORT = 8484;
     private static LocalDatastoreHelper localDatastoreHelper;
     private Closeable closeable;
 
     @BeforeSuite
     public void setupLocalDatastoreHelper() throws IOException, InterruptedException {
-        localDatastoreHelper = LocalDatastoreHelper.create(DB_CONSISTENCY);
+        localDatastoreHelper = LocalDatastoreHelper.create(DB_CONSISTENCY, EMULATOR_PORT);
         localDatastoreHelper.start();
     }
 
@@ -42,8 +43,12 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
     }
 
     @AfterClass
-    public void tearDownObjectify() throws IOException {
+    public void tearDownObjectify() {
         closeable.close();
+    }
+
+    @AfterClass
+    public void resetLocalDatastoreHelper() throws IOException {
         localDatastoreHelper.reset();
     }
 
