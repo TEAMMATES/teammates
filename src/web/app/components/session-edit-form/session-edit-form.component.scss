@@ -26,3 +26,24 @@
 .session-form-buttons > button {
   margin-left: var(--btn-margin);
 }
+
+.custom-day {
+  text-align: center;
+  padding: .185rem .25rem;
+  display: inline-block;
+  width: 2rem;
+}
+
+.custom-day:hover,
+.custom-day.focused {
+  background-color: #E6E6E6;
+}
+
+.today {
+  background-color: cornflowerblue;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
