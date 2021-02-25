@@ -23,6 +23,7 @@ export class ErrorReportComponent implements OnInit {
   sendButtonEnabled: boolean = true;
   errorReportEnabled: boolean = true;
   errorReportSubmitted: boolean = false;
+  csrfErrorMessages: string[] = ['Missing CSRF token.', 'Invalid CSRF token.'];
   readonly supportEmail: string = environment.supportEmail;
 
   constructor(private errorReportService: ErrorReportService,
@@ -30,7 +31,7 @@ export class ErrorReportComponent implements OnInit {
               private statusMessageService: StatusMessageService) {}
 
   ngOnInit(): void {
-    if (this.errorMessage === 'Missing CSRF token.') {
+    if (this.csrfErrorMessages.includes(this.errorMessage)) {
       this.sendButtonEnabled = false;
       this.errorReportEnabled = false;
     }
