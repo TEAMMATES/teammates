@@ -27,6 +27,9 @@ public final class Config {
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
 
+    /** The value of the "app.localdatastore.port" in build.properties file. */
+    public static final String APP_LOCALDATASTORE_PORT;
+
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
 
@@ -92,6 +95,7 @@ public final class Config {
         APP_ID = properties.getProperty("app.id");
         APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
+        APP_LOCALDATASTORE_PORT = properties.getProperty("app.localdatastore.port");
         CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");

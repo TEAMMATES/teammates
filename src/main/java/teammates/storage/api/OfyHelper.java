@@ -44,7 +44,6 @@ public class OfyHelper implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Invoked by GAE at application startup.
-        final String LOCAL_DATASTORE_PORT = "http://localhost:8484";
 
         // PRODUCTION
         //ObjectifyService.init();
@@ -52,7 +51,7 @@ public class OfyHelper implements ServletContextListener {
         // TEST
         ObjectifyService.init(new ObjectifyFactory(
                 DatastoreOptions.newBuilder()
-                        .setHost(LOCAL_DATASTORE_PORT)
+                        .setHost(Config.APP_LOCALDATASTORE_PORT)
                         .setProjectId(Config.APP_ID)
                         .build()
                         .getService()
