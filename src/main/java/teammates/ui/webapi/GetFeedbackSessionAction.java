@@ -68,6 +68,10 @@ class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
+            StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
+            String email = studentAttributes.email;
+            logic.createFeedbackSessionLog(courseId, email, true);
+            break;
         case INSTRUCTOR_SUBMISSION:
         case STUDENT_RESULT:
             // hide some attributes for submission

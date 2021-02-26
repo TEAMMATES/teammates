@@ -37,6 +37,7 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
+import teammates.logic.core.LoggingLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -56,6 +57,7 @@ public class Logic {
     protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
+    protected static final LoggingLogic loggingLogic = LoggingLogic.inst();
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
@@ -1360,6 +1362,25 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(generateOptionsFor);
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
+    }
+
+    /**
+     * Creates a feedback session log.
+     *
+     * @see LoggingLogic#createFeedbackSessionLog(String, String, boolean)
+     */
+    public void createFeedbackSessionLog(String courseId, String email, boolean isAccess) {
+        loggingLogic.createFeedbackSessionLog(courseId, email, isAccess);
+    }
+
+    /**
+     * Gets the feedback session logs as filtered by the given parameters.
+     *
+     * @see LoggingLogic#getFeedbackSessionLogs(String, String, Instant, Instant)
+     */
+    // TODO: return the data format
+    public void getFeedbackSessionLogs(String courseId, String email, Instant startTime, Instant endTime) {
+        loggingLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime);
     }
 
 }
