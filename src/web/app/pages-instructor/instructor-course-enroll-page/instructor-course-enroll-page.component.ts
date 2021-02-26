@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { concat, EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, takeWhile } from 'rxjs/operators';
+import { catchError, delay, finalize, takeWhile } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -138,6 +138,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     const enrolledStudents: Student[] = [];
     this.remainingStudentChunks = [...this.allStudentChunks];
 
+    // Use concat because we cannot afford to parallelize with forkJoin when there's data dependency
     const enrollRequests: Observable<Students> = concat(
         ...this.allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
           const studentsEnrollRequest: StudentsEnrollRequest = {
@@ -183,6 +184,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   private handleTimeoutForEnrollRequest(prevRequests: Observable<Students>): Observable<Students> {
 
     return prevRequests.pipe(finalize(() => this.isEnrolling = false))
+        .pipe(delay(1000)) // Delay of 1 second to preserve consistency of datastore
         .pipe(takeWhile(() => this.remainingStudentChunks.length > 0))
         .pipe(catchError((resp: ErrorMessageOutput) => {
           // First request in the list caused the timeout
@@ -190,7 +192,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
           // If the length of the long request falls under max / 4, abort the whole stream
           // In other words, we limit the number of retries for a request to 2
-          if (currentLongRequest.length === this.numberOfStudentsPerRequest / 4) {
+          if (currentLongRequest.length <= this.numberOfStudentsPerRequest / 4) {
             this.enrollErrorMessage = resp.error.message;
             return EMPTY;
           }
@@ -391,15 +393,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
-    (resp: Students) => {
-      if (resp.students.length !== 0) {
-        this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-      } else {
-        // Shows a message if there are no existing students. Panel would not be expanded.
-        this.isExistingStudentsPresent = false;
-        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-      }
-    }, (resp: ErrorMessageOutput) => {
+        (resp: Students) => {
+          if (resp.students.length !== 0) {
+            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
+          } else {
+            // Shows a message if there are no existing students. Panel would not be expanded.
+            this.isExistingStudentsPresent = false;
+            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+          }
+        }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
