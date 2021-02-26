@@ -247,6 +247,18 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
+   * Creates a copy of a course.
+   */
+  onCopy(courseId: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
+      return;
+    } else {
+      this.statusMessageService.showSuccessToast(`Copy pressed for course: ${courseId}`);
+    }
+  }
+
+  /**
    * Moves an active/archived course to Recycle Bin.
    */
   onDelete(courseId: string): Promise<void> {
