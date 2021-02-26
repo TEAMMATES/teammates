@@ -8,12 +8,8 @@ import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.ui.output.StudentProfilePictureResults;
 
 /**
  * Action: saves the file information of the profile picture that was just uploaded.
@@ -53,16 +49,8 @@ class PostStudentProfilePictureAction extends Action {
             try (InputStream is = image.getInputStream()) {
                 is.read(imageData);
             }
-            String pictureKey = GoogleCloudStorageHelper.writeImageDataToGcs(userInfo.id, imageData, image.getContentType());
-            logic.updateOrCreateStudentProfile(
-                    StudentProfileAttributes.updateOptionsBuilder(userInfo.id)
-                            .withPictureKey(pictureKey)
-                            .build());
-            StudentProfilePictureResults dataFormat =
-                    new StudentProfilePictureResults(pictureKey);
-            return new JsonResult(dataFormat);
-        } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
+            fileStorage.create(userInfo.id, imageData, image.getContentType());
+            return new JsonResult("Your profile picture is updated successfully.");
         } catch (ServletException | IOException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
