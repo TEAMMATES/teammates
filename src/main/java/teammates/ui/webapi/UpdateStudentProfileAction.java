@@ -67,7 +67,6 @@ class UpdateStudentProfileAction extends Action {
 
         editedProfile.gender = StudentProfileAttributes.Gender.getGenderEnumValue(req.getGender());
         editedProfile.moreInfo = req.getMoreInfo();
-        editedProfile.pictureKey = "";
 
         sanitizeProfile(editedProfile);
         return editedProfile;

@@ -63,6 +63,7 @@
       "username": "askhubchandani"
     },
     {
+      "multiple": true,
       "name": "Adithya Narayan",
       "username": "AdithyaNarayan"
     },
@@ -1874,6 +1875,10 @@
     {
       "name": "Zhu Yilun",
       "username": "yilun-zhu"
+    },
+    {
+      "name": "stapletonce",
+      "username": "stapletonce"
     }
   ],
   "committers": [
