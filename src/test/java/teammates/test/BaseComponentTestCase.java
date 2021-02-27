@@ -1,13 +1,10 @@
 package teammates.test;
 
-import java.util.Arrays;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -123,24 +120,4 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         }
     }
 
-    /*
-     * Verifies that search results match with expected output.
-     * Compares the text for each comment as it is unique.
-     *
-     * @param actual the results from the search query.
-     * @param expected the expected results for the search query.
-     */
-    protected static void verifySearchResults(FeedbackResponseCommentSearchResultBundle actual,
-            FeedbackResponseCommentAttributes... expected) {
-        assertEquals(expected.length, actual.numberOfResults);
-        assertEquals(expected.length, actual.comments.size());
-        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
-        FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
-                                                                     .toArray(new FeedbackResponseCommentAttributes[2]);
-        int[] i = new int[] { 0 };
-        actual.comments.forEach((key, comments) -> comments.forEach(comment -> {
-            assertEquals(sortedComments[i[0]].commentText, comment.commentText);
-            i[0]++;
-        }));
-    }
 }
