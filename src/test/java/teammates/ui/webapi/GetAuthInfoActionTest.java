@@ -38,7 +38,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("Normal case: No logged in user");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         GetAuthInfoAction a = getAction();
         JsonResult r = getJsonResult(a);
@@ -55,7 +55,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("Normal case: No logged in user, has nextUrl parameter");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         String nextUrl = "/web/join";
 
         a = getAction(new String[] { "nextUrl", nextUrl });
@@ -157,7 +157,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         ______TS("No logged in user");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         GetAuthInfoAction a = getAction(emptyParams);
         JsonResult r = getJsonResult(a);

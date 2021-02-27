@@ -190,6 +190,13 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertFalse(user.isAdmin);
     }
 
+    /**
+     * Logs the current user out of the GAE simulation environment.
+     */
+    protected void logoutUser() {
+        gaeSimulation.logoutUser();
+    }
+
     protected void grantInstructorWithSectionPrivilege(
             InstructorAttributes instructor, String privilege, String[] sections)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -263,7 +270,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("Non-logged-in users can access");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCanAccess(params);
 
     }
@@ -272,7 +279,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("Non-logged-in users cannot access");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCannotAccess(params);
 
     }
