@@ -23,10 +23,10 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
-import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.TaskQueuer;
+import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
 
@@ -38,6 +38,7 @@ import teammates.ui.request.BasicRequest;
 public abstract class Action {
 
     Logic logic = new Logic();
+    UserProvision userProvision = new UserProvision();
     GateKeeper gateKeeper = new GateKeeper();
     EmailGenerator emailGenerator = new EmailGenerator();
     TaskQueuer taskQueuer = new TaskQueuer();
@@ -102,8 +103,7 @@ public abstract class Action {
     private void initAuthInfo() {
         if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
-            userInfo = new UserInfo(getRequestParamValue(Const.ParamsNames.USER_ID));
-            userInfo.isAdmin = true;
+            userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
             userInfo.isStudent = true;
             userInfo.isInstructor = true;
             return;
@@ -114,10 +114,9 @@ public abstract class Action {
         String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
         boolean isRequestFromAppEngineQueue = queueNameHeader != null;
         if (isRequestFromAppEngineQueue) {
-            userInfo = new UserInfo("AppEngine-" + queueNameHeader);
-            userInfo.isAdmin = true;
+            userInfo = userProvision.getAdminOnlyUser("AppEngine-" + queueNameHeader);
         } else {
-            userInfo = gateKeeper.getCurrentUser();
+            userInfo = userProvision.getCurrentUser();
         }
 
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
@@ -125,7 +124,7 @@ public abstract class Action {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
         if (userInfo != null && userParam != null) {
             if (userInfo.isAdmin) {
-                userInfo = gateKeeper.getMasqueradeUser(userParam);
+                userInfo = userProvision.getMasqueradeUser(userParam);
                 authType = AuthType.MASQUERADE;
             } else if (!userInfo.id.equals(userParam)) {
                 throw new UnauthorizedAccessException("User " + userInfo.id

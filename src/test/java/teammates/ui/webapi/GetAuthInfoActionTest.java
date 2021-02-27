@@ -12,7 +12,7 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.UserProvision;
 import teammates.ui.output.AuthInfo;
 
 /**
@@ -20,7 +20,7 @@ import teammates.ui.output.AuthInfo;
  */
 public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
-    private GateKeeper gateKeeper = new GateKeeper();
+    private UserProvision userProvision = new UserProvision();
 
     @Override
     protected String getActionUri() {
@@ -46,9 +46,9 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
-        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
-        assertEquals(gateKeeper.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
+        assertEquals(userProvision.getLoginUrl(Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
+        assertEquals(userProvision.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
+        assertEquals(userProvision.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
@@ -64,9 +64,9 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (AuthInfo) r.getOutput();
-        assertEquals(gateKeeper.getLoginUrl(nextUrl), output.getStudentLoginUrl());
-        assertEquals(gateKeeper.getLoginUrl(nextUrl), output.getInstructorLoginUrl());
-        assertEquals(gateKeeper.getLoginUrl(nextUrl), output.getAdminLoginUrl());
+        assertEquals(userProvision.getLoginUrl(nextUrl), output.getStudentLoginUrl());
+        assertEquals(userProvision.getLoginUrl(nextUrl), output.getInstructorLoginUrl());
+        assertEquals(userProvision.getLoginUrl(nextUrl), output.getAdminLoginUrl());
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());

@@ -20,7 +20,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.RecaptchaVerifier;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.UserProvision;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
 
@@ -35,7 +35,7 @@ public class GaeSimulation {
     // This can be any valid URL; it is not used beyond validation
     private static final String SIMULATION_BASE_URL = "http://localhost:8080";
 
-    private static GateKeeper gateKeeper = new GateKeeper();
+    private static UserProvision userProvision = new UserProvision();
     private static GaeSimulation instance = new GaeSimulation();
 
     private LocalServiceTestHelper helper;
@@ -72,7 +72,7 @@ public class GaeSimulation {
         helper.setEnvEmail(userId);
         helper.setEnvAuthDomain("gmail.com");
         helper.setEnvIsAdmin(isAdmin);
-        return gateKeeper.getCurrentUser();
+        return userProvision.getCurrentUser();
     }
 
     /**
