@@ -67,7 +67,7 @@ export class SimpleModalService {
     return this.open(header, type, content, modalOptions);
   }
 
-  openDownloadModal(header: string, type: SimpleModalType,
+  openLoadingModal(header: string, type: SimpleModalType,
                        content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
