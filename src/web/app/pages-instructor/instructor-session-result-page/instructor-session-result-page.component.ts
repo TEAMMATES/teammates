@@ -457,13 +457,13 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           if (downloadAborted) {
             return;
           }
-
           loadingModal.close();
           blob = new Blob(out, { type: 'text/csv' });
           saveAs(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
+          loadingModal.close();
         },
       });
   }
