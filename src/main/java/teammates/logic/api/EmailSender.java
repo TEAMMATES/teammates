@@ -75,6 +75,9 @@ public class EmailSender {
      * Sends the given {@code message} with Javamail service regardless of configuration.
      */
     private void sendEmailCopyWithJavamail(EmailWrapper message) throws IOException, MessagingException {
+        String originalSenderEmail = message.getSenderEmail();
+        String originalSubject = message.getSubject();
+
         // GAE Javamail is used when we need a service that is not prone to configuration failures
         // and/or third-party API failures. The trade-off is the very little quota of 100 emails per day.
         JavamailService javamailService = new JavamailService();
@@ -85,6 +88,9 @@ public class EmailSender {
         message.setSubject("[Javamail Copy] " + message.getSubject());
 
         javamailService.sendEmail(message);
+
+        message.setSenderEmail(originalSenderEmail);
+        message.setSubject(originalSubject);
     }
 
     /**

@@ -112,7 +112,7 @@ public class GaeSimulation {
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
     public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
-                                  List<Cookie> cookies, String... params) {
+                                  List<Cookie> cookies, MockLogsProcessor logsProcessor, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -139,7 +139,7 @@ public class GaeSimulation {
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
             action.setFileStorage(new MockFileStorage());
-            action.setLogsProcessor(new MockLogsProcessor());
+            action.setLogsProcessor(logsProcessor);
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             return action;
         } catch (ActionMappingException e) {

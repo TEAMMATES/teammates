@@ -31,6 +31,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseComponentTestCase;
+import teammates.test.MockLogsProcessor;
 import teammates.test.MockPart;
 import teammates.ui.request.BasicRequest;
 
@@ -47,6 +48,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     protected DataBundle typicalBundle = getTypicalDataBundle();
+    protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
 
     protected abstract String getActionUri();
 
@@ -78,7 +80,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies, params);
+        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies,
+                mockLogsProcessor, params);
     }
 
     /**
