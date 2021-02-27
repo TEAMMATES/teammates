@@ -139,6 +139,7 @@ public class GaeSimulation {
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
             action.setFileStorage(new MockFileStorage());
+            action.setLogsProcessor(new MockLogsProcessor());
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             return action;
         } catch (ActionMappingException e) {
