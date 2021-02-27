@@ -61,24 +61,12 @@ public abstract class Action {
         initAuthInfo();
     }
 
-    public TaskQueuer getTaskQueuer() {
-        return taskQueuer;
-    }
-
     public void setTaskQueuer(TaskQueuer taskQueuer) {
         this.taskQueuer = taskQueuer;
     }
 
-    public EmailSender getEmailSender() {
-        return emailSender;
-    }
-
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
-    }
-
-    public FileStorage getFileStorage() {
-        return fileStorage;
     }
 
     public void setFileStorage(FileStorage fileStorage) {

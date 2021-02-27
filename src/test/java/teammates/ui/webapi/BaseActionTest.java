@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,8 +32,12 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseComponentTestCase;
+import teammates.test.FileHelper;
+import teammates.test.MockEmailSender;
+import teammates.test.MockFileStorage;
 import teammates.test.MockLogsProcessor;
 import teammates.test.MockPart;
+import teammates.test.MockTaskQueuer;
 import teammates.ui.request.BasicRequest;
 
 /**
@@ -48,6 +53,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     protected DataBundle typicalBundle = getTypicalDataBundle();
+    protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
+    protected MockEmailSender mockEmailSender = new MockEmailSender();
+    protected MockFileStorage mockFileStorage = new MockFileStorage();
     protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
 
     protected abstract String getActionUri();
@@ -80,8 +88,10 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
+        mockTaskQueuer.clearTasks();
+        mockEmailSender.clearEmails();
         return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies,
-                mockLogsProcessor, params);
+                mockTaskQueuer, mockEmailSender, mockFileStorage, mockLogsProcessor, params);
     }
 
     /**
@@ -533,30 +543,45 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertThrows(InvalidHttpParameterException.class, c::execute);
     }
 
-    protected void verifyNoTasksAdded(Action action) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
+    protected void verifyNoTasksAdded() {
+        Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(0, tasksAdded.keySet().size());
     }
 
-    protected void verifySpecifiedTasksAdded(Action action, String taskName, int taskCount) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
+    protected void verifySpecifiedTasksAdded(String taskName, int taskCount) {
+        Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
-    protected void verifyNoEmailsSent(Action action) {
-        assertTrue(getEmailsSent(action).isEmpty());
+    protected void verifyNoEmailsSent() {
+        assertTrue(getEmailsSent().isEmpty());
     }
 
-    protected List<EmailWrapper> getEmailsSent(Action action) {
-        return action.getEmailSender().getEmailsSent();
+    protected List<EmailWrapper> getEmailsSent() {
+        return mockEmailSender.getEmailsSent();
     }
 
-    protected void verifyNumberOfEmailsSent(Action action, int emailCount) {
-        assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
+    protected void verifyNumberOfEmailsSent(int emailCount) {
+        assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
     protected void verifyEntityNotFound(String... params) {
         Action c = getAction(params);
         assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
+
+    protected void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
+        byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
+        String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
+        mockFileStorage.create(targetFileName, bytes, contentType);
+    }
+
+    protected void deleteFile(String fileName) {
+        mockFileStorage.delete(fileName);
+    }
+
+    protected boolean doesFileExist(String fileName) {
+        return mockFileStorage.doesFileExist(fileName);
+    }
+
 }

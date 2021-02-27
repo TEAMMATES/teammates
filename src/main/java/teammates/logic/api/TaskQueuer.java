@@ -47,26 +47,6 @@ public class TaskQueuer {
         service.addDeferredTask(task, countdownTime);
     }
 
-    /**
-     * Gets the tasks added to the queue.
-     * This method is used only for testing, where it is overridden.
-     *
-     * @throws UnsupportedOperationException if used in production, where it is not meant to be
-     */
-    public List<TaskWrapper> getTasksAdded() {
-        throw new UnsupportedOperationException("Method is used only for testing");
-    }
-
-    /**
-     * Gets the number of tasks added for each queue name.
-     * This method is used only for testing, where it is overridden.
-     *
-     * @throws UnsupportedOperationException if used in production, where it is not meant to be
-     */
-    public Map<String, Integer> getNumberOfTasksAdded() {
-        throw new UnsupportedOperationException("Method is used only for testing");
-    }
-
     // The following methods are the actual API methods to be used by the client classes
 
     /**

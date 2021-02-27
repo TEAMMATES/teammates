@@ -31,7 +31,7 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
         CompileLogsAction action = getAction();
         action.execute();
 
-        verifyNoEmailsSent(action);
+        verifyNoEmailsSent();
 
         ______TS("Email should be sent if there are logs");
 
@@ -44,9 +44,9 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
         action = getAction();
         action.execute();
 
-        verifyNumberOfEmailsSent(action, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = action.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION),
                 emailSent.getSubject());
         assertEquals(Config.SUPPORT_EMAIL, emailSent.getRecipient());

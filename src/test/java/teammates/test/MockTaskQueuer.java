@@ -26,12 +26,16 @@ public class MockTaskQueuer extends TaskQueuer {
         tasksAdded.add(task);
     }
 
-    @Override
+    /**
+     * Gets the tasks added to the queue.
+     */
     public List<TaskWrapper> getTasksAdded() {
         return tasksAdded;
     }
 
-    @Override
+    /**
+     * Gets the number of tasks added for each queue name.
+     */
     public Map<String, Integer> getNumberOfTasksAdded() {
         Map<String, Integer> numberOfTasksAdded = new HashMap<>();
         for (TaskWrapper task : tasksAdded) {
@@ -41,6 +45,13 @@ public class MockTaskQueuer extends TaskQueuer {
             numberOfTasksAdded.put(queueName, oldTaskCount + 1);
         }
         return numberOfTasksAdded;
+    }
+
+    /**
+     * Clears the list of tasks added.
+     */
+    public void clearTasks() {
+        tasksAdded.clear();
     }
 
 }
