@@ -187,6 +187,11 @@ public final class Const {
 
     }
 
+    public static class FeedbackSessionLogTypes {
+        public static final String ACCESS = "access";
+        public static final String SUBMISSION = "submission";
+    }
+
     @Deprecated
     public static class LegacyURIs {
 
