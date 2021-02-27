@@ -57,9 +57,13 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    void init(HttpServletRequest req) {
+    public void init(HttpServletRequest req) {
         this.req = req;
         initAuthInfo();
+    }
+
+    public void setUserProvision(UserProvision userProvision) {
+        this.userProvision = userProvision;
     }
 
     public void setTaskQueuer(TaskQueuer taskQueuer) {

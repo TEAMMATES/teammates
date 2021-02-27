@@ -113,7 +113,8 @@ public class GaeSimulation {
      */
     public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
                                   List<Cookie> cookies, MockTaskQueuer taskQueuer, MockEmailSender emailSender,
-                                  MockFileStorage fileStorage, MockLogsProcessor logsProcessor, String... params) {
+                                  MockFileStorage fileStorage, MockLogsProcessor logsProcessor,
+                                  MockUserProvision userProvision, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -141,7 +142,9 @@ public class GaeSimulation {
             action.setEmailSender(emailSender);
             action.setFileStorage(fileStorage);
             action.setLogsProcessor(logsProcessor);
+            action.setUserProvision(userProvision);
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
+            action.init(req);
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
