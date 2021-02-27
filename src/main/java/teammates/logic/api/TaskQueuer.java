@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.TaskQueuesLogic;
+import teammates.logic.core.GoogleCloudTasksService;
+import teammates.logic.core.LocalTaskQueueService;
+import teammates.logic.core.TaskQueueService;
 import teammates.ui.request.FeedbackSessionRemindRequest;
 import teammates.ui.request.SendEmailRequest;
 
@@ -20,19 +23,28 @@ public class TaskQueuer {
 
     private static final Logger log = Logger.getLogger();
 
+    private final TaskQueueService service;
+
+    public TaskQueuer() {
+        if (Config.isDevServer()) {
+            service = new LocalTaskQueueService();
+        } else {
+            service = new GoogleCloudTasksService();
+        }
+    }
+
     // The following methods are facades to the actual logic for adding tasks to the queue.
     // Using this method, the actual logic can still be black-boxed
     // while at the same time allowing this API to be mocked during test.
 
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
-        new TaskQueuesLogic().addTask(task);
+        addDeferredTask(queueName, workerUrl, paramMap, requestBody, 0);
     }
 
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
                                    long countdownTime) {
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
-        new TaskQueuesLogic().addDeferredTask(task, countdownTime);
+        service.addDeferredTask(task, countdownTime);
     }
 
     /**
