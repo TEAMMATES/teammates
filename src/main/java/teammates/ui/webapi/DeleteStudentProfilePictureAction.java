@@ -7,7 +7,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
- * Deletes a student's profile picture and its picture key.
+ * Deletes a student's profile picture.
  */
 class DeleteStudentProfilePictureAction extends Action {
     @Override
@@ -33,8 +33,9 @@ class DeleteStudentProfilePictureAction extends Action {
         if (studentProfileAttributes == null) {
             return new JsonResult("Invalid student profile", HttpStatus.SC_NOT_FOUND);
         }
-        logic.deletePicture(studentProfileAttributes.pictureKey);
-        logic.deletePictureKey(userInfo.id);
+        if (fileStorage.doesFileExist(studentProfileAttributes.googleId)) {
+            fileStorage.delete(studentProfileAttributes.googleId);
+        }
         return new JsonResult("Your profile picture has been deleted successfully", HttpStatus.SC_OK);
     }
 }

@@ -108,31 +108,6 @@ public class Logic {
     }
 
     /**
-     * Delete the picture associated with the {@code key} in Cloud Storage.
-     *
-     * <br/> Preconditions: <br/>
-     * All parameters are non-null.
-     *
-     * <p>Fails silently if the {@code key} doesn't exist.</p>
-     */
-    public void deletePicture(String key) {
-        Assumption.assertNotNull(key);
-
-        profilesLogic.deletePicture(key);
-    }
-
-    /**
-     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
-     *
-     * <p>If the associated profile doesn't exist, create a new one.</p>
-     */
-    public void deletePictureKey(String googleId) {
-        Assumption.assertNotNull(googleId);
-
-        profilesLogic.deletePictureKey(googleId);
-    }
-
-    /**
      * Creates an instructor.
      *
      * <p>Preconditions:</p>
