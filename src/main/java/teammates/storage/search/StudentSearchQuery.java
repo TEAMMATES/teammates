@@ -5,19 +5,18 @@ import java.util.List;
 import com.google.appengine.api.search.QueryOptions;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Const;
 
 /**
  * The {@link SearchQuery} object that defines how we query
  * {@link com.google.appengine.api.search.Document} for students.
  */
-public class StudentSearchQuery extends SearchQuery {
+class StudentSearchQuery extends SearchQuery {
 
-    public StudentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
+    StudentSearchQuery(List<InstructorAttributes> instructors, String queryString) {
         super(instructors, queryString);
         options = QueryOptions.newBuilder()
                 .setLimit(20)
-                .setFieldsToReturn(Const.SearchDocumentField.COURSE_ID)
+                .setFieldsToReturn(SearchDocument.FIELD_COURSE_ID)
                 .build();
     }
 
@@ -26,7 +25,7 @@ public class StudentSearchQuery extends SearchQuery {
      * visibility according to the logged-in user's google ID. This is used by amdin to
      * search students in the whole system.
      */
-    public StudentSearchQuery(String queryString) {
+    StudentSearchQuery(String queryString) {
         super(queryString);
         options = QueryOptions.newBuilder()
                 .setLimit(20)
@@ -44,7 +43,7 @@ public class StudentSearchQuery extends SearchQuery {
         }
         courseIdLimit.append(')');
 
-        return Const.SearchDocumentField.COURSE_ID + ":" + courseIdLimit.toString();
+        return SearchDocument.FIELD_COURSE_ID + ":" + courseIdLimit.toString();
     }
 
 }

@@ -11,12 +11,16 @@ import com.google.appengine.api.search.IndexSpec;
 import com.google.appengine.api.search.OperationResult;
 import com.google.appengine.api.search.PutException;
 import com.google.appengine.api.search.PutResponse;
-import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchQueryException;
 import com.google.appengine.api.search.SearchServiceFactory;
 import com.google.appengine.api.search.StatusCode;
 
+import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
 import teammates.common.util.retry.MaximumRetriesExceededException;
@@ -30,6 +34,8 @@ import teammates.common.util.retry.RetryableTaskThrows;
  */
 public final class SearchManager {
 
+    private static final String SEARCH_INDEX_STUDENT = "student";
+    private static final String SEARCH_INDEX_INSTRUCTOR = "instructor";
     private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
             "Failed to put document(s) %s into search index %s due to non-transient backend issue: ";
     private static final String ERROR_MAXIMUM_RETRIES_EXCEEDED =
@@ -44,11 +50,81 @@ public final class SearchManager {
     }
 
     /**
-     * Batch creates or updates the search documents for the given documents and index.
+     * Searches for students.
+     *
+     * @param instructors the constraint that restricts the search result
      */
-    public static void putDocuments(String indexName, List<Document> documents) {
+    public static StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+        StudentSearchQuery query = instructors == null ? new StudentSearchQuery(queryString)
+                : new StudentSearchQuery(instructors, queryString);
+        Results<ScoredDocument> scoredDocuments = searchDocuments(SEARCH_INDEX_STUDENT, query);
+        if (instructors == null) {
+            return StudentSearchDocument.fromResults(scoredDocuments);
+        }
+        return StudentSearchDocument.fromResults(scoredDocuments, instructors);
+    }
+
+    /**
+     * Batch creates or updates search documents for the given students.
+     */
+    public static void putStudentSearchDocuments(StudentAttributes... students) {
+        List<SearchDocument> studentDocuments = new ArrayList<>();
+        for (StudentAttributes student : students) {
+            studentDocuments.add(new StudentSearchDocument(student));
+        }
+        putDocuments(SEARCH_INDEX_STUDENT, studentDocuments.toArray(new SearchDocument[0]));
+    }
+
+    /**
+     * Removes student search documents based on the given keys.
+     */
+    public static void deleteStudentSearchDocuments(String... keys) {
+        deleteDocuments(SEARCH_INDEX_STUDENT, keys);
+    }
+
+    /**
+     * Searches for instructors.
+     */
+    public static InstructorSearchResultBundle searchInstructors(String queryString) {
+        InstructorSearchQuery query = new InstructorSearchQuery(queryString);
+        Results<ScoredDocument> scoredDocuments = searchDocuments(SEARCH_INDEX_INSTRUCTOR, query);
+        return InstructorSearchDocument.fromResults(scoredDocuments);
+    }
+
+    /**
+     * Batch creates or updates search documents for the given instructors.
+     */
+    public static void putInstructorSearchDocuments(InstructorAttributes... instructors) {
+        List<SearchDocument> instructorDocuments = new ArrayList<>();
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.key != null) {
+                instructorDocuments.add(new InstructorSearchDocument(instructor));
+            }
+        }
+        putDocuments(SEARCH_INDEX_INSTRUCTOR, instructorDocuments.toArray(new SearchDocument[0]));
+    }
+
+    /**
+     * Removes instructor search documents based on the given keys.
+     */
+    public static void deleteInstructorSearchDocuments(String... keys) {
+        deleteDocuments(SEARCH_INDEX_INSTRUCTOR, keys);
+    }
+
+    /**
+     * Puts document(s) into the search engine.
+     */
+    private static void putDocuments(String indexName, SearchDocument... documents) {
+        List<Document> searchDocuments = new ArrayList<>();
+        for (SearchDocument document : documents) {
+            try {
+                searchDocuments.add(document.build());
+            } catch (Exception e) {
+                log.severe("Fail to build search document in " + indexName + " for " + document);
+            }
+        }
         try {
-            putDocumentsWithRetry(indexName, documents);
+            putDocumentsWithRetry(indexName, searchDocuments);
         } catch (PutException e) {
             log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
                     + TeammatesException.toStringWithStackTrace(e));
@@ -135,15 +211,28 @@ public final class SearchManager {
     /**
      * Searches document by the given query.
      */
-    public static Results<ScoredDocument> searchDocuments(String indexName, Query query) {
-        return getIndex(indexName).search(query);
+    private static Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
+        try {
+            if (query.getFilterSize() > 0) {
+                return getIndex(indexName).search(query.toQuery());
+            }
+            return null;
+        } catch (SearchQueryException e) {
+            log.info("Unsupported query for this query string: " + query.toString());
+            return null;
+        }
     }
 
     /**
      * Deletes document by documentId.
      */
-    public static void deleteDocument(String indexName, String... documentIds) {
-        getIndex(indexName).deleteAsync(documentIds);
+    private static void deleteDocuments(String indexName, String... documentIds) {
+        try {
+            getIndex(indexName).deleteAsync(documentIds);
+        } catch (Exception e) {
+            log.info("Unable to delete document in the index: " + indexName
+                    + " with document Ids " + String.join(", ", documentIds));
+        }
     }
 
     private static Index getIndex(String indexName) {

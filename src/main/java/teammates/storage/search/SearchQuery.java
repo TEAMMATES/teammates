@@ -7,13 +7,12 @@ import com.google.appengine.api.search.Query;
 import com.google.appengine.api.search.QueryOptions;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.Logger;
 
 /**
  * Defines how we query {@link com.google.appengine.api.search.Document}.
  */
-public abstract class SearchQuery {
+abstract class SearchQuery {
 
     static final String AND = " AND ";
     static final String OR = " OR ";
@@ -31,7 +30,7 @@ public abstract class SearchQuery {
                 .setLimit(20)
                 .build();
         visibilityQueryString = instructors == null ? "" : prepareVisibilityQueryString(instructors);
-        setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
+        setTextFilter(SearchDocument.FIELD_SEARCHABLE_TEXT, queryString);
     }
 
     SearchQuery(String queryString) {
@@ -43,7 +42,7 @@ public abstract class SearchQuery {
     /**
      * Returns how many query strings a SearchQuery object has.
      */
-    public int getFilterSize() {
+    int getFilterSize() {
         return textQueryStrings.size();
     }
 
@@ -106,7 +105,7 @@ public abstract class SearchQuery {
     /**
      * Builds the {@link Query} object.
      */
-    public Query toQuery() {
+    Query toQuery() {
         return Query.newBuilder().setOptions(options).build(toString());
     }
 

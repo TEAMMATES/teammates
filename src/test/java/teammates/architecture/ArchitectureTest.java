@@ -447,9 +447,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_searchApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_SEARCH_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
+        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_SEARCH_PACKAGE))
                 .should().accessClassesThat().resideInAPackage("com.google.appengine.api.search..")
                 .check(ALL_CLASSES);
     }

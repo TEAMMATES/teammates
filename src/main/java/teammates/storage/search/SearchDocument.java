@@ -10,7 +10,6 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -18,7 +17,10 @@ import teammates.storage.api.StudentsDb;
 /**
  * Defines how we store {@link Document} for indexing/searching.
  */
-public abstract class SearchDocument {
+abstract class SearchDocument {
+
+    public static final String FIELD_SEARCHABLE_TEXT = "searchableText";
+    public static final String FIELD_COURSE_ID = "courseId";
 
     static final CoursesDb coursesDb = new CoursesDb();
     static final InstructorsDb instructorsDb = new InstructorsDb();
@@ -27,7 +29,7 @@ public abstract class SearchDocument {
     /**
      * Builds the search document.
      */
-    public Document build() {
+    Document build() {
         prepareData();
         return toDocument();
     }
@@ -48,7 +50,7 @@ public abstract class SearchDocument {
 
         List<ScoredDocument> filteredResults = new ArrayList<>();
         for (ScoredDocument document : results) {
-            String resultCourseId = document.getOnlyField(Const.SearchDocumentField.COURSE_ID).getText();
+            String resultCourseId = document.getOnlyField(FIELD_COURSE_ID).getText();
             if (courseIdSet.contains(resultCourseId)) {
                 filteredResults.add(document);
             }

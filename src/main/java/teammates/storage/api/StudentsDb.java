@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
@@ -21,13 +19,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.search.SearchDocument;
-import teammates.storage.search.StudentSearchDocument;
-import teammates.storage.search.StudentSearchQuery;
+import teammates.storage.search.SearchManager;
 
 /**
  * Handles CRUD operations for students.
@@ -45,18 +40,14 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) {
-        putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
+        SearchManager.putStudentSearchDocuments(student);
     }
 
     /**
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        List<SearchDocument> studentDocuments = new ArrayList<>();
-        for (StudentAttributes student : students) {
-            studentDocuments.add(new StudentSearchDocument(student));
-        }
-        putDocument(Const.SearchIndex.STUDENT, studentDocuments.toArray(new SearchDocument[0]));
+        SearchManager.putStudentSearchDocuments(students.toArray(new StudentAttributes[0]));
     }
 
     /**
@@ -69,10 +60,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             return new StudentSearchResultBundle();
         }
 
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
-                new StudentSearchQuery(instructors, queryString));
-
-        return StudentSearchDocument.fromResults(results, instructors);
+        return SearchManager.searchStudents(queryString, instructors);
     }
 
     /**
@@ -87,10 +75,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             return new StudentSearchResultBundle();
         }
 
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
-                new StudentSearchQuery(queryString));
-
-        return StudentSearchDocument.fromResults(results);
+        return SearchManager.searchStudents(queryString, null);
     }
 
     /**
@@ -99,7 +84,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
      */
     public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
-        deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
+        SearchManager.deleteStudentSearchDocuments(unencryptedRegistrationKey);
     }
 
     /**
@@ -331,7 +316,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     public void deleteStudents(AttributesDeletionQuery query) {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
-            deleteDocument(Const.SearchIndex.STUDENT,
+            SearchManager.deleteStudentSearchDocuments(
                     studentsToDelete.stream().map(CourseStudent::getRegistrationKey).toArray(String[]::new));
 
             deleteEntity(studentsToDelete.stream()

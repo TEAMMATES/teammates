@@ -11,19 +11,18 @@ import com.google.appengine.api.search.ScoredDocument;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for instructors.
  */
-public class InstructorSearchDocument extends SearchDocument {
+class InstructorSearchDocument extends SearchDocument {
 
     private InstructorAttributes instructor;
     private CourseAttributes course;
 
-    public InstructorSearchDocument(InstructorAttributes instructor) {
+    InstructorSearchDocument(InstructorAttributes instructor) {
         this.instructor = instructor;
     }
 
@@ -53,7 +52,7 @@ public class InstructorSearchDocument extends SearchDocument {
 
         return Document.newBuilder()
                 // searchableText is used to match the query string
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
+                .addField(Field.newBuilder().setName(FIELD_SEARCHABLE_TEXT)
                                             .setText(searchableText))
                 .setId(StringHelper.encrypt(instructor.key))
                 .build();
@@ -65,7 +64,7 @@ public class InstructorSearchDocument extends SearchDocument {
      * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.</p>
      */
-    public static InstructorSearchResultBundle fromResults(Results<ScoredDocument> results) {
+    static InstructorSearchResultBundle fromResults(Results<ScoredDocument> results) {
         InstructorSearchResultBundle bundle = new InstructorSearchResultBundle();
         if (results == null) {
             return bundle;

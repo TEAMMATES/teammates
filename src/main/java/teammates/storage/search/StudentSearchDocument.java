@@ -12,18 +12,17 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link Document} for students.
  */
-public class StudentSearchDocument extends SearchDocument {
+class StudentSearchDocument extends SearchDocument {
 
     private StudentAttributes student;
     private CourseAttributes course;
 
-    public StudentSearchDocument(StudentAttributes student) {
+    StudentSearchDocument(StudentAttributes student) {
         this.student = student;
     }
 
@@ -52,10 +51,10 @@ public class StudentSearchDocument extends SearchDocument {
 
         return Document.newBuilder()
                 // this is used to filter documents visible to certain instructor
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID)
+                .addField(Field.newBuilder().setName(FIELD_COURSE_ID)
                                             .setText(student.course))
                 // searchableText and createdDate are used to match the query string
-                .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT)
+                .addField(Field.newBuilder().setName(FIELD_SEARCHABLE_TEXT)
                                             .setText(searchableText))
                 .setId(student.key)
                 .build();
@@ -69,7 +68,7 @@ public class StudentSearchDocument extends SearchDocument {
      * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.</p>
      */
-    public static StudentSearchResultBundle fromResults(Results<ScoredDocument> results) {
+    static StudentSearchResultBundle fromResults(Results<ScoredDocument> results) {
         if (results == null) {
             return new StudentSearchResultBundle();
         }
@@ -86,7 +85,7 @@ public class StudentSearchDocument extends SearchDocument {
      *
      * <p>The list of {@link InstructorAttributes} is used to filter out the search result.</p>
      */
-    public static StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
+    static StudentSearchResultBundle fromResults(Results<ScoredDocument> results,
                                                         List<InstructorAttributes> instructors) {
         if (results == null) {
             return new StudentSearchResultBundle();

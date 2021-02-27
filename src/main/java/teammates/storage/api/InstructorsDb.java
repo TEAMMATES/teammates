@@ -2,11 +2,9 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -17,12 +15,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
-import teammates.storage.search.InstructorSearchDocument;
-import teammates.storage.search.InstructorSearchQuery;
-import teammates.storage.search.SearchDocument;
+import teammates.storage.search.SearchManager;
 
 /**
  * Handles CRUD operations for instructors.
@@ -40,27 +35,20 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        // defensive coding for legacy data
-        if (instructor.key != null) {
-            putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
-        }
+        SearchManager.putInstructorSearchDocuments(instructor);
     }
 
     /**
      * Batch creates or updates search documents for the given instructors.
      */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
-        List<SearchDocument> instructorDocuments = new ArrayList<>();
-        for (InstructorAttributes instructor : instructorParams) {
-            InstructorAttributes inst = instructor.key == null
-                    ? getInstructorForEmail(instructor.courseId, instructor.email)
-                    : instructor;
-            // defensive coding for legacy data
-            if (inst.key != null) {
-                instructorDocuments.add(new InstructorSearchDocument(inst));
-            }
-        }
-        putDocument(Const.SearchIndex.INSTRUCTOR, instructorDocuments.toArray(new SearchDocument[0]));
+        List<InstructorAttributes> instructors = instructorParams.stream()
+                .map(instructor -> instructor.key == null
+                        ? getInstructorForEmail(instructor.courseId, instructor.email)
+                        : instructor)
+                .collect(Collectors.toList());
+
+        SearchManager.putInstructorSearchDocuments(instructors.toArray(new InstructorAttributes[0]));
     }
 
     /**
@@ -69,7 +57,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * <p>See {@link InstructorSearchDocument} for more details.</p>
      */
     public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
-        deleteDocument(Const.SearchIndex.INSTRUCTOR, encryptedRegistrationKey);
+        SearchManager.deleteInstructorSearchDocuments(encryptedRegistrationKey);
     }
 
     /**
@@ -85,10 +73,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return new InstructorSearchResultBundle();
         }
 
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR,
-                                                          new InstructorSearchQuery(queryString));
-
-        return InstructorSearchDocument.fromResults(results);
+        return SearchManager.searchInstructors(queryString);
     }
 
     /**
@@ -321,7 +306,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
-            deleteDocument(Const.SearchIndex.INSTRUCTOR,
+            SearchManager.deleteInstructorSearchDocuments(
                     instructorsToDelete.stream()
                             .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
                             .toArray(String[]::new));
