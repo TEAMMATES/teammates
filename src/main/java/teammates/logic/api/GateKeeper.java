@@ -360,14 +360,10 @@ public class GateKeeper {
 
     /**
      * Verifies that the action is accessible when the user is either an instructor of the course, a student of the course
-     * or his/her team member, or an admin.
+     * or his/her team member.
      */
-    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(String googleId, String courseId,
+    public void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(String googleId, String courseId,
             String section, String email) {
-        if (isAdministrator()) {
-            return;
-        }
-
         InstructorAttributes instructor = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
         if (instructor != null) {
             verifyInstructorCanViewProfile(instructor, section);
