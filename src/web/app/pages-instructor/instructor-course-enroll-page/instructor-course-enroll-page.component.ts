@@ -125,7 +125,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
                 '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
           });
-          if (currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
+          if (this.allStudentChunks.length === 0 && currentStudentChunk.length >= this.numberOfStudentsPerRequest * 4) {
+            this.allStudentChunks.push(currentStudentChunk);
+            currentStudentChunk = [];
+          }
+          else if (this.allStudentChunks.length !== 0 && currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
             this.allStudentChunks.push(currentStudentChunk);
             currentStudentChunk = [];
           }
@@ -152,6 +156,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.handleTimeoutForEnrollRequest(enrollRequests).subscribe({
       next: (resp: Students) => {
+        console.log(`Request of length ${resp.students.length}`);
         enrolledStudents.push(...resp.students);
         this.remainingStudentChunks.shift();
       },
@@ -189,6 +194,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         .pipe(catchError((resp: ErrorMessageOutput) => {
           // First request in the list caused the timeout
           const currentLongRequest: StudentEnrollRequest[] = this.remainingStudentChunks[0];
+          console.log(resp.error.message);
 
           // If the length of the long request falls under max / 4, abort the whole stream
           // In other words, we limit the number of retries for a request to 2
@@ -202,6 +208,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               currentLongRequest.slice(0, currentLongRequest.length / 2);
           const studentEnrollRequest2: StudentEnrollRequest[] =
               currentLongRequest.slice(currentLongRequest.length / 2, currentLongRequest.length);
+
+          console.log(`Request of length ${currentLongRequest.length} is broken down to 2 requests of ${currentLongRequest.length / 2}`);
 
           this.remainingStudentChunks.shift();
           this.remainingStudentChunks.unshift(studentEnrollRequest1, studentEnrollRequest2);
