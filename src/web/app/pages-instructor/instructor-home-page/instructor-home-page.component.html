@@ -42,7 +42,7 @@
   <div *tmIsLoading="!hasCoursesLoaded">
     <div *ngIf="courseTabModels.length > 0">
       <div id="course-tab" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-        <div class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
+        <div id="course-tab-header" class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
           <b id="course-details">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
           <div class="card-header-btn-toolbar" *ngIf="courseTabModel.isAjaxSuccess">
             <span ngbDropdown>

@@ -15,11 +15,11 @@ import teammates.common.exception.TeammatesException;
  */
 public final class Config {
 
-    /** The value of the application URL, or null if no server instance is running. */
-    public static final String APP_URL;
-
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
+
+    /** The value of the "app.region" in build.properties file. */
+    public static final String APP_REGION;
 
     /** The value of the "app.version" in build.properties file. */
     public static final String APP_VERSION;
@@ -29,6 +29,9 @@ public final class Config {
 
     /** The value of the "app.localdatastore.port" in build.properties file. */
     public static final String APP_LOCALDATASTORE_PORT;
+
+    /** The value of the "app.taskqueue.active" in build.properties file. */
+    public static final boolean TASKQUEUE_ACTIVE;
 
     /** The value of the "app.production.gcs.bucketname" in build.properties file. */
     public static final String PRODUCTION_GCS_BUCKETNAME;
@@ -85,7 +88,6 @@ public final class Config {
     public static final boolean MAINTENANCE;
 
     static {
-        APP_URL = readAppUrl();
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
@@ -93,9 +95,11 @@ public final class Config {
             Assumption.fail(TeammatesException.toStringWithStackTrace(e));
         }
         APP_ID = properties.getProperty("app.id");
+        APP_REGION = properties.getProperty("app.region");
         APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
         APP_LOCALDATASTORE_PORT = properties.getProperty("app.localdatastore.port");
+        TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
         CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
@@ -120,7 +124,7 @@ public final class Config {
         // access static fields directly
     }
 
-    private static String readAppUrl() {
+    static String getBaseAppUrl() {
         ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
         if (serverEnvironment == null) {
             return null;
@@ -175,7 +179,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     private static AppUrl getBackEndAppUrl(String relativeUrl) {
-        return new AppUrl(APP_URL + relativeUrl);
+        return new AppUrl(getBaseAppUrl() + relativeUrl);
     }
 
     public static boolean isUsingSendgrid() {

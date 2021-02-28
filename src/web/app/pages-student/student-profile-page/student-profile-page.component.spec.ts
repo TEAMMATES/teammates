@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from '../../../environments/environment.prod';
-import { Gender } from '../../../types/api-output';
+import { Gender, StudentProfile } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -48,18 +48,14 @@ describe('StudentProfilePageComponent', () => {
   });
 
   it('should snap with a student field without information', () => {
-    const studentDetails: any = {
-      studentProfile: {
-        shortName: '',
-        email: '',
-        institute: '',
-        nationality: '',
-        gender: Gender,
-        moreInfo: '',
-        pictureKey: '',
-      },
+    const studentDetails: StudentProfile = {
       name: '',
-      requestId: '',
+      shortName: '',
+      email: '',
+      institute: '',
+      nationality: '',
+      gender: Gender.MALE,
+      moreInfo: '',
     };
     component.student = studentDetails;
     component.editForm = new FormGroup({
@@ -77,18 +73,14 @@ describe('StudentProfilePageComponent', () => {
   });
 
   it('should snap with values and a profile photo', () => {
-    const studentDetails: any = {
-      studentProfile: {
-        shortName: 'Ash',
-        email: 'ayush@nus.com',
-        institute: 'NUS',
-        nationality: 'Indian',
-        gender: Gender.MALE,
-        moreInfo: 'I like to party',
-        pictureKey: 'photo.jpg',
-      },
+    const studentDetails: StudentProfile = {
       name: 'Ayush',
-      requestId: '16',
+      shortName: 'Ash',
+      email: 'ayush@nus.com',
+      institute: 'NUS',
+      nationality: 'Indian',
+      gender: Gender.MALE,
+      moreInfo: 'I like to party',
     };
     component.student = studentDetails;
     component.profilePicLink = `${environment.backendUrl}/webapi/students/` +
