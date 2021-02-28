@@ -30,7 +30,7 @@
   <button type="button" class="btn btn-light modal-btn-cancel" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
     {{ cancelMessage }}
   </button>
-  <button type="button" class="btn modal-btn-ok"
+  <button type="button" class="btn modal-btn-ok z-index-1"
           [ngClass]="{
           'btn-danger' : type === SimpleModalType.DANGER || type === SimpleModalType.LOAD,
           'btn-warning' : type === SimpleModalType.WARNING,
