@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
-import { concat, EMPTY, Observable } from 'rxjs';
-import { catchError, delay, finalize, takeWhile } from 'rxjs/operators';
+import { concat, Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -77,8 +77,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isEnrolling: boolean = false;
 
   allStudentChunks: StudentEnrollRequest[][] = [];
-  remainingStudentChunks: StudentEnrollRequest[][] = [];
-  numberOfStudentsPerRequest: number = 200; // at most 200 students per chunk
+  numberOfStudentsPerRequest: number = 50; // at most 50 students per chunk
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
@@ -125,11 +124,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
                 '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
           });
-          if (this.allStudentChunks.length === 0 && currentStudentChunk.length >= this.numberOfStudentsPerRequest * 4) {
-            this.allStudentChunks.push(currentStudentChunk);
-            currentStudentChunk = [];
-          }
-          else if (this.allStudentChunks.length !== 0 && currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
+
+          if (currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
             this.allStudentChunks.push(currentStudentChunk);
             currentStudentChunk = [];
           }
@@ -140,7 +136,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     const enrolledStudents: Student[] = [];
-    this.remainingStudentChunks = [...this.allStudentChunks];
 
     // Use concat because we cannot afford to parallelize with forkJoin when there's data dependency
     const enrollRequests: Observable<Students> = concat(
@@ -154,11 +149,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }),
     );
 
-    this.handleTimeoutForEnrollRequest(enrollRequests).subscribe({
+    enrollRequests.pipe(finalize(() => this.isEnrolling = false)).subscribe({
       next: (resp: Students) => {
-        console.log(`Request of length ${resp.students.length}`);
         enrolledStudents.push(...resp.students);
-        this.remainingStudentChunks.shift();
       },
       complete: () => {
         this.showEnrollResults = true;
@@ -184,50 +177,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.enrollErrorMessage = resp.error.message;
       },
     });
-  }
-
-  private handleTimeoutForEnrollRequest(prevRequests: Observable<Students>): Observable<Students> {
-
-    return prevRequests.pipe(finalize(() => this.isEnrolling = false))
-        .pipe(delay(1000)) // Delay of 1 second to preserve consistency of datastore
-        .pipe(takeWhile(() => this.remainingStudentChunks.length > 0))
-        .pipe(catchError((resp: ErrorMessageOutput) => {
-          // First request in the list caused the timeout
-          const currentLongRequest: StudentEnrollRequest[] = this.remainingStudentChunks[0];
-          console.log(resp.error.message);
-
-          // If the length of the long request falls under max / 4, abort the whole stream
-          // In other words, we limit the number of retries for a request to 2
-          if (currentLongRequest.length <= this.numberOfStudentsPerRequest / 4) {
-            this.enrollErrorMessage = resp.error.message;
-            return EMPTY;
-          }
-
-          // Break the long request into half
-          const studentEnrollRequest1: StudentEnrollRequest[] =
-              currentLongRequest.slice(0, currentLongRequest.length / 2);
-          const studentEnrollRequest2: StudentEnrollRequest[] =
-              currentLongRequest.slice(currentLongRequest.length / 2, currentLongRequest.length);
-
-          console.log(`Request of length ${currentLongRequest.length} is broken down to 2 requests of ${currentLongRequest.length / 2}`);
-
-          this.remainingStudentChunks.shift();
-          this.remainingStudentChunks.unshift(studentEnrollRequest1, studentEnrollRequest2);
-
-          // Prepare chunks for new stream
-          const newRequests: Observable<Students> = concat(
-              ...this.remainingStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
-                const studentsEnrollRequest: StudentsEnrollRequest = {
-                  studentEnrollRequests: studentChunk,
-                };
-                return this.studentService.enrollStudents(
-                  this.courseId, studentsEnrollRequest,
-                );
-              }),
-          );
-
-          return this.handleTimeoutForEnrollRequest(newRequests);
-        }));
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
