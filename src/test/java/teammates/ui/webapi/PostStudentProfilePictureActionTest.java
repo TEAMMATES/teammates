@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
-import teammates.ui.output.StudentProfilePictureResults;
 
 /**
  * SUT: {@link PostStudentProfilePictureAction}.
@@ -28,6 +27,8 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
         loginAsStudent(student1.googleId);
 
+        deleteFile(student1.googleId);
+
         ______TS("Typical case: upload profile picture operation successful");
 
         String filePath = "src/test/resources/images/profile_pic.png";
@@ -35,14 +36,7 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        StudentProfilePictureResults output = (StudentProfilePictureResults) result.getOutput();
-        String resultPictureKey = output.getPictureKey();
-        String newPictureKey = logic.getStudentProfile(student1.googleId).pictureKey;
-
-        assertNotNull(resultPictureKey);
-        assertNotEquals(resultPictureKey, "");
-        assertEquals(resultPictureKey, newPictureKey);
+        assertTrue(doesFileExist(student1.googleId));
 
         ______TS("Typical case: profile picture is null");
 
@@ -65,6 +59,8 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
                 getActionWithParts("studentprofilephoto", invalidProfilePicFilePath);
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> invalidProfilePicAction.execute());
+
+        deleteFile(student1.googleId);
     }
 
     @Override

@@ -283,6 +283,16 @@ export enum SortBy {
     RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF,
 
     /**
+     * Recipient's team rank
+     */
+    RANK_RECIPIENTS_TEAM_RANK,
+
+    /**
+     * Recipient's team rank excluding self
+     */
+    RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF,
+
+    /**
      * Rubric sub question
      */
     RUBRIC_SUBQUESTION,
