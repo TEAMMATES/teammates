@@ -40,12 +40,18 @@
 }
 
 .today {
-  background-color: cornflowerblue;
-  color: white;
+  color: blue;
+  font-weight: bold;
 }
 
-.hidden {
-  display: none;
+.selected {
+  background-color: dodgerblue !important;
+}
+
+.disabled {
+  pointer-events: none !important;
+  color: darkgray;
+  cursor: not-allowed !important;
 }
 
 .footer-button {

@@ -113,7 +113,7 @@ export class SessionEditFormComponent implements OnInit {
 
   isToday(data: NgbDateStruct): boolean {
     const today: NgbDate = this.calendar.getToday();
-    return data.day === today.day && data.month === today.month && data.year === today.year;
+    return today.day === data.day && today.month === data.month && today.year === data.year;
   }
   /**
    * Triggers the change of the model for the form.
