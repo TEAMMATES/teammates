@@ -22,7 +22,7 @@
           <tm-loading-retry [shouldShowRetry]="courseTab.hasLoadingFailed" [message]="'Failed to load students'" (retryEvent)="loadStudents(courseTab)">
             <div *tmIsLoading="!courseTab.hasStudentLoaded">
               <div *ngIf="!courseTab.hasLoadingFailed" class="card-body">
-                <ng-container *ngIf="courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
+                <ng-container *ngIf="courseTab.hasStudentLoaded && courseTab.stats.numOfStudents > 0, else noStudentsTemplate">
                   <div class="card-deck text-center text-sm-left" *ngIf="courseTab.stats">
                     <div class="card">
                       <div class="card-body" id="num-students">

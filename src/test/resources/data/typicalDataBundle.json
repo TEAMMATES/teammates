@@ -1685,8 +1685,7 @@
       "institute": "TEAMMATES Test Institute 3",
       "nationality": "American",
       "gender": "MALE",
-      "moreInfo": "I am just a student :P",
-      "pictureKey": "asdf34&hfn3!@"
+      "moreInfo": "I am just a student :P"
     },
     "student1InTestingSanitizationCourse": {
       "googleId": "student1InTestingSanitizationCourse",
@@ -1695,8 +1694,7 @@
       "institute": "inst<script> alert('hi!'); </script>",
       "nationality": "American",
       "gender": "OTHER",
-      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>",
-      "pictureKey": ""
+      "moreInfo": "I am just a student :P<script> alert('hi!'); </script>"
     }
   }
 }

@@ -48,29 +48,6 @@ public class ProfilesLogicTest extends BaseLogicTest {
         expectedSpa.modifiedDate = actualSpa.modifiedDate;
         assertEquals(expectedSpa.toString(), actualSpa.toString());
         assertEquals(expectedSpa.toString(), updateSpa.toString());
-
-        ______TS("update SP");
-
-        expectedSpa.pictureKey = "non-empty";
-        profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
-                        .withPictureKey(expectedSpa.pictureKey)
-                        .build());
-
-        actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
-
-        ______TS("update picture");
-
-        expectedSpa.pictureKey = writeFileToGcs(expectedSpa.googleId, "src/test/resources/images/profile_pic.png");
-        profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(expectedSpa.googleId)
-                        .withPictureKey(expectedSpa.pictureKey)
-                        .build());
-        actualSpa = profilesLogic.getStudentProfile(expectedSpa.googleId);
-        expectedSpa.modifiedDate = actualSpa.modifiedDate;
-        assertEquals(expectedSpa.toString(), actualSpa.toString());
     }
 
     @Test
@@ -80,24 +57,13 @@ public class ProfilesLogicTest extends BaseLogicTest {
         profilesLogic.updateOrCreateStudentProfile(
                 StudentProfileAttributes.updateOptionsBuilder("sp.logic.test")
                         .withShortName("Test Name")
-                        .withPictureKey(writeFileToGcs("sp.logic.test", "src/test/resources/images/profile_pic_default.png"))
                         .build());
-        // make sure we create an profile with picture key
         StudentProfileAttributes savedProfile = profilesLogic.getStudentProfile("sp.logic.test");
         assertNotNull(savedProfile);
-        assertFalse(savedProfile.pictureKey.isEmpty());
 
         profilesLogic.deleteStudentProfile("sp.logic.test");
         // check that profile get deleted and picture get deleted
         verifyAbsentInDatastore(savedProfile);
-        assertFalse(doesFileExistInGcs(savedProfile.pictureKey));
-    }
-
-    @Test
-    public void testDeletePicture() throws Exception {
-        String keyString = writeFileToGcs("accountsLogicTestid", "src/test/resources/images/profile_pic.png");
-        profilesLogic.deletePicture(keyString);
-        assertFalse(doesFileExistInGcs(keyString));
     }
 
 }
