@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
-import { Instructor, JoinState } from '../../../types/api-output';
+import { Course, Instructor, JoinState } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
@@ -19,6 +19,14 @@ import {
   InstructorEditPanelComponent,
 } from './instructor-edit-panel/instructor-edit-panel.component';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal/view-role-privileges-modal.component';
+
+const testCourse: Course = {
+  courseId: 'exampleId',
+  courseName: 'Example Course',
+  timeZone: 'UTC (UTC)',
+  creationTimestamp: 0,
+  deletionTimestamp: 1000,
+};
 
 describe('InstructorCourseEditPageComponent', () => {
   let component: InstructorCourseEditPageComponent;
@@ -60,13 +68,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct course details for given API output', () => {
-    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of({
-      courseId: 'exampleId',
-      courseName: 'Example Course',
-      timeZone: 'UTC (UTC)',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
-    }));
+    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of(testCourse));
 
     component.loadCourseInfo();
 
@@ -79,13 +81,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should not change course details if CANCEL is requested', () => {
-    component.course = {
-      courseId: 'exampleId',
-      courseName: 'Example Course',
-      timeZone: 'UTC (UTC)',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
-    };
+    component.course = testCourse;
     component.isCourseLoading = false;
     component.originalCourse = Object.assign({}, component.course);
     fixture.detectChanges();
@@ -102,13 +98,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should update course details if SAVE is requested', () => {
-    component.course = {
-      courseId: 'exampleId',
-      courseName: 'Example Course',
-      timeZone: 'UTC (UTC)',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
-    };
+    component.course = testCourse;
     component.isCourseLoading = false;
     fixture.detectChanges();
 
@@ -136,13 +126,7 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should snap with course details', () => {
-    component.course = {
-      courseId: 'exampleId',
-      courseName: 'Example Course',
-      timeZone: 'UTC (UTC)',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
-    };
+    component.course = testCourse;
 
     fixture.detectChanges();
 
