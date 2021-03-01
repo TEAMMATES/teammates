@@ -423,9 +423,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     let numberOfQuestionsDownloaded: number = 0;
     const modalContent: string =
         'Downloading the results of your feedback session...';
-    const downloadModalRef: NgbModalRef = this.simpleModalService.openDownloadModal(
+    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
         'Download Progress', SimpleModalType.LOAD, modalContent);
-    downloadModalRef.result.then(() => {
+    loadingModal.result.then(() => {
       this.isDownloadingResults = false;
       downloadAborted = true;
     });
@@ -457,13 +457,13 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           if (downloadAborted) {
             return;
           }
-
-          downloadModalRef.close();
+          loadingModal.close();
           blob = new Blob(out, { type: 'text/csv' });
           saveAs(blob, filename);
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
+          loadingModal.close();
         },
       });
   }
