@@ -130,8 +130,8 @@
               </div>
             </div>
             <div class="row text-center align-items-center">
-              <ng-template #today let-date let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" let-focused="focused">
-                <span class="custom-day" [class.today]="isToday(date)" [class.focused]="focused"
+              <ng-template #today let-date let-today="today" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" let-focused="focused">
+                <span class="custom-day" [class.today]="today" [class.focused]="focused"
                       [class.selected]="selected" [class.disabled]="date.month !== currentMonth" [class.text-muted]="disabled" >
                   {{ date.day }}
                 </span>

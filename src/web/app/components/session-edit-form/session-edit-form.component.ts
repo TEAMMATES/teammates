@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -111,10 +111,6 @@ export class SessionEditFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isToday(data: NgbDateStruct): boolean {
-    const today: NgbDate = this.calendar.getToday();
-    return today.day === data.day && today.month === data.month && today.year === data.year;
-  }
   /**
    * Triggers the change of the model for the form.
    */
