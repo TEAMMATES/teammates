@@ -98,6 +98,7 @@ public class TaskQueuesLogic {
                 requestBuilder.setRelativeUri(url.toString());
             } else {
                 String requestBody = JsonUtils.toCompactJson(task.getRequestBody());
+                requestBuilder.putHeaders("Content-type", "application/json; charset=utf-8");
                 requestBuilder.setRelativeUri(task.getWorkerUrl())
                         .setBody(ByteString.copyFrom(requestBody, Charset.forName(Const.ENCODING)));
             }
