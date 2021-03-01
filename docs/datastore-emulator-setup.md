@@ -12,16 +12,36 @@ In order to locally simulate production Datastore environment during development
 Refer to the official [installation guide](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
 
 ## Troubleshoot
-1. Sometimes the recommended emulator setup in [wiki](https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6) might not work with `Exiting due to exception: java.io.IOException: Failed to bind`.
+**#1 Error:** 
+The recommended emulator setup in [wiki](https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6) might not work with `Exiting due to exception: java.io.IOException: Failed to bind`. 
+
+**Reason:** 
+This is a common encounter, and it is due to the emulator failing to shut down, leaving a dangling process in `port 8484`.
 
 **Solution:**
-In that case, try out some other localhost ports such as `gcloud beta emulators datastore start --host-port=localhost:8482`.
-Also change `DatastoreOptions.setHost()` parameter in `src/main/java/teammates/storage/api/OfyHelper.java` accordingly.
+The solution is to identify the process id and kill the process manually, before running the emulator again. 
+Depending on your operating system, you may have access to different command line tools. 
+On macOS for example, you can run the following command in the terminal:
+ ```
+lsof -i tcp:8484
+ ```  
+This allows you to find the process id of the dangling process running in `port 8484`. 
+To kill the process, simply run: 
+```
+kill -9 <PID>
+```
+Note: `<PID>` is the process id you have identified. 
 
-2. Encounter `java.lang.IllegalStateException: Must use project ID as app ID if project ID is provided.` when trying to connect backend with emulator.
+Finally, run `gcloud beta emulators datastore start --host-port=localhost:8484` to restart the emulator.
+
+**#2 Error:** You encounter `java.lang.IllegalStateException: Must use project ID as app ID if project ID is provided` when trying to connect the backend with the emulator.
 
 **Solution:**
-Before running `./gradlew appengineRun` in the session, run the command `export DATASTORE_USE_PROJECT_ID_AS_APP_ID=true`.
+Before running `./gradlew appengineRun` in the session, run the following command:
+ ```
+ export DATASTORE_USE_PROJECT_ID_AS_APP_ID=true
+```
+
 
 ## References
 https://stackoverflow.com/questions/45659186/illegalstateexception-with-google-app-engine-local-datastore
