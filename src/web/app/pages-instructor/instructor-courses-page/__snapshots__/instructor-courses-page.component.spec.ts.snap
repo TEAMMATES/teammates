@@ -536,6 +536,17 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Edit 
                       </a>
+                      
+                      <button
+                        class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
+                        id="btn-copy-0"
+                        ngbtooltip="Copy the course and its corresponding sessions"
+                        placement="left"
+                      >
+                         Copy 
+                      </button>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -649,6 +660,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       >
                          Edit 
                       </a>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -4724,6 +4736,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Edit 
                       </a>
+                      
+                      <button
+                        class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
+                        id="btn-copy-0"
+                        ngbtooltip="Copy the course and its corresponding sessions"
+                        placement="left"
+                      >
+                         Copy 
+                      </button>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -4837,6 +4860,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       >
                          Edit 
                       </a>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -5286,6 +5310,17 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Edit 
                       </a>
+                      
+                      <button
+                        class="btn btn-primary btn-sm dropdown-item clickable"
+                        container="body"
+                        id="btn-copy-0"
+                        ngbtooltip="Copy the course and its corresponding sessions"
+                        placement="left"
+                      >
+                         Copy 
+                      </button>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
@@ -5420,6 +5455,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       >
                          Edit 
                       </a>
+                      
                       <button
                         class="btn btn-primary btn-sm dropdown-item clickable"
                         container="body"
