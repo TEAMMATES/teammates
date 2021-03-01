@@ -33,7 +33,7 @@ class DeleteInstructorAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -81,7 +81,7 @@ class DeleteInstructorAction extends Action {
 
             hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || (instr.isRegistered()
                     && !instr.getEmail().equals(instructorToDeleteEmail)
-                    && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
             hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
                     || (instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail));

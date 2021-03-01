@@ -20,7 +20,6 @@ import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
@@ -67,7 +66,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
     private A createEntity(A entityToAdd, boolean shouldCheckExistence)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+        Assumption.assertNotNull(entityToAdd);
 
         entityToAdd.sanitizeForSaving();
 
@@ -119,7 +118,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * @throws InvalidParametersException if any of entity to add is not valid
      */
     public List<A> putEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+        Assumption.assertNotNull(entitiesToAdd);
 
         List<E> entities = new ArrayList<>();
 
@@ -153,7 +152,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Saves an entity.
      */
     void saveEntity(E entityToSave) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToSave);
+        Assumption.assertNotNull(entityToSave);
 
         log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
 
@@ -175,8 +174,8 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Deletes entity by key.
      */
     void deleteEntity(Key<?>... keys) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, (Object) keys);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, (Object[]) keys);
+        Assumption.assertNotNull((Object) keys);
+        Assumption.assertNotNull((Object[]) keys);
 
         for (Key<?> key : keys) {
             log.info(String.format("Delete entity %s of key (id: %d, name: %s)",

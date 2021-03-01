@@ -73,14 +73,10 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     protected void testExecute_withEmptyParameters_shouldFail() {
         loginAsInstructor(instructorId);
 
-        NullHttpParameterException emptyParamsException = assertThrows(NullHttpParameterException.class, () -> {
+        assertThrows(NullHttpParameterException.class, () -> {
             RestoreFeedbackSessionAction emptyParamsAction = getAction();
             getJsonResult(emptyParamsAction);
         });
-        assertEquals(
-                String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, Const.ParamsNames.COURSE_ID),
-                emptyParamsException.getMessage()
-        );
     }
 
     @Test
@@ -89,7 +85,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
     }
 
 }

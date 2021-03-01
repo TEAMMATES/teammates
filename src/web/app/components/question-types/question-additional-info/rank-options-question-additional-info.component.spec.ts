@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
+import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { RankOptionsQuestionAdditionalInfoComponent } from './rank-options-question-additional-info.component';
 
 describe('RankOptionsQuestionAdditionalInfoComponent', () => {
@@ -21,8 +22,8 @@ describe('RankOptionsQuestionAdditionalInfoComponent', () => {
   });
 
   const rankOptionsQuestionDetails: FeedbackRankOptionsQuestionDetails = {
-    minOptionsToBeRanked: Number.MIN_VALUE,
-    maxOptionsToBeRanked: Number.MIN_VALUE,
+    minOptionsToBeRanked: NO_VALUE,
+    maxOptionsToBeRanked: NO_VALUE,
     areDuplicatesAllowed: false,
     options: ['1', '2', '3'],
     questionType: FeedbackQuestionType.RANK_OPTIONS,

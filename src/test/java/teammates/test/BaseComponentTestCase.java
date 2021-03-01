@@ -20,8 +20,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.retry.RetryManager;
 import teammates.logic.api.LogicExtension;
 
@@ -34,6 +32,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
     protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final LogicExtension logic = new LogicExtension();
+    private static final MockFileStorage MOCK_FILE_STORAGE = new MockFileStorage();
 
     @Override
     @BeforeClass
@@ -52,14 +51,18 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
         return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
     }
 
-    protected static String writeFileToGcs(String googleId, String filename) throws IOException {
-        byte[] image = FileHelper.readFileAsBytes(filename);
-        String contentType = URLConnection.guessContentTypeFromName(filename);
-        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image, contentType);
+    protected static void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
+        byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
+        String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
+        MOCK_FILE_STORAGE.create(targetFileName, bytes, contentType);
     }
 
-    protected static boolean doesFileExistInGcs(String fileKey) {
-        return GoogleCloudStorageHelper.doesFileExistInGcs(fileKey);
+    protected static void deleteFile(String fileName) {
+        MOCK_FILE_STORAGE.delete(fileName);
+    }
+
+    protected static boolean doesFileExist(String fileName) {
+        return MOCK_FILE_STORAGE.doesFileExist(fileName);
     }
 
     @Override
@@ -115,23 +118,25 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
             logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle dataBundle) {
+    protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 

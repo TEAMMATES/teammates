@@ -99,7 +99,8 @@ public class WebApiServlet extends HttpServlet {
         } catch (UnauthorizedAccessException uae) {
             log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(uae));
-            throwError(resp, HttpStatus.SC_FORBIDDEN, "You are not authorized to access this resource.");
+            throwError(resp, HttpStatus.SC_FORBIDDEN,
+                    uae.isShowErrorMessage() ? uae.getMessage() : "You are not authorized to access this resource.");
         } catch (EntityNotFoundException enfe) {
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(enfe));

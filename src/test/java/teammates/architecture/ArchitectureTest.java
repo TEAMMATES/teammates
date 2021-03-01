@@ -455,34 +455,17 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_gcsApiCanOnlyBeAccessedByGcsHelper() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
+    public void testArchitecture_externalApi_cloudStorageApiCanOnlyBeAccessedByGcsService() {
+        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageService")
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.tools.cloudstorage..")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.storage..")
                 .check(ALL_CLASSES);
     }
 
     @Test
-    public void testArchitecture_externalApi_blobstoreApiCanOnlyBeAccessedByGcsHelper() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.blobstore..")
-                .check(ALL_CLASSES);
-
-        noClasses().that().resideInAPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return !"BlobKey".equals(input.getSimpleName())
-                                && input.getPackageName().startsWith("com.google.appengine.api.blobstore");
-                    }
-                }).check(ALL_CLASSES);
-    }
-
-    @Test
-    public void testArchitecture_externalApi_taskQueueApiCanOnlyBeAccessedByTaskQueueLogic() {
+    public void testArchitecture_externalApi_cloudTasksApiCanOnlyBeAccessedByTaskQueueLogic() {
         noClasses().that().doNotHaveSimpleName("TaskQueuesLogic")
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.taskqueue..")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.tasks.v2..")
                 .check(ALL_CLASSES);
     }
 
@@ -513,8 +496,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
-                .and().doNotHaveSimpleName("HttpRequestHelper")
+        noClasses().that().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
                 .and().doNotHaveSimpleName("GaeSimulation")
                 .and().doNotHaveSimpleName("MockFilterChain")
@@ -533,6 +515,13 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("AssertHelper")
                 .and().doNotHaveSimpleName("EmailChecker")
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_seleniumApiCanOnlyBeAccessedByPageObjects() {
+        noClasses().that().resideOutsideOfPackage(E2E_PAGEOBJECTS_PACKAGE)
+                .should().accessClassesThat().resideInAPackage("org.openqa.selenium..")
                 .check(ALL_CLASSES);
     }
 

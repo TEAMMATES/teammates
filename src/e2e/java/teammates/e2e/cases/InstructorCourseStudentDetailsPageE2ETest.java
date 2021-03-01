@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 
 /**
@@ -35,7 +34,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify loaded details - student without profile");
         student = testData.students.get("ICSDet.benny.c");
         viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
-        viewPage = AppPage.getNewPageInstance(browser, viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+        viewPage = getNewPageInstance(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
 
         viewPage.verifyStudentDetails(null, student);
     }

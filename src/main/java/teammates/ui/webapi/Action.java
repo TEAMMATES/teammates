@@ -22,6 +22,7 @@ import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
+import teammates.logic.api.FileStorage;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
 import teammates.logic.api.TaskQueuer;
@@ -40,6 +41,7 @@ public abstract class Action {
     EmailGenerator emailGenerator = new EmailGenerator();
     TaskQueuer taskQueuer = new TaskQueuer();
     EmailSender emailSender = new EmailSender();
+    FileStorage fileStorage = new FileStorage();
     RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
 
     HttpServletRequest req;
@@ -73,12 +75,16 @@ public abstract class Action {
         this.emailSender = emailSender;
     }
 
-    public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
-        this.recaptchaVerifier = recaptchaVerifier;
+    public FileStorage getFileStorage() {
+        return fileStorage;
     }
 
-    boolean isMasqueradeMode() {
-        return userInfo.isAdmin && authType == AuthType.MASQUERADE;
+    public void setFileStorage(FileStorage fileStorage) {
+        this.fileStorage = fileStorage;
+    }
+
+    public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
+        this.recaptchaVerifier = recaptchaVerifier;
     }
 
     /**
@@ -148,7 +154,7 @@ public abstract class Action {
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_HTTP_PARAMETER, paramName));
+            throw new NullHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return value;
     }
@@ -205,7 +211,7 @@ public abstract class Action {
     <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException(Const.StatusCodes.NULL_BODY_PARAMETER);
+            throw new NullHttpParameterException("The request body is null");
         }
         requestBody.validate();
         return requestBody;
@@ -234,18 +240,18 @@ public abstract class Action {
         privilege.constructCourseLevelPrivilege(instructor.privileges);
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                            feedbackSessionName, Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
             privilege.setCanViewSessionInSections(
-                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
+                    instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(
-                            feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            feedbackSessionName, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
             privilege.setCanModifySessionCommentsInSections(
                     instructor.isAllowedForPrivilege(
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                             || instructor.isAllowedForPrivilegeAnySection(feedbackSessionName,
-                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                            Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
     }

@@ -29,23 +29,6 @@ public class Url {
     }
 
     /**
-      * Returns the relative part (path) of the URL, after the
-      * authority (host name + port number if specified) but before the query.<br>
-      * Example:
-      * <ul>
-      * <li><code>new Url("http://localhost:8080/index.html").getRelativeUrl()</code>
-      * returns <code>/index.html</code></li>
-      * <li><code>new Url("http://google.com").getRelativeUrl()</code>
-      * returns <i>[empty string]</i></li>
-      * <li><code>new Url("https://teammatesv4.appspot.com/page/studentHomePage?user=abc").getRelativeUrl()</code>
-      * returns <code>/page/studentHomePage</code></li>
-      * </ul>
-      */
-    public String getRelativeUrl() {
-        return relativeUrl;
-    }
-
-    /**
       * Returns the first part of the URL, including the protocol and
       * authority (host name + port number if specified) but not the path.<br>
       * Example:

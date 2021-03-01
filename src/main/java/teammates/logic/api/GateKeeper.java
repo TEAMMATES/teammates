@@ -138,7 +138,7 @@ public class GateKeeper {
         }
 
         if (!feedbackSession.isVisible()) {
-            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.", true);
         }
     }
 
@@ -274,7 +274,7 @@ public class GateKeeper {
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.TEAMS) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for students");
+            throw new UnauthorizedAccessException("Feedback question is not answerable for students", true);
         }
     }
 
@@ -286,7 +286,7 @@ public class GateKeeper {
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
                 && feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.SELF) {
-            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors");
+            throw new UnauthorizedAccessException("Feedback question is not answerable for instructors", true);
         }
     }
 
@@ -299,10 +299,10 @@ public class GateKeeper {
         verifyNotNull(instructor, "instructor");
 
         boolean shouldEnableSubmit =
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+                instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
 
         if (!shouldEnableSubmit && instructor.isAllowedForPrivilegeAnySection(session.getFeedbackSessionName(),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
             shouldEnableSubmit = true;
         }
 
@@ -384,7 +384,7 @@ public class GateKeeper {
     }
 
     private void verifyInstructorCanViewProfile(InstructorAttributes instructor, String section) {
-        if (!instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+        if (!instructor.isAllowedForPrivilege(section, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS)) {
             throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the profile.");
         }
     }

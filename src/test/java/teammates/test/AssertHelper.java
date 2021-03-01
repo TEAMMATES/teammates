@@ -34,20 +34,6 @@ public final class AssertHelper {
     }
 
     /**
-     * Asserts that the {@link String} {@code superstringActual} contains the exact occurrence of
-     * <b>every</b> String in the {@link List} of Strings {@code substringsExpected}.
-     * Display the difference between the two on failure.
-     */
-    public static void assertContains(List<String> substringsExpected,
-            String superstringActual) {
-        for (String substringExpected : substringsExpected) {
-            if (!superstringActual.contains(substringExpected)) {
-                assertEquals(substringExpected, superstringActual);
-            }
-        }
-    }
-
-    /**
      * Asserts that the superstringActual contains the exact occurrence of
      * substringExpected. Display the difference between the two on failure.
      */

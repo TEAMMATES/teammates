@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.e2e.util.TestProperties;
 
@@ -52,7 +51,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         verifyPresentInDatastore(student);
 
         ______TS("cannot edit to an existing email");
-        editPage = AppPage.getNewPageInstance(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+        editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.editStudentEmailAndResendLinks(otherStudent.email);
 
         editPage.verifyStatusMessage("Trying to update to an email that is already in use");

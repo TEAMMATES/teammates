@@ -25,7 +25,7 @@ class RemindFeedbackSessionResultAction extends Action {
         gateKeeper.verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, userInfo.getId()),
                 feedbackSession,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

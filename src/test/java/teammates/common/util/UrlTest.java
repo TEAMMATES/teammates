@@ -5,17 +5,9 @@ import org.testng.annotations.Test;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link Url}, {@link UrlExtension},
- *      {@link AppUrl}.
+ * SUT: {@link Url}, {@link AppUrl}.
  */
 public class UrlTest extends BaseTestCase {
-
-    @Test
-    public void testTrimTrailingSlash() {
-        assertEquals("abc.com", UrlExtension.trimTrailingSlash("abc.com/"));
-        assertEquals("abc.com", UrlExtension.trimTrailingSlash("abc.com/ "));
-        assertEquals("abc.com", UrlExtension.trimTrailingSlash("abc.com"));
-    }
 
     @Test
     public void testToString() {
@@ -93,21 +85,6 @@ public class UrlTest extends BaseTestCase {
         ______TS("malformed URL: not http(s)");
 
         assertThrows(AssertionError.class, () -> new AppUrl("file:///C:/path/to/file.ext"));
-
-    }
-
-    @Test
-    public void testGetRelativePath() throws Exception {
-
-        ______TS("web URL with no relative path");
-
-        String url = "http://www.google.com";
-        assertEquals("", UrlExtension.getRelativePath(url));
-
-        ______TS("typical web URL");
-
-        url = "http://www.google.com/page?key1=value1";
-        assertEquals("/page?key1=value1", UrlExtension.getRelativePath(url));
 
     }
 
