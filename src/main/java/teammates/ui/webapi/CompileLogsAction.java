@@ -62,6 +62,12 @@ class CompileLogsAction extends AdminOnlyAction {
                 EntryListOption.filter(logOptions.stream().collect(Collectors.joining("\n")))
         );
 
+        try {
+            logging.close();
+        } catch (Exception e) {
+            // Ignore exception when closing resource
+        }
+
         for (LogEntry logEntry : entries.iterateAll()) {
             logs.add(logEntry);
         }
