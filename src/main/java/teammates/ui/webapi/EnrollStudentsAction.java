@@ -73,6 +73,8 @@ class EnrollStudentsAction extends Action {
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
+        List<StudentAttributes> studentsToCreate = new ArrayList<>();
+
         studentsToEnroll.forEach(student -> {
             if (existingStudentsEmail.contains(student.email)) {
                 // The student has been enrolled in the course.
@@ -93,15 +95,17 @@ class EnrollStudentsAction extends Action {
                 }
             } else {
                 // The student is new.
-                try {
-                    StudentAttributes newStudent = logic.createStudent(student);
-                    enrolledStudents.add(newStudent);
-                } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
-                    // Unsuccessfully enrolled students will not be returned.
-                    return;
-                }
+                studentsToCreate.add(student);
             }
+
         });
+
+        try {
+            enrolledStudents.addAll(logic.createStudents(studentsToCreate));
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            e.printStackTrace();
+        }
+
         return new JsonResult(new StudentsData(enrolledStudents));
     }
 }
