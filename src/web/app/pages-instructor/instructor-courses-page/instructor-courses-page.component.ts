@@ -271,23 +271,11 @@ export class InstructorCoursesPageComponent implements OnInit {
       }).subscribe(() => {
         this.courseAdded.emit();
         this.statusMessageService.showSuccessToast('The course has been added.');
-
-
-
-
-
-
-
-
         this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
           const one_courses: Course[] = resp.courses.filter((course: Course) => {
             return course.courseId === result.newCourseId;
           });
-
           const course: Course = one_courses[0];
-
-
-
           let canModifyCourse: boolean = false;
           let canModifyStudent: boolean = false;
           if (course.privileges) {
@@ -305,14 +293,6 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
-
-
-
-
-
-
-
-
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
