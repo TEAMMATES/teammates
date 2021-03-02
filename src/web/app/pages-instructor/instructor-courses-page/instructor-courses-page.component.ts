@@ -79,9 +79,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private simpleModalService: SimpleModalService,
               private tableComparatorService: TableComparatorService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private feedbackQuestionsService: FeedbackQuestionsService,
-
-  ) { }
+              private feedbackQuestionsService: FeedbackQuestionsService){}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
