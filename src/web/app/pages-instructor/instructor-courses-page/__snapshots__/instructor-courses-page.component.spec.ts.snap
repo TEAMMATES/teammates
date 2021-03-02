@@ -268,6 +268,8 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -333,6 +335,8 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -4537,6 +4541,8 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -5028,6 +5034,8 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
@@ -5091,6 +5099,8 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
