@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {forkJoin, from, Observable, of} from 'rxjs';
+import {concatMap, finalize, last, switchMap} from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -11,7 +11,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   CourseArchive,
-  Courses,
+  Courses, FeedbackQuestion, FeedbackQuestions, FeedbackSession, FeedbackSessions,
   JoinState,
   MessageOutput,
   Student,
@@ -21,6 +21,11 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {CopyCourseModalComponent} from "../../components/copy-course-modal/copy-course-modal.component";
+import {CopyCourseModalResult} from "../../components/copy-course-modal/copy-course-modal-model";
+import {FeedbackSessionsService} from "../../../services/feedback-sessions.service";
+import {Intent} from "../../../types/api-request";
+import {FeedbackQuestionsService} from "../../../services/feedback-questions.service";
 
 interface CourseModel {
   course: Course;
@@ -64,12 +69,17 @@ export class InstructorCoursesPageComponent implements OnInit {
   isAddNewCourseFormExpanded: boolean = false;
   isArchivedCourseExpanded: boolean = false;
 
-  constructor(private route: ActivatedRoute,
+  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(private ngbModal: NgbModal,
+              private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
               private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService) { }
+              private tableComparatorService: TableComparatorService,
+              private feedbackSessionsService: FeedbackSessionsService,
+              private feedbackQuestionsService: FeedbackQuestionsService){}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -244,6 +254,128 @@ export class InstructorCoursesPageComponent implements OnInit {
     return targetList.filter((model: CourseModel) => {
       return model.course.courseId !== courseId;
     });
+  }
+
+  /**
+   * Creates a copy of a course.
+   */
+  onCopy(courseId: string, courseName: string, timeZone: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
+      return;
+    }
+    const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+    modalRef.componentInstance.newCourseId = courseId;
+
+    modalRef.result.then((result: CopyCourseModalResult) => {
+      this.courseService.createCourse({
+            courseName: courseName,
+            timeZone: timeZone,
+            courseId: result.newCourseId,
+      }).subscribe(() => {
+        this.courseAdded.emit();
+        this.statusMessageService.showSuccessToast('The course has been added.');
+        this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
+          const one_courses: Course[] = resp.courses.filter((course: Course) => {
+            return course.courseId === result.newCourseId;
+          });
+          const course: Course = one_courses[0];
+          let canModifyCourse: boolean = false;
+          let canModifyStudent: boolean = false;
+          if (course.privileges) {
+            canModifyCourse = course.privileges.canModifyCourse;
+            canModifyStudent = course.privileges.canModifyStudent;
+          }
+          const isLoadingCourseStats: boolean = false;
+          const activeCourse: CourseModel = Object.assign({},
+              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+          this.activeCourses.push(activeCourse);
+          this.activeCoursesDefaultSort();
+          this.isLoading = false;
+        }, (resp: ErrorMessageOutput) => {
+          this.isLoading = false;
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
+        this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
+          response.feedbackSessions.forEach((session: FeedbackSession) => {
+                this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
+              }
+          )
+        });
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
+
+    }, () => {
+    });
+
+  }
+
+  /**
+   * Copies a feedback session.
+   */
+  copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
+      Observable<FeedbackSession> {
+    let createdFeedbackSession!: FeedbackSession;
+    return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
+      feedbackSessionName: newSessionName,
+      instructions: fromFeedbackSession.instructions,
+
+      submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
+      submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
+      gracePeriod: fromFeedbackSession.gracePeriod,
+
+      sessionVisibleSetting: fromFeedbackSession.sessionVisibleSetting,
+      customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
+
+      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
+      customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
+
+      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
+    }).pipe(
+        switchMap((feedbackSession: FeedbackSession) => {
+          createdFeedbackSession = feedbackSession;
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+                courseId: fromFeedbackSession.courseId,
+                feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+                intent: Intent.FULL_DETAIL,
+              },
+          );
+        }),
+        switchMap((response: FeedbackQuestions) => {
+          if (response.questions.length === 0) {
+            // no questions to copy
+            return of(createdFeedbackSession);
+          }
+          return from(response.questions).pipe(
+              concatMap((feedbackQuestion: FeedbackQuestion) => {
+                return this.feedbackQuestionsService.createFeedbackQuestion(
+                    createdFeedbackSession.courseId, createdFeedbackSession.feedbackSessionName, {
+                      questionNumber: feedbackQuestion.questionNumber,
+                      questionBrief: feedbackQuestion.questionBrief,
+                      questionDescription: feedbackQuestion.questionDescription,
+
+                      questionDetails: feedbackQuestion.questionDetails,
+                      questionType: feedbackQuestion.questionType,
+
+                      giverType: feedbackQuestion.giverType,
+                      recipientType: feedbackQuestion.recipientType,
+
+                      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+                      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
+
+                      showResponsesTo: feedbackQuestion.showResponsesTo,
+                      showGiverNameTo: feedbackQuestion.showGiverNameTo,
+                      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+                    });
+              }),
+              last(),
+              switchMap(() => of(createdFeedbackSession)),
+          );
+        }),
+    );
   }
 
   /**

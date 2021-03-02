@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        <div>Copy this course with sessions</div>
+    </h5>
+    <button type="button" class="close" (click)="activeModal.dismiss()">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+<div id="copy-course-modal" class="modal-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <label><b>Id for copied course</b></label>
+                <input id="copy-course-id" type="text" class="form-control" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
+                <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+    <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
+            [disabled]="!newCourseId">Copy</button>
+</div>
