@@ -12,6 +12,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -262,6 +263,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -271,6 +273,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isArchivedCourseExpanded="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -325,6 +328,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   archivedTableSortOrder={[Function Number]}
   canDeleteAll="false"
   canRestoreAll="false"
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -334,6 +338,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isArchivedCourseExpanded="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -809,6 +814,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -818,6 +824,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isArchivedCourseExpanded="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -4525,6 +4532,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
@@ -4534,6 +4542,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isArchivedCourseExpanded="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -5087,6 +5096,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isArchivedCourseExpanded="false"
   isLoading="false"
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
