@@ -145,20 +145,6 @@ export class FeedbackSessionsService {
     return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
-  /**
-   * Gets all sessions for the course by calling API.
-   */
-  getFeedbackSessionsForCourse(courseId: string): Observable<FeedbackSessions> {
-    let paramMap: Record<string, string> =  {}
-    if (courseId != null ) {
-      paramMap = {
-        entitytype: 'instructor',
-        courseid: courseId,
-      }
-    }
-    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
-  }
-
 
   /**
    * Gets all sessions in the recycle bin for the instructor by calling API.

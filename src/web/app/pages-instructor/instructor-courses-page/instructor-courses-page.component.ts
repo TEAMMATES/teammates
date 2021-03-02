@@ -299,7 +299,7 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
-        this.feedbackSessionsService.getFeedbackSessionsForCourse(courseId).subscribe((response: FeedbackSessions) => {
+        this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
           response.feedbackSessions.forEach((session: FeedbackSession) => {
                 this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
               }
