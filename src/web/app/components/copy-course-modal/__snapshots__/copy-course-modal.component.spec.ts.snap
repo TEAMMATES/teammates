@@ -74,3 +74,77 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   </div>
 </tm-copy-course-modal>
 `;
+
+exports[`CopyCourseModalComponent should snap with some course id 1`] = `
+<tm-copy-course-modal
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  activeModal={[Function NgbActiveModal]}
+  newCourseId={[Function String]}
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy this course with sessions
+      </div>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-course-modal"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="form-group"
+        >
+          <label>
+            <b>
+              Id for copied course
+            </b>
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-id"
+            maxlength="40"
+            type="text"
+          />
+          <span>
+            34 characters left
+          </span>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      id="btn-confirm-copy-course"
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-course-modal>
+`;
