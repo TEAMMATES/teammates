@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import {forkJoin, from, Observable, of} from 'rxjs';
+import {concatMap, finalize, last, switchMap} from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -11,7 +11,7 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   CourseArchive,
-  Courses,
+  Courses, FeedbackQuestion, FeedbackQuestions, FeedbackSession, FeedbackSessions,
   JoinState,
   MessageOutput,
   Student,
@@ -23,6 +23,9 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import {CopyCourseModalComponent} from "../../components/copy-course-modal/copy-course-modal.component";
 import {CopyCourseModalResult} from "../../components/copy-course-modal/copy-course-modal-model";
+import {FeedbackSessionsService} from "../../../services/feedback-sessions.service";
+import {Intent} from "../../../types/api-request";
+import {FeedbackQuestionsService} from "../../../services/feedback-questions.service";
 
 interface CourseModel {
   course: Course;
@@ -74,7 +77,11 @@ export class InstructorCoursesPageComponent implements OnInit {
               private courseService: CourseService,
               private studentService: StudentService,
               private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService) { }
+              private tableComparatorService: TableComparatorService,
+              private feedbackSessionsService: FeedbackSessionsService,
+              private feedbackQuestionsService: FeedbackQuestionsService,
+
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -259,7 +266,6 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-
     const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
     modalRef.componentInstance.newCourseId = courseId;
 
@@ -293,12 +299,85 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.hasLoadingFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
+        this.feedbackSessionsService.getFeedbackSessionsForCourse(courseId).subscribe((response: FeedbackSessions) => {
+          response.feedbackSessions.forEach((session: FeedbackSession) => {
+                this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
+              }
+          )
+        });
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
     }, () => {
     });
+
+  }
+
+  /**
+   * Copies a feedback session.
+   */
+  copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
+      Observable<FeedbackSession> {
+    let createdFeedbackSession!: FeedbackSession;
+    return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
+      feedbackSessionName: newSessionName,
+      instructions: fromFeedbackSession.instructions,
+
+      submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
+      submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
+      gracePeriod: fromFeedbackSession.gracePeriod,
+
+      sessionVisibleSetting: fromFeedbackSession.sessionVisibleSetting,
+      customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
+
+      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
+      customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
+
+      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
+    }).pipe(
+        switchMap((feedbackSession: FeedbackSession) => {
+          createdFeedbackSession = feedbackSession;
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+                courseId: fromFeedbackSession.courseId,
+                feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+                intent: Intent.FULL_DETAIL,
+              },
+          );
+        }),
+        switchMap((response: FeedbackQuestions) => {
+          if (response.questions.length === 0) {
+            // no questions to copy
+            return of(createdFeedbackSession);
+          }
+          return from(response.questions).pipe(
+              concatMap((feedbackQuestion: FeedbackQuestion) => {
+                return this.feedbackQuestionsService.createFeedbackQuestion(
+                    createdFeedbackSession.courseId, createdFeedbackSession.feedbackSessionName, {
+                      questionNumber: feedbackQuestion.questionNumber,
+                      questionBrief: feedbackQuestion.questionBrief,
+                      questionDescription: feedbackQuestion.questionDescription,
+
+                      questionDetails: feedbackQuestion.questionDetails,
+                      questionType: feedbackQuestion.questionType,
+
+                      giverType: feedbackQuestion.giverType,
+                      recipientType: feedbackQuestion.recipientType,
+
+                      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+                      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
+
+                      showResponsesTo: feedbackQuestion.showResponsesTo,
+                      showGiverNameTo: feedbackQuestion.showGiverNameTo,
+                      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+                    });
+              }),
+              last(),
+              switchMap(() => of(createdFeedbackSession)),
+          );
+        }),
+    );
   }
 
   /**
