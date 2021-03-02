@@ -130,12 +130,6 @@
               </div>
             </div>
             <div class="row text-center align-items-center">
-              <ng-template #today let-date let-today="today" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled" let-focused="focused">
-                <span class="custom-day" [class.today]="today" [class.focused]="focused"
-                      [class.selected]="selected" [class.disabled]="date.month !== currentMonth" [class.text-muted]="disabled" >
-                  {{ date.day }}
-                </span>
-              </ng-template>
               <div class="col-md-7 col-xs-center">
                 <div class="input-group">
                   <ng-template #footer1>
@@ -146,7 +140,7 @@
                   </ng-template>
                   <input id="submission-start-date" type="text" class="form-control" ngbDatepicker
                          [ngModel]="model.submissionStartDate" (ngModelChange)="triggerModelChange('submissionStartDate', $event)"
-                         #startTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [dayTemplate]="today" [footerTemplate]="footer1"/>
+                         #startTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [footerTemplate]="footer1"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
                     <button class="btn btn-light" (click)="startTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -177,7 +171,7 @@
                     </button>
                   </ng-template>
                   <input id="submission-end-date" type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionEndDate" (ngModelChange)="triggerModelChange('submissionEndDate', $event)"
-                         #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate" [dayTemplate]="today" [footerTemplate]="footer2"/>
+                         #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate" [footerTemplate]="footer2"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
                     <button class="btn btn-light" (click)="endTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -242,7 +236,7 @@
                   </ng-template>
                   <input id="session-visibility-date" type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="maxDateForSessionVisible"
                          [ngModel]="model.customSessionVisibleDate" (ngModelChange)="triggerModelChange('customSessionVisibleDate', $event)"
-                         [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable" [dayTemplate]="today" [footerTemplate]="footer3"/>
+                         [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"  [footerTemplate]="footer3"/>
                   <div class="input-group-append" *ngIf="model.sessionVisibleSetting === SessionVisibleSetting.CUSTOM && model.isEditable">
                     <button class="btn btn-light" (click)="sessionVisibleTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -289,7 +283,7 @@
                     <input id="response-visibility-date" type="text" class="form-control" ngbDatepicker #responseVisibleTimeDp="ngbDatepicker" [minDate]="minDateForResponseVisible"
                            [ngModel]="model.customResponseVisibleDate" (ngModelChange)="triggerModelChange('customResponseVisibleDate', $event)"
                            [disabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"
-                           [dayTemplate]="today" [footerTemplate]="footer4"/>
+                            [footerTemplate]="footer4"/>
                     <div class="input-group-append" *ngIf="model.responseVisibleSetting === ResponseVisibleSetting.CUSTOM && model.isEditable">
                       <button class="btn btn-light" (click)="responseVisibleTimeDp.toggle()" type="button">
                         <i class="fas fa-calendar-alt"></i>

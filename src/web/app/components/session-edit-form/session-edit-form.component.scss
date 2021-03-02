@@ -27,33 +27,6 @@
   margin-left: var(--btn-margin);
 }
 
-.custom-day {
-  text-align: center;
-  padding: .185rem .25rem;
-  display: inline-block;
-  width: 2rem;
-}
-
-.custom-day:hover,
-.custom-day.focused {
-  background-color: #E6E6E6;
-}
-
-.today {
-  color: blue;
-  font-weight: bold;
-}
-
-.selected {
-  background-color: dodgerblue !important;
-}
-
-.disabled {
-  pointer-events: none !important;
-  color: darkgray;
-  cursor: not-allowed !important;
-}
-
 .footer-button {
   background: none !important;
   border: none;
