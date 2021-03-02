@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -21,6 +21,8 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
+import {CopyCourseModalComponent} from "../../components/copy-course-modal/copy-course-modal.component";
+import {CopyCourseModalResult} from "../../components/copy-course-modal/copy-course-modal-model";
 
 interface CourseModel {
   course: Course;
@@ -64,7 +66,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   isAddNewCourseFormExpanded: boolean = false;
   isArchivedCourseExpanded: boolean = false;
 
-  constructor(private route: ActivatedRoute,
+  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(private ngbModal: NgbModal,
+              private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
@@ -249,13 +254,71 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Creates a copy of a course.
    */
-  onCopy(courseId: string): void {
+  onCopy(courseId: string, courseName: string, timeZone: string): void {
     if (!courseId) {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
-    } else {
-      this.statusMessageService.showSuccessToast(`Copy pressed for course: ${courseId}`);
     }
+
+    const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+    modalRef.componentInstance.newCourseId = courseId;
+
+    modalRef.result.then((result: CopyCourseModalResult) => {
+      this.courseService.createCourse({
+            courseName: courseName,
+            timeZone: timeZone,
+            courseId: result.newCourseId,
+      }).subscribe(() => {
+        this.courseAdded.emit();
+        this.statusMessageService.showSuccessToast('The course has been added.');
+
+
+
+
+
+
+
+
+        this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
+          const one_courses: Course[] = resp.courses.filter((course: Course) => {
+            return course.courseId === result.newCourseId;
+          });
+
+          const course: Course = one_courses[0];
+
+
+
+          let canModifyCourse: boolean = false;
+          let canModifyStudent: boolean = false;
+          if (course.privileges) {
+            canModifyCourse = course.privileges.canModifyCourse;
+            canModifyStudent = course.privileges.canModifyStudent;
+          }
+          const isLoadingCourseStats: boolean = false;
+          const activeCourse: CourseModel = Object.assign({},
+              { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+          this.activeCourses.push(activeCourse);
+          this.activeCoursesDefaultSort();
+          this.isLoading = false;
+        }, (resp: ErrorMessageOutput) => {
+          this.isLoading = false;
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
+
+
+
+
+
+
+
+
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
+
+    }, () => {
+    });
   }
 
   /**
