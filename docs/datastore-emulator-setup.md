@@ -9,9 +9,24 @@ The latest version (v6+) uses `Cloud Datastore API` instead of `Google App Engin
 In order to locally simulate production Datastore environment during development and testing of relevant features, we will rely on this tool called Datastore Emulator.
 
 ## Steps to local setup
-Refer to the official [installation guide](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
+**1. Installing the Datastore Emulator**    
+Please refer to the official [installation guide](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
+
+**2. Running the Emulator**  
+To run the emulator in `port 8484` , enter the command:
+```
+gcloud beta emulators datastore start --host-port=localhost:8484
+```
+If everything goes well, you should see something like this:
+```
+...
+[datastore] Dev App Server is now running.
+```
+If you encounter any errors, refer to our [troubleshooting guide](#troubleshoot).
+
 
 ## Troubleshoot
+
 **#1 Error:** 
 The recommended emulator setup in [wiki](https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6) might not work with `Exiting due to exception: java.io.IOException: Failed to bind`. 
 
@@ -42,6 +57,15 @@ Before running `./gradlew appengineRun` in the session, run the following comman
  export DATASTORE_USE_PROJECT_ID_AS_APP_ID=true
 ```
 
+## FAQs
+
+**Where is data stored?**  
+The data is stored inside a `local_db.bin` file located in the default directory `~/.config/gcloud/emulators/datastore/`.
+
+**How do I clear the content of `local_db.bin` file?**  
+Stop the emulator and manually delete the file.
+
 
 ## References
+
 https://stackoverflow.com/questions/45659186/illegalstateexception-with-google-app-engine-local-datastore
