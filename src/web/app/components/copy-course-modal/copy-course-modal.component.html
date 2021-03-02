@@ -1,7 +1,6 @@
 <div class="modal-header">
     <h5 class="modal-title">
         <div>Copy this course with sessions</div>
-        <small class="text-secondary">(Select the course you want to copy)</small>
     </h5>
     <button type="button" class="close" (click)="activeModal.dismiss()">
         <i class="fas fa-times"></i>
@@ -15,19 +14,6 @@
                 <input id="copy-course-id" type="text" class="form-control" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
-            <!--
-            <div class="form-check" *ngFor="let course of courseCandidates">
-                <label class="form-check-label">
-                    <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
-                           [checked]="selectedCourseSet.has(course.courseId)" (click)="select(course.courseId)">
-                    [<span [ngClass]="{ 'text-danger': newCourseId === course.courseId }">{{ course.courseId }}</span>]
-                    : {{ course.courseName }}
-                    <span *ngIf="newCourseId === course.courseId" class="text-danger">
-            {{ "{Session currently in this course}" }}
-          </span>
-                </label>
-            </div>
-            -->
         </div>
     </div>
 </div>
