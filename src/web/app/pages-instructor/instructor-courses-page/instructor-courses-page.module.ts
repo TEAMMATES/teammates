@@ -10,6 +10,7 @@ import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { AddCourseFormModule } from './add-course-form/add-course-form.module';
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
+import {CopyCourseModalModule} from "../../components/copy-course-modal/copy-course-modal.module";
 
 const routes: Routes = [
   {
@@ -41,6 +42,7 @@ const routes: Routes = [
     LoadingRetryModule,
     PanelChevronModule,
     TeammatesRouterModule,
+    CopyCourseModalModule,
   ],
 })
 export class InstructorCoursesPageModule { }

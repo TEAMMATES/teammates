@@ -129,7 +129,7 @@
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>
-                  <button id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onCopy(course.course.courseId)"
+                  <button id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
                           ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body">
                     Copy
                   </button>
