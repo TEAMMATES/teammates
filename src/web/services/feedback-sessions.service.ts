@@ -145,7 +145,6 @@ export class FeedbackSessionsService {
     return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
-
   /**
    * Gets all sessions in the recycle bin for the instructor by calling API.
    */
