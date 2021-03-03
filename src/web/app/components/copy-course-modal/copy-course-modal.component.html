@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h5 class="modal-title">
-        <div>Copy this course with sessions</div>
+        <div>Copy course and its sessions</div>
     </h5>
     <button type="button" class="close" (click)="activeModal.dismiss()">
         <i class="fas fa-times"></i>
@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12">
             <div class="form-group">
-                <label><b>Id for copied course</b></label>
+                <label><b>Choose new Course ID</b></label>
                 <input id="copy-course-id" type="text" class="form-control" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
