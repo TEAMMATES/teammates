@@ -51,7 +51,7 @@ public class OfyHelper implements ServletContextListener {
         // TEST
         ObjectifyService.init(new ObjectifyFactory(
                 DatastoreOptions.newBuilder()
-                        .setHost(Config.APP_LOCALDATASTORE_PORT)
+                        .setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT)
                         .setProjectId(Config.APP_ID)
                         .build()
                         .getService()
