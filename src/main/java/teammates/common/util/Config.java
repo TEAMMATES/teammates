@@ -27,6 +27,9 @@ public final class Config {
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
 
+    /** The value of the "app.localdatastore.port" in build.properties file. */
+    public static final String APP_LOCALDATASTORE_PORT;
+
     /** The value of the "app.taskqueue.active" in build.properties file. */
     public static final boolean TASKQUEUE_ACTIVE;
 
@@ -95,6 +98,7 @@ public final class Config {
         APP_REGION = properties.getProperty("app.region");
         APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
+        APP_LOCALDATASTORE_PORT = properties.getProperty("app.localdatastore.port");
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
         CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
