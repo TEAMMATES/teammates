@@ -105,8 +105,7 @@
       "institute": "inst",
       "nationality": "American",
       "gender": "OTHER",
-      "moreInfo": "I am just a student :P",
-      "pictureKey": ""
+      "moreInfo": "I am just a student :P"
     },
     "SCDet.charlie": {
       "googleId": "tm.e2e.SCDet.charlie",
@@ -115,8 +114,7 @@
       "institute": "inst",
       "nationality": "Singaporean",
       "gender": "OTHER",
-      "moreInfo": "I am also a student :P",
-      "pictureKey": ""
+      "moreInfo": "I am also a student :P"
     }
   }
 }
