@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
@@ -156,7 +156,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         if (cursor == null) {
             log("Start from the beginning");
         } else {
-            log("Start from cursor position: " + cursor.toWebSafeString());
+            log("Start from cursor position: " + cursor.toUrlSafe());
         }
 
         boolean shouldContinue = true;
@@ -166,7 +166,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             if (cursor != null) {
                 filterQueryKeys = filterQueryKeys.startAt(cursor);
             }
-            QueryResultIterator<?> iterator;
+            QueryResults<?> iterator;
             if (shouldUseTransaction()) {
                 iterator = filterQueryKeys.keys().iterator();
             } else {
@@ -187,10 +187,10 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             }
 
             if (shouldContinue) {
-                cursor = iterator.getCursor();
+                cursor = iterator.getCursorAfter();
                 flushEntitiesSavingBuffer();
                 savePositionOfCursorToFile(cursor);
-                log(String.format("Cursor Position: %s", cursor.toWebSafeString()));
+                log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
                 log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
                 log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
                 log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
@@ -231,7 +231,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     private void savePositionOfCursorToFile(Cursor cursor) {
         try {
             FileHelper.saveFile(
-                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toWebSafeString());
+                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toUrlSafe());
         } catch (IOException e) {
             logError("Fail to save cursor position " + e.getMessage());
         }
@@ -246,7 +246,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         try {
             String cursorPosition =
                     FileHelper.readFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
-            return Optional.of(Cursor.fromWebSafeString(cursorPosition));
+            return Optional.of(Cursor.fromUrlSafe(cursorPosition));
         } catch (IOException | IllegalArgumentException e) {
             return Optional.empty();
         }

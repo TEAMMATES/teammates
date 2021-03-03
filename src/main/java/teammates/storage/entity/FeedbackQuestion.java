@@ -121,7 +121,7 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public String getId() {
-        return Key.create(FeedbackQuestion.class, feedbackQuestionId).toWebSafeString();
+        return Key.create(FeedbackQuestion.class, feedbackQuestionId).toLegacyUrlSafe();
     }
 
     public void setFeedbackQuestionId(Long feedbackQuestionId) {
