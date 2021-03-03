@@ -263,8 +263,7 @@ h6,
   width: auto;
 }
 
-.ngb-dp-today {
+.ngb-dp-today > .btn-light {
   font-weight: bold;
-  color: white !important;
-  background-color: #2AABD2;
+  color: blue;
 }
