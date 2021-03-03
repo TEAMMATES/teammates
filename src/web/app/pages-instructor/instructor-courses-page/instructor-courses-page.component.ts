@@ -257,7 +257,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Creates a copy of a course.
+   * Creates a copy of a course including all sessions.
    */
   onCopy(courseId: string, courseName: string, timeZone: string): void {
     if (!courseId) {
@@ -315,7 +315,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Copies a feedback session.
    */
-  copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
+  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
       Observable<FeedbackSession> {
     let createdFeedbackSession!: FeedbackSession;
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
