@@ -119,7 +119,6 @@ public class ActionFactory {
 
         // Logging and tracking
         map(ResourceURIs.TRACK_SESSION, GET, CreateFeedbackSessionLogAction.class);
-        map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
 
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/java/config/cron
