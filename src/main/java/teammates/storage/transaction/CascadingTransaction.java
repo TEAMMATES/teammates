@@ -26,7 +26,7 @@ public class CascadingTransaction {
      * Attach the current transaction to an upstream transaction that must be done before this.
      */
     public boolean hasUpstreamTransaction() {
-        return this.upstreamTransaction == this;
+        return this.upstreamTransaction != this;
     }
 
     public CascadingTransaction getUpstreamTransaction() {
