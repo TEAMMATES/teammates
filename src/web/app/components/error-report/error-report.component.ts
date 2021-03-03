@@ -32,7 +32,6 @@ export class ErrorReportComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.csrfErrorMessages.includes(this.errorMessage)) {
-      this.sendButtonEnabled = false;
       this.errorReportEnabled = false;
     }
   }
